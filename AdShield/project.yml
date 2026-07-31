@@ -1,0 +1,52 @@
+name: AdShield
+
+options:
+  bundleIdPrefix: com.example.adshield
+  deploymentTarget:
+    iOS: "16.0"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    DEVELOPMENT_TEAM: ""
+    APP_GROUP_IDENTIFIER: group.com.example.adshield
+
+targets:
+  AdShield:
+    type: application
+    platform: iOS
+    sources:
+      - path: App
+      - path: Shared
+    info:
+      path: App/Info.plist
+    entitlements:
+      path: App/AdShield.entitlements
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.adshield
+        TARGETED_DEVICE_FAMILY: "1,2"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+    dependencies:
+      - target: BlockerExtension
+        embed: true
+
+  BlockerExtension:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: ContentBlockerExtension
+        excludes:
+          - "Rules/**"
+      - path: Shared
+    resources:
+      - path: ContentBlockerExtension/Rules
+    info:
+      path: ContentBlockerExtension/Info.plist
+    entitlements:
+      path: ContentBlockerExtension/BlockerExtension.entitlements
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.adshield.blocker
+        SKIP_INSTALL: true

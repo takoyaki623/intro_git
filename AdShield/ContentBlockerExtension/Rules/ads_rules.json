@@ -1,0 +1,277 @@
+[
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*doubleclick.net"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*googlesyndication.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*googleadservices.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*adservice.google.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*amazon-adsystem.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*adnxs.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*criteo.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*criteo.net"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*rubiconproject.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*pubmatic.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*openx.net"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*taboola.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*outbrain.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*media.net"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*moatads.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*2mdn.net"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*advertising.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*adform.net"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*smartadserver.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*casalemedia.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*contextweb.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*yieldmo.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*sharethrough.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*spotxchange.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*teads.tv"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  }
+]

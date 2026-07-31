@@ -1,0 +1,112 @@
+[
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*connect.facebook.net"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*platform.twitter.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*platform.linkedin.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*widgets.pinterest.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*assets.pinterest.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*disqus.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*addthis.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*sharethis.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*platform.instagram.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*tiktok.com/embed"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  }
+]

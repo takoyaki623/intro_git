@@ -1,0 +1,233 @@
+[
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*google-analytics.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*googletagmanager.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*mixpanel.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*segment.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*segment.io"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*hotjar.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*fullstory.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*mouseflow.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*amplitude.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*branch.io"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*appsflyer.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*adjust.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*yandex.ru/metrika"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*mc.yandex.ru"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*clarity.ms"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*scorecardresearch.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*quantserve.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*chartbeat.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*newrelic.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*nr-data.net"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": ".*",
+      "if-domain": [
+        "*crazyegg.com"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  }
+]
