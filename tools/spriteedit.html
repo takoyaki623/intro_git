@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>ドット絵エディタ ― ポケットモンスター ドットのぼうけん</title>
+<style>
+:root {
+  --bg: #12151c; --panel: #1b2029; --line: #2c3340;
+  --ink: #e8e8f0; --soft: #98a0b0; --accent: #6ac0f0;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; padding: 16px; background: var(--bg); color: var(--ink);
+  font: 13px/1.6 system-ui, "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
+}
+h1 { font-size: 16px; margin: 0 0 2px; }
+.lede { color: var(--soft); margin: 0 0 14px; font-size: 12px; }
+.wrap { display: flex; gap: 14px; align-items: flex-start; flex-wrap: wrap; }
+.panel {
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: 8px; padding: 12px;
+}
+.panel h2 { font-size: 12px; margin: 0 0 8px; color: var(--soft); font-weight: 600; }
+
+/* ---- キャンバス ---- */
+#board { image-rendering: pixelated; cursor: crosshair; display: block; background: #0d1014; }
+.previews { display: flex; gap: 12px; align-items: flex-end; margin-top: 10px; }
+.previews canvas { image-rendering: pixelated; background: #0d1014; border: 1px solid var(--line); }
+.previews span { color: var(--soft); font-size: 11px; }
+
+/* ---- 操作 ---- */
+.row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-bottom: 8px; }
+button, select, input[type=text] {
+  background: #252c37; color: var(--ink); border: 1px solid var(--line);
+  border-radius: 5px; padding: 5px 9px; font: inherit; font-size: 12px; cursor: pointer;
+}
+button:hover, select:hover { border-color: var(--accent); }
+button.on { background: var(--accent); color: #10141a; border-color: var(--accent); font-weight: 700; }
+label { color: var(--soft); font-size: 12px; }
+
+/* ---- パレット ---- */
+#palette { display: flex; flex-direction: column; gap: 4px; max-height: 340px; overflow-y: auto; }
+.pal {
+  display: flex; align-items: center; gap: 7px; padding: 3px 5px;
+  border: 1px solid transparent; border-radius: 5px; cursor: pointer;
+}
+.pal.sel { border-color: var(--accent); background: #232b36; }
+.pal .sw {
+  width: 20px; height: 20px; border: 1px solid #000; border-radius: 3px; flex: none;
+  background-image: linear-gradient(45deg, #444 25%, transparent 25%, transparent 75%, #444 75%),
+                    linear-gradient(45deg, #444 25%, #222 25%, #222 75%, #444 75%);
+  background-size: 8px 8px; background-position: 0 0, 4px 4px;
+}
+.pal .sw i { display: block; width: 100%; height: 100%; border-radius: 2px; }
+.pal code { font-family: ui-monospace, monospace; width: 14px; text-align: center; }
+.pal input[type=color] { width: 26px; height: 22px; padding: 0; border: none; background: none; cursor: pointer; }
+.pal .del { padding: 1px 6px; font-size: 11px; opacity: .6; }
+
+/* ---- 出力 ---- */
+#out {
+  width: 100%; min-height: 260px; background: #0d1014; color: #cfe6ff;
+  border: 1px solid var(--line); border-radius: 6px; padding: 10px;
+  font-family: ui-monospace, monospace; font-size: 11px; line-height: 1.45;
+  white-space: pre; overflow: auto; resize: vertical;
+}
+.hint { color: var(--soft); font-size: 11px; margin: 6px 0 0; }
+kbd {
+  background: #252c37; border: 1px solid var(--line); border-bottom-width: 2px;
+  border-radius: 4px; padding: 0 5px; font-family: ui-monospace, monospace; font-size: 11px;
+}
+</style>
+</head>
+<body>
+
+<h1>ドット絵エディタ</h1>
+<p class="lede">
+  <code>src/data/sprites/</code> のドット絵をそのまま読み込んで編集し、貼り戻せる形で書き出します。
+  ゲーム本体には含まれません（<code>tools/</code> の開発用ページです）。
+  <b>ES modules を読むのでサーバー越しに開いてください</b>（<code>python3 serve.py</code> → <code>/tools/spriteedit.html</code>）。
+</p>
+
+<div class="wrap">
+
+  <div class="panel">
+    <h2>キャンバス</h2>
+    <div class="row">
+      <label>よみこむ</label>
+      <select id="pick"></select>
+      <button id="load">よみこむ</button>
+      <button id="clear">まっさら</button>
+    </div>
+    <div class="row">
+      <label>サイズ</label>
+      <select id="size">
+        <option value="24x24">24 × 24（モンスター）</option>
+        <option value="16x16">16 × 16（タイル）</option>
+        <option value="16x20">16 × 20（キャラ）</option>
+      </select>
+      <label>ズーム</label>
+      <select id="zoom">
+        <option>12</option><option selected>16</option><option>20</option><option>24</option>
+      </select>
+    </div>
+    <canvas id="board"></canvas>
+    <div class="previews">
+      <div><canvas id="p1"></canvas><br><span>等倍</span></div>
+      <div><canvas id="p2"></canvas><br><span>2倍（バトルの相手）</span></div>
+      <div><canvas id="p3"></canvas><br><span>白シルエット（被弾）</span></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>どうぐ</h2>
+    <div class="row" id="tools">
+      <button data-tool="pen" class="on">ペン</button>
+      <button data-tool="erase">けしゴム</button>
+      <button data-tool="fill">ぬりつぶし</button>
+      <button data-tool="pick">スポイト</button>
+    </div>
+    <div class="row">
+      <button id="mirror">左右対称：オフ</button>
+      <button id="undo">もとに戻す</button>
+    </div>
+    <div class="row">
+      <button id="flipH">左右反転</button>
+      <button id="shiftL">←</button><button id="shiftR">→</button>
+      <button id="shiftU">↑</button><button id="shiftD">↓</button>
+    </div>
+
+    <h2 style="margin-top:14px">パレット</h2>
+    <div id="palette"></div>
+    <div class="row" style="margin-top:8px">
+      <input type="text" id="newKey" size="1" maxlength="1" placeholder="記号" style="width:52px">
+      <input type="color" id="newColor" value="#ff88aa">
+      <button id="addPal">ふやす</button>
+    </div>
+    <p class="hint">
+      <kbd>.</kbd> は透明で、消せません。記号は1文字で、大文字と小文字は別ものです。
+    </p>
+  </div>
+
+  <div class="panel" style="flex:1; min-width:340px">
+    <h2>書き出し</h2>
+    <div class="row">
+      <label>なまえ</label>
+      <input type="text" id="name" value="newmon" size="12">
+      <button id="copy">コピー</button>
+      <button id="apply">テキストから読み込む</button>
+    </div>
+    <textarea id="out" spellcheck="false"></textarea>
+    <p class="hint">
+      ここに出たものを <code>src/data/sprites/monsters.js</code> に貼ります。
+      パレットを共有しているタイルやキャラは <code>pixels</code> だけ使ってください。
+      逆に、既存のコードをここに貼って「テキストから読み込む」を押せば編集に戻せます。
+    </p>
+  </div>
+
+</div>
+
+<script type="module">
+import { SPR } from '../src/data/sprites/monsters.js';
+import { TILE_SPR } from '../src/data/tiles.js';
+import { CHARS } from '../src/data/sprites/chars.js';
+
+// ---- 読み込み元をひとつの一覧にまとめる ----
+// 3つのモジュールで形が違う（キャラは向き×コマの入れ子）ので、ここで平らにする。
+const SOURCES = [];
+for (const [k, v] of Object.entries(SPR)) SOURCES.push({ label: `モンスター / ${k}`, name: k, def: v });
+for (const [k, v] of Object.entries(TILE_SPR)) SOURCES.push({ label: `タイル / ${k}`, name: k, def: v });
+for (const [k, c] of Object.entries(CHARS)) {
+  for (const dir of ['down', 'up', 'right']) {
+    (c[dir] ?? []).forEach((def, i) => {
+      SOURCES.push({ label: `キャラ / ${k} ${dir} ${i}`, name: `${k}_${dir}${i}`, def });
+    });
+  }
+}
+
+const $ = (id) => document.getElementById(id);
+const board = $('board');
+const bctx = board.getContext('2d');
+
+const st = {
+  w: 24, h: 24, zoom: 16,
+  grid: [],                  // 記号の2次元配列
+  palette: { '.': null },    // 記号 -> 色（null は透明）
+  sel: '.',
+  tool: 'pen',
+  mirror: false,
+  history: [],
+};
+
+// ---- 初期化 ----
+
+function newGrid(w, h, fill = '.') {
+  return Array.from({ length: h }, () => new Array(w).fill(fill));
+}
+
+function setSize(w, h) {
+  st.w = w; st.h = h;
+  st.grid = newGrid(w, h);
+  resize();
+}
+
+function resize() {
+  board.width = st.w * st.zoom;
+  board.height = st.h * st.zoom;
+  for (const [id, scale] of [['p1', 1], ['p2', 2], ['p3', 2]]) {
+    const c = $(id);
+    c.width = st.w * scale; c.height = st.h * scale;
+  }
+  draw();
+}
+
+function push() {
+  st.history.push(st.grid.map((r) => [...r]));
+  if (st.history.length > 60) st.history.shift();
+}
+
+// ---- 描画 ----
+
+function draw() {
+  const z = st.zoom;
+  bctx.clearRect(0, 0, board.width, board.height);
+
+  for (let y = 0; y < st.h; y++) {
+    for (let x = 0; x < st.w; x++) {
+      // 透明は市松模様で示す
+      const col = st.palette[st.grid[y][x]] ?? null;
+      if (col) {
+        bctx.fillStyle = col;
+      } else {
+        bctx.fillStyle = (x + y) % 2 ? '#1d222a' : '#171c23';
+      }
+      bctx.fillRect(x * z, y * z, z, z);
+    }
+  }
+
+  // 目安の線。4マスごとを濃くすると、左右対称が取りやすい。
+  bctx.lineWidth = 1;
+  for (let x = 0; x <= st.w; x++) {
+    bctx.strokeStyle = x % 4 === 0 ? 'rgba(255,255,255,.22)' : 'rgba(255,255,255,.07)';
+    bctx.beginPath(); bctx.moveTo(x * z + .5, 0); bctx.lineTo(x * z + .5, board.height); bctx.stroke();
+  }
+  for (let y = 0; y <= st.h; y++) {
+    bctx.strokeStyle = y % 4 === 0 ? 'rgba(255,255,255,.22)' : 'rgba(255,255,255,.07)';
+    bctx.beginPath(); bctx.moveTo(0, y * z + .5); bctx.lineTo(board.width, y * z + .5); bctx.stroke();
+  }
+  // 中心線。左右対称モードのときだけ強調する。
+  if (st.mirror) {
+    bctx.strokeStyle = 'rgba(106,192,240,.8)';
+    bctx.beginPath();
+    bctx.moveTo((st.w / 2) * z + .5, 0); bctx.lineTo((st.w / 2) * z + .5, board.height);
+    bctx.stroke();
+  }
+
+  drawPreviews();
+  $('out').value = exportText();
+}
+
+function drawPreviews() {
+  for (const [id, scale, white] of [['p1', 1, false], ['p2', 2, false], ['p3', 2, true]]) {
+    const c = $(id);
+    const g = c.getContext('2d');
+    g.clearRect(0, 0, c.width, c.height);
+    for (let y = 0; y < st.h; y++) {
+      for (let x = 0; x < st.w; x++) {
+        const col = st.palette[st.grid[y][x]] ?? null;
+        if (!col) continue;
+        g.fillStyle = white ? '#ffffff' : col;
+        g.fillRect(x * scale, y * scale, scale, scale);
+      }
+    }
+  }
+}
+
+// ---- パレット ----
+
+function renderPalette() {
+  const box = $('palette');
+  box.innerHTML = '';
+  for (const [key, col] of Object.entries(st.palette)) {
+    const row = document.createElement('div');
+    row.className = 'pal' + (key === st.sel ? ' sel' : '');
+    row.onclick = () => { st.sel = key; renderPalette(); };
+
+    const sw = document.createElement('span');
+    sw.className = 'sw';
+    if (col) sw.innerHTML = `<i style="background:${col}"></i>`;
+    row.append(sw);
+
+    const code = document.createElement('code');
+    code.textContent = key;
+    row.append(code);
+
+    if (col) {
+      const inp = document.createElement('input');
+      inp.type = 'color';
+      inp.value = col;
+      inp.onclick = (e) => e.stopPropagation();
+      inp.oninput = () => { st.palette[key] = inp.value; draw(); renderPalette(); };
+      row.append(inp);
+
+      const n = count(key);
+      const used = document.createElement('span');
+      used.style.cssText = 'color:#98a0b0;font-size:11px';
+      used.textContent = `${n}`;
+      row.append(used);
+
+      const del = document.createElement('button');
+      del.className = 'del';
+      del.textContent = '×';
+      del.onclick = (e) => {
+        e.stopPropagation();
+        // 使われている記号を消すと絵が壊れるので、先に透明へ置き換える
+        if (n && !confirm(`${key} は ${n}マスで使われています。透明にして消しますか？`)) return;
+        push();
+        for (const r of st.grid) for (let i = 0; i < r.length; i++) if (r[i] === key) r[i] = '.';
+        delete st.palette[key];
+        if (st.sel === key) st.sel = '.';
+        draw(); renderPalette();
+      };
+      row.append(del);
+    } else {
+      const t = document.createElement('span');
+      t.style.cssText = 'color:#98a0b0;font-size:11px';
+      t.textContent = 'とうめい';
+      row.append(t);
+    }
+    box.append(row);
+  }
+}
+
+const count = (key) => st.grid.reduce((a, r) => a + r.filter((c) => c === key).length, 0);
+
+// ---- 入力 ----
+
+let painting = false;
+
+function cellAt(e) {
+  const r = board.getBoundingClientRect();
+  const x = Math.floor((e.clientX - r.left) / (r.width / st.w));
+  const y = Math.floor((e.clientY - r.top) / (r.height / st.h));
+  return (x < 0 || y < 0 || x >= st.w || y >= st.h) ? null : { x, y };
+}
+
+function put(x, y, key) {
+  st.grid[y][x] = key;
+  if (st.mirror) st.grid[y][st.w - 1 - x] = key;
+}
+
+function paint(e) {
+  const c = cellAt(e);
+  if (!c) return;
+
+  if (st.tool === 'pick') {
+    st.sel = st.grid[c.y][c.x];
+    renderPalette();
+    return;
+  }
+  if (st.tool === 'fill') {
+    push();
+    flood(c.x, c.y, st.grid[c.y][c.x], st.sel);
+    draw();
+    return;
+  }
+  const key = st.tool === 'erase' ? '.' : st.sel;
+  if (st.grid[c.y][c.x] === key && !st.mirror) return;
+  put(c.x, c.y, key);
+  draw();
+}
+
+function flood(x, y, from, to) {
+  if (from === to) return;
+  const stack = [[x, y]];
+  while (stack.length) {
+    const [cx, cy] = stack.pop();
+    if (cx < 0 || cy < 0 || cx >= st.w || cy >= st.h) continue;
+    if (st.grid[cy][cx] !== from) continue;
+    put(cx, cy, to);
+    stack.push([cx + 1, cy], [cx - 1, cy], [cx, cy + 1], [cx, cy - 1]);
+  }
+}
+
+board.addEventListener('pointerdown', (e) => {
+  e.preventDefault();
+  board.setPointerCapture(e.pointerId);
+  if (st.tool === 'pen' || st.tool === 'erase') push();
+  painting = true;
+  paint(e);
+});
+board.addEventListener('pointermove', (e) => { if (painting) paint(e); });
+for (const ev of ['pointerup', 'pointercancel']) {
+  board.addEventListener(ev, () => { painting = false; });
+}
+
+// ---- 書き出し／読み込み ----
+
+function exportText() {
+  const name = $('name').value || 'newmon';
+  const pal = Object.entries(st.palette)
+    .map(([k, v]) => `'${k}': ${v === null ? 'null' : `'${v}'`}`)
+    .join(', ');
+  const rows = st.grid.map((r) => `      '${r.join('')}',`).join('\n');
+  return `  ${name}: {\n    palette: { ${pal} },\n    pixels: [\n${rows}\n    ],\n  },`;
+}
+
+/** 貼られたコードから palette と pixels を拾う。JS は実行せず、文字列として読む。 */
+function importText(text) {
+  const rows = [...text.matchAll(/'([^']*)'\s*,/g)]
+    .map((m) => m[1])
+    .filter((s) => s.length >= 8 && /^[^\s]+$/.test(s));
+  // いちばん多く出てくる長さを「絵の幅」とみなす（パレット行を巻き込まないため）
+  const widths = {};
+  for (const r of rows) widths[r.length] = (widths[r.length] ?? 0) + 1;
+  const w = Number(Object.entries(widths).sort((a, b) => b[1] - a[1])[0]?.[0] ?? 0);
+  const pixels = rows.filter((r) => r.length === w);
+  if (!pixels.length) { alert('ドット絵の行が見つかりませんでした。'); return; }
+
+  const palette = { '.': null };
+  for (const m of text.matchAll(/'(.)'\s*:\s*(null|'(#[0-9a-fA-F]{3,8})')/g)) {
+    palette[m[1]] = m[2] === 'null' ? null : m[3];
+  }
+  // パレットに無い記号が絵に出てきたら、気づけるよう毒々しい色を割り当てる
+  for (const row of pixels) {
+    for (const ch of row) if (!(ch in palette)) palette[ch] = '#ff00ff';
+  }
+
+  push();
+  st.w = w;
+  st.h = pixels.length;
+  st.palette = palette;
+  st.grid = pixels.map((r) => [...r]);
+  st.sel = Object.keys(palette).find((k) => palette[k]) ?? '.';
+  resize();
+  renderPalette();
+}
+
+function loadDef(def, name) {
+  push();
+  st.grid = def.pixels.map((r) => [...r]);
+  st.h = def.pixels.length;
+  st.w = def.pixels[0].length;
+  // もとのパレットは共有オブジェクトなので、必ず複製してから編集する
+  st.palette = { '.': null, ...def.palette };
+  st.sel = Object.keys(st.palette).find((k) => st.palette[k]) ?? '.';
+  $('name').value = name;
+  // サイズ表示が実物とずれていると、次に「まっさら」を押したとき驚くことになる
+  const opt = [...$('size').options].find((o) => o.value === `${st.w}x${st.h}`);
+  if (opt) $('size').value = opt.value;
+  resize();
+  renderPalette();
+}
+
+// ---- 画面まわりの配線 ----
+
+const pick = $('pick');
+SOURCES.forEach((s, i) => {
+  const o = document.createElement('option');
+  o.value = String(i);
+  o.textContent = s.label;
+  pick.append(o);
+});
+
+$('load').onclick = () => {
+  const s = SOURCES[Number(pick.value)];
+  if (s) loadDef(s.def, s.name);
+};
+$('clear').onclick = () => {
+  push();
+  st.grid = newGrid(st.w, st.h);
+  draw();
+  renderPalette();
+};
+$('size').onchange = () => {
+  const [w, h] = $('size').value.split('x').map(Number);
+  push();
+  setSize(w, h);
+  renderPalette();
+};
+$('zoom').onchange = () => { st.zoom = Number($('zoom').value); resize(); };
+$('name').oninput = () => { $('out').value = exportText(); };
+
+for (const b of document.querySelectorAll('#tools button')) {
+  b.onclick = () => {
+    st.tool = b.dataset.tool;
+    for (const o of document.querySelectorAll('#tools button')) o.classList.toggle('on', o === b);
+  };
+}
+
+$('mirror').onclick = () => {
+  st.mirror = !st.mirror;
+  $('mirror').textContent = `左右対称：${st.mirror ? 'オン' : 'オフ'}`;
+  $('mirror').classList.toggle('on', st.mirror);
+  draw();
+};
+
+$('undo').onclick = () => {
+  const prev = st.history.pop();
+  if (!prev) return;
+  st.grid = prev;
+  st.h = prev.length;
+  st.w = prev[0].length;
+  resize();
+  renderPalette();
+};
+
+$('flipH').onclick = () => { push(); st.grid = st.grid.map((r) => [...r].reverse()); draw(); };
+const shift = (dx, dy) => {
+  push();
+  const g = newGrid(st.w, st.h);
+  for (let y = 0; y < st.h; y++) {
+    for (let x = 0; x < st.w; x++) {
+      const nx = x + dx, ny = y + dy;
+      if (nx >= 0 && ny >= 0 && nx < st.w && ny < st.h) g[ny][nx] = st.grid[y][x];
+    }
+  }
+  st.grid = g;
+  draw();
+};
+$('shiftL').onclick = () => shift(-1, 0);
+$('shiftR').onclick = () => shift(1, 0);
+$('shiftU').onclick = () => shift(0, -1);
+$('shiftD').onclick = () => shift(0, 1);
+
+$('addPal').onclick = () => {
+  const k = $('newKey').value.trim();
+  if (!k) { alert('記号を1文字いれてください。'); return; }
+  if (k === '.') { alert("'.' は透明として予約されています。"); return; }
+  st.palette[k] = $('newColor').value;
+  st.sel = k;
+  $('newKey').value = '';
+  renderPalette();
+  draw();
+};
+
+$('copy').onclick = async () => {
+  try {
+    await navigator.clipboard.writeText($('out').value);
+    $('copy').textContent = 'コピーした';
+    setTimeout(() => { $('copy').textContent = 'コピー'; }, 1200);
+  } catch {
+    $('out').select();
+    alert('コピーできなかったので選択しました。手で コピーしてください。');
+  }
+};
+$('apply').onclick = () => importText($('out').value);
+
+addEventListener('keydown', (e) => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  if ((e.ctrlKey || e.metaKey) && e.key === 'z') { e.preventDefault(); $('undo').click(); }
+  if (e.key === 'm') $('mirror').click();
+  const t = { p: 'pen', e: 'erase', f: 'fill', i: 'pick' }[e.key];
+  if (t) document.querySelector(`#tools button[data-tool="${t}"]`)?.click();
+});
+
+// 最初はフシギダネを出しておく。空の画面より、いじれるものがあるほうが早い。
+setSize(24, 24);
+loadDef(SOURCES[0].def, SOURCES[0].name);
+</script>
+
+</body>
+</html>
