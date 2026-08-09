@@ -11,7 +11,7 @@ import { getTileSprite, TILE } from '../data/tiles.js';
 import { charSprite } from '../data/sprites/chars.js';
 import * as World from '../game/world.js';
 import { world } from '../game/world.js';
-import { state, setFlag, healParty } from '../game/state.js';
+import { state, setFlag, healParty, addItem } from '../game/state.js';
 import { stepCheck, spawnWild } from '../game/encounter.js';
 
 const W = Screen.W;
@@ -140,6 +140,10 @@ export class FieldScene {
       this.openDialog(target.sign.lines);
       return;
     }
+    if (target.type === 'item') {
+      this.pickUp(target.item);
+      return;
+    }
     if (target.type === 'pc') {
       this.openBox();
       return;
@@ -149,6 +153,16 @@ export class FieldScene {
       SE.heal();
       this.openDialog(['ベッドで やすんだ…', 'ポケモンたちは げんきに なった！']);
     }
+  }
+
+  /** 落ちているものを拾う。フラグを立てるので二度は拾えない。 */
+  pickUp(item) {
+    const n = item.n ?? 1;
+    addItem(item.item, n);
+    setFlag(item.flag);
+    world.items = world.items.filter((it) => it !== item);
+    SE.select();
+    this.openDialog([`${state.player.name}は ${item.item}を ${n}こ みつけた！`]);
   }
 
   async openDialog(lines, npc = null) {
@@ -200,6 +214,7 @@ export class FieldScene {
     const camY = Math.round(this.camY);
 
     this.renderTiles(ctx, camX, camY);
+    this.renderItems(ctx, camX, camY);
     this.renderActors(ctx, camX, camY);
     this.renderGrassOverlay(ctx, camX, camY);
 
@@ -238,6 +253,24 @@ export class FieldScene {
     for (const { a, sprite } of actors) {
       const { def, flip } = charSprite(sprite, a.dir, World.walkFrame(a));
       drawSprite(ctx, def, Math.round(a.px - camX), Math.round(a.py - camY) - 4, { flip });
+    }
+  }
+
+  /** 落ちているモンスターボール。矩形の積み重ねで描く（16x16に収める）。 */
+  renderItems(ctx, camX, camY) {
+    for (const it of world.items) {
+      const x = Math.round(it.x * T - camX) + 3;
+      const y = Math.round(it.y * T - camY) + 4;
+      ctx.fillStyle = '#202028';
+      ctx.fillRect(x, y, 10, 10);
+      ctx.fillStyle = '#e04030';
+      ctx.fillRect(x + 1, y + 1, 8, 3);
+      ctx.fillStyle = '#f8f8f8';
+      ctx.fillRect(x + 1, y + 6, 8, 3);
+      ctx.fillStyle = '#202028';
+      ctx.fillRect(x + 1, y + 4, 8, 2);
+      ctx.fillStyle = '#c8c8d0';
+      ctx.fillRect(x + 4, y + 4, 2, 2);
     }
   }
 

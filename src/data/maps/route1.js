@@ -53,6 +53,10 @@ export default {
       ],
     },
   ],
+  items: [
+    { x: 17, y: 4, item: 'モンスターボール', n: 3, flag: 'item_route1_ball' },
+    { x: 2, y: 18, item: 'きずぐすり', n: 2, flag: 'item_route1_potion' },
+  ],
   signs: [
     { x: 15, y: 7, lines: ['１ばんどうろ', '↑ きた ： ときわのもり'] },
   ],

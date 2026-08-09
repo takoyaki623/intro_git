@@ -19,6 +19,7 @@ import { SE } from '../core/audio.js';
  *   { give:'モンスターボール', n:5 }
  *   { flag:'gotStarter' }
  *   { chooseStarter:[1,4,7] }
+ *   { shop:['モンスターボール','きずぐすり'] }
  *
  * パーサを書かずに済むよう、素の JS の値をそのまま解釈する。
  */
@@ -87,6 +88,10 @@ export class DialogScene {
         this.startStarterChoice(cmd.chooseStarter);
         return;
       }
+      if (cmd.shop) {
+        this.openShop(cmd.shop);
+        return;
+      }
     }
     this.close();
   }
@@ -112,6 +117,11 @@ export class DialogScene {
         );
       },
     }));
+  }
+
+  async openShop(stock) {
+    const { ShopScene } = await import('./ShopScene.js');
+    Scenes.push(new ShopScene({ stock }));
   }
 
   /** サブシーンから戻ってきた */

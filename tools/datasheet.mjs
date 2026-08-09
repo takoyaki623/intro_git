@@ -39,8 +39,37 @@ for (const s of speciesList) if (s.evolution) evolvesFrom[s.evolution.to] = s;
 
 const STARTERS = [1, 4, 7];
 
-/** 実際に手に入る道具（配布箇所がコードにあるもの）。ショップは未実装。 */
-const OBTAINABLE_ITEMS = new Set(['モンスターボール', 'きずぐすり']);
+/**
+ * 実際に手に入る道具を、マップと会話データから拾い集める。
+ * ここを手で書くと配布箇所を足したときに嘘になるので、実データから数える。
+ */
+const OBTAINABLE_ITEMS = new Set(['モンスターボール', 'きずぐすり']); // 最初から持っているぶん
+const ITEM_SOURCE = {};  // 道具名 -> 入手手段の説明[]
+
+for (const name of OBTAINABLE_ITEMS) (ITEM_SOURCE[name] ??= []).push('最初から所持');
+
+for (const m of Object.values(MAPS)) {
+  for (const it of m.items ?? []) {
+    OBTAINABLE_ITEMS.add(it.item);
+    (ITEM_SOURCE[it.item] ??= []).push(`${m.name}に落ちている`);
+  }
+  // 会話のなかの shop / give を探す（入れ子の then/else/yes/no もたどる）
+  const walk = (lines) => {
+    for (const l of lines ?? []) {
+      if (typeof l !== 'object' || !l) continue;
+      if (l.shop) for (const s of l.shop) {
+        OBTAINABLE_ITEMS.add(s);
+        (ITEM_SOURCE[s] ??= []).push(`${m.name}で購入`);
+      }
+      if (l.give) {
+        OBTAINABLE_ITEMS.add(l.give);
+        (ITEM_SOURCE[l.give] ??= []).push(`${m.name}でもらえる`);
+      }
+      for (const k of ['then', 'else', 'yes', 'no']) if (l[k]) walk(l[k]);
+    }
+  };
+  for (const n of m.npcs ?? []) walk(n.lines);
+}
 
 function obtainRoutes(s) {
   const ways = [];
@@ -260,16 +289,19 @@ const mapPanels = Object.values(MAPS).map((m) => {
 const itemRows = POCKETS.map((p) => {
   const list = Object.values(ITEMS).filter((i) => i.pocket === p);
   const rows = list.map((i) => {
-    const got = OBTAINABLE_ITEMS.has(i.name);
-    return `<tr class="${got ? '' : 'unused'}">
-      <td>${esc(i.name)}${got ? '' : '<span class="badge blocked">入手不可</span>'}</td>
+    const ways = ITEM_SOURCE[i.name] ?? [];
+    // 同じ手段が複数マップにあっても意味は同じなので重複は畳む
+    const where = [...new Set(ways)].map((w) => `<span class="route evo">${esc(w)}</span>`).join('');
+    return `<tr class="${ways.length ? '' : 'unused'}">
+      <td>${esc(i.name)}${ways.length ? '' : '<span class="badge blocked">入手不可</span>'}</td>
       <td class="eff">${esc(i.desc)}</td>
       <td class="num">${i.price ?? '—'}</td>
+      <td>${where || '<span class="hint">配布箇所なし</span>'}</td>
     </tr>`;
   }).join('');
   return `<div class="movegroup">
     <h4><span class="chip" style="background:#6a6a78">${esc(p)}</span> <span class="count">${list.length}</span></h4>
-    <table class="moves"><thead><tr><th>なまえ</th><th>せつめい</th><th>ねだん</th></tr></thead>
+    <table class="moves"><thead><tr><th>なまえ</th><th>せつめい</th><th>ねだん</th><th>入手</th></tr></thead>
     <tbody>${rows}</tbody></table>
   </div>`;
 }).join('');
@@ -287,11 +319,65 @@ const counts = {
   maps: Object.keys(MAPS).length,
   types: TYPES.length,
   reachable: speciesList.filter((s) => ['yes', 'choice'].includes(reachable(s))).length,
-  oneRun: speciesList.filter((s) => reachable(s) === 'yes').length
-    + speciesList.filter((s) => reachable(s) === 'choice').length / 3,
+  oneRun: Math.round(speciesList.filter((s) => reachable(s) === 'yes').length
+    + speciesList.filter((s) => reachable(s) === 'choice').length / 3),
   unlearned: Object.keys(MOVES).length - learnedSomewhere.size,
-  gotItems: OBTAINABLE_ITEMS.size,
+  gotItems: Object.values(ITEMS).filter((i) => ITEM_SOURCE[i.name]).length,
 };
+
+/**
+ * 「いまの穴」は手で書くと直し忘れて嘘になる。
+ * 実データから毎回数え直して、埋まった項目は自然に消えるようにする。
+ */
+const gaps = [];
+
+const unreachable = speciesList.filter((s) => ['blocked', 'none'].includes(reachable(s)));
+if (unreachable.length) {
+  const need = [...new Set(unreachable.flatMap((s) => {
+    const from = evolvesFrom[s.id];
+    return from?.evolution.method === 'stone' && !OBTAINABLE_ITEMS.has(from.evolution.item)
+      ? [from.evolution.item] : [];
+  }))];
+  gaps.push({
+    h: `${unreachable.map((s) => s.name).join('・')} に到達できない`,
+    p: need.length
+      ? `進化に必要な <b>${need.map(esc).join('・')}</b> を配っている場所が、落ちものにも
+         ショップにもありません。`
+      : '野生にも進化にも登場しないので、通常プレイでは手に入りません。',
+  });
+}
+
+const missingItems = Object.values(ITEMS).filter((i) => !ITEM_SOURCE[i.name]);
+if (missingItems.length) {
+  gaps.push({
+    h: `どうぐは ${counts.items} 個中 ${counts.gotItems} 個しか手に入らない`,
+    p: `<b>${missingItems.map((i) => esc(i.name)).join('・')}</b> は、定義はあるのに
+        落ちてもいないし売ってもいません。`,
+  });
+}
+
+const choiceOnly = speciesList.filter((s) => reachable(s) === 'choice');
+if (choiceOnly.length) {
+  gaps.push({
+    h: `1周で取れるのは ${counts.species} 種のうち ${counts.oneRun} 種`,
+    p: `御三家は3体から1体しか選べないので、残り2系統の ${choiceOnly.length - choiceOnly.length / 3} 種は
+        1周では埋まりません。交換相手もいないので、図鑑を全部埋める手段が今はありません。`,
+  });
+}
+
+const unlearnedMoves = Object.values(MOVES).filter((m) => !learnedSomewhere.has(m.name));
+if (unlearnedMoves.length) {
+  gaps.push({
+    h: `${unlearnedMoves.length}つのわざを誰も覚えない`,
+    p: `18タイプすべてを技データで網羅するために作ったものの、その技を覚える種族を
+        入れていないためです（${unlearnedMoves.map((m) => esc(m.name)).join('・')}）。`,
+  });
+}
+
+const gapCards = gaps.length
+  ? gaps.map((g) => `<div class="gap"><h3>${g.h}</h3><p>${g.p}</p></div>`).join('')
+  : '<div class="gap"><h3>いまのところ穴はありません</h3><p>データ上は、全部のポケモンとどうぐに'
+    + '入手経路があります。</p></div>';
 
 const css = readFileSync(join(ROOT, 'tools/datasheet.css'), 'utf8');
 
@@ -327,28 +413,7 @@ ${css}
   <h2>いまの穴</h2>
   <p class="note">データを突き合わせて分かった、いま遊べない部分です。バグではなく、作り込みが
   そこまで届いていないところです。</p>
-  <div class="gaps">
-    <div class="gap">
-      <h3>ライチュウに到達できない</h3>
-      <p>ピカチュウの進化には <b>かみなりのいし</b> が要りますが、その石を配っている場所が
-      どこにもありません。ショップも未実装なので、買うこともできません。</p>
-    </div>
-    <div class="gap">
-      <h3>どうぐは ${counts.items} 個中 ${counts.gotItems} 個しか手に入らない</h3>
-      <p>モンスターボールときずぐすりだけです。スーパーボール・状態異常の薬・げんきのかけら・
-      進化の石は、定義はあるのに配布箇所がありません。</p>
-    </div>
-    <div class="gap">
-      <h3>1周で取れるのは ${counts.species} 種のうち14種</h3>
-      <p>御三家は3体から1体しか選べないので、残り2系統の6種は1周では埋まりません。
-      交換相手もいないので、図鑑を全部埋める手段が今はありません。</p>
-    </div>
-    <div class="gap">
-      <h3>${counts.unlearned}つのわざを誰も覚えない</h3>
-      <p>18タイプすべてを技データで網羅するために作ったものの、その技を覚える種族を
-      入れていないためです（からてチョップ・どくばり・いわおとし・ようせいのかぜ）。</p>
-    </div>
-  </div>
+  <div class="gaps">${gapCards}</div>
 </section>
 
 <section id="s-mon">
@@ -386,7 +451,8 @@ ${css}
 
 <section id="s-item">
   <h2>どうぐ <span class="count">${counts.items}個</span></h2>
-  <p class="note">ねだんは定義してありますが、ショップがまだ無いので現時点では意味を持ちません。</p>
+  <p class="note">「入手」は落ちている場所とショップの品揃えから数えたものです。
+  売値は買値の半分（切り捨て）になります。</p>
   ${itemRows}
 </section>
 

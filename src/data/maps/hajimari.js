@@ -16,8 +16,8 @@ export default {
     'T,,S,,,,,..,,,,,S,,T',
     'T,,,,,,,,..,,,,,,,,T',
     'T,,,,,,,,..,,,,,,,,T',
-    'T,RRRRRRR,,,,,,,,,,T',
-    'T,WWWDWWW,,,,,,,,,,T',
+    'T,RRRRRRR,,RRRRRRRRT',
+    'T,WWWDWWW,,WWWWDWWWT',
     'T,,,,,,,,,,,,,,,,,,T',
     'T,,,,,,,,,,,,,,,,,,T',
     'T,,FF,,,,,,,,,,FF,,T',
@@ -31,6 +31,7 @@ export default {
     { x: 10, y: 0, to: 'route1', tx: 9, ty: 20, dir: 'up' },
     { x: 5, y: 4, to: 'myhouse', tx: 4, ty: 6, dir: 'up' },
     { x: 5, y: 11, to: 'center', tx: 6, ty: 8, dir: 'up' },
+    { x: 15, y: 11, to: 'mart', tx: 5, ty: 6, dir: 'up' },
   ],
   npcs: [
     {
@@ -66,6 +67,6 @@ export default {
   ],
   signs: [
     { x: 3, y: 7, lines: ['はじまりのむら', 'ここから すべてが はじまる'] },
-    { x: 16, y: 7, lines: ['↑ きた ： １ばんどうろ', '← ひだり ： じぶんのいえ'] },
+    { x: 16, y: 7, lines: ['↑ きた ： １ばんどうろ', 'ひだり ： ポケモンセンター', 'みぎ ： フレンドリィショップ'] },
   ],
 };

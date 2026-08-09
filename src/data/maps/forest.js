@@ -50,6 +50,12 @@ export default {
       ],
     },
   ],
+  items: [
+    // ライチュウへの道はここで開通する
+    { x: 17, y: 2, item: 'かみなりのいし', n: 1, flag: 'item_forest_stone' },
+    { x: 3, y: 7, item: 'スーパーボール', n: 3, flag: 'item_forest_ball' },
+    { x: 16, y: 11, item: 'いいきずぐすり', n: 2, flag: 'item_forest_potion' },
+  ],
   signs: [
     { x: 16, y: 17, lines: ['ときわのもり', 'むしポケモンの すみか'] },
   ],

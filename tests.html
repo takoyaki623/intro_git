@@ -328,10 +328,38 @@ for (const [id, m] of Object.entries(MAPS)) {
   for (const s of m.signs ?? []) {
     check(`${id} の看板(${s.x},${s.y}) が範囲内`, !!tileKeyAt(m, s.x, s.y));
   }
+
+  // 落ちているどうぐ。フラグが被ると片方を拾ったときに両方消える。
+  for (const it of m.items ?? []) {
+    check(`${id} の落ちもの ${it.item} が実在`, !!ITEMS[it.item], it.item);
+    const k = tileKeyAt(m, it.x, it.y);
+    check(`${id} の落ちもの(${it.x},${it.y}) が拾える位置`, !!k && !TILE[k].solid, k ?? '範囲外');
+  }
+
+  // 店の品揃えも実在するどうぐでなければ、話しかけた瞬間に落ちる
+  const walkLines = (lines, where) => {
+    for (const l of lines ?? []) {
+      if (typeof l !== 'object' || !l) continue;
+      for (const name of l.shop ?? []) {
+        check(`${id} の ${where} が売る ${name} が実在`, !!ITEMS[name], name);
+        check(`${id} の ${where} が売る ${name} に ねだん`, ITEMS[name]?.price > 0);
+      }
+      if (l.give) check(`${id} の ${where} がくれる ${l.give} が実在`, !!ITEMS[l.give], l.give);
+      for (const k of ['then', 'else', 'yes', 'no']) if (l[k]) walkLines(l[k], where);
+    }
+  };
+  for (const n of m.npcs ?? []) walkLines(n.lines, n.id);
   for (const e of m.encounters?.table ?? []) {
     check(`${id} のエンカウント ${e.id} が実在`, !!SPECIES[e.id]);
     check(`${id} のエンカウント Lv範囲`, e.min >= 1 && e.min <= e.max);
   }
+}
+{
+  // 拾ったフラグはマップをまたいで一意。被ると片方を拾った時に両方消える。
+  const flags = Object.values(MAPS).flatMap((m) => (m.items ?? []).map((it) => it.flag));
+  const dup = flags.filter((f, i) => flags.indexOf(f) !== i);
+  check('落ちもののフラグが重複していない', dup.length === 0, dup.join('・'));
+  check('落ちものにフラグが付いている', flags.every(Boolean));
 }
 
 // ---------------------------------------------------------------- セーブ往復

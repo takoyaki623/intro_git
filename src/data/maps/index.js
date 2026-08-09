@@ -1,10 +1,11 @@
 import hajimari from './hajimari.js';
 import myhouse from './myhouse.js';
 import center from './center.js';
+import mart from './mart.js';
 import route1 from './route1.js';
 import forest from './forest.js';
 
-export const MAPS = { hajimari, myhouse, center, route1, forest };
+export const MAPS = { hajimari, myhouse, center, mart, route1, forest };
 
 export const getMap = (id) => MAPS[id] ?? null;
 

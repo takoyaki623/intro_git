@@ -3,7 +3,7 @@
 
 import { getMap, mapWidth, mapHeight, tileKeyAt } from '../data/maps/index.js';
 import { TILE } from '../data/tiles.js';
-import { state } from './state.js';
+import { state, getFlag } from './state.js';
 import { rng } from '../core/rng.js';
 
 export const WALK_FRAMES = 16;
@@ -28,6 +28,7 @@ export const world = {
     stepParity: 0,
   },
   npcs: [],
+  items: [],               // まだ拾われていない落ちもの
   frozen: false,           // 会話中などは動かさない
   anim: 0,                 // 水などのアニメーション用カウンタ
 };
@@ -54,6 +55,9 @@ export function loadMap(mapId, tx, ty, dir = 'down') {
     wanderCooldown: rng.int(90, 240),
   }));
 
+  // 拾ったものはフラグで消える。同じものを何度も拾えないようにするため。
+  world.items = (map.items ?? []).filter((it) => !getFlag(it.flag));
+
   state.player.pos = { map: mapId, x: tx, y: ty, dir };
   state.stepsSinceEncounter = 0;
   return map;
@@ -68,6 +72,7 @@ export function isWalkable(x, y, { ignoreNpc = false } = {}) {
   const key = tileAt(x, y);
   if (!key) return false;
   if (TILE[key]?.solid) return false;
+  if (world.items.some((it) => it.x === x && it.y === y)) return false;
   if (!ignoreNpc) {
     if (world.npcs.some((n) => n.tx === x && n.ty === y)) return false;
     const p = world.player;
@@ -97,6 +102,9 @@ export function facingTarget() {
 
     const npc = world.npcs.find((n) => n.tx === x && n.ty === y);
     if (npc) return { type: 'npc', npc };
+
+    const item = world.items.find((it) => it.x === x && it.y === y);
+    if (item) return { type: 'item', item };
 
     const sign = (world.map.signs ?? []).find((s) => s.x === x && s.y === y);
     if (sign) return { type: 'sign', sign };

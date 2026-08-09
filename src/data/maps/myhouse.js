@@ -28,5 +28,8 @@ export default {
       ],
     },
   ],
+  items: [
+    { x: 8, y: 2, item: 'きずぐすり', n: 1, flag: 'item_home_potion' },
+  ],
   signs: [],
 };
