@@ -1,0 +1,137 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1e2a1e;
+  font-family: "Trebuchet MS", "Hiragino Kaku Gothic ProN", sans-serif;
+  color: #eee;
+}
+
+#game-container {
+  width: 500px;
+  padding: 16px;
+  background: #2f3d2f;
+  border: 4px solid #0d140d;
+  border-radius: 10px;
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.6);
+}
+
+h1 {
+  text-align: center;
+  margin: 4px 0 12px;
+  font-size: 22px;
+  letter-spacing: 2px;
+}
+
+.screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+#title-screen p {
+  margin: 2px 0;
+  text-align: center;
+  font-size: 14px;
+}
+
+#starter-options {
+  display: flex;
+  gap: 10px;
+}
+
+.starter-card {
+  background: #445544;
+  border: 2px solid #14ba14;
+  border-radius: 8px;
+  padding: 10px;
+  width: 120px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.starter-card:hover {
+  transform: scale(1.05);
+  background: #567756;
+}
+
+.starter-card .icon {
+  font-size: 32px;
+}
+
+.starter-card .name {
+  font-weight: bold;
+  margin-top: 4px;
+}
+
+.starter-card .type {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+canvas {
+  background: #000;
+  border: 2px solid #0d140d;
+  border-radius: 4px;
+  image-rendering: pixelated;
+}
+
+#map-status {
+  font-size: 13px;
+  text-align: center;
+}
+
+#battle-log {
+  min-height: 42px;
+  width: 100%;
+  background: #111;
+  border: 2px solid #0d140d;
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 14px;
+  white-space: pre-line;
+}
+
+#battle-menu {
+  width: 100%;
+}
+
+#battle-main-actions,
+#battle-move-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+button {
+  background: #e8b23b;
+  border: 2px solid #7a5416;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #2b1f05;
+}
+
+button:hover {
+  background: #ffcb5c;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}

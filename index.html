@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>モンスタークエスト</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game-container">
+    <h1>モンスタークエスト</h1>
+
+    <!-- タイトル画面 -->
+    <div id="title-screen" class="screen">
+      <p>草むらを歩くとモンスターが現れる！捕まえて育てよう。</p>
+      <p>矢印キー / WASD で移動</p>
+      <div id="starter-select">
+        <p>最初の仲間を選んでください：</p>
+        <div id="starter-options"></div>
+      </div>
+    </div>
+
+    <!-- マップ画面 -->
+    <div id="map-screen" class="screen hidden">
+      <canvas id="map-canvas" width="480" height="352"></canvas>
+      <div id="map-status"></div>
+    </div>
+
+    <!-- バトル画面 -->
+    <div id="battle-screen" class="screen hidden">
+      <canvas id="battle-canvas" width="480" height="220"></canvas>
+      <div id="battle-log"></div>
+      <div id="battle-menu">
+        <div id="battle-main-actions" class="hidden">
+          <button data-action="fight">たたかう</button>
+          <button data-action="run">にげる</button>
+        </div>
+        <div id="battle-move-actions" class="hidden"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
