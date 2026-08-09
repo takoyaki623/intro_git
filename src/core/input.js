@@ -117,30 +117,112 @@ export function clearAll() {
   clearEdges();
   held.clear();
   heldFrames.clear();
-  for (const el of document.querySelectorAll('#touch button.on')) el.classList.remove('on');
+  for (const el of document.querySelectorAll('#touch .on')) el.classList.remove('on');
 }
 
 // ---- タッチ操作 ----
-// DOM のボタンから同じ論理ボタンを叩くだけ。ゲーム側はタッチを意識しない。
+// DOM から同じ論理ボタンを叩くだけ。ゲーム側はタッチを意識しない。
+// 表示・非表示は screen.js が body.touch で管理する。
+
+/** 十字キーの中心付近は無反応にする（0..1、半径の割合） */
+const DPAD_DEADZONE = 0.26;
+
 function initTouch() {
   const root = document.getElementById('touch');
   if (!root) return;
 
-  const coarse = matchMedia('(pointer: coarse)').matches;
-  if (!coarse) return;
-  root.hidden = false;
+  root.addEventListener('contextmenu', (e) => e.preventDefault());
+  initDpad(document.getElementById('dpad'));
 
-  for (const el of root.querySelectorAll('button')) {
-    const b = MAP[el.dataset.key];
-    if (!b) continue;
-
-    const down = (e) => { e.preventDefault(); queuedDown.add(b); el.classList.add('on'); };
-    const up = (e) => { e.preventDefault(); queuedUp.add(b); el.classList.remove('on'); };
-
-    el.addEventListener('pointerdown', down);
-    el.addEventListener('pointerup', up);
-    el.addEventListener('pointercancel', up);
-    el.addEventListener('pointerleave', up);
-    el.addEventListener('contextmenu', (e) => e.preventDefault());
+  for (const el of root.querySelectorAll('.rb')) {
+    initButton(el, MAP[el.dataset.key]);
   }
+}
+
+/** A/B ボタン。指を離す前にボタンの外へ出ても押しっぱなしにならないよう捕捉する。 */
+function initButton(el, btn) {
+  if (!btn) return;
+
+  const press = (e) => {
+    e.preventDefault();
+    el.setPointerCapture?.(e.pointerId);
+    queuedDown.add(btn);
+    el.classList.add('on');
+  };
+  const release = (e) => {
+    e.preventDefault();
+    queuedUp.add(btn);
+    el.classList.remove('on');
+  };
+
+  el.addEventListener('pointerdown', press);
+  el.addEventListener('pointerup', release);
+  el.addEventListener('pointercancel', release);
+}
+
+/**
+ * 十字キー。
+ *
+ * 方向ごとに独立した button にすると、↑ から ← へ指を滑らせても
+ * pointerdown が飛ばないので反応しない ―― 指は下りたままだからだ。
+ * そこで十字キー全体をひとつの判定領域にして、指の「位置」から方向を決める。
+ * こうすると滑らせるだけで方向を変えられる。
+ */
+function initDpad(pad) {
+  if (!pad) return;
+
+  const visuals = {
+    up: pad.querySelector('.up'),
+    down: pad.querySelector('.down'),
+    left: pad.querySelector('.left'),
+    right: pad.querySelector('.right'),
+  };
+  const DIR_BTN = { up: BTN.UP, down: BTN.DOWN, left: BTN.LEFT, right: BTN.RIGHT };
+
+  let active = null;      // 今押していることになっている方向
+  let pointerId = null;
+
+  const dirAt = (e) => {
+    const r = pad.getBoundingClientRect();
+    const dx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
+    const dy = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
+    if (Math.abs(dx) < DPAD_DEADZONE && Math.abs(dy) < DPAD_DEADZONE) return null;
+    if (Math.abs(dx) > Math.abs(dy)) return dx > 0 ? 'right' : 'left';
+    return dy > 0 ? 'down' : 'up';
+  };
+
+  const setDir = (dir) => {
+    if (dir === active) return;
+    if (active) {
+      queuedUp.add(DIR_BTN[active]);
+      visuals[active]?.classList.remove('on');
+    }
+    active = dir;
+    if (active) {
+      queuedDown.add(DIR_BTN[active]);
+      visuals[active]?.classList.add('on');
+    }
+  };
+
+  pad.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    pointerId = e.pointerId;
+    pad.setPointerCapture?.(e.pointerId);
+    setDir(dirAt(e));
+  });
+
+  pad.addEventListener('pointermove', (e) => {
+    if (e.pointerId !== pointerId) return;
+    e.preventDefault();
+    setDir(dirAt(e));
+  });
+
+  const end = (e) => {
+    if (e.pointerId !== pointerId) return;
+    e.preventDefault();
+    pointerId = null;
+    setDir(null);
+  };
+  pad.addEventListener('pointerup', end);
+  pad.addEventListener('pointercancel', end);
 }

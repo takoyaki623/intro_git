@@ -1,0 +1,19 @@
+{
+  "name": "ポケットモンスター ― ドットのぼうけん",
+  "short_name": "ドットのぼうけん",
+  "description": "ブラウザで動く、ポケモン風のドット絵RPG。",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#101018",
+  "theme_color": "#101018",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
