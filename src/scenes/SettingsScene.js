@@ -31,16 +31,28 @@ export class SettingsScene {
         hint: 'メッセージが 1文字ずつ でる はやさ。',
       },
       {
-        label: 'おと',
+        label: 'こうかおん',
         get: () => (settings.sound ? 'オン' : 'オフ'),
         cycle: () => set('sound', !settings.sound),
-        hint: 'こうかおんを ならすか どうか。',
+        hint: 'こうげきや メニューの おとを ならすか どうか。',
       },
       {
         label: 'おんりょう',
         get: () => `${Math.round(settings.volume * 10)}`,
         cycle: (d) => set('volume', Math.max(0, Math.min(1, settings.volume + d * 0.1))),
-        hint: '０で むおん、１０で さいだい。',
+        hint: 'ぜんたいの おおきさ。０で むおん、１０で さいだい。',
+      },
+      {
+        label: 'ＢＧＭ',
+        get: () => (settings.music ? 'オン' : 'オフ'),
+        cycle: () => set('music', !settings.music),
+        hint: 'おんがくを ならすか どうか。',
+      },
+      {
+        label: 'ＢＧＭの おおきさ',
+        get: () => `${Math.round(settings.musicVolume * 10)}`,
+        cycle: (d) => set('musicVolume', Math.max(0, Math.min(1, settings.musicVolume + d * 0.1))),
+        hint: 'こうかおんとは べつに かえられます。',
       },
     ];
   }
@@ -71,11 +83,11 @@ export class SettingsScene {
 
     drawWindow(ctx, 4, 34, 248, 112);
     this.rows.forEach((r, i) => {
-      const y = 44 + i * 26;
+      const y = 42 + i * 21;
       const on = i === this.index;
       if (on) {
         ctx.fillStyle = '#e8e0c8';
-        ctx.fillRect(10, y - 4, 236, 22);
+        ctx.fillRect(10, y - 3, 236, 18);
       }
       drawText(ctx, r.label, 18, y, { color: COL.ink });
       const v = r.get();

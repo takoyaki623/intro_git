@@ -3,6 +3,7 @@ import * as Scenes from '../core/sceneStack.js';
 import * as Input from '../core/input.js';
 import { BTN } from '../core/input.js';
 import * as Storage from '../core/storage.js';
+import * as Music from '../core/music.js';
 import { drawText, drawTextCentered } from '../engine/font.js';
 import { drawWindow, COL, fillScreen } from '../engine/ui.js';
 import { Menu } from '../engine/menu.js';
@@ -23,6 +24,7 @@ export class TitleScene {
 
   enter() {
     Input.clearEdges();
+    Music.play('title');
     this.buildMenu();
   }
 

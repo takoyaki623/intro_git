@@ -34,6 +34,7 @@ import { TILE, TILE_SPR } from './src/data/tiles.js';
 import { MAPS, mapWidth, tileKeyAt } from './src/data/maps/index.js';
 import { CHARS } from './src/data/sprites/chars.js';
 import { TRAINERS, BADGES, prizeMoney } from './src/data/trainers.js';
+import { SONGS } from './src/core/music.js';
 import { SPR } from './src/data/sprites/monsters.js';
 import { mulberry32 } from './src/core/rng.js';
 import {
@@ -377,6 +378,31 @@ for (const [id, m] of Object.entries(MAPS)) {
   const dup = flags.filter((f, i) => flags.indexOf(f) !== i);
   check('落ちもののフラグが重複していない', dup.length === 0, dup.join('・'));
   check('落ちものにフラグが付いている', flags.every(Boolean));
+}
+
+// ---------------------------------------------------------------- BGM
+section('データ整合性 ― BGM');
+{
+  // 音名のタイポは鳴らしてみるまで気づけない。ここで全部の音符を読んでおく。
+  const NOTE = /^([a-g])(#|b)?(-?\d)$/;
+  for (const [name, song] of Object.entries(SONGS)) {
+    check(`${name} の bpm`, song.bpm > 0 && song.bpm < 400, String(song.bpm));
+    check(`${name} の step`, song.step > 0 && song.step <= 4);
+    for (const part of ['lead', 'harm', 'bass']) {
+      const bad = (song[part] ?? []).filter((t) => t !== '-' && t !== '~' && !NOTE.test(t));
+      check(`${name}/${part} の音名`, bad.length === 0, bad.join(' '));
+      const oct = (song[part] ?? []).filter((t) => NOTE.test(t))
+        .map((t) => Number(NOTE.exec(t)[3])).filter((o) => o < 1 || o > 7);
+      check(`${name}/${part} のオクターブ`, oct.length === 0, oct.join(' '));
+    }
+    const badDrum = (song.drum ?? []).filter((t) => !'xoh-~'.includes(t) || t.length !== 1);
+    check(`${name}/drum の記号`, badDrum.length === 0, badDrum.join(' '));
+    const parts = ['lead', 'harm', 'bass', 'drum'].filter((k) => song[k]?.length);
+    check(`${name} にパートがある`, parts.length > 0);
+  }
+  for (const [id, m] of Object.entries(MAPS)) {
+    check(`${id} の bgm ${m.bgm} が実在`, !!SONGS[m.bgm], m.bgm ?? '未設定');
+  }
 }
 
 // ---------------------------------------------------------------- 地形ギミック

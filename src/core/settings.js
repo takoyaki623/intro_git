@@ -5,6 +5,7 @@
 
 import * as Storage from './storage.js';
 import * as Audio from './audio.js';
+import * as Music from './music.js';
 
 /** 文字送りの速さ。数字は「1文字あたり何フレームか」。 */
 export const TEXT_SPEEDS = [
@@ -13,7 +14,7 @@ export const TEXT_SPEEDS = [
   { id: 'slow', label: 'ゆっくり', frames: 4 },
 ];
 
-const DEFAULTS = { textSpeed: 'normal', sound: true, volume: 0.4 };
+const DEFAULTS = { textSpeed: 'normal', sound: true, volume: 0.4, music: true, musicVolume: 0.5 };
 
 export const settings = { ...DEFAULTS };
 
@@ -24,6 +25,8 @@ export const textFrames = () =>
 export function apply() {
   Audio.setEnabled(settings.sound);
   Audio.setVolume(settings.volume);
+  Audio.setMusicVolume(settings.musicVolume);
+  Music.setMuted(!settings.music);
 }
 
 export function load() {

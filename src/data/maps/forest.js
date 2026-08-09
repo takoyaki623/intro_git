@@ -26,6 +26,7 @@ export default {
     'T,,,,,,,,..,,,,,,,,T',
     'TTTTTTTT..TTTTTTTTTT',
   ],
+  bgm: 'route',
   encounters: {
     rate: 10,
     table: [

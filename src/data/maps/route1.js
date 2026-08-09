@@ -29,6 +29,7 @@ export default {
     'TTTTTTTT..TTTTTTTTTT',
     'TTTTTTTT..TTTTTTTTTT',
   ],
+  bgm: 'route',
   // rate = 草むら1歩あたりの遭遇率(%)
   encounters: {
     rate: 8,

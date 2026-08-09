@@ -4,6 +4,7 @@ import * as Input from '../core/input.js';
 import { BTN } from '../core/input.js';
 import { rng } from '../core/rng.js';
 import { SE } from '../core/audio.js';
+import * as Music from '../core/music.js';
 import { draw as drawSprite } from '../engine/pixelArt.js';
 import { drawText, drawTextRight, drawTextCentered } from '../engine/font.js';
 import {
@@ -74,6 +75,7 @@ export class BattleScene {
 
   enter() {
     Input.clearEdges();
+    Music.play(this.ctx.trainer ? 'trainer' : 'battle');
     this.gen = this.ctx.trainer ? trainerBattle(this.ctx) : wildBattle(this.ctx);
     this.advance();
   }

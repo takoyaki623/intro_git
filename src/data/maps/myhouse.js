@@ -14,6 +14,7 @@ export default {
     'WffffffffW',
     'WWWWMMWWWW',
   ],
+  bgm: 'town',
   encounters: null,
   warps: [
     { x: 4, y: 7, to: 'hajimari', tx: 5, ty: 5, dir: 'down' },

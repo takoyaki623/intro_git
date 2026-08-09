@@ -16,6 +16,7 @@ export default {
     'WffffffffffffW',
     'WWWWWWMMWWWWWW',
   ],
+  bgm: 'center',
   encounters: null,
   warps: [
     { x: 6, y: 9, to: 'hajimari', tx: 5, ty: 12, dir: 'down' },

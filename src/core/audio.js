@@ -5,6 +5,8 @@
 
 let ctx = null;
 let master = null;
+let seBus = null;      // 効果音
+let musicBus = null;   // BGM。効果音と別に音量を持つ
 let enabled = true;
 
 function ensure() {
@@ -16,10 +18,28 @@ function ensure() {
     master = ctx.createGain();
     master.gain.value = 0.16;
     master.connect(ctx.destination);
+
+    // BGM は効果音より控えめにしておかないと、メッセージ音が埋もれる
+    seBus = ctx.createGain();
+    seBus.gain.value = 1;
+    seBus.connect(master);
+    musicBus = ctx.createGain();
+    musicBus.gain.value = 0.55;
+    musicBus.connect(master);
   } catch {
     enabled = false;
   }
   return ctx;
+}
+
+/** BGM 側から使う。まだ音を出していなければ null。 */
+export function audioBus() {
+  const c = ensure();
+  return c ? { ctx: c, out: musicBus } : null;
+}
+export function setMusicVolume(v) {
+  ensure();
+  if (musicBus) musicBus.gain.value = Math.max(0, Math.min(1, v)) * 0.9;
 }
 
 /** 最初のユーザー操作で呼ぶ。ブラウザの自動再生制限を外す。 */
@@ -59,7 +79,7 @@ export function tone(freq, dur = 0.08, opt = {}) {
   g.gain.linearRampToValueAtTime(gain, t0 + 0.005);
   g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
 
-  osc.connect(g).connect(master);
+  osc.connect(g).connect(seBus);
   osc.start(t0);
   osc.stop(t0 + dur + 0.02);
 }
@@ -89,7 +109,7 @@ export function noise(dur = 0.08, opt = {}) {
   g.gain.setValueAtTime(gain, t0);
   g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
 
-  src.connect(filt).connect(g).connect(master);
+  src.connect(filt).connect(g).connect(seBus);
   src.start(t0);
 }
 

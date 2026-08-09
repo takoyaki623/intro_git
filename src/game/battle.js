@@ -19,6 +19,7 @@ import {
   learnMove, replaceMove, knowsMove, evolutionTarget, evolve, resetBattleState, MAX_MOVES,
 } from './monster.js';
 import { chooseAction } from './ai.js';
+import * as Music from '../core/music.js';
 import { MAX_LEVEL } from '../data/growth.js';
 import { getSpecies } from '../data/species.js';
 import {
@@ -81,6 +82,7 @@ export function* trainerBattle(ctx) {
   if (ctx.over !== 'win') return { result: 'lose' };
 
   setFlag(trainerFlag(ctx.trainerId));
+  Music.play('victory');
   for (const line of t.defeat ?? []) yield msg(line);
 
   const prize = prizeMoney(t);

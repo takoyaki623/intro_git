@@ -25,6 +25,7 @@ export default {
     'TTTTTTTTTTTTTTTTTTTT',
     'TTTTTTTTTTTTTTTTTTTT',
   ],
+  bgm: 'town',
   encounters: null,
   warps: [
     { x: 9, y: 0, to: 'route1', tx: 8, ty: 20, dir: 'up' },

@@ -4,6 +4,7 @@ import * as Input from '../core/input.js';
 import { BTN } from '../core/input.js';
 import { rng } from '../core/rng.js';
 import { SE } from '../core/audio.js';
+import * as Music from '../core/music.js';
 import { draw as drawSprite } from '../engine/pixelArt.js';
 import { drawText } from '../engine/font.js';
 import { drawWindow, COL } from '../engine/ui.js';
@@ -43,6 +44,12 @@ export class FieldScene {
   enter() {
     this.updateCamera();
     this.banner = 110;
+    this.playMapMusic();
+  }
+
+  /** マップごとの曲。同じ曲なら鳴らし直さないので、屋内へ入っても途切れない。 */
+  playMapMusic() {
+    Music.play(world.map?.bgm ?? 'town');
   }
 
   resume() {
@@ -50,6 +57,7 @@ export class FieldScene {
     this.approach = null;
     world.frozen = false;
     Input.clearEdges();
+    this.playMapMusic();
     // バトルで全滅していたらポケモンセンターへ強制送還
     if (state.party.length && state.party.every((m) => m.curHP <= 0)) {
       this.whiteOut();
@@ -61,6 +69,7 @@ export class FieldScene {
     World.loadMap('center', 6, 6, 'down');
     this.updateCamera();
     this.banner = 110;
+    this.playMapMusic();
     this.openDialog([
       'めのまえが まっくらに なった…',
       'ポケモンセンターに はこばれた。',
@@ -177,6 +186,7 @@ export class FieldScene {
         World.loadMap(warp.to, warp.tx, warp.ty, warp.dir ?? 'down');
         this.updateCamera();
         this.banner = 110;
+        this.playMapMusic();
       },
       onDone: () => { this.busy = false; },
     }));
