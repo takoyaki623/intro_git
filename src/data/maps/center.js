@@ -47,6 +47,49 @@ export default {
         'てもちが ６ひき いっぱいでも つかまえられるってわけ。',
       ],
     },
+    // 交換の3人。えらばなかった御三家は、ここでしか手に入らない。
+    {
+      id: 'tradeA', x: 2, y: 4, sprite: 'girl', dir: 'down',
+      lines: [
+        {
+          if: 'trade_fushigidane',
+          then: ['フシギダネを だいじに してね！'],
+          else: [
+            'わたし ポッポが ほしいの。',
+            'かわりに フシギダネを あげる。どう？',
+            { trade: { want: 10, give: 1, lv: 8, flag: 'trade_fushigidane' } },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'tradeB', x: 2, y: 7, sprite: 'youngster', dir: 'down',
+      lines: [
+        {
+          if: 'trade_hitokage',
+          then: ['ヒトカゲは ほのおが つよいぞ！'],
+          else: [
+            'コラッタと ヒトカゲを こうかんしない？',
+            'ぼく コラッタが すきなんだ。',
+            { trade: { want: 12, give: 4, lv: 8, flag: 'trade_hitokage' } },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'tradeC', x: 11, y: 4, sprite: 'lass', dir: 'left',
+      lines: [
+        {
+          if: 'trade_zenigame',
+          then: ['ゼニガメは そだてると たのもしいわよ。'],
+          else: [
+            'キャタピーを もってない？',
+            'ゼニガメと こうかんして あげる！',
+            { trade: { want: 14, give: 7, lv: 8, flag: 'trade_zenigame' } },
+          ],
+        },
+      ],
+    },
   ],
   signs: [],
 };

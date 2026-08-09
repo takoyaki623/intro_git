@@ -351,6 +351,17 @@ for (const [id, m] of Object.entries(MAPS)) {
         check(`${id} の ${where} が売る ${name} に ねだん`, ITEMS[name]?.price > 0);
       }
       if (l.give) check(`${id} の ${where} がくれる ${l.give} が実在`, !!ITEMS[l.give], l.give);
+      if (l.trade) {
+        check(`${id} の ${where} がほしがる ${l.trade.want} が実在`, !!SPECIES[l.trade.want], String(l.trade.want));
+        check(`${id} の ${where} がくれる ${l.trade.give} が実在`, !!SPECIES[l.trade.give], String(l.trade.give));
+        // 出す側が野生で取れないと、交換そのものが成立しない
+        const wildOk = Object.values(MAPS).some((mm) =>
+          (mm.encounters?.table ?? []).some((e) => e.id === l.trade.want)
+          || (mm.water?.surf?.table ?? []).some((e) => e.id === l.trade.want)
+          || Object.values(mm.water?.fish ?? {}).some((sp) => sp.table.some((e) => e.id === l.trade.want)));
+        check(`${id} の ${where} がほしがる相手が野生にいる`, wildOk, String(l.trade.want));
+        check(`${id} の ${where} の交換にフラグがある`, !!l.trade.flag);
+      }
       for (const k of ['then', 'else', 'yes', 'no']) if (l[k]) walkLines(l[k], where);
     }
   };

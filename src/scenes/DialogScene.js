@@ -5,7 +5,8 @@ import { TextBox } from '../engine/textbox.js';
 import { Menu } from '../engine/menu.js';
 import { drawWindow } from '../engine/ui.js';
 import { state, getFlag, setFlag, addItem, healParty, addMonster, registerCaught } from '../game/state.js';
-import { createMonster } from '../game/monster.js';
+import { createMonster, displayName } from '../game/monster.js';
+import { getSpecies } from '../data/species.js';
 import { rng } from '../core/rng.js';
 import { SE } from '../core/audio.js';
 
@@ -20,6 +21,7 @@ import { SE } from '../core/audio.js';
  *   { flag:'gotStarter' }
  *   { chooseStarter:[1,4,7] }
  *   { shop:['モンスターボール','きずぐすり'] }
+ *   { trade:{ want:10, give:1, lv:8, nick:null, flag:'trade_bulba' } }
  *
  * パーサを書かずに済むよう、素の JS の値をそのまま解釈する。
  */
@@ -97,6 +99,10 @@ export class DialogScene {
         this.openShop(cmd.shop);
         return;
       }
+      if (cmd.trade) {
+        this.startTrade(cmd.trade);
+        return;
+      }
       // 地形がらみは FieldScene が持っている。会話を閉じてから実行する。
       if (cmd.surf) {
         this.pendingField = () => this.field?.doSurf();
@@ -138,9 +144,60 @@ export class DialogScene {
     Scenes.push(new ShopScene({ stock }));
   }
 
+  /**
+   * ポケモン交換。want の種族を1匹わたすと give の種族が来る。
+   * 一度きり（flag）。交換で来た子は、こちらの手持ちの空いた場所に入る。
+   */
+  async startTrade(t) {
+    const want = getSpecies(t.want);
+    const give = getSpecies(t.give);
+    if (!want || !give) { this.next(); return; }
+
+    if (!state.party.some((m) => m.species.id === t.want)) {
+      this.queue.unshift(`${want.name}を つれてきたら こえを かけてくれ！`);
+      this.next();
+      return;
+    }
+
+    const { PartyScene } = await import('./PartyScene.js');
+    this.pendingTrade = t;
+    Scenes.push(new PartyScene({
+      mode: 'pick',
+      accept: (m) => m.species.id === t.want,
+      reject: `それは ${want.name}じゃないよ。`,
+    }));
+  }
+
+  /** 手持ち画面から戻ってきて、実際に入れ替える */
+  finishTrade(index) {
+    const t = this.pendingTrade;
+    this.pendingTrade = null;
+    if (index === null || index === undefined) {
+      this.queue.unshift('また きてくれ！');
+      return;
+    }
+
+    const sent = state.party[index];
+    const got = createMonster(t.give, t.lv ?? sent.level, {
+      rng,
+      nick: t.nick ?? null,
+      metMap: state.player.pos.map,
+    });
+    state.party[index] = got;
+    registerCaught(t.give);
+    if (t.flag) setFlag(t.flag);
+    SE.caught();
+
+    this.queue.unshift(
+      `${displayName(sent)}と ${got.species.name}を こうかんした！`,
+      'たいせつに してあげてね！',
+    );
+  }
+
   /** サブシーンから戻ってきた */
-  resume() {
+  resume(result) {
     Input.clearEdges();
+    if (this.pendingTrade) this.finishTrade(result);
     this.next();
   }
 

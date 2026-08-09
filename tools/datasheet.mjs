@@ -34,11 +34,30 @@ for (const s of speciesList) for (const e of s.learnset) learnedSomewhere.add(e.
 const wildIn = {};            // 種族id -> 出現マップ名[]
 for (const m of Object.values(MAPS)) {
   for (const e of m.encounters?.table ?? []) (wildIn[e.id] ??= new Set()).add(m.name);
+  // 水の中も「野生で出る」うち。ここを見落とすと、つりでしか出ない種が
+  // 「入手不可」に見えてしまう。
+  for (const e of m.water?.surf?.table ?? []) (wildIn[e.id] ??= new Set()).add(`${m.name}（なみのり）`);
+  for (const spot of Object.values(m.water?.fish ?? {})) {
+    for (const e of spot.table) (wildIn[e.id] ??= new Set()).add(`${m.name}（つり）`);
+  }
 }
 const evolvesFrom = {};       // 種族id -> 進化元の種族
 for (const s of speciesList) if (s.evolution) evolvesFrom[s.evolution.to] = s;
 
 const STARTERS = [1, 4, 7];
+
+/** 交換でもらえる種族 -> どこの誰か。会話データから拾う。 */
+const TRADE_SOURCE = {};
+for (const m of Object.values(MAPS)) {
+  const walk = (lines) => {
+    for (const l of lines ?? []) {
+      if (typeof l !== 'object' || !l) continue;
+      if (l.trade) (TRADE_SOURCE[l.trade.give] ??= []).push({ map: m.name, want: l.trade.want });
+      for (const k of ['then', 'else', 'yes', 'no']) if (l[k]) walk(l[k]);
+    }
+  };
+  for (const n of m.npcs ?? []) walk(n.lines);
+}
 
 /**
  * 実際に手に入る道具を、マップと会話データから拾い集める。
@@ -76,6 +95,9 @@ function obtainRoutes(s) {
   const ways = [];
   if (STARTERS.includes(s.id)) ways.push({ kind: 'starter', text: '最初の1匹（3択）' });
   if (wildIn[s.id]) ways.push({ kind: 'wild', text: '野生 ' + [...wildIn[s.id]].join('・') });
+  for (const t of TRADE_SOURCE[s.id] ?? []) {
+    ways.push({ kind: 'evo', text: `${t.map}で ${SPECIES[t.want].name}と交換` });
+  }
   const from = evolvesFrom[s.id];
   if (from) {
     const needsStone = from.evolution.method === 'stone';
@@ -89,21 +111,30 @@ function obtainRoutes(s) {
   return ways;
 }
 
-/** 通常プレイで到達できるか（御三家は1体しか選べない点も考慮） */
+/**
+ * 通常プレイで到達できるか。
+ * 'yes' 必ず取れる ／ 'choice' 御三家の選択しだい ／ 'blocked' 手段が塞がっている。
+ * 交換で手に入るものは、交換に出す側が野生で取れるかぎり 'yes' あつかい。
+ */
+const rootObtainable = (id) => !!wildIn[id] || !!TRADE_SOURCE[id];
+
 function reachable(s) {
   const ways = obtainRoutes(s);
   if (!ways.length) return 'none';
   if (ways.every((w) => w.kind === 'blocked')) return 'blocked';
   if (ways.some((w) => w.kind === 'wild')) return 'yes';
+  if (rootObtainable(s.id)) return 'yes';
   if (ways.some((w) => w.kind === 'starter')) return 'choice';
+
   // 進化のみ：たどっていって根が取れるか
   let cur = s;
   while (evolvesFrom[cur.id]) {
     const from = evolvesFrom[cur.id];
     if (from.evolution.method === 'stone' && !OBTAINABLE_ITEMS.has(from.evolution.item)) return 'blocked';
     cur = from;
+    if (rootObtainable(cur.id)) return 'yes';
   }
-  return STARTERS.includes(cur.id) ? 'choice' : (wildIn[cur.id] ? 'yes' : 'none');
+  return STARTERS.includes(cur.id) ? 'choice' : 'none';
 }
 
 // ---- 部品 ----

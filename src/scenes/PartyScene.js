@@ -21,12 +21,15 @@ const H = Screen.H;
  *   'switch'      … バトル中の交代（キャンセル可）
  *   'forceSwitch' … ひんし後の交代（キャンセル不可）
  *   'item'        … どうぐの使用対象を選ぶ
+ *   'pick'        … 1匹えらんで index を返すだけ（交換・そだてや など）
  */
 export class PartyScene {
-  constructor({ mode = 'view', exclude = null, item = null } = {}) {
+  constructor({ mode = 'view', exclude = null, item = null, accept = null, reject = '' } = {}) {
     this.mode = mode;
     this.exclude = exclude;
     this.item = item;
+    this.accept = accept;      // (mon) => boolean。えらべる相手を絞るとき
+    this.reject = reject;      // 絞りに外れたときのセリフ
     this.index = 0;
     this.sub = null;         // 'action' | 'swap'
     this.actionMenu = null;
@@ -86,6 +89,12 @@ export class PartyScene {
 
     if (this.mode === 'item') {
       this.useItem(mon);
+      return;
+    }
+
+    if (this.mode === 'pick') {
+      if (this.accept && !this.accept(mon)) { this.say(this.reject || 'それは えらべない。'); return; }
+      this.close(this.index);
       return;
     }
 
