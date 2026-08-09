@@ -41,17 +41,19 @@ python3 -m http.server 8000
 縦持ち・横持ちのどちらでも遊べます。縦持ちだと画面幅いっぱいにゲームが広がり、
 下半分が操作パッドになります。横持ちなら左右の余白にパッドが出ます。
 
-### GitHub Pages で公開して、スマホから開く
+### GitHub Pages で公開して、スマホとPCの両方から開く
 
-`.github/workflows/pages.yml` が入っているので、push すると自動で公開されます
-（Pages 自体もこのワークフローが有効化するため、Settings を手で触る必要はありません）。
+このリポジトリは公開設定なので、GitHub Pages が無料で使えます。
+**最初の1回だけ**設定が必要です（GitHub は Pages の有効化を自動化させてくれません。
+ワークフローのトークンには Pages を新規作成する権限が与えられていないためです）。
 
-1. GitHub のリポジトリ → **Actions** タブで `Deploy to GitHub Pages` の完了を待つ（1〜2分）
-2. `https://takoyaki623.github.io/intro_git/` が開けるようになります
-3. スマホでもPCでも、同じ URL をブラウザで開くだけ
+1. リポジトリ → **Settings** → 左メニューの **Pages**
+2. **Source** で `Deploy from a branch` を選ぶ
+3. **Branch** を `claude/pokemon-style-game-s4v9rf`、フォルダを `/ (root)` にして **Save**
+4. 1〜2分待つと **`https://takoyaki623.github.io/intro_git/`** が開けるようになります
 
-うまく動かない場合は **Settings → Actions → General** で
-`Workflow permissions` が `Read and write permissions` になっているか確認してください。
+以降は push するたび自動で更新されます。スマホでもPCでも同じ URL を開くだけです。
+（`.nojekyll` を置いてあるので、`src/` 以下もそのまま配信されます）
 
 **ホーム画面に追加**すると、アドレスバーの無い全画面で起動します
 （iOS: 共有 → ホーム画面に追加 ／ Android: メニュー → ホーム画面に追加）。
