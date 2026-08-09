@@ -209,16 +209,17 @@ export class PartyScene {
 
   /**
    * 先頭は左に大きく、それ以外は右に並べる（本家のレイアウト）。
+   * カーソルは枠の外側に出すので、枠は画面端から 10px 空けてある。
    */
   renderSlot(ctx, mon, i) {
     const sel = i === this.index;
     const swapping = this.swapFrom === i;
     const first = i === 0;
 
-    const x = first ? 4 : 84;
-    const y = first ? 20 : 8 + (i - 1) * 32;
-    const w = first ? 76 : 164;
-    const h = first ? 74 : 30;
+    const x = first ? 10 : 88;
+    const y = first ? 14 : 8 + (i - 1) * 32;
+    const w = first ? 72 : 160;
+    const h = first ? 96 : 30;
 
     drawWindow(ctx, x, y, w, h, {
       fill: swapping ? '#f8e8a0' : COL.paper,
@@ -226,20 +227,22 @@ export class PartyScene {
     });
 
     if (first) {
-      drawSprite(ctx, mon.species.sprite, x + 14, y + 4, { scale: 2 });
-      drawText(ctx, displayName(mon), x + 6, y + 52, { color: COL.ink });
-      drawText(ctx, `Lv${mon.level}`, x + 6, y + 62, { color: COL.ink });
-      drawBar(ctx, x + 34, y + 66, 34, mon.curHP / mon.stats.hp, hpColor(mon.curHP, mon.stats.hp));
+      drawSprite(ctx, mon.species.sprite, x + 12, y + 4, { scale: 2 });
+      drawText(ctx, displayName(mon), x + 6, y + 56, { color: COL.ink });
+      drawText(ctx, `Lv${mon.level}`, x + 6, y + 70, { color: COL.ink });
+      drawTextRight(ctx, `${mon.curHP}/${mon.stats.hp}`, x + 66, y + 70, { color: COL.ink });
+      drawBar(ctx, x + 8, y + 86, 56, mon.curHP / mon.stats.hp, hpColor(mon.curHP, mon.stats.hp));
+      if (mon.curHP <= 0) drawText(ctx, 'ひんし', x + 40, y + 56, { color: COL.select });
     } else {
       drawSprite(ctx, mon.species.sprite, x + 2, y + 3, { scale: 1 });
       drawText(ctx, displayName(mon), x + 28, y + 4, { color: COL.ink });
       drawText(ctx, `Lv${mon.level}`, x + 28, y + 17, { color: COL.ink });
-      drawBar(ctx, x + 66, y + 21, 52, mon.curHP / mon.stats.hp, hpColor(mon.curHP, mon.stats.hp));
-      drawTextRight(ctx, `${mon.curHP}/${mon.stats.hp}`, x + 158, y + 4, { color: COL.ink });
-      if (mon.status) drawText(ctx, mon.status, x + 122, y + 17, { color: COL.select });
-      if (mon.curHP <= 0) drawText(ctx, 'ひんし', x + 122, y + 17, { color: COL.select });
+      drawBar(ctx, x + 62, y + 21, 50, mon.curHP / mon.stats.hp, hpColor(mon.curHP, mon.stats.hp));
+      drawTextRight(ctx, `${mon.curHP}/${mon.stats.hp}`, x + 154, y + 4, { color: COL.ink });
+      const tag = mon.curHP <= 0 ? 'ひんし' : mon.status;
+      if (tag) drawText(ctx, tag, x + 118, y + 17, { color: COL.select });
     }
 
-    if (sel) drawCursor(ctx, x - 6, y + (first ? 30 : 10), COL.select);
+    if (sel) drawCursor(ctx, x - 7, y + (first ? 42 : 10), COL.select);
   }
 }

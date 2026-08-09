@@ -7,6 +7,7 @@ import { drawWindow } from '../engine/ui.js';
 import { state, getFlag, setFlag, addItem, healParty, addMonster, registerCaught } from '../game/state.js';
 import { createMonster } from '../game/monster.js';
 import { rng } from '../core/rng.js';
+import { SE } from '../core/audio.js';
 
 /**
  * 会話。lines は文字列かコマンドオブジェクトの配列。
@@ -70,6 +71,7 @@ export class DialogScene {
       }
       if (cmd.heal) {
         healParty();
+        SE.heal();
         continue;
       }
       if (cmd.give) {

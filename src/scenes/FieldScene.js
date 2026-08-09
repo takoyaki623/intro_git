@@ -3,6 +3,7 @@ import * as Scenes from '../core/sceneStack.js';
 import * as Input from '../core/input.js';
 import { BTN } from '../core/input.js';
 import { rng } from '../core/rng.js';
+import { SE } from '../core/audio.js';
 import { draw as drawSprite } from '../engine/pixelArt.js';
 import { drawText } from '../engine/font.js';
 import { drawWindow, COL } from '../engine/ui.js';
@@ -27,7 +28,7 @@ export class FieldScene {
   }
 
   enter() {
-    this.updateCamera(true);
+    this.updateCamera();
     this.banner = 110;
   }
 
@@ -43,7 +44,7 @@ export class FieldScene {
   whiteOut() {
     healParty();
     World.loadMap('center', 6, 6, 'down');
-    this.updateCamera(true);
+    this.updateCamera();
     this.banner = 110;
     this.openDialog([
       'めのまえが まっくらに なった…',
@@ -102,7 +103,7 @@ export class FieldScene {
       kind: 'fade',
       onMid: () => {
         World.loadMap(warp.to, warp.tx, warp.ty, warp.dir ?? 'down');
-        this.updateCamera(true);
+        this.updateCamera();
         this.banner = 110;
       },
       onDone: () => { this.busy = false; },
@@ -145,6 +146,7 @@ export class FieldScene {
     }
     if (target.type === 'bed') {
       healParty();
+      SE.heal();
       this.openDialog(['ベッドで やすんだ…', 'ポケモンたちは げんきに なった！']);
     }
   }
@@ -174,20 +176,18 @@ export class FieldScene {
 
   // ---- カメラ ----
 
-  updateCamera(snap = false) {
+  /** カメラはプレイヤー中央。ただしマップの外は映さない。 */
+  updateCamera() {
     const p = world.player;
     const mw = World.width() * T;
     const mh = World.height() * T;
 
-    let cx = p.px + T / 2 - W / 2;
-    let cy = p.py + T / 2 - H / 2;
+    const cx = p.px + T / 2 - W / 2;
+    const cy = p.py + T / 2 - H / 2;
 
     // マップが画面より小さいときは中央寄せ
-    cx = mw <= W ? (mw - W) / 2 : Math.max(0, Math.min(mw - W, cx));
-    cy = mh <= H ? (mh - H) / 2 : Math.max(0, Math.min(mh - H, cy));
-
-    this.camX = snap ? cx : cx;
-    this.camY = snap ? cy : cy;
+    this.camX = mw <= W ? (mw - W) / 2 : Math.max(0, Math.min(mw - W, cx));
+    this.camY = mh <= H ? (mh - H) / 2 : Math.max(0, Math.min(mh - H, cy));
   }
 
   // ---- 描画 ----

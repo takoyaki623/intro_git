@@ -6,6 +6,7 @@
 
 import { drawText, wrapText, LINE_H } from './font.js';
 import { drawWindow, drawArrowDown, COL } from './ui.js';
+import { SE } from '../core/audio.js';
 
 const PAD_X = 8;
 const PAD_Y = 7;
@@ -74,6 +75,8 @@ export class TextBox {
       if (this.timer >= need) {
         this.timer = 0;
         this.shown++;
+        // 全文字で鳴らすとうるさいので間引く
+        if (this.shown % 3 === 0) SE.text();
       }
       return false;
     }

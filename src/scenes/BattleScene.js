@@ -3,6 +3,7 @@ import * as Scenes from '../core/sceneStack.js';
 import * as Input from '../core/input.js';
 import { BTN } from '../core/input.js';
 import { rng } from '../core/rng.js';
+import { SE } from '../core/audio.js';
 import { draw as drawSprite } from '../engine/pixelArt.js';
 import { drawText, drawTextRight, drawTextCentered } from '../engine/font.js';
 import {
@@ -209,6 +210,7 @@ export class BattleScene {
     if (kind === 'intro') {
       this.anim = { kind, t: 0, len: 26 };
       this.hidden.foe = false;
+      SE.encounter();
     } else if (kind === 'sendOut') {
       this.anim = { kind, t: 0, len: 22 };
       this.hidden.mine = false;
@@ -217,16 +219,24 @@ export class BattleScene {
       this.dispExp = expRatio(this.ctx.mine);
     } else if (kind === 'hit') {
       this.anim = { kind, t: 0, len: 24, onFoe: fx.onFoe };
+      SE.hit(fx.eff ?? 1);
     } else if (kind === 'faint') {
       this.anim = { kind, t: 0, len: 30, onFoe: fx.onFoe };
+      SE.faint();
     } else if (kind === 'ball') {
-      this.anim = { kind, t: 0, len: 40 + (fx.shakes ?? 0) * 34 + (fx.caught ? 30 : 0), shakes: fx.shakes, caught: fx.caught, phase: 'throw' };
+      this.anim = {
+        kind, t: 0, shakes: fx.shakes, caught: fx.caught, shakeIndex: -1,
+        len: 40 + (fx.shakes ?? 0) * 34 + (fx.caught ? 30 : 0),
+      };
       this.ball = { x: 40, y: 130, t: 0 };
+      SE.ballThrow();
     } else if (kind === 'levelUp') {
       this.anim = { kind, t: 0, len: 24 };
+      SE.levelUp();
     } else if (kind === 'evolve') {
       this.anim = { kind, t: 0, len: 190, from: fx.from, to: fx.to, cancelled: false };
       this.evolveState = { from: fx.from, to: fx.to };
+      SE.evolve();
     } else {
       this.anim = { kind, t: 0, len: 12 };
     }
@@ -310,13 +320,19 @@ export class BattleScene {
     const inShake = after % per;
 
     if (shakeIdx < a.shakes) {
-      // 700ms 待って、カタッと揺れる
-      this.ball.shake = inShake > 20 ? (inShake % 6 < 3 ? 3 : -3) : 0;
+      // しばらく待って、カタッと揺れる
+      if (inShake > 20) {
+        if (a.shakeIndex !== shakeIdx) { a.shakeIndex = shakeIdx; SE.ballShake(); }
+        this.ball.shake = inShake % 6 < 3 ? 3 : -3;
+      } else {
+        this.ball.shake = 0;
+      }
       return;
     }
 
     if (a.caught) {
       this.ball.shake = 0;
+      if (!a.caughtSe) { a.caughtSe = true; SE.caught(); }
       if (after >= a.shakes * per + 24) { this.ball = null; this.advance(); }
       return;
     }
@@ -344,6 +360,12 @@ export class BattleScene {
 
   update() {
     this.t++;
+
+    // HPが2割を切ったら警告音を鳴らし続ける
+    const mine = this.ctx.mine;
+    if (this.mode !== 'sub' && mine.curHP > 0 && mine.curHP / mine.stats.hp <= 0.2) {
+      if (this.t % 40 === 0) SE.lowHp();
+    }
 
     switch (this.mode) {
       case 'msg': {

@@ -186,7 +186,7 @@ function* executeAction(ctx, act) {
     if (isFainted(target)) break;
     const d = i === 0 ? dmg : damage(user, target, move, ctx.rng).dmg;
     total += damageMon(target, d);
-    yield anim('hit', { onFoe: isMine });
+    yield anim('hit', { onFoe: isMine, eff });
     yield { t: 'hpTween', onFoe: isMine };
   }
   if (hits > 1) yield msg(`${hits}かい あたった！`);

@@ -23,6 +23,7 @@ function installDebugHooks(field) {
   g.field = field;
   g.pos = () => ({ ...state.player.pos });
   g.sceneName = () => Scenes.top()?.constructor.name ?? null;
+  g.mode = () => Scenes.top()?.mode ?? null;
   g.forceEncounter = (id, lv = 5) => {
     field.startWildBattle({ speciesId: id, level: lv });
   };
@@ -31,7 +32,7 @@ function installDebugHooks(field) {
   };
   g.warpTo = (map, x, y, dir = 'down') => {
     loadMap(map, x, y, dir);
-    field.updateCamera(true);
+    field.updateCamera();
   };
 }
 

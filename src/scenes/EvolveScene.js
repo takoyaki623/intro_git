@@ -2,6 +2,7 @@ import * as Screen from '../core/screen.js';
 import * as Scenes from '../core/sceneStack.js';
 import * as Input from '../core/input.js';
 import { BTN } from '../core/input.js';
+import { SE } from '../core/audio.js';
 import { draw as drawSprite } from '../engine/pixelArt.js';
 import { drawTextCentered } from '../engine/font.js';
 import { fillScreen } from '../engine/ui.js';
@@ -44,6 +45,7 @@ export class EvolveScene {
         this.phase = 'anim';
         this.t = 0;
         this.box.setText('');
+        SE.evolve();
       }
       return;
     }

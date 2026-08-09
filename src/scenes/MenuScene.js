@@ -2,6 +2,7 @@ import * as Screen from '../core/screen.js';
 import * as Scenes from '../core/sceneStack.js';
 import * as Input from '../core/input.js';
 import { BTN } from '../core/input.js';
+import { SE } from '../core/audio.js';
 import { drawText } from '../engine/font.js';
 import { drawWindow, COL } from '../engine/ui.js';
 import { Menu } from '../engine/menu.js';
@@ -72,6 +73,7 @@ export class MenuScene {
 
   trySave() {
     const ok = save();
+    if (ok) SE.save();
     this.box = new TextBox();
     this.box.setText(ok
       ? `${state.player.name}は レポートを かきおわった！`

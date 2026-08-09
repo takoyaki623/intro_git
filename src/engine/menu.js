@@ -3,6 +3,7 @@
 
 import * as Input from '../core/input.js';
 import { BTN } from '../core/input.js';
+import { SE } from '../core/audio.js';
 import { drawText, LINE_H } from './font.js';
 import { drawCursor, COL } from './ui.js';
 
@@ -63,21 +64,26 @@ export class Menu {
    * 戻り値: { type:'select', index, item } / { type:'cancel' } / null
    */
   update() {
+    const before = this.index;
     if (Input.repeated(BTN.UP)) this.move(-this.cols);
     if (Input.repeated(BTN.DOWN)) this.move(this.cols);
     if (this.cols > 1) {
       if (Input.repeated(BTN.LEFT)) this.move(-1);
       if (Input.repeated(BTN.RIGHT)) this.move(1);
     }
+    if (this.index !== before) SE.cursor();
 
     if (Input.justPressed(BTN.A)) {
       const item = this.current;
       if (item && !item.disabled) {
+        SE.select();
         return { type: 'select', index: this.index, item };
       }
+      SE.cancel();
       return null;
     }
     if (Input.justPressed(BTN.B)) {
+      SE.cancel();
       return { type: 'cancel' };
     }
     return null;
