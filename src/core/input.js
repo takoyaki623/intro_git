@@ -1,5 +1,7 @@
-// キー入力。ゲーム側は物理キーではなく論理ボタン（A/B/UP…）だけを見る。
+// 入力。ゲーム側は物理キーやタッチではなく論理ボタン（A/B/UP…）だけを見る。
 // 押しっぱなし判定・押した瞬間判定・メニュー用のリピートを提供する。
+
+import * as Screen from './screen.js';
 
 export const BTN = {
   UP: 'UP', DOWN: 'DOWN', LEFT: 'LEFT', RIGHT: 'RIGHT',
@@ -34,6 +36,8 @@ export function init() {
     const b = MAP[e.code];
     if (!b) return;
     e.preventDefault();
+    // キーを叩いたということは、この人はいまキーボードで遊んでいる
+    Screen.setTouchMode(false);
     if (!e.repeat) queuedDown.add(b);
   });
 
@@ -48,6 +52,13 @@ export function init() {
   addEventListener('blur', () => {
     for (const b of held) queuedUp.add(b);
   });
+
+  // 画面を指で触ったらタッチ操作モードへ。
+  // タッチ対応のノートPCは pointer:coarse にならないので、これが無いと
+  // 指で触れるのにパッドが出てこない。
+  addEventListener('pointerdown', (e) => {
+    if (e.pointerType === 'touch' && Screen.hasTouch()) Screen.setTouchMode(true);
+  }, { capture: true });
 
   initTouch();
 }

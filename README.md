@@ -30,6 +30,10 @@ python3 -m http.server 8000
 | メニュー | C | ☰ ボタン |
 | ダッシュ | Shift + いどう | ― |
 
+操作パッドは**直前に何で操作したか**で出入りします。画面を指で触れば出てきて、
+キーを叩けば引っ込みます。タッチ対応のノートPCでも、スマホに外付けキーボードを
+繋いだ場合でも、そのとき使っているほうで遊べます。
+
 ---
 
 ## スマホで遊ぶ
@@ -39,13 +43,15 @@ python3 -m http.server 8000
 
 ### GitHub Pages で公開して、スマホから開く
 
-このリポジトリは公開設定なので、GitHub Pages が無料で使えます。
+`.github/workflows/pages.yml` が入っているので、push すると自動で公開されます
+（Pages 自体もこのワークフローが有効化するため、Settings を手で触る必要はありません）。
 
-1. GitHub のリポジトリ → **Settings** → 左メニューの **Pages**
-2. **Source** で `Deploy from a branch` を選ぶ
-3. **Branch** を `claude/pokemon-style-game-s4v9rf`、フォルダを `/ (root)` にして **Save**
-4. 1〜2分待つと `https://takoyaki623.github.io/intro_git/` で開けるようになります
-5. スマホのブラウザでその URL を開く
+1. GitHub のリポジトリ → **Actions** タブで `Deploy to GitHub Pages` の完了を待つ（1〜2分）
+2. `https://takoyaki623.github.io/intro_git/` が開けるようになります
+3. スマホでもPCでも、同じ URL をブラウザで開くだけ
+
+うまく動かない場合は **Settings → Actions → General** で
+`Workflow permissions` が `Read and write permissions` になっているか確認してください。
 
 **ホーム画面に追加**すると、アドレスバーの無い全画面で起動します
 （iOS: 共有 → ホーム画面に追加 ／ Android: メニュー → ホーム画面に追加）。
