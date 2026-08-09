@@ -21,7 +21,7 @@ export class DexScene {
     this.scroll = 0;
   }
 
-  enter() { Input.clearAll(); }
+  enter() { Input.clearEdges(); }
 
   get current() { return this.list[this.index]; }
   seen(sp) { return state.dex.seen.includes(sp.id); }

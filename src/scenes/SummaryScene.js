@@ -24,7 +24,7 @@ export class SummaryScene {
     this.page = 0;
   }
 
-  enter() { Input.clearAll(); }
+  enter() { Input.clearEdges(); }
 
   update() {
     if (Input.justPressed(BTN.B)) { Scenes.pop(); return; }

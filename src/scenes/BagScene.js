@@ -28,7 +28,7 @@ export class BagScene {
     this.buildMenu();
   }
 
-  enter() { Input.clearAll(); }
+  enter() { Input.clearEdges(); }
 
   buildMenu() {
     const entries = bagPocket(POCKETS[this.pocket]);
@@ -93,7 +93,7 @@ export class BagScene {
 
   /** PartyScene から戻ってきた */
   resume(result) {
-    Input.clearAll();
+    Input.clearEdges();
     const item = this.pendingItem;
     this.pendingItem = null;
     if (!result) return;

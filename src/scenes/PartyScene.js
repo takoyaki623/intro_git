@@ -35,7 +35,7 @@ export class PartyScene {
     this.t = 0;
   }
 
-  enter() { Input.clearAll(); }
+  enter() { Input.clearEdges(); }
 
   get party() { return state.party; }
   get current() { return this.party[this.index]; }

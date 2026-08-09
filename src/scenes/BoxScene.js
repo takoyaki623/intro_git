@@ -34,7 +34,7 @@ export class BoxScene {
     this.box = null;
   }
 
-  enter() { Input.clearAll(); }
+  enter() { Input.clearEdges(); }
   exit() { this.onClose?.(); }
 
   get currentBox() { return state.boxes[this.boxIndex]; }

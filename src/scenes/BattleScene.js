@@ -64,7 +64,7 @@ export class BattleScene {
   }
 
   enter() {
-    Input.clearAll();
+    Input.clearEdges();
     this.gen = wildBattle(this.ctx);
     this.advance();
   }
@@ -186,7 +186,7 @@ export class BattleScene {
 
   /** サブ画面から戻ってきた */
   resume(result) {
-    Input.clearAll();
+    Input.clearEdges();
     const fx = this.pending;
 
     if (fx?.t === 'party' || fx?.t === 'forceSwitch') {

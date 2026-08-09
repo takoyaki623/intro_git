@@ -21,7 +21,7 @@ export class StarterScene {
     this.confirm = false;
   }
 
-  enter() { Input.clearAll(); }
+  enter() { Input.clearEdges(); }
 
   get species() { return getSpecies(this.ids[this.index]); }
 

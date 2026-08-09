@@ -34,7 +34,7 @@ export class FieldScene {
 
   resume() {
     this.busy = false;
-    Input.clearAll();
+    Input.clearEdges();
     // バトルで全滅していたらポケモンセンターへ強制送還
     if (state.party.length && state.party.every((m) => m.curHP <= 0)) {
       this.whiteOut();

@@ -30,7 +30,7 @@ export class MenuScene {
     );
   }
 
-  enter() { Input.clearAll(); }
+  enter() { Input.clearEdges(); }
   exit() { this.onClose?.(); }
 
   update() {
@@ -81,7 +81,7 @@ export class MenuScene {
     this.closeAfterBox = ok;
   }
 
-  resume() { Input.clearAll(); }
+  resume() { Input.clearEdges(); }
 
   render(ctx) {
     // 右上に小さく情報、右にメニュー

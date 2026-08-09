@@ -16,8 +16,8 @@ export default {
     'T,,S,,,,,..,,,,,S,,T',
     'T,,,,,,,,..,,,,,,,,T',
     'T,,,,,,,,..,,,,,,,,T',
-    'T,,RRRRRRRRRRRR,,,,T',
-    'T,,WWWWWDWWWWWW,,,,T',
+    'T,RRRRRRR,,,,,,,,,,T',
+    'T,WWWDWWW,,,,,,,,,,T',
     'T,,,,,,,,,,,,,,,,,,T',
     'T,,,,,,,,,,,,,,,,,,T',
     'T,,FF,,,,,,,,,,FF,,T',
@@ -30,7 +30,7 @@ export default {
     { x: 9, y: 0, to: 'route1', tx: 8, ty: 20, dir: 'up' },
     { x: 10, y: 0, to: 'route1', tx: 9, ty: 20, dir: 'up' },
     { x: 5, y: 4, to: 'myhouse', tx: 4, ty: 6, dir: 'up' },
-    { x: 8, y: 11, to: 'center', tx: 6, ty: 8, dir: 'up' },
+    { x: 5, y: 11, to: 'center', tx: 6, ty: 8, dir: 'up' },
   ],
   npcs: [
     {

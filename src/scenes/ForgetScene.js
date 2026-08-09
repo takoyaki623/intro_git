@@ -23,7 +23,7 @@ export class ForgetScene {
     this.menu = new Menu(items, { x: 14, y: 60, lineH: 17, colW: 220 });
   }
 
-  enter() { Input.clearAll(); }
+  enter() { Input.clearEdges(); }
 
   update() {
     const r = this.menu.update();

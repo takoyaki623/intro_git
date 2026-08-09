@@ -98,14 +98,25 @@ export function heldDir() {
   return null;
 }
 
-/** 入力状態を全部落とす。シーン切り替え直後の誤爆防止に使う。 */
-export function clearAll() {
-  held.clear();
+/**
+ * 「押した瞬間」だけを捨てる。シーン切り替え直後の誤爆防止に使う。
+ *
+ * 押しっぱなしの状態（held）は残す。ここで held まで消すと、
+ * 方向キーを押したままドアを通ったときに歩行が止まってしまう
+ * ―― キーは物理的に押されたままなので、次の keydown が飛んでこない。
+ */
+export function clearEdges() {
   pressed.clear();
   released.clear();
-  heldFrames.clear();
   queuedDown.clear();
   queuedUp.clear();
+}
+
+/** 入力状態を完全に落とす。ゲームを最初から始めるときなど。 */
+export function clearAll() {
+  clearEdges();
+  held.clear();
+  heldFrames.clear();
   for (const el of document.querySelectorAll('#touch button.on')) el.classList.remove('on');
 }
 

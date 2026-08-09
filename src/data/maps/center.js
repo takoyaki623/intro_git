@@ -18,8 +18,8 @@ export default {
   ],
   encounters: null,
   warps: [
-    { x: 6, y: 9, to: 'hajimari', tx: 8, ty: 12, dir: 'down' },
-    { x: 7, y: 9, to: 'hajimari', tx: 8, ty: 12, dir: 'down' },
+    { x: 6, y: 9, to: 'hajimari', tx: 5, ty: 12, dir: 'down' },
+    { x: 7, y: 9, to: 'hajimari', tx: 5, ty: 12, dir: 'down' },
   ],
   npcs: [
     {

@@ -34,7 +34,7 @@ export class EvolveScene {
   }
 
   enter() {
-    Input.clearAll();
+    Input.clearEdges();
     this.box.setText(`おや…？ ${this.beforeName}の ようすが…！`);
   }
 

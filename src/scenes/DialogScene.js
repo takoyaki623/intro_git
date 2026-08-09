@@ -34,7 +34,7 @@ export class DialogScene {
   }
 
   enter() {
-    Input.clearAll();
+    Input.clearEdges();
     this.next();
   }
 
@@ -116,7 +116,7 @@ export class DialogScene {
 
   /** サブシーンから戻ってきた */
   resume() {
-    Input.clearAll();
+    Input.clearEdges();
     this.next();
   }
 

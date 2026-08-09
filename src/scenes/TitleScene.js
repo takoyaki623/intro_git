@@ -22,7 +22,7 @@ export class TitleScene {
   }
 
   enter() {
-    Input.clearAll();
+    Input.clearEdges();
     this.buildMenu();
   }
 
