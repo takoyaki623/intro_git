@@ -1,7 +1,7 @@
 // 技データ。
 //
 // effect.kind のうち battle.js が解釈するのは
-//   status / stat / drain / recoil / flinch / multiHit / highCrit / heal
+//   status / stat / drain / recoil / flinch / confuse / multiHit / highCrit / heal
 // それ以外の kind は「効果なしの素の技」として素通りする。
 // データがエンジンより先行してもクラッシュしないようにするための約束。
 
@@ -126,6 +126,17 @@ export const MOVES = {
     desc: 'ねむりを さそう こなを まく。',
   },
 
+  'タネマシンガン': {
+    type: 'くさ', category: '物理', power: 25, accuracy: 100, pp: 30,
+    effect: { kind: 'multiHit' },
+    desc: 'かたい タネを 2〜5かい つづけて はっしゃする。',
+  },
+  'こうごうせい': {
+    type: 'くさ', category: '変化', power: 0, accuracy: null, pp: 5,
+    effect: { kind: 'heal', ratio: 0.5 },
+    desc: 'ひかりを あびて じぶんの たいりょくを はんぶん かいふくする。',
+  },
+
   // ---- こおり ----
   'こおりのつぶて': {
     type: 'こおり', category: '物理', power: 40, accuracy: 100, pp: 30, priority: 1,
@@ -174,10 +185,21 @@ export const MOVES = {
     desc: 'よわい ねんりきを おくる。とくこうを さげる ことが ある。',
   },
 
+  'あやしいひかり': {
+    type: 'ゴースト', category: '変化', power: 0, accuracy: 100, pp: 10,
+    effect: { kind: 'confuse', chance: 100 },
+    desc: 'あやしい ひかりを みせて あいてを こんらんさせる。',
+  },
+
   // ---- むし ----
   'むしくい': {
     type: 'むし', category: '物理', power: 60, accuracy: 100, pp: 20,
     desc: 'あいてに かみつく。',
+  },
+  'れんぞくぎり': {
+    type: 'むし', category: '物理', power: 30, accuracy: 95, pp: 20,
+    effect: { kind: 'multiHit' },
+    desc: 'かまや ツメで 2〜5かい つづけて きりつける。',
   },
 
   // ---- いわ ----

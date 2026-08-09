@@ -316,6 +316,18 @@ function* applyEffect(ctx, user, target, move, dealt) {
       break;
     }
 
+    case 'confuse': {
+      if (!ctx.rng.chance((e.chance ?? 100) / 100)) return;
+      const victim = e.target === 'self' ? user : target;
+      if (victim.volatile.confusion > 0) {
+        if (move.category === '変化') yield msg(`${foeLabel(victim)}は すでに こんらんしている！`);
+        return;
+      }
+      victim.volatile.confusion = ctx.rng.int(2, 5);
+      yield msg(`${foeLabel(victim)}は こんらんした！`);
+      break;
+    }
+
     case 'heal': {
       const amt = Math.max(1, Math.floor(user.stats.hp * (e.ratio ?? 0.5)));
       heal(user, amt);
