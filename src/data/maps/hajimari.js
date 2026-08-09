@@ -32,6 +32,7 @@ export default {
     { x: 5, y: 4, to: 'myhouse', tx: 4, ty: 6, dir: 'up' },
     { x: 5, y: 11, to: 'center', tx: 6, ty: 8, dir: 'up' },
     { x: 15, y: 11, to: 'mart', tx: 5, ty: 6, dir: 'up' },
+    { x: 16, y: 4, to: 'gym', tx: 5, ty: 9, dir: 'up' },
   ],
   npcs: [
     {
@@ -68,5 +69,6 @@ export default {
   signs: [
     { x: 3, y: 7, lines: ['はじまりのむら', 'ここから すべてが はじまる'] },
     { x: 16, y: 7, lines: ['↑ きた ： １ばんどうろ', 'ひだり ： ポケモンセンター', 'みぎ ： フレンドリィショップ'] },
+    { x: 12, y: 5, lines: ['ときわジム', 'ジムリーダー ： マチス', 'でんきタイプの つかいて'] },
   ],
 };

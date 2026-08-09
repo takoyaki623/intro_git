@@ -22,6 +22,7 @@ const { TYPES, CHART, TYPE_COLOR, effectiveness } = await import(join(ROOT, 'src
 const { MAPS, mapWidth } = await import(join(ROOT, 'src/data/maps/index.js'));
 const { TILE } = await import(join(ROOT, 'src/data/tiles.js'));
 const { EXP_TYPE_LABEL, CURVE } = await import(join(ROOT, 'src/data/growth.js'));
+const { TRAINERS, BADGES, prizeMoney } = await import(join(ROOT, 'src/data/trainers.js'));
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -277,7 +278,10 @@ const mapPanels = Object.values(MAPS).map((m) => {
           <dt>出口</dt><dd>${(m.warps ?? []).length
       ? [...new Set(m.warps.map((x) => MAPS[x.to].name))].map((n) => `<span class="route evo">${esc(n)}</span>`).join('')
       : 'なし'}</dd>
-          <dt>人</dt><dd>${(m.npcs ?? []).length}人 ・ 看板 ${(m.signs ?? []).length}</dd>
+          <dt>人</dt><dd>${(m.npcs ?? []).length}人（うち トレーナー ${(m.npcs ?? []).filter((n) => n.trainer).length}人） ・ 看板 ${(m.signs ?? []).length}</dd>
+          <dt>落ちもの</dt><dd>${(m.items ?? []).length
+      ? (m.items ?? []).map((it) => `<span class="route evo">${esc(it.item)}${it.n > 1 ? `×${it.n}` : ''}</span>`).join('')
+      : 'なし'}</dd>
         </dl>
       </div>
     </div>
@@ -306,6 +310,57 @@ const itemRows = POCKETS.map((p) => {
   </div>`;
 }).join('');
 
+// ---- トレーナー ----
+
+// どのマップに立っているか、視線が何マス届くかは、マップ側にしか書いていない
+const trainerPlace = {};
+for (const m of Object.values(MAPS)) {
+  for (const n of m.npcs ?? []) {
+    if (!n.trainer) continue;
+    trainerPlace[n.trainer] = {
+      map: m.name,
+      sight: n.sight ?? TRAINERS[n.trainer]?.sight ?? 0,
+      dir: { up: '↑', down: '↓', left: '←', right: '→' }[n.dir] ?? '',
+    };
+  }
+}
+
+const trainerCards = Object.entries(TRAINERS).map(([id, t]) => {
+  const place = trainerPlace[id];
+  const party = t.party.map((p) => {
+    const s = SPECIES[p.id];
+    return `<tr>
+      <td><canvas class="sprite sm" data-sprite="${p.id}" width="24" height="24"></canvas>${esc(s.name)}</td>
+      <td>${s.types.map(typeChip).join('')}</td>
+      <td class="num">Lv${p.lv}</td></tr>`;
+  }).join('');
+
+  return `<article class="card map">
+    <header class="map-head">
+      <h3>${esc(t.class)} ${esc(t.name)}${t.badge ? ' <span class="badge choice">ジムリーダー</span>' : ''}</h3>
+      <span class="size num">しょうきん ${prizeMoney(t)}</span>
+    </header>
+    <div class="map-body">
+      <div class="map-info" style="flex:1">
+        <table class="enc"><tbody>${party}</tbody></table>
+        <dl class="links">
+          <dt>いる場所</dt><dd>${place ? esc(place.map) : '<span class="route blocked">未配置</span>'}</dd>
+          <dt>視線</dt><dd>${place?.sight
+      ? `${place.dir} ${place.sight}マス`
+      : '<span class="hint">なし（話しかけると勝負）</span>'}</dd>
+          ${t.badge ? `<dt>バッジ</dt><dd><span class="route evo">${esc(BADGES.find((b) => b.id === t.badge)?.name ?? t.badge)}</span></dd>` : ''}
+        </dl>
+      </div>
+    </div>
+  </article>`;
+}).join('');
+
+const badgeRows = BADGES.map((b) => `<tr>
+  <td><span class="chip" style="background:${b.color};color:#202028">${esc(b.name)}</span></td>
+  <td>${esc(b.from)}</td>
+  <td class="eff">${esc(b.effect)}</td>
+</tr>`).join('');
+
 // ---- スプライトのピクセルデータを埋め込む ----
 const spriteData = Object.fromEntries(
   speciesList.map((s) => [s.id, { p: s.sprite.palette, x: s.sprite.pixels }]),
@@ -318,6 +373,7 @@ const counts = {
   items: Object.keys(ITEMS).length,
   maps: Object.keys(MAPS).length,
   types: TYPES.length,
+  trainers: Object.keys(TRAINERS).length,
   reachable: speciesList.filter((s) => ['yes', 'choice'].includes(reachable(s))).length,
   oneRun: Math.round(speciesList.filter((s) => reachable(s) === 'yes').length
     + speciesList.filter((s) => reachable(s) === 'choice').length / 3),
@@ -381,7 +437,11 @@ const gapCards = gaps.length
 
 const css = readFileSync(join(ROOT, 'tools/datasheet.css'), 'utf8');
 
-const html = `<style>
+// charset は先頭1024バイト以内にあればブラウザが拾う。
+// 記事として配信するときはラッパ側が head を用意するが、
+// dist/datasheet.html を直接開いたときに文字化けしないようにここでも宣言しておく。
+const html = `<meta charset="utf-8">
+<style>
 ${css}
 </style>
 
@@ -397,6 +457,7 @@ ${css}
     <li><b>${counts.items}</b><span>どうぐ</span></li>
     <li><b>${counts.maps}</b><span>マップ</span></li>
     <li><b>${counts.types}</b><span>タイプ</span></li>
+    <li><b>${counts.trainers}</b><span>トレーナー</span></li>
   </ul>
   <nav class="nav">
     <a href="#s-gap">いまの穴</a>
@@ -404,6 +465,7 @@ ${css}
     <a href="#s-move">わざ</a>
     <a href="#s-type">タイプ相性</a>
     <a href="#s-map">マップ</a>
+    <a href="#s-trainer">トレーナー</a>
     <a href="#s-item">どうぐ</a>
     <a href="#s-calc">計算式</a>
   </nav>
@@ -447,6 +509,20 @@ ${css}
   <h2>マップ <span class="count">${counts.maps}枚</span></h2>
   <p class="note">左の図はマップそのものの形です（緑＝草むら、灰＝通れない、青＝水、薄茶＝歩ける道）。</p>
   <div class="grid maps">${mapPanels}</div>
+</section>
+
+<section id="s-trainer">
+  <h2>トレーナー <span class="count">${Object.keys(TRAINERS).length}人</span></h2>
+  <p class="note">向いている方向にプレイヤーが入ると、視線が届く範囲なら勝負を仕掛けてきます。
+  壁や他の人が手前にいると、そこで視線は止まります。一度倒した相手は二度と仕掛けてきません。
+  しょうきんは <b>係数 × 最後に出すポケモンのレベル</b> です。</p>
+  <div class="grid maps">${trainerCards}</div>
+
+  <h3 style="margin-top:1.4rem">ジムバッジ</h3>
+  <table class="moves">
+    <thead><tr><th>バッジ</th><th>どこで</th><th>もらえると</th></tr></thead>
+    <tbody>${badgeRows}</tbody>
+  </table>
 </section>
 
 <section id="s-item">

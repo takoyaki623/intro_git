@@ -112,6 +112,8 @@ export const SE = {
   caught: () => [784, 988, 1319].forEach((f, i) => tone(f, 0.16, { delay: i * 0.12 })),
 
   encounter: () => [220, 330, 220, 330].forEach((f, i) => tone(f, 0.09, { delay: i * 0.08, type: 'sawtooth' })),
+  /** トレーナーに見つかった「！」。跳ね上がる2音で驚きを出す。 */
+  spotted: () => { tone(880, 0.09, { to: 1320, type: 'square' }); tone(1320, 0.22, { delay: 0.1, type: 'square' }); },
   evolve: () => [392, 494, 587, 784, 988].forEach((f, i) => tone(f, 0.22, { delay: i * 0.16 })),
   heal: () => [659, 784, 659, 784].forEach((f, i) => tone(f, 0.12, { delay: i * 0.11, type: 'sine', gain: 0.8 })),
   save: () => { tone(660, 0.08); tone(880, 0.12, { delay: 0.09 }); },

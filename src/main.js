@@ -3,7 +3,9 @@ import * as Loop from './core/loop.js';
 import * as Input from './core/input.js';
 import * as Scenes from './core/sceneStack.js';
 import * as Audio from './core/audio.js';
+import * as World from './game/world.js';
 import { preload } from './engine/font.js';
+import { state } from './game/state.js';
 import { TitleScene } from './scenes/TitleScene.js';
 
 const canvas = document.getElementById('screen');
@@ -24,7 +26,7 @@ Loop.start(
     Input.update();
     Scenes.update();
     // プレイ時間。60fps の固定ステップなので 1フレーム = 1/60 秒として数える。
-    if (globalThis.__game?.state) globalThis.__game.state.playTimeMs += 1000 / 60;
+    state.playTimeMs += 1000 / 60;
   },
   () => {
     Screen.clear('#000');
@@ -35,4 +37,6 @@ Loop.start(
 // Playwright からゲーム内部へ触れるようにしておく。
 // これが無いと、モジュールの読み込みに失敗したときに「真っ黒な canvas」以外の
 // 手がかりが何も残らない。
-globalThis.__game = { Screen, Scenes, Input, Loop, Audio };
+// World と state も出しておく。1枚にまとめたビルドは import で中身を掴めないので、
+// ここを通さないとバンドル版だけテストできなくなる。
+globalThis.__game = { Screen, Scenes, Input, Loop, Audio, World, state };

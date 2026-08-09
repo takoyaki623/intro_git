@@ -11,8 +11,10 @@ import { getTileSprite, TILE } from '../data/tiles.js';
 import { charSprite } from '../data/sprites/chars.js';
 import * as World from '../game/world.js';
 import { world } from '../game/world.js';
-import { state, setFlag, healParty, addItem } from '../game/state.js';
+import { state, setFlag, getFlag, healParty, addItem } from '../game/state.js';
 import { stepCheck, spawnWild } from '../game/encounter.js';
+import { getTrainer, trainerFlag } from '../data/trainers.js';
+import { createMonster } from '../game/monster.js';
 
 const W = Screen.W;
 const H = Screen.H;
@@ -25,6 +27,7 @@ export class FieldScene {
     this.banner = 0;      // マップ名の表示残りフレーム
     this.pendingWarp = null;
     this.busy = false;    // サブシーンを開いている間は入力を止める
+    this.approach = null; // トレーナーに見つかってから戦闘までの演出
   }
 
   enter() {
@@ -34,6 +37,8 @@ export class FieldScene {
 
   resume() {
     this.busy = false;
+    this.approach = null;
+    world.frozen = false;
     Input.clearEdges();
     // バトルで全滅していたらポケモンセンターへ強制送還
     if (state.party.length && state.party.every((m) => m.curHP <= 0)) {
@@ -61,6 +66,12 @@ export class FieldScene {
     World.updateNpcs();
 
     if (this.banner > 0) this.banner--;
+
+    if (this.approach) {
+      this.updateApproach();
+      this.updateCamera();
+      return;
+    }
 
     if (!world.frozen) {
       this.handleInput();
@@ -92,8 +103,59 @@ export class FieldScene {
       this.doWarp(warp);
       return;
     }
+    // 視線はエンカウントより先。草むらの中で見つかることもあるので、
+    // 両方が同時に成立したときはトレーナーを優先する。
+    const spotted = World.trainerInSight();
+    if (spotted) {
+      this.startApproach(spotted.npc);
+      return;
+    }
     const enc = stepCheck(world.map, tile, rng);
     if (enc) this.startWildBattle(enc);
+  }
+
+  // ---- トレーナーに見つかる ----
+
+  startApproach(npc) {
+    world.frozen = true;
+    this.approach = { npc, phase: 'mark', t: 0 };
+    SE.spotted();
+  }
+
+  /** 「！」を出す → こちらまで歩いてくる → 戦闘 */
+  updateApproach() {
+    const a = this.approach;
+    a.t++;
+
+    if (a.phase === 'mark') {
+      if (a.t >= 42) { a.phase = 'walk'; a.t = 0; }
+      return;
+    }
+
+    if (a.npc.moving) return;
+    if (World.stepNpcTowardPlayer(a.npc)) return;
+    this.startTrainerBattle(a.npc);
+  }
+
+  async startTrainerBattle(npc) {
+    this.approach = null;
+    this.busy = true;
+    const trainer = getTrainer(npc.trainer);
+    const foeParty = trainer.party.map((p) => createMonster(p.id, p.lv, { rng, moves: p.moves }));
+
+    const [{ TransitionScene }, { BattleScene }] = await Promise.all([
+      import('./TransitionScene.js'),
+      import('./BattleScene.js'),
+    ]);
+    Scenes.push(new TransitionScene({
+      kind: 'battle',
+      onDone: () => {
+        Scenes.pop();
+        Scenes.push(new BattleScene({
+          trainer, trainerId: npc.trainer, foeParty, wild: false,
+        }));
+      },
+    }));
   }
 
   async doWarp(warp) {
@@ -133,7 +195,19 @@ export class FieldScene {
 
     if (target.type === 'npc') {
       World.faceNpcToPlayer(target.npc);
-      this.openDialog(target.npc.lines, target.npc);
+      const npc = target.npc;
+      if (npc.trainer) {
+        const trainer = getTrainer(npc.trainer);
+        // 倒した相手は世間話に変わる。まだなら話しかけた時点で勝負。
+        if (getFlag(trainerFlag(npc.trainer))) {
+          this.openDialog(npc.lines ?? trainer.after, npc);
+        } else {
+          world.frozen = true;
+          this.startTrainerBattle(npc);
+        }
+        return;
+      }
+      this.openDialog(npc.lines, npc);
       return;
     }
     if (target.type === 'sign') {
@@ -217,8 +291,26 @@ export class FieldScene {
     this.renderItems(ctx, camX, camY);
     this.renderActors(ctx, camX, camY);
     this.renderGrassOverlay(ctx, camX, camY);
+    if (this.approach?.phase === 'mark') this.renderSpotMark(ctx, camX, camY);
 
     if (this.banner > 0) this.renderBanner(ctx);
+  }
+
+  /** 見つかったときの「！」。矩形だけで描くのでドット絵と質感が揃う。 */
+  renderSpotMark(ctx, camX, camY) {
+    const n = this.approach.npc;
+    const x = Math.round(n.px - camX) + 5;
+    // 出た瞬間に少し飛び跳ねさせると気づきやすい
+    const hop = this.approach.t < 8 ? Math.round((8 - this.approach.t) / 2) : 0;
+    const y = Math.round(n.py - camY) - 16 - hop;
+
+    ctx.fillStyle = '#202028';
+    ctx.fillRect(x - 1, y - 1, 8, 14);
+    ctx.fillStyle = '#f8f8f8';
+    ctx.fillRect(x, y, 6, 12);
+    ctx.fillStyle = '#e04030';
+    ctx.fillRect(x + 2, y + 1, 2, 6);
+    ctx.fillRect(x + 2, y + 9, 2, 2);
   }
 
   renderTiles(ctx, camX, camY) {

@@ -47,6 +47,40 @@ const NURSE = P({
   w: '#e04848', k: '#303038',
 });
 
+// トレーナーは色だけ変えて作る。形を共有しているので、
+// 遠目にも「同じ世界の住人」に見えつつ職業の区別はつく。
+const YOUNGSTER = P({
+  s: '#f0c090', S: '#d09060',
+  h: '#2a2018', H: '#181008',
+  c: '#f0f0f8', C: '#c0c0d0',   // 白いシャツ
+  b: '#4878c8', B: '#305090',   // たんパン
+  w: '#f8f8f8', k: '#303038',
+});
+
+const LASS = P({
+  s: '#f8cca0', S: '#d8a070',
+  h: '#7a4a28', H: '#4c2c14',
+  c: '#f8e070', C: '#c8ac38',   // きいろい服
+  b: '#e05878', B: '#a83050',   // スカート
+  w: '#f8f8f8', k: '#303038',
+});
+
+const BUGCATCHER = P({
+  s: '#f0c090', S: '#d09060',
+  h: '#3a2a1a', H: '#241608',
+  c: '#f0e8c0', C: '#c8c098',   // むぎわらぼうし色
+  b: '#68a848', B: '#3c7028',
+  w: '#f8f8f8', k: '#303038',
+});
+
+const LEADER = P({
+  s: '#f0c090', S: '#d09060',
+  h: '#f0d848', H: '#c0a818',   // きんぱつ
+  c: '#404850', C: '#282e34',   // ぐんぷく
+  b: '#404850', B: '#282e34',
+  w: '#f8f8f8', k: '#303038',
+});
+
 /** 下向き（正面）の3コマを作る */
 function frontFrames(pal) {
   const base = [
@@ -144,6 +178,10 @@ export const CHARS = {
   girl: makeChar(GIRL),
   prof: makeChar(PROF),
   nurse: makeChar(NURSE),
+  youngster: makeChar(YOUNGSTER),
+  lass: makeChar(LASS),
+  bugcatcher: makeChar(BUGCATCHER),
+  leader: makeChar(LEADER),
 };
 
 /**

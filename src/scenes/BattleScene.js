@@ -13,7 +13,7 @@ import { TextBox } from '../engine/textbox.js';
 import { Menu } from '../engine/menu.js';
 import { TYPE_COLOR } from '../data/types.js';
 import { getMove } from '../data/moves.js';
-import { wildBattle } from '../game/battle.js';
+import { wildBattle, trainerBattle } from '../game/battle.js';
 import { displayName, resetBattleState } from '../game/monster.js';
 import { expRatio, STAT_LABEL } from '../game/formulas.js';
 import { state } from '../game/state.js';
@@ -27,15 +27,24 @@ const MINE_X = 26, MINE_Y = 74, MINE_SCALE = 2.5;
 const BOX_Y = 148;
 
 export class BattleScene {
-  constructor({ foe, wild = true }) {
+  /**
+   * 野生戦は { foe } だけ。
+   * トレーナー戦は { trainer, trainerId, foeParty } を渡す（foe は先頭が使われる）。
+   */
+  constructor({ foe, wild = true, trainer = null, trainerId = null, foeParty = null }) {
     this.ctx = {
       mine: state.party.find((m) => m.curHP > 0) ?? state.party[0],
-      foe,
+      foe: foe ?? foeParty?.[0],
       rng,
-      isWild: wild,
+      isWild: wild && !trainer,
+      trainer,
+      trainerId,
+      foeParty,
       runAttempts: 0,
       onSwitch: (m) => { this.dispHP.mine = m.curHP; this.dispExp = expRatio(m); },
+      onFoeSwitch: (m) => { this.dispHP.foe = m.curHP; },
     };
+    foe = this.ctx.foe;
 
     this.box = new TextBox();
     this.mode = 'run';          // run | msg | command | moveSelect | statPanel | anim | tween | sub
@@ -65,7 +74,7 @@ export class BattleScene {
 
   enter() {
     Input.clearEdges();
-    this.gen = wildBattle(this.ctx);
+    this.gen = this.ctx.trainer ? trainerBattle(this.ctx) : wildBattle(this.ctx);
     this.advance();
   }
 
@@ -207,9 +216,12 @@ export class BattleScene {
     this.mode = 'anim';
     const kind = fx.kind;
 
-    if (kind === 'intro') {
-      this.anim = { kind, t: 0, len: 26 };
+    if (kind === 'intro' || kind === 'foeSendOut') {
+      this.anim = { kind: 'intro', t: 0, len: 26 };
       this.hidden.foe = false;
+      this.faintClip.foe = null;
+      this.spriteOffset.foe = 0;
+      this.dispHP.foe = this.ctx.foe.curHP;
       SE.encounter();
     } else if (kind === 'sendOut') {
       this.anim = { kind, t: 0, len: 22 };
@@ -534,6 +546,30 @@ export class BattleScene {
     drawTextRight(ctx, `${Math.round(this.dispHP.mine)}/${mine.stats.hp}`, 244, 124, { color: COL.ink });
     if (mine.status) this.renderStatusTag(ctx, mine.status, 134, 125);
     drawBar(ctx, 134, 140, 110, this.dispExp, COL.exp, { h: 2, frame: false });
+
+    // トレーナー戦は「あと何匹いるか」が読めないと戦いようがない
+    if (this.ctx.trainer) {
+      this.renderPips(ctx, 8, 47, this.ctx.foeParty ?? [foe], false);
+      this.renderPips(ctx, 248, 86, state.party, true);
+    }
+  }
+
+  /** 残りポケモン数のしるし。健在は白、ひんしは沈んだ色。 */
+  renderPips(ctx, x, y, list, rightAlign) {
+    const n = list.length;
+    for (let i = 0; i < n; i++) {
+      const idx = rightAlign ? n - 1 - i : i;
+      const px = rightAlign ? x - 8 - i * 9 : x + i * 9;
+      const alive = list[idx].curHP > 0;
+      ctx.fillStyle = '#202028';
+      ctx.fillRect(px, y, 7, 7);
+      ctx.fillStyle = alive ? '#f8f8f8' : '#606070';
+      ctx.fillRect(px + 1, y + 1, 5, 5);
+      if (alive) {
+        ctx.fillStyle = '#e04030';
+        ctx.fillRect(px + 2, y + 2, 3, 2);
+      }
+    }
   }
 
   /** 状態異常の札。描いた幅を返す。 */

@@ -49,6 +49,17 @@ export default {
         'よわいけど レベル２０で とんでもない すがたに なるのよ！',
       ],
     },
+    {
+      // 池の南と北、どちらの通り道にも1人ずつ置いてある
+      id: 'bugcatcher1', x: 5, y: 12, sprite: 'bugcatcher', dir: 'right', sight: 4,
+      trainer: 'bugcatcher1',
+      lines: ['トランセルは かたいけど こうげきは にがてなんだ。'],
+    },
+    {
+      id: 'bugcatcher2', x: 14, y: 4, sprite: 'bugcatcher', dir: 'left', sight: 5,
+      trainer: 'bugcatcher2',
+      lines: ['むしポケモンは そだつのが はやいんだ。'],
+    },
   ],
   items: [
     // ライチュウへの道はここで開通する

@@ -52,6 +52,17 @@ export default {
         'ねむらせたり まひさせたり すると もっと つかまえやすくなるぞ。',
       ],
     },
+    {
+      // 道の右側を歩くと視線に入る。左側を通れば避けられる。
+      id: 'youngster1', x: 12, y: 7, sprite: 'youngster', dir: 'left', sight: 4,
+      trainer: 'youngster1',
+      lines: ['きみの ポケモン つよかったなあ。'],
+    },
+    {
+      id: 'lass1', x: 6, y: 15, sprite: 'lass', dir: 'right', sight: 3,
+      trainer: 'lass1',
+      lines: ['そらを とぶ ポケモンは じめんの わざが きかないのよ。'],
+    },
   ],
   items: [
     { x: 17, y: 4, item: 'モンスターボール', n: 3, flag: 'item_route1_ball' },

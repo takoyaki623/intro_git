@@ -7,7 +7,8 @@ import { drawText } from '../engine/font.js';
 import { drawWindow, COL } from '../engine/ui.js';
 import { Menu } from '../engine/menu.js';
 import { TextBox } from '../engine/textbox.js';
-import { state, save, playTimeText } from '../game/state.js';
+import { state, save, playTimeText, getFlag } from '../game/state.js';
+import { BADGES, badgeFlag } from '../data/trainers.js';
 
 const W = Screen.W;
 const H = Screen.H;
@@ -88,11 +89,29 @@ export class MenuScene {
     drawWindow(ctx, 158, 8, 92, 108);
     this.menu.render(ctx);
 
-    drawWindow(ctx, 158, 120, 92, 48);
+    drawWindow(ctx, 158, 120, 92, 62);
     drawText(ctx, state.player.name, 166, 125, { color: COL.ink });
     drawText(ctx, `おかね ${state.player.money}`, 166, 138, { color: COL.ink });
     drawText(ctx, `じかん ${playTimeText()}`, 166, 151, { color: COL.ink });
+    drawText(ctx, 'バッジ', 166, 165, { color: COL.inkLight });
+    this.renderBadges(ctx, 206, 165);
 
     if (this.box) this.box.render(ctx);
+  }
+
+  /** 集めたバッジ。未取得は枠だけにして「あと何個あるか」も見えるようにする。 */
+  renderBadges(ctx, x, y) {
+    BADGES.forEach((b, i) => {
+      const bx = x + i * 12;
+      const got = getFlag(badgeFlag(b.id));
+      ctx.fillStyle = COL.ink;
+      ctx.fillRect(bx, y, 10, 10);
+      ctx.fillStyle = got ? b.color : COL.paper;
+      ctx.fillRect(bx + 1, y + 1, 8, 8);
+      if (got) {
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(bx + 3, y + 3, 2, 2);
+      }
+    });
   }
 }

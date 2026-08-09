@@ -33,6 +33,7 @@ import { CURVE, MAX_LEVEL } from './src/data/growth.js';
 import { TILE, TILE_SPR } from './src/data/tiles.js';
 import { MAPS, mapWidth, tileKeyAt } from './src/data/maps/index.js';
 import { CHARS } from './src/data/sprites/chars.js';
+import { TRAINERS, BADGES, prizeMoney } from './src/data/trainers.js';
 import { SPR } from './src/data/sprites/monsters.js';
 import { mulberry32 } from './src/core/rng.js';
 import {
@@ -360,6 +361,50 @@ for (const [id, m] of Object.entries(MAPS)) {
   const dup = flags.filter((f, i) => flags.indexOf(f) !== i);
   check('落ちもののフラグが重複していない', dup.length === 0, dup.join('・'));
   check('落ちものにフラグが付いている', flags.every(Boolean));
+}
+
+// ---------------------------------------------------------------- トレーナー
+section('データ整合性 ― トレーナー');
+for (const [id, t] of Object.entries(TRAINERS)) {
+  check(`${id} に手持ちがいる`, t.party.length > 0);
+  check(`${id} の見た目 ${t.sprite}`, !!CHARS[t.sprite], t.sprite);
+  for (const p of t.party) {
+    check(`${id} の ${p.id} が実在`, !!SPECIES[p.id], String(p.id));
+    check(`${id} の Lv${p.lv} が範囲内`, p.lv >= 1 && p.lv <= MAX_LEVEL);
+    for (const mv of p.moves ?? []) check(`${id} の わざ ${mv} が実在`, !!MOVES[mv], mv);
+  }
+  check(`${id} の賞金が正`, prizeMoney(t) > 0);
+  if (t.badge) check(`${id} のバッジ ${t.badge} が実在`, BADGES.some((b) => b.id === t.badge), t.badge);
+}
+{
+  // 視線に入るには相手が向いている方向に「見通せる」マスが要る。
+  // ここが 0 マスだと、置いただけで永久に戦えないトレーナーになる。
+  const DIRV = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
+  const used = [];
+  for (const [id, m] of Object.entries(MAPS)) {
+    for (const n of m.npcs ?? []) {
+      if (!n.trainer) continue;
+      used.push(n.trainer);
+      check(`${id} の ${n.id} が指す ${n.trainer} が実在`, !!TRAINERS[n.trainer], n.trainer);
+      const k = tileKeyAt(m, n.x, n.y);
+      check(`${id} の ${n.id} が通行可タイル上`, !!k && !TILE[k].solid, k ?? '範囲外');
+
+      const range = n.sight ?? TRAINERS[n.trainer]?.sight ?? 0;
+      if (range <= 0) continue;
+      const [dx, dy] = DIRV[n.dir] ?? [0, 1];
+      let visible = 0;
+      for (let i = 1; i <= range; i++) {
+        const key = tileKeyAt(m, n.x + dx * i, n.y + dy * i);
+        if (!key || TILE[key].solid) break;
+        visible++;
+      }
+      check(`${id} の ${n.id} の視線が通っている`, visible > 0, `${visible}マス`);
+    }
+  }
+  const dup = used.filter((t, i) => used.indexOf(t) !== i);
+  check('同じトレーナーを二度置いていない', dup.length === 0, dup.join('・'));
+  const unused = Object.keys(TRAINERS).filter((t) => !used.includes(t));
+  check('マップに出ないトレーナーがいない', unused.length === 0, unused.join('・'));
 }
 
 // ---------------------------------------------------------------- セーブ往復

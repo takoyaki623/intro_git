@@ -22,8 +22,9 @@ import { chooseAction } from './ai.js';
 import { MAX_LEVEL } from '../data/growth.js';
 import { getSpecies } from '../data/species.js';
 import {
-  state, addMonster, registerSeen, registerCaught, removeItem, partyFull,
+  state, addMonster, registerSeen, registerCaught, removeItem, partyFull, setFlag,
 } from './state.js';
+import { prizeMoney, trainerFlag, badgeFlag, BADGES } from '../data/trainers.js';
 
 const STRUGGLE = { name: 'わるあがき', type: 'ノーマル', category: '物理', power: 50, accuracy: null, pp: 1, priority: 0, effect: { kind: 'recoil', ratio: 0.25 } };
 
@@ -38,6 +39,7 @@ const wait = (frames) => ({ t: 'wait', frames });
  * 戻り値 { result: 'win' | 'lose' | 'run' | 'caught' }
  */
 export function* wildBattle(ctx) {
+  ctx.isWild = true;
   registerSeen(ctx.foe.species.id);
 
   yield anim('intro');
@@ -45,6 +47,63 @@ export function* wildBattle(ctx) {
   yield anim('sendOut');
   yield msg(`ゆけっ！ ${displayName(ctx.mine)}！`);
 
+  const early = yield* battleLoop(ctx);
+  if (early) return early;                       // にげた・つかまえた
+
+  if (ctx.over === 'win') {
+    yield* checkEvolutions(ctx);
+    return { result: 'win' };
+  }
+  return { result: 'lose' };
+}
+
+/**
+ * トレーナー戦。ctx に { trainer, trainerId, foeParty } が要る。
+ * 野生戦との違いは「相手が控えを出してくる」「にげる・ボールが使えない」
+ * 「勝つと賞金とバッジ」の3点だけなので、進行の本体は共有する。
+ */
+export function* trainerBattle(ctx) {
+  const t = ctx.trainer;
+  ctx.isWild = false;
+
+  yield anim('intro');
+  yield msg(`${t.class}の ${t.name}が しょうぶを しかけてきた！`);
+  for (const line of t.intro ?? []) yield msg(line);
+
+  registerSeen(ctx.foe.species.id);
+  yield msg(`${t.name}は ${ctx.foe.species.name}を くりだした！`);
+  yield anim('sendOut');
+  yield msg(`ゆけっ！ ${displayName(ctx.mine)}！`);
+
+  const early = yield* battleLoop(ctx);
+  if (early) return early;
+
+  if (ctx.over !== 'win') return { result: 'lose' };
+
+  setFlag(trainerFlag(ctx.trainerId));
+  for (const line of t.defeat ?? []) yield msg(line);
+
+  const prize = prizeMoney(t);
+  state.player.money += prize;
+  yield msg(`${state.player.name}は しょうきんとして ${prize}円を てにいれた！`);
+
+  if (t.badge) {
+    setFlag(badgeFlag(t.badge));
+    const badge = BADGES.find((b) => b.id === t.badge);
+    yield anim('levelUp');
+    yield msg(`${state.player.name}は ${badge?.name ?? 'バッジ'}を てにいれた！`);
+  }
+
+  yield* checkEvolutions(ctx);
+  return { result: 'win' };
+}
+
+/**
+ * 1ターンの繰り返し。
+ * 決着がついたら null を返し、勝敗は ctx.over に入れる。
+ * にげる・捕獲のように「勝敗以外の終わりかた」をしたときだけ結果を返す。
+ */
+function* battleLoop(ctx) {
   for (;;) {
     const mine = yield* chooseCommand(ctx);
 
@@ -71,17 +130,10 @@ export function* wildBattle(ctx) {
       yield* executeAction(ctx, act);
     }
 
-    if (yield* checkFaint(ctx)) break;
+    if (yield* checkFaint(ctx)) return null;
     yield* endOfTurn(ctx);
-    if (yield* checkFaint(ctx)) break;
+    if (yield* checkFaint(ctx)) return null;
   }
-
-  if (isFainted(ctx.foe)) {
-    yield* gainExpAndLevel(ctx);
-    yield* checkEvolutions(ctx);
-    return { result: 'win' };
-  }
-  return { result: 'lose' };
 }
 
 // ---- コマンド選択 ----
@@ -104,7 +156,13 @@ function* chooseCommand(ctx) {
     if (cmd.type === 'bag') {
       const chosen = yield { t: 'bag' };
       if (!chosen) continue;
-      if (chosen.item.pocket === 'ボール') return { type: 'ball', item: chosen.item };
+      if (chosen.item.pocket === 'ボール') {
+        if (!ctx.isWild) {
+          yield msg('ひとの ポケモンを ボールで とるなんて！');
+          continue;
+        }
+        return { type: 'ball', item: chosen.item };
+      }
       return { type: 'item', item: chosen.item, target: chosen.target };
     }
 
@@ -369,11 +427,23 @@ function* endOfTurn(ctx) {
 
 // ---- ひんし判定 ----
 
-/** どちらかが倒れたら true（＝バトル終了） */
+/**
+ * どちらかが倒れたら true（＝バトル終了）。勝敗は ctx.over に入れる。
+ * 経験値は「倒したその場」で入る。トレーナー戦は控えが出てくるので、
+ * 最後まで待つと1匹目を倒した分の経験値が遅れて出てしまう。
+ */
 function* checkFaint(ctx) {
   if (isFainted(ctx.foe)) {
     yield anim('faint', { onFoe: true });
     yield msg(`てきの ${displayName(ctx.foe)}は たおれた！`);
+    yield* gainExpAndLevel(ctx);
+
+    const next = ctx.foeParty?.find((m) => m.curHP > 0) ?? null;
+    if (next) {
+      yield* sendOutFoe(ctx, next);
+      return false;
+    }
+    ctx.over = 'win';
     return true;
   }
   if (isFainted(ctx.mine)) {
@@ -390,9 +460,20 @@ function* checkFaint(ctx) {
       }
     }
     yield msg(`${state.player.name}には たたかえる ポケモンが いない！`);
+    ctx.over = 'lose';
     return true;
   }
   return false;
+}
+
+/** トレーナーが次のポケモンを出す */
+function* sendOutFoe(ctx, next) {
+  const t = ctx.trainer;
+  yield msg(`${t?.name ?? 'あいて'}は ${next.species.name}を くりだした！`);
+  ctx.foe = next;
+  registerSeen(next.species.id);
+  ctx.onFoeSwitch?.(next);
+  yield anim('foeSendOut');
 }
 
 function* switchIn(ctx, index) {

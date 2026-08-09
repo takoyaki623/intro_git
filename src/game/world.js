@@ -4,6 +4,7 @@
 import { getMap, mapWidth, mapHeight, tileKeyAt } from '../data/maps/index.js';
 import { TILE } from '../data/tiles.js';
 import { state, getFlag } from './state.js';
+import { getTrainer, trainerFlag } from '../data/trainers.js';
 import { rng } from '../core/rng.js';
 
 export const WALK_FRAMES = 16;
@@ -226,6 +227,58 @@ export function updateNpcs() {
     n.toX = nx * 16; n.toY = ny * 16;
     n.tx = nx; n.ty = ny;
   }
+}
+
+// ---- トレーナーの視線 ----
+
+/**
+ * 向いている方向にプレイヤーがいるトレーナーを探す。
+ * 手前に壁や他の NPC があれば視線はそこで止まる。
+ * 一度倒した相手（フラグ持ち）は二度と仕掛けてこない。
+ */
+export function trainerInSight() {
+  const p = world.player;
+  if (p.moving) return null;
+
+  for (const n of world.npcs) {
+    // フラグは TRAINERS のキーで持つ。NPC の id ではなく、
+    // 「誰に勝ったか」で覚えるほうが、同じ人物を別マップに出しても壊れない。
+    if (!n.trainer || getFlag(trainerFlag(n.trainer))) continue;
+    const range = n.sight ?? getTrainer(n.trainer)?.sight ?? 0;
+    if (range <= 0) continue;
+
+    const d = DIRS[n.dir];
+    for (let i = 1; i <= range; i++) {
+      const x = n.tx + d.dx * i;
+      const y = n.ty + d.dy * i;
+
+      const key = tileAt(x, y);
+      if (!key || TILE[key]?.solid) break;                     // 壁の向こうは見えない
+      if (world.npcs.some((o) => o !== n && o.tx === x && o.ty === y)) break;
+
+      if (p.tx === x && p.ty === y) return { npc: n, distance: i };
+    }
+  }
+  return null;
+}
+
+/**
+ * トレーナーをプレイヤーの手前まで1マス近づける。
+ * まだ歩く余地があれば true、もう隣なら false。
+ */
+export function stepNpcTowardPlayer(npc) {
+  const p = world.player;
+  const d = DIRS[npc.dir];
+  const nx = npc.tx + d.dx;
+  const ny = npc.ty + d.dy;
+  if (nx === p.tx && ny === p.ty) return false;                // もう目の前
+
+  npc.moving = true;
+  npc.t = 0;
+  npc.fromX = npc.tx * 16; npc.fromY = npc.ty * 16;
+  npc.toX = nx * 16; npc.toY = ny * 16;
+  npc.tx = nx; npc.ty = ny;
+  return true;
 }
 
 /** NPC をプレイヤーのほうへ向かせる（話しかけたとき） */
