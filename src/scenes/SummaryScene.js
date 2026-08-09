@@ -10,6 +10,7 @@ import { getMove } from '../data/moves.js';
 import { displayName } from '../game/monster.js';
 import { expRatio, expToNext, STAT_LABEL } from '../game/formulas.js';
 import { EXP_TYPE_LABEL } from '../data/growth.js';
+import { MAPS } from '../data/maps/index.js';
 
 const W = Screen.W;
 const H = Screen.H;
@@ -56,7 +57,7 @@ export class SummaryScene {
     drawText(ctx, 'ずかん', 12, 133, { color: COL.inkLight });
     drawText(ctx, `No.${String(m.species.id).padStart(3, '0')}`, 12, 146, { color: COL.ink });
     drawText(ctx, 'であった', 12, 160, { color: COL.inkLight });
-    drawText(ctx, `Lv${m.metLv}`, 12, 173, { color: COL.ink });
+    drawText(ctx, `Lv${m.metLv} ${MAPS[m.metMap]?.name ?? ''}`, 12, 173, { color: COL.ink });
 
     drawWindow(ctx, 98, 172, 154, 16);
     drawText(ctx, this.page === 0 ? 'A ： わざを みる' : 'A ： のうりょくを みる', 106, 175, { color: COL.ink });

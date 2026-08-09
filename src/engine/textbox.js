@@ -7,6 +7,7 @@
 import { drawText, wrapText, LINE_H } from './font.js';
 import { drawWindow, drawArrowDown, COL } from './ui.js';
 import { SE } from '../core/audio.js';
+import { textFrames } from '../core/settings.js';
 
 const PAD_X = 8;
 const PAD_Y = 7;
@@ -18,7 +19,8 @@ export class TextBox {
     this.w = opt.w ?? 248;
     this.h = opt.h ?? 40;
     this.lines = opt.lines ?? 2;
-    this.speed = opt.speed ?? 2; // 何フレームで1文字
+    // 何フレームで1文字。設定で変えられるので、既定は毎回 settings から取る。
+    this.speed = opt.speed ?? null;
 
     this.pages = [];
     this.page = 0;
@@ -71,7 +73,7 @@ export class TextBox {
 
     if (this.shown < this.pageLength) {
       this.timer++;
-      const need = fast ? 1 : this.speed;
+      const need = fast ? 1 : (this.speed ?? textFrames());
       if (this.timer >= need) {
         this.timer = 0;
         this.shown++;

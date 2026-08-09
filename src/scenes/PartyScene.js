@@ -102,9 +102,10 @@ export class PartyScene {
       [
         { label: 'つよさをみる', id: 'summary' },
         { label: 'いれかえる', id: 'swap' },
+        { label: 'なまえ', id: 'nick' },
         { label: 'やめる', id: 'cancel' },
       ],
-      { x: 150, y: 118, lineH: 16, colW: 96 },
+      { x: 150, y: 108, lineH: 16, colW: 96 },
     );
     this.sub = 'action';
   }
@@ -124,6 +125,19 @@ export class PartyScene {
     if (id === 'summary') {
       const { SummaryScene } = await import('./SummaryScene.js');
       Scenes.push(new SummaryScene({ mon: this.current }));
+      return;
+    }
+    if (id === 'nick') {
+      const mon = this.current;
+      const { NameScene } = await import('./NameScene.js');
+      Scenes.push(new NameScene({
+        title: `${mon.species.name}の なまえ`,
+        initial: mon.nick ?? '',
+        max: 5,
+        sprite: mon.species.sprite,
+        // 空で決めたら ニックネームを外して種族名に戻す
+        onDone: (name) => { mon.nick = name; },
+      }));
     }
   }
 

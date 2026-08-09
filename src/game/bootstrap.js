@@ -9,6 +9,7 @@ import { loadMap, world } from './world.js';
 import { createMonster } from './monster.js';
 import { FieldScene } from '../scenes/FieldScene.js';
 import { DialogScene } from '../scenes/DialogScene.js';
+import { NameScene } from '../scenes/NameScene.js';
 
 /**
  * デバッグ用フック。
@@ -41,7 +42,21 @@ export function startNewGame() {
   loadMap('hajimari', 9, 12, 'up');
   const field = Scenes.reset(new FieldScene());
   installDebugHooks(field);
+  field.busy = true;
 
+  // まず名前をきいて、それから最初の会話に入る
+  Scenes.push(new NameScene({
+    title: 'あなたの なまえは？',
+    initial: state.player.name,
+    max: 5,
+    onDone: (name) => {
+      if (name) state.player.name = name;
+      openIntro(field);
+    },
+  }));
+}
+
+function openIntro(field) {
   Scenes.push(new DialogScene({
     lines: [
       'ようこそ ポケモンの せかいへ！',
@@ -50,7 +65,6 @@ export function startNewGame() {
     ],
     onClose: () => { field.busy = false; },
   }));
-  field.busy = true;
 }
 
 export function continueGame() {

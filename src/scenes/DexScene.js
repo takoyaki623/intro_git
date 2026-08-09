@@ -7,6 +7,7 @@ import { drawText, drawTextRight, wrapText } from '../engine/font.js';
 import { drawWindow, drawCursor, drawTypeTag, COL } from '../engine/ui.js';
 import { speciesList } from '../data/species.js';
 import { TYPE_COLOR } from '../data/types.js';
+import { MAPS } from '../data/maps/index.js';
 import { state } from '../game/state.js';
 
 const W = Screen.W;
@@ -79,8 +80,10 @@ export class DexScene {
     drawText(ctx, `おもさ ${sp.weight}kg`, 144, 109, { color: COL.ink });
 
     if (this.caught(sp)) {
-      wrapText(sp.dex, 100).slice(0, 4).forEach((l, i) => {
-        drawText(ctx, l, 144, 126 + i * 13, { color: COL.ink });
+      const where = MAPS[state.dex.where[sp.id]]?.name;
+      if (where) drawText(ctx, `であった ${where}`, 144, 122, { color: COL.inkLight });
+      wrapText(sp.dex, 100).slice(0, 3).forEach((l, i) => {
+        drawText(ctx, l, 144, 136 + i * 13, { color: COL.ink });
       });
     } else {
       drawText(ctx, 'つかまえると', 144, 126, { color: COL.inkLight });

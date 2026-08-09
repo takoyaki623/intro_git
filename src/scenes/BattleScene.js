@@ -156,6 +156,18 @@ export class BattleScene {
         this.openForget(fx);
         break;
 
+      case 'confirm':
+        this.box.setText(fx.text);
+        this.confirmMenu = new Menu(['はい', 'いいえ'], {
+          x: 186, y: BOX_Y - 40, lineH: 16, colW: 60, index: fx.defaultNo ? 1 : 0,
+        });
+        this.mode = 'confirm';
+        break;
+
+      case 'nickname':
+        this.openNaming(fx.mon);
+        break;
+
       default:
         // 知らないエフェクトは黙って飛ばす（エンジンより先にデータが増えても止まらない）
         this.advance();
@@ -191,6 +203,17 @@ export class BattleScene {
     this.mode = 'sub';
     const { ForgetScene } = await import('./ForgetScene.js');
     Scenes.push(new ForgetScene({ mon: fx.mon, newMove: fx.newMove }));
+  }
+
+  async openNaming(mon) {
+    this.mode = 'sub';
+    const { NameScene } = await import('./NameScene.js');
+    Scenes.push(new NameScene({
+      title: `${mon.species.name}の ニックネーム`,
+      max: 5,
+      sprite: mon.species.sprite,
+      // 結果は resume(name) で受ける。onDone は使わない（両方だと二重に進む）
+    }));
   }
 
   /** サブ画面から戻ってきた */
@@ -407,6 +430,16 @@ export class BattleScene {
           this.statPanel = null;
           this.advance();
         }
+        break;
+      }
+
+      case 'confirm': {
+        // 本文を読み終わってから選ばせる
+        this.box.update(Input.isDown(BTN.A));
+        if (!this.box.waiting) break;
+        const r = this.confirmMenu.update();
+        if (r?.type === 'select') { this.confirmMenu = null; this.advance(r.index === 0); }
+        else if (r?.type === 'cancel') { this.confirmMenu = null; this.advance(false); }
         break;
       }
 
@@ -644,6 +677,11 @@ export class BattleScene {
     }
 
     this.box.render(ctx);
+
+    if (this.mode === 'confirm' && this.box.waiting) {
+      drawWindow(ctx, 178, BOX_Y - 48, 72, 46);
+      this.confirmMenu.render(ctx);
+    }
   }
 
   renderStatPanel(ctx) {

@@ -25,9 +25,10 @@ export class MenuScene {
         { label: 'バッグ', id: 'bag' },
         { label: 'ずかん', id: 'dex' },
         { label: 'レポート', id: 'save' },
+        { label: 'せってい', id: 'settings' },
         { label: 'とじる', id: 'close' },
       ],
-      { x: 164, y: 14, lineH: 18, colW: 84 },
+      { x: 164, y: 12, lineH: 17, colW: 84 },
     );
   }
 
@@ -69,6 +70,11 @@ export class MenuScene {
     if (id === 'dex') {
       const { DexScene } = await import('./DexScene.js');
       Scenes.push(new DexScene());
+      return;
+    }
+    if (id === 'settings') {
+      const { SettingsScene } = await import('./SettingsScene.js');
+      Scenes.push(new SettingsScene());
     }
   }
 

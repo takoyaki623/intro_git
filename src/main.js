@@ -4,6 +4,7 @@ import * as Input from './core/input.js';
 import * as Scenes from './core/sceneStack.js';
 import * as Audio from './core/audio.js';
 import * as World from './game/world.js';
+import * as Settings from './core/settings.js';
 import { preload } from './engine/font.js';
 import { state } from './game/state.js';
 import { TitleScene } from './scenes/TitleScene.js';
@@ -13,6 +14,7 @@ const ctx = Screen.init(canvas);
 
 Input.init();
 preload();
+Settings.load();   // 音量・文字速度。セーブとは別に持っているので起動時に読む
 
 // ブラウザは操作があるまで音を鳴らさないので、最初の入力で解除する
 for (const ev of ['keydown', 'pointerdown']) {

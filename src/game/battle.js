@@ -503,6 +503,12 @@ function* throwBall(ctx, item) {
   yield msg(`やったー！ ${displayName(ctx.foe)}を つかまえたぞ！`);
   registerCaught(ctx.foe.species.id);
 
+  // ニックネーム。つけないほうが多いので「いいえ」を初期選択にしてある。
+  if (yield { t: 'confirm', text: `${ctx.foe.species.name}に ニックネームを つけますか？`, defaultNo: true }) {
+    const nick = yield { t: 'nickname', mon: ctx.foe };
+    if (nick) ctx.foe.nick = nick;
+  }
+
   const where = addMonster(ctx.foe);
   if (where === 'box') {
     yield msg(`てもちが いっぱいなので ${displayName(ctx.foe)}は ボックスへ おくられた！`);

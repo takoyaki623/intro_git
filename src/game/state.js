@@ -25,7 +25,7 @@ export const state = {
   boxes: Array.from({ length: BOX_COUNT }, () => new Array(BOX_SIZE).fill(null)),
   bag: {},
   flags: {},
-  dex: { seen: [], caught: [] },
+  dex: { seen: [], caught: [], where: {} },
   playTimeMs: 0,
   stepsSinceEncounter: 0,
   startedAt: Date.now(),
@@ -41,7 +41,7 @@ export function resetState() {
   state.boxes = Array.from({ length: BOX_COUNT }, () => new Array(BOX_SIZE).fill(null));
   state.bag = { 'モンスターボール': 5, 'きずぐすり': 3 };
   state.flags = {};
-  state.dex = { seen: [], caught: [] };
+  state.dex = { seen: [], caught: [], where: {} };
   state.playTimeMs = 0;
   state.stepsSinceEncounter = 0;
   state.startedAt = Date.now();
@@ -58,6 +58,8 @@ export function registerSeen(id) {
 export function registerCaught(id) {
   registerSeen(id);
   if (!state.dex.caught.includes(id)) state.dex.caught.push(id);
+  // 最初につかまえた場所だけ覚える（あとで同じ種を捕っても上書きしない）
+  state.dex.where[id] ??= state.player.pos.map;
 }
 
 // ---- バッグ ----
@@ -133,7 +135,7 @@ export function buildSave() {
     boxes: state.boxes.map((b) => b.map((m) => (m ? serialize(m) : null))),
     bag: { ...state.bag },
     flags: { ...state.flags },
-    dex: { seen: [...state.dex.seen], caught: [...state.dex.caught] },
+    dex: { seen: [...state.dex.seen], caught: [...state.dex.caught], where: { ...state.dex.where } },
   };
 }
 
@@ -185,6 +187,7 @@ export function load() {
     state.dex = {
       seen: [...(s.dex?.seen ?? [])],
       caught: [...(s.dex?.caught ?? [])],
+      where: { ...(s.dex?.where ?? {}) },
     };
     state.playTimeMs = s.playTimeMs ?? 0;
     state.stepsSinceEncounter = 0;
