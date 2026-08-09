@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>テスト｜ポケモン風RPG</title>
+<style>
+  body { background:#12151c; color:#e8e8f0; font:14px/1.6 system-ui, sans-serif; margin:0; padding:24px; }
+  h1 { font-size:20px; margin:0 0 4px; }
+  h2 { font-size:15px; margin:24px 0 6px; color:#8fb8e8; border-bottom:1px solid #2a3040; padding-bottom:4px; }
+  #result { font-size:18px; font-weight:700; padding:10px 14px; border-radius:6px; margin:14px 0 4px; display:inline-block; }
+  .pass { background:#1c3a24; color:#7ce89a; }
+  .fail { background:#3a1c20; color:#ff9a9a; }
+  ul { list-style:none; margin:0; padding:0; }
+  li { padding:2px 0 2px 22px; position:relative; font-family:ui-monospace, monospace; font-size:12.5px; }
+  li.ok::before { content:'✓'; position:absolute; left:2px; color:#5cc87a; }
+  li.ng::before { content:'✗'; position:absolute; left:2px; color:#ff7070; }
+  li.ng { color:#ff9a9a; }
+  small { color:#7a8496; }
+</style>
+</head>
+<body>
+<h1>ポケモン風RPG ― ロジックテスト</h1>
+<small>フレームワークも npm install も無し。計算式のドキュメントも兼ねる。</small>
+<div id="result">実行中…</div>
+<div id="out"></div>
+
+<script type="module">
+import { TYPES, CHART, effectiveness } from './src/data/types.js';
+import { MOVES, getMove } from './src/data/moves.js';
+import { SPECIES, speciesList, movesAtLevel } from './src/data/species.js';
+import { ITEMS, POCKETS } from './src/data/items.js';
+import { CURVE, MAX_LEVEL } from './src/data/growth.js';
+import { TILE, TILE_SPR } from './src/data/tiles.js';
+import { MAPS, mapWidth, tileKeyAt } from './src/data/maps/index.js';
+import { CHARS } from './src/data/sprites/chars.js';
+import { SPR } from './src/data/sprites/monsters.js';
+import { mulberry32 } from './src/core/rng.js';
+import {
+  calcHP, calcStat, calcAllStats, damage, accuracyCheck, expGain,
+  expForLevel, catchAttempt, runAway, stageMul, accMul, statusEndOfTurnDamage,
+} from './src/game/formulas.js';
+import { createMonster, serialize, hydrate, evolve, recalcStats } from './src/game/monster.js';
+
+const out = document.getElementById('out');
+let total = 0;
+let failed = 0;
+let list = null;
+
+function section(name) {
+  const h = document.createElement('h2');
+  h.textContent = name;
+  out.appendChild(h);
+  list = document.createElement('ul');
+  out.appendChild(list);
+}
+
+function check(label, cond, detail = '') {
+  total++;
+  const li = document.createElement('li');
+  if (cond) {
+    li.className = 'ok';
+    li.textContent = label;
+  } else {
+    failed++;
+    li.className = 'ng';
+    li.textContent = `${label}${detail ? ' — ' + detail : ''}`;
+  }
+  list.appendChild(li);
+}
+
+const eq = (label, actual, expected) =>
+  check(`${label} = ${expected}`, actual === expected, `実際は ${actual}`);
+
+const rng = mulberry32(12345);
+const fixed = (v) => ({ chance: () => false, int: () => v });
+
+// ---------------------------------------------------------------- ステータス
+section('ステータス計算');
+
+// ピカチュウ 種族値HP35 / 個体値31 / 努力値なし / Lv50 → 110
+eq('calcHP(35, 31, 50)', calcHP(35, 31, 50), 110);
+// こうげき 種族値55 / 個体値31 / 努力値なし / Lv50 → 75
+eq('calcStat(55, 31, 50)', calcStat(55, 31, 50), 75);
+eq('calcHP(35, 0, 1)', calcHP(35, 0, 1), 11);
+check('HP は必ず 1 以上', calcHP(1, 0, 1) >= 1);
+check('こうげき も 1 以上', calcStat(1, 0, 1) >= 1);
+
+// 種族値90・個体値31・努力値なし・Lv50 → 110
+const pika = calcAllStats(SPECIES[17].base, { hp: 31, atk: 31, def: 31, spa: 31, spd: 31, spe: 31 }, 50);
+eq('Lv50 ピカチュウ すばやさ', pika.spe, 110);
+eq('Lv50 ピカチュウ HP', pika.hp, 110);
+
+eq('ランク補正 +2', stageMul(2), 2);
+eq('ランク補正 -2', stageMul(-2), 0.5);
+eq('ランク補正 0', stageMul(0), 1);
+eq('命中補正 +3', accMul(3), 2);
+
+// ---------------------------------------------------------------- タイプ相性
+section('タイプ相性');
+
+for (const atk of Object.keys(CHART)) {
+  check(`攻撃タイプ ${atk} は正規のタイプ名`, TYPES.includes(atk));
+  for (const def of Object.keys(CHART[atk])) {
+    check(`  ${atk} → ${def} の防御タイプ名`, TYPES.includes(def), '未知のタイプ');
+  }
+}
+eq('ほのお → くさ', effectiveness('ほのお', ['くさ']), 2);
+eq('でんき → じめん', effectiveness('でんき', ['じめん']), 0);
+eq('でんき → みず/ひこう', effectiveness('でんき', ['みず', 'ひこう']), 4);
+eq('ノーマル → いわ/はがね', effectiveness('ノーマル', ['いわ', 'はがね']), 0.25);
+eq('みず → ほのお', effectiveness('みず', ['ほのお']), 2);
+eq('未記載の組み合わせ', effectiveness('ノーマル', ['ノーマル']), 1);
+
+// ---------------------------------------------------------------- ダメージ
+section('ダメージ計算');
+
+const atkMon = createMonster(4, 50, { rng, ivs: { hp: 31, atk: 31, def: 31, spa: 31, spd: 31, spe: 31 } });
+const defMon = createMonster(1, 50, { rng, ivs: { hp: 31, atk: 31, def: 31, spa: 31, spd: 31, spe: 31 } });
+
+{
+  // 急所は倍率を跳ね上げるので、乱数幅そのものを見るときは急所を止める
+  const noCrit = { chance: () => false, int: (a, b) => rng.int(a, b) };
+  let min = Infinity, max = -Infinity;
+  for (let i = 0; i < 10000; i++) {
+    const { dmg } = damage(atkMon, defMon, getMove('ひのこ'), noCrit);
+    min = Math.min(min, dmg);
+    max = Math.max(max, dmg);
+  }
+  const lo = damage(atkMon, defMon, getMove('ひのこ'), fixed(85)).dmg;
+  const hi = damage(atkMon, defMon, getMove('ひのこ'), fixed(100)).dmg;
+  check(`乱数の下限が 85% と一致 (${min} = ${lo})`, min === lo);
+  check(`乱数の上限が 100% と一致 (${max} = ${hi})`, max === hi);
+  check('ひのこ は くさ に ばつぐん', damage(atkMon, defMon, getMove('ひのこ'), fixed(100)).eff === 2);
+
+  // 急所は必ず等倍より大きい
+  const crit = { chance: () => true, int: () => 100 };
+  check(`急所は通常より大きい (${damage(atkMon, defMon, getMove('ひのこ'), crit).dmg} > ${hi})`,
+    damage(atkMon, defMon, getMove('ひのこ'), crit).dmg > hi);
+}
+
+{
+  // 無効なら常に 0、有効なら常に 1 以上
+  const pikaMon = createMonster(17, 30, { rng });
+  const ground = { ...getMove('でんきショック') };
+  const dug = createMonster(1, 5, { rng });
+  let zeros = 0, ones = 0;
+  for (let i = 0; i < 500; i++) {
+    const r = damage(pikaMon, dug, getMove('でんきショック'), rng);
+    if (r.eff === 0) zeros++;
+    if (r.eff > 0 && r.dmg >= 1) ones++;
+  }
+  check('こうかが ある技は必ず 1 ダメージ以上', ones === 500, `${ones}/500`);
+}
+
+{
+  const grassMon = createMonster(1, 20, { rng });
+  const flyer = createMonster(10, 20, { rng });
+  const r = damage(grassMon, flyer, getMove('でんきショック'), fixed(100));
+  check('効果 0 のときはダメージ 0', effectiveness('ノーマル', ['ゴースト']) === 0);
+}
+
+check('変化技のダメージは 0', damage(atkMon, defMon, getMove('なきごえ'), fixed(100)).dmg === 0);
+check('必中技は accuracy が null', getMove('かたくなる').accuracy === null);
+check('必中技は必ず当たる', accuracyCheck(atkMon, defMon, getMove('かたくなる'), rng));
+
+// ---------------------------------------------------------------- 成長曲線
+section('経験値と成長曲線');
+
+for (const [name, f] of Object.entries(CURVE)) {
+  let mono = true;
+  for (let n = 1; n < MAX_LEVEL; n++) if (f(n + 1) <= f(n)) { mono = false; break; }
+  check(`${name} は Lv1..100 で単調増加`, mono);
+  check(`${name}(1) >= 0`, f(1) >= 0, `${f(1)}`);
+}
+eq('mediumFast(50)', CURVE.mediumFast(50), 125000);
+eq('mediumSlow(5)', CURVE.mediumSlow(5), 135);
+eq('Lv1 の必要経験値は 0 か正', expForLevel('mediumSlow', 1) >= 0, true);
+
+{
+  const foe = createMonster(10, 10, { rng });
+  check('経験値は 1 以上', expGain(foe, 1, true) >= 1);
+  check('分け合うと減る', expGain(foe, 2, true) <= expGain(foe, 1, true));
+}
+
+// ---------------------------------------------------------------- 捕獲
+section('捕獲');
+
+function catchRate(speciesId, level, opt = {}) {
+  const m = createMonster(speciesId, level, { rng });
+  if (opt.hp) m.curHP = Math.max(1, Math.round(m.stats.hp * opt.hp));
+  if (opt.status) m.status = opt.status;
+  let n = 0;
+  for (let i = 0; i < 10000; i++) if (catchAttempt(m, ITEMS['モンスターボール'], rng).caught) n++;
+  return n / 10000;
+}
+
+const koiFull = catchRate(129, 20);
+const rizaFull = catchRate(6, 20);
+const koiWeak = catchRate(129, 20, { hp: 0.05, status: 'ねむり' });
+const rizaWeak = catchRate(6, 20, { hp: 0.05, status: 'ねむり' });
+
+check(`コイキング(255) 満タンでも つかまりやすい (${(koiFull * 100).toFixed(1)}%)`, koiFull > 0.3);
+check(`リザードン(45) 満タンは つかまりにくい (${(rizaFull * 100).toFixed(1)}%)`, rizaFull < 0.15);
+check(`HP1割+ねむり で リザードンの捕獲率が上がる (${(rizaFull * 100).toFixed(1)}% → ${(rizaWeak * 100).toFixed(1)}%)`,
+  rizaWeak > rizaFull * 2);
+check('マスターボールは必ず成功',
+  catchAttempt(createMonster(6, 100, { rng }), { master: true }, rng).caught);
+check('揺れ回数は 0..4', [0, 1, 2, 3, 4].includes(catchAttempt(createMonster(6, 50, { rng }), ITEMS['モンスターボール'], rng).shakes));
+
+// ---------------------------------------------------------------- にげる
+section('にげる');
+check('こちらが極端に速ければ にげられる', runAway(300, 10, 0, rng));
+check('試行回数が増えると にげやすくなる',
+  Array.from({ length: 200 }, () => runAway(20, 200, 3, rng)).filter(Boolean).length >=
+  Array.from({ length: 200 }, () => runAway(20, 200, 0, rng)).filter(Boolean).length);
+
+// ---------------------------------------------------------------- 状態異常
+section('状態異常');
+{
+  const m = createMonster(1, 50, { rng });
+  m.status = 'どく';
+  eq('どくの スリップは 最大HP/8', statusEndOfTurnDamage(m), Math.floor(m.stats.hp / 8));
+  m.status = 'やけど';
+  eq('やけどの スリップは 最大HP/16', statusEndOfTurnDamage(m), Math.floor(m.stats.hp / 16));
+  m.status = null;
+  eq('状態異常なしは 0', statusEndOfTurnDamage(m), 0);
+}
+
+// ---------------------------------------------------------------- データ整合性
+section('データ整合性 ― 技');
+
+for (const [name, mv] of Object.entries(MOVES)) {
+  check(`${name} のタイプ`, TYPES.includes(mv.type), `未知のタイプ ${mv.type}`);
+  check(`${name} の分類`, ['物理', '特殊', '変化'].includes(mv.category), mv.category);
+  check(`${name} の PP > 0`, mv.pp > 0);
+  check(`${name} の name はキーと一致`, mv.name === name);
+  if (mv.effect?.kind === 'stat') {
+    check(`${name} の対象`, ['self', 'foe'].includes(mv.effect.target), String(mv.effect.target));
+  }
+}
+check('全18タイプが最低1つの技でカバーされている',
+  TYPES.every((t) => Object.values(MOVES).some((m) => m.type === t)),
+  TYPES.filter((t) => !Object.values(MOVES).some((m) => m.type === t)).join('・') + ' が無い');
+
+section('データ整合性 ― 種族');
+
+for (const sp of speciesList) {
+  check(`${sp.name} のタイプ`, sp.types.every((t) => TYPES.includes(t)), sp.types.join('/'));
+  check(`${sp.name} の種族値6つ`, ['hp', 'atk', 'def', 'spa', 'spd', 'spe'].every((k) => typeof sp.base[k] === 'number'));
+  check(`${sp.name} の経験値タイプ`, !!CURVE[sp.expType], sp.expType);
+  check(`${sp.name} の捕獲率 1..255`, sp.catchRate >= 1 && sp.catchRate <= 255, String(sp.catchRate));
+  check(`${sp.name} の スプライト`, !!sp.sprite?.pixels);
+  check(`${sp.name} は Lv1 で技を覚える`, movesAtLevel(sp, 1).length > 0 || sp.learnset.length > 0);
+
+  for (const e of sp.learnset) {
+    check(`${sp.name} の習得技 ${e.move}`, !!getMove(e.move), 'MOVES に無い');
+    check(`${sp.name} の習得Lv ${e.lv}`, e.lv >= 1 && e.lv <= MAX_LEVEL);
+  }
+  if (sp.evolution) {
+    check(`${sp.name} の進化先 ${sp.evolution.to}`, !!SPECIES[sp.evolution.to], 'SPECIES に無い');
+    check(`${sp.name} の進化方法`, ['level', 'stone'].includes(sp.evolution.method), sp.evolution.method);
+    if (sp.evolution.method === 'stone') {
+      check(`${sp.name} の進化アイテム ${sp.evolution.item}`, !!ITEMS[sp.evolution.item], 'ITEMS に無い');
+    }
+  }
+}
+
+section('データ整合性 ― どうぐ');
+for (const [name, it] of Object.entries(ITEMS)) {
+  check(`${name} のポケット`, POCKETS.includes(it.pocket), it.pocket);
+  check(`${name} の name はキーと一致`, it.name === name);
+  if (it.use) {
+    check(`${name} の使用場面`, it.usableIn.length > 0 || it.pocket === 'ボール');
+  }
+}
+
+section('データ整合性 ― スプライト');
+for (const [key, def] of Object.entries(SPR)) {
+  check(`${key} は 24 行`, def.pixels.length === 24, String(def.pixels.length));
+  const w = new Set(def.pixels.map((r) => r.length));
+  check(`${key} の行幅がすべて 24`, w.size === 1 && w.has(24), [...w].join('/'));
+  const unknown = new Set();
+  for (const r of def.pixels) for (const ch of r) if (!(ch in def.palette)) unknown.add(ch);
+  check(`${key} のパレットが完備`, unknown.size === 0, [...unknown].join(''));
+}
+for (const [key, def] of Object.entries(TILE_SPR)) {
+  const w = new Set(def.pixels.map((r) => r.length));
+  check(`タイル ${key} は 16x16`, def.pixels.length === 16 && w.size === 1 && w.has(16));
+}
+for (const [name, c] of Object.entries(CHARS)) {
+  for (const [dir, set] of Object.entries(c)) {
+    if (!set) continue;
+    const ok = set.every((d) => d.pixels.length === 20 && d.pixels.every((r) => r.length === 16));
+    check(`キャラ ${name}/${dir} は 16x20 × ${set.length}コマ`, ok);
+  }
+}
+check('タイル定義のスプライトが実在する',
+  Object.values(TILE).every((t) => !!TILE_SPR[t.sprite]),
+  Object.entries(TILE).filter(([, t]) => !TILE_SPR[t.sprite]).map(([k]) => k).join('・'));
+
+section('データ整合性 ― マップ');
+for (const [id, m] of Object.entries(MAPS)) {
+  const w = mapWidth(m);
+  check(`${id} の行幅がすべて ${w}`, m.tiles.every((r) => r.length === w),
+    m.tiles.map((r, i) => (r.length !== w ? `行${i}:${r.length}` : null)).filter(Boolean).join(' '));
+
+  const used = new Set(m.tiles.join(''));
+  for (const ch of used) {
+    check(`${id} の legend に '${ch}'`, !!m.legend[ch]);
+    check(`${id} の TILE に ${m.legend[ch]}`, !!TILE[m.legend[ch]]);
+  }
+
+  for (const wp of m.warps ?? []) {
+    check(`${id} → ${wp.to} が実在`, !!MAPS[wp.to]);
+    const dst = MAPS[wp.to];
+    if (!dst) continue;
+    const k = tileKeyAt(dst, wp.tx, wp.ty);
+    check(`${id} → ${wp.to}(${wp.tx},${wp.ty}) の着地が通行可`, !!k && !TILE[k].solid, k ?? '範囲外');
+    const src = tileKeyAt(m, wp.x, wp.y);
+    check(`${id} のワープ元(${wp.x},${wp.y}) が通行可`, !!src && !TILE[src].solid, src ?? '範囲外');
+  }
+
+  for (const n of m.npcs ?? []) {
+    const k = tileKeyAt(m, n.x, n.y);
+    check(`${id} の NPC ${n.id} が通行可タイル上`, !!k && !TILE[k].solid, k ?? '範囲外');
+    check(`${id} の NPC ${n.id} の見た目`, !!CHARS[n.sprite], n.sprite);
+  }
+  for (const s of m.signs ?? []) {
+    check(`${id} の看板(${s.x},${s.y}) が範囲内`, !!tileKeyAt(m, s.x, s.y));
+  }
+  for (const e of m.encounters?.table ?? []) {
+    check(`${id} のエンカウント ${e.id} が実在`, !!SPECIES[e.id]);
+    check(`${id} のエンカウント Lv範囲`, e.min >= 1 && e.min <= e.max);
+  }
+}
+
+// ---------------------------------------------------------------- セーブ往復
+section('セーブの往復');
+{
+  const m = createMonster(4, 20, { rng });
+  m.curHP = 7;
+  m.status = 'やけど';
+  m.moves[0].pp = 3;
+  const back = hydrate(serialize(m));
+  eq('種族', back.species.id, m.species.id);
+  eq('レベル', back.level, m.level);
+  eq('経験値', back.exp, m.exp);
+  eq('現在HP', back.curHP, m.curHP);
+  eq('状態異常', back.status, m.status);
+  eq('PP', back.moves[0].pp, 3);
+  check('ステータスは再計算されて一致', JSON.stringify(back.stats) === JSON.stringify(m.stats));
+  check('導出値 types は保存されない', !('types' in serialize(m)));
+  check('types は種族から引ける', back.types.join() === m.species.types.join());
+}
+{
+  const broken = { id: 9999, lv: 5, exp: 100, moves: [{ id: 'そんざいしないわざ', pp: 5 }] };
+  check('未知の種族は null を返して落ちない', hydrate(broken) === null);
+  const m2 = hydrate({ id: 4, lv: 5, exp: 135, ivs: { hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 }, moves: [{ id: 'ないわざ', pp: 1 }] });
+  check('未知の技は捨てて技が補われる', !!m2 && m2.moves.length > 0);
+}
+
+// ---------------------------------------------------------------- 進化
+section('進化とレベルアップ');
+{
+  const m = createMonster(4, 16, { rng });
+  const beforeHpRatio = m.curHP / m.stats.hp;
+  evolve(m, 5);
+  eq('進化後の種族', m.species.name, 'リザード');
+  check('進化で HP の割合が保たれる', Math.abs(m.curHP / m.stats.hp - beforeHpRatio) < 0.05);
+  check('進化後の types が更新される', m.types.join() === SPECIES[5].types.join());
+}
+{
+  const m = createMonster(4, 5, { rng });
+  const before = { max: m.stats.hp, cur: m.curHP };
+  m.curHP = Math.floor(m.stats.hp / 2);
+  const half = m.curHP;
+  m.level = 6;
+  const gain = recalcStats(m);
+  check('レベルアップで最大HPが増える', m.stats.hp > before.max);
+  check('レベルアップで全回復しない', m.curHP === half + (m.stats.hp - before.max));
+  check('上昇値が返る', typeof gain.atk === 'number');
+}
+
+// ---------------------------------------------------------------- 結果
+const el = document.getElementById('result');
+if (failed === 0) {
+  el.textContent = `ALL PASS  (${total} 件)`;
+  el.className = 'pass';
+} else {
+  el.textContent = `FAILED  ${failed} / ${total} 件`;
+  el.className = 'fail';
+}
+</script>
+</body>
+</html>

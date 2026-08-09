@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#101018">
+<title>ポケットモンスター風RPG</title>
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div id="stage">
+    <canvas id="screen" width="256" height="192"></canvas>
+  </div>
+
+  <div id="touch" hidden>
+    <div id="dpad">
+      <button class="pad up"    data-key="ArrowUp"    aria-label="上"></button>
+      <button class="pad left"  data-key="ArrowLeft"  aria-label="左"></button>
+      <button class="pad right" data-key="ArrowRight" aria-label="右"></button>
+      <button class="pad down"  data-key="ArrowDown"  aria-label="下"></button>
+    </div>
+    <div id="btns">
+      <button class="rb" data-key="KeyX" aria-label="B">B</button>
+      <button class="rb" data-key="KeyZ" aria-label="A">A</button>
+    </div>
+  </div>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

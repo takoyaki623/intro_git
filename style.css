@@ -1,0 +1,86 @@
+:root {
+  --bg: #101018;
+  --pad: rgba(255, 255, 255, 0.14);
+  --pad-active: rgba(255, 255, 255, 0.34);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: var(--bg);
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  font-family: system-ui, sans-serif;
+}
+
+#stage {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+/* 基準解像度 256x192 を整数倍で拡大する。ぼかしは絶対にかけない。 */
+#screen {
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  background: #000;
+}
+
+/* ---- タッチ操作（スマホのみ表示） ---- */
+#touch {
+  position: fixed;
+  inset: auto 0 0 0;
+  height: 190px;
+  pointer-events: none;
+  z-index: 10;
+  padding: 0 16px calc(16px + env(safe-area-inset-bottom, 0px));
+}
+#touch[hidden] { display: none; }
+
+#dpad, #btns { pointer-events: auto; position: absolute; bottom: 24px; }
+
+#dpad {
+  left: 20px;
+  width: 156px;
+  height: 156px;
+  display: grid;
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+}
+
+#btns {
+  right: 20px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-end;
+}
+
+.pad, .rb {
+  border: none;
+  background: var(--pad);
+  color: #fff;
+  font: 600 20px/1 system-ui, sans-serif;
+  touch-action: none;
+}
+.pad:active, .rb:active, .pad.on, .rb.on { background: var(--pad-active); }
+
+.pad { border-radius: 8px; }
+.pad.up    { grid-area: 1 / 2; }
+.pad.left  { grid-area: 2 / 1; }
+.pad.right { grid-area: 2 / 3; }
+.pad.down  { grid-area: 3 / 2; }
+
+.rb {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+}
+.rb:last-child { margin-bottom: 28px; }

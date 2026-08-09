@@ -1,0 +1,209 @@
+// ステータス・ダメージ・命中・経験値・捕獲。
+//
+// このファイルは純粋関数だけで構成する（DOM も乱数のグローバルも触らない）。
+// 乱数は必ず引数で受け取る。tests.html から丸ごと検証できるようにするため。
+
+import { effectiveness } from '../data/types.js';
+import { CURVE, MAX_LEVEL } from '../data/growth.js';
+
+export const STATS = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
+export const STAT_LABEL = {
+  hp: 'ＨＰ', atk: 'こうげき', def: 'ぼうぎょ',
+  spa: 'とくこう', spd: 'とくぼう', spe: 'すばやさ',
+  acc: 'めいちゅう', eva: 'かいひ',
+};
+
+// ---- ステータス ----
+// Gen3+ の式から努力値と性格を落としたもの。
+// EV の項は 0 のまま残してあるので、足したくなったら 1行 で戻せる。
+
+export const calcHP = (base, iv, lv) =>
+  Math.max(1, Math.floor(((2 * base + iv + 0) * lv) / 100) + lv + 10);
+
+export const calcStat = (base, iv, lv) =>
+  Math.max(1, Math.floor(((2 * base + iv + 0) * lv) / 100) + 5);
+
+/** 種族値・個体値・レベルから6つのステータスを作る */
+export function calcAllStats(base, ivs, level) {
+  return {
+    hp: calcHP(base.hp, ivs.hp, level),
+    atk: calcStat(base.atk, ivs.atk, level),
+    def: calcStat(base.def, ivs.def, level),
+    spa: calcStat(base.spa, ivs.spa, level),
+    spd: calcStat(base.spd, ivs.spd, level),
+    spe: calcStat(base.spe, ivs.spe, level),
+  };
+}
+
+// ---- 能力ランク（-6..+6）----
+// 戦闘中だけ効く。交代すると消える。
+
+export const stageMul = (s) => (s >= 0 ? (2 + s) / 2 : 2 / (2 - s));
+export const accMul = (s) => (s >= 0 ? (3 + s) / 3 : 3 / (3 - s));
+
+/**
+ * ランク補正込みの実数値。
+ * 急所のときは「攻撃側のマイナス補正」と「防御側のプラス補正」を無視する。
+ */
+export function statWithStage(mon, key, mode = 'normal') {
+  const raw = mon.stats[key];
+  let stage = mon.stages?.[key] ?? 0;
+  if (mode === 'ignoreNegative' && stage < 0) stage = 0;
+  if (mode === 'ignorePositive' && stage > 0) stage = 0;
+  return Math.max(1, Math.floor(raw * stageMul(stage)));
+}
+
+// ---- ダメージ ----
+
+export const CRIT_RATE = 1 / 16;
+export const HIGH_CRIT_RATE = 1 / 8;
+
+/**
+ * ダメージ計算。rng は { chance(p), int(min,max) } を持つもの。
+ * 戻り値 { dmg, eff, crit }
+ */
+export function damage(attacker, defender, move, rng) {
+  if (move.category === '変化' || !move.power) {
+    return { dmg: 0, eff: 1, crit: false };
+  }
+
+  const eff = effectiveness(move.type, defender.types);
+  if (eff === 0) return { dmg: 0, eff: 0, crit: false };
+
+  const phys = move.category === '物理';
+  const critRate = move.effect?.kind === 'highCrit' ? HIGH_CRIT_RATE : CRIT_RATE;
+  const crit = rng.chance(critRate);
+
+  const A = statWithStage(attacker, phys ? 'atk' : 'spa', crit ? 'ignoreNegative' : 'normal');
+  const D = statWithStage(defender, phys ? 'def' : 'spd', crit ? 'ignorePositive' : 'normal');
+
+  let d = Math.floor(
+    Math.floor(Math.floor((2 * attacker.level) / 5 + 2) * move.power * A / D) / 50,
+  ) + 2;
+
+  if (crit) d = Math.floor(d * 1.5);
+  if (phys && attacker.status === 'やけど') d = Math.floor(d * 0.5);
+  if (attacker.types.includes(move.type)) d = Math.floor(d * 1.5); // タイプ一致
+  d = Math.floor(d * eff);
+  d = Math.floor((d * rng.int(85, 100)) / 100);
+
+  return { dmg: Math.max(1, d), eff, crit };
+}
+
+/** 命中判定。accuracy が null の技は必中。 */
+export function accuracyCheck(attacker, defender, move, rng) {
+  if (move.accuracy == null) return true;
+  const acc = attacker.stages?.acc ?? 0;
+  const eva = defender.stages?.eva ?? 0;
+  const p = move.accuracy * (accMul(acc) / accMul(eva));
+  return rng.int(1, 100) <= Math.min(100, p);
+}
+
+// ---- 経験値 ----
+
+/**
+ * 倒したときに得られる経験値。
+ * Gen1/2 系の素直な式。短いゲームなのでこのくらい気前がよいほうが遊べる。
+ */
+export function expGain(foe, participants = 1, isWild = true) {
+  const base = Math.floor((foe.species.baseExp * foe.level) / 7 / Math.max(1, participants));
+  return Math.max(1, Math.floor(base * (isWild ? 1 : 1.5)));
+}
+
+/** そのレベルに到達するのに必要な累計経験値 */
+export function expForLevel(expType, level) {
+  const f = CURVE[expType] ?? CURVE.mediumFast;
+  return f(Math.max(1, Math.min(MAX_LEVEL, level)));
+}
+
+/** 次のレベルまであと何経験値か */
+export function expToNext(mon) {
+  if (mon.level >= MAX_LEVEL) return 0;
+  return expForLevel(mon.species.expType, mon.level + 1) - mon.exp;
+}
+
+/** 現在レベル内での進捗（0..1）。EXPバーの表示に使う。 */
+export function expRatio(mon) {
+  if (mon.level >= MAX_LEVEL) return 1;
+  const cur = expForLevel(mon.species.expType, mon.level);
+  const next = expForLevel(mon.species.expType, mon.level + 1);
+  if (next <= cur) return 1;
+  return Math.max(0, Math.min(1, (mon.exp - cur) / (next - cur)));
+}
+
+// ---- 捕獲 ----
+
+export const STATUS_CATCH_BONUS = {
+  'ねむり': 2, 'こおり': 2, 'まひ': 1.5, 'どく': 1.5, 'やけど': 1.5,
+};
+
+/**
+ * Gen3/4 の修正 捕獲判定。
+ * 戻り値 { caught, shakes } — shakes は 0..4。演出はこの回数ぶん揺らす。
+ */
+export function catchAttempt(target, ball, rng) {
+  if (ball.master) return { caught: true, shakes: 4 };
+
+  const statusBonus = STATUS_CATCH_BONUS[target.status] ?? 1;
+  const maxHP = target.stats.hp;
+  const a = Math.floor(
+    Math.floor(
+      ((3 * maxHP - 2 * target.curHP) * target.species.catchRate * (ball.ballRate ?? 1))
+      / (3 * maxHP),
+    ) * statusBonus,
+  );
+
+  if (a >= 255) return { caught: true, shakes: 4 };
+  if (a <= 0) return { caught: false, shakes: 0 };
+
+  const b = Math.floor(
+    1048560 / Math.floor(Math.sqrt(Math.floor(Math.sqrt(Math.floor(16711680 / a))))),
+  );
+
+  let shakes = 0;
+  for (let i = 0; i < 4; i++) {
+    if (rng.int(0, 65535) >= b) break;
+    shakes++;
+  }
+  return { caught: shakes === 4, shakes };
+}
+
+export const CATCH_FAIL_MESSAGE = [
+  'あっ！ ポケモンが とびだした！',
+  'おしい！ もう ちょっとの ところだったのに！',
+  'あーっ！ ポケモンが ボールから でてしまった！',
+  'ざんねん！ もう ちょっとの ところだったのに！',
+];
+
+// ---- にげる ----
+
+/**
+ * 逃走判定。attempts は今の戦闘で「にげる」を選んだ回数（0始まり）。
+ */
+export function runAway(mySpe, foeSpe, attempts, rng) {
+  const f = Math.floor(foeSpe / 4) % 256;
+  if (f === 0) return true; // 相手が極端に遅いときは必ず逃げられる
+  const odds = Math.floor((mySpe * 32) / f) + 30 * attempts;
+  if (odds > 255) return true;
+  return rng.int(0, 255) < odds;
+}
+
+// ---- 状態異常 ----
+
+export const STATUS_SHORT = {
+  'どく': 'どく', 'やけど': 'やけど', 'まひ': 'まひ',
+  'ねむり': 'ねむり', 'こおり': 'こおり',
+};
+
+/** 毎ターン終了時のスリップダメージ */
+export function statusEndOfTurnDamage(mon) {
+  if (mon.status === 'どく') return Math.max(1, Math.floor(mon.stats.hp / 8));
+  if (mon.status === 'やけど') return Math.max(1, Math.floor(mon.stats.hp / 16));
+  return 0;
+}
+
+/** 素早さ（まひなら半減、ランク補正込み） */
+export function effectiveSpeed(mon) {
+  const s = statWithStage(mon, 'spe');
+  return mon.status === 'まひ' ? Math.floor(s * 0.5) : s;
+}
