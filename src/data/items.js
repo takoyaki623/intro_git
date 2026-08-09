@@ -68,6 +68,18 @@ export const ITEMS = {
     desc: 'ひんしの ポケモンを HP はんぶんで ふっかつさせる。',
   },
 
+  // 水辺を向いて A で使う。バッグからではなく地形から使うので usableIn は空。
+  'ボロのつりざお': {
+    pocket: 'たいせつなもの', use: { kind: 'rod', power: 1 },
+    usableIn: [],
+    desc: 'みずべを むいて つかう。ポケモンが つれることが ある。',
+  },
+  'いいつりざお': {
+    pocket: 'たいせつなもの', price: 3000, use: { kind: 'rod', power: 2 },
+    usableIn: [],
+    desc: 'ボロのつりざおより いい ポケモンが つれる つりざお。',
+  },
+
   'ほのおのいし': {
     pocket: 'たいせつなもの', price: 2100, use: { kind: 'evoStone' },
     usableIn: ['field'],

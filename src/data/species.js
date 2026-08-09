@@ -112,7 +112,7 @@ export const SPECIES = {
     learnset: [
       { lv: 1, move: 'たいあたり' }, { lv: 1, move: 'みずでっぽう' },
       { lv: 13, move: 'かたくなる' }, { lv: 24, move: 'かみつく' },
-      { lv: 31, move: 'こおりのつぶて' },
+      { lv: 28, move: 'なみのり' }, { lv: 31, move: 'こおりのつぶて' },
     ],
     evolution: { method: 'level', level: 36, to: 9 },
     catchRate: 45, baseExp: 142, expType: 'mediumSlow', sprite: SPR.kameeru,
@@ -124,7 +124,8 @@ export const SPECIES = {
     base: { hp: 79, atk: 83, def: 100, spa: 85, spd: 105, spe: 78 },
     learnset: [
       { lv: 1, move: 'みずでっぽう' }, { lv: 1, move: 'かみつく' },
-      { lv: 36, move: 'こおりのつぶて' }, { lv: 42, move: 'ハイドロポンプ' },
+      { lv: 28, move: 'なみのり' }, { lv: 36, move: 'こおりのつぶて' },
+      { lv: 42, move: 'ハイドロポンプ' },
       { lv: 52, move: 'はかいこうせん' },
     ],
     evolution: null,
@@ -269,6 +270,7 @@ export const SPECIES = {
     base: { hp: 95, atk: 125, def: 79, spa: 60, spd: 100, spe: 81 },
     learnset: [
       { lv: 1, move: 'かみつく' }, { lv: 1, move: 'しっぽをふる' },
+      { lv: 21, move: 'なみのり' },
       { lv: 25, move: 'りゅうのいかり' }, { lv: 28, move: 'いわおとし' },
       { lv: 32, move: 'ハイドロポンプ' }, { lv: 41, move: 'じしん' },
       { lv: 52, move: 'はかいこうせん' },

@@ -3,6 +3,7 @@ export default {
   name: '１ばんどうろ',
   legend: {
     '.': 'path', ',': 'grass', 'g': 'tallgrass', 'T': 'tree', 'F': 'flower', 'S': 'sign',
+    'L': 'ledge',
   },
   tiles: [
     'TTTTTTTT..TTTTTTTTTT',
@@ -14,14 +15,14 @@ export default {
     'T,,,,,,,..,,,,,,,,,T',
     'T,,,,,,,..,,,,,S,,,T',
     'T,,,,,,,..,,,,,,,,,T',
-    'TTTT,,,,..,,,,TTTTTT',
+    'TTTTLLLL..LLLLTTTTTT',   // 段差。北からは飛び降りられるが、南からは登れない
     'T,,,,,,,..,,,,,,,,,T',
     'T,gggggg..gggggg,,,T',
     'T,gggggg..gggggg,,,T',
     'T,gggggg..gggggg,,,T',
     'T,,,,,,,..,,,,,,,,,T',
     'T,,,,,,,..,,,,,,,,,T',
-    'TTTTTT,,..,,TTTTTTTT',
+    'TTTTTTLL..LLTTTTTTTT',
     'T,,,,,,,..,,,,,,,,,T',
     'T,,FF,,,..,,,FF,,,,T',
     'T,,,,,,,..,,,,,,,,,T',

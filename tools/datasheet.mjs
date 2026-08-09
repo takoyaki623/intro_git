@@ -255,12 +255,28 @@ const mapPanels = Object.values(MAPS).map((m) => {
   }).join('') : '';
 
   // マップの見た目をそのまま出す（タイル記号の並びが地形そのもの）
-  // 水も solid なので、solid より先に見ないと灰色に潰れる
   const preview = m.tiles.map((row) => [...row].map((ch) => {
-    const key = m.legend[ch];
-    const cls = key === 'water' ? 'w' : TILE[key]?.grass ? 'g' : TILE[key]?.solid ? 's' : 'p';
+    const t = TILE[m.legend[ch]];
+    const cls = t?.water ? 'w' : t?.ledge ? 'l' : t?.grass ? 'g' : t?.solid ? 's' : 'p';
     return `<i class="${cls}"></i>`;
   }).join('')).join('<br>');
+
+  const waterRows = (table) => table.map((e) => {
+    const pct = (e.weight / table.reduce((a, x) => a + x.weight, 0)) * 100;
+    return `<tr>
+      <td><canvas class="sprite sm" data-sprite="${e.id}" width="24" height="24"></canvas>${esc(SPECIES[e.id].name)}</td>
+      <td class="num">Lv${e.min}–${e.max}</td>
+      <td class="num">${pct.toFixed(0)}%</td>
+      <td><span class="ratebar"><i style="width:${pct}%"></i></span></td>
+    </tr>`;
+  }).join('');
+
+  const water = m.water ? `
+    ${m.water.surf ? `<p class="rate">なみのり中は 1歩あたり <b>${m.water.surf.rate}%</b> で遭遇</p>
+      <table class="enc"><tbody>${waterRows(m.water.surf.table)}</tbody></table>` : ''}
+    ${Object.entries(m.water.fish ?? {}).map(([power, spot]) => `
+      <p class="rate">つりざお${power === '1' ? '（ボロ）' : '（いい）'}は <b>${spot.chance}%</b> でかかる</p>
+      <table class="enc"><tbody>${waterRows(spot.table)}</tbody></table>`).join('')}` : '';
 
   return `<article class="card map">
     <header class="map-head">
@@ -274,6 +290,7 @@ const mapPanels = Object.values(MAPS).map((m) => {
       ? `<p class="rate">草むら1歩あたり <b>${enc.rate}%</b> で遭遇</p>
              <table class="enc"><tbody>${encRows}</tbody></table>`
       : '<p class="rate none">野生ポケモンは出ない</p>'}
+        ${water}
         <dl class="links">
           <dt>出口</dt><dd>${(m.warps ?? []).length
       ? [...new Set(m.warps.map((x) => MAPS[x.to].name))].map((n) => `<span class="route evo">${esc(n)}</span>`).join('')
@@ -507,7 +524,9 @@ ${css}
 
 <section id="s-map">
   <h2>マップ <span class="count">${counts.maps}枚</span></h2>
-  <p class="note">左の図はマップそのものの形です（緑＝草むら、灰＝通れない、青＝水、薄茶＝歩ける道）。</p>
+  <p class="note">左の図はマップそのものの形です（緑＝草むら、灰＝通れない、青＝水、薄茶＝歩ける道、
+  くすんだ灰＝段差）。段差は北から南へ飛び降りるだけの一方通行で、逆からは登れません。
+  水は なみのり を おぼえたポケモンがいるときだけ渡れます。</p>
   <div class="grid maps">${mapPanels}</div>
 </section>
 

@@ -10,6 +10,7 @@ import { rng } from '../core/rng.js';
 export const WALK_FRAMES = 16;
 export const RUN_FRAMES = 9;
 export const TURN_FRAMES = 6;
+export const JUMP_FRAMES = 24;   // 2マスぶん飛ぶので、歩きより少し長く
 
 export const DIRS = {
   up: { dx: 0, dy: -1 },
@@ -27,10 +28,12 @@ export const world = {
     fromX: 0, fromY: 0, toX: 0, toY: 0,
     turning: 0,
     stepParity: 0,
+    jumping: false, hopY: 0,   // 段差を飛び降りている最中
   },
   npcs: [],
   items: [],               // まだ拾われていない落ちもの
   frozen: false,           // 会話中などは動かさない
+  surfing: false,          // なみのり中（水の上にいる）
   anim: 0,                 // 水などのアニメーション用カウンタ
 };
 
@@ -43,8 +46,12 @@ export function loadMap(mapId, tx, ty, dir = 'down') {
   p.tx = tx; p.ty = ty; p.dir = dir;
   p.px = tx * 16; p.py = ty * 16;
   p.moving = false; p.t = 0; p.turning = 0;
+  p.jumping = false; p.hopY = 0;
   p.fromX = p.toX = p.px;
   p.fromY = p.toY = p.py;
+
+  // マップを移った時点で陸に上がる。屋内へ入ったのに水上のまま、を防ぐ。
+  world.surfing = TILE[tileKeyAt(map, tx, ty)]?.water === true;
 
   world.npcs = (map.npcs ?? []).map((n) => ({
     ...n,
@@ -69,10 +76,13 @@ export const height = () => mapHeight(world.map);
 export const tileAt = (x, y) => tileKeyAt(world.map, x, y);
 
 /** そのタイルに立てるか */
-export function isWalkable(x, y, { ignoreNpc = false } = {}) {
+export function isWalkable(x, y, { ignoreNpc = false, surfing = world.surfing } = {}) {
   const key = tileAt(x, y);
   if (!key) return false;
-  if (TILE[key]?.solid) return false;
+  const t = TILE[key];
+  if (t?.solid) return false;
+  if (t?.ledge) return false;          // 段差は tryStep が別あつかいで通す
+  if (t?.water && !surfing) return false;     // 水の上に出られるのは なみのり中だけ
   if (world.items.some((it) => it.x === x && it.y === y)) return false;
   if (!ignoreNpc) {
     if (world.npcs.some((n) => n.tx === x && n.ty === y)) return false;
@@ -114,6 +124,8 @@ export function facingTarget() {
     if (step === 1) {
       if (TILE[key]?.pc) return { type: 'pc' };
       if (TILE[key]?.heal) return { type: 'bed' };
+      // 岸から水を向いているとき。なみのり・つりの入口になる。
+      if (TILE[key]?.water && !world.surfing) return { type: 'water' };
     }
     // 2マス先を見るのはカウンター越しのときだけ
     if (!TILE[key]?.talkThrough) break;
@@ -144,15 +156,41 @@ export function tryStep(dir, running = false) {
   const d = DIRS[dir];
   const nx = p.tx + d.dx;
   const ny = p.ty + d.dy;
+
+  // 段差：向きが合っていれば、その1マス先へ飛び降りる
+  const ledge = TILE[tileAt(nx, ny)]?.ledge;
+  if (ledge) {
+    if (ledge !== dir) return false;
+    const lx = nx + d.dx;
+    const ly = ny + d.dy;
+    if (!isWalkable(lx, ly)) return false;
+    startMove(p, lx, ly, JUMP_FRAMES);
+    p.jumping = true;
+    return true;
+  }
+
   if (!isWalkable(nx, ny)) return false;
 
+  startMove(p, nx, ny, running ? RUN_FRAMES : WALK_FRAMES);
+  return true;
+}
+
+function startMove(p, nx, ny, frames) {
   p.moving = true;
   p.t = 0;
-  p.frames = running ? RUN_FRAMES : WALK_FRAMES;
+  p.frames = frames;
   p.fromX = p.tx * 16; p.fromY = p.ty * 16;
   p.toX = nx * 16; p.toY = ny * 16;
   p.tx = nx; p.ty = ny;
-  return true;
+}
+
+/** なみのりを始める。目の前の水へ1歩ふみだす。 */
+export function startSurf() {
+  const p = world.player;
+  const d = DIRS[p.dir];
+  if (!TILE[tileAt(p.tx + d.dx, p.ty + d.dy)]?.water) return false;
+  world.surfing = true;
+  return tryStep(p.dir);
 }
 
 /**
@@ -172,11 +210,15 @@ export function updatePlayer() {
   const r = Math.min(1, p.t / p.frames);
   p.px = p.fromX + (p.toX - p.fromX) * r;
   p.py = p.fromY + (p.toY - p.fromY) * r;
+  // 飛び降り中は放物線ぶんだけ浮かせる（描画側が hopY を引く）
+  p.hopY = p.jumping ? Math.sin(r * Math.PI) * 12 : 0;
 
   if (p.t < p.frames) return null;
 
   // 到達
   p.moving = false;
+  p.jumping = false;
+  p.hopY = 0;
   p.px = p.toX;
   p.py = p.toY;
   p.stepParity ^= 1;
@@ -184,6 +226,8 @@ export function updatePlayer() {
   state.player.pos.y = p.ty;
 
   const tile = tileAt(p.tx, p.ty);
+  // 陸に上がったら なみのり終了
+  if (world.surfing && !TILE[tile]?.water) world.surfing = false;
   const warp = (world.map.warps ?? []).find((w) => w.x === p.tx && w.y === p.ty) ?? null;
   return { stepped: true, tile, warp };
 }
@@ -217,7 +261,8 @@ export function updateNpcs() {
     const ny = n.ty + d.dy;
     // 元の位置から2マス以上離れない（うろついて迷子にならないように）
     const far = Math.abs(nx - n.x) > 1 || Math.abs(ny - n.y) > 1;
-    if (far || !isWalkable(nx, ny)) {
+    // NPC は なみのりできない。プレイヤーが水上にいても陸だけを歩く。
+    if (far || !isWalkable(nx, ny, { surfing: false })) {
       n.wanderCooldown = rng.int(60, 150);
       continue;
     }

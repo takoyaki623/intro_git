@@ -271,7 +271,12 @@ for (const [name, it] of Object.entries(ITEMS)) {
   check(`${name} のポケット`, POCKETS.includes(it.pocket), it.pocket);
   check(`${name} の name はキーと一致`, it.name === name);
   if (it.use) {
-    check(`${name} の使用場面`, it.usableIn.length > 0 || it.pocket === 'ボール');
+    // どうぐの使い道は3通り。バッグから／バトルで投げる／地形から。
+    // どれにも当てはまらないものは、持っていても何もできない。
+    const FROM_TERRAIN = ['rod'];
+    check(`${name} の使用場面`,
+      it.usableIn.length > 0 || it.pocket === 'ボール' || FROM_TERRAIN.includes(it.use.kind),
+      it.use.kind);
   }
 }
 
@@ -361,6 +366,47 @@ for (const [id, m] of Object.entries(MAPS)) {
   const dup = flags.filter((f, i) => flags.indexOf(f) !== i);
   check('落ちもののフラグが重複していない', dup.length === 0, dup.join('・'));
   check('落ちものにフラグが付いている', flags.every(Boolean));
+}
+
+// ---------------------------------------------------------------- 地形ギミック
+section('データ整合性 ― 地形');
+{
+  const DIRV = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
+  for (const [id, m] of Object.entries(MAPS)) {
+    // 段差は「飛び降りた先」が歩けないと、ただの壁になってしまう
+    for (let y = 0; y < m.tiles.length; y++) {
+      for (let x = 0; x < m.tiles[y].length; x++) {
+        const t = TILE[m.legend[m.tiles[y][x]]];
+        if (!t?.ledge) continue;
+        const [dx, dy] = DIRV[t.ledge];
+        const from = TILE[tileKeyAt(m, x - dx, y - dy)];
+        const to = TILE[tileKeyAt(m, x + dx, y + dy)];
+        check(`${id} の段差(${x},${y}) の手前に立てる`, !!from && !from.solid && !from.ledge && !from.water);
+        check(`${id} の段差(${x},${y}) の着地点に降りられる`, !!to && !to.solid && !to.ledge && !to.water);
+      }
+    }
+
+    // 水があるマップには なみのり／つり のテーブルが要る
+    const hasWater = m.tiles.some((row) => [...row].some((ch) => TILE[m.legend[ch]]?.water));
+    if (hasWater) {
+      check(`${id} に水の遭遇テーブルがある`, !!m.water?.surf || !!m.water?.fish);
+      for (const e of m.water?.surf?.table ?? []) {
+        check(`${id} の なみのり遭遇 ${e.id} が実在`, !!SPECIES[e.id], String(e.id));
+      }
+      for (const [power, spot] of Object.entries(m.water?.fish ?? {})) {
+        check(`${id} の つり(${power}) の確率`, spot.chance > 0 && spot.chance <= 100);
+        for (const e of spot.table) check(`${id} の つり(${power}) ${e.id} が実在`, !!SPECIES[e.id], String(e.id));
+      }
+    } else {
+      check(`${id} に不要な水テーブルが無い`, !m.water);
+    }
+  }
+  // なみのりの入手経路。おぼえる種族がいないと 池が飾りになる
+  const surfers = speciesList.filter((s) => s.learnset.some((e) => MOVES[e.move]?.field === 'surf'));
+  check('なみのりを おぼえる種族がいる', surfers.length > 0, surfers.map((s) => s.name).join('・'));
+  // つりざおは配られていないと 一生つれない
+  const rods = Object.values(ITEMS).filter((i) => i.use?.kind === 'rod');
+  check('つりざおが定義されている', rods.length > 0);
 }
 
 // ---------------------------------------------------------------- トレーナー

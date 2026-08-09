@@ -332,6 +332,7 @@
 .sheet .preview i.s { background: #7a7466; }   /* 通れない */
 .sheet .preview i.w { background: #4c88d0; }   /* 水 */
 .sheet .preview i.p { background: #ddd6bd; }   /* 歩ける */
+.sheet .preview i.l { background: #a8a08c; }   /* 段差（片道） */
 .sheet .map-info { flex: 1; min-width: 210px; }
 .sheet .rate { font-size: 13px; margin: 0 0 8px; }
 .sheet .rate b { font-family: var(--mono); font-size: 16px; color: var(--accent); }

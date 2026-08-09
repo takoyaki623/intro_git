@@ -29,13 +29,34 @@ export default {
   encounters: {
     rate: 10,
     table: [
-      { id: 14, min: 4, max: 6, weight: 28 },   // キャタピー
+      // コイキングは草むらではなく、池で つり／なみのり で出る
+      { id: 14, min: 4, max: 6, weight: 33 },   // キャタピー
       { id: 15, min: 5, max: 7, weight: 10 },   // トランセル
       { id: 10, min: 4, max: 6, weight: 20 },   // ポッポ
       { id: 12, min: 4, max: 6, weight: 15 },   // コラッタ
-      { id: 17, min: 5, max: 7, weight: 17 },   // ピカチュウ
-      { id: 129, min: 5, max: 8, weight: 10 },  // コイキング（池のほとり）
+      { id: 17, min: 5, max: 7, weight: 22 },   // ピカチュウ
     ],
+  },
+  // 池。なみのりを おぼえた みずポケモンがいれば わたれる。
+  // つりざおは 岸に立って みずを むけば つかえる。
+  water: {
+    surf: {
+      rate: 12,
+      table: [
+        { id: 129, min: 10, max: 18, weight: 70 },   // コイキング
+        { id: 130, min: 15, max: 20, weight: 30 },   // ギャラドス
+      ],
+    },
+    fish: {
+      1: { chance: 55, table: [{ id: 129, min: 5, max: 10, weight: 100 }] },
+      2: {
+        chance: 75,
+        table: [
+          { id: 129, min: 10, max: 15, weight: 65 },
+          { id: 130, min: 15, max: 20, weight: 35 },
+        ],
+      },
+    },
   },
   warps: [
     { x: 8, y: 19, to: 'route1', tx: 8, ty: 1, dir: 'down' },
@@ -45,7 +66,7 @@ export default {
     {
       id: 'f1girl', x: 4, y: 12, sprite: 'girl', dir: 'down', wander: true,
       lines: [
-        'いけの ちかくの くさむらでは たまに コイキングが はねてるの。',
+        'いけで つりを すると コイキングが つれるわ。',
         'よわいけど レベル２０で とんでもない すがたに なるのよ！',
       ],
     },
@@ -59,6 +80,26 @@ export default {
       id: 'bugcatcher2', x: 14, y: 4, sprite: 'bugcatcher', dir: 'left', sight: 5,
       trainer: 'bugcatcher2',
       lines: ['むしポケモンは そだつのが はやいんだ。'],
+    },
+    {
+      // 池のほとり。つりざおをくれる。
+      id: 'fisher', x: 6, y: 9, sprite: 'boy', dir: 'right',
+      lines: [
+        {
+          if: 'gotRod',
+          then: [
+            'みずべを むいて Ａボタン。それだけで つりが できるぞ。',
+            'なみのりを おぼえた ポケモンが いれば いけを わたることも できる。',
+          ],
+          else: [
+            'おっ きみ つりに きょうみは あるかい？',
+            'この つりざおを あげよう。もう つかわないからな。',
+            { give: 'ボロのつりざお', n: 1 },
+            { flag: 'gotRod' },
+            'みずべを むいて Ａボタンだ。がんばりな！',
+          ],
+        },
+      ],
     },
   ],
   items: [

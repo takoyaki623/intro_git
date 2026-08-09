@@ -6,6 +6,8 @@
 //   warp    : 乗るとワープ判定が走る（ドア・階段）
 //   overlay : プレイヤーより手前に描く（木のてっぺんなど）
 //   heal    : 乗って A で全回復（ベッド）
+//   water   : なみのり中だけ通れる（solid ではない）
+//   ledge   : その向きにだけ飛び降りられる段差。逆からは通れない
 
 const PAL = {
   '.': null,
@@ -167,7 +169,8 @@ export const TILE = {
   grass: { sprite: 'grass' },
   tallgrass: { sprite: 'tallgrass', grass: true },
   tree: { sprite: 'tree', solid: true },
-  water: { sprite: 'water', solid: true },
+  // water は「なみのり中だけ通れる」。solid とは別あつかいにする。
+  water: { sprite: 'water', water: true },
   cliff: { sprite: 'cliff', solid: true },
   flower: { sprite: 'flower' },
   sign: { sprite: 'sign', solid: true },
@@ -182,7 +185,8 @@ export const TILE = {
   pc: { sprite: 'pc', solid: true, pc: true },
   mat: { sprite: 'mat', warp: true },
   stairs: { sprite: 'stairs', warp: true },
-  ledge: { sprite: 'ledge', solid: true },
+  // ledge は上からだけ飛び降りられる。横や下からは通れない。
+  ledge: { sprite: 'ledge', ledge: 'down' },
 };
 
 export const getTile = (key) => TILE[key] ?? null;

@@ -24,11 +24,12 @@ import { SE } from '../core/audio.js';
  * パーサを書かずに済むよう、素の JS の値をそのまま解釈する。
  */
 export class DialogScene {
-  constructor({ lines, npc = null, onClose = null }) {
+  constructor({ lines, npc = null, onClose = null, field = null }) {
     this.transparent = true;
     this.queue = [...(Array.isArray(lines) ? lines : [lines])];
     this.npc = npc;
     this.onClose = onClose;
+    this.field = field;      // { surf } / { fish } を実行してもらう相手
     this.box = new TextBox();
     this.menu = null;
     this.mode = 'text';
@@ -41,6 +42,10 @@ export class DialogScene {
 
   exit() {
     this.onClose?.();
+    // なみのり・つりは、会話枠が消えてから始める
+    const run = this.pendingField;
+    this.pendingField = null;
+    run?.();
   }
 
   close() {
@@ -91,6 +96,15 @@ export class DialogScene {
       if (cmd.shop) {
         this.openShop(cmd.shop);
         return;
+      }
+      // 地形がらみは FieldScene が持っている。会話を閉じてから実行する。
+      if (cmd.surf) {
+        this.pendingField = () => this.field?.doSurf();
+        continue;
+      }
+      if (cmd.fish) {
+        this.pendingField = () => this.field?.fish();
+        continue;
       }
     }
     this.close();

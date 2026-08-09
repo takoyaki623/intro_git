@@ -78,6 +78,12 @@ export const MOVES = {
     type: 'みず', category: '特殊', power: 40, accuracy: 100, pp: 25,
     desc: 'みずを いきおいよく はっしゃする。',
   },
+  // フィールドでも使う技。おぼえていると 水の上を進める。
+  'なみのり': {
+    type: 'みず', category: '特殊', power: 90, accuracy: 100, pp: 15,
+    field: 'surf',
+    desc: 'おおなみで こうげきする。みずの うえを すすむ ときにも つかう。',
+  },
   'あわ': {
     type: 'みず', category: '特殊', power: 40, accuracy: 100, pp: 30,
     effect: { kind: 'stat', target: 'foe', stat: 'spe', stages: -1, chance: 10 },

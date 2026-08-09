@@ -12,9 +12,19 @@ import { charSprite } from '../data/sprites/chars.js';
 import * as World from '../game/world.js';
 import { world } from '../game/world.js';
 import { state, setFlag, getFlag, healParty, addItem } from '../game/state.js';
-import { stepCheck, spawnWild } from '../game/encounter.js';
+import { stepCheck, fishCheck, spawnWild } from '../game/encounter.js';
 import { getTrainer, trainerFlag } from '../data/trainers.js';
-import { createMonster } from '../game/monster.js';
+import { createMonster, displayName } from '../game/monster.js';
+import { getMove } from '../data/moves.js';
+import { ITEMS } from '../data/items.js';
+
+/** 持っているなかで一番いい つりざお。無ければ null。 */
+function bestRod() {
+  return Object.keys(state.bag)
+    .map((name) => ITEMS[name])
+    .filter((it) => it?.use?.kind === 'rod')
+    .sort((a, b) => b.use.power - a.use.power)[0] ?? null;
+}
 
 const W = Screen.W;
 const H = Screen.H;
@@ -222,11 +232,65 @@ export class FieldScene {
       this.openBox();
       return;
     }
+    if (target.type === 'water') {
+      this.faceWater();
+      return;
+    }
     if (target.type === 'bed') {
       healParty();
       SE.heal();
       this.openDialog(['ベッドで やすんだ…', 'ポケモンたちは げんきに なった！']);
     }
+  }
+
+  // ---- みずべ ----
+
+  /**
+   * 岸から水を向いて A。
+   * なみのりが使えるなら聞いてから渡る。だめなら つりざお。
+   */
+  faceWater() {
+    const surfer = state.party.find((m) => m.curHP > 0 && m.moves.some((mv) => getMove(mv.id)?.field === 'surf'));
+    const rod = bestRod();
+
+    if (surfer) {
+      const ride = [`${displayName(surfer)}の なみのりが つかえる！`, 'みずのうえを すすみますか？'];
+      this.openDialog([
+        ...ride,
+        {
+          ask: true,
+          yes: [{ surf: true }],
+          no: rod ? [{ fish: true }] : ['また こんど にしよう。'],
+        },
+      ]);
+      return;
+    }
+    if (rod) {
+      this.fish(rod);
+      return;
+    }
+    this.openDialog(['みずが とても きれいだ…']);
+  }
+
+  /** DialogScene から呼ばれる（{ surf:true } コマンド） */
+  doSurf() {
+    SE.heal();
+    World.startSurf();
+  }
+
+  /** つりをする。かかったらそのまま野生戦へ。 */
+  fish(rod = bestRod()) {
+    if (!rod) return;
+    const enc = fishCheck(world.map, rod.use.power, rng);
+    if (!enc) {
+      this.openDialog([`${rod.name}を ふりこんだ…`, 'しかし なにも つれなかった。']);
+      return;
+    }
+    this.openDialog(
+      [`${rod.name}を ふりこんだ…`, 'なにかが かかった！'],
+      null,
+      () => this.startWildBattle(enc),
+    );
   }
 
   /** 落ちているものを拾う。フラグを立てるので二度は拾えない。 */
@@ -239,14 +303,15 @@ export class FieldScene {
     this.openDialog([`${state.player.name}は ${item.item}を ${n}こ みつけた！`]);
   }
 
-  async openDialog(lines, npc = null) {
+  async openDialog(lines, npc = null, after = null) {
     this.busy = true;
     world.frozen = true;
     const { DialogScene } = await import('./DialogScene.js');
     Scenes.push(new DialogScene({
       lines,
       npc,
-      onClose: () => { world.frozen = false; this.busy = false; },
+      field: this,
+      onClose: () => { world.frozen = false; this.busy = false; after?.(); },
     }));
   }
 
@@ -343,9 +408,32 @@ export class FieldScene {
     actors.sort((u, v) => u.a.py - v.a.py);
 
     for (const { a, sprite } of actors) {
+      const x = Math.round(a.px - camX);
+      const y = Math.round(a.py - camY) - 4 - Math.round(a.hopY ?? 0);
+
+      // 飛び降りている間は、着地点に影を落として高さを見せる
+      if (a.jumping) {
+        ctx.fillStyle = 'rgba(0,0,0,0.25)';
+        ctx.beginPath();
+        ctx.ellipse(x + 8, Math.round(a.py - camY) + 14, 6, 3, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      // なみのり中はプレイヤーを浮き輪の上に乗せる
+      if (a === p && world.surfing) this.renderFloat(ctx, x, Math.round(a.py - camY));
+
       const { def, flip } = charSprite(sprite, a.dir, World.walkFrame(a));
-      drawSprite(ctx, def, Math.round(a.px - camX), Math.round(a.py - camY) - 4, { flip });
+      drawSprite(ctx, def, x, y - (a === p && world.surfing ? 3 : 0), { flip });
     }
+  }
+
+  /** なみのり中の足場。矩形だけで描く。 */
+  renderFloat(ctx, x, y) {
+    ctx.fillStyle = '#2a5c80';
+    ctx.fillRect(x, y + 8, 16, 7);
+    ctx.fillStyle = '#58c8f0';
+    ctx.fillRect(x + 1, y + 9, 14, 4);
+    ctx.fillStyle = '#a0e8ff';
+    ctx.fillRect(x + 2, y + 10, 12, 1);
   }
 
   /** 落ちているモンスターボール。矩形の積み重ねで描く（16x16に収める）。 */
