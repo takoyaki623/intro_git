@@ -133,11 +133,23 @@ python3 serve.py
 
 ## つくりかたのメモ
 
+### いま入っているデータを一覧する
+
+```bash
+node tools/datasheet.mjs
+# → dist/datasheet.html
+```
+
+ポケモン・わざ・どうぐ・マップ・タイプ相性を1枚にまとめた資料ページを
+`src/data/` から生成します。手で書き写さないので値がズレません。
+「誰も覚えないわざ」「入手経路のないどうぐ」といった穴も自動で洗い出します。
+
 ### あたらしい ポケモンを ふやす
 
 1. `src/data/sprites/monsters.js` に 24×24 のドット絵を足す（行の長さは必ず24）
 2. `src/data/species.js` に種族データを足す
 3. `tests.html` を開いて `ALL PASS` を確認
+4. `node tools/datasheet.mjs` で資料を作り直す
 
 ### あたらしい マップを ふやす
 

@@ -1,0 +1,461 @@
+#!/usr/bin/env node
+/**
+ * ゲームのデータ一覧ページを src/data/ から生成する。
+ *
+ *   node tools/datasheet.mjs [出力先]
+ *
+ * 手で書き写すと必ずズレるので、実データから作る。
+ * データを足したら再生成すれば、そのまま最新になる。
+ */
+
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { dirname, resolve, join, relative } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const OUT = process.argv[2] ? resolve(process.argv[2]) : join(ROOT, 'dist/datasheet.html');
+
+const { SPECIES, speciesList } = await import(join(ROOT, 'src/data/species.js'));
+const { MOVES } = await import(join(ROOT, 'src/data/moves.js'));
+const { ITEMS, POCKETS } = await import(join(ROOT, 'src/data/items.js'));
+const { TYPES, CHART, TYPE_COLOR, effectiveness } = await import(join(ROOT, 'src/data/types.js'));
+const { MAPS, mapWidth } = await import(join(ROOT, 'src/data/maps/index.js'));
+const { TILE } = await import(join(ROOT, 'src/data/tiles.js'));
+const { EXP_TYPE_LABEL, CURVE } = await import(join(ROOT, 'src/data/growth.js'));
+
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+// ---- データから導ける事実を先に出しておく ----
+
+const learnedSomewhere = new Set();
+for (const s of speciesList) for (const e of s.learnset) learnedSomewhere.add(e.move);
+
+const wildIn = {};            // 種族id -> 出現マップ名[]
+for (const m of Object.values(MAPS)) {
+  for (const e of m.encounters?.table ?? []) (wildIn[e.id] ??= new Set()).add(m.name);
+}
+const evolvesFrom = {};       // 種族id -> 進化元の種族
+for (const s of speciesList) if (s.evolution) evolvesFrom[s.evolution.to] = s;
+
+const STARTERS = [1, 4, 7];
+
+/** 実際に手に入る道具（配布箇所がコードにあるもの）。ショップは未実装。 */
+const OBTAINABLE_ITEMS = new Set(['モンスターボール', 'きずぐすり']);
+
+function obtainRoutes(s) {
+  const ways = [];
+  if (STARTERS.includes(s.id)) ways.push({ kind: 'starter', text: '最初の1匹（3択）' });
+  if (wildIn[s.id]) ways.push({ kind: 'wild', text: '野生 ' + [...wildIn[s.id]].join('・') });
+  const from = evolvesFrom[s.id];
+  if (from) {
+    const needsStone = from.evolution.method === 'stone';
+    ways.push({
+      kind: needsStone && !OBTAINABLE_ITEMS.has(from.evolution.item) ? 'blocked' : 'evo',
+      text: needsStone
+        ? `${from.name}に${from.evolution.item}`
+        : `${from.name} Lv${from.evolution.level}`,
+    });
+  }
+  return ways;
+}
+
+/** 通常プレイで到達できるか（御三家は1体しか選べない点も考慮） */
+function reachable(s) {
+  const ways = obtainRoutes(s);
+  if (!ways.length) return 'none';
+  if (ways.every((w) => w.kind === 'blocked')) return 'blocked';
+  if (ways.some((w) => w.kind === 'wild')) return 'yes';
+  if (ways.some((w) => w.kind === 'starter')) return 'choice';
+  // 進化のみ：たどっていって根が取れるか
+  let cur = s;
+  while (evolvesFrom[cur.id]) {
+    const from = evolvesFrom[cur.id];
+    if (from.evolution.method === 'stone' && !OBTAINABLE_ITEMS.has(from.evolution.item)) return 'blocked';
+    cur = from;
+  }
+  return STARTERS.includes(cur.id) ? 'choice' : (wildIn[cur.id] ? 'yes' : 'none');
+}
+
+// ---- 部品 ----
+
+const typeChip = (t) =>
+  `<span class="chip" style="background:${TYPE_COLOR[t]}">${esc(t)}</span>`;
+
+const STAT_LABEL = { hp: 'ＨＰ', atk: 'こうげき', def: 'ぼうぎょ', spa: 'とくこう', spd: 'とくぼう', spe: 'すばやさ' };
+const STAT_MAX = 130;   // ギャラドスのこうげき125が最大。バーの目盛りをここに合わせる。
+
+function statBar(key, v) {
+  const pct = Math.min(100, (v / STAT_MAX) * 100);
+  const color = v >= 90 ? '#4ad14a' : v >= 55 ? '#f0c02a' : '#e04030';
+  return `<div class="stat">
+    <span class="stat-l">${STAT_LABEL[key]}</span>
+    <span class="stat-v">${v}</span>
+    <span class="stat-bar"><i style="width:${pct.toFixed(1)}%;background:${color}"></i></span>
+  </div>`;
+}
+
+/**
+ * 到達しやすさのバッジ。
+ * 御三家そのものと、その進化形とでは意味が違うので文言を分ける
+ * （進化形は「3択」ではなく「選んだ系統でしか手に入らない」）。
+ */
+function reachBadge(s) {
+  const r = reachable(s);
+  if (r === 'yes') return '';
+  if (r === 'choice') {
+    return STARTERS.includes(s.id)
+      ? '<span class="badge choice">3択のどれか</span>'
+      : '<span class="badge choice">選んだ系統のみ</span>';
+  }
+  return '<span class="badge blocked">入手不可</span>';
+}
+
+// ---- ポケモン ----
+
+const speciesCards = speciesList.map((s) => {
+  const total = Object.values(s.base).reduce((a, b) => a + b, 0);
+  const evo = s.evolution
+    ? (s.evolution.method === 'level'
+      ? `Lv${s.evolution.level} で <b>${esc(SPECIES[s.evolution.to].name)}</b>`
+      : `<b>${esc(s.evolution.item)}</b> で <b>${esc(SPECIES[s.evolution.to].name)}</b>`)
+    : 'しない';
+
+  const learn = s.learnset.map((e) => {
+    const mv = MOVES[e.move];
+    return `<tr><td class="num">${e.lv === 1 ? '—' : 'Lv' + e.lv}</td>
+      <td>${esc(e.move)}</td>
+      <td>${typeChip(mv.type)}</td>
+      <td class="num">${mv.power || '—'}</td></tr>`;
+  }).join('');
+
+  const routes = obtainRoutes(s);
+  const routeText = routes.length
+    ? routes.map((w) => `<span class="route ${w.kind}">${esc(w.text)}</span>`).join('')
+    : '<span class="route blocked">手段なし</span>';
+
+  return `<article class="card mon" id="mon-${s.id}">
+    <header class="mon-head">
+      <canvas class="sprite" data-sprite="${s.id}" width="24" height="24"></canvas>
+      <div class="mon-id">
+        <span class="dexno">No.${String(s.id).padStart(3, '0')}</span>
+        <h3>${esc(s.name)} ${reachBadge(s)}</h3>
+        <div class="types">${s.types.map(typeChip).join('')}</div>
+      </div>
+      <div class="total"><span>種族値合計</span><b>${total}</b></div>
+    </header>
+
+    <p class="dex">${esc(s.dex)}</p>
+
+    <div class="mon-body">
+      <div class="stats">${Object.entries(s.base).map(([k, v]) => statBar(k, v)).join('')}</div>
+      <div class="mon-meta">
+        <dl>
+          <dt>しんか</dt><dd>${evo}</dd>
+          <dt>入手</dt><dd>${routeText}</dd>
+          <dt>捕獲率</dt><dd class="num">${s.catchRate} <span class="hint">（255が最も捕まえやすい）</span></dd>
+          <dt>経験値</dt><dd class="num">${s.baseExp} / ${esc(EXP_TYPE_LABEL[s.expType])}</dd>
+          <dt>大きさ</dt><dd class="num">${s.height}m ・ ${s.weight}kg</dd>
+        </dl>
+      </div>
+    </div>
+
+    <table class="learn">
+      <thead><tr><th>習得</th><th>わざ</th><th>タイプ</th><th>威力</th></tr></thead>
+      <tbody>${learn}</tbody>
+    </table>
+  </article>`;
+}).join('');
+
+// ---- 技 ----
+
+const movesByType = TYPES.map((t) => {
+  const list = Object.values(MOVES).filter((m) => m.type === t);
+  if (!list.length) return '';
+  const rows = list.sort((a, b) => (b.power || 0) - (a.power || 0)).map((m) => {
+    const eff = m.effect
+      ? `${m.effect.kind === 'status' ? m.effect.status + '化' : ''}${m.effect.kind === 'stat' ? (m.effect.target === 'self' ? '自分の' : '相手の') + STAT_LABEL[m.effect.stat] + (m.effect.stages > 0 ? '↑' : '↓') : ''}${m.effect.kind === 'drain' ? '吸収' : ''}${m.effect.kind === 'recoil' ? '反動' : ''}${m.effect.kind === 'flinch' ? 'ひるみ' : ''}${m.effect.kind === 'highCrit' ? '急所↑' : ''}${m.effect.chance && m.effect.chance < 100 ? ` ${m.effect.chance}%` : ''}`
+      : '';
+    const unlearned = !learnedSomewhere.has(m.name);
+    return `<tr class="${unlearned ? 'unused' : ''}">
+      <td>${esc(m.name)}${unlearned ? '<span class="badge blocked">誰も覚えない</span>' : ''}</td>
+      <td>${esc(m.category)}</td>
+      <td class="num">${m.power || '—'}</td>
+      <td class="num">${m.accuracy === null ? '必中' : m.accuracy}</td>
+      <td class="num">${m.pp}</td>
+      <td class="num">${m.priority ? (m.priority > 0 ? '+' + m.priority : m.priority) : '—'}</td>
+      <td class="eff">${esc(eff)}</td>
+    </tr>`;
+  }).join('');
+  return `<div class="movegroup">
+    <h4>${typeChip(t)} <span class="count">${list.length}</span></h4>
+    <table class="moves">
+      <thead><tr><th>わざ</th><th>分類</th><th>威力</th><th>命中</th><th>PP</th><th>優先</th><th>追加効果</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+  </div>`;
+}).join('');
+
+// ---- タイプ相性 ----
+
+const EFF_CLASS = { 0: 'e0', 0.5: 'eh', 1: 'e1', 2: 'e2' };
+const EFF_TEXT = { 0: '0', 0.5: '½', 1: '', 2: '2' };
+const chartRows = TYPES.map((atk) => {
+  const cells = TYPES.map((def) => {
+    const e = effectiveness(atk, [def]);
+    return `<td class="${EFF_CLASS[e]}" title="${esc(atk)}→${esc(def)} ×${e}">${EFF_TEXT[e]}</td>`;
+  }).join('');
+  return `<tr><th style="background:${TYPE_COLOR[atk]}">${esc(atk)}</th>${cells}</tr>`;
+}).join('');
+
+// ---- マップ ----
+
+const mapPanels = Object.values(MAPS).map((m) => {
+  const w = mapWidth(m);
+  const enc = m.encounters;
+  const total = enc ? enc.table.reduce((a, e) => a + e.weight, 0) : 0;
+
+  const encRows = enc ? enc.table.map((e) => {
+    const pct = (e.weight / total) * 100;
+    return `<tr>
+      <td><canvas class="sprite sm" data-sprite="${e.id}" width="24" height="24"></canvas>${esc(SPECIES[e.id].name)}</td>
+      <td class="num">Lv${e.min}–${e.max}</td>
+      <td class="num">${pct.toFixed(0)}%</td>
+      <td><span class="ratebar"><i style="width:${pct}%"></i></span></td>
+    </tr>`;
+  }).join('') : '';
+
+  // マップの見た目をそのまま出す（タイル記号の並びが地形そのもの）
+  // 水も solid なので、solid より先に見ないと灰色に潰れる
+  const preview = m.tiles.map((row) => [...row].map((ch) => {
+    const key = m.legend[ch];
+    const cls = key === 'water' ? 'w' : TILE[key]?.grass ? 'g' : TILE[key]?.solid ? 's' : 'p';
+    return `<i class="${cls}"></i>`;
+  }).join('')).join('<br>');
+
+  return `<article class="card map">
+    <header class="map-head">
+      <h3>${esc(m.name)}</h3>
+      <span class="size num">${w} × ${m.tiles.length} タイル</span>
+    </header>
+    <div class="map-body">
+      <div class="preview" aria-hidden="true">${preview}</div>
+      <div class="map-info">
+        ${enc
+      ? `<p class="rate">草むら1歩あたり <b>${enc.rate}%</b> で遭遇</p>
+             <table class="enc"><tbody>${encRows}</tbody></table>`
+      : '<p class="rate none">野生ポケモンは出ない</p>'}
+        <dl class="links">
+          <dt>出口</dt><dd>${(m.warps ?? []).length
+      ? [...new Set(m.warps.map((x) => MAPS[x.to].name))].map((n) => `<span class="route evo">${esc(n)}</span>`).join('')
+      : 'なし'}</dd>
+          <dt>人</dt><dd>${(m.npcs ?? []).length}人 ・ 看板 ${(m.signs ?? []).length}</dd>
+        </dl>
+      </div>
+    </div>
+  </article>`;
+}).join('');
+
+// ---- どうぐ ----
+
+const itemRows = POCKETS.map((p) => {
+  const list = Object.values(ITEMS).filter((i) => i.pocket === p);
+  const rows = list.map((i) => {
+    const got = OBTAINABLE_ITEMS.has(i.name);
+    return `<tr class="${got ? '' : 'unused'}">
+      <td>${esc(i.name)}${got ? '' : '<span class="badge blocked">入手不可</span>'}</td>
+      <td class="eff">${esc(i.desc)}</td>
+      <td class="num">${i.price ?? '—'}</td>
+    </tr>`;
+  }).join('');
+  return `<div class="movegroup">
+    <h4><span class="chip" style="background:#6a6a78">${esc(p)}</span> <span class="count">${list.length}</span></h4>
+    <table class="moves"><thead><tr><th>なまえ</th><th>せつめい</th><th>ねだん</th></tr></thead>
+    <tbody>${rows}</tbody></table>
+  </div>`;
+}).join('');
+
+// ---- スプライトのピクセルデータを埋め込む ----
+const spriteData = Object.fromEntries(
+  speciesList.map((s) => [s.id, { p: s.sprite.palette, x: s.sprite.pixels }]),
+);
+
+// ---- 集計 ----
+const counts = {
+  species: speciesList.length,
+  moves: Object.keys(MOVES).length,
+  items: Object.keys(ITEMS).length,
+  maps: Object.keys(MAPS).length,
+  types: TYPES.length,
+  reachable: speciesList.filter((s) => ['yes', 'choice'].includes(reachable(s))).length,
+  oneRun: speciesList.filter((s) => reachable(s) === 'yes').length
+    + speciesList.filter((s) => reachable(s) === 'choice').length / 3,
+  unlearned: Object.keys(MOVES).length - learnedSomewhere.size,
+  gotItems: OBTAINABLE_ITEMS.size,
+};
+
+const css = readFileSync(join(ROOT, 'tools/datasheet.css'), 'utf8');
+
+const html = `<style>
+${css}
+</style>
+
+<div class="sheet">
+<header class="top">
+  <p class="eyebrow">データ資料</p>
+  <h1>ポケットモンスター ― ドットのぼうけん</h1>
+  <p class="lede">いま <code>src/data/</code> に入っている中身をそのまま並べたものです。
+  このページは実データから生成しているので、値の書き写し間違いはありません。</p>
+  <ul class="counts">
+    <li><b>${counts.species}</b><span>ポケモン</span></li>
+    <li><b>${counts.moves}</b><span>わざ</span></li>
+    <li><b>${counts.items}</b><span>どうぐ</span></li>
+    <li><b>${counts.maps}</b><span>マップ</span></li>
+    <li><b>${counts.types}</b><span>タイプ</span></li>
+  </ul>
+  <nav class="nav">
+    <a href="#s-gap">いまの穴</a>
+    <a href="#s-mon">ポケモン</a>
+    <a href="#s-move">わざ</a>
+    <a href="#s-type">タイプ相性</a>
+    <a href="#s-map">マップ</a>
+    <a href="#s-item">どうぐ</a>
+    <a href="#s-calc">計算式</a>
+  </nav>
+</header>
+
+<section id="s-gap">
+  <h2>いまの穴</h2>
+  <p class="note">データを突き合わせて分かった、いま遊べない部分です。バグではなく、作り込みが
+  そこまで届いていないところです。</p>
+  <div class="gaps">
+    <div class="gap">
+      <h3>ライチュウに到達できない</h3>
+      <p>ピカチュウの進化には <b>かみなりのいし</b> が要りますが、その石を配っている場所が
+      どこにもありません。ショップも未実装なので、買うこともできません。</p>
+    </div>
+    <div class="gap">
+      <h3>どうぐは ${counts.items} 個中 ${counts.gotItems} 個しか手に入らない</h3>
+      <p>モンスターボールときずぐすりだけです。スーパーボール・状態異常の薬・げんきのかけら・
+      進化の石は、定義はあるのに配布箇所がありません。</p>
+    </div>
+    <div class="gap">
+      <h3>1周で取れるのは ${counts.species} 種のうち14種</h3>
+      <p>御三家は3体から1体しか選べないので、残り2系統の6種は1周では埋まりません。
+      交換相手もいないので、図鑑を全部埋める手段が今はありません。</p>
+    </div>
+    <div class="gap">
+      <h3>${counts.unlearned}つのわざを誰も覚えない</h3>
+      <p>18タイプすべてを技データで網羅するために作ったものの、その技を覚える種族を
+      入れていないためです（からてチョップ・どくばり・いわおとし・ようせいのかぜ）。</p>
+    </div>
+  </div>
+</section>
+
+<section id="s-mon">
+  <h2>ポケモン <span class="count">${counts.species}種</span></h2>
+  <p class="note">種族値は個体ごとの能力の土台です。実際の数値はここに個体値（0〜31、捕まえた時に確定）と
+  レベルが乗ります。バーの色は数値の大きさの目安で、赤→黄→緑の順に高くなります。</p>
+  <div class="grid">${speciesCards}</div>
+</section>
+
+<section id="s-move">
+  <h2>わざ <span class="count">${counts.moves}個</span></h2>
+  <p class="note">タイプごとにまとめています。「優先」が付いた技は素早さに関係なく先に出ます。
+  分類が「変化」の技はダメージを与えず、状態や能力だけを変えます。</p>
+  ${movesByType}
+</section>
+
+<section id="s-type">
+  <h2>タイプ相性</h2>
+  <p class="note">縦が攻撃側、横が防御側です。空欄は等倍。2つのタイプを持つ相手には両方が掛け算されるので、
+  最大4倍・最小0倍になります。</p>
+  <div class="chartwrap">
+    <table class="chart">
+      <thead><tr><th class="corner">攻↓ 防→</th>${TYPES.map((t) => `<th style="background:${TYPE_COLOR[t]}"><span>${esc(t)}</span></th>`).join('')}</tr></thead>
+      <tbody>${chartRows}</tbody>
+    </table>
+  </div>
+  <p class="legend"><span class="e2">2</span> ばつぐん　<span class="eh">½</span> いまひとつ　<span class="e0">0</span> 効果なし</p>
+</section>
+
+<section id="s-map">
+  <h2>マップ <span class="count">${counts.maps}枚</span></h2>
+  <p class="note">左の図はマップそのものの形です（緑＝草むら、灰＝通れない、青＝水、薄茶＝歩ける道）。</p>
+  <div class="grid maps">${mapPanels}</div>
+</section>
+
+<section id="s-item">
+  <h2>どうぐ <span class="count">${counts.items}個</span></h2>
+  <p class="note">ねだんは定義してありますが、ショップがまだ無いので現時点では意味を持ちません。</p>
+  ${itemRows}
+</section>
+
+<section id="s-calc">
+  <h2>数値の決まりかた</h2>
+  <div class="formulas">
+    <div class="formula">
+      <h3>ステータス</h3>
+      <pre>HP   = ⌊(種族値×2 + 個体値) × Lv ÷ 100⌋ + Lv + 10
+その他 = ⌊(種族値×2 + 個体値) × Lv ÷ 100⌋ + 5</pre>
+      <p>個体値は0〜31で、捕まえた瞬間に6つとも決まります。努力値と性格は入れていません。</p>
+    </div>
+    <div class="formula">
+      <h3>ダメージ</h3>
+      <pre>基礎 = ⌊⌊⌊(2×Lv÷5 + 2) × 威力 × 攻撃 ÷ 防御⌋ ÷ 50⌋⌋ + 2
+× 急所1.5 × やけど0.5 × タイプ一致1.5 × 相性 × 乱数(85〜100%)</pre>
+      <p>急所は1/16（「急所に当たりやすい」技は1/8）。相性が0でなければ最低1は入ります。</p>
+    </div>
+    <div class="formula">
+      <h3>捕獲</h3>
+      <pre>a = ⌊(最大HP×3 − 現在HP×2) × 捕獲率 × ボール補正 ÷ (最大HP×3)⌋ × 状態異常補正
+b = 1048560 ÷ √√(16711680 ÷ a)
+0〜65535 の乱数が b 未満なら1回揺れる。4回揺れれば成功。</pre>
+      <p>状態異常補正は ねむり・こおり が2倍、まひ・どく・やけど が1.5倍。
+      HPを削るほど、状態異常にするほど捕まえやすくなります。</p>
+    </div>
+    <div class="formula">
+      <h3>経験値</h3>
+      <pre>もらえる経験値 = ⌊倒した相手の基礎経験値 × 相手のLv ÷ 7⌋</pre>
+      <p>次のレベルに必要な累計経験値は成長タイプで決まります（Lv50時点）：
+      ${Object.entries(CURVE).map(([k, f]) => `${EXP_TYPE_LABEL[k]} ${f(50).toLocaleString()}`).join(' ／ ')}</p>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <p>このページは <code>node tools/datasheet.mjs</code> で <code>src/data/</code> から生成しています。
+  データを足したら作り直せば最新になります。</p>
+  <p class="fine">個人の学習用に作ったファン作品です。画像・音声などの著作物は使っておらず、
+  ドット絵はすべてコードから生成しています。</p>
+</footer>
+</div>
+
+<script>
+// ゲーム本体と同じピクセルデータからスプライトを描く。
+// 資料に載っている姿と、実際に画面に出る姿がズレないようにするため。
+const SPRITES = ${JSON.stringify(spriteData)};
+for (const cv of document.querySelectorAll('canvas[data-sprite]')) {
+  const def = SPRITES[cv.dataset.sprite];
+  if (!def) continue;
+  const ctx = cv.getContext('2d');
+  const img = ctx.createImageData(24, 24);
+  for (let y = 0; y < def.x.length; y++) {
+    for (let x = 0; x < def.x[y].length; x++) {
+      const col = def.p[def.x[y][x]];
+      if (!col) continue;
+      const i = (y * 24 + x) * 4;
+      img.data[i]     = parseInt(col.slice(1, 3), 16);
+      img.data[i + 1] = parseInt(col.slice(3, 5), 16);
+      img.data[i + 2] = parseInt(col.slice(5, 7), 16);
+      img.data[i + 3] = 255;
+    }
+  }
+  ctx.putImageData(img, 0, 0);
+}
+</script>
+`;
+
+mkdirSync(dirname(OUT), { recursive: true });
+writeFileSync(OUT, html, 'utf8');
+console.log(`データ資料を生成しました → ${relative(ROOT, OUT)} (${(Buffer.byteLength(html) / 1024).toFixed(0)} KB)`);
+console.log(`  ポケモン ${counts.species} / わざ ${counts.moves} / どうぐ ${counts.items} / マップ ${counts.maps}`);

@@ -1,0 +1,399 @@
+/*
+ * データ資料のスタイル。
+ *
+ * 色はすべてゲーム本体のコードから持ってきている:
+ *   紙・枠・インク・カーソルの赤 → src/engine/ui.js の COL
+ *   タイプの色                 → src/data/types.js の TYPE_COLOR
+ *   ステータスバーの3色         → HPバーのしきい値と同じ
+ * ゲームの「メニュー枠が暗い画面に浮かんでいる」見た目をそのまま資料に持ち込む。
+ * 角は丸めない。ドット絵のゲームなので、硬い影と直角のほうが素性に合う。
+ *
+ * 単一テーマに振り切っているので、背景も文字色もすべて明示する
+ * （表示側のテーマを借りると、片方で読めなくなる）。
+ */
+
+.sheet {
+  --ground: #12151c;
+  --ground-2: #1a1e28;
+  --paper: #f5f2e6;
+  --paper-2: #e9e5d5;
+  --ink: #2e2e38;
+  --ink-soft: #6a6a78;
+  --frame: #404058;
+  --accent: #e04030;
+  --good: #4ad14a;
+  --mid: #f0c02a;
+  --low: #e04030;
+
+  --jp: "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", "IPAGothic", system-ui, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  background: var(--ground);
+  color: var(--paper);
+  font-family: var(--jp);
+  line-height: 1.7;
+  margin: 0;
+  padding: 0 0 64px;
+  min-height: 100vh;
+}
+
+.sheet * { box-sizing: border-box; }
+
+.sheet .num,
+.sheet .dexno,
+.sheet .size,
+.sheet pre { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+/* ---- 見出し ---- */
+
+.sheet .top {
+  padding: 48px 24px 0;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.sheet .eyebrow {
+  font-size: 12px;
+  letter-spacing: .28em;
+  color: var(--accent);
+  margin: 0 0 8px;
+}
+.sheet h1 {
+  font-size: clamp(26px, 4.4vw, 40px);
+  line-height: 1.25;
+  margin: 0 0 14px;
+  text-wrap: balance;
+  letter-spacing: .01em;
+}
+.sheet .lede {
+  color: #b8b8c8;
+  max-width: 62ch;
+  margin: 0 0 28px;
+}
+
+.sheet .counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+}
+.sheet .counts li {
+  background: var(--ground-2);
+  border: 1px solid #2c3240;
+  padding: 10px 16px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.sheet .counts b { font-family: var(--mono); font-size: 22px; color: #ffe14a; }
+.sheet .counts span { font-size: 12px; color: #9aa0b0; }
+
+.sheet .nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--ground);
+  padding: 10px 0;
+  border-bottom: 1px solid #262c38;
+  margin-bottom: 8px;
+}
+.sheet .nav a {
+  color: #c8ccd8;
+  text-decoration: none;
+  font-size: 13px;
+  padding: 6px 12px;
+  border: 1px solid transparent;
+}
+.sheet .nav a:hover,
+.sheet .nav a:focus-visible { color: #fff; border-color: var(--frame); background: var(--ground-2); }
+
+.sheet section {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 40px 24px 0;
+}
+.sheet h2 {
+  font-size: 22px;
+  margin: 0 0 6px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--frame);
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.sheet h2 .count { font-family: var(--mono); font-size: 13px; color: var(--ink-soft); font-weight: 400; }
+.sheet .note {
+  color: #a8aec0;
+  font-size: 14px;
+  max-width: 74ch;
+  margin: 14px 0 22px;
+}
+
+/* ---- カード（ゲームのメニュー枠を模す） ---- */
+
+.sheet .card {
+  background: var(--paper);
+  color: var(--ink);
+  border: 2px solid var(--frame);
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, .45);
+  padding: 14px 16px 16px;
+}
+
+.sheet .grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  gap: 16px;
+}
+.sheet .grid.maps { grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); }
+
+/* ---- ポケモン ---- */
+
+.sheet .mon-head { display: flex; align-items: flex-start; gap: 12px; }
+.sheet .sprite {
+  width: 48px; height: 48px;
+  image-rendering: pixelated;
+  background: var(--paper-2);
+  border: 1px solid #cfc9b4;
+  flex: none;
+}
+.sheet .sprite.sm { width: 24px; height: 24px; vertical-align: middle; margin-right: 6px; }
+.sheet .mon-id { flex: 1; min-width: 0; }
+.sheet .dexno { font-size: 11px; color: var(--ink-soft); }
+.sheet .mon h3 {
+  margin: 0 0 4px;
+  font-size: 18px;
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.sheet .types { display: flex; gap: 4px; flex-wrap: wrap; }
+.sheet .total { text-align: right; flex: none; }
+.sheet .total span { display: block; font-size: 10px; color: var(--ink-soft); }
+.sheet .total b { font-family: var(--mono); font-size: 20px; }
+
+.sheet .chip {
+  color: #fff;
+  font-size: 11px;
+  padding: 2px 7px;
+  white-space: nowrap;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, .35);
+}
+
+.sheet .badge {
+  font-size: 10px;
+  padding: 2px 6px;
+  border: 1px solid currentColor;
+  white-space: nowrap;
+}
+.sheet .badge.blocked { color: #b03020; }
+.sheet .badge.choice { color: #8a6a10; }
+
+.sheet .dex {
+  font-size: 13px;
+  color: #4a4a56;
+  margin: 12px 0;
+  padding-left: 10px;
+  border-left: 3px solid var(--paper-2);
+}
+
+.sheet .mon-body { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 560px) {
+  .sheet .mon-body { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+}
+
+.sheet .stat {
+  display: grid;
+  grid-template-columns: 4.6em 2.2em 1fr;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  margin-bottom: 3px;
+}
+.sheet .stat-l { color: var(--ink-soft); }
+.sheet .stat-v { font-family: var(--mono); text-align: right; }
+.sheet .stat-bar { background: #d8d3c0; height: 8px; border: 1px solid #bdb7a2; }
+.sheet .stat-bar i { display: block; height: 100%; }
+
+.sheet .mon-meta dl { margin: 0; font-size: 12px; }
+.sheet .mon-meta dt { color: var(--ink-soft); font-size: 11px; margin-top: 7px; }
+.sheet .mon-meta dt:first-child { margin-top: 0; }
+.sheet .mon-meta dd { margin: 1px 0 0; }
+.sheet .hint { color: var(--ink-soft); font-size: 10px; }
+
+.sheet .route {
+  display: inline-block;
+  font-size: 11px;
+  padding: 1px 6px;
+  margin: 2px 3px 0 0;
+  border: 1px solid #c9c3ad;
+  background: var(--paper-2);
+}
+.sheet .route.starter { border-color: #6a9ad0; background: #dfeaf6; }
+.sheet .route.wild { border-color: #6aae60; background: #e0f0dc; }
+.sheet .route.blocked { border-color: #c07060; background: #f6e2de; color: #a03020; }
+
+.sheet table { border-collapse: collapse; width: 100%; font-size: 12px; }
+.sheet .learn { margin-top: 12px; }
+.sheet .learn th,
+.sheet .moves th,
+.sheet .enc th {
+  text-align: left;
+  font-size: 10px;
+  color: var(--ink-soft);
+  font-weight: 600;
+  letter-spacing: .06em;
+  border-bottom: 1px solid #cfc9b4;
+  padding: 3px 6px;
+}
+.sheet .learn td,
+.sheet .moves td,
+.sheet .enc td { padding: 4px 6px; border-bottom: 1px solid #e6e1d0; }
+.sheet .learn tr:last-child td,
+.sheet .moves tr:last-child td,
+.sheet .enc tr:last-child td { border-bottom: none; }
+.sheet td.num, .sheet th.num { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.sheet .eff { color: #4a4a56; }
+
+.sheet tr.unused td { background: #efe9dc; color: #8d8878; }
+.sheet tr.unused .badge { margin-left: 6px; }
+
+/* ---- わざ・どうぐ ---- */
+
+.sheet .movegroup {
+  background: var(--paper);
+  color: var(--ink);
+  border: 2px solid var(--frame);
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, .45);
+  padding: 12px 14px 8px;
+  margin-bottom: 14px;
+  overflow-x: auto;
+}
+.sheet .movegroup h4 {
+  margin: 0 0 8px;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px;
+}
+.sheet .movegroup .count { font-family: var(--mono); font-size: 11px; color: var(--ink-soft); font-weight: 400; }
+.sheet .moves { min-width: 560px; }
+
+/* ---- タイプ相性 ---- */
+
+.sheet .chartwrap { overflow-x: auto; background: var(--paper); border: 2px solid var(--frame); box-shadow: 3px 3px 0 rgba(0,0,0,.45); padding: 10px; }
+/* 幅は中身ぶんだけ。width:100% を継ぐと1列目だけが伸びて表が壊れる。 */
+.sheet .chart { width: max-content; color: var(--ink); font-size: 10px; }
+.sheet .chart th {
+  color: #fff;
+  font-weight: 600;
+  padding: 3px 4px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, .4);
+  white-space: nowrap;
+}
+.sheet .chart tbody th { width: 5.8em; text-align: right; padding-right: 7px; }
+.sheet .chart thead th { height: 76px; vertical-align: bottom; padding-bottom: 6px; }
+.sheet .chart thead th span { writing-mode: vertical-rl; }
+.sheet .chart th.corner { background: var(--ink); font-size: 9px; }
+.sheet .chart td {
+  width: 26px; height: 22px;
+  text-align: center;
+  border: 1px solid #e6e1d0;
+  font-family: var(--mono);
+  font-weight: 700;
+}
+.sheet .chart td.e1 { background: #faf8f0; }
+.sheet .chart td.e2 { background: #cdeccb; color: #1c6a1c; }
+.sheet .chart td.eh { background: #f6ddd8; color: #a03828; }
+.sheet .chart td.e0 { background: #3a3a48; color: #fff; }
+.sheet .legend { font-size: 12px; color: #a8aec0; margin-top: 10px; }
+.sheet .legend span {
+  display: inline-block; width: 22px; text-align: center;
+  font-family: var(--mono); font-weight: 700; margin-right: 4px;
+}
+.sheet .legend .e2 { background: #cdeccb; color: #1c6a1c; }
+.sheet .legend .eh { background: #f6ddd8; color: #a03828; }
+.sheet .legend .e0 { background: #3a3a48; color: #fff; }
+
+/* ---- マップ ---- */
+
+.sheet .map-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.sheet .map-head h3 { margin: 0; font-size: 17px; }
+.sheet .map-head .size { font-size: 11px; color: var(--ink-soft); }
+.sheet .map-body { display: flex; gap: 14px; margin-top: 12px; align-items: flex-start; flex-wrap: wrap; }
+.sheet .preview {
+  line-height: 0;
+  background: #cdc7b2;
+  border: 1px solid #b5ae98;
+  padding: 3px;
+  flex: none;
+}
+.sheet .preview i { display: inline-block; width: 5px; height: 5px; }
+.sheet .preview i.g { background: #4c8c48; }   /* 草むら */
+.sheet .preview i.s { background: #7a7466; }   /* 通れない */
+.sheet .preview i.w { background: #4c88d0; }   /* 水 */
+.sheet .preview i.p { background: #ddd6bd; }   /* 歩ける */
+.sheet .map-info { flex: 1; min-width: 210px; }
+.sheet .rate { font-size: 13px; margin: 0 0 8px; }
+.sheet .rate b { font-family: var(--mono); font-size: 16px; color: var(--accent); }
+.sheet .rate.none { color: var(--ink-soft); }
+.sheet .ratebar { display: block; background: #d8d3c0; height: 7px; border: 1px solid #bdb7a2; width: 64px; }
+.sheet .ratebar i { display: block; height: 100%; background: #6a9ad0; }
+.sheet .links { margin: 10px 0 0; font-size: 12px; }
+.sheet .links dt { color: var(--ink-soft); font-size: 11px; margin-top: 6px; }
+.sheet .links dd { margin: 1px 0 0; }
+
+/* ---- いまの穴 ---- */
+
+.sheet .gaps { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+.sheet .gap {
+  background: var(--ground-2);
+  border: 1px solid #3a3040;
+  border-left: 3px solid var(--accent);
+  padding: 14px 16px;
+}
+.sheet .gap h3 { margin: 0 0 6px; font-size: 15px; color: #ffd0c8; }
+.sheet .gap p { margin: 0; font-size: 13px; color: #b0b6c4; }
+.sheet .gap b { color: #ffe14a; font-weight: 600; }
+
+/* ---- 計算式 ---- */
+
+.sheet .formulas { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 14px; }
+.sheet .formula {
+  background: var(--ground-2);
+  border: 1px solid #2c3240;
+  padding: 14px 16px;
+}
+.sheet .formula h3 { margin: 0 0 8px; font-size: 15px; color: #ffe14a; }
+.sheet .formula pre {
+  background: #0d1016;
+  border: 1px solid #262c38;
+  color: #c8d4e0;
+  font-size: 11.5px;
+  line-height: 1.6;
+  padding: 10px 12px;
+  margin: 0 0 8px;
+  overflow-x: auto;
+  white-space: pre;
+}
+.sheet .formula p { margin: 0; font-size: 12.5px; color: #a8aec0; }
+
+/* ---- 脚注 ---- */
+
+.sheet .foot {
+  max-width: 1180px;
+  margin: 48px auto 0;
+  padding: 20px 24px 0;
+  border-top: 1px solid #262c38;
+  font-size: 12.5px;
+  color: #8a90a0;
+}
+.sheet .foot p { margin: 0 0 6px; }
+.sheet .foot code { font-family: var(--mono); color: #c8d4e0; background: var(--ground-2); padding: 1px 5px; }
+.sheet .fine { color: #6a7080; font-size: 11.5px; }
+
+.sheet a:focus-visible,
+.sheet [tabindex]:focus-visible { outline: 2px solid #ffe14a; outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet * { animation: none !important; transition: none !important; }
+}
