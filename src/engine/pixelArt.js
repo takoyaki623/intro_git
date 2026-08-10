@@ -87,59 +87,201 @@ export function draw(ctx, def, x, y, opt = {}) {
 }
 
 // ---- プレースホルダ ----
-// 18種ぶんのドット絵を描き終わるまで開発を止めないための逃げ道。
-// id から決定論的に左右対称のシルエットを作るので、同じ種族は常に同じ形になる。
+// 実スプライトを描き終わるまで開発を止めないための逃げ道。
+// id から決定論的にシルエットを作るので、同じ種族は常に同じ形になる。
+//
+// archetype で胴体プランを選べる（'quadruped'|'bird'|'humanoid'|'dragon'|'ghost'|'insect'|'blob'）。
+// 色だけを変えたブロブを量産すると全員同じ生き物に見えてしまうため、
+// タイプ・見た目のモチーフごとに輪郭そのものを描き分ける。
+// 同じ archetype 内でも id 由来の乱数で耳・脚・翼の寸法をゆらし、
+// 進化系統でも1枚1枚が少しずつ違う個体に見えるようにしている。
 
 const placeholders = new Map();
 
-export function placeholderSprite(id, color = '#8888cc', size = 24) {
-  const key = id + '|' + color + '|' + size;
+export function placeholderSprite(id, color = '#8888cc', size = 24, archetype = 'blob') {
+  const key = id + '|' + color + '|' + size + '|' + archetype;
   const hit = placeholders.get(key);
   if (hit) return hit;
 
   const r = mulberry32((id * 2654435761) >>> 0);
   const half = Math.ceil(size / 2);
   const grid = Array.from({ length: size }, () => new Array(size).fill('.'));
-
-  // 中央に楕円の胴体を置き、その内側だけをノイズで削る。
-  // 完全ランダムだと「生き物」に見えないので、輪郭は必ず閉じた塊にする。
   const cx = (size - 1) / 2;
-  const cy = size * 0.56;
-  const rx = size * 0.30;
-  const ry = size * 0.34;
 
-  for (let y = 0; y < size; y++) {
+  /** 左右対称に1点置く（x は中心からの左半分だけ渡す） */
+  const setSym = (x, y, ch) => {
+    const xi = Math.round(x);
+    const yi = Math.round(y);
+    if (yi < 0 || yi >= size || xi < 0 || xi >= half) return;
+    grid[yi][xi] = ch;
+    grid[yi][size - 1 - xi] = ch;
+  };
+  /** 非対称に1点だけ置く（尻尾など、片側にしか無いパーツ用） */
+  const setPt = (x, y, ch) => {
+    const xi = Math.round(x);
+    const yi = Math.round(y);
+    if (yi < 0 || yi >= size || xi < 0 || xi >= size) return;
+    grid[yi][xi] = ch;
+  };
+  /** 中心 (cx,cy) 半径 (rx,ry) の楕円を左右対称に塗りつぶす。ふちはノイズで少し削る。 */
+  const fillOval = (cy, rx, ry, { noisy = true, threshold = 1.15 } = {}) => {
+    for (let y = 0; y < size; y++) {
+      for (let x = 0; x < half; x++) {
+        const dx = (x - cx) / rx;
+        const dy = (y - cy) / ry;
+        const d = dx * dx + dy * dy;
+        if (d > threshold) continue;
+        if (noisy && d > 0.75 && r.chance(0.4)) continue;
+        setSym(x, y, d < 0.35 ? 'l' : 'b');
+      }
+    }
+  };
+  const line = (x, y0, y1, ch = 'b') => {
+    const [a, b] = y0 <= y1 ? [y0, y1] : [y1, y0];
+    for (let y = a; y <= b; y++) setSym(x, y, ch);
+  };
+
+  if (archetype === 'quadruped') {
+    // 横に広い胴体（輪郭はなめらか）+ 立った耳 + 太い4本脚 + 片側にしっぽ。ヒツジやネズミ系のモチーフ。
+    const bodyCy = size * 0.48;
+    const rx = size * (0.34 + r.next() * 0.05);
+    const ry = size * (0.20 + r.next() * 0.04);
+    fillOval(bodyCy, rx, ry, { noisy: false });
+    // 耳（先のとがった三角、太さ2px）
+    const earX = cx - rx * (0.55 + r.next() * 0.15);
+    const earTop = Math.round(bodyCy - ry) - r.int(4, 6);
+    line(earX, earTop, bodyCy - ry, 'b');
+    line(earX - 1, earTop + 1, bodyCy - ry, 'b');
+    // 脚（前後2対、太さ2pxでしっかり下に伸ばす）
+    const legTop = bodyCy + ry * 0.5;
+    const legBot = Math.min(size - 1, legTop + r.int(4, 6));
+    for (const lx of [cx - rx * 0.75, cx - rx * 0.75 - 1, cx - rx * 0.2, cx - rx * 0.2 - 1]) {
+      line(lx, legTop, legBot, 'o');
+    }
+    // しっぽ（右側にだけ、くるんと1本、太め）
+    const tailLen = r.int(4, 7);
+    let tx = size - 1 - Math.round(cx - rx * 0.9);
+    let ty = bodyCy - ry * 0.2;
+    for (let i = 0; i < tailLen; i++) {
+      setPt(tx, ty, 'b');
+      setPt(tx, ty + 1, 'b');
+      tx += r.chance(0.6) ? 1 : 0;
+      ty -= 1;
+    }
+    setSym(cx - rx * 0.5, bodyCy - ry * 0.25, 'e');
+  } else if (archetype === 'bird') {
+    // 縦長の卵形の胴体（輪郭はなめらか）+ くちばし + 広げぎみの翼 + 細い2本脚。トリ系のモチーフ。
+    const bodyCy = size * 0.42;
+    const rx = size * (0.22 + r.next() * 0.03);
+    const ry = size * (0.32 + r.next() * 0.04);
+    fillOval(bodyCy, rx, ry, { noisy: false });
+    // くちばし（顔の下に小さく飛び出す三角、はっきり見えるよう2px）
+    const beakY = Math.round(bodyCy + ry * 0.4);
+    setSym(cx - 0.5, beakY, 'o');
+    setSym(cx - 0.5, beakY + 1, 'o');
+    setSym(cx - 1.5, beakY, 'o');
+    // 翼（胴体の脇に大きく広げた三角、2〜3px幅で塗る）
+    const wingY0 = Math.round(bodyCy - ry * 0.2);
+    const wingSpan = r.int(6, 9);
+    for (let i = 0; i < wingSpan; i++) {
+      const y = wingY0 + i;
+      const reach = Math.max(1, Math.round((wingSpan - i) * 0.5));
+      for (let k = 0; k < reach; k++) setSym(cx - rx - k, y, 'l');
+    }
+    // 脚
+    const legTop = bodyCy + ry * 0.9;
+    const legBot = Math.min(size - 1, legTop + r.int(3, 5));
+    line(cx - rx * 0.3, legTop, legBot, 'o');
+    setSym(cx - rx * 0.35, bodyCy - ry * 0.4, 'e');
+  } else if (archetype === 'humanoid') {
+    // 頭(胴体と別の円) + ほそい胴体 + 腕 + 脚。エスパー・かくとう系のモチーフ。
+    const headCy = size * 0.28;
+    const headR = size * (0.16 + r.next() * 0.03);
+    fillOval(headCy, headR, headR, { threshold: 1.05 });
+    // 角/耳
+    if (r.chance(0.7)) line(cx - headR * 0.6, headCy - headR - r.int(2, 4), headCy - headR, 'l');
+    // 胴体
+    const bodyCy = size * 0.62;
+    const rx = size * (0.14 + r.next() * 0.03);
+    const ry = size * (0.22 + r.next() * 0.03);
+    fillOval(bodyCy, rx, ry);
+    // 腕
+    const armY = Math.round(bodyCy - ry * 0.4);
+    setSym(cx - rx - 1, armY, 'l');
+    setSym(cx - rx - 2, armY + r.int(1, 3), 'l');
+    // 脚
+    const legTop = bodyCy + ry * 0.9;
+    const legBot = Math.min(size - 1, legTop + r.int(3, 5));
+    line(cx - rx * 0.45, legTop, legBot, 'o');
+    setSym(cx - headR * 0.4, headCy, 'e');
+  } else if (archetype === 'dragon') {
+    // 中心の胴体から、細い首と小さな頭が2〜3本のびる。複数の頭を持つ竜のモチーフ。
+    const bodyCy = size * 0.62;
+    const rx = size * (0.26 + r.next() * 0.04);
+    const ry = size * (0.24 + r.next() * 0.04);
+    fillOval(bodyCy, rx, ry);
+    const heads = r.chance(0.5) ? 3 : 2;
+    const innerX = cx - rx * 0.4;
+    const outerX = Math.max(0, cx - rx * 0.95);
+    const positions = heads === 3 ? [cx - 0.5, innerX, outerX] : [innerX, outerX];
+    for (const hx of positions) {
+      const neckTop = bodyCy - ry - r.int(4, 7);
+      line(hx, neckTop, bodyCy - ry, 'l');
+      setPt(Math.round(hx), Math.round(neckTop) - 1, 'b');
+      setPt(Math.round(size - 1 - hx), Math.round(neckTop) - 1, 'b');
+      setSym(hx, neckTop - 1, 'e');
+    }
+  } else if (archetype === 'ghost') {
+    // 脚のない、下ふちがギザギザした浮遊シルエット。ゴースト・ほのお系のモチーフ。
+    const bodyCy = size * 0.48;
+    const rx = size * (0.28 + r.next() * 0.05);
+    const ry = size * (0.26 + r.next() * 0.05);
+    fillOval(bodyCy, rx, ry, { noisy: false });
+    // 下ふちを炎/裾のようにギザギザに削る
+    const hemY = Math.round(bodyCy + ry * 0.6);
     for (let x = 0; x < half; x++) {
-      const dx = (x - cx) / rx;
-      const dy = (y - cy) / ry;
-      const d = dx * dx + dy * dy;
-      if (d > 1.15) continue;
-      if (d > 0.75 && r.chance(0.45)) continue;
-      const ch = d < 0.35 ? 'l' : 'b';
-      grid[y][x] = ch;
-      grid[y][size - 1 - x] = ch;
+      if (!r.chance(0.5)) continue;
+      const depth = r.int(1, 3);
+      for (let d = 0; d < depth; d++) setSym(x, hemY + d, '.');
     }
-  }
-
-  // 頭のでっぱりを2〜3本
-  const bumps = r.int(2, 3);
-  for (let i = 0; i < bumps; i++) {
-    const bx = r.int(1, half - 2);
-    const bh = r.int(2, 4);
-    const top = Math.max(0, Math.round(cy - ry) - bh);
-    for (let y = top; y < top + bh + 1; y++) {
-      if (y < 0 || y >= size) continue;
-      grid[y][bx] = 'b';
-      grid[y][size - 1 - bx] = 'b';
+    // 頭の上のゆらぎ（片側だけ、非対称）
+    const flameLen = r.int(2, 4);
+    let fx = cx - rx * 0.3;
+    let fy = bodyCy - ry;
+    for (let i = 0; i < flameLen; i++) { setPt(Math.round(fx), Math.round(fy) - i, 'l'); fx += r.chance(0.5) ? 1 : -1; }
+    setSym(cx - rx * 0.35, bodyCy - ry * 0.2, 'e');
+  } else if (archetype === 'insect') {
+    // 大小の楕円を縦に3つ積んだ節のある胴体 + 触角 + 3対の脚。むし系のモチーフ。
+    const segs = [
+      { cy: size * 0.68, rx: size * 0.26, ry: size * 0.18 },
+      { cy: size * 0.48, rx: size * 0.20, ry: size * 0.15 },
+      { cy: size * 0.30, rx: size * 0.15, ry: size * 0.13 },
+    ];
+    for (const s of segs) fillOval(s.cy, s.rx, s.ry, { noisy: false });
+    // 触角
+    const antTop = segs[2].cy - segs[2].ry - r.int(3, 5);
+    line(cx - segs[2].rx * 0.5, antTop, segs[2].cy - segs[2].ry, 'l');
+    // 脚（3対、胴体の両脇に斜めの線）
+    for (let i = 0; i < 3; i++) {
+      const s = segs[Math.min(1, i)];
+      const legY = s.cy;
+      setSym(cx - s.rx - 1 - i, legY - 1 + i, 'o');
     }
-  }
-
-  // 目
-  const ey = Math.round(cy - ry * 0.35);
-  const ex = Math.max(1, Math.round(cx - rx * 0.5));
-  if (grid[ey]) {
-    grid[ey][ex] = 'e';
-    grid[ey][size - 1 - ex] = 'e';
+    setSym(cx - segs[2].rx * 0.45, segs[2].cy, 'e');
+  } else {
+    // 既定: 中央の楕円 + 頭のでっぱり数本（未分類の種族むけの汎用ブロブ）
+    const bodyCy = size * 0.56;
+    const rx = size * 0.30;
+    const ry = size * 0.34;
+    fillOval(bodyCy, rx, ry);
+    const bumps = r.int(2, 3);
+    for (let i = 0; i < bumps; i++) {
+      const bx = r.int(1, half - 2);
+      const bh = r.int(2, 4);
+      const top = Math.max(0, Math.round(bodyCy - ry) - bh);
+      line(bx, top, Math.round(bodyCy - ry), 'b');
+    }
+    setSym(cx - rx * 0.5, bodyCy - ry * 0.35, 'e');
   }
 
   // 輪郭線（塗りの外周を暗い色に）
