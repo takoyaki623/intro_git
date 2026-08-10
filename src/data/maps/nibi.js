@@ -41,6 +41,11 @@ export default {
   ],
   npcs: [
     {
+      id: 'rival4', x: 5, y: 11, sprite: 'youngster', dir: 'up', sight: 4,
+      trainer: 'rival4', when: 'badge_denki',
+      lines: ['また どこかで あおうぜ。'],
+    },
+    {
       id: 'nibiGirl', x: 12, y: 6, sprite: 'girl', dir: 'left', wander: true,
       lines: [
         'ニビジムの リーダーは いわタイプの つかいて。',

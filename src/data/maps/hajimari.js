@@ -56,6 +56,11 @@ export default {
       ],
     },
     {
+      id: 'rival1', x: 9, y: 6, sprite: 'youngster', dir: 'down', sight: 6,
+      trainer: 'rival1', when: 'gotStarter',
+      lines: ['また しょうぶ しような！'],
+    },
+    {
       id: 'boy1', x: 4, y: 8, sprite: 'boy', dir: 'down', wander: true,
       lines: [
         'くさむらには やせいの ポケモンが いるんだ。',

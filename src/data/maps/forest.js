@@ -71,6 +71,11 @@ export default {
   ],
   npcs: [
     {
+      id: 'rival3', x: 9, y: 4, sprite: 'youngster', dir: 'down', sight: 5,
+      trainer: 'rival3', when: 'gotStarter',
+      lines: ['もりの きたぐちは もう すぐだ。さきに いくぜ！'],
+    },
+    {
       id: 'f1girl', x: 4, y: 12, sprite: 'girl', dir: 'down', wander: true,
       lines: [
         'いけで つりを すると コイキングが つれるわ。',

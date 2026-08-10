@@ -19,6 +19,29 @@ import { createMonster, displayName, raiseBySteps } from '../game/monster.js';
 import { getMove } from '../data/moves.js';
 import { ITEMS } from '../data/items.js';
 import { getSpecies } from '../data/species.js';
+import { RIVAL_BATTLES } from '../data/rival.js';
+
+/**
+ * トレーナーを解決する。ライバルだけは相手ごとの静的データではなく、
+ * プレイヤーが選んだ御三家とライバルの名前から その場で組み立てる
+ * （名前と手持ちの進化段階が、プレイの結果しだいで変わるため）。
+ */
+function resolveTrainer(id) {
+  const def = RIVAL_BATTLES[id];
+  if (!def) return getTrainer(id);
+  return {
+    class: def.class,
+    name: state.player.rivalName || 'ライバル',
+    sprite: def.sprite,
+    prize: def.prize,
+    sight: def.sight,
+    skill: def.skill,
+    party: def.party(state.player.rivalStarter ?? 4),
+    intro: def.intro,
+    defeat: def.defeat,
+    after: def.after,
+  };
+}
 
 /** 持っているなかで一番いい つりざお。無ければ null。 */
 function bestRod() {
@@ -177,7 +200,7 @@ export class FieldScene {
   async startTrainerBattle(npc) {
     this.approach = null;
     this.busy = true;
-    const trainer = getTrainer(npc.trainer);
+    const trainer = resolveTrainer(npc.trainer);
     const foeParty = trainer.party.map((p) => createMonster(p.id, p.lv, { rng, moves: p.moves }));
 
     const [{ TransitionScene }, { BattleScene }] = await Promise.all([
@@ -247,7 +270,7 @@ export class FieldScene {
       World.faceNpcToPlayer(target.npc);
       const npc = target.npc;
       if (npc.trainer) {
-        const trainer = getTrainer(npc.trainer);
+        const trainer = resolveTrainer(npc.trainer);
         // 倒した相手は世間話に変わる。まだなら話しかけた時点で勝負。
         if (getFlag(trainerFlag(npc.trainer))) {
           this.openDialog(npc.lines ?? trainer.after, npc);

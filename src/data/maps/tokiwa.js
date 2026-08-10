@@ -51,6 +51,19 @@ export default {
         'バッジが あると ショップの しなぞろえも かわるらしいぞ。',
       ],
     },
+    {
+      id: 'rival2', x: 5, y: 7, sprite: 'youngster', dir: 'down', when: 'gotStarter',
+      lines: [
+        { if: 'trainer_rival1', then: [
+          'よう。まえの しょうぶ、まだ くやしいんだ。',
+        ], else: [
+          'よう。まえの しょうぶ、おれの かちだったな。',
+        ] },
+        'ここが トキワジム。マチスは でんきタイプの つかいてだ。',
+        'おれは もう いどんできた。おまえも がんばれよ。',
+        'もりの きたぐちで また しょうぶ しような！',
+      ],
+    },
   ],
   items: [
     { x: 17, y: 11, item: 'きずぐすり', n: 2, flag: 'item_tokiwa_potion' },

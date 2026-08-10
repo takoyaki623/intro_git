@@ -43,6 +43,8 @@ export const state = {
     money: 3000,
     pos: { map: 'hajimari', x: 9, y: 12, dir: 'up' },
     respawn: { map: 'center', x: 6, y: 6 },
+    rivalName: null,
+    rivalStarter: null,
   },
   party: [],
   boxes: Array.from({ length: BOX_COUNT }, () => new Array(BOX_SIZE).fill(null)),
@@ -66,6 +68,8 @@ export function resetState() {
     money: 3000,
     pos: { map: 'hajimari', x: 9, y: 12, dir: 'up' },
     respawn: { map: 'center', x: 6, y: 6 },
+    rivalName: null,
+    rivalStarter: null,
   };
   state.party = [];
   state.boxes = Array.from({ length: BOX_COUNT }, () => new Array(BOX_SIZE).fill(null));
@@ -164,6 +168,8 @@ export function buildSave() {
       money: state.player.money,
       pos: { ...state.player.pos },
       respawn: { ...state.player.respawn },
+      rivalName: state.player.rivalName,
+      rivalStarter: state.player.rivalStarter,
     },
     party: state.party.map(serialize),
     boxes: state.boxes.map((b) => b.map((m) => (m ? serialize(m) : null))),
@@ -225,6 +231,8 @@ export function load(slot = 0) {
         x: s.player?.respawn?.x ?? 6,
         y: s.player?.respawn?.y ?? 6,
       },
+      rivalName: s.player?.rivalName ?? null,
+      rivalStarter: s.player?.rivalStarter ?? null,
     };
     state.party = (s.party ?? []).map(hydrate).filter(Boolean).slice(0, PARTY_MAX);
     state.boxes = Array.from({ length: BOX_COUNT }, (_, bi) => {

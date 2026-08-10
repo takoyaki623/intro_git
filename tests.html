@@ -34,6 +34,14 @@ import { TILE, TILE_SPR } from './src/data/tiles.js';
 import { MAPS, mapWidth, tileKeyAt } from './src/data/maps/index.js';
 import { CHARS } from './src/data/sprites/chars.js';
 import { TRAINERS, BADGES, prizeMoney } from './src/data/trainers.js';
+import { RIVAL_BATTLES } from './src/data/rival.js';
+
+// ライバルは TRAINERS ではなく RIVAL_BATTLES にいて、party が
+// 御三家(starterId)からその場で組み立てる関数になっている。
+// テストでは代表として id:4(ヒトカゲ) を渡し、静的な TRAINERS と同じ
+// 形（{ party:[{id,lv},...], sight, … }）に揃えて どこからでも同じように扱えるようにする。
+const getAnyTrainer = (id) => TRAINERS[id]
+  ?? (RIVAL_BATTLES[id] && { ...RIVAL_BATTLES[id], party: RIVAL_BATTLES[id].party(4) });
 import { SONGS } from './src/core/music.js';
 import { SPR } from './src/data/sprites/monsters.js';
 import { mulberry32 } from './src/core/rng.js';
@@ -503,7 +511,7 @@ section('バランス ― 進行順');
   };
   const trainerBand = (m) => {
     const lv = (m.npcs ?? []).filter((n) => n.trainer)
-      .flatMap((n) => TRAINERS[n.trainer].party.map((p) => p.lv));
+      .flatMap((n) => getAnyTrainer(n.trainer).party.map((p) => p.lv));
     return lv.length ? { lo: Math.min(...lv), hi: Math.max(...lv) } : null;
   };
 
@@ -553,7 +561,7 @@ section('バランス ― さいしょの草むら');
     const out = new Set();
     for (const n of m.npcs ?? []) {
       if (!n.trainer) continue;
-      const range = n.sight ?? TRAINERS[n.trainer]?.sight ?? 0;
+      const range = n.sight ?? getAnyTrainer(n.trainer)?.sight ?? 0;
       const [dx, dy] = DIRV[n.dir] ?? [0, 1];
       for (let i = 1; i <= range; i++) {
         const x = n.x + dx * i;
@@ -749,11 +757,11 @@ for (const [id, t] of Object.entries(TRAINERS)) {
     for (const n of m.npcs ?? []) {
       if (!n.trainer) continue;
       used.push(n.trainer);
-      check(`${id} の ${n.id} が指す ${n.trainer} が実在`, !!TRAINERS[n.trainer], n.trainer);
+      check(`${id} の ${n.id} が指す ${n.trainer} が実在`, !!getAnyTrainer(n.trainer), n.trainer);
       const k = tileKeyAt(m, n.x, n.y);
       check(`${id} の ${n.id} が通行可タイル上`, !!k && !TILE[k].solid, k ?? '範囲外');
 
-      const range = n.sight ?? TRAINERS[n.trainer]?.sight ?? 0;
+      const range = n.sight ?? getAnyTrainer(n.trainer)?.sight ?? 0;
       if (range <= 0) continue;
       const [dx, dy] = DIRV[n.dir] ?? [0, 1];
       let visible = 0;

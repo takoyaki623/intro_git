@@ -10,6 +10,7 @@ import {
 } from '../game/state.js';
 import { createMonster, displayName } from '../game/monster.js';
 import { getSpecies } from '../data/species.js';
+import { RIVAL_STARTER } from '../data/rival.js';
 import { rng } from '../core/rng.js';
 import { SE } from '../core/audio.js';
 
@@ -101,6 +102,10 @@ export class DialogScene {
         this.startStarterChoice(cmd.chooseStarter);
         return;
       }
+      if (cmd.nameRival) {
+        this.startNameRival();
+        return;
+      }
       if (cmd.shop) {
         this.openShop(cmd.shop);
         return;
@@ -143,12 +148,27 @@ export class DialogScene {
         setFlag('gotStarter');
         addItem('モンスターボール', 5);
         addItem('きずぐすり', 3);
+        state.player.rivalStarter = RIVAL_STARTER[id] ?? null;
         this.queue.unshift(
           `${mon.species.name}を てにいれた！`,
           'それから モンスターボールを ５こ もらった。',
           'きたの １ばんどうろで くさむらに はいって みなさい。',
           'やせいの ポケモンが とびだしてくるぞ！',
+          { nameRival: true },
         );
+      },
+    }));
+  }
+
+  /** ライバルの名前をきく。御三家を選んだ直後、1度だけ。 */
+  async startNameRival() {
+    const { NameScene } = await import('./NameScene.js');
+    Scenes.push(new NameScene({
+      title: 'ライバルの なまえは？',
+      initial: 'シゲル',
+      max: 5,
+      onDone: (name) => {
+        state.player.rivalName = name || 'シゲル';
       },
     }));
   }
