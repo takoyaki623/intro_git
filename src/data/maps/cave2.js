@@ -18,7 +18,7 @@ export default {
     'c....cc~~~~cc....c',
     'c.....cc~~cc.....c',
     'c......c..c......c',
-    'c................c',
+    'c.................',
     'cccccccccccccccccc',
   ],
   bgm: 'cave',
@@ -53,6 +53,7 @@ export default {
   },
   warps: [
     { x: 2, y: 1, to: 'cave1', tx: 17, ty: 10, dir: 'up' },
+    { x: 17, y: 11, to: 'route3', tx: 1, ty: 6, dir: 'right' },
   ],
   npcs: [
     {

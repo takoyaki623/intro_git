@@ -54,6 +54,8 @@ export const state = {
   playTimeMs: 0,
   stepsSinceEncounter: 0,
   startedAt: Date.now(),
+  // 殿堂入りした回数。タイトルの「つづきから」に ★ を出すのに使う。
+  hallOfFameCount: 0,
   // そだてや に あずけた1匹。{ mon, stepsLeft, startLv }
   daycare: null,
   // むしよけスプレーの残り歩数。セーブには含めない（リロードで切れても実害が薄い）。
@@ -79,6 +81,7 @@ export function resetState() {
   state.playTimeMs = 0;
   state.stepsSinceEncounter = 0;
   state.startedAt = Date.now();
+  state.hallOfFameCount = 0;
   state.daycare = null;
   state.repelSteps = 0;
   state.lastEntrance = null;
@@ -162,6 +165,7 @@ export function buildSave() {
     version: SAVE_VERSION,
     savedAt: Date.now(),
     playTimeMs: state.playTimeMs,
+    hallOfFameCount: state.hallOfFameCount,
     rngSeed: rng.seed,
     player: {
       name: state.player.name,
@@ -251,6 +255,7 @@ export function load(slot = 0) {
       where: { ...(s.dex?.where ?? {}) },
     };
     state.playTimeMs = s.playTimeMs ?? 0;
+    state.hallOfFameCount = s.hallOfFameCount ?? 0;
     state.stepsSinceEncounter = 0;
     state.repelSteps = 0;
     state.lastEntrance = null;

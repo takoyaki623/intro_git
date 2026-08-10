@@ -58,6 +58,26 @@ export const RIVAL_BATTLES = {
     defeat: ['……つよく なったな、おまえ。みとめるよ。'],
     after: ['このさきも たびは つづく。またどこかで あおうぜ。'],
   },
+  rival5: {
+    class: 'チャンピオン', sprite: 'youngster', prize: 500, sight: 3, skill: 3,
+    party: (starterId) => [
+      { id: 26, lv: 34 },
+      { id: 130, lv: 35 },
+      { id: 20, lv: 34 },
+      { id: 75, lv: 36 },
+      { id: evolvedFor(starterId, 38), lv: 38 },
+    ],
+    intro: [
+      'よく ここまで きたな。',
+      'おれが チャンピオンだ。かかってこいよ！',
+      'これが ほんとうの しょうぶだ！',
+    ],
+    defeat: [
+      '……まいった。おまえの かちだ。',
+      'チャンピオンは おまえだよ。',
+    ],
+    after: ['また いつか、しょうぶ しような。'],
+  },
 };
 
 /** 勝敗のセリフ切り替えに使う、トレーナーIDからのフラグ名（既存の trainerFlag と同じ規則）。 */

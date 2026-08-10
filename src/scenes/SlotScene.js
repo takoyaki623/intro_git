@@ -63,7 +63,8 @@ export class SlotScene {
       if (i === this.index) drawCursor(ctx, 8, y + 12, COL.select);
 
       const label = s.slot === 'auto' ? 'オート' : `レポート ${s.slot + 1}`;
-      drawText(ctx, label, 20, y + 5, { color: COL.ink });
+      const star = s.data?.hallOfFameCount > 0 ? '★ ' : '';
+      drawText(ctx, star + label, 20, y + 5, { color: COL.ink });
 
       if (!s.data) {
         drawText(ctx, 'からっぽ', 20, y + 19, { color: COL.inkLight });

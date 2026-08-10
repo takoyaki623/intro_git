@@ -77,24 +77,42 @@ export class FieldScene {
   }
 
   resume(result) {
+    // TransitionScene が自分を畳むときにも resume(undefined) が飛んでくる。
+    // それを「バトルの本当の決着」と区別しないと、pendingChampion / pendingStatic が
+    // 戦闘の結果が返ってくる前に消えてしまう（本物の決着は必ず { result: '...' } の形）。
+    if (result && typeof result === 'object' && 'result' in result) {
+      // チャンピオン(ライバル5戦目)に勝ったら、そのまま殿堂入りへ。
+      const champion = this.pendingChampion;
+      this.pendingChampion = false;
+      if (champion && result.result === 'win') {
+        this.goHallOfFame();
+        return;
+      }
+
+      // ぬしポケモンは倒す/つかまえたときだけ二度と現れないようにする
+      const boss = this.pendingStatic;
+      this.pendingStatic = null;
+      if (boss && (result.result === 'win' || result.result === 'caught')) {
+        setFlag(boss.flag);
+        world.statics = world.statics.filter((s) => s !== boss);
+      }
+    }
+
     this.busy = false;
     this.approach = null;
     world.frozen = false;
     Input.clearEdges();
     this.playMapMusic();
 
-    // ぬしポケモンは倒す/つかまえたときだけ二度と現れないようにする
-    const boss = this.pendingStatic;
-    this.pendingStatic = null;
-    if (boss && (result?.result === 'win' || result?.result === 'caught')) {
-      setFlag(boss.flag);
-      world.statics = world.statics.filter((s) => s !== boss);
-    }
-
     // バトルで全滅していたらポケモンセンターへ強制送還
     if (state.party.length && state.party.every((m) => m.curHP <= 0)) {
       this.whiteOut();
     }
+  }
+
+  async goHallOfFame() {
+    const { HallOfFameScene } = await import('./HallOfFameScene.js');
+    Scenes.reset(new HallOfFameScene());
   }
 
   whiteOut() {
@@ -200,6 +218,7 @@ export class FieldScene {
   async startTrainerBattle(npc) {
     this.approach = null;
     this.busy = true;
+    this.pendingChampion = npc.trainer === 'rival5';
     const trainer = resolveTrainer(npc.trainer);
     const foeParty = trainer.party.map((p) => createMonster(p.id, p.lv, { rng, moves: p.moves }));
 
