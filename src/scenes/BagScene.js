@@ -2,7 +2,7 @@ import * as Screen from '../core/screen.js';
 import * as Scenes from '../core/sceneStack.js';
 import * as Input from '../core/input.js';
 import { BTN } from '../core/input.js';
-import { drawText, drawTextRight, wrapText } from '../engine/font.js';
+import { drawText, drawTextRight, drawTextCentered, wrapText } from '../engine/font.js';
 import { drawWindow, drawCursor, COL } from '../engine/ui.js';
 import { Menu } from '../engine/menu.js';
 import { TextBox } from '../engine/textbox.js';
@@ -132,18 +132,12 @@ export class BagScene {
     ctx.fillStyle = '#4a5a78';
     ctx.fillRect(0, 0, W, H);
 
-    // ポケットのタブ
+    // ポケット。名前が長いものがあるので、タブを並べず1つずつ出して左右で切り替える。
     drawWindow(ctx, 4, 4, 248, 30);
-    POCKETS.forEach((p, i) => {
-      const x = 12 + i * 78;
-      const on = i === this.pocket;
-      if (on) {
-        ctx.fillStyle = COL.select;
-        ctx.fillRect(x - 4, 10, 74, 16);
-      }
-      drawText(ctx, p, x, 13, { color: on ? '#ffffff' : COL.inkLight });
-    });
-    drawText(ctx, '← →', 214, 13, { color: COL.inkLight });
+    drawText(ctx, '◀', 14, 12, { color: COL.inkLight });
+    drawText(ctx, '▶', 230, 12, { color: COL.inkLight });
+    drawTextCentered(ctx, POCKETS[this.pocket], W / 2, 12, { color: COL.ink });
+    drawTextRight(ctx, `${this.pocket + 1}/${POCKETS.length}`, 224, 13, { color: COL.inkLight });
 
     // 一覧
     drawWindow(ctx, 4, 38, 248, 112);

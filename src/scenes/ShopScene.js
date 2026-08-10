@@ -13,8 +13,12 @@ import { state, addItem, removeItem } from '../game/state.js';
 const W = Screen.W;
 const H = Screen.H;
 
-/** 売値は買値の半額（本家と同じ）。買い戻しで無限に増やせないようにするため。 */
-const sellPrice = (item) => Math.floor((item.price ?? 0) / 2);
+/**
+ * 売値は買値の半額（本家と同じ）。買い戻しで無限に増やせないようにするため。
+ * わざマシンは使っても減らないので、売れると無限にお金が湧く。売らせない。
+ */
+const sellPrice = (item) =>
+  (item.pocket === 'わざマシン' ? 0 : Math.floor((item.price ?? 0) / 2));
 
 /**
  * ショップ。

@@ -62,6 +62,18 @@ export const ITEMS = {
     usableIn: ['field', 'battle'],
     desc: 'すべての じょうたい いじょうを なおす。',
   },
+  // PP回復。技を1つずつ選ばせる画面を作らずに済むよう、まとめて回復する。
+  'ピーピーエイド': {
+    pocket: 'かいふく', price: 900, use: { kind: 'pp', amount: 10 },
+    usableIn: ['field', 'battle'],
+    desc: 'ぜんぶの わざの PPを 10 ずつ かいふくする。',
+  },
+  'ピーピーリカバー': {
+    pocket: 'かいふく', price: 1800, use: { kind: 'pp', amount: 'full' },
+    usableIn: ['field', 'battle'],
+    desc: 'ぜんぶの わざの PPを まんたんに する。',
+  },
+
   'げんきのかけら': {
     pocket: 'かいふく', price: 1500, use: { kind: 'revive', ratio: 0.5 },
     usableIn: ['field', 'battle'], targetFainted: true,
@@ -102,6 +114,27 @@ export const ITEMS = {
   },
 };
 
+// わざマシン。使っても無くならない（何匹にでも教えられる）。
+// 昔のシリーズは1回きりだが、覚えさせ先を間違えたときの取り返しがつかないので
+// ここでは使い切らない方式にした。
+const TMS = [
+  ['わざマシン０１', 'のしかかり', 3000],
+  ['わざマシン０２', 'かえんほうしゃ', 4000],
+  ['わざマシン０３', 'なみのり', 4000],
+  ['わざマシン０４', '10まんボルト', 4000],
+  ['わざマシン０５', 'はっぱカッター', 2000],
+  ['わざマシン０６', 'かみつく', 2000],
+  ['わざマシン０７', 'ねんりき', 2000],
+  ['わざマシン０８', 'こうごうせい', 2500],
+];
+for (const [name, move, price] of TMS) {
+  ITEMS[name] = {
+    pocket: 'わざマシン', price, use: { kind: 'tm', move },
+    usableIn: ['field'],
+    desc: `${move}を おぼえさせる。なんども つかえる。`,
+  };
+}
+
 for (const [name, it] of Object.entries(ITEMS)) {
   it.name = name;
   it.use ??= null;
@@ -109,4 +142,4 @@ for (const [name, it] of Object.entries(ITEMS)) {
 }
 
 export const getItem = (name) => ITEMS[name] ?? null;
-export const POCKETS = ['ボール', 'かいふく', 'たいせつなもの'];
+export const POCKETS = ['ボール', 'かいふく', 'わざマシン', 'たいせつなもの'];

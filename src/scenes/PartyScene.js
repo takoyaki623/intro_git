@@ -8,7 +8,9 @@ import { drawWindow, drawBar, hpColor, drawCursor, COL } from '../engine/ui.js';
 import { Menu } from '../engine/menu.js';
 import { TextBox } from '../engine/textbox.js';
 import { state } from '../game/state.js';
-import { displayName, heal, fullHeal } from '../game/monster.js';
+import {
+  displayName, heal, fullHeal, knowsMove, learnMove, replaceMove, MAX_MOVES,
+} from '../game/monster.js';
 import { expRatio } from '../game/formulas.js';
 
 const W = Screen.W;
@@ -181,12 +183,65 @@ export class PartyScene {
       return;
     }
 
+    if (u.kind === 'pp') {
+      const low = mon.moves.filter((m) => m.pp < m.maxPp);
+      if (!low.length) { this.say('PPは まんたんだ！'); return; }
+      for (const m of mon.moves) {
+        m.pp = u.amount === 'full' ? m.maxPp : Math.min(m.maxPp, m.pp + u.amount);
+      }
+      this.sayAndClose(`${displayName(mon)}の PPが かいふくした！`, { used: true, target: mon });
+      return;
+    }
+
+    if (u.kind === 'tm') {
+      this.teachMove(mon, u.move);
+      return;
+    }
+
     if (u.kind === 'evoStone') {
       this.close({ used: false, stone: it, target: mon });
       return;
     }
 
     this.say('それを つかっても いみが なさそうだ。');
+  }
+
+  /** わざマシン。使っても無くならないので used は返さない。 */
+  async teachMove(mon, move) {
+    if (!(mon.species.tm ?? []).includes(move)) {
+      this.say(`${displayName(mon)}には あわないようだ。`);
+      return;
+    }
+    if (knowsMove(mon, move)) {
+      this.say(`${displayName(mon)}は すでに ${move}を おぼえている！`);
+      return;
+    }
+    if (mon.moves.length < MAX_MOVES) {
+      learnMove(mon, move);
+      this.say(`${displayName(mon)}は ${move}を おぼえた！`);
+      return;
+    }
+
+    // 4つ埋まっている。忘れる技を選ばせる。
+    this.pendingTm = { mon, move };
+    const { ForgetScene } = await import('./ForgetScene.js');
+    Scenes.push(new ForgetScene({ mon, newMove: move }));
+  }
+
+  /** サブ画面から戻ってきた（いまのところ わざマシンの技えらびだけ） */
+  resume(result) {
+    Input.clearEdges();
+    const tm = this.pendingTm;
+    this.pendingTm = null;
+    if (!tm) return;
+
+    if (result === null || result === undefined) {
+      this.say(`${displayName(tm.mon)}は ${tm.move}を おぼえられなかった！`);
+      return;
+    }
+    const old = tm.mon.moves[result].id;
+    replaceMove(tm.mon, result, tm.move);
+    this.say(`${displayName(tm.mon)}は ${old}を わすれて ${tm.move}を おぼえた！`);
   }
 
   say(text) {

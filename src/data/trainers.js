@@ -7,6 +7,7 @@
 //   name    : 名前
 //   sprite  : chars.js のキャラ名
 //   prize   : 賞金の係数。実際の賞金 = prize × 最後に出したポケモンのレベル
+//   skill   : 行動選択の賢さ 0..3。3 は気まぐれを起こさず変化技も使いこなす
 //   party   : 手持ち。上から順に出てくる
 //   badge   : 倒すと `badge_<id>` が立つ（ジムリーダーだけ）
 //   sight   : 何マス先まで視線が届くか（マップ側で上書きできる）
@@ -15,14 +16,14 @@
 export const TRAINERS = {
   // ---- １ばんどうろ ----
   youngster1: {
-    class: 'たんパンこぞう', name: 'マサル', sprite: 'youngster', prize: 35, sight: 4,
+    class: 'たんパンこぞう', name: 'マサル', skill: 1, sprite: 'youngster', prize: 35, sight: 4,
     party: [{ id: 12, lv: 7 }, { id: 10, lv: 8 }],
     intro: ['やあ！ ぼくと しょうぶ しようよ！'],
     defeat: ['うわーっ つよいなあ！'],
     after: ['くさむらで レベルを あげてから また やろうね。'],
   },
   lass1: {
-    class: 'ミニスカート', name: 'あやか', sprite: 'lass', prize: 40, sight: 3,
+    class: 'ミニスカート', name: 'あやか', skill: 1, sprite: 'lass', prize: 40, sight: 3,
     party: [{ id: 10, lv: 9 }],
     intro: ['あら！ めが あったわね。しょうぶよ！'],
     defeat: ['まけちゃった…'],
@@ -31,14 +32,14 @@ export const TRAINERS = {
 
   // ---- ときわのもり ----
   bugcatcher1: {
-    class: 'むしとりしょうねん', name: 'ケンタ', sprite: 'bugcatcher', prize: 30, sight: 4,
+    class: 'むしとりしょうねん', name: 'ケンタ', skill: 1, sprite: 'bugcatcher', prize: 30, sight: 4,
     party: [{ id: 14, lv: 9 }, { id: 15, lv: 10 }],
     intro: ['むしポケモンは さいこうだぜ！ しょうぶだ！'],
     defeat: ['ぼくの むしポケモンが…'],
     after: ['トランセルは かたいけど こうげきは にがてなんだ。'],
   },
   bugcatcher2: {
-    class: 'むしとりしょうねん', name: 'ヒロシ', sprite: 'bugcatcher', prize: 30, sight: 5,
+    class: 'むしとりしょうねん', name: 'ヒロシ', skill: 1, sprite: 'bugcatcher', prize: 30, sight: 5,
     party: [{ id: 14, lv: 10 }, { id: 15, lv: 12 }],
     intro: ['もりの おくには つよい やつが いるらしいぜ！'],
     defeat: ['まだまだ だったか…'],
@@ -47,21 +48,21 @@ export const TRAINERS = {
 
   // ---- ジム ----
   gymboy1: {
-    class: 'ジムトレーナー', name: 'たけし', sprite: 'youngster', prize: 60, sight: 5,
+    class: 'ジムトレーナー', name: 'たけし', skill: 2, sprite: 'youngster', prize: 60, sight: 5,
     party: [{ id: 17, lv: 12 }],
     intro: ['ジムリーダーに あいたければ ぼくを たおしてから だ！'],
     defeat: ['ぐぬぬ… やるな！'],
     after: ['でんきタイプは じめんタイプに ぜんぜん ダメージが とおらないぞ。'],
   },
   gymboy2: {
-    class: 'ジムトレーナー', name: 'みつる', sprite: 'bugcatcher', prize: 60, sight: 4,
+    class: 'ジムトレーナー', name: 'みつる', skill: 2, sprite: 'bugcatcher', prize: 60, sight: 4,
     party: [{ id: 17, lv: 11 }, { id: 12, lv: 12 }],
     intro: ['この さきは とおさないよ！'],
     defeat: ['まいったなあ。'],
     after: ['まひすると すばやさが はんぶんに なって うごけないことも あるんだ。'],
   },
   leaderDenki: {
-    class: 'ジムリーダー', name: 'マチス', sprite: 'leader', prize: 120, sight: 0,
+    class: 'ジムリーダー', name: 'マチス', skill: 3, sprite: 'leader', prize: 120, sight: 0,
     badge: 'denki',
     party: [{ id: 17, lv: 14 }, { id: 26, lv: 16 }],
     intro: [

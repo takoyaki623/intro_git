@@ -42,6 +42,7 @@ import {
   expForLevel, catchAttempt, runAway, stageMul, accMul, statusEndOfTurnDamage,
 } from './src/game/formulas.js';
 import { createMonster, serialize, hydrate, evolve, recalcStats } from './src/game/monster.js';
+import { chooseAction } from './src/game/ai.js';
 
 const out = document.getElementById('out');
 let total = 0;
@@ -275,6 +276,12 @@ for (const [name, it] of Object.entries(ITEMS)) {
     // どうぐの使い道は3通り。バッグから／バトルで投げる／地形から。
     // どれにも当てはまらないものは、持っていても何もできない。
     const FROM_TERRAIN = ['rod'];
+    if (it.use.kind === 'tm') {
+      check(`${name} の技 ${it.use.move} が実在`, !!MOVES[it.use.move], it.use.move);
+      // 誰も覚えられないわざマシンは、買っても置物にしかならない
+      const learners = speciesList.filter((s) => (s.tm ?? []).includes(it.use.move));
+      check(`${name} を おぼえられる種がいる`, learners.length > 0, it.use.move);
+    }
     check(`${name} の使用場面`,
       it.usableIn.length > 0 || it.pocket === 'ボール' || FROM_TERRAIN.includes(it.use.kind),
       it.use.kind);
@@ -447,6 +454,67 @@ section('データ整合性 ― 地形');
 }
 
 // ---------------------------------------------------------------- トレーナー
+// ---------------------------------------------------------------- AI
+section('相手の行動選択');
+{
+  // 「効かない場面で撃たない」がいちばん効く。掛かっている相手に
+  // もう一度 状態異常技を撃つのが、遊んでいて一番しらけるため。
+  const pick = (user, target, skill = 3, n = 200) => {
+    const c = {};
+    for (let i = 0; i < n; i++) {
+      const a = chooseAction(user, target, rng, skill);
+      const k = a.type === 'struggle' ? 'わるあがき' : a.move.name;
+      c[k] = (c[k] ?? 0) + 1;
+    }
+    return c;
+  };
+
+  const pika = createMonster(17, 20, { rng, moves: ['でんじは', 'でんこうせっか'] });
+  const fresh = createMonster(7, 20, { rng });
+  const para = createMonster(7, 20, { rng });
+  para.status = 'まひ';
+  const dying = createMonster(7, 20, { rng });
+  dying.curHP = 1;
+
+  const a = pick(pika, fresh);
+  check('元気な相手には でんじは を選ぶ', (a['でんじは'] ?? 0) > (a['でんこうせっか'] ?? 0),
+    JSON.stringify(a));
+
+  const b = pick(pika, para);
+  check('まひ済みの相手に でんじは を撃たない', (b['でんじは'] ?? 0) === 0, JSON.stringify(b));
+
+  const c = pick(pika, dying);
+  check('倒しきれる相手には攻撃を選ぶ', (c['でんこうせっか'] ?? 0) === 200, JSON.stringify(c));
+
+  // 積み技も同じ。上限まで上がっていたら選ばない。
+  const buffer = createMonster(15, 20, { rng, moves: ['かたくなる', 'たいあたり'] });
+  buffer.stages.def = 6;
+  const d = pick(buffer, fresh);
+  check('限界まで積んだら かたくなる を撃たない', (d['かたくなる'] ?? 0) === 0, JSON.stringify(d));
+
+  // PPが尽きたら わるあがき
+  const empty = createMonster(17, 20, { rng });
+  for (const m of empty.moves) m.pp = 0;
+  check('PP切れは わるあがき', chooseAction(empty, fresh, rng, 0).type === 'struggle');
+
+  // 賢さ3は気まぐれを起こさない
+  const strong = createMonster(26, 30, { rng, moves: ['10まんボルト', 'でんこうせっか'] });
+  const e = pick(strong, fresh, 3, 300);
+  check('skill3 は毎回おなじ最善手', Object.keys(e).length === 1, JSON.stringify(e));
+  const f = pick(strong, fresh, 0, 300);
+  check('skill0 は手がぶれる', Object.keys(f).length > 1, JSON.stringify(f));
+}
+
+section('データ整合性 ― わざマシン');
+for (const s of speciesList) {
+  for (const mv of s.tm ?? []) {
+    check(`${s.name} の わざマシン技 ${mv} が実在`, !!MOVES[mv], mv);
+    // わざマシンとして売っていない技を tm に書いても、覚える手段がない
+    const hasTm = Object.values(ITEMS).some((i) => i.use?.kind === 'tm' && i.use.move === mv);
+    check(`${s.name} の ${mv} に わざマシンがある`, hasTm, mv);
+  }
+}
+
 section('データ整合性 ― トレーナー');
 for (const [id, t] of Object.entries(TRAINERS)) {
   check(`${id} に手持ちがいる`, t.party.length > 0);

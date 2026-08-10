@@ -124,7 +124,7 @@ function* battleLoop(ctx) {
       if (caught) return { result: 'caught' };
     }
 
-    const foeAction = chooseAction(ctx.foe, ctx.mine, ctx.rng);
+    const foeAction = chooseAction(ctx.foe, ctx.mine, ctx.rng, ctx.trainer?.skill ?? 0);
     const actions = mine.type === 'move' ? [mine, foeAction] : [foeAction];
 
     for (const act of orderActions(actions, ctx.rng)) {
