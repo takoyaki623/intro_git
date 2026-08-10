@@ -34,6 +34,7 @@ function installDebugHooks(field) {
   g.warpTo = (map, x, y, dir = 'down') => {
     loadMap(map, x, y, dir);
     field.updateCamera();
+    field.playMapMusic();   // 本物のワープと同じ状態にしておく
   };
 }
 

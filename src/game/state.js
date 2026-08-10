@@ -20,6 +20,7 @@ export const state = {
     name: 'サトシ',
     money: 3000,
     pos: { map: 'hajimari', x: 9, y: 12, dir: 'up' },
+    respawn: { map: 'center', x: 6, y: 6 },
   },
   party: [],
   boxes: Array.from({ length: BOX_COUNT }, () => new Array(BOX_SIZE).fill(null)),
@@ -36,6 +37,7 @@ export function resetState() {
     name: 'サトシ',
     money: 3000,
     pos: { map: 'hajimari', x: 9, y: 12, dir: 'up' },
+    respawn: { map: 'center', x: 6, y: 6 },
   };
   state.party = [];
   state.boxes = Array.from({ length: BOX_COUNT }, () => new Array(BOX_SIZE).fill(null));
@@ -130,6 +132,7 @@ export function buildSave() {
       name: state.player.name,
       money: state.player.money,
       pos: { ...state.player.pos },
+      respawn: { ...state.player.respawn },
     },
     party: state.party.map(serialize),
     boxes: state.boxes.map((b) => b.map((m) => (m ? serialize(m) : null))),
@@ -171,6 +174,11 @@ export function load() {
         x: s.player?.pos?.x ?? 9,
         y: s.player?.pos?.y ?? 12,
         dir: s.player?.pos?.dir ?? 'down',
+      },
+      respawn: {
+        map: s.player?.respawn?.map ?? 'center',
+        x: s.player?.respawn?.x ?? 6,
+        y: s.player?.respawn?.y ?? 6,
       },
     };
     state.party = (s.party ?? []).map(hydrate).filter(Boolean).slice(0, PARTY_MAX);

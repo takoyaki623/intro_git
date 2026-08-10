@@ -66,7 +66,10 @@ export class FieldScene {
 
   whiteOut() {
     healParty();
-    World.loadMap('center', 6, 6, 'down');
+    // 最後に入ったポケモンセンターへ。町が増えたので、はじまりの村へ
+    // 送り返されるとニビシティから戻るのが大変になる。
+    const r = state.player.respawn ?? { map: 'center', x: 6, y: 6 };
+    World.loadMap(r.map, r.x, r.y, 'down');
     this.updateCamera();
     this.banner = 110;
     this.playMapMusic();
@@ -328,7 +331,28 @@ export class FieldScene {
   async openMenu() {
     this.busy = true;
     const { MenuScene } = await import('./MenuScene.js');
-    Scenes.push(new MenuScene({ onClose: () => { this.busy = false; } }));
+    Scenes.push(new MenuScene({
+      onClose: (flyTo) => {
+        this.busy = false;
+        if (flyTo) this.flyTo(flyTo);
+      },
+    }));
+  }
+
+  /** そらをとぶ。暗転をはさんで町へ降りる。 */
+  async flyTo({ map, x, y }) {
+    this.busy = true;
+    const { TransitionScene } = await import('./TransitionScene.js');
+    Scenes.push(new TransitionScene({
+      kind: 'fade',
+      onMid: () => {
+        World.loadMap(map, x, y, 'down');
+        this.updateCamera();
+        this.banner = 110;
+        this.playMapMusic();
+      },
+      onDone: () => { this.busy = false; },
+    }));
   }
 
   async openBox() {

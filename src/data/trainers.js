@@ -79,6 +79,79 @@ export const TRAINERS = {
       'いい たびを！',
     ],
   },
+
+  // ---- ２ばんどうろ ----
+  youngster2: {
+    class: 'たんパンこぞう', name: 'ゴロー', skill: 1, sprite: 'youngster', prize: 45, sight: 4,
+    party: [{ id: 12, lv: 12 }, { id: 74, lv: 13 }],
+    intro: ['ニビシティへ いくのかい？ そのまえに しょうぶだ！'],
+    defeat: ['やるなあ！'],
+    after: ['きたの ニビシティには ジムが あるぞ。'],
+  },
+  lass2: {
+    class: 'ミニスカート', name: 'みさき', skill: 1, sprite: 'lass', prize: 45, sight: 4,
+    party: [{ id: 10, lv: 12 }, { id: 41, lv: 13 }],
+    intro: ['あら かわいい ポケモン！ でも まけないわ。'],
+    defeat: ['つよかったわ…'],
+    after: ['いわタイプには みずや くさが よく きくのよ。'],
+  },
+
+  // ---- おつきみやま ----
+  hiker1: {
+    class: 'やまおとこ', name: 'げんぞう', skill: 2, sprite: 'boy', prize: 60, sight: 4,
+    party: [{ id: 74, lv: 14 }, { id: 74, lv: 15 }],
+    intro: ['ここは おれの にわだ！ とおしはせん！'],
+    defeat: ['むむむ… まけたか。'],
+    after: ['イシツブテは レベル２５で ゴローンに なるぞ。'],
+  },
+  hiker2: {
+    class: 'やまおとこ', name: 'たいち', skill: 2, sprite: 'youngster', prize: 60, sight: 4,
+    party: [{ id: 41, lv: 15 }, { id: 74, lv: 16 }],
+    intro: ['ちかへ いきたいのか？ おれを たおしてからだ！'],
+    defeat: ['まいった！'],
+    after: ['ちかには もっと つよい やつが いるぜ。'],
+  },
+  hiker3: {
+    class: 'やまおとこ', name: 'いわお', skill: 2, sprite: 'boy', prize: 70, sight: 5,
+    party: [{ id: 42, lv: 17 }, { id: 75, lv: 18 }],
+    intro: ['よく こんな おくまで きたな！ ほめてやる！'],
+    defeat: ['たいしたもんだ。'],
+    after: ['ちていこの まんなかに なにか おちてるらしいぞ。'],
+  },
+
+  // ---- ニビジム ----
+  gymrock1: {
+    class: 'ジムトレーナー', name: 'こうじ', skill: 2, sprite: 'youngster', prize: 80, sight: 4,
+    party: [{ id: 74, lv: 16 }],
+    intro: ['リーダーに あうには ぼくを たおしてからだ！'],
+    defeat: ['ぐっ… やるな。'],
+    after: ['いわは かたい。だが みずには かなわない。'],
+  },
+  gymrock2: {
+    class: 'ジムトレーナー', name: 'さとる', skill: 2, sprite: 'bugcatcher', prize: 80, sight: 4,
+    party: [{ id: 74, lv: 15 }, { id: 41, lv: 16 }],
+    intro: ['ここは とおさないよ！'],
+    defeat: ['つよいなあ。'],
+    after: ['ぼうぎょが たかいと なかなか たおれないだろ。'],
+  },
+  leaderIwa: {
+    class: 'ジムリーダー', name: 'イワオ', skill: 3, sprite: 'leader', prize: 150, sight: 0,
+    badge: 'iwa',
+    party: [{ id: 74, lv: 18 }, { id: 75, lv: 20 }],
+    intro: [
+      'よく ここまで きたな。',
+      'わたしが ニビジムリーダーの イワオだ。',
+      'いしのように かたい こころ ―― みせてもらおう！',
+    ],
+    defeat: [
+      'みごとだ。きみの ポケモンは よく そだっている。',
+      'この いわバッジを うけとれ！',
+    ],
+    after: [
+      'いわバッジが あれば そらを とべる。',
+      'いちど 行った まちなら どこへでも もどれるぞ。',
+    ],
+  },
 };
 
 /** バッジ。順番はそのまま「トレーナーカード」の並び。 */
@@ -89,6 +162,13 @@ export const BADGES = [
     color: '#f0c020',
     from: 'ときわジム ／ マチス',
     effect: 'フレンドリィショップの しなものが ふえる',
+  },
+  {
+    id: 'iwa',
+    name: 'いわバッジ',
+    color: '#a08050',
+    from: 'ニビジム ／ イワオ',
+    effect: 'メニューから そらを とべる（行ったことのある まちへ）',
   },
 ];
 

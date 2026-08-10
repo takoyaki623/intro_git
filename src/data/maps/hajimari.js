@@ -26,6 +26,8 @@ export default {
     'TTTTTTTTTTTTTTTTTTTT',
   ],
   bgm: 'town',
+  // そらをとぶ の行き先。着地点は必ず歩ける場所にする。
+  fly: { label: 'はじまりのむら', x: 9, y: 12 },
   encounters: null,
   warps: [
     { x: 9, y: 0, to: 'route1', tx: 8, ty: 20, dir: 'up' },

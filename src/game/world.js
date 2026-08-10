@@ -3,7 +3,7 @@
 
 import { getMap, mapWidth, mapHeight, tileKeyAt } from '../data/maps/index.js';
 import { TILE } from '../data/tiles.js';
-import { state, getFlag } from './state.js';
+import { state, getFlag, setFlag } from './state.js';
 import { getTrainer, trainerFlag } from '../data/trainers.js';
 import { rng } from '../core/rng.js';
 
@@ -67,6 +67,10 @@ export function loadMap(mapId, tx, ty, dir = 'down') {
   world.items = (map.items ?? []).filter((it) => !getFlag(it.flag));
 
   state.player.pos = { map: mapId, x: tx, y: ty, dir };
+  // 一度でも行った町は「そらをとぶ」の行き先になる
+  if (map.fly) setFlag(`been_${mapId}`);
+  // 最後に入ったポケモンセンターを覚える。全滅したらここへ戻る。
+  if (map.respawn) state.player.respawn = { map: mapId, ...map.respawn };
   state.stepsSinceEncounter = 0;
   return map;
 }

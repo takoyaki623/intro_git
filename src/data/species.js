@@ -271,6 +271,83 @@ export const SPECIES = {
     dex: 'ためこんだ でんきの りょうで しっぽが ひかる。ときどき たいちに ながして ほうでんする。',
   },
 
+  // ---------- どうくつ ----------
+  41: {
+    name: 'ズバット', types: ['どく', 'ひこう'],
+    base: { hp: 40, atk: 45, def: 35, spa: 30, spd: 40, spe: 55 },
+    learnset: [
+      { lv: 1, move: 'たいあたり' }, { lv: 5, move: 'えんまく' },
+      { lv: 9, move: 'すいとる' }, { lv: 13, move: 'あやしいひかり' },
+      { lv: 17, move: 'かぜおこし' }, { lv: 21, move: 'かみつく' },
+      { lv: 27, move: 'どくのこな' },
+    ],
+    tm: ['のしかかり', 'かみつく'],
+    evolution: { method: 'level', level: 22, to: 42 },
+    catchRate: 255, baseExp: 49, expType: 'mediumFast', sprite: SPR.zubatto,
+    height: 0.8, weight: 7.5,
+    dex: 'めが たいかしていて まわりが みえない。ちょうおんぱで あいてを さぐる。',
+  },
+  42: {
+    name: 'ゴルバット', types: ['どく', 'ひこう'],
+    base: { hp: 75, atk: 80, def: 70, spa: 65, spd: 75, spe: 90 },
+    learnset: [
+      { lv: 1, move: 'かみつく' }, { lv: 1, move: 'すいとる' },
+      { lv: 1, move: 'あやしいひかり' }, { lv: 30, move: 'かぜおこし' },
+      { lv: 38, move: 'のしかかり' },
+    ],
+    tm: ['のしかかり', 'かみつく', 'ねんりき'],
+    evolution: null,
+    catchRate: 90, baseExp: 159, expType: 'mediumFast', sprite: SPR.gorubatto,
+    height: 1.6, weight: 55.0,
+    dex: 'あいての ちを すいすぎて とべなくなることが ある。おおきな くちが とくちょう。',
+  },
+
+  // ---------- みずべ ----------
+  54: {
+    name: 'コダック', types: ['みず'],
+    base: { hp: 50, atk: 52, def: 48, spa: 65, spd: 50, spe: 55 },
+    learnset: [
+      { lv: 1, move: 'ひっかく' }, { lv: 5, move: 'しっぽをふる' },
+      { lv: 10, move: 'みずでっぽう' }, { lv: 16, move: 'あやしいひかり' },
+      { lv: 23, move: 'ねんりき' }, { lv: 31, move: 'なみのり' },
+    ],
+    tm: ['のしかかり', 'なみのり', 'ねんりき'],
+    evolution: null,
+    catchRate: 190, baseExp: 64, expType: 'mediumFast', sprite: SPR.kodakku,
+    height: 0.8, weight: 19.6,
+    dex: 'いつも ずつうに なやんでいる。あたまが いたむほど ふしぎな ちからが つよくなる。',
+  },
+
+  // ---------- いわ ----------
+  74: {
+    name: 'イシツブテ', types: ['いわ', 'じめん'],
+    base: { hp: 40, atk: 80, def: 100, spa: 30, spd: 30, spe: 20 },
+    learnset: [
+      { lv: 1, move: 'たいあたり' }, { lv: 1, move: 'かたくなる' },
+      { lv: 11, move: 'いわおとし' }, { lv: 16, move: 'すなかけ' },
+      { lv: 26, move: 'じしん' },
+    ],
+    tm: ['のしかかり'],
+    evolution: { method: 'level', level: 25, to: 75 },
+    catchRate: 255, baseExp: 60, expType: 'mediumSlow', sprite: SPR.ishitsubute,
+    height: 0.4, weight: 20.0,
+    dex: 'やまみちに ころがっている。いわと みわけが つかず ふんづけて しまうことも。',
+  },
+  75: {
+    name: 'ゴローン', types: ['いわ', 'じめん'],
+    base: { hp: 55, atk: 95, def: 115, spa: 45, spd: 45, spe: 35 },
+    learnset: [
+      { lv: 1, move: 'たいあたり' }, { lv: 1, move: 'いわおとし' },
+      { lv: 1, move: 'かたくなる' }, { lv: 29, move: 'じしん' },
+      { lv: 36, move: 'のしかかり' },
+    ],
+    tm: ['のしかかり'],
+    evolution: null,
+    catchRate: 120, baseExp: 137, expType: 'mediumSlow', sprite: SPR.goroon,
+    height: 1.0, weight: 105.0,
+    dex: 'やまを ころがりおりて すすむ。とちゅうで きが あっても きにせず たおしていく。',
+  },
+
   129: {
     name: 'コイキング', types: ['みず'],
     base: { hp: 20, atk: 10, def: 55, spa: 15, spd: 20, spe: 80 },

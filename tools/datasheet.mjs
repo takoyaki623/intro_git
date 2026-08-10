@@ -327,6 +327,7 @@ const mapPanels = Object.values(MAPS).map((m) => {
       ? [...new Set(m.warps.map((x) => MAPS[x.to].name))].map((n) => `<span class="route evo">${esc(n)}</span>`).join('')
       : 'なし'}</dd>
           <dt>人</dt><dd>${(m.npcs ?? []).length}人（うち トレーナー ${(m.npcs ?? []).filter((n) => n.trainer).length}人） ・ 看板 ${(m.signs ?? []).length}</dd>
+          ${m.fly ? `<dt>そらをとぶ</dt><dd><span class="route evo">${esc(m.fly.label)}</span></dd>` : ''}
           <dt>落ちもの</dt><dd>${(m.items ?? []).length
       ? (m.items ?? []).map((it) => `<span class="route evo">${esc(it.item)}${it.n > 1 ? `×${it.n}` : ''}</span>`).join('')
       : 'なし'}</dd>

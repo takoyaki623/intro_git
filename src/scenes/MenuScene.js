@@ -24,16 +24,18 @@ export class MenuScene {
         { label: 'ポケモン', id: 'party', disabled: state.party.length === 0 },
         { label: 'バッグ', id: 'bag' },
         { label: 'ずかん', id: 'dex' },
+        // いわバッジを取るまでは並べない（取れば増える、が分かりやすい）
+        ...(getFlag(badgeFlag('iwa')) ? [{ label: 'そらをとぶ', id: 'fly' }] : []),
         { label: 'レポート', id: 'save' },
         { label: 'せってい', id: 'settings' },
         { label: 'とじる', id: 'close' },
       ],
-      { x: 164, y: 12, lineH: 17, colW: 84 },
+      { x: 164, y: 12, lineH: 15, colW: 84 },
     );
   }
 
   enter() { Input.clearEdges(); }
-  exit() { this.onClose?.(); }
+  exit() { this.onClose?.(this.flyTo ?? null); }
 
   update() {
     if (this.box) {
@@ -72,6 +74,11 @@ export class MenuScene {
       Scenes.push(new DexScene());
       return;
     }
+    if (id === 'fly') {
+      const { FlyScene } = await import('./FlyScene.js');
+      Scenes.push(new FlyScene());
+      return;
+    }
     if (id === 'settings') {
       const { SettingsScene } = await import('./SettingsScene.js');
       Scenes.push(new SettingsScene());
@@ -88,7 +95,14 @@ export class MenuScene {
     this.closeAfterBox = ok;
   }
 
-  resume() { Input.clearEdges(); }
+  /** そらをとぶ から戻ってきたら、行き先を持って自分も閉じる */
+  resume(result) {
+    Input.clearEdges();
+    if (result?.map) {
+      this.flyTo = result;
+      Scenes.pop();
+    }
+  }
 
   render(ctx) {
     // 右上に小さく情報、右にメニュー

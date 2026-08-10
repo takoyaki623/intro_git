@@ -17,6 +17,8 @@ export default {
     'WWWWWWMMWWWWWW',
   ],
   bgm: 'center',
+  // 全滅したときに運ばれてくる場所。最後に入ったセンターが記録される。
+  respawn: { x: 6, y: 6 },
   encounters: null,
   warps: [
     { x: 6, y: 9, to: 'hajimari', tx: 5, ty: 12, dir: 'down' },

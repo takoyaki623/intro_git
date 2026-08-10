@@ -5,7 +5,7 @@ export default {
     '.': 'path', ',': 'grass', 'g': 'tallgrass', 'T': 'tree', '~': 'water', 'S': 'sign',
   },
   tiles: [
-    'TTTTTTTTTTTTTTTTTTTT',
+    'TTTTTTTT..TTTTTTTTTT',
     'T,,,,,,,,,,,,,,,,,,T',
     'T,gggg,TTTT,gggg,,,T',
     'T,gggg,TTTT,gggg,,,T',
@@ -60,6 +60,8 @@ export default {
     },
   },
   warps: [
+    { x: 8, y: 0, to: 'route2', tx: 8, ty: 16, dir: 'up' },
+    { x: 9, y: 0, to: 'route2', tx: 9, ty: 16, dir: 'up' },
     { x: 8, y: 19, to: 'route1', tx: 8, ty: 1, dir: 'down' },
     { x: 9, y: 19, to: 'route1', tx: 9, ty: 1, dir: 'down' },
   ],
