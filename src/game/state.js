@@ -148,16 +148,27 @@ export function buildSave() {
   };
 }
 
-export function save() {
-  return Storage.write(Storage.SAVE_KEY, buildSave());
+/** 枠を指定して書く。'auto' はオートセーブ用の枠。 */
+export function save(slot = 0) {
+  return Storage.write(Storage.slotKey(slot), buildSave());
+}
+
+/**
+ * オートセーブ。ポケモンセンターで回復したときなど、
+ * 「ここまでは確実」と言える場所でだけ呼ぶ。
+ */
+export function autoSave() {
+  return save('auto');
 }
 
 /**
  * セーブを読み込んで state に反映する。
  * 戻り値 { ok } / { ok:false, reason }
  */
-export function load() {
-  const raw = Storage.read(Storage.SAVE_KEY);
+export function load(slot = 0) {
+  // 旧形式の単一セーブしか無い人もいるので、1枠目だけは古いキーも見る
+  const raw = Storage.read(Storage.slotKey(slot))
+    ?? (slot === 0 ? Storage.read(Storage.SAVE_KEY) : null);
   if (!raw) return { ok: false, reason: 'none' };
 
   let s = raw;

@@ -59,9 +59,15 @@ export class SettingsScene {
 
   enter() { Input.clearEdges(); }
   exit() { this.onClose?.(); }
+  resume() { Input.clearEdges(); }
 
-  update() {
-    if (Input.justPressed(BTN.B) || Input.justPressed(BTN.A)) { Scenes.pop(); return; }
+  async update() {
+    if (Input.justPressed(BTN.B)) { Scenes.pop(); return; }
+    if (Input.justPressed(BTN.A)) {
+      const { KeyConfigScene } = await import('./KeyConfigScene.js');
+      Scenes.push(new KeyConfigScene());
+      return;
+    }
 
     if (Input.repeated(BTN.UP)) { this.index = (this.index + this.rows.length - 1) % this.rows.length; SE.cursor(); }
     if (Input.repeated(BTN.DOWN)) { this.index = (this.index + 1) % this.rows.length; SE.cursor(); }
@@ -98,6 +104,6 @@ export class SettingsScene {
 
     drawWindow(ctx, 4, 150, 248, 38);
     drawText(ctx, this.rows[this.index].hint, 12, 156, { color: COL.ink });
-    drawTextCentered(ctx, 'Ａ／Ｂ で とじる', W / 2, 172, { color: COL.inkLight });
+    drawTextCentered(ctx, 'Ａ ： キーの わりあて　　Ｂ ： とじる', W / 2, 172, { color: COL.inkLight });
   }
 }

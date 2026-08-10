@@ -68,8 +68,8 @@ function openIntro(field) {
   }));
 }
 
-export function continueGame() {
-  const r = load();
+export function continueGame(slot = 0) {
+  const r = load(slot);
   if (!r.ok) {
     // 読めないセーブで上書きしないよう、新規として始める
     startNewGame();

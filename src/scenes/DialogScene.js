@@ -6,6 +6,7 @@ import { Menu } from '../engine/menu.js';
 import { drawWindow } from '../engine/ui.js';
 import {
   state, getFlag, setFlag, addItem, healParty, addMonster, registerCaught, PARTY_MAX,
+  autoSave,
 } from '../game/state.js';
 import { createMonster, displayName } from '../game/monster.js';
 import { getSpecies } from '../data/species.js';
@@ -83,6 +84,8 @@ export class DialogScene {
       if (cmd.heal) {
         healParty();
         SE.heal();
+        // ここまでは確実、と言える地点なのでオートセーブする
+        autoSave();
         continue;
       }
       if (cmd.give) {

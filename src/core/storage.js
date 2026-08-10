@@ -4,7 +4,11 @@
 // ここを通していない localStorage 呼び出しはゲームを丸ごと落としうるので、
 // アクセスは必ずこのモジュール経由にする。
 
-export const SAVE_KEY = 'pkmn_save';
+// セーブは3枠 + オートセーブ1枠。
+// 枠を分けておくと「上書きしてしまった」で終わらない。
+export const SLOT_COUNT = 3;
+export const SAVE_KEY = 'pkmn_save';                    // 旧・単一枠（読み込みだけ面倒を見る）
+export const slotKey = (i) => (i === 'auto' ? 'pkmn_save_auto' : `pkmn_save_${i}`);
 export const SETTINGS_KEY = 'pkmn_settings';
 
 let available = null;
@@ -55,4 +59,19 @@ export function remove(key) {
   }
 }
 
-export const hasSave = () => read(SAVE_KEY) !== null;
+export const hasSave = () => allSlots().some((s) => s.data !== null);
+
+/**
+ * 全部の枠の中身。UI がそのまま並べられる形で返す。
+ * 旧形式（pkmn_save）が残っていたら、1枠目として拾う。
+ */
+export function allSlots() {
+  const out = [];
+  for (let i = 0; i < SLOT_COUNT; i++) {
+    let data = read(slotKey(i));
+    if (i === 0 && data === null) data = read(SAVE_KEY);   // 旧セーブの引き継ぎ
+    out.push({ slot: i, data });
+  }
+  out.push({ slot: 'auto', data: read(slotKey('auto')) });
+  return out;
+}

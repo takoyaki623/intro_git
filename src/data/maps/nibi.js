@@ -26,6 +26,7 @@ export default {
     'TTTTTTTTT..TTTTTTTTT',
     'TTTTTTTTT..TTTTTTTTT',
   ],
+  outdoor: true,   // 時間帯で明るさが変わる
   bgm: 'town',
   fly: { label: 'ニビシティ', x: 9, y: 11 },
   encounters: null,

@@ -8,7 +8,8 @@ export const BTN = {
   A: 'A', B: 'B', START: 'START', RUN: 'RUN',
 };
 
-const MAP = {
+/** 既定のキー割り当て。設定で上書きできる。 */
+export const DEFAULT_MAP = {
   ArrowUp: BTN.UP, KeyW: BTN.UP,
   ArrowDown: BTN.DOWN, KeyS: BTN.DOWN,
   ArrowLeft: BTN.LEFT, KeyA: BTN.LEFT,
@@ -18,6 +19,23 @@ const MAP = {
   KeyC: BTN.START, Tab: BTN.START,
   ShiftLeft: BTN.RUN, ShiftRight: BTN.RUN,
 };
+
+let MAP = { ...DEFAULT_MAP };
+
+/**
+ * キー割り当てを差し替える。
+ * 既定の割り当ては残したまま、指定されたぶんだけ上書きする ――
+ * 全部を置き換えると、割り当て途中で操作できなくなる。
+ */
+export function setKeyBindings(extra = {}) {
+  MAP = { ...DEFAULT_MAP };
+  for (const [code, btn] of Object.entries(extra)) {
+    if (BTN[btn]) MAP[code] = btn;
+  }
+}
+
+/** そのボタンに割り当てられているキー（表示用） */
+export const keysFor = (btn) => Object.keys(MAP).filter((k) => MAP[k] === btn);
 
 // メニューのカーソル移動用リピート（本家と同じく最初だけ長めに待つ）
 const REPEAT_DELAY = 16;

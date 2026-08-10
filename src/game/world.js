@@ -75,6 +75,25 @@ export function loadMap(mapId, tx, ty, dir = 'down') {
   return map;
 }
 
+/**
+ * 時間帯。実時間の時計をそのまま使う。
+ * ゲーム内時間を別に持つと、セーブ・ロードのたびにズレて説明がつかなくなる。
+ */
+export function timeOfDay(hour = new Date().getHours()) {
+  if (hour >= 5 && hour < 10) return 'morning';
+  if (hour >= 10 && hour < 17) return 'day';
+  if (hour >= 17 && hour < 19) return 'evening';
+  return 'night';
+}
+
+/** 屋外だけ、時間帯に応じた色をかぶせる。屋内と洞窟は変えない。 */
+export const TINT = {
+  morning: 'rgba(255, 200, 140, 0.10)',
+  day: null,
+  evening: 'rgba(255, 140, 60, 0.18)',
+  night: 'rgba(30, 40, 110, 0.34)',
+};
+
 export const width = () => mapWidth(world.map);
 export const height = () => mapHeight(world.map);
 export const tileAt = (x, y) => tileKeyAt(world.map, x, y);

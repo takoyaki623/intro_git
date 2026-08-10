@@ -6,7 +6,7 @@ import { draw as drawSprite } from '../engine/pixelArt.js';
 import { drawText, drawTextRight, wrapText } from '../engine/font.js';
 import { drawWindow, drawCursor, drawTypeTag, COL } from '../engine/ui.js';
 import { speciesList } from '../data/species.js';
-import { TYPE_COLOR } from '../data/types.js';
+import { TYPE_COLOR, TYPES } from '../data/types.js';
 import { MAPS } from '../data/maps/index.js';
 import { state } from '../game/state.js';
 
@@ -17,8 +17,18 @@ const ROWS = 8;
 /** ずかん。みつけた／つかまえた の状態で表示を変える。 */
 export class DexScene {
   constructor() {
-    this.list = [...speciesList].sort((a, b) => a.id - b.id);
+    this.all = [...speciesList].sort((a, b) => a.id - b.id);
+    this.filter = 0;          // 0 = すべて、1.. は TYPES の番号+1
     this.index = 0;
+    this.scroll = 0;
+    this.rebuild();
+  }
+
+  /** タイプで絞り込む。空になる絞り込みでも一覧は空のまま出す（嘘をつかない）。 */
+  rebuild() {
+    const t = this.filter === 0 ? null : TYPES[this.filter - 1];
+    this.list = t ? this.all.filter((s) => s.types.includes(t)) : this.all;
+    this.index = Math.min(this.index, Math.max(0, this.list.length - 1));
     this.scroll = 0;
   }
 
@@ -30,6 +40,9 @@ export class DexScene {
 
   update() {
     if (Input.justPressed(BTN.B)) { Scenes.pop(); return; }
+    if (Input.repeated(BTN.LEFT)) { this.filter = (this.filter + TYPES.length) % (TYPES.length + 1); this.rebuild(); }
+    if (Input.repeated(BTN.RIGHT)) { this.filter = (this.filter + 1) % (TYPES.length + 1); this.rebuild(); }
+    if (!this.list.length) return;
     if (Input.repeated(BTN.UP)) this.index = (this.index + this.list.length - 1) % this.list.length;
     if (Input.repeated(BTN.DOWN)) this.index = (this.index + 1) % this.list.length;
 
@@ -44,6 +57,10 @@ export class DexScene {
 
     // 一覧
     drawWindow(ctx, 4, 4, 128, 184);
+    this.renderFilter(ctx);
+    if (!this.list.length) {
+      drawText(ctx, 'いません', 20, 90, { color: COL.inkLight });
+    }
     for (let i = 0; i < ROWS; i++) {
       const sp = this.list[this.scroll + i];
       if (!sp) break;
@@ -62,6 +79,7 @@ export class DexScene {
 
     // 詳細
     const sp = this.current;
+    if (!sp) { this.renderCounts(ctx); return; }
     const seen = this.seen(sp);
     drawWindow(ctx, 136, 4, 116, 184);
 
@@ -95,5 +113,13 @@ export class DexScene {
   renderCounts(ctx) {
     drawTextRight(ctx, `みつけた ${state.dex.seen.length}`, 244, 168, { color: COL.ink });
     drawTextRight(ctx, `つかまえた ${state.dex.caught.length}`, 244, 178, { color: COL.ink });
+  }
+
+  /** 左下に絞り込みの状態。← → で切り替わることも書いておく。 */
+  renderFilter(ctx) {
+    const t = this.filter === 0 ? null : TYPES[this.filter - 1];
+    ctx.fillStyle = t ? TYPE_COLOR[t] : '#6a6a78';
+    ctx.fillRect(6, 172, 122, 14);
+    drawText(ctx, `← ${t ?? 'すべて'} →`, 12, 174, { color: '#ffffff' });
   }
 }

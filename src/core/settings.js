@@ -6,6 +6,7 @@
 import * as Storage from './storage.js';
 import * as Audio from './audio.js';
 import * as Music from './music.js';
+import { setKeyBindings } from './input.js';
 
 /** 文字送りの速さ。数字は「1文字あたり何フレームか」。 */
 export const TEXT_SPEEDS = [
@@ -14,9 +15,13 @@ export const TEXT_SPEEDS = [
   { id: 'slow', label: 'ゆっくり', frames: 4 },
 ];
 
-const DEFAULTS = { textSpeed: 'normal', sound: true, volume: 0.4, music: true, musicVolume: 0.5 };
+const DEFAULTS = {
+  textSpeed: 'normal', sound: true, volume: 0.4, music: true, musicVolume: 0.5,
+  // { 'KeyJ': 'A' } のように、キーコードから論理ボタンへの追加割り当て
+  keys: {},
+};
 
-export const settings = { ...DEFAULTS };
+export const settings = { ...DEFAULTS, keys: {} };
 
 export const textFrames = () =>
   (TEXT_SPEEDS.find((s) => s.id === settings.textSpeed) ?? TEXT_SPEEDS[1]).frames;
@@ -27,6 +32,7 @@ export function apply() {
   Audio.setVolume(settings.volume);
   Audio.setMusicVolume(settings.musicVolume);
   Music.setMuted(!settings.music);
+  setKeyBindings(settings.keys);
 }
 
 export function load() {
@@ -36,6 +42,9 @@ export function load() {
     if (TEXT_SPEEDS.some((s) => s.id === raw.textSpeed)) settings.textSpeed = raw.textSpeed;
     if (typeof raw.sound === 'boolean') settings.sound = raw.sound;
     if (typeof raw.volume === 'number') settings.volume = Math.max(0, Math.min(1, raw.volume));
+    if (typeof raw.music === 'boolean') settings.music = raw.music;
+    if (typeof raw.musicVolume === 'number') settings.musicVolume = Math.max(0, Math.min(1, raw.musicVolume));
+    if (raw.keys && typeof raw.keys === 'object') settings.keys = { ...raw.keys };
   }
   apply();
   return settings;

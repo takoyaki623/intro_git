@@ -56,7 +56,9 @@ export class MenuScene {
     if (id === 'close') { Scenes.pop(); return; }
 
     if (id === 'save') {
-      this.trySave();
+      const { SlotScene } = await import('./SlotScene.js');
+      this.pendingSave = true;
+      Scenes.push(new SlotScene({ mode: 'save' }));
       return;
     }
     if (id === 'party') {
@@ -85,8 +87,8 @@ export class MenuScene {
     }
   }
 
-  trySave() {
-    const ok = save();
+  trySave(slot) {
+    const ok = save(slot);
     if (ok) SE.save();
     this.box = new TextBox();
     this.box.setText(ok
@@ -98,6 +100,11 @@ export class MenuScene {
   /** そらをとぶ から戻ってきたら、行き先を持って自分も閉じる */
   resume(result) {
     Input.clearEdges();
+    if (this.pendingSave) {
+      this.pendingSave = false;
+      if (result !== null && result !== undefined) this.trySave(result);
+      return;
+    }
     if (result?.map) {
       this.flyTo = result;
       Scenes.pop();

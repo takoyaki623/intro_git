@@ -27,6 +27,7 @@ export default {
     'T,,,,,,,..,,,,,,,,,T',
     'TTTTTTTT..TTTTTTTTTT',
   ],
+  outdoor: true,   // 時間帯で明るさが変わる
   bgm: 'route',
   encounters: {
     rate: 9,

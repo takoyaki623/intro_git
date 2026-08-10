@@ -69,8 +69,21 @@ export class TitleScene {
     const [{ startNewGame, continueGame }] = await Promise.all([
       import('../game/bootstrap.js'),
     ]);
-    if (id === 'new') startNewGame();
-    else continueGame();
+    if (id === 'new') { startNewGame(); return; }
+
+    // つづきから は、どの枠を読むかを先にえらばせる
+    const { SlotScene } = await import('./SlotScene.js');
+    this.pendingLoad = true;
+    Scenes.push(new SlotScene({ mode: 'load' }));
+  }
+
+  async resume(result) {
+    Input.clearEdges();
+    if (!this.pendingLoad) return;
+    this.pendingLoad = false;
+    if (result === null || result === undefined) return;
+    const { continueGame } = await import('../game/bootstrap.js');
+    continueGame(result);
   }
 
   render(ctx) {

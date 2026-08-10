@@ -25,6 +25,7 @@ export default {
     'TTTTTTTTTTTTTTTTTTTT',
     'TTTTTTTTTTTTTTTTTTTT',
   ],
+  outdoor: true,   // 時間帯で明るさが変わる
   bgm: 'town',
   // そらをとぶ の行き先。着地点は必ず歩ける場所にする。
   fly: { label: 'はじまりのむら', x: 9, y: 12 },

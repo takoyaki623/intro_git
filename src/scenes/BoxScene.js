@@ -5,6 +5,8 @@ import { BTN } from '../core/input.js';
 import { draw as drawSprite } from '../engine/pixelArt.js';
 import { drawText, drawTextRight } from '../engine/font.js';
 import { drawWindow, drawBar, hpColor, COL } from '../engine/ui.js';
+import { Menu } from '../engine/menu.js';
+import { SE } from '../core/audio.js';
 import { TextBox } from '../engine/textbox.js';
 import { state, BOX_SIZE, PARTY_MAX } from '../game/state.js';
 import { displayName } from '../game/monster.js';
@@ -39,9 +41,55 @@ export class BoxScene {
 
   get currentBox() { return state.boxes[this.boxIndex]; }
 
+  /** 空きを詰めて、レベルの高い順にならべる */
+  sortBox() {
+    const box = this.currentBox;
+    const mons = box.filter(Boolean).sort((a, b) => b.level - a.level || a.species.id - b.species.id);
+    for (let i = 0; i < box.length; i++) box[i] = mons[i] ?? null;
+    SE.select();
+    this.say('ボックスを ならべかえた！');
+  }
+
+  /** にがす。手持ちの最後の1匹だけは にがせない。 */
+  askRelease() {
+    const mon = this.slotMon();
+    if (!mon) return;
+    if (this.area === 'party' && state.party.length <= 1) {
+      this.say('さいごの 1ぴきは にがせない！');
+      return;
+    }
+    this.pendingRelease = mon;
+    this.confirm = new Menu(['いいえ', 'はい'], { x: 168, y: 120, lineH: 16, colW: 60 });
+    this.say(`${displayName(mon)}を にがしますか？`);
+  }
+
+  doRelease() {
+    const mon = this.pendingRelease;
+    this.pendingRelease = null;
+    if (this.area === 'box') this.currentBox[this.cursor] = null;
+    else state.party.splice(this.cursor, 1);
+    SE.cancel();
+    this.say(`${displayName(mon)}を にがしてあげた…`);
+  }
+
   update() {
     if (this.box) {
       this.box.update(Input.isDown(BTN.A));
+      // にがすの確認だけは、本文を読み終えてから はい／いいえ を出す
+      if (this.confirm && this.box.waiting) {
+        const r = this.confirm.update();
+        if (r?.type === 'select') {
+          this.confirm = null;
+          this.box = null;
+          if (r.index === 1) this.doRelease();
+          else this.pendingRelease = null;
+        } else if (r?.type === 'cancel') {
+          this.confirm = null;
+          this.box = null;
+          this.pendingRelease = null;
+        }
+        return;
+      }
       if (Input.justPressed(BTN.A) && this.box.advance()) this.box = null;
       return;
     }
@@ -51,6 +99,12 @@ export class BoxScene {
       Scenes.pop();
       return;
     }
+
+    // START でならべかえ。ボックスが飛び飛びになりやすいので、
+    // 「詰める＋レベル順」を1操作でできるようにしておく。
+    if (Input.justPressed(BTN.START) && !this.held) { this.sortBox(); return; }
+    // RUN（Shift）で にがす。誤爆しないよう確認を挟む。
+    if (Input.justPressed(BTN.RUN) && !this.held) { this.askRelease(); return; }
 
     this.moveCursor();
 
@@ -150,7 +204,7 @@ export class BoxScene {
 
     const shown = this.held?.mon ?? this.slotMon();
     drawText(ctx, shown ? `${displayName(shown)}  Lv${shown.level}` : '', 12, 22, { color: COL.ink });
-    drawTextRight(ctx, this.held ? 'A：おく  B：もどす' : 'A：つかむ  B：とじる', 244, 22, {
+    drawTextRight(ctx, this.held ? 'A：おく  B：もどす' : 'A：つかむ  C：ならべる  Shift：にがす', 244, 22, {
       color: COL.inkLight,
     });
 
@@ -190,6 +244,10 @@ export class BoxScene {
     }
 
     if (this.box) this.box.render(ctx);
+    if (this.confirm && this.box?.waiting) {
+      drawWindow(ctx, 160, 112, 72, 46);
+      this.confirm.render(ctx);
+    }
   }
 
   boxCell(i) {

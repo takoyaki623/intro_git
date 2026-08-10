@@ -395,9 +395,19 @@ export class FieldScene {
     this.renderItems(ctx, camX, camY);
     this.renderActors(ctx, camX, camY);
     this.renderGrassOverlay(ctx, camX, camY);
+    this.renderTimeTint(ctx);
     if (this.approach?.phase === 'mark') this.renderSpotMark(ctx, camX, camY);
 
     if (this.banner > 0) this.renderBanner(ctx);
+  }
+
+  /** 朝・夕・夜の色。屋外だけ、UI より下にかぶせる。 */
+  renderTimeTint(ctx) {
+    if (!world.map?.outdoor) return;
+    const tint = World.TINT[World.timeOfDay()];
+    if (!tint) return;
+    ctx.fillStyle = tint;
+    ctx.fillRect(0, 0, W, H);
   }
 
   /** 見つかったときの「！」。矩形だけで描くのでドット絵と質感が揃う。 */
