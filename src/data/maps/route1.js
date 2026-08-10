@@ -45,6 +45,19 @@ export default {
       { id: 25, min: 4, max: 6, weight: 3 },    // ピカチュウ
     ],
   },
+  // クリア後（殿堂入り後）はこちらを引く。育成場所として使い続けられるように。
+  postgame: {
+    rate: 8,
+    table: [
+      { id: 396, min: 40, max: 45, weight: 25 },
+      { id: 921, min: 40, max: 45, weight: 20 },
+      { id: 819, min: 40, max: 45, weight: 20 },
+      { id: 16, min: 40, max: 45, weight: 15 },
+      { id: 19, min: 40, max: 45, weight: 10 },
+      { id: 10, min: 38, max: 43, weight: 7 },
+      { id: 25, min: 42, max: 47, weight: 3 },
+    ],
+  },
   warps: [
     { x: 8, y: 21, to: 'hajimari', tx: 9, ty: 1, dir: 'down' },
     { x: 9, y: 21, to: 'hajimari', tx: 10, ty: 1, dir: 'down' },

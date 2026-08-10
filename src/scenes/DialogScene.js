@@ -146,6 +146,7 @@ export class DialogScene {
         addMonster(mon);
         registerCaught(id);
         setFlag('gotStarter');
+        setFlag(`starter_${id}`);
         addItem('モンスターボール', 5);
         addItem('きずぐすり', 3);
         state.player.rivalStarter = RIVAL_STARTER[id] ?? null;

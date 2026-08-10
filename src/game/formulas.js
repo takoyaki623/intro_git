@@ -174,14 +174,14 @@ export const STATUS_CATCH_BONUS = {
  * Gen3/4 の修正 捕獲判定。
  * 戻り値 { caught, shakes } — shakes は 0..4。演出はこの回数ぶん揺らす。
  */
-export function catchAttempt(target, ball, rng) {
+export function catchAttempt(target, ball, rng, charmMul = 1) {
   if (ball.master) return { caught: true, shakes: 4 };
 
   const statusBonus = STATUS_CATCH_BONUS[target.status] ?? 1;
   const maxHP = target.stats.hp;
   const a = Math.floor(
     Math.floor(
-      ((3 * maxHP - 2 * target.curHP) * target.species.catchRate * (ball.ballRate ?? 1))
+      ((3 * maxHP - 2 * target.curHP) * target.species.catchRate * (ball.ballRate ?? 1) * charmMul)
       / (3 * maxHP),
     ) * statusBonus,
   );

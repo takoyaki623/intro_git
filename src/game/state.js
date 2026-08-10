@@ -4,6 +4,9 @@ import * as Storage from '../core/storage.js';
 import { rng } from '../core/rng.js';
 import { serialize, hydrate, fullHeal } from './monster.js';
 import { getItem } from '../data/items.js';
+import { SPECIES } from '../data/species.js';
+
+const DEX_TOTAL = Object.keys(SPECIES).length;
 
 export const SAVE_VERSION = 2;
 export const PARTY_MAX = 6;
@@ -100,6 +103,11 @@ export function registerCaught(id) {
   if (!state.dex.caught.includes(id)) state.dex.caught.push(id);
   // 最初につかまえた場所だけ覚える（あとで同じ種を捕っても上書きしない）
   state.dex.where[id] ??= state.player.pos.map;
+  // 図鑑の報酬（博士）が受け取れる状態かどうかの目印。一度立ったら下がらない。
+  const n = state.dex.caught.length;
+  if (n >= 10) state.flags.dexReady10 = true;
+  if (n >= 20) state.flags.dexReady20 = true;
+  if (n >= DEX_TOTAL) state.flags.dexReadyAll = true;
 }
 
 // ---- バッグ ----

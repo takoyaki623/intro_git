@@ -54,7 +54,7 @@ import { createMonster, serialize, hydrate, evolve, recalcStats } from './src/ga
 import { chooseAction } from './src/game/ai.js';
 import { NATURES, getNature, natureMul } from './src/data/natures.js';
 import { wildBattle } from './src/game/battle.js';
-import { state, resetState, load, SAVE_VERSION } from './src/game/state.js';
+import { state, resetState, load, SAVE_VERSION, registerCaught } from './src/game/state.js';
 import { charWidth, inkExtent } from './src/engine/font.js';
 import * as Storage from './src/core/storage.js';
 
@@ -260,6 +260,18 @@ check(`HP1割+ねむり で リザードンの捕獲率が上がる (${(rizaFull
 check('マスターボールは必ず成功',
   catchAttempt(createMonster(6, 100, { rng }), { master: true }, rng).caught);
 check('揺れ回数は 0..4', [0, 1, 2, 3, 4].includes(catchAttempt(createMonster(6, 50, { rng }), ITEMS['モンスターボール'], rng).shakes));
+
+// ひかるおまもり（図鑑コンプ報酬）。もっていると捕獲率が 1.5倍になる。
+function catchRateCharm(speciesId, level, charmMul) {
+  const m = createMonster(speciesId, level, { rng });
+  let n = 0;
+  for (let i = 0; i < 10000; i++) if (catchAttempt(m, ITEMS['モンスターボール'], rng, charmMul).caught) n++;
+  return n / 10000;
+}
+const rizaNoCharm = catchRateCharm(6, 20, 1);
+const rizaCharm = catchRateCharm(6, 20, 1.5);
+check(`ひかるおまもりで 捕獲率が上がる (${(rizaNoCharm * 100).toFixed(1)}% → ${(rizaCharm * 100).toFixed(1)}%)`,
+  rizaCharm > rizaNoCharm);
 
 // ---------------------------------------------------------------- にげる
 section('にげる');
@@ -467,6 +479,12 @@ for (const [id, m] of Object.entries(MAPS)) {
   for (const e of m.encounters?.table ?? []) {
     check(`${id} のエンカウント ${e.id} が実在`, !!SPECIES[e.id]);
     check(`${id} のエンカウント Lv範囲`, e.min >= 1 && e.min <= e.max);
+  }
+  for (const e of m.postgame?.table ?? []) {
+    check(`${id} のクリア後エンカウント ${e.id} が実在`, !!SPECIES[e.id]);
+    check(`${id} のクリア後エンカウント Lv範囲`, e.min >= 1 && e.min <= e.max && e.max <= 100);
+    const base = (m.encounters?.table ?? []).find((b) => b.id === e.id);
+    if (base) check(`${id} のクリア後エンカウントは 通常より弱くならない`, e.min >= base.min, `${e.min} ← ${base.min}`);
   }
   // カントーだけに寄らないための担保。同じ世代1色にはしない、というルール。
   const table = m.encounters?.table ?? [];
@@ -1036,6 +1054,29 @@ section('セーブ移行 ― 図鑑番号の全国統一（旧id → 新id）');
   check('図鑑 where のキーが変換される', state.dex.where[10] === 'route1', JSON.stringify(state.dex.where));
   check('そだてやの個体も変換される（旧id12→新id19）',
     state.daycare?.mon?.species.id === 19, String(state.daycare?.mon?.species.id));
+}
+
+// ---------------------------------------------------------------- 図鑑の報酬（Phase L）
+// 博士に話すと 10種/20種/コンプ で受け取れる。しきい値をまたいだ瞬間に
+// flags.dexReadyN が立ち、以降は下がらない（既に受け取ったかは別の dexRewardN で見る）。
+section('図鑑の報酬 ― しきい値フラグ');
+{
+  resetState();
+  const total = Object.keys(SPECIES).length;
+  const ids = Object.keys(SPECIES).map(Number);
+  check('種族が 10種類以上ある（このテストの前提）', total >= 10);
+
+  for (let i = 0; i < 9 && i < ids.length; i++) registerCaught(ids[i]);
+  check('9種の時点では dexReady10 が立たない', !state.flags.dexReady10);
+
+  registerCaught(ids[9]);
+  check('10種そろうと dexReady10 が立つ', state.flags.dexReady10 === true);
+  check('10種の時点では dexReady20 は まだ立たない', !state.flags.dexReady20);
+
+  resetState();
+  for (const id of ids) registerCaught(id);
+  check('全種つかまえると dexReadyAll が立つ', state.flags.dexReadyAll === true);
+  check(`全種つかまえると dexReady20 も立つ（total=${total}）`, total >= 20 ? state.flags.dexReady20 === true : true);
 }
 
 // ---------------------------------------------------------------- 文字が重ならない

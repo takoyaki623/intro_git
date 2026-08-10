@@ -42,6 +42,19 @@ export default {
       { id: 19, min: 6, max: 9, weight: 5 },    // コラッタ
     ],
   },
+  postgame: {
+    rate: 10,
+    table: [
+      { id: 280, min: 44, max: 47, weight: 10 },
+      { id: 872, min: 44, max: 47, weight: 18 },
+      { id: 661, min: 44, max: 47, weight: 15 },
+      { id: 25, min: 45, max: 48, weight: 15 },
+      { id: 10, min: 44, max: 47, weight: 20 },
+      { id: 11, min: 45, max: 48, weight: 7 },
+      { id: 16, min: 44, max: 47, weight: 10 },
+      { id: 19, min: 44, max: 47, weight: 5 },
+    ],
+  },
   // 池。なみのりを おぼえた みずポケモンがいれば わたれる。
   // つりざおは 岸に立って みずを むけば つかえる。
   water: {

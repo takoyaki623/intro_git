@@ -25,7 +25,7 @@ import * as Music from '../core/music.js';
 import { MAX_LEVEL } from '../data/growth.js';
 import { getSpecies } from '../data/species.js';
 import {
-  state, addMonster, registerSeen, registerCaught, removeItem, partyFull, setFlag,
+  state, addMonster, registerSeen, registerCaught, removeItem, partyFull, setFlag, countItem,
 } from './state.js';
 import { prizeMoney, trainerFlag, badgeFlag, BADGES } from '../data/trainers.js';
 import { getItem } from '../data/items.js';
@@ -589,7 +589,8 @@ function* throwBall(ctx, item) {
   removeItem(item.name, 1);
   yield msg(`${state.player.name}は ${item.name}を なげた！`);
 
-  const { caught, shakes } = catchAttempt(ctx.foe, item, ctx.rng);
+  const charmMul = countItem('ひかるおまもり') > 0 ? 1.5 : 1;
+  const { caught, shakes } = catchAttempt(ctx.foe, item, ctx.rng, charmMul);
   yield anim('ball', { shakes, caught });
 
   if (!caught) {

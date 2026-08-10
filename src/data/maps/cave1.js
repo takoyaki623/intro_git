@@ -34,6 +34,15 @@ export default {
       { id: 19, min: 13, max: 16, weight: 15 },   // コラッタ
     ],
   },
+  postgame: {
+    rate: 12,
+    table: [
+      { id: 447, min: 52, max: 55, weight: 15 },
+      { id: 41, min: 52, max: 55, weight: 38 },
+      { id: 74, min: 52, max: 55, weight: 32 },
+      { id: 19, min: 52, max: 55, weight: 15 },
+    ],
+  },
   warps: [
     { x: 8, y: 15, to: 'nibi', tx: 8, ty: 2, dir: 'down' },
     { x: 9, y: 15, to: 'nibi', tx: 9, ty: 2, dir: 'down' },

@@ -41,6 +41,18 @@ export default {
       { id: 25, min: 11, max: 14, weight: 5 },    // ピカチュウ
     ],
   },
+  postgame: {
+    rate: 9,
+    table: [
+      { id: 179, min: 48, max: 51, weight: 20 },
+      { id: 607, min: 48, max: 51, weight: 12 },
+      { id: 16, min: 47, max: 50, weight: 18 },
+      { id: 19, min: 47, max: 50, weight: 15 },
+      { id: 41, min: 48, max: 51, weight: 18 },
+      { id: 74, min: 48, max: 51, weight: 12 },
+      { id: 25, min: 48, max: 51, weight: 5 },
+    ],
+  },
   water: {
     surf: {
       rate: 10,

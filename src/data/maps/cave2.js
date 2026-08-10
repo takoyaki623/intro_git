@@ -32,6 +32,16 @@ export default {
       { id: 42, min: 18, max: 20, weight: 12 },   // ゴルバット
     ],
   },
+  postgame: {
+    rate: 14,
+    table: [
+      { id: 633, min: 56, max: 59, weight: 14 },
+      { id: 41, min: 56, max: 59, weight: 35 },
+      { id: 74, min: 56, max: 59, weight: 30 },
+      { id: 75, min: 58, max: 61, weight: 9 },
+      { id: 42, min: 58, max: 61, weight: 12 },
+    ],
+  },
   water: {
     surf: {
       rate: 10,

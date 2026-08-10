@@ -1,7 +1,7 @@
 // 野生エンカウント判定。草むら・水上（なみのり）・つりの3経路。
 
 import { TILE } from '../data/tiles.js';
-import { state } from './state.js';
+import { state, getFlag } from './state.js';
 import { createMonster } from './monster.js';
 
 const MIN_STEPS = 3; // 遭遇直後の連続エンカウントを抑える
@@ -28,7 +28,8 @@ export function stepCheck(map, tileKey, rng) {
   if (repelActive) state.repelSteps--;
 
   const onWater = !!TILE[tileKey]?.water;
-  const enc = onWater ? map.water?.surf : map.encounters;
+  const postgame = getFlag('hallOfFame') && map.postgame;
+  const enc = onWater ? map.water?.surf : (postgame || map.encounters);
   if (!enc) return null;
   if (!onWater && !TILE[tileKey]?.grass) return null;
 

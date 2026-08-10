@@ -33,6 +33,17 @@ export default {
       { id: 20, min: 24, max: 27, weight: 8 },    // ラッタ
     ],
   },
+  postgame: {
+    rate: 10,
+    table: [
+      { id: 397, min: 62, max: 65, weight: 22 },
+      { id: 922, min: 62, max: 65, weight: 22 },
+      { id: 820, min: 63, max: 66, weight: 18 },
+      { id: 662, min: 62, max: 65, weight: 18 },
+      { id: 42, min: 63, max: 66, weight: 12 },
+      { id: 20, min: 62, max: 65, weight: 8 },
+    ],
+  },
   warps: [
     { x: 0, y: 6, to: 'cave2', tx: 16, ty: 11, dir: 'left' },
     { x: 19, y: 10, to: 'leaguecenter', tx: 1, ty: 6, dir: 'right' },

@@ -50,9 +50,11 @@ export default {
         'てもちが ６ひき いっぱいでも つかまえられるってわけ。',
       ],
     },
-    // 交換の3人。えらばなかった御三家は、ここでしか手に入らない。
+    // 交換の4人。クリア後（殿堂入り）にしか現れない。
+    // カントー御三家（フシギダネ・ゼニガメ）と、えらばなかった御三家2種は
+    // ここで手に入れるのが「クリア後の目的」になる。
     {
-      id: 'tradeA', x: 2, y: 4, sprite: 'girl', dir: 'down',
+      id: 'tradeA', x: 2, y: 4, sprite: 'girl', dir: 'down', when: 'hallOfFame',
       lines: [
         {
           if: 'trade_fushigidane',
@@ -66,21 +68,30 @@ export default {
       ],
     },
     {
-      id: 'tradeB', x: 2, y: 7, sprite: 'youngster', dir: 'down',
+      id: 'tradeB', x: 2, y: 7, sprite: 'youngster', dir: 'down', when: 'hallOfFame',
       lines: [
         {
-          if: 'trade_hitokage',
-          then: ['ヒトカゲは ほのおが つよいぞ！'],
+          if: 'trade_b_done',
+          then: ['あの ポケモン、げんきにしてる？'],
           else: [
-            'コラッタと ヒトカゲを こうかんしない？',
-            'ぼく コラッタが すきなんだ。',
-            { trade: { want: 19, give: 4, lv: 8, flag: 'trade_hitokage' } },
+            'コラッタと こうかんしない？',
+            {
+              if: 'starter_722',
+              then: [
+                'ぼく ヒトカゲが すきなんだ。かわりに あげるよ！',
+                { trade: { want: 19, give: 4, lv: 8, flag: 'trade_b_done' } },
+              ],
+              else: [
+                'ぼく モクローが すきなんだ。かわりに あげるよ！',
+                { trade: { want: 19, give: 722, lv: 8, flag: 'trade_b_done' } },
+              ],
+            },
           ],
         },
       ],
     },
     {
-      id: 'tradeC', x: 11, y: 4, sprite: 'lass', dir: 'left',
+      id: 'tradeC', x: 11, y: 4, sprite: 'lass', dir: 'left', when: 'hallOfFame',
       lines: [
         {
           if: 'trade_zenigame',
@@ -89,6 +100,29 @@ export default {
             'キャタピーを もってない？',
             'ゼニガメと こうかんして あげる！',
             { trade: { want: 10, give: 7, lv: 8, flag: 'trade_zenigame' } },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'tradeD', x: 11, y: 7, sprite: 'girl', dir: 'left', when: 'hallOfFame',
+      lines: [
+        {
+          if: 'trade_d_done',
+          then: ['また あそびにきてね！'],
+          else: [
+            'ホシガリスを もってきたら こうかんしてあげる。',
+            {
+              if: 'starter_258',
+              then: [
+                'わたしは ヒトカゲが すきなの。かわりに あげる！',
+                { trade: { want: 819, give: 4, lv: 8, flag: 'trade_d_done' } },
+              ],
+              else: [
+                'わたしは ミズゴロウが すきなの。かわりに あげる！',
+                { trade: { want: 819, give: 258, lv: 8, flag: 'trade_d_done' } },
+              ],
+            },
           ],
         },
       ],
