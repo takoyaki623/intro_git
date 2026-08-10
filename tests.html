@@ -55,6 +55,7 @@ import { chooseAction } from './src/game/ai.js';
 import { NATURES, getNature, natureMul } from './src/data/natures.js';
 import { wildBattle } from './src/game/battle.js';
 import { state, resetState, load, SAVE_VERSION, registerCaught } from './src/game/state.js';
+import { objective } from './src/game/objective.js';
 import { charWidth, inkExtent } from './src/engine/font.js';
 import * as Storage from './src/core/storage.js';
 
@@ -1079,6 +1080,40 @@ section('図鑑の報酬 ― しきい値フラグ');
   check(`全種つかまえると dexReady20 も立つ（total=${total}）`, total >= 20 ? state.flags.dexReady20 === true : true);
 }
 
+// ---------------------------------------------------------------- めもちょう
+// objective(state) は「いま なにを すべきか」を1行返す純関数。
+// フラグの分岐をすべて踏んで、常に何かしらの文字列が返ることを確かめる。
+section('めもちょう ― objective(state) の全分岐');
+{
+  const mk = (flags, caughtN = 0) => ({
+    flags,
+    dex: { caught: Array.from({ length: caughtN }, (_, i) => i + 1) },
+  });
+  const total = Object.keys(SPECIES).length;
+
+  check('御三家をもらう前', /さいしょの ポケモン/.test(objective(mk({}))));
+  check('でんきバッジを持っていない',
+    /でんきバッジ/.test(objective(mk({ gotStarter: true }))));
+  check('いわバッジを持っていない',
+    /いわバッジ/.test(objective(mk({ gotStarter: true, badge_denki: true }))));
+  check('両バッジ持ちだが 殿堂入りしていない',
+    /ポケモンリーグ/.test(objective(mk({ gotStarter: true, badge_denki: true, badge_iwa: true }))));
+  check('殿堂入り直後、御三家をまだ交換していない',
+    /御三家/.test(objective(mk({
+      gotStarter: true, badge_denki: true, badge_iwa: true, hallOfFame: true,
+    }))));
+  check('御三家をすべて交換済みだが 図鑑が未完成',
+    /ずかん/.test(objective(mk({
+      gotStarter: true, badge_denki: true, badge_iwa: true, hallOfFame: true,
+      trade_fushigidane: true, trade_zenigame: true, trade_b_done: true, trade_d_done: true,
+    }))));
+  check('図鑑コンプまで完了した後も 何かしらの文言が返る',
+    !!objective(mk({
+      gotStarter: true, badge_denki: true, badge_iwa: true, hallOfFame: true,
+      trade_fushigidane: true, trade_zenigame: true, trade_b_done: true, trade_d_done: true,
+    }, total)));
+}
+
 // ---------------------------------------------------------------- 文字が重ならない
 // 「台詞に入れた記号1文字で崩れる」の回帰テスト。原因は font.js が送り幅を
 // 6/12px に丸める一方、字形は実測幅のまま焼いていたこと（数字・英字がはみ出す）。
@@ -1098,6 +1133,7 @@ section('フォント ― 文字が送り幅からはみ出さない');
   walk(Object.values(MAPS));
   walk(Object.values(TRAINERS));
   walk(BADGES);
+  chars.add('◎');   // 野生戦の「捕獲済みマーク」。データではなく描画側で組み立てる文字なので手で足す。
   chars.delete(' ');
   chars.delete('　');
   chars.delete('\n');

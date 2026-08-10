@@ -573,7 +573,9 @@ export class BattleScene {
 
     // 相手（状態異常があるときだけ HPバーを縮めて札を置く）
     drawWindow(ctx, 6, 8, 122, 36);
-    drawText(ctx, foe.species.name, 14, 13, { color: COL.ink });
+    // 図鑑に登録済みの種は名前の横に ◎ を出す（もう捕まえた、が一目でわかる）
+    const foeCaught = !this.ctx.trainer && state.dex.caught.includes(foe.species.id);
+    drawText(ctx, foeCaught ? `${foe.species.name} ◎` : foe.species.name, 14, 13, { color: COL.ink });
     drawTextRight(ctx, `Lv${foe.level}`, 122, 13, { color: COL.ink });
     drawText(ctx, 'HP', 14, 28, { color: '#f0a020' });
     if (foe.status) {

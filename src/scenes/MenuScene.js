@@ -9,6 +9,7 @@ import { Menu } from '../engine/menu.js';
 import { TextBox } from '../engine/textbox.js';
 import { state, save, playTimeText, getFlag } from '../game/state.js';
 import { BADGES, badgeFlag } from '../data/trainers.js';
+import { objective } from '../game/objective.js';
 
 const W = Screen.W;
 const H = Screen.H;
@@ -24,13 +25,14 @@ export class MenuScene {
         { label: 'ポケモン', id: 'party', disabled: state.party.length === 0 },
         { label: 'バッグ', id: 'bag' },
         { label: 'ずかん', id: 'dex' },
+        { label: 'めもちょう', id: 'note' },
         // いわバッジを取るまでは並べない（取れば増える、が分かりやすい）
         ...(getFlag(badgeFlag('iwa')) ? [{ label: 'そらをとぶ', id: 'fly' }] : []),
         { label: 'レポート', id: 'save' },
         { label: 'せってい', id: 'settings' },
         { label: 'とじる', id: 'close' },
       ],
-      { x: 164, y: 12, lineH: 15, colW: 84 },
+      { x: 164, y: 12, lineH: 15, colW: 84, rows: 7 },
     );
   }
 
@@ -74,6 +76,11 @@ export class MenuScene {
     if (id === 'dex') {
       const { DexScene } = await import('./DexScene.js');
       Scenes.push(new DexScene());
+      return;
+    }
+    if (id === 'note') {
+      this.box = new TextBox();
+      this.box.setText(objective(state));
       return;
     }
     if (id === 'fly') {
