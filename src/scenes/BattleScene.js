@@ -260,6 +260,10 @@ export class BattleScene {
     } else if (kind === 'faint') {
       this.anim = { kind, t: 0, len: 30, onFoe: fx.onFoe };
       SE.faint();
+    } else if (kind === 'recall') {
+      // 自分の意思での交代。見た目はひんしと同じ「引っ込む」動きを流用するが短め。
+      this.anim = { kind: 'faint', t: 0, len: 16, onFoe: false };
+      SE.select();
     } else if (kind === 'ball') {
       this.anim = {
         kind, t: 0, shakes: fx.shakes, caught: fx.caught, shakeIndex: -1,

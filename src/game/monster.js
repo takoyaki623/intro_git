@@ -97,6 +97,57 @@ export function heal(m, amount) {
   return m.curHP - before;
 }
 
+/**
+ * どうぐ使用が効果を持つかどうかだけを判定する（変化させない）。
+ * 効かないなら理由の文字列、効くなら null。
+ * バトル中は「選んだ時点」でこれだけ呼び、実際の適用はターンの実行時に行う
+ * （そうしないと HP バーの表示がどうぐ使用の直後ではなく次に何か動くまで遅れる）。
+ */
+export function itemUseError(m, use) {
+  switch (use.kind) {
+    case 'heal':
+      if (m.curHP <= 0) return `${displayName(m)}は ひんしだ！`;
+      if (m.curHP >= m.stats.hp) return 'HPは まんたんだ！';
+      return null;
+    case 'cure': {
+      const match = use.status === 'all' ? !!m.status : m.status === use.status;
+      return match ? null : 'それを つかっても いみが なさそうだ。';
+    }
+    case 'revive':
+      return m.curHP > 0 ? 'それを つかっても いみが なさそうだ。' : null;
+    case 'pp':
+      return m.moves.some((mv) => mv.pp < mv.maxPp) ? null : 'PPは まんたんだ！';
+    default:
+      return null;
+  }
+}
+
+/** どうぐを実際に適用する。{ ok, message } を返す。 */
+export function applyItemUse(m, use) {
+  const err = itemUseError(m, use);
+  if (err) return { ok: false, message: err };
+
+  switch (use.kind) {
+    case 'heal': {
+      const amount = use.amount === 'full' ? m.stats.hp : use.amount;
+      const got = heal(m, amount);
+      return { ok: true, message: `${displayName(m)}の HPが ${got} かいふくした！` };
+    }
+    case 'cure':
+      m.status = null;
+      m.statusTurns = 0;
+      return { ok: true, message: `${displayName(m)}の じょうたいが なおった！` };
+    case 'revive':
+      m.curHP = Math.max(1, Math.floor(m.stats.hp * (use.ratio ?? 0.5)));
+      return { ok: true, message: `${displayName(m)}は げんきを とりもどした！` };
+    case 'pp':
+      for (const mv of m.moves) mv.pp = use.amount === 'full' ? mv.maxPp : Math.min(mv.maxPp, mv.pp + use.amount);
+      return { ok: true, message: `${displayName(m)}の PPが かいふくした！` };
+    default:
+      return { ok: false, message: 'それを つかっても いみが なさそうだ。' };
+  }
+}
+
 export function fullHeal(m) {
   m.curHP = m.stats.hp;
   m.status = null;

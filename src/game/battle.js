@@ -18,6 +18,7 @@ import {
 import {
   displayName, isFainted, damageMon, heal, recalcStats, movesLearnedAt,
   learnMove, replaceMove, knowsMove, evolutionTarget, evolve, resetBattleState, MAX_MOVES,
+  applyItemUse,
 } from './monster.js';
 import { chooseAction } from './ai.js';
 import * as Music from '../core/music.js';
@@ -118,25 +119,38 @@ function* battleLoop(ctx) {
         return { result: 'run' };
       }
       yield msg('にげられない！');
+      const foeAction = chooseAction(ctx.foe, ctx.mine, ctx.rng, ctx.trainer?.skill ?? 0);
+      if ((yield* resolveTurn(ctx, [foeAction])).over) return null;
+      continue;
     }
 
     if (mine.type === 'ball') {
       const caught = yield* throwBall(ctx, mine.item);
       if (caught) return { result: 'caught' };
+      const foeAction = chooseAction(ctx.foe, ctx.mine, ctx.rng, ctx.trainer?.skill ?? 0);
+      if ((yield* resolveTurn(ctx, [foeAction])).over) return null;
+      continue;
     }
 
+    // わざ・どうぐ・交代は、どれも「こちらの1手」として同じ経路を通る。
+    // ここを分けていた（＝どうぐと交代がターンの実行に乗らない）のが
+    // 「交代できない」「HPバーが1テンポ遅れる」の原因だった。
     const foeAction = chooseAction(ctx.foe, ctx.mine, ctx.rng, ctx.trainer?.skill ?? 0);
-    const actions = mine.type === 'move' ? [mine, foeAction] : [foeAction];
-
-    for (const act of orderActions(actions, ctx.rng)) {
-      if (isFainted(ctx.mine) || isFainted(ctx.foe)) break;
-      yield* executeAction(ctx, act);
-    }
-
-    if (yield* checkFaint(ctx)) return null;
-    yield* endOfTurn(ctx);
-    if (yield* checkFaint(ctx)) return null;
+    const actions = orderActions([mine, foeAction], ctx.rng);
+    if ((yield* resolveTurn(ctx, actions)).over) return null;
   }
+}
+
+/** 両者ぶんの行動を実行し、ひんし判定とターン終了処理まで行う。 */
+function* resolveTurn(ctx, actions) {
+  for (const act of actions) {
+    if (isFainted(ctx.mine) || isFainted(ctx.foe)) break;
+    yield* executeAction(ctx, act);
+  }
+  if (yield* checkFaint(ctx)) return { over: true };
+  yield* endOfTurn(ctx);
+  if (yield* checkFaint(ctx)) return { over: true };
+  return { over: false };
 }
 
 // ---- コマンド選択 ----
@@ -166,13 +180,13 @@ function* chooseCommand(ctx) {
         }
         return { type: 'ball', item: chosen.item };
       }
-      return { type: 'item', item: chosen.item, target: chosen.target };
+      return { type: 'item', user: ctx.mine, item: chosen.item, target: chosen.target };
     }
 
     if (cmd.type === 'party') {
       const idx = yield { t: 'party' };
       if (idx === null || idx === undefined) continue;
-      return { type: 'switch', index: idx };
+      return { type: 'switch', user: ctx.mine, index: idx };
     }
 
     if (cmd.type === 'run') {
@@ -205,6 +219,9 @@ export function orderActions(actions, rng) {
 // ---- 1手の実行 ----
 
 function* executeAction(ctx, act) {
+  if (act.type === 'switch') { yield* doSwitchAction(ctx, act); return; }
+  if (act.type === 'item') { yield* doItemAction(ctx, act); return; }
+
   const user = act.user;
   const target = user === ctx.mine ? ctx.foe : ctx.mine;
   const isMine = user === ctx.mine;
@@ -477,6 +494,39 @@ function* sendOutFoe(ctx, next) {
   registerSeen(next.species.id);
   ctx.onFoeSwitch?.(next);
   yield anim('foeSendOut');
+}
+
+/** プレイヤーが自分の意思で交代する（1手ぶん）。 */
+function* doSwitchAction(ctx, act) {
+  const next = state.party[act.index];
+  if (!next || next.curHP <= 0 || next === ctx.mine) return;
+
+  const out = ctx.mine;
+  yield msg(`もどれ！ ${displayName(out)}！`);
+  yield anim('recall');
+  resetBattleState(out);
+  ctx.mine = next;
+  ctx.onSwitch?.(next);         // dispHP.mine を新しい個体のHPに即同期する
+  yield anim('sendOut');
+  yield msg(`ゆけっ！ ${displayName(next)}！`);
+}
+
+/**
+ * どうぐの使用（1手ぶん）。効果は必ずここで初めて適用する。
+ * 選択画面（PartyScene）は selectOnly:true のときは判定だけで変化させない。
+ * そうしないと HP バーの更新が「次に何かが HP を動かすまで」遅れてしまう。
+ */
+function* doItemAction(ctx, act) {
+  const { item, target } = act;
+  const r = applyItemUse(target, item.use);
+  if (!r.ok) {
+    yield msg(r.message);
+    return;
+  }
+  removeItem(item.name, 1);
+  yield msg(`${state.player.name}は ${item.name}を つかった！`);
+  yield { t: 'hpTween', onFoe: false };
+  yield msg(r.message);
 }
 
 function* switchIn(ctx, index) {

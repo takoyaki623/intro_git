@@ -28,7 +28,7 @@
 import { TYPES, CHART, effectiveness } from './src/data/types.js';
 import { MOVES, getMove } from './src/data/moves.js';
 import { SPECIES, speciesList, movesAtLevel } from './src/data/species.js';
-import { ITEMS, POCKETS } from './src/data/items.js';
+import { ITEMS, POCKETS, getItem } from './src/data/items.js';
 import { CURVE, MAX_LEVEL } from './src/data/growth.js';
 import { TILE, TILE_SPR } from './src/data/tiles.js';
 import { MAPS, mapWidth, tileKeyAt } from './src/data/maps/index.js';
@@ -45,6 +45,9 @@ import {
 import { createMonster, serialize, hydrate, evolve, recalcStats } from './src/game/monster.js';
 import { chooseAction } from './src/game/ai.js';
 import { NATURES, getNature, natureMul } from './src/data/natures.js';
+import { wildBattle } from './src/game/battle.js';
+import { state, resetState } from './src/game/state.js';
+import { charWidth, inkExtent } from './src/engine/font.js';
 
 const out = document.getElementById('out');
 let total = 0;
@@ -771,6 +774,115 @@ section('進化とレベルアップ');
   check('レベルアップで最大HPが増える', m.stats.hp > before.max);
   check('レベルアップで全回復しない', m.curHP === half + (m.stats.hp - before.max));
   check('上昇値が返る', typeof gain.atk === 'number');
+}
+
+// ---------------------------------------------------------------- バトル ― 交代とどうぐ
+// 「戦闘中に交代できない」「どうぐを使ってもHPバーが1テンポ遅れる」の回帰テスト。
+// 原因は battle.js の battleLoop が switch/item をターンの実行に乗せていなかったこと。
+// wildBattle のジェネレータを実際に駆動して、選んだ手が本当に1手として実行されるか検査する。
+section('バトル ― 交代とどうぐ が1手として実行される');
+{
+  resetState();
+  const mine = createMonster(4, 20, { rng });   // ヒトカゲ
+  mine.stages.atk = 2;
+  const bench = createMonster(7, 20, { rng });  // ゼニガメ
+  state.party = [mine, bench];
+  const foe = createMonster(10, 5, { rng });    // ポッポ
+
+  const ctx = {
+    mine, foe, rng, isWild: true, runAttempts: 0,
+    onSwitch: () => {}, onFoeSwitch: () => {},
+  };
+  const script = [
+    { t: 'command', give: { type: 'party' } },
+    { t: 'party', give: 1 },
+  ];
+  const log = [];
+  const gen = wildBattle(ctx);
+  let result = gen.next();
+  for (let i = 0; i < 60 && !result.done; i++) {
+    const fx = result.value;
+    log.push(fx);
+    if (fx.t === 'msg' && fx.text?.includes(`ゆけっ！ ${bench.species.name}`)) break;
+    let input;
+    if (script.length && fx?.t === script[0].t) input = script.shift().give;
+    result = gen.next(input);
+  }
+
+  check('パーティで選んだポケモンに ctx.mine が入れ替わる（交代が1手として実行される）', ctx.mine === bench);
+  check('交代で「もどれ！」のメッセージが出る', log.some((fx) => fx.t === 'msg' && fx.text?.includes('もどれ！')));
+  check('交代で 能力ランクが リセットされる', mine.stages.atk === 0);
+}
+{
+  resetState();
+  const mine = createMonster(4, 20, { rng });
+  mine.curHP = 5;
+  state.party = [mine];
+  state.bag = { 'きずぐすり': 3 };
+  const foe = createMonster(10, 1, { rng });
+
+  const ctx = {
+    mine, foe, rng, isWild: true, runAttempts: 0,
+    onSwitch: () => {}, onFoeSwitch: () => {},
+  };
+  const before = mine.curHP;
+  const beforeBag = state.bag['きずぐすり'];
+
+  const script = [
+    { t: 'command', give: { type: 'bag' } },
+    { t: 'bag', give: { item: getItem('きずぐすり'), target: mine } },
+  ];
+  const log = [];
+  const gen = wildBattle(ctx);
+  let result = gen.next();
+  for (let i = 0; i < 60 && !result.done; i++) {
+    const fx = result.value;
+    log.push(fx);
+    if (log.some((e) => e.t === 'msg' && e.text?.includes('かいふくした'))) break;
+    let input;
+    if (script.length && fx?.t === script[0].t) input = script.shift().give;
+    result = gen.next(input);
+  }
+
+  const useIdx = log.findIndex((fx) => fx.t === 'msg' && fx.text?.includes('を つかった'));
+  check('どうぐを「つかった」メッセージが出る', useIdx >= 0);
+  check('その直後に hpTween が来る（HPバーの表示が すぐに追いつく）', log[useIdx + 1]?.t === 'hpTween');
+  check('回復量のメッセージは hpTween の後', log[useIdx + 2]?.t === 'msg' && log[useIdx + 2].text.includes('かいふくした'));
+  check('HP が 実際に 回復している', mine.curHP > before);
+  check('どうぐが 1つ 消費される', state.bag['きずぐすり'] === beforeBag - 1);
+}
+
+// ---------------------------------------------------------------- 文字が重ならない
+// 「台詞に入れた記号1文字で崩れる」の回帰テスト。原因は font.js が送り幅を
+// 6/12px に丸める一方、字形は実測幅のまま焼いていたこと（数字・英字がはみ出す）。
+// ゲーム内で実際に使われている文字をデータから総ざらいして、焼き上がったインクが
+// 自分の送り幅からはみ出していないかを検査する。
+section('フォント ― 文字が送り幅からはみ出さない');
+{
+  const chars = new Set();
+  const walk = (v) => {
+    if (typeof v === 'string') { for (const ch of v) chars.add(ch); return; }
+    if (Array.isArray(v)) { v.forEach(walk); return; }
+    if (v && typeof v === 'object') { for (const k of Object.keys(v)) walk(v[k]); }
+  };
+  walk(Object.values(SPECIES));
+  walk(Object.values(MOVES));
+  walk(Object.values(ITEMS));
+  walk(Object.values(MAPS));
+  walk(Object.values(TRAINERS));
+  walk(BADGES);
+  chars.delete(' ');
+  chars.delete('　');
+  chars.delete('\n');
+
+  let worst = null;
+  for (const ch of chars) {
+    const adv = charWidth(ch);
+    const ink = inkExtent(ch);
+    if (ink > adv && (!worst || ink - adv > worst.ink - worst.adv)) worst = { ch, adv, ink };
+  }
+  check(`実際に使われている ${chars.size} 文字すべてで インクが送り幅に収まる`, worst === null,
+    worst ? `'${worst.ch}' は幅${worst.adv}pxの枠にインクが${worst.ink}pxまではみ出す` : '');
 }
 
 // ---------------------------------------------------------------- 結果

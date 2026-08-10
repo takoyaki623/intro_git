@@ -88,7 +88,7 @@ export class BagScene {
     // 対象を選ぶ
     this.pendingItem = item;
     const { PartyScene } = await import('./PartyScene.js');
-    Scenes.push(new PartyScene({ mode: 'item', item }));
+    Scenes.push(new PartyScene({ mode: 'item', item, selectOnly: this.mode === 'battle' }));
   }
 
   /** PartyScene から戻ってきた */
@@ -104,9 +104,10 @@ export class BagScene {
     }
 
     if (result.used) {
+      // バトル中は選んだだけ。実際の消費と効果は battle.js が1手として処理する。
+      if (this.mode === 'battle') { this.close({ item, target: result.target }); return; }
       removeItem(item.name, 1);
       this.buildMenu();
-      if (this.mode === 'battle') this.close({ item, target: result.target });
     }
   }
 

@@ -33,9 +33,18 @@ function bakeGlyph(ch) {
   m.font = FONT;
   m.textBaseline = 'alphabetic';
   m.fillStyle = '#fff';
-  m.fillText(ch, 1, SIZE);
 
-  const adv = m.measureText(ch).width > SIZE * 0.7 ? FULL_W : HALF_W;
+  // 送り幅は 6px か 12px の二択に丸めるが、システムフォントはプロポーショナルなので
+  // 実測インク幅がそれを超える文字がある（数字・英字など）。丸めた送り幅はそのままに、
+  // はみ出す文字だけ横方向に詰めて焼くことで、次の文字への食い込みを防ぐ。
+  const w = m.measureText(ch).width;
+  const fullW = m.measureText('あ').width;
+  const adv = w > fullW * 0.75 ? FULL_W : HALF_W;
+
+  m.save();
+  if (w > adv) m.scale(adv / w, 1);
+  m.fillText(ch, 0, SIZE);
+  m.restore();
 
   const d = m.getImageData(0, 0, CELL, CELL);
   // アルファを2値化して白マスクにする。着色は描画時に行う。
@@ -58,6 +67,23 @@ function bakeGlyph(ch) {
 
 function glyph(ch) {
   return glyphs.get(ch) ?? bakeGlyph(ch);
+}
+
+/**
+ * テスト用: 実際に焼いたグリフのインクの右端（px）を返す。
+ * 送り幅 charWidth(ch) を超えていれば、次の文字に食い込む。
+ */
+export function inkExtent(ch) {
+  if (ch === ' ' || ch === '　') return 0;
+  const g = glyph(ch);
+  const d = g.mask.getContext('2d').getImageData(0, 0, CELL, CELL).data;
+  let max = 0;
+  for (let y = 0; y < CELL; y++) {
+    for (let x = 0; x < CELL; x++) {
+      if (d[(y * CELL + x) * 4 + 3] > 0) max = Math.max(max, x + 1);
+    }
+  }
+  return max;
 }
 
 function tint(g, color) {

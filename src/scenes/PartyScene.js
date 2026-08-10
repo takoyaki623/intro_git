@@ -9,7 +9,8 @@ import { Menu } from '../engine/menu.js';
 import { TextBox } from '../engine/textbox.js';
 import { state } from '../game/state.js';
 import {
-  displayName, heal, fullHeal, knowsMove, learnMove, replaceMove, MAX_MOVES,
+  displayName, fullHeal, knowsMove, learnMove, replaceMove, MAX_MOVES,
+  itemUseError, applyItemUse,
 } from '../game/monster.js';
 import { expRatio } from '../game/formulas.js';
 
@@ -24,12 +25,18 @@ const H = Screen.H;
  *   'forceSwitch' … ひんし後の交代（キャンセル不可）
  *   'item'        … どうぐの使用対象を選ぶ
  *   'pick'        … 1匹えらんで index を返すだけ（交換・そだてや など）
+ *
+ * selectOnly: true のとき、'item' は対象を選ぶだけで効果を適用しない
+ * （バトル中の1手として battle.js 側で適用するため。HPバーの表示ズレを防ぐ）。
  */
 export class PartyScene {
-  constructor({ mode = 'view', exclude = null, item = null, accept = null, reject = '' } = {}) {
+  constructor({
+    mode = 'view', exclude = null, item = null, accept = null, reject = '', selectOnly = false,
+  } = {}) {
     this.mode = mode;
     this.exclude = exclude;
     this.item = item;
+    this.selectOnly = selectOnly;
     this.accept = accept;      // (mon) => boolean。えらべる相手を絞るとき
     this.reject = reject;      // 絞りに外れたときのセリフ
     this.index = 0;
@@ -158,41 +165,6 @@ export class PartyScene {
     if (!it?.use) { this.close(null); return; }
     const u = it.use;
 
-    if (u.kind === 'heal') {
-      if (mon.curHP <= 0) { this.say(`${displayName(mon)}は ひんしだ！`); return; }
-      if (mon.curHP >= mon.stats.hp) { this.say('HPは まんたんだ！'); return; }
-      const amount = u.amount === 'full' ? mon.stats.hp : u.amount;
-      const got = heal(mon, amount);
-      this.sayAndClose(`${displayName(mon)}の HPが ${got} かいふくした！`, { used: true, target: mon });
-      return;
-    }
-
-    if (u.kind === 'cure') {
-      const match = u.status === 'all' ? !!mon.status : mon.status === u.status;
-      if (!match) { this.say('それを つかっても いみが なさそうだ。'); return; }
-      mon.status = null;
-      mon.statusTurns = 0;
-      this.sayAndClose(`${displayName(mon)}の じょうたいが なおった！`, { used: true, target: mon });
-      return;
-    }
-
-    if (u.kind === 'revive') {
-      if (mon.curHP > 0) { this.say('それを つかっても いみが なさそうだ。'); return; }
-      mon.curHP = Math.max(1, Math.floor(mon.stats.hp * (u.ratio ?? 0.5)));
-      this.sayAndClose(`${displayName(mon)}は げんきを とりもどした！`, { used: true, target: mon });
-      return;
-    }
-
-    if (u.kind === 'pp') {
-      const low = mon.moves.filter((m) => m.pp < m.maxPp);
-      if (!low.length) { this.say('PPは まんたんだ！'); return; }
-      for (const m of mon.moves) {
-        m.pp = u.amount === 'full' ? m.maxPp : Math.min(m.maxPp, m.pp + u.amount);
-      }
-      this.sayAndClose(`${displayName(mon)}の PPが かいふくした！`, { used: true, target: mon });
-      return;
-    }
-
     if (u.kind === 'tm') {
       this.teachMove(mon, u.move);
       return;
@@ -203,7 +175,17 @@ export class PartyScene {
       return;
     }
 
-    this.say('それを つかっても いみが なさそうだ。');
+    // バトル中は対象を選ぶだけ。効果の適用はターンの実行時に battle.js が行う。
+    if (this.selectOnly) {
+      const err = itemUseError(mon, u);
+      if (err) { this.say(err); return; }
+      this.close({ used: true, target: mon });
+      return;
+    }
+
+    const r = applyItemUse(mon, u);
+    if (!r.ok) { this.say(r.message); return; }
+    this.sayAndClose(r.message, { used: true, target: mon });
   }
 
   /** わざマシン。使っても無くならないので used は返さない。 */
