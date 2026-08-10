@@ -15,7 +15,7 @@ import { world } from '../game/world.js';
 import { state, setFlag, getFlag, healParty, addItem } from '../game/state.js';
 import { stepCheck, fishCheck, spawnWild } from '../game/encounter.js';
 import { getTrainer, trainerFlag } from '../data/trainers.js';
-import { createMonster, displayName } from '../game/monster.js';
+import { createMonster, displayName, raiseBySteps } from '../game/monster.js';
 import { getMove } from '../data/moves.js';
 import { ITEMS } from '../data/items.js';
 
@@ -121,6 +121,11 @@ export class FieldScene {
   }
 
   onStepped({ tile, warp }) {
+    // あずけた子は歩いた歩数ぶん育つ
+    if (state.daycare) {
+      state.daycare.steps++;
+      raiseBySteps(state.daycare, 1);
+    }
     if (warp) {
       this.doWarp(warp);
       return;

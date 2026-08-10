@@ -4,7 +4,9 @@ import { BTN } from '../core/input.js';
 import { TextBox } from '../engine/textbox.js';
 import { Menu } from '../engine/menu.js';
 import { drawWindow } from '../engine/ui.js';
-import { state, getFlag, setFlag, addItem, healParty, addMonster, registerCaught } from '../game/state.js';
+import {
+  state, getFlag, setFlag, addItem, healParty, addMonster, registerCaught, PARTY_MAX,
+} from '../game/state.js';
 import { createMonster, displayName } from '../game/monster.js';
 import { getSpecies } from '../data/species.js';
 import { rng } from '../core/rng.js';
@@ -22,6 +24,7 @@ import { SE } from '../core/audio.js';
  *   { chooseStarter:[1,4,7] }
  *   { shop:['モンスターボール','きずぐすり'] }
  *   { trade:{ want:10, give:1, lv:8, nick:null, flag:'trade_bulba' } }
+ *   { daycare:true }
  *
  * パーサを書かずに済むよう、素の JS の値をそのまま解釈する。
  */
@@ -103,6 +106,14 @@ export class DialogScene {
         this.startTrade(cmd.trade);
         return;
       }
+      if (cmd.daycare) {
+        this.daycare();
+        return;
+      }
+      if (cmd.takeBack) {
+        this.takeBack();
+        continue;
+      }
       // 地形がらみは FieldScene が持っている。会話を閉じてから実行する。
       if (cmd.surf) {
         this.pendingField = () => this.field?.doSurf();
@@ -168,6 +179,76 @@ export class DialogScene {
     }));
   }
 
+  /**
+   * そだてや。あずける／ひきとる の入口。
+   * 一度に1匹だけ。手持ちが1匹しかいないときは あずけられない。
+   */
+  async daycare() {
+    const dc = state.daycare;
+
+    if (dc) {
+      const grew = dc.mon.level - dc.startLv;
+      const fee = Math.max(100, grew * 100);
+      this.queue.unshift(
+        `${displayName(dc.mon)}は レベル ${dc.mon.level}に なっているよ。`,
+        `ひきとるなら ${fee}円 だけど どうする？`,
+        {
+          ask: true,
+          yes: [{ takeBack: true }],
+          no: ['じゃあ もう すこし あずかっておくよ。'],
+        },
+      );
+      this.next();
+      return;
+    }
+
+    if (state.party.length <= 1) {
+      this.queue.unshift('てもちが 1ひきだけじゃ あずかれないよ。');
+      this.next();
+      return;
+    }
+
+    this.queue.unshift('どの ポケモンを あずける？');
+    this.pendingDaycare = true;
+    const { PartyScene } = await import('./PartyScene.js');
+    Scenes.push(new PartyScene({ mode: 'pick' }));
+  }
+
+  /** 手持ち画面から戻ってきて あずける */
+  finishDaycare(index) {
+    this.pendingDaycare = false;
+    if (index === null || index === undefined) {
+      this.queue.unshift('また いつでも どうぞ。');
+      return;
+    }
+    const mon = state.party.splice(index, 1)[0];
+    state.daycare = { mon, steps: 0, startLv: mon.level };
+    this.queue.unshift(
+      `${displayName(mon)}を あずかったよ。`,
+      'あるいた ぶんだけ そだてておくからね。',
+    );
+  }
+
+  /** ひきとる */
+  takeBack() {
+    const dc = state.daycare;
+    if (!dc) return;
+    const fee = Math.max(100, (dc.mon.level - dc.startLv) * 100);
+    if (state.player.money < fee) {
+      this.queue.unshift('おかねが たりないみたいだね。');
+      return;
+    }
+    if (state.party.length >= PARTY_MAX) {
+      this.queue.unshift('てもちが いっぱいだよ。');
+      return;
+    }
+    state.player.money -= fee;
+    state.party.push(dc.mon);
+    state.daycare = null;
+    SE.select();
+    this.queue.unshift(`${displayName(dc.mon)}が かえってきた！`);
+  }
+
   /** 手持ち画面から戻ってきて、実際に入れ替える */
   finishTrade(index) {
     const t = this.pendingTrade;
@@ -198,6 +279,7 @@ export class DialogScene {
   resume(result) {
     Input.clearEdges();
     if (this.pendingTrade) this.finishTrade(result);
+    else if (this.pendingDaycare) this.finishDaycare(result);
     this.next();
   }
 

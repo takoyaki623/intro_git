@@ -11,12 +11,13 @@ import { displayName } from '../game/monster.js';
 import { expRatio, expToNext, STAT_LABEL } from '../game/formulas.js';
 import { EXP_TYPE_LABEL } from '../data/growth.js';
 import { MAPS } from '../data/maps/index.js';
+import { natureText } from '../data/natures.js';
 
 const W = Screen.W;
 const H = Screen.H;
 
-// IV の合計から「性格」っぽい一言を出す。数字を直接見せるより雰囲気が出る。
-const IV_WORDS = ['のんびりや', 'すなおな', 'がんばりや', 'まじめな', 'ちからづよい', 'てんさいはだ'];
+// IV の合計から素質の一言を出す。数字を直接見せるより雰囲気が出る。
+const IV_WORDS = ['のんびり', 'ふつう', 'いいかんじ', 'すぐれた', 'ちからづよい', 'てんさいはだ'];
 
 /** つよさをみる。A / ← → で 2ページを行き来する。 */
 export class SummaryScene {
@@ -72,17 +73,19 @@ export class SummaryScene {
       const y = 12 + i * 17;
       drawText(ctx, STAT_LABEL[k], 106, y, { color: COL.ink });
       drawTextRight(ctx, String(m.stats[k]), 190, y, { color: COL.ink });
-      // 個体値をバーで添える（数値そのものは出さない）
-      drawBar(ctx, 198, y + 4, 44, m.ivs[k] / 31, '#6ac0f0', { h: 3 });
+      // 上が個体値、下が努力値。どちらも数値は出さず、伸びしろだけ見せる。
+      drawBar(ctx, 198, y + 2, 44, m.ivs[k] / 31, '#6ac0f0', { h: 3 });
+      drawBar(ctx, 198, y + 8, 44, (m.evs?.[k] ?? 0) / 252, '#f0a840', { h: 3 });
     });
 
     const ivSum = Object.values(m.ivs).reduce((a, b) => a + b, 0);
     const word = IV_WORDS[Math.min(IV_WORDS.length - 1, Math.floor(ivSum / 32))];
-    drawText(ctx, `せいかく ： ${word}`, 106, 118, { color: COL.ink });
-    drawText(ctx, `せいちょう ： ${EXP_TYPE_LABEL[m.species.expType]}`, 106, 132, { color: COL.ink });
-    drawText(ctx, 'つぎの Lvまで', 106, 146, { color: COL.inkLight });
-    drawTextRight(ctx, String(expToNext(m)), 244, 146, { color: COL.ink });
-    drawBar(ctx, 106, 160, 138, expRatio(m), COL.exp, { h: 3 });
+    drawText(ctx, `せいかく ： ${m.nature.name}`, 106, 116, { color: COL.ink });
+    drawText(ctx, natureText(m.nature), 106, 129, { color: COL.inkLight });
+    drawText(ctx, `そしつ ： ${word}`, 106, 142, { color: COL.ink });
+    drawText(ctx, 'つぎの Lvまで', 106, 155, { color: COL.inkLight });
+    drawTextRight(ctx, String(expToNext(m)), 244, 155, { color: COL.ink });
+    drawBar(ctx, 106, 167, 138, expRatio(m), COL.exp, { h: 3 });
   }
 
   renderMoves(ctx) {

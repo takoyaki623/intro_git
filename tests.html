@@ -40,9 +40,11 @@ import { mulberry32 } from './src/core/rng.js';
 import {
   calcHP, calcStat, calcAllStats, damage, accuracyCheck, expGain,
   expForLevel, catchAttempt, runAway, stageMul, accMul, statusEndOfTurnDamage,
+  emptyEVs, addEV, evYield, EV_TOTAL_MAX, EV_STAT_MAX,
 } from './src/game/formulas.js';
 import { createMonster, serialize, hydrate, evolve, recalcStats } from './src/game/monster.js';
 import { chooseAction } from './src/game/ai.js';
+import { NATURES, getNature, natureMul } from './src/data/natures.js';
 
 const out = document.getElementById('out');
 let total = 0;
@@ -97,6 +99,43 @@ eq('ランク補正 +2', stageMul(2), 2);
 eq('ランク補正 -2', stageMul(-2), 0.5);
 eq('ランク補正 0', stageMul(0), 1);
 eq('命中補正 +3', accMul(3), 2);
+
+// ---------------------------------------------------------------- せいかく・努力値
+section('せいかく と どりょくりょく');
+{
+  eq('せいかくは 25 しゅるい', NATURES.length, 25);
+  const flat = NATURES.filter((n) => !n.up);
+  eq('補正なしは 5 しゅるい', flat.length, 5);
+  check('名前が すべて ちがう', new Set(NATURES.map((n) => n.name)).size === 25);
+
+  const up = NATURES.find((n) => n.up === 'atk' && n.down === 'spe');
+  eq('あがる能力は 1.1 倍', natureMul(up, 'atk'), 1.1);
+  eq('さがる能力は 0.9 倍', natureMul(up, 'spe'), 0.9);
+  eq('関係ない能力は 1 倍', natureMul(up, 'def'), 1);
+  eq('HP には かからない', natureMul(up, 'hp'), 1);
+  eq('補正なしは すべて 1 倍', natureMul(flat[0], 'atk'), 1);
+
+  // 努力値は 4 で 実数値1つぶん（Lv100）
+  const iv = { hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 };
+  const noEv = calcAllStats(SPECIES[4].base, iv, 100);
+  const withEv = calcAllStats(SPECIES[4].base, iv, 100, { ...emptyEVs(), atk: 252 });
+  eq('Lv100 で 252 の努力値は +63', withEv.atk - noEv.atk, 63);
+
+  // 上限
+  const evs = emptyEVs();
+  eq('1つの上限', addEV(evs, 'atk', 300), EV_STAT_MAX);
+  eq('上限を超えて増えない', evs.atk, EV_STAT_MAX);
+  addEV(evs, 'def', 252);
+  eq('合計の上限で止まる', addEV(evs, 'spa', 252), EV_TOTAL_MAX - EV_STAT_MAX * 2);
+  check('合計は 510 を超えない',
+    Object.values(evs).reduce((a, b) => a + b, 0) <= EV_TOTAL_MAX,
+    JSON.stringify(evs));
+
+  // もらう努力値は「一番高い種族値」に入る
+  eq('ギャラドスは こうげき', evYield(SPECIES[130]).stat, 'atk');
+  eq('イシツブテは ぼうぎょ', evYield(SPECIES[74]).stat, 'def');
+  check('もらう量は 1..3', [1, 2, 3].includes(evYield(SPECIES[10]).amount));
+}
 
 // ---------------------------------------------------------------- タイプ相性
 section('タイプ相性');
@@ -567,6 +606,18 @@ section('セーブの往復');
   m.moves[0].pp = 3;
   const back = hydrate(serialize(m));
   eq('種族', back.species.id, m.species.id);
+  eq('せいかく', back.natureId, m.natureId);
+  check('努力値', JSON.stringify(back.evs) === JSON.stringify(m.evs), JSON.stringify(back.evs));
+  check('ステータスが往復で変わらない',
+    JSON.stringify(back.stats) === JSON.stringify(m.stats), JSON.stringify(back.stats));
+
+  // 古いセーブ（せいかく・努力値が無い）は補正なしに落ちて、値が変わらない
+  const old = serialize(m);
+  delete old.natureId; delete old.evs;
+  const legacy = hydrate(old);
+  const flatStats = calcAllStats(m.species.base, m.ivs, m.level, emptyEVs(), getNature(0));
+  check('古いセーブは補正なしで復元される',
+    JSON.stringify(legacy.stats) === JSON.stringify(flatStats), JSON.stringify(legacy.stats));
   eq('レベル', back.level, m.level);
   eq('経験値', back.exp, m.exp);
   eq('現在HP', back.curHP, m.curHP);

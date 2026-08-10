@@ -75,6 +75,14 @@ export default {
       lines: ['いわタイプには みずや くさが よく きくのよ。'],
     },
     {
+      id: 'daycare', x: 3, y: 2, sprite: 'prof', dir: 'down',
+      lines: [
+        'わしは そだてや じゃ。',
+        'ポケモンを あずけると あるいた ぶんだけ そだてておく。',
+        { daycare: true },
+      ],
+    },
+    {
       id: 'r2hiker', x: 15, y: 2, sprite: 'boy', dir: 'down',
       lines: [
         'きたの やまみちに どうくつが ある。',

@@ -4,9 +4,12 @@
 // 乱数は必ず引数で受け取る。tests.html から丸ごと検証できるようにするため。
 
 import { effectiveness } from '../data/types.js';
+import { natureMul } from '../data/natures.js';
 import { CURVE, MAX_LEVEL } from '../data/growth.js';
 
 export const STATS = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
+
+export const emptyEVs = () => ({ hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 });
 export const STAT_LABEL = {
   hp: 'ＨＰ', atk: 'こうげき', def: 'ぼうぎょ',
   spa: 'とくこう', spd: 'とくぼう', spe: 'すばやさ',
@@ -14,25 +17,55 @@ export const STAT_LABEL = {
 };
 
 // ---- ステータス ----
-// Gen3+ の式から努力値と性格を落としたもの。
+// Gen3+ の式。個体値・努力値・せいかく を含む。
 // EV の項は 0 のまま残してあるので、足したくなったら 1行 で戻せる。
 
-export const calcHP = (base, iv, lv) =>
-  Math.max(1, Math.floor(((2 * base + iv + 0) * lv) / 100) + lv + 10);
+// 努力値は 4 つで実数値1つぶん（本家と同じ ⌊EV/4⌋）。
+export const calcHP = (base, iv, lv, ev = 0) =>
+  Math.max(1, Math.floor(((2 * base + iv + Math.floor(ev / 4)) * lv) / 100) + lv + 10);
 
-export const calcStat = (base, iv, lv) =>
-  Math.max(1, Math.floor(((2 * base + iv + 0) * lv) / 100) + 5);
+export const calcStat = (base, iv, lv, ev = 0, mul = 1) =>
+  Math.max(1, Math.floor((Math.floor(((2 * base + iv + Math.floor(ev / 4)) * lv) / 100) + 5) * mul));
 
-/** 種族値・個体値・レベルから6つのステータスを作る */
-export function calcAllStats(base, ivs, level) {
+/**
+ * 種族値・個体値・努力値・せいかく・レベルから6つのステータスを作る。
+ * HP には せいかく の補正がかからない（本家と同じ）。
+ */
+export function calcAllStats(base, ivs, level, evs = null, nature = null) {
+  const ev = (k) => evs?.[k] ?? 0;
+  const mul = (k) => natureMul(nature, k);
   return {
-    hp: calcHP(base.hp, ivs.hp, level),
-    atk: calcStat(base.atk, ivs.atk, level),
-    def: calcStat(base.def, ivs.def, level),
-    spa: calcStat(base.spa, ivs.spa, level),
-    spd: calcStat(base.spd, ivs.spd, level),
-    spe: calcStat(base.spe, ivs.spe, level),
+    hp: calcHP(base.hp, ivs.hp, level, ev('hp')),
+    atk: calcStat(base.atk, ivs.atk, level, ev('atk'), mul('atk')),
+    def: calcStat(base.def, ivs.def, level, ev('def'), mul('def')),
+    spa: calcStat(base.spa, ivs.spa, level, ev('spa'), mul('spa')),
+    spd: calcStat(base.spd, ivs.spd, level, ev('spd'), mul('spd')),
+    spe: calcStat(base.spe, ivs.spe, level, ev('spe'), mul('spe')),
   };
+}
+
+/** 努力値の上限。1匹の合計と、1つのステータスあたり。 */
+export const EV_TOTAL_MAX = 510;
+export const EV_STAT_MAX = 252;
+
+/**
+ * 倒した相手からもらう努力値。
+ * 本家は種族ごとに決まっているが、ここでは「一番高い種族値」に入れる。
+ * データを増やさずに「この子を育てると◯◯が伸びる」を成立させるため。
+ */
+export function evYield(species) {
+  const entries = Object.entries(species.base);
+  const best = entries.reduce((a, b) => (b[1] > a[1] ? b : a));
+  return { stat: best[0], amount: species.baseExp >= 150 ? 3 : species.baseExp >= 90 ? 2 : 1 };
+}
+
+/** 上限を守って努力値を足す。実際に増えた量を返す。 */
+export function addEV(evs, stat, amount) {
+  const total = Object.values(evs).reduce((a, b) => a + b, 0);
+  const room = Math.min(EV_STAT_MAX - evs[stat], EV_TOTAL_MAX - total, amount);
+  if (room <= 0) return 0;
+  evs[stat] += room;
+  return room;
 }
 
 // ---- 能力ランク（-6..+6）----

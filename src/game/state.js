@@ -30,6 +30,8 @@ export const state = {
   playTimeMs: 0,
   stepsSinceEncounter: 0,
   startedAt: Date.now(),
+  // そだてや に あずけた1匹。{ mon, stepsLeft, startLv }
+  daycare: null,
 };
 
 export function resetState() {
@@ -47,6 +49,7 @@ export function resetState() {
   state.playTimeMs = 0;
   state.stepsSinceEncounter = 0;
   state.startedAt = Date.now();
+  state.daycare = null;
 }
 
 // ---- フラグ ----
@@ -139,6 +142,9 @@ export function buildSave() {
     bag: { ...state.bag },
     flags: { ...state.flags },
     dex: { seen: [...state.dex.seen], caught: [...state.dex.caught], where: { ...state.dex.where } },
+    daycare: state.daycare
+      ? { mon: serialize(state.daycare.mon), steps: state.daycare.steps, startLv: state.daycare.startLv }
+      : null,
   };
 }
 
@@ -199,6 +205,9 @@ export function load() {
     };
     state.playTimeMs = s.playTimeMs ?? 0;
     state.stepsSinceEncounter = 0;
+    const dc = s.daycare;
+    const dcMon = dc?.mon ? hydrate(dc.mon) : null;
+    state.daycare = dcMon ? { mon: dcMon, steps: dc.steps ?? 0, startLv: dc.startLv ?? dcMon.level } : null;
     if (typeof s.rngSeed === 'number') rng.seed = s.rngSeed;
     return { ok: true };
   } catch (e) {

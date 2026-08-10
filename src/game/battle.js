@@ -13,6 +13,7 @@ import { effectivenessMessage } from '../data/types.js';
 import {
   damage, accuracyCheck, expGain, expForLevel, statusEndOfTurnDamage,
   effectiveSpeed, catchAttempt, runAway, CATCH_FAIL_MESSAGE, STAT_LABEL,
+  evYield, addEV,
 } from './formulas.js';
 import {
   displayName, isFainted, damageMon, heal, recalcStats, movesLearnedAt,
@@ -525,6 +526,11 @@ function* throwBall(ctx, item) {
 function* gainExpAndLevel(ctx) {
   const mon = ctx.mine;
   if (isFainted(mon) || mon.level >= MAX_LEVEL) return;
+
+  // 努力値。倒した相手の一番高い種族値に入る。
+  // 「この子を育てると こうげきが伸びる」が、データを増やさずに成立する。
+  const ey = evYield(ctx.foe.species);
+  addEV(mon.evs, ey.stat, ey.amount);
 
   const gain = expGain(ctx.foe, 1, ctx.isWild);
   yield msg(`${displayName(mon)}は ${gain}けいけんちを もらった！`);

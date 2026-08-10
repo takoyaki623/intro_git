@@ -6,7 +6,8 @@
 
 import { getSpecies, movesAtLevel } from '../data/species.js';
 import { getMove } from '../data/moves.js';
-import { calcAllStats, expForLevel } from './formulas.js';
+import { calcAllStats, expForLevel, emptyEVs, addEV, evYield } from './formulas.js';
+import { NATURES, getNature } from '../data/natures.js';
 import { levelFromExp, MAX_LEVEL } from '../data/growth.js';
 import { rng as defaultRng } from '../core/rng.js';
 
@@ -34,6 +35,12 @@ function defineDerived(m) {
     enumerable: false,
     configurable: true,
   });
+  // せいかく も id から引き直す。実体を持つと進化やロードで食い違う。
+  Object.defineProperty(m, 'nature', {
+    get() { return getNature(this.natureId); },
+    enumerable: false,
+    configurable: true,
+  });
   return m;
 }
 
@@ -44,7 +51,9 @@ export function createMonster(speciesId, level, opt = {}) {
   if (!species) throw new Error(`未知の種族 id: ${speciesId}`);
 
   const ivs = opt.ivs ?? rollIVs(rng);
-  const stats = calcAllStats(species.base, ivs, level);
+  const evs = opt.evs ?? emptyEVs();
+  const natureId = opt.natureId ?? rng.int(0, NATURES.length - 1);
+  const stats = calcAllStats(species.base, ivs, level, evs, getNature(natureId));
   const moves = (opt.moves ?? movesAtLevel(species, level))
     .filter((m) => getMove(m))
     .map((m) => ({ id: m, pp: getMove(m).pp, maxPp: getMove(m).pp }));
@@ -58,6 +67,8 @@ export function createMonster(speciesId, level, opt = {}) {
     level,
     exp: expForLevel(species.expType, level),
     ivs,
+    evs,
+    natureId,
     stats,
     curHP: opt.curHP ?? stats.hp,
     status: opt.status ?? null,
@@ -106,13 +117,38 @@ export function damageMon(m, amount) {
  */
 export function recalcStats(m, { carryHP = true } = {}) {
   const oldMax = m.stats.hp;
-  const next = calcAllStats(m.species.base, m.ivs, m.level);
+  const next = calcAllStats(m.species.base, m.ivs, m.level, m.evs, m.nature);
   const gain = {};
   for (const k of Object.keys(next)) gain[k] = next[k] - m.stats[k];
   m.stats = next;
   if (carryHP) m.curHP = Math.max(1, Math.min(next.hp, m.curHP + (next.hp - oldMax)));
   else m.curHP = Math.min(m.curHP, next.hp);
   return gain;
+}
+
+/**
+ * そだてや。歩いた歩数ぶんだけ経験値を入れる。
+ * レベルが上がったら技も覚える（4つ埋まっていたら古いものから押し出す ――
+ * 預けっぱなしなので、忘れる技を選ばせる画面を出せないため）。
+ */
+export function raiseBySteps(entry, steps) {
+  const m = entry.mon;
+  if (m.level >= MAX_LEVEL) return 0;
+
+  let levels = 0;
+  m.exp += steps;
+  while (m.level < MAX_LEVEL && m.exp >= expForLevel(m.species.expType, m.level + 1)) {
+    m.level++;
+    levels++;
+    recalcStats(m);
+    for (const move of movesLearnedAt(m.species, m.level)) {
+      if (knowsMove(m, move)) continue;
+      if (m.moves.length < MAX_MOVES) learnMove(m, move);
+      else replaceMove(m, 0, move);
+    }
+  }
+  if (levels) fullHeal(m);
+  return levels;
 }
 
 /** そのレベルで新しく覚える技の名前一覧 */
@@ -171,6 +207,8 @@ export function serialize(m) {
     lv: m.level,
     exp: m.exp,
     ivs: { ...m.ivs },
+    evs: { ...m.evs },
+    natureId: m.natureId,
     curHP: m.curHP,
     status: m.status,
     statusTurns: m.statusTurns,
@@ -193,7 +231,11 @@ export function hydrate(save) {
 
   const level = Math.max(1, Math.min(MAX_LEVEL, save.lv ?? levelFromExp(species.expType, save.exp ?? 0)));
   const ivs = save.ivs ?? { hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 };
-  const stats = calcAllStats(species.base, ivs, level);
+  // 古いセーブには努力値も せいかく も無い。0 と「がんばりや」（補正なし）に
+  // 落ちるので、これまでの個体のステータスはそのまま変わらない。
+  const evs = { ...emptyEVs(), ...(save.evs ?? {}) };
+  const natureId = Number.isInteger(save.natureId) ? save.natureId : 0;
+  const stats = calcAllStats(species.base, ivs, level, evs, getNature(natureId));
 
   const moves = (save.moves ?? [])
     .filter((mv) => {
@@ -224,6 +266,8 @@ export function hydrate(save) {
     level,
     exp: save.exp ?? expForLevel(species.expType, level),
     ivs,
+    evs,
+    natureId,
     stats,
     curHP: Math.max(0, Math.min(stats.hp, save.curHP ?? stats.hp)),
     status: save.status ?? null,
