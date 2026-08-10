@@ -18,6 +18,7 @@ import { wildBattle, trainerBattle } from '../game/battle.js';
 import { displayName, resetBattleState } from '../game/monster.js';
 import { expRatio, STAT_LABEL } from '../game/formulas.js';
 import { state } from '../game/state.js';
+import { battleSpeedMul } from '../core/settings.js';
 
 const W = Screen.W;
 const H = Screen.H;
@@ -283,10 +284,15 @@ export class BattleScene {
     }
   }
 
+  /** せってい の「バトルの えんしゅつ」＋ Ｂ 長押しの早送り。演出のフレーム進みを一括で速める。 */
+  speedStep() {
+    return Input.isDown(BTN.B) ? 4 : 1 / battleSpeedMul();
+  }
+
   updateAnim() {
     const a = this.anim;
     if (!a) { this.advance(); return; }
-    a.t++;
+    a.t += this.speedStep();
 
     if (a.kind === 'hit') {
       const side = a.onFoe ? 'foe' : 'mine';
@@ -463,7 +469,8 @@ export class BattleScene {
   }
 
   updateTween() {
-    this.tweenTimer++;
+    const step = this.speedStep();
+    this.tweenTimer += step;
 
     if (this.tweenKind === 'hp') {
       let done = true;
@@ -473,7 +480,7 @@ export class BattleScene {
         if (cur === target) continue;
         done = false;
         // 最大HPが大きいほど速く動かす（大型でも待たされすぎない）
-        const speed = Math.max(1, Math.ceil(mon.stats.hp / 60));
+        const speed = Math.max(1, Math.ceil(mon.stats.hp / 60)) * step;
         this.dispHP[key] = cur < target
           ? Math.min(target, cur + speed)
           : Math.max(target, cur - speed);
@@ -489,7 +496,7 @@ export class BattleScene {
       this.advance();
       return;
     }
-    this.dispExp += Math.sign(diff) * 0.02;
+    this.dispExp += Math.sign(diff) * 0.02 * step;
   }
 
   // ---- 描画 ----

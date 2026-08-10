@@ -7,7 +7,7 @@ import { drawText, drawTextRight } from '../engine/font.js';
 import { drawWindow, drawBar, hpColor, drawCursor, COL } from '../engine/ui.js';
 import { Menu } from '../engine/menu.js';
 import { TextBox } from '../engine/textbox.js';
-import { state } from '../game/state.js';
+import { state, bagPocket, addItem, removeItem } from '../game/state.js';
 import {
   displayName, fullHeal, knowsMove, learnMove, replaceMove, MAX_MOVES,
   itemUseError, applyItemUse,
@@ -24,6 +24,7 @@ const H = Screen.H;
  *   'switch'      … バトル中の交代（キャンセル可）
  *   'forceSwitch' … ひんし後の交代（キャンセル不可）
  *   'item'        … どうぐの使用対象を選ぶ
+ *   'giveHold'    … バッグから「もたせる」相手を選ぶ（フィールドのみ）
  *   'pick'        … 1匹えらんで index を返すだけ（交換・そだてや など）
  *
  * selectOnly: true のとき、'item' は対象を選ぶだけで効果を適用しない
@@ -79,6 +80,13 @@ export class PartyScene {
       return;
     }
 
+    if (this.sub === 'hold') {
+      const r = this.holdMenu.update();
+      if (r?.type === 'cancel') { this.sub = null; return; }
+      if (r?.type === 'select') this.applyHold(r.item.id);
+      return;
+    }
+
     if (Input.repeated(BTN.UP)) this.index = (this.index + this.party.length - 1) % this.party.length;
     if (Input.repeated(BTN.DOWN)) this.index = (this.index + 1) % this.party.length;
 
@@ -101,6 +109,16 @@ export class PartyScene {
       return;
     }
 
+    if (this.mode === 'giveHold') {
+      if (mon.curHP <= 0 && !this.item.hold) { this.say(`${displayName(mon)}は たたかえない！`); return; }
+      const it = this.item;
+      if (mon.held) addItem(mon.held, 1);
+      removeItem(it.name, 1);
+      mon.held = it.name;
+      this.sayAndClose(`${displayName(mon)}に ${it.name}を もたせた！`, { held: true });
+      return;
+    }
+
     if (this.mode === 'pick') {
       if (this.accept && !this.accept(mon)) { this.say(this.reject || 'それは えらべない。'); return; }
       this.close(this.index);
@@ -120,10 +138,11 @@ export class PartyScene {
       [
         { label: 'つよさをみる', id: 'summary' },
         { label: 'いれかえる', id: 'swap' },
+        { label: 'どうぐ', id: 'hold' },
         { label: 'なまえ', id: 'nick' },
         { label: 'やめる', id: 'cancel' },
       ],
-      { x: 150, y: 108, lineH: 16, colW: 96 },
+      { x: 150, y: 100, lineH: 15, colW: 96 },
     );
     this.sub = 'action';
   }
@@ -140,6 +159,7 @@ export class PartyScene {
   async runAction(id) {
     this.sub = null;
     if (id === 'swap') { this.swapFrom = this.index; return; }
+    if (id === 'hold') { this.openHoldMenu(); return; }
     if (id === 'summary') {
       const { SummaryScene } = await import('./SummaryScene.js');
       Scenes.push(new SummaryScene({ mon: this.current }));
@@ -157,6 +177,36 @@ export class PartyScene {
         onDone: (name) => { mon.nick = name; },
       }));
     }
+  }
+
+  /** もちものメニューを開く。手持ちの もちもの＋（持っていれば）はずす、を並べる。 */
+  openHoldMenu() {
+    const mon = this.current;
+    const options = bagPocket('もちもの').map((e) => ({ label: `${e.item.name} ×${e.n}`, id: e.item.name }));
+    if (mon.held) options.unshift({ label: `はずす（${mon.held}）`, id: '__take' });
+    if (!options.length) { this.say('もたせられる どうぐが ない。'); return; }
+    options.push({ label: 'やめる', id: '__cancel' });
+    const rows = Math.min(4, options.length);
+    this.holdMenu = new Menu(options, { x: 16, y: 132, lineH: 15, rows, colW: 224 });
+    this.sub = 'hold';
+  }
+
+  applyHold(id) {
+    this.sub = null;
+    if (id === '__cancel') return;
+    const mon = this.current;
+    if (id === '__take') {
+      if (mon.held) {
+        addItem(mon.held, 1);
+        this.say(`${displayName(mon)}は ${mon.held}を あずけた。`);
+        mon.held = null;
+      }
+      return;
+    }
+    if (mon.held) addItem(mon.held, 1);
+    removeItem(id, 1);
+    mon.held = id;
+    this.say(`${displayName(mon)}に ${id}を もたせた！`);
   }
 
   /** どうぐを使う。使えたら { used:true } を返して閉じる。 */
@@ -249,8 +299,11 @@ export class PartyScene {
     this.party.forEach((m, i) => this.renderSlot(ctx, m, i));
 
     if (this.sub === 'action') {
-      drawWindow(ctx, 142, 110, 108, 62);
+      drawWindow(ctx, 142, 92, 108, 84);
       this.actionMenu.render(ctx);
+    } else if (this.sub === 'hold') {
+      drawWindow(ctx, 8, 126, 240, this.holdMenu.visibleRows * 15 + 12);
+      this.holdMenu.render(ctx);
     } else if (this.box) {
       this.box.render(ctx);
     } else {
@@ -264,6 +317,7 @@ export class PartyScene {
     if (this.mode === 'switch') return 'こうたいする ポケモンを えらんでね';
     if (this.mode === 'forceSwitch') return 'つぎの ポケモンを えらんでね';
     if (this.mode === 'item') return `${this.item?.name}を だれに つかう？`;
+    if (this.mode === 'giveHold') return `${this.item?.name}を だれに もたせる？`;
     return 'ポケモンを えらんでください';
   }
 

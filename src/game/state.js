@@ -32,6 +32,10 @@ export const state = {
   startedAt: Date.now(),
   // そだてや に あずけた1匹。{ mon, stepsLeft, startLv }
   daycare: null,
+  // むしよけスプレーの残り歩数。セーブには含めない（リロードで切れても実害が薄い）。
+  repelSteps: 0,
+  // あなぬけのヒモの戻り先。直前に「屋外→屋内」で入った場所を覚える。
+  lastEntrance: null,
 };
 
 export function resetState() {
@@ -50,6 +54,8 @@ export function resetState() {
   state.stepsSinceEncounter = 0;
   state.startedAt = Date.now();
   state.daycare = null;
+  state.repelSteps = 0;
+  state.lastEntrance = null;
 }
 
 // ---- フラグ ----
@@ -216,6 +222,8 @@ export function load(slot = 0) {
     };
     state.playTimeMs = s.playTimeMs ?? 0;
     state.stepsSinceEncounter = 0;
+    state.repelSteps = 0;
+    state.lastEntrance = null;
     const dc = s.daycare;
     const dcMon = dc?.mon ? hydrate(dc.mon) : null;
     state.daycare = dcMon ? { mon: dcMon, steps: dc.steps ?? 0, startLv: dc.startLv ?? dcMon.level } : null;

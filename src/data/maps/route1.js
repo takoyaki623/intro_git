@@ -72,6 +72,13 @@ export default {
     { x: 17, y: 4, item: 'モンスターボール', n: 3, flag: 'item_route1_ball' },
     { x: 2, y: 18, item: 'きずぐすり', n: 2, flag: 'item_route1_potion' },
   ],
+  // ぬしポケモン。倒す/つかまえると二度と出てこない。にげれば残る。
+  statics: [
+    {
+      x: 4, y: 10, id: 26, lv: 10, flag: 'boss_route1',
+      lines: ['グルル…！', 'つよそうな ポケモンが にらんでいる！'],
+    },
+  ],
   signs: [
     { x: 15, y: 7, lines: ['１ばんどうろ', '↑ きた ： トキワシティ', '↓ みなみ ： はじまりのむら'] },
   ],

@@ -15,8 +15,15 @@ export const TEXT_SPEEDS = [
   { id: 'slow', label: 'ゆっくり', frames: 4 },
 ];
 
+/** 戦闘演出の速さ。数字は係数（小さいほど速い）。 */
+export const BATTLE_SPEEDS = [
+  { id: 'fast', label: 'はやい', mul: 0.5 },
+  { id: 'normal', label: 'ふつう', mul: 1 },
+  { id: 'slow', label: 'ゆっくり', mul: 1.6 },
+];
+
 const DEFAULTS = {
-  textSpeed: 'normal', sound: true, volume: 0.4, music: true, musicVolume: 0.5,
+  textSpeed: 'normal', battleSpeed: 'normal', sound: true, volume: 0.4, music: true, musicVolume: 0.5,
   // { 'KeyJ': 'A' } のように、キーコードから論理ボタンへの追加割り当て
   keys: {},
 };
@@ -25,6 +32,9 @@ export const settings = { ...DEFAULTS, keys: {} };
 
 export const textFrames = () =>
   (TEXT_SPEEDS.find((s) => s.id === settings.textSpeed) ?? TEXT_SPEEDS[1]).frames;
+
+export const battleSpeedMul = () =>
+  (BATTLE_SPEEDS.find((s) => s.id === settings.battleSpeed) ?? BATTLE_SPEEDS[1]).mul;
 
 /** 設定を実際の各モジュールへ反映する */
 export function apply() {
@@ -40,6 +50,7 @@ export function load() {
   if (raw && typeof raw === 'object') {
     // 知らない値が入っていても既定値に落として続ける（手で編集されても壊れない）
     if (TEXT_SPEEDS.some((s) => s.id === raw.textSpeed)) settings.textSpeed = raw.textSpeed;
+    if (BATTLE_SPEEDS.some((s) => s.id === raw.battleSpeed)) settings.battleSpeed = raw.battleSpeed;
     if (typeof raw.sound === 'boolean') settings.sound = raw.sound;
     if (typeof raw.volume === 'number') settings.volume = Math.max(0, Math.min(1, raw.volume));
     if (typeof raw.music === 'boolean') settings.music = raw.music;

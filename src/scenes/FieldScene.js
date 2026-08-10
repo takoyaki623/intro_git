@@ -18,6 +18,7 @@ import { getTrainer, trainerFlag } from '../data/trainers.js';
 import { createMonster, displayName, raiseBySteps } from '../game/monster.js';
 import { getMove } from '../data/moves.js';
 import { ITEMS } from '../data/items.js';
+import { getSpecies } from '../data/species.js';
 
 /** 持っているなかで一番いい つりざお。無ければ null。 */
 function bestRod() {
@@ -52,12 +53,21 @@ export class FieldScene {
     Music.play(world.map?.bgm ?? 'town');
   }
 
-  resume() {
+  resume(result) {
     this.busy = false;
     this.approach = null;
     world.frozen = false;
     Input.clearEdges();
     this.playMapMusic();
+
+    // ぬしポケモンは倒す/つかまえたときだけ二度と現れないようにする
+    const boss = this.pendingStatic;
+    this.pendingStatic = null;
+    if (boss && (result?.result === 'win' || result?.result === 'caught')) {
+      setFlag(boss.flag);
+      world.statics = world.statics.filter((s) => s !== boss);
+    }
+
     // バトルで全滅していたらポケモンセンターへ強制送還
     if (state.party.length && state.party.every((m) => m.curHP <= 0)) {
       this.whiteOut();
@@ -217,6 +227,18 @@ export class FieldScene {
     }));
   }
 
+  /** ぬしポケモンに 話しかける。倒す・つかまえると二度と現れない。 */
+  startStaticBattle(boss) {
+    if (!state.party.some((m) => m.curHP > 0)) return;
+    this.pendingStatic = boss;
+    const enc = { speciesId: boss.id, level: boss.lv };
+    if (boss.lines?.length) {
+      this.openDialog(boss.lines, null, () => this.startWildBattle(enc));
+      return;
+    }
+    this.startWildBattle(enc);
+  }
+
   interact() {
     const target = World.facingTarget();
     if (!target) return;
@@ -236,6 +258,10 @@ export class FieldScene {
         return;
       }
       this.openDialog(npc.lines, npc);
+      return;
+    }
+    if (target.type === 'static') {
+      this.startStaticBattle(target.boss);
       return;
     }
     if (target.type === 'sign') {
@@ -337,10 +363,32 @@ export class FieldScene {
     this.busy = true;
     const { MenuScene } = await import('./MenuScene.js');
     Scenes.push(new MenuScene({
-      onClose: (flyTo) => {
+      onClose: (flyTo, escapeRope) => {
         this.busy = false;
         if (flyTo) this.flyTo(flyTo);
+        else if (escapeRope) this.useEscapeRope();
       },
+    }));
+  }
+
+  /** あなぬけのヒモ。いまの屋内に入った場所まで一気に戻る。 */
+  async useEscapeRope() {
+    const dest = state.lastEntrance;
+    if (!dest || world.map?.outdoor) {
+      this.openDialog(['ここでは つかえない。']);
+      return;
+    }
+    this.busy = true;
+    const { TransitionScene } = await import('./TransitionScene.js');
+    Scenes.push(new TransitionScene({
+      kind: 'fade',
+      onMid: () => {
+        World.loadMap(dest.map, dest.x, dest.y, dest.dir ?? 'down');
+        this.updateCamera();
+        this.banner = 110;
+        this.playMapMusic();
+      },
+      onDone: () => { this.busy = false; },
     }));
   }
 
@@ -472,6 +520,19 @@ export class FieldScene {
 
       const { def, flip } = charSprite(sprite, a.dir, World.walkFrame(a));
       drawSprite(ctx, def, x, y - (a === p && world.surfing ? 3 : 0), { flip });
+    }
+
+    this.renderStatics(ctx, camX, camY);
+  }
+
+  /** ぬしポケモン。ポケモンのドット絵そのものを、その場に立たせて描く。 */
+  renderStatics(ctx, camX, camY) {
+    for (const s of world.statics) {
+      const sp = getSpecies(s.id)?.sprite;
+      if (!sp) continue;
+      const x = Math.round(s.tx * T - camX);
+      const y = Math.round(s.ty * T - camY) - 8;
+      drawSprite(ctx, sp, x, y, { scale: 1 });
     }
   }
 

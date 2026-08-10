@@ -328,6 +328,12 @@ for (const [name, it] of Object.entries(ITEMS)) {
       it.usableIn.length > 0 || it.pocket === 'ボール' || FROM_TERRAIN.includes(it.use.kind),
       it.use.kind);
   }
+  if (it.hold) {
+    // battle.js が解釈する hold.kind の一覧。ここに無いものは黙って無視されるだけになる。
+    const HOLD_KINDS = ['pinchHeal', 'endTurnHeal', 'endure'];
+    check(`${name} の hold.kind がエンジンに実装済み`, HOLD_KINDS.includes(it.hold.kind), it.hold.kind);
+    check(`${name} の pocket が もちもの`, it.pocket === 'もちもの', it.pocket);
+  }
 }
 
 section('データ整合性 ― スプライト');
@@ -392,6 +398,15 @@ for (const [id, m] of Object.entries(MAPS)) {
     check(`${id} の落ちもの(${it.x},${it.y}) が拾える位置`, !!k && !TILE[k].solid, k ?? '範囲外');
   }
 
+  // ぬしポケモン。種族が実在し、通行可タイル上、フラグを持つ。
+  for (const s of m.statics ?? []) {
+    check(`${id} のぬし ${s.id} の種族が実在`, !!SPECIES[s.id], String(s.id));
+    check(`${id} のぬし(${s.x},${s.y}) が通行可タイル上`,
+      !!tileKeyAt(m, s.x, s.y) && !TILE[tileKeyAt(m, s.x, s.y)].solid);
+    check(`${id} のぬし にフラグが付いている`, !!s.flag);
+    check(`${id} のぬし の Lv が正の数`, s.lv >= 1);
+  }
+
   // 店の品揃えも実在するどうぐでなければ、話しかけた瞬間に落ちる
   const walkLines = (lines, where) => {
     for (const l of lines ?? []) {
@@ -427,6 +442,14 @@ for (const [id, m] of Object.entries(MAPS)) {
   const dup = flags.filter((f, i) => flags.indexOf(f) !== i);
   check('落ちもののフラグが重複していない', dup.length === 0, dup.join('・'));
   check('落ちものにフラグが付いている', flags.every(Boolean));
+}
+{
+  // ぬしポケモンのフラグも、落ちものと合わせて全体で一意でなければならない。
+  const bossFlags = Object.values(MAPS).flatMap((m) => (m.statics ?? []).map((s) => s.flag));
+  const itemFlags = Object.values(MAPS).flatMap((m) => (m.items ?? []).map((it) => it.flag));
+  check('ぬしポケモンのフラグが重複していない', new Set(bossFlags).size === bossFlags.length, bossFlags.join('・'));
+  check('ぬしポケモンのフラグが 落ちものと衝突していない',
+    bossFlags.every((f) => !itemFlags.includes(f)), bossFlags.join('・'));
 }
 
 // ---------------------------------------------------------------- 難度の並び
@@ -850,6 +873,86 @@ section('バトル ― 交代とどうぐ が1手として実行される');
   check('回復量のメッセージは hpTween の後', log[useIdx + 2]?.t === 'msg' && log[useIdx + 2].text.includes('かいふくした'));
   check('HP が 実際に 回復している', mine.curHP > before);
   check('どうぐが 1つ 消費される', state.bag['きずぐすり'] === beforeBag - 1);
+}
+
+// ---------------------------------------------------------------- もちもの
+// battle.js に追加した hold.kind の実装（オボンのみ・きあいのハチマキ）を
+// wildBattle を実際に駆動して検査する。乱数は決め打ちにして再現性を持たせる。
+section('バトル ― もちもの が戦闘中に働く');
+{
+  resetState();
+  // chance を常に false にすると急所も追加効果も出ない。int は常に最小値を返すので
+  // 命中判定 rng.int(1,100)<=acc は必ず命中し、ダメージ乱数は最小(85%)ロールになる。
+  const detRng = { chance: () => false, int: (a) => a, pick: (arr) => arr[0], weighted: (t) => t[0] };
+
+  const mine = createMonster(7, 50, { rng, moves: ['たいあたり'] });   // ゼニガメ
+  mine.held = 'オボンのみ';
+  mine.curHP = Math.ceil(mine.stats.hp * 0.55);                        // しきい値(50%)のすぐ上
+  state.party = [mine];
+  const foe = createMonster(4, 50, { rng, moves: ['たいあたり'] });    // ヒトカゲ（同格）
+
+  const ctx = {
+    mine, foe, rng: detRng, isWild: true, runAttempts: 0,
+    onSwitch: () => {}, onFoeSwitch: () => {},
+  };
+  const script = [
+    { t: 'command', give: { type: 'fight' } },
+    { t: 'moveSelect', give: 0 },
+  ];
+  const log = [];
+  const gen = wildBattle(ctx);
+  let result = gen.next();
+  for (let i = 0; i < 80 && !result.done; i++) {
+    const fx = result.value;
+    log.push(fx);
+    if (fx.t === 'msg' && fx.text?.includes('オボンのみで')) break;
+    let input;
+    if (script.length && fx?.t === script[0].t) input = script.shift().give;
+    result = gen.next(input);
+  }
+
+  check('オボンのみで HPを かいふくした メッセージが出る',
+    log.some((fx) => fx.t === 'msg' && fx.text?.includes('オボンのみで')));
+  check('オボンのみは 1回 使うと 消える', mine.held === null);
+  check('HP は しきい値(50%)より 上に 戻っている', mine.curHP / mine.stats.hp > 0.5);
+}
+{
+  resetState();
+  // chance を常に true にすると、きあいのハチマキの発動判定(確率10%)を必ず通す。
+  const detRng = { chance: () => true, int: (a) => a, pick: (arr) => arr[0], weighted: (t) => t[0] };
+
+  const mine = createMonster(7, 10, { rng, moves: ['たいあたり'] });   // ゼニガメ Lv10・満タン
+  mine.held = 'きあいのハチマキ';
+  state.party = [mine];
+  const foe = createMonster(4, 90, { rng, moves: ['ひっかく'] });      // ヒトカゲ Lv90・確実に上回る
+
+  const ctx = {
+    mine, foe, rng: detRng, isWild: true, runAttempts: 0,
+    onSwitch: () => {}, onFoeSwitch: () => {},
+  };
+  const script = [
+    { t: 'command', give: { type: 'fight' } },
+    { t: 'moveSelect', give: 0 },
+  ];
+  const log = [];
+  const gen = wildBattle(ctx);
+  let result = gen.next();
+  // 「こらえた」のメッセージは capped ダメージの適用より前に yield されるので、
+  // 見つけた後も もう1ステップ進めて damageMon の反映を待ってから止める。
+  let found = false;
+  for (let i = 0; i < 80 && !result.done; i++) {
+    const fx = result.value;
+    log.push(fx);
+    if (found) break;
+    if (fx.t === 'msg' && fx.text?.includes('こらえた')) found = true;
+    let input;
+    if (script.length && fx?.t === script[0].t) input = script.shift().give;
+    result = gen.next(input);
+  }
+
+  check('きあいのハチマキで「こらえた」メッセージが出る',
+    log.some((fx) => fx.t === 'msg' && fx.text?.includes('こらえた')));
+  check('HP が 1 で もちこたえている（ひんしにならない）', mine.curHP === 1);
 }
 
 // ---------------------------------------------------------------- 文字が重ならない

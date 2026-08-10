@@ -12,12 +12,21 @@ const pick = (table, rng) => {
   return { speciesId: e.id, level: rng.int(e.min, e.max) };
 };
 
+/** むしよけスプレー。指定歩数のあいだ、手持ち先頭より弱い野生を抑える。 */
+export function setRepel(steps) {
+  state.repelSteps = steps;
+}
+
 /**
  * 1歩ぶんの判定。遭遇しないときは null。
  * 遭遇したら { speciesId, level }。
  * 草むらと水上で見るテーブルが変わる。
  */
 export function stepCheck(map, tileKey, rng) {
+  // むしよけスプレーは歩数そのものを消費する（草むら以外の歩数も数える）。
+  const repelActive = state.repelSteps > 0;
+  if (repelActive) state.repelSteps--;
+
   const onWater = !!TILE[tileKey]?.water;
   const enc = onWater ? map.water?.surf : map.encounters;
   if (!enc) return null;
@@ -25,10 +34,20 @@ export function stepCheck(map, tileKey, rng) {
 
   state.stepsSinceEncounter++;
   if (state.stepsSinceEncounter < MIN_STEPS) return null;
+
+  let table = enc.table;
+  if (repelActive) {
+    const lead = state.party.find((m) => m.curHP > 0);
+    if (lead) {
+      table = enc.table.filter((e) => e.max >= lead.level);
+      if (!table.length) return null;
+    }
+  }
+
   if (!rng.chance(enc.rate / 100)) return null;
 
   state.stepsSinceEncounter = 0;
-  return pick(enc.table, rng);
+  return pick(table, rng);
 }
 
 /**

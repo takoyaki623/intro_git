@@ -28,6 +28,7 @@ import {
   state, addMonster, registerSeen, registerCaught, removeItem, partyFull, setFlag,
 } from './state.js';
 import { prizeMoney, trainerFlag, badgeFlag, BADGES } from '../data/trainers.js';
+import { getItem } from '../data/items.js';
 
 const STRUGGLE = { name: 'わるあがき', type: 'ノーマル', category: '物理', power: 50, accuracy: null, pp: 1, priority: 0, effect: { kind: 'recoil', ratio: 0.25 } };
 
@@ -262,7 +263,8 @@ function* executeAction(ctx, act) {
   let total = 0;
   for (let i = 0; i < hits; i++) {
     if (isFainted(target)) break;
-    const d = i === 0 ? dmg : damage(user, target, move, ctx.rng).dmg;
+    const d0 = i === 0 ? dmg : damage(user, target, move, ctx.rng).dmg;
+    const d = yield* applyEndure(ctx, target, d0);
     total += damageMon(target, d);
     yield anim('hit', { onFoe: isMine, eff });
     yield { t: 'hpTween', onFoe: isMine };
@@ -274,6 +276,34 @@ function* executeAction(ctx, act) {
   if (em) yield msg(em);
 
   yield* applyEffect(ctx, user, target, move, total);
+  yield* checkPinchHeal(ctx, target);
+}
+
+// ---- もちもの ----
+
+/** きあいのハチマキ。ひんしになる一撃を、確率で HP1 まで軽くする。 */
+function* applyEndure(ctx, target, dmg) {
+  const hold = getItem(target.held ?? '')?.hold;
+  if (hold?.kind !== 'endure') return dmg;
+  if (dmg < target.curHP || target.curHP <= 1) return dmg;
+  if (!ctx.rng.chance((hold.chance ?? 10) / 100)) return dmg;
+  yield msg(`${target === ctx.foe ? 'てきの ' : ''}${displayName(target)}は ${target.held}で こらえた！`);
+  return target.curHP - 1;
+}
+
+/** オボンのみ。HPが しきい値を下回ったら 1回だけ かいふくして消える。 */
+function* checkPinchHeal(ctx, mon) {
+  if (isFainted(mon)) return;
+  const hold = getItem(mon.held ?? '')?.hold;
+  if (hold?.kind !== 'pinchHeal') return;
+  if (mon.curHP / mon.stats.hp > (hold.threshold ?? 0.5)) return;
+
+  const amt = Math.max(1, Math.floor(mon.stats.hp * (hold.ratio ?? 0.25)));
+  const held = mon.held;
+  heal(mon, amt);
+  mon.held = null;
+  yield msg(`${mon === ctx.foe ? 'てきの ' : ''}${displayName(mon)}は ${held}で HPを かいふくした！`);
+  yield { t: 'hpTween', onFoe: mon === ctx.foe };
 }
 
 /** 状態異常で動けるかどうか。動けないときはメッセージを出して false。 */
@@ -325,6 +355,7 @@ function* canAct(ctx, user, isMine) {
         yield msg('わけも わからず じぶんを こうげきした！');
         yield anim('hit', { onFoe: !isMine });
         yield { t: 'hpTween', onFoe: !isMine };
+        yield* checkPinchHeal(ctx, user);
         return false;
       }
     }
@@ -385,6 +416,7 @@ function* applyEffect(ctx, user, target, move, dealt) {
       damageMon(user, back);
       yield { t: 'hpTween', onFoe: !isMine };
       yield msg(`${foeLabel(user)}は はんどうで ダメージを うけた！`);
+      yield* checkPinchHeal(ctx, user);
       break;
     }
 
@@ -441,6 +473,18 @@ function* endOfTurn(ctx) {
     damageMon(m, d);
     const label = `${m === ctx.foe ? 'てきの ' : ''}${displayName(m)}`;
     yield msg(`${label}は ${m.status === 'どく' ? 'どくの' : 'やけどの'} ダメージを うけた！`);
+    yield { t: 'hpTween', onFoe: m === ctx.foe };
+    yield* checkPinchHeal(ctx, m);
+  }
+
+  // たべのこし。まいターン すこしずつ回復する。
+  for (const m of [ctx.mine, ctx.foe]) {
+    if (isFainted(m) || m.curHP >= m.stats.hp) continue;
+    const hold = getItem(m.held ?? '')?.hold;
+    if (hold?.kind !== 'endTurnHeal') continue;
+    const amt = Math.max(1, Math.floor(m.stats.hp * (hold.ratio ?? 1 / 16)));
+    heal(m, amt);
+    yield msg(`${m === ctx.foe ? 'てきの ' : ''}${displayName(m)}は ${m.held}で すこし かいふくした！`);
     yield { t: 'hpTween', onFoe: m === ctx.foe };
   }
 }

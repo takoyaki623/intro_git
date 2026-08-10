@@ -8,6 +8,7 @@ import { Menu } from '../engine/menu.js';
 import { TextBox } from '../engine/textbox.js';
 import { POCKETS } from '../data/items.js';
 import { state, bagPocket, removeItem } from '../game/state.js';
+import { setRepel } from '../game/encounter.js';
 import { evolutionTarget } from '../game/monster.js';
 
 const W = Screen.W;
@@ -73,6 +74,31 @@ export class BagScene {
   async choose(item) {
     const where = this.mode === 'battle' ? 'battle' : 'field';
 
+    // もちもの。バトル中は もたせられない（相手を選ぶ意味がない）。
+    if (item.hold) {
+      if (this.mode === 'battle') { this.say('バトルちゅうは もたせられない。'); return; }
+      this.pendingItem = item;
+      const { PartyScene } = await import('./PartyScene.js');
+      Scenes.push(new PartyScene({ mode: 'giveHold', item }));
+      return;
+    }
+
+    if (item.use?.kind === 'repel') {
+      if (this.mode === 'battle') { this.say('いまは つかえない。'); return; }
+      setRepel(item.use.steps ?? 100);
+      removeItem(item.name, 1);
+      this.buildMenu();
+      this.say(`${item.name}を つかった！`);
+      return;
+    }
+
+    if (item.use?.kind === 'escape') {
+      if (this.mode === 'battle') { this.say('いまは つかえない。'); return; }
+      removeItem(item.name, 1);
+      this.close({ escape: true });
+      return;
+    }
+
     if (!item.usableIn.includes(where) && item.pocket !== 'ボール') {
       this.say('いまは つかえない。');
       return;
@@ -100,6 +126,11 @@ export class BagScene {
 
     if (result.stone) {
       this.useStone(result.stone, result.target);
+      return;
+    }
+
+    if (result.held) {
+      this.buildMenu();
       return;
     }
 

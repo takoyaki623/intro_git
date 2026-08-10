@@ -5,7 +5,7 @@ import { BTN } from '../core/input.js';
 import { SE } from '../core/audio.js';
 import { drawText, drawTextRight, drawTextCentered } from '../engine/font.js';
 import { drawWindow, COL } from '../engine/ui.js';
-import { settings, set, TEXT_SPEEDS } from '../core/settings.js';
+import { settings, set, TEXT_SPEEDS, BATTLE_SPEEDS } from '../core/settings.js';
 
 const W = Screen.W;
 const H = Screen.H;
@@ -29,6 +29,16 @@ export class SettingsScene {
           set('textSpeed', TEXT_SPEEDS[n].id);
         },
         hint: 'メッセージが 1文字ずつ でる はやさ。',
+      },
+      {
+        label: 'バトルの えんしゅつ',
+        get: () => BATTLE_SPEEDS.find((s) => s.id === settings.battleSpeed)?.label ?? 'ふつう',
+        cycle: (d) => {
+          const i = BATTLE_SPEEDS.findIndex((s) => s.id === settings.battleSpeed);
+          const n = (i + d + BATTLE_SPEEDS.length) % BATTLE_SPEEDS.length;
+          set('battleSpeed', BATTLE_SPEEDS[n].id);
+        },
+        hint: 'バトル中の アニメーションの はやさ。Ｂを おしっぱなしでも はやおくり。',
       },
       {
         label: 'こうかおん',
@@ -89,7 +99,7 @@ export class SettingsScene {
 
     drawWindow(ctx, 4, 34, 248, 112);
     this.rows.forEach((r, i) => {
-      const y = 42 + i * 21;
+      const y = 40 + i * 18;
       const on = i === this.index;
       if (on) {
         ctx.fillStyle = '#e8e0c8';

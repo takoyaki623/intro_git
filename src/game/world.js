@@ -32,16 +32,32 @@ export const world = {
   },
   npcs: [],
   items: [],               // まだ拾われていない落ちもの
+  statics: [],              // ぬしポケモン（固定シンボル）
   frozen: false,           // 会話中などは動かさない
   surfing: false,          // なみのり中（水の上にいる）
   anim: 0,                 // 水などのアニメーション用カウンタ
 };
 
+/**
+ * フラグによる出し分け。when が立っていない、または unless が立っていれば非表示。
+ * NPC・どうぐ・ぬしポケモンで共通に使う（ライバルの出現やクリア後の交換NPCなど）。
+ */
+function isVisible(e) {
+  if (e.when && !getFlag(e.when)) return false;
+  if (e.unless && getFlag(e.unless)) return false;
+  return true;
+}
+
 export function loadMap(mapId, tx, ty, dir = 'down') {
   const map = getMap(mapId);
   if (!map) throw new Error(`未知のマップ: ${mapId}`);
 
+  const prevMap = world.map;
   world.map = map;
+  // 屋外から屋内へ入った瞬間の場所を覚える。あなぬけのヒモの戻り先になる。
+  if (!map.outdoor && (!prevMap || prevMap.outdoor)) {
+    state.lastEntrance = { map: mapId, x: tx, y: ty, dir };
+  }
   const p = world.player;
   p.tx = tx; p.ty = ty; p.dir = dir;
   p.px = tx * 16; p.py = ty * 16;
@@ -53,7 +69,7 @@ export function loadMap(mapId, tx, ty, dir = 'down') {
   // マップを移った時点で陸に上がる。屋内へ入ったのに水上のまま、を防ぐ。
   world.surfing = TILE[tileKeyAt(map, tx, ty)]?.water === true;
 
-  world.npcs = (map.npcs ?? []).map((n) => ({
+  world.npcs = (map.npcs ?? []).filter(isVisible).map((n) => ({
     ...n,
     tx: n.x, ty: n.y, dir: n.dir ?? 'down',
     px: n.x * 16, py: n.y * 16,
@@ -64,7 +80,13 @@ export function loadMap(mapId, tx, ty, dir = 'down') {
   }));
 
   // 拾ったものはフラグで消える。同じものを何度も拾えないようにするため。
-  world.items = (map.items ?? []).filter((it) => !getFlag(it.flag));
+  world.items = (map.items ?? []).filter((it) => !getFlag(it.flag)).filter(isVisible);
+
+  // ぬしポケモン。倒す/つかまえると flag が立って消える。にげられたら残る。
+  world.statics = (map.statics ?? [])
+    .filter((s) => !getFlag(s.flag))
+    .filter(isVisible)
+    .map((s) => ({ ...s, tx: s.x, ty: s.y }));
 
   state.player.pos = { map: mapId, x: tx, y: ty, dir };
   // 一度でも行った町は「そらをとぶ」の行き先になる
@@ -107,6 +129,7 @@ export function isWalkable(x, y, { ignoreNpc = false, surfing = world.surfing } 
   if (t?.ledge) return false;          // 段差は tryStep が別あつかいで通す
   if (t?.water && !surfing) return false;     // 水の上に出られるのは なみのり中だけ
   if (world.items.some((it) => it.x === x && it.y === y)) return false;
+  if (world.statics.some((s) => s.tx === x && s.ty === y)) return false;
   if (!ignoreNpc) {
     if (world.npcs.some((n) => n.tx === x && n.ty === y)) return false;
     const p = world.player;
@@ -136,6 +159,9 @@ export function facingTarget() {
 
     const npc = world.npcs.find((n) => n.tx === x && n.ty === y);
     if (npc) return { type: 'npc', npc };
+
+    const boss = world.statics.find((s) => s.tx === x && s.ty === y);
+    if (boss) return { type: 'static', boss };
 
     const item = world.items.find((it) => it.x === x && it.y === y);
     if (item) return { type: 'item', item };
@@ -251,7 +277,9 @@ export function updatePlayer() {
   const tile = tileAt(p.tx, p.ty);
   // 陸に上がったら なみのり終了
   if (world.surfing && !TILE[tile]?.water) world.surfing = false;
-  const warp = (world.map.warps ?? []).find((w) => w.x === p.tx && w.y === p.ty) ?? null;
+  const warp = (world.map.warps ?? [])
+    .filter(isVisible)
+    .find((w) => w.x === p.tx && w.y === p.ty) ?? null;
   return { stepped: true, tile, warp };
 }
 

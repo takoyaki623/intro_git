@@ -35,7 +35,7 @@ export class MenuScene {
   }
 
   enter() { Input.clearEdges(); }
-  exit() { this.onClose?.(this.flyTo ?? null); }
+  exit() { this.onClose?.(this.flyTo ?? null, this.escapeRope ?? false); }
 
   update() {
     if (this.box) {
@@ -107,6 +107,11 @@ export class MenuScene {
     }
     if (result?.map) {
       this.flyTo = result;
+      Scenes.pop();
+      return;
+    }
+    if (result?.escape) {
+      this.escapeRope = true;
       Scenes.pop();
     }
   }

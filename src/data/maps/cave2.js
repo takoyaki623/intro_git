@@ -68,4 +68,10 @@ export default {
   signs: [
     { x: 3, y: 1, lines: ['ちてい こ', 'なみのりが なければ わたれない'] },
   ],
+  statics: [
+    {
+      x: 4, y: 2, id: 75, lv: 25, flag: 'boss_cave2',
+      lines: ['ゴゴゴ…！', 'いわの かたまりが たちふさがった！'],
+    },
+  ],
 };

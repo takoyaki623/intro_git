@@ -80,6 +80,18 @@ export const ITEMS = {
     desc: 'ひんしの ポケモンを HP はんぶんで ふっかつさせる。',
   },
 
+  // 使うと state.repelSteps / あなぬけ を動かす。encounter.js と world.js が見にいく。
+  'むしよけスプレー': {
+    pocket: 'たいせつなもの', price: 400, use: { kind: 'repel', steps: 100 },
+    usableIn: ['field'],
+    desc: '100ほの あいだ、よわい やせいポケモンが でなくなる。',
+  },
+  'あなぬけのヒモ': {
+    pocket: 'たいせつなもの', price: 350, use: { kind: 'escape' },
+    usableIn: ['field'],
+    desc: 'どうくつや たてものの いりぐちまで いっきに もどる。',
+  },
+
   // 水辺を向いて A で使う。バッグからではなく地形から使うので usableIn は空。
   'ボロのつりざお': {
     pocket: 'たいせつなもの', use: { kind: 'rod', power: 1 },
@@ -112,6 +124,21 @@ export const ITEMS = {
     usableIn: ['field'],
     desc: 'とくていの ポケモンを しんかさせる ふしぎな いし。',
   },
+
+  // もちもの。mon.held に名前で持たせる。効果は battle.js が hold.kind を見て解釈する。
+  // 未対応の kind は黙って無視する（データがエンジンより先行してもよい）。
+  'オボンのみ': {
+    pocket: 'もちもの', price: 500, hold: { kind: 'pinchHeal', threshold: 0.5, ratio: 0.25 },
+    desc: 'もたせると、HPが はんぶん いかに なったとき すこし かいふくする（1かいだけ）。',
+  },
+  'たべのこし': {
+    pocket: 'もちもの', price: 1200, hold: { kind: 'endTurnHeal', ratio: 1 / 16 },
+    desc: 'もたせると、まいターン すこしずつ HPが かいふくする。',
+  },
+  'きあいのハチマキ': {
+    pocket: 'もちもの', price: 1000, hold: { kind: 'endure', chance: 10 },
+    desc: 'もたせると、ときどき ひんしに なる こうげきを HP1で もちこたえる。',
+  },
 };
 
 // わざマシン。使っても無くならない（何匹にでも教えられる）。
@@ -138,8 +165,9 @@ for (const [name, move, price] of TMS) {
 for (const [name, it] of Object.entries(ITEMS)) {
   it.name = name;
   it.use ??= null;
+  it.hold ??= null;
   it.usableIn ??= [];
 }
 
 export const getItem = (name) => ITEMS[name] ?? null;
-export const POCKETS = ['ボール', 'かいふく', 'わざマシン', 'たいせつなもの'];
+export const POCKETS = ['ボール', 'かいふく', 'わざマシン', 'もちもの', 'たいせつなもの'];

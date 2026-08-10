@@ -78,6 +78,7 @@ export function createMonster(speciesId, level, opt = {}) {
     moves,
     metLv: opt.metLv ?? level,
     metMap: opt.metMap ?? null,
+    held: opt.held ?? null,
   });
 }
 
@@ -266,6 +267,7 @@ export function serialize(m) {
     moves: m.moves.map((mv) => ({ id: mv.id, pp: mv.pp })),
     metLv: m.metLv,
     metMap: m.metMap,
+    held: m.held ?? null,
   };
 }
 
@@ -328,5 +330,6 @@ export function hydrate(save) {
     moves,
     metLv: save.metLv ?? level,
     metMap: save.metMap ?? null,
+    held: save.held ?? null,
   });
 }
