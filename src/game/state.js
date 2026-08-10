@@ -5,14 +5,36 @@ import { rng } from '../core/rng.js';
 import { serialize, hydrate, fullHeal } from './monster.js';
 import { getItem } from '../data/items.js';
 
-export const SAVE_VERSION = 1;
+export const SAVE_VERSION = 2;
 export const PARTY_MAX = 6;
 export const BOX_COUNT = 3;
 export const BOX_SIZE = 30;
 
+// 図鑑番号を全国図鑑に揃えたときの旧id→新idの対応（種族の再編、Phase I）。
+// キャタピー系・ポッポ系・コラッタ系・ピカチュウが実際の全国図鑑とずれていたのを直した。
+const DEX_RENUMBER = { 10: 16, 11: 17, 12: 19, 13: 20, 14: 10, 15: 11, 16: 12, 17: 25 };
+const renumberId = (id) => DEX_RENUMBER[id] ?? id;
+
 /** セーブ形式のマイグレーション。version が上がるたびに 1つ足す。 */
 const MIGRATIONS = {
-  // 1: (s) => { ...s, version: 2, /* 変換 */ },
+  1: (s) => {
+    const remapMon = (m) => (m ? { ...m, id: renumberId(m.id) } : m);
+    return {
+      ...s,
+      version: 2,
+      party: (s.party ?? []).map(remapMon),
+      boxes: (s.boxes ?? []).map((box) => (box ?? []).map(remapMon)),
+      dex: {
+        ...s.dex,
+        seen: (s.dex?.seen ?? []).map(renumberId),
+        caught: (s.dex?.caught ?? []).map(renumberId),
+        where: Object.fromEntries(
+          Object.entries(s.dex?.where ?? {}).map(([id, place]) => [renumberId(Number(id)), place]),
+        ),
+      },
+      daycare: s.daycare ? { ...s.daycare, mon: remapMon(s.daycare.mon) } : s.daycare,
+    };
+  },
 };
 
 export const state = {

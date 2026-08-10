@@ -36,10 +36,13 @@ export default {
   encounters: {
     rate: 8,
     table: [
-      { id: 10, min: 3, max: 5, weight: 35 },   // ポッポ
-      { id: 12, min: 3, max: 5, weight: 35 },   // コラッタ
-      { id: 14, min: 2, max: 4, weight: 20 },   // キャタピー
-      { id: 17, min: 4, max: 6, weight: 10 },   // ピカチュウ
+      { id: 396, min: 3, max: 5, weight: 25 },  // ムックル(4世代)
+      { id: 921, min: 3, max: 5, weight: 20 },  // パモ(9世代)
+      { id: 819, min: 3, max: 5, weight: 20 },  // ホシガリス(8世代)
+      { id: 16, min: 3, max: 5, weight: 15 },   // ポッポ
+      { id: 19, min: 3, max: 5, weight: 10 },   // コラッタ
+      { id: 10, min: 2, max: 4, weight: 7 },    // キャタピー
+      { id: 25, min: 4, max: 6, weight: 3 },    // ピカチュウ
     ],
   },
   warps: [

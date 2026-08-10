@@ -148,12 +148,21 @@ export const MOVES = {
     type: 'こおり', category: '物理', power: 40, accuracy: 100, pp: 30, priority: 1,
     desc: 'こおりの かたまりを なげる。さきに こうげき できる。',
   },
+  'れいとうビーム': {
+    type: 'こおり', category: '特殊', power: 90, accuracy: 100, pp: 10,
+    effect: { kind: 'status', status: 'こおり', chance: 10 },
+    desc: 'こおりの ビームを はなつ。こおらせる ことが ある。',
+  },
 
   // ---- かくとう ----
   'からてチョップ': {
     type: 'かくとう', category: '物理', power: 50, accuracy: 100, pp: 25,
     effect: { kind: 'highCrit' },
     desc: 'てがたなで きりつける。きゅうしょに あたりやすい。',
+  },
+  'インファイト': {
+    type: 'かくとう', category: '物理', power: 120, accuracy: 100, pp: 5,
+    desc: 'みをけずって ぶつかりあう はげしい こうげき。',
   },
 
   // ---- どく ----
@@ -184,17 +193,45 @@ export const MOVES = {
     desc: 'つばさで かぜを おこして こうげきする。',
   },
 
+  // ---- じめん（つづき） ----
+  'あなをほる': {
+    type: 'じめん', category: '物理', power: 80, accuracy: 100, pp: 10,
+    desc: 'ちめんに もぐって こうげきする。',
+  },
+
+  // ---- ひこう（つづき） ----
+  'エアスラッシュ': {
+    type: 'ひこう', category: '特殊', power: 75, accuracy: 95, pp: 15,
+    effect: { kind: 'flinch', chance: 30 },
+    desc: 'するどい かぜの はを たたきつける。ひるませる ことが ある。',
+  },
+
   // ---- エスパー ----
   'ねんりき': {
     type: 'エスパー', category: '特殊', power: 50, accuracy: 100, pp: 25,
     effect: { kind: 'stat', target: 'foe', stat: 'spa', stages: -1, chance: 10 },
     desc: 'よわい ねんりきを おくる。とくこうを さげる ことが ある。',
   },
+  'サイコキネシス': {
+    type: 'エスパー', category: '特殊', power: 90, accuracy: 100, pp: 10,
+    effect: { kind: 'stat', target: 'foe', stat: 'spd', stages: -1, chance: 10 },
+    desc: 'つよい ねんりきを おくる。とくぼうを さげる ことが ある。',
+  },
+  'さいみんじゅつ': {
+    type: 'エスパー', category: '変化', power: 0, accuracy: 60, pp: 10,
+    effect: { kind: 'status', status: 'ねむり', chance: 100 },
+    desc: 'あいてに さいみんじゅつを かけて ねむらせる。',
+  },
 
   'あやしいひかり': {
     type: 'ゴースト', category: '変化', power: 0, accuracy: 100, pp: 10,
     effect: { kind: 'confuse', chance: 100 },
     desc: 'あやしい ひかりを みせて あいてを こんらんさせる。',
+  },
+  'シャドーボール': {
+    type: 'ゴースト', category: '特殊', power: 80, accuracy: 100, pp: 15,
+    effect: { kind: 'stat', target: 'foe', stat: 'spd', stages: -1, chance: 20 },
+    desc: 'くろい かたまりを なげつける。とくぼうを さげる ことが ある。',
   },
 
   // ---- むし ----
@@ -207,17 +244,30 @@ export const MOVES = {
     effect: { kind: 'multiHit' },
     desc: 'かまや ツメで 2〜5かい つづけて きりつける。',
   },
+  'とんぼがえり': {
+    type: 'むし', category: '物理', power: 70, accuracy: 100, pp: 20,
+    desc: 'すばやく こうげきしてから みを ひるがえす。',
+  },
 
   // ---- いわ ----
   'いわおとし': {
     type: 'いわ', category: '物理', power: 50, accuracy: 90, pp: 15,
     desc: 'おおきな いわを なげつける。',
   },
+  'いわなだれ': {
+    type: 'いわ', category: '物理', power: 75, accuracy: 90, pp: 10,
+    effect: { kind: 'flinch', chance: 30 },
+    desc: 'おおきな いわを なだれのように おとす。ひるませる ことが ある。',
+  },
 
   // ---- ドラゴン ----
   'りゅうのいかり': {
     type: 'ドラゴン', category: '特殊', power: 45, accuracy: 100, pp: 10,
     desc: 'いかりの しょうげきはを ぶつける。',
+  },
+  'ドラゴンクロー': {
+    type: 'ドラゴン', category: '物理', power: 80, accuracy: 100, pp: 15,
+    desc: 'するどい つめで きりさく。',
   },
 
   // ---- あく ----
@@ -226,6 +276,15 @@ export const MOVES = {
     effect: { kind: 'flinch', chance: 30 },
     desc: 'するどい はで かみつく。ひるませる ことが ある。',
   },
+  'あくのはどう': {
+    type: 'あく', category: '特殊', power: 80, accuracy: 100, pp: 15,
+    effect: { kind: 'flinch', chance: 20 },
+    desc: 'あくの はどうを ぶつける。ひるませる ことが ある。',
+  },
+  'だましうち': {
+    type: 'あく', category: '物理', power: 60, accuracy: null, pp: 5, priority: 1,
+    desc: 'すきを ついて こうげきする。かならず さきに でる。',
+  },
 
   // ---- はがね ----
   'メタルクロー': {
@@ -233,11 +292,30 @@ export const MOVES = {
     effect: { kind: 'stat', target: 'self', stat: 'atk', stages: 1, chance: 10 },
     desc: 'はがねの つめで きりつける。こうげきが あがる ことが ある。',
   },
+  'ラスターカノン': {
+    type: 'はがね', category: '特殊', power: 80, accuracy: 90, pp: 10,
+    desc: 'ひかりの エネルギーを ほうしゃする。',
+  },
 
   // ---- フェアリー ----
   'ようせいのかぜ': {
     type: 'フェアリー', category: '特殊', power: 40, accuracy: 100, pp: 30,
     desc: 'ようせいの かぜを おくりつける。',
+  },
+  'マジカルシャイン': {
+    type: 'フェアリー', category: '特殊', power: 80, accuracy: 100, pp: 15,
+    desc: 'まぶしい ひかりを あびせて こうげきする。',
+  },
+  'チャームボイス': {
+    type: 'フェアリー', category: '特殊', power: 40, accuracy: null, pp: 15,
+    desc: 'かわいい こえで こうげきする。かならず あたる。',
+  },
+
+  // ---- どく（つづき） ----
+  'ヘドロばくだん': {
+    type: 'どく', category: '特殊', power: 90, accuracy: 100, pp: 10,
+    effect: { kind: 'status', status: 'どく', chance: 30 },
+    desc: 'きたない ヘドロを なげつける。どく じょうたいに する ことが ある。',
   },
 };
 

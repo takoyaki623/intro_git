@@ -60,7 +60,7 @@ export default {
           else: [
             'わたし ポッポが ほしいの。',
             'かわりに フシギダネを あげる。どう？',
-            { trade: { want: 10, give: 1, lv: 8, flag: 'trade_fushigidane' } },
+            { trade: { want: 16, give: 1, lv: 8, flag: 'trade_fushigidane' } },
           ],
         },
       ],
@@ -74,7 +74,7 @@ export default {
           else: [
             'コラッタと ヒトカゲを こうかんしない？',
             'ぼく コラッタが すきなんだ。',
-            { trade: { want: 12, give: 4, lv: 8, flag: 'trade_hitokage' } },
+            { trade: { want: 19, give: 4, lv: 8, flag: 'trade_hitokage' } },
           ],
         },
       ],
@@ -88,7 +88,7 @@ export default {
           else: [
             'キャタピーを もってない？',
             'ゼニガメと こうかんして あげる！',
-            { trade: { want: 14, give: 7, lv: 8, flag: 'trade_zenigame' } },
+            { trade: { want: 10, give: 7, lv: 8, flag: 'trade_zenigame' } },
           ],
         },
       ],

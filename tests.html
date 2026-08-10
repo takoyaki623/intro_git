@@ -46,8 +46,9 @@ import { createMonster, serialize, hydrate, evolve, recalcStats } from './src/ga
 import { chooseAction } from './src/game/ai.js';
 import { NATURES, getNature, natureMul } from './src/data/natures.js';
 import { wildBattle } from './src/game/battle.js';
-import { state, resetState } from './src/game/state.js';
+import { state, resetState, load, SAVE_VERSION } from './src/game/state.js';
 import { charWidth, inkExtent } from './src/engine/font.js';
+import * as Storage from './src/core/storage.js';
 
 const out = document.getElementById('out');
 let total = 0;
@@ -94,7 +95,7 @@ check('HP は必ず 1 以上', calcHP(1, 0, 1) >= 1);
 check('こうげき も 1 以上', calcStat(1, 0, 1) >= 1);
 
 // 種族値90・個体値31・努力値なし・Lv50 → 110
-const pika = calcAllStats(SPECIES[17].base, { hp: 31, atk: 31, def: 31, spa: 31, spd: 31, spe: 31 }, 50);
+const pika = calcAllStats(SPECIES[25].base, { hp: 31, atk: 31, def: 31, spa: 31, spd: 31, spe: 31 }, 50);
 eq('Lv50 ピカチュウ すばやさ', pika.spe, 110);
 eq('Lv50 ピカチュウ HP', pika.hp, 110);
 
@@ -308,6 +309,30 @@ for (const sp of speciesList) {
       check(`${sp.name} の進化アイテム ${sp.evolution.item}`, !!ITEMS[sp.evolution.item], 'ITEMS に無い');
     }
   }
+  check(`${sp.name} の id が種族id と一致`, sp.id === Number(Object.entries(SPECIES).find(([, v]) => v === sp)[0]));
+  check(`${sp.name} の gen が 1..9`, sp.gen >= 1 && sp.gen <= 9, String(sp.gen));
+}
+
+// 種族の再編（design-species.md）で目指した「死んでいたタイプを起こす」の担保。
+// カントーの序盤だけでは18タイプのうち10タイプぶんしか種族がおらず、
+// タイプ相性の半分が実質死んでいた。以後どれだけ種族を足しても、
+// このテストが「また偏っていないか」を検出する。
+section('データ整合性 ― タイプと世代のカバレッジ');
+{
+  const byType = {};
+  for (const sp of speciesList) for (const t of sp.types) (byType[t] ??= []).push(sp.name);
+  for (const t of TYPES) {
+    check(`${t} タイプの種族が いる`, (byType[t]?.length ?? 0) > 0, byType[t]?.join('・') ?? 'なし');
+  }
+
+  const gens = new Set(speciesList.map((sp) => sp.gen));
+  for (let g = 1; g <= 9; g++) {
+    check(`${g}世代の種族が いる`, gens.has(g));
+  }
+
+  const ids = speciesList.map((sp) => sp.id);
+  check('種族idに 重複が無い', new Set(ids).size === ids.length);
+  eq('種族の総数', speciesList.length, 51);
 }
 
 section('データ整合性 ― どうぐ');
@@ -434,6 +459,12 @@ for (const [id, m] of Object.entries(MAPS)) {
   for (const e of m.encounters?.table ?? []) {
     check(`${id} のエンカウント ${e.id} が実在`, !!SPECIES[e.id]);
     check(`${id} のエンカウント Lv範囲`, e.min >= 1 && e.min <= e.max);
+  }
+  // カントーだけに寄らないための担保。同じ世代1色にはしない、というルール。
+  const table = m.encounters?.table ?? [];
+  if (table.length >= 3) {
+    const gensHere = new Set(table.map((e) => SPECIES[e.id]?.gen).filter(Boolean));
+    check(`${id} の草むらが 1世代だけに 偏っていない`, gensHere.size >= 2, [...gensHere].join('・'));
   }
 }
 {
@@ -669,7 +700,7 @@ section('相手の行動選択');
   check('倒しきれる相手には攻撃を選ぶ', (c['でんこうせっか'] ?? 0) === 200, JSON.stringify(c));
 
   // 積み技も同じ。上限まで上がっていたら選ばない。
-  const buffer = createMonster(15, 20, { rng, moves: ['かたくなる', 'たいあたり'] });
+  const buffer = createMonster(11, 20, { rng, moves: ['かたくなる', 'たいあたり'] });
   buffer.stages.def = 6;
   const d = pick(buffer, fresh);
   check('限界まで積んだら かたくなる を撃たない', (d['かたくなる'] ?? 0) === 0, JSON.stringify(d));
@@ -810,7 +841,7 @@ section('バトル ― 交代とどうぐ が1手として実行される');
   mine.stages.atk = 2;
   const bench = createMonster(7, 20, { rng });  // ゼニガメ
   state.party = [mine, bench];
-  const foe = createMonster(10, 5, { rng });    // ポッポ
+  const foe = createMonster(16, 5, { rng });    // ポッポ
 
   const ctx = {
     mine, foe, rng, isWild: true, runAttempts: 0,
@@ -842,7 +873,7 @@ section('バトル ― 交代とどうぐ が1手として実行される');
   mine.curHP = 5;
   state.party = [mine];
   state.bag = { 'きずぐすり': 3 };
-  const foe = createMonster(10, 1, { rng });
+  const foe = createMonster(16, 1, { rng });    // ポッポ
 
   const ctx = {
     mine, foe, rng, isWild: true, runAttempts: 0,
@@ -953,6 +984,50 @@ section('バトル ― もちもの が戦闘中に働く');
   check('きあいのハチマキで「こらえた」メッセージが出る',
     log.some((fx) => fx.t === 'msg' && fx.text?.includes('こらえた')));
   check('HP が 1 で もちこたえている（ひんしにならない）', mine.curHP === 1);
+}
+
+// ---------------------------------------------------------------- セーブ移行
+// 種族の再編で id を全国図鑑番号に揃えた（キャタピー14→10、ポッポ10→16、
+// コラッタ12→19、ピカチュウ17→25 など）。既存のセーブが持っている旧idを
+// 新idへ変換できないと、そのポケモンが読み込み時に静かに消えてしまう。
+section('セーブ移行 ― 図鑑番号の全国統一（旧id → 新id）');
+{
+  const monSave = (id, lv) => ({
+    id, nick: null, lv, exp: 0,
+    ivs: { hp: 10, atk: 10, def: 10, spa: 10, spd: 10, spe: 10 }, evs: {}, natureId: 0,
+    curHP: 20, status: null, statusTurns: 0,
+    moves: [{ id: 'たいあたり', pp: 35 }],
+    metLv: lv, metMap: 'route1',
+  });
+  const raw = {
+    version: 1,
+    playTimeMs: 0,
+    rngSeed: 1,
+    player: {
+      name: 'テスト', money: 100,
+      pos: { map: 'hajimari', x: 9, y: 12, dir: 'up' },
+      respawn: { map: 'center', x: 6, y: 6 },
+    },
+    party: [monSave(14, 10)],   // 旧id14 = キャタピー
+    boxes: [[null], [null], [null]],
+    bag: {},
+    flags: {},
+    dex: { seen: [14, 10], caught: [14], where: { 14: 'route1' } },
+    daycare: { mon: monSave(12, 5), steps: 0, startLv: 5 },   // 旧id12 = コラッタ
+  };
+  Storage.write(Storage.slotKey('test-migrate'), raw);
+  const r = load('test-migrate');
+
+  check('旧セーブ(version1)が読み込める', r.ok === true, JSON.stringify(r));
+  check('現在のセーブ形式に揃っている', SAVE_VERSION >= 2);
+  check('手持ちの 旧id14(キャタピー) が 新id10 に変換される',
+    state.party[0]?.species.id === 10, String(state.party[0]?.species.id));
+  check('図鑑 seen が変換される（旧14を含まず、新10を含む）',
+    state.dex.seen.includes(10) && !state.dex.seen.includes(14), JSON.stringify(state.dex.seen));
+  check('図鑑 caught が変換される', state.dex.caught.includes(10), JSON.stringify(state.dex.caught));
+  check('図鑑 where のキーが変換される', state.dex.where[10] === 'route1', JSON.stringify(state.dex.where));
+  check('そだてやの個体も変換される（旧id12→新id19）',
+    state.daycare?.mon?.species.id === 19, String(state.daycare?.mon?.species.id));
 }
 
 // ---------------------------------------------------------------- 文字が重ならない

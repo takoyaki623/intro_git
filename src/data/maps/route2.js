@@ -32,11 +32,13 @@ export default {
   encounters: {
     rate: 9,
     table: [
-      { id: 10, min: 10, max: 13, weight: 25 },   // ポッポ
-      { id: 12, min: 10, max: 13, weight: 20 },   // コラッタ
-      { id: 41, min: 11, max: 14, weight: 25 },   // ズバット
-      { id: 74, min: 11, max: 14, weight: 20 },   // イシツブテ
-      { id: 17, min: 11, max: 14, weight: 10 },   // ピカチュウ
+      { id: 179, min: 11, max: 14, weight: 20 },  // メリープ(2世代)
+      { id: 607, min: 11, max: 14, weight: 12 },  // ヒトモシ(5世代)
+      { id: 16, min: 10, max: 13, weight: 18 },   // ポッポ
+      { id: 19, min: 10, max: 13, weight: 15 },   // コラッタ
+      { id: 41, min: 11, max: 14, weight: 18 },   // ズバット
+      { id: 74, min: 11, max: 14, weight: 12 },   // イシツブテ
+      { id: 25, min: 11, max: 14, weight: 5 },    // ピカチュウ
     ],
   },
   water: {

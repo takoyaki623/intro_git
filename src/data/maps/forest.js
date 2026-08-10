@@ -32,11 +32,14 @@ export default {
     rate: 10,
     table: [
       // コイキングは草むらではなく、池で つり／なみのり で出る
-      { id: 14, min: 6, max: 9, weight: 33 },   // キャタピー
-      { id: 15, min: 7, max: 10, weight: 10 },   // トランセル
-      { id: 10, min: 6, max: 9, weight: 20 },   // ポッポ
-      { id: 12, min: 6, max: 9, weight: 15 },   // コラッタ
-      { id: 17, min: 7, max: 10, weight: 22 },   // ピカチュウ
+      { id: 280, min: 6, max: 9, weight: 10 },  // ラルトス(3世代)
+      { id: 872, min: 6, max: 9, weight: 18 },  // ユキハミ(8世代)
+      { id: 661, min: 6, max: 9, weight: 15 },  // ヤヤコマ(6世代)
+      { id: 25, min: 7, max: 10, weight: 15 },  // ピカチュウ
+      { id: 10, min: 6, max: 9, weight: 20 },   // キャタピー
+      { id: 11, min: 7, max: 10, weight: 7 },   // トランセル
+      { id: 16, min: 6, max: 9, weight: 10 },   // ポッポ
+      { id: 19, min: 6, max: 9, weight: 5 },    // コラッタ
     ],
   },
   // 池。なみのりを おぼえた みずポケモンがいれば わたれる。
@@ -117,7 +120,7 @@ export default {
   ],
   statics: [
     {
-      x: 10, y: 1, id: 16, lv: 15, flag: 'boss_forest',
+      x: 10, y: 1, id: 12, lv: 15, flag: 'boss_forest',
       lines: ['バサッ、バサッ…！', '大きな むしポケモンが とんでいる！'],
     },
   ],

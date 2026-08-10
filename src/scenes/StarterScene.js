@@ -95,7 +95,7 @@ export class StarterScene {
       drawTextCentered(ctx, `${sp.name}で いいんだね？`, W / 2, 82, { color: COL.ink });
       drawTextCentered(ctx, 'A ： けってい    B ： やめる', W / 2, 100, { color: COL.inkLight });
     } else if (this.t % 60 < 36) {
-      drawTextCentered(ctx, '← →  で えらぶ', W / 2, 96, { color: '#ffe14a', shadow: '#303050' });
+      drawTextCentered(ctx, '← →  で えらぶ', W / 2, 26, { color: '#ffe14a', shadow: '#303050' });
     }
   }
 }

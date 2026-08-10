@@ -22,7 +22,7 @@ import { SE } from '../core/audio.js';
  *   { heal:true }
  *   { give:'モンスターボール', n:5 }
  *   { flag:'gotStarter' }
- *   { chooseStarter:[1,4,7] }
+ *   { chooseStarter:[722,4,258] }
  *   { shop:['モンスターボール','きずぐすり'] }
  *   { trade:{ want:10, give:1, lv:8, nick:null, flag:'trade_bulba' } }
  *   { daycare:true }

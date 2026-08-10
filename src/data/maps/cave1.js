@@ -28,9 +28,10 @@ export default {
   encounters: {
     rate: 12,
     table: [
-      { id: 41, min: 13, max: 16, weight: 45 },   // ズバット
-      { id: 74, min: 13, max: 16, weight: 40 },   // イシツブテ
-      { id: 12, min: 13, max: 16, weight: 15 },   // コラッタ
+      { id: 447, min: 13, max: 16, weight: 15 },  // リオル(4世代)
+      { id: 41, min: 13, max: 16, weight: 38 },   // ズバット
+      { id: 74, min: 13, max: 16, weight: 32 },   // イシツブテ
+      { id: 19, min: 13, max: 16, weight: 15 },   // コラッタ
     ],
   },
   warps: [

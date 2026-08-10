@@ -17,14 +17,14 @@ export const TRAINERS = {
   // ---- １ばんどうろ ----
   youngster1: {
     class: 'たんパンこぞう', name: 'マサル', skill: 1, sprite: 'youngster', prize: 35, sight: 4,
-    party: [{ id: 12, lv: 6 }, { id: 10, lv: 7 }],
+    party: [{ id: 19, lv: 6 }, { id: 16, lv: 7 }],
     intro: ['やあ！ ぼくと しょうぶ しようよ！'],
     defeat: ['うわーっ つよいなあ！'],
     after: ['くさむらで レベルを あげてから また やろうね。'],
   },
   lass1: {
     class: 'ミニスカート', name: 'あやか', skill: 1, sprite: 'lass', prize: 40, sight: 3,
-    party: [{ id: 10, lv: 5 }],
+    party: [{ id: 16, lv: 5 }],
     intro: ['あら！ めが あったわね。しょうぶよ！'],
     defeat: ['まけちゃった…'],
     after: ['ポッポは そらを とぶのが とくいなの。'],
@@ -33,14 +33,14 @@ export const TRAINERS = {
   // ---- トキワのもり ----
   bugcatcher1: {
     class: 'むしとりしょうねん', name: 'ケンタ', skill: 1, sprite: 'bugcatcher', prize: 30, sight: 4,
-    party: [{ id: 14, lv: 10 }, { id: 15, lv: 11 }],
+    party: [{ id: 10, lv: 10 }, { id: 11, lv: 11 }],
     intro: ['むしポケモンは さいこうだぜ！ しょうぶだ！'],
     defeat: ['ぼくの むしポケモンが…'],
     after: ['トランセルは かたいけど こうげきは にがてなんだ。'],
   },
   bugcatcher2: {
     class: 'むしとりしょうねん', name: 'ヒロシ', skill: 1, sprite: 'bugcatcher', prize: 30, sight: 5,
-    party: [{ id: 14, lv: 11 }, { id: 15, lv: 13 }],
+    party: [{ id: 10, lv: 11 }, { id: 11, lv: 13 }],
     intro: ['もりの おくには つよい やつが いるらしいぜ！'],
     defeat: ['まだまだ だったか…'],
     after: ['むしポケモンは そだつのが はやいんだ。'],
@@ -49,14 +49,14 @@ export const TRAINERS = {
   // ---- ジム ----
   gymboy1: {
     class: 'ジムトレーナー', name: 'たけし', skill: 2, sprite: 'youngster', prize: 60, sight: 5,
-    party: [{ id: 17, lv: 9 }],
+    party: [{ id: 25, lv: 9 }],
     intro: ['ジムリーダーに あいたければ ぼくを たおしてから だ！'],
     defeat: ['ぐぬぬ… やるな！'],
     after: ['でんきタイプは じめんタイプに ぜんぜん ダメージが とおらないぞ。'],
   },
   gymboy2: {
     class: 'ジムトレーナー', name: 'みつる', skill: 2, sprite: 'bugcatcher', prize: 60, sight: 4,
-    party: [{ id: 17, lv: 7 }, { id: 12, lv: 8 }],
+    party: [{ id: 25, lv: 7 }, { id: 19, lv: 8 }],
     intro: ['この さきは とおさないよ！'],
     defeat: ['まいったなあ。'],
     after: ['まひすると すばやさが はんぶんに なって うごけないことも あるんだ。'],
@@ -64,7 +64,7 @@ export const TRAINERS = {
   leaderDenki: {
     class: 'ジムリーダー', name: 'マチス', skill: 3, sprite: 'leader', prize: 120, sight: 0,
     badge: 'denki',
-    party: [{ id: 17, lv: 9 }, { id: 26, lv: 11 }],
+    party: [{ id: 25, lv: 9 }, { id: 26, lv: 11 }],
     intro: [
       'ようこそ トキワジムへ！',
       'わたしが ジムリーダーの マチスだ。',
@@ -83,14 +83,14 @@ export const TRAINERS = {
   // ---- ２ばんどうろ ----
   youngster2: {
     class: 'たんパンこぞう', name: 'ゴロー', skill: 1, sprite: 'youngster', prize: 45, sight: 4,
-    party: [{ id: 12, lv: 13 }, { id: 74, lv: 14 }],
+    party: [{ id: 19, lv: 13 }, { id: 74, lv: 14 }],
     intro: ['ニビシティへ いくのかい？ そのまえに しょうぶだ！'],
     defeat: ['やるなあ！'],
     after: ['きたの ニビシティには ジムが あるぞ。'],
   },
   lass2: {
     class: 'ミニスカート', name: 'みさき', skill: 1, sprite: 'lass', prize: 45, sight: 4,
-    party: [{ id: 10, lv: 13 }, { id: 41, lv: 14 }],
+    party: [{ id: 16, lv: 13 }, { id: 41, lv: 14 }],
     intro: ['あら かわいい ポケモン！ でも まけないわ。'],
     defeat: ['つよかったわ…'],
     after: ['いわタイプには みずや くさが よく きくのよ。'],
