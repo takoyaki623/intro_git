@@ -426,6 +426,123 @@ for (const [id, m] of Object.entries(MAPS)) {
   check('落ちものにフラグが付いている', flags.every(Boolean));
 }
 
+// ---------------------------------------------------------------- 難度の並び
+section('バランス ― 進行順');
+{
+  // 物語の順路。ここが実際の道すじと食い違ったら、それ自体がバグ。
+  const ROUTE = [
+    ['route1', '１ばんどうろ'],
+    ['gym', 'トキワジム'],
+    ['forest', 'トキワのもり'],
+    ['route2', '２ばんどうろ'],
+    ['cave1', 'おつきみやま'],
+    ['cave2', 'おつきみやま ちか'],
+    ['gym2', 'ニビジム'],
+  ];
+
+  const wildBand = (m) => {
+    const t = m.encounters?.table ?? [];
+    return t.length ? { lo: Math.min(...t.map((e) => e.min)), hi: Math.max(...t.map((e) => e.max)) } : null;
+  };
+  const trainerBand = (m) => {
+    const lv = (m.npcs ?? []).filter((n) => n.trainer)
+      .flatMap((n) => TRAINERS[n.trainer].party.map((p) => p.lv));
+    return lv.length ? { lo: Math.min(...lv), hi: Math.max(...lv) } : null;
+  };
+
+  let prevWild = null;
+  let prevTrainer = null;
+  for (const [id, label] of ROUTE) {
+    const m = MAPS[id];
+    check(`${label} が実在`, !!m, id);
+    if (!m) continue;
+
+    const w = wildBand(m);
+    if (w && prevWild) {
+      check(`${label} の野生は前の場所より弱くならない`, w.lo >= prevWild.lo && w.hi >= prevWild.hi,
+        `Lv${w.lo}-${w.hi} ← Lv${prevWild.lo}-${prevWild.hi}`);
+    }
+    if (w) prevWild = w;
+
+    const t = trainerBand(m);
+    if (t && prevTrainer) {
+      check(`${label} のトレーナーは前の場所より弱くならない`, t.hi >= prevTrainer.hi,
+        `Lv${t.lo}-${t.hi} ← Lv${prevTrainer.lo}-${prevTrainer.hi}`);
+    }
+    if (t) prevTrainer = t;
+
+    // 野生より極端に高いトレーナーがいると、そこだけ壁になる
+    if (w && t) {
+      check(`${label} のトレーナーが野生から離れすぎない`, t.hi - w.hi <= 4,
+        `トレーナー Lv${t.hi} / 野生 Lv${w.hi}`);
+    }
+  }
+
+  // 最初の相手は 御三家 Lv5 で勝てる範囲にとどめる
+  const first = TRAINERS.lass1;
+  check('さいしょのトレーナーは Lv6 以下', Math.max(...first.party.map((p) => p.lv)) <= 6,
+    first.party.map((p) => p.lv).join(','));
+  check('さいしょのトレーナーは 1匹', first.party.length === 1, String(first.party.length));
+}
+
+section('バランス ― さいしょの草むら');
+{
+  // １ばんどうろに入ってすぐ、トレーナーの視線に入る前に草むらへ行けること。
+  // ここが塞がると「育てる前に強い相手と戦わされる」になる。
+  const DIRV = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
+
+  /** そのマップでトレーナーの視線が通っているマス */
+  function sightTiles(m) {
+    const out = new Set();
+    for (const n of m.npcs ?? []) {
+      if (!n.trainer) continue;
+      const range = n.sight ?? TRAINERS[n.trainer]?.sight ?? 0;
+      const [dx, dy] = DIRV[n.dir] ?? [0, 1];
+      for (let i = 1; i <= range; i++) {
+        const x = n.x + dx * i;
+        const y = n.y + dy * i;
+        const k = tileKeyAt(m, x, y);
+        if (!k || TILE[k].solid) break;
+        out.add(`${x},${y}`);
+      }
+    }
+    return out;
+  }
+
+  /** 入口から、視線を踏まずに歩ける範囲 */
+  function reachableAvoidingSight(m, start) {
+    const blocked = sightTiles(m);
+    const npcs = new Set((m.npcs ?? []).map((n) => `${n.x},${n.y}`));
+    const seen = new Set();
+    const queue = [start];
+    while (queue.length) {
+      const [x, y] = queue.shift();
+      const key = `${x},${y}`;
+      if (seen.has(key) || blocked.has(key) || npcs.has(key)) continue;
+      const k = tileKeyAt(m, x, y);
+      if (!k || TILE[k].solid || TILE[k].water || TILE[k].ledge) continue;
+      seen.add(key);
+      for (const [dx, dy] of Object.values(DIRV)) queue.push([x + dx, y + dy]);
+    }
+    return seen;
+  }
+
+  const r1 = MAPS.route1;
+  // はじまりのむら から入ってくる地点
+  const entry = MAPS.hajimari.warps.find((w) => w.to === 'route1');
+  check('はじまりのむら から １ばんどうろ への入口がある', !!entry);
+  if (entry) {
+    const reach = reachableAvoidingSight(r1, [entry.tx, entry.ty]);
+    let grass = 0;
+    for (const key of reach) {
+      const [x, y] = key.split(',').map(Number);
+      if (TILE[tileKeyAt(r1, x, y)]?.grass) grass++;
+    }
+    check('トレーナーに会う前に入れる草むらがある', grass > 0, `${grass}マス`);
+    check('その草むらが十分な広さ', grass >= 12, `${grass}マス`);
+  }
+}
+
 // ---------------------------------------------------------------- BGM
 section('データ整合性 ― BGM');
 {

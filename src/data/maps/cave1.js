@@ -28,9 +28,9 @@ export default {
   encounters: {
     rate: 12,
     table: [
-      { id: 41, min: 10, max: 14, weight: 45 },   // ズバット
-      { id: 74, min: 10, max: 14, weight: 40 },   // イシツブテ
-      { id: 12, min: 10, max: 13, weight: 15 },   // コラッタ
+      { id: 41, min: 13, max: 16, weight: 45 },   // ズバット
+      { id: 74, min: 13, max: 16, weight: 40 },   // イシツブテ
+      { id: 12, min: 13, max: 16, weight: 15 },   // コラッタ
     ],
   },
   warps: [

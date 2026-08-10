@@ -5,7 +5,7 @@ export default {
     '.': 'path', ',': 'grass', 'g': 'tallgrass', 'T': 'tree', 'F': 'flower', 'S': 'sign',
     'L': 'ledge', '~': 'water',
   },
-  // 南（ときわのもり）から北（ニビシティ）へ。
+  // 南（トキワのもり）から北（ニビシティ）へ。
   // 東の池は なみのり を覚えてから来ると、落ちものが1つ取れる。
   tiles: [
     'TTTTTTTT..TTTTTTTTTT',
@@ -32,11 +32,11 @@ export default {
   encounters: {
     rate: 9,
     table: [
-      { id: 10, min: 8, max: 11, weight: 25 },   // ポッポ
-      { id: 12, min: 8, max: 11, weight: 20 },   // コラッタ
-      { id: 41, min: 9, max: 12, weight: 25 },   // ズバット
-      { id: 74, min: 9, max: 12, weight: 20 },   // イシツブテ
-      { id: 17, min: 9, max: 12, weight: 10 },   // ピカチュウ
+      { id: 10, min: 10, max: 13, weight: 25 },   // ポッポ
+      { id: 12, min: 10, max: 13, weight: 20 },   // コラッタ
+      { id: 41, min: 11, max: 14, weight: 25 },   // ズバット
+      { id: 74, min: 11, max: 14, weight: 20 },   // イシツブテ
+      { id: 17, min: 11, max: 14, weight: 10 },   // ピカチュウ
     ],
   },
   water: {
@@ -96,6 +96,6 @@ export default {
     { x: 2, y: 6, item: 'スーパーボール', n: 3, flag: 'item_route2_ball' },
   ],
   signs: [
-    { x: 3, y: 10, lines: ['２ばんどうろ', '↑ きた ： ニビシティ', '↓ みなみ ： ときわのもり'] },
+    { x: 3, y: 10, lines: ['２ばんどうろ', '↑ きた ： ニビシティ', '↓ みなみ ： トキワのもり'] },
   ],
 };

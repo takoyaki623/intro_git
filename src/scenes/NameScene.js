@@ -10,45 +10,58 @@ import { draw as drawSprite } from '../engine/pixelArt.js';
 const W = Screen.W;
 const H = Screen.H;
 
-// 12列 × 7行。全部の かな が1画面に収まる並びにしてある。
+// 10列 × 8行。5文字ずつ2かたまりに割って、あ行・か行… の区切りが目で追える並びにする。
+// 12列に流し込むと「あいうえおかきくけこさし」のように行の途中で行が変わってしまい、
+// 探すのに毎回 端から読む羽目になる。
 // 半端な空きは全角スペースで埋めて、行の長さを揃える（描画も入力もこれで単純になる）。
 const PAGES = {
   かな: [
-    'あいうえおかきくけこさし',
-    'すせそたちつてとなにぬね',
-    'のはひふへほまみむめもや',
-    'ゆよらりるれろわをんーっ',
-    'がぎぐげござじずぜぞだぢ',
-    'づでどばびぶべぼぱぴぷぺ',
-    'ぽゃゅょぁぃぅぇぉ　　　',
+    'あいうえお　かきくけこ',
+    'さしすせそ　たちつてと',
+    'なにぬねの　はひふへほ',
+    'まみむめも　や　ゆ　よ',
+    'らりるれろ　わをん　　',
+    'がぎぐげご　ざじずぜぞ',
+    'だぢづでど　ばびぶべぼ',
+    'ぱぴぷぺぽ　ゃゅょっー',
   ],
   カナ: [
-    'アイウエオカキクケコサシ',
-    'スセソタチツテトナニヌネ',
-    'ノハヒフヘホマミムメモヤ',
-    'ユヨラリルレロワヲンーッ',
-    'ガギグゲゴザジズゼゾダヂ',
-    'ヅデドバビブベボパピプペ',
-    'ポャュョァィゥェォ・　　',
+    'アイウエオ　カキクケコ',
+    'サシスセソ　タチツテト',
+    'ナニヌネノ　ハヒフヘホ',
+    'マミムメモ　ヤ　ユ　ヨ',
+    'ラリルレロ　ワヲン　　',
+    'ガギグゲゴ　ザジズゼゾ',
+    'ダヂヅデド　バビブベボ',
+    'パピプペポ　ャュョッー',
   ],
   英数: [
-    'ＡＢＣＤＥＦＧＨＩＪＫＬ',
-    'ＭＮＯＰＱＲＳＴＵＶＷＸ',
-    'ＹＺ　　　　　　　　　　',
-    'ａｂｃｄｅｆｇｈｉｊｋｌ',
-    'ｍｎｏｐｑｒｓｔｕｖｗｘ',
-    'ｙｚ　　　　　　　　　　',
-    '０１２３４５６７８９！？',
+    'ＡＢＣＤＥ　ＦＧＨＩＪ',
+    'ＫＬＭＮＯ　ＰＱＲＳＴ',
+    'ＵＶＷＸＹ　Ｚ　　　　',
+    'ａｂｃｄｅ　ｆｇｈｉｊ',
+    'ｋｌｍｎｏ　ｐｑｒｓｔ',
+    'ｕｖｗｘｙ　ｚ　　　　',
+    '０１２３４　５６７８９',
+    '！？・ー　　　　　　　',
   ],
 };
 
 const PAGE_NAMES = Object.keys(PAGES);
-const COLS = 12;
-const ROWS = 7;
-const CELL_W = 19;
+const COLS = 10;
+const ROWS = 8;
+const CELL_W = 21;
 const CELL_H = 15;
-const GRID_X = 14;
-const GRID_Y = 46;
+const GROUP_GAP = 14;  // 5文字ごとに空ける幅。かたまりが目で見えるようにする。
+const GRID_X = 12;
+const GRID_Y = 44;
+const BUTTON_Y = 170;
+
+/** 列の描画位置。5列目から先はひとかたまりぶん右へずらす。 */
+const colX = (c) => GRID_X + c * CELL_W + (c >= 5 ? GROUP_GAP : 0);
+
+/** 列番号 → 文字列の添え字。5列目と6列目のあいだに区切りの1文字が入っている。 */
+const srcIndex = (c) => (c < 5 ? c : c + 1);
 
 /**
  * なまえを つける画面。
@@ -82,7 +95,7 @@ export class NameScene {
   get onButtons() { return this.row === ROWS; }
 
   charAt(row, col) {
-    const ch = this.chars[row]?.[col] ?? '　';
+    const ch = this.chars[row]?.[srcIndex(col)] ?? '　';
     return ch === '　' ? null : ch;
   }
 
@@ -157,47 +170,47 @@ export class NameScene {
     ctx.fillRect(0, 0, W, H);
 
     // 見出しと、いま入力されている名前
-    drawWindow(ctx, 4, 4, 248, 38);
-    drawText(ctx, this.title, 12, 9, { color: COL.ink });
+    drawWindow(ctx, 4, 4, 248, 32);
+    drawText(ctx, this.title, 12, 7, { color: COL.ink });
 
     // ドット絵は見出しとぶつからないよう右端に置く（等倍以外はドットが濁る）
-    if (this.sprite) drawSprite(ctx, this.sprite, 220, 9, { scale: 1 });
+    if (this.sprite) drawSprite(ctx, this.sprite, 222, 6, { scale: 1 });
     const x = 12;
     for (let i = 0; i < this.max; i++) {
       const ch = this.text[i];
       const cx = x + i * 16;
       ctx.fillStyle = COL.inkLight;
-      ctx.fillRect(cx, 36, 12, 1);                    // 下線でマス目を示す
-      if (ch) drawText(ctx, ch, cx, 23, { color: COL.ink });
+      ctx.fillRect(cx, 31, 12, 1);                    // 下線でマス目を示す
+      if (ch) drawText(ctx, ch, cx, 19, { color: COL.ink });
     }
     // 次に入る位置でカーソルを点滅させる
     if (this.text.length < this.max && this.blink % 40 < 22) {
       ctx.fillStyle = COL.select;
-      ctx.fillRect(x + this.text.length * 16, 34, 12, 2);
+      ctx.fillRect(x + this.text.length * 16, 29, 12, 2);
     }
 
     // 文字の表
-    drawWindow(ctx, 4, GRID_Y - 6, 248, ROWS * CELL_H + 12);
+    drawWindow(ctx, 4, GRID_Y - 6, 248, ROWS * CELL_H + 10);
     for (let r = 0; r < ROWS; r++) {
       for (let c = 0; c < COLS; c++) {
         const ch = this.charAt(r, c);
         if (!ch) continue;
-        drawText(ctx, ch, GRID_X + c * CELL_W + 5, GRID_Y + r * CELL_H, { color: COL.ink });
+        drawText(ctx, ch, colX(c) + 5, GRID_Y + r * CELL_H, { color: COL.ink });
       }
     }
     if (!this.onButtons) {
-      drawCursor(ctx, GRID_X + this.col * CELL_W - 1, GRID_Y + this.row * CELL_H + 2, COL.select);
+      drawCursor(ctx, colX(this.col) - 1, GRID_Y + this.row * CELL_H + 2, COL.select);
     }
 
     // ボタン列
-    const by = GRID_Y + ROWS * CELL_H + 10;
-    drawWindow(ctx, 4, by, 248, 26);
+    const by = BUTTON_Y;
+    drawWindow(ctx, 4, by, 248, 20);
     const labels = [PAGE_NAMES[(this.page + 1) % PAGE_NAMES.length], 'けす', 'おわり'];
     labels.forEach((label, i) => {
       const cx = 4 + 248 / 6 + i * (248 / 3);
       const on = this.onButtons && this.col === i;
-      drawTextCentered(ctx, label, cx, by + 6, { color: on ? COL.select : COL.ink });
-      if (on) drawCursor(ctx, cx - 34, by + 8, COL.select);
+      drawTextCentered(ctx, label, cx, by + 3, { color: on ? COL.select : COL.ink });
+      if (on) drawCursor(ctx, cx - 34, by + 5, COL.select);
     });
   }
 }

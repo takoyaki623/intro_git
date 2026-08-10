@@ -12,9 +12,12 @@ import mart2 from './mart2.js';
 import gym2 from './gym2.js';
 import cave1 from './cave1.js';
 import cave2 from './cave2.js';
+import tokiwa from './tokiwa.js';
+import center3 from './center3.js';
 
 export const MAPS = {
   hajimari, myhouse, center, mart, gym, route1, forest,
+  tokiwa, center3,
   route2, nibi, center2, mart2, gym2, cave1, cave2,
 };
 

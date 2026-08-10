@@ -1,6 +1,6 @@
 export default {
   id: 'forest',
-  name: 'ときわのもり',
+  name: 'トキワのもり',
   legend: {
     '.': 'path', ',': 'grass', 'g': 'tallgrass', 'T': 'tree', '~': 'water', 'S': 'sign',
   },
@@ -32,11 +32,11 @@ export default {
     rate: 10,
     table: [
       // コイキングは草むらではなく、池で つり／なみのり で出る
-      { id: 14, min: 4, max: 6, weight: 33 },   // キャタピー
-      { id: 15, min: 5, max: 7, weight: 10 },   // トランセル
-      { id: 10, min: 4, max: 6, weight: 20 },   // ポッポ
-      { id: 12, min: 4, max: 6, weight: 15 },   // コラッタ
-      { id: 17, min: 5, max: 7, weight: 22 },   // ピカチュウ
+      { id: 14, min: 6, max: 9, weight: 33 },   // キャタピー
+      { id: 15, min: 7, max: 10, weight: 10 },   // トランセル
+      { id: 10, min: 6, max: 9, weight: 20 },   // ポッポ
+      { id: 12, min: 6, max: 9, weight: 15 },   // コラッタ
+      { id: 17, min: 7, max: 10, weight: 22 },   // ピカチュウ
     ],
   },
   // 池。なみのりを おぼえた みずポケモンがいれば わたれる。
@@ -63,8 +63,8 @@ export default {
   warps: [
     { x: 8, y: 0, to: 'route2', tx: 8, ty: 16, dir: 'up' },
     { x: 9, y: 0, to: 'route2', tx: 9, ty: 16, dir: 'up' },
-    { x: 8, y: 19, to: 'route1', tx: 8, ty: 1, dir: 'down' },
-    { x: 9, y: 19, to: 'route1', tx: 9, ty: 1, dir: 'down' },
+    { x: 8, y: 19, to: 'tokiwa', tx: 8, ty: 1, dir: 'down' },
+    { x: 9, y: 19, to: 'tokiwa', tx: 9, ty: 1, dir: 'down' },
   ],
   npcs: [
     {
@@ -113,6 +113,6 @@ export default {
     { x: 16, y: 11, item: 'いいきずぐすり', n: 2, flag: 'item_forest_potion' },
   ],
   signs: [
-    { x: 16, y: 17, lines: ['ときわのもり', 'むしポケモンの すみか'] },
+    { x: 16, y: 17, lines: ['トキワのもり', 'むしポケモンの すみか', '↑ きた ： ２ばんどうろ'] },
   ],
 };

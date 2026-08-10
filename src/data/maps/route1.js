@@ -23,9 +23,10 @@ export default {
     'T,,,,,,,..,,,,,,,,,T',
     'T,,,,,,,..,,,,,,,,,T',
     'TTTTTTLL..LLTTTTTTTT',
-    'T,,,,,,,..,,,,,,,,,T',
+    // 入口のすぐ北。道のわきがそのまま草むらなので、寄り道せずに育てられる
+    'T,gggggg..gggggg,,,T',
+    'T,gggggg..gggggg,,,T',
     'T,,FF,,,..,,,FF,,,,T',
-    'T,,,,,,,..,,,,,,,,,T',
     'TTTTTTTT..TTTTTTTTTT',
     'TTTTTTTT..TTTTTTTTTT',
   ],
@@ -35,17 +36,17 @@ export default {
   encounters: {
     rate: 8,
     table: [
-      { id: 10, min: 2, max: 4, weight: 35 },   // ポッポ
-      { id: 12, min: 2, max: 4, weight: 35 },   // コラッタ
-      { id: 14, min: 2, max: 3, weight: 20 },   // キャタピー
-      { id: 17, min: 3, max: 5, weight: 10 },   // ピカチュウ
+      { id: 10, min: 3, max: 5, weight: 35 },   // ポッポ
+      { id: 12, min: 3, max: 5, weight: 35 },   // コラッタ
+      { id: 14, min: 2, max: 4, weight: 20 },   // キャタピー
+      { id: 17, min: 4, max: 6, weight: 10 },   // ピカチュウ
     ],
   },
   warps: [
     { x: 8, y: 21, to: 'hajimari', tx: 9, ty: 1, dir: 'down' },
     { x: 9, y: 21, to: 'hajimari', tx: 10, ty: 1, dir: 'down' },
-    { x: 8, y: 0, to: 'forest', tx: 8, ty: 18, dir: 'up' },
-    { x: 9, y: 0, to: 'forest', tx: 9, ty: 18, dir: 'up' },
+    { x: 8, y: 0, to: 'tokiwa', tx: 8, ty: 13, dir: 'up' },
+    { x: 9, y: 0, to: 'tokiwa', tx: 9, ty: 13, dir: 'up' },
   ],
   npcs: [
     {
@@ -72,6 +73,6 @@ export default {
     { x: 2, y: 18, item: 'きずぐすり', n: 2, flag: 'item_route1_potion' },
   ],
   signs: [
-    { x: 15, y: 7, lines: ['１ばんどうろ', '↑ きた ： ときわのもり'] },
+    { x: 15, y: 7, lines: ['１ばんどうろ', '↑ きた ： トキワシティ', '↓ みなみ ： はじまりのむら'] },
   ],
 };

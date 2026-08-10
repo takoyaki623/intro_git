@@ -25,10 +25,10 @@ export default {
   encounters: {
     rate: 14,
     table: [
-      { id: 41, min: 12, max: 16, weight: 40 },   // ズバット
-      { id: 74, min: 12, max: 16, weight: 35 },   // イシツブテ
-      { id: 75, min: 16, max: 18, weight: 10 },   // ゴローン
-      { id: 42, min: 16, max: 18, weight: 15 },   // ゴルバット
+      { id: 41, min: 15, max: 18, weight: 40 },   // ズバット
+      { id: 74, min: 15, max: 18, weight: 35 },   // イシツブテ
+      { id: 75, min: 18, max: 20, weight: 10 },   // ゴローン
+      { id: 42, min: 18, max: 20, weight: 15 },   // ゴルバット
     ],
   },
   water: {

@@ -1,6 +1,6 @@
 export default {
   id: 'gym',
-  name: 'ときわジム',
+  name: 'トキワジム',
   legend: {
     'W': 'wall', 'f': 'floor', 'M': 'mat', 'C': 'counter', 'S': 'sign',
   },
@@ -22,8 +22,8 @@ export default {
   bgm: 'gym',
   encounters: null,
   warps: [
-    { x: 5, y: 10, to: 'hajimari', tx: 16, ty: 5, dir: 'down' },
-    { x: 6, y: 10, to: 'hajimari', tx: 16, ty: 5, dir: 'down' },
+    { x: 5, y: 10, to: 'tokiwa', tx: 5, ty: 10, dir: 'down' },
+    { x: 6, y: 10, to: 'tokiwa', tx: 5, ty: 10, dir: 'down' },
   ],
   npcs: [
     {
@@ -50,7 +50,7 @@ export default {
     {
       x: 1,
       y: 9,
-      lines: ['ときわジム', 'ジムリーダー ： マチス', '「しびれるような でんげきを！」'],
+      lines: ['トキワジム', 'ジムリーダー ： マチス', '「しびれるような でんげきを！」'],
     },
   ],
   items: [],
