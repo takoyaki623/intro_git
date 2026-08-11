@@ -63,6 +63,7 @@ export class FieldScene {
     this.pendingWarp = null;
     this.busy = false;    // サブシーンを開いている間は入力を止める
     this.approach = null; // トレーナーに見つかってから戦闘までの演出
+    this.shakeT = 0;      // 画面をひと揺らしする残りフレーム（ぬしポケモン遭遇など）
   }
 
   enter() {
@@ -95,6 +96,16 @@ export class FieldScene {
       if (boss && (result.result === 'win' || result.result === 'caught')) {
         setFlag(boss.flag);
         world.statics = world.statics.filter((s) => s !== boss);
+        if (boss.prize) {
+          this.busy = false;
+          this.approach = null;
+          world.frozen = false;
+          Input.clearEdges();
+          this.playMapMusic();
+          addItem(boss.prize, 1);
+          this.openDialog([`${state.player.name}は ${boss.prize}を てにいれた！`]);
+          return;
+        }
       }
     }
 
@@ -134,6 +145,8 @@ export class FieldScene {
   // ---- 更新 ----
 
   update() {
+    // ダイアログ表示中(busy)でも続くように、揺れは早期returnより前で減らす
+    if (this.shakeT > 0) this.shakeT--;
     if (this.busy) return;
 
     World.updateNpcs();
@@ -252,7 +265,7 @@ export class FieldScene {
     }));
   }
 
-  async startWildBattle(enc) {
+  async startWildBattle(enc, { isBoss = false } = {}) {
     if (!state.party.some((m) => m.curHP > 0)) return; // 手持ちがいなければ出さない
     this.busy = true;
     const foe = spawnWild(enc, world.map.id, rng);
@@ -264,21 +277,28 @@ export class FieldScene {
       kind: 'battle',
       onDone: () => {
         Scenes.pop();                       // TransitionScene を畳んでから
-        Scenes.push(new BattleScene({ foe, wild: true }));
+        Scenes.push(new BattleScene({ foe, wild: true, isBoss }));
       },
     }));
+  }
+
+  /** 画面をひと揺らしする。ぬしポケモンとの遭遇など「ただものではない」感を出す演出用。 */
+  shake(frames = 24) {
+    this.shakeT = frames;
   }
 
   /** ぬしポケモンに 話しかける。倒す・つかまえると二度と現れない。 */
   startStaticBattle(boss) {
     if (!state.party.some((m) => m.curHP > 0)) return;
     this.pendingStatic = boss;
+    this.shake();
+    SE.spotted();
     const enc = { speciesId: boss.id, level: boss.lv };
     if (boss.lines?.length) {
-      this.openDialog(boss.lines, null, () => this.startWildBattle(enc));
+      this.openDialog(boss.lines, null, () => this.startWildBattle(enc, { isBoss: true }));
       return;
     }
-    this.startWildBattle(enc);
+    this.startWildBattle(enc, { isBoss: true });
   }
 
   interact() {
@@ -478,7 +498,8 @@ export class FieldScene {
     ctx.fillStyle = '#101018';
     ctx.fillRect(0, 0, W, H);
 
-    const camX = Math.round(this.camX);
+    const jitter = this.shakeT > 0 ? (this.shakeT % 4 < 2 ? 2 : -2) : 0;
+    const camX = Math.round(this.camX) + jitter;
     const camY = Math.round(this.camY);
 
     this.renderTiles(ctx, camX, camY);

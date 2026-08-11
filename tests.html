@@ -407,6 +407,9 @@ check('タイル定義のスプライトが実在する',
   Object.entries(TILE).filter(([, t]) => !TILE_SPR[t.sprite]).map(([k]) => k).join('・'));
 
 section('データ整合性 ― マップ');
+// 定義だけあって、店にも落ちものにも どこにも出てこない どうぐ を検知する。
+// 実装もテストも通っているのに、プレイヤーが一生さわれない機能を防ぐため。
+const reachableItems = new Set(['モンスターボール', 'きずぐすり']); // ゲーム開始時に持たせる分
 for (const [id, m] of Object.entries(MAPS)) {
   const w = mapWidth(m);
   check(`${id} の行幅がすべて ${w}`, m.tiles.every((r) => r.length === w),
@@ -442,6 +445,7 @@ for (const [id, m] of Object.entries(MAPS)) {
     check(`${id} の落ちもの ${it.item} が実在`, !!ITEMS[it.item], it.item);
     const k = tileKeyAt(m, it.x, it.y);
     check(`${id} の落ちもの(${it.x},${it.y}) が拾える位置`, !!k && !TILE[k].solid, k ?? '範囲外');
+    reachableItems.add(it.item);
   }
 
   // ぬしポケモン。種族が実在し、通行可タイル上、フラグを持つ。
@@ -451,6 +455,10 @@ for (const [id, m] of Object.entries(MAPS)) {
       !!tileKeyAt(m, s.x, s.y) && !TILE[tileKeyAt(m, s.x, s.y)].solid);
     check(`${id} のぬし にフラグが付いている`, !!s.flag);
     check(`${id} のぬし の Lv が正の数`, s.lv >= 1);
+    if (s.prize) {
+      check(`${id} のぬし の ほうしゅう ${s.prize} が実在`, !!ITEMS[s.prize], s.prize);
+      reachableItems.add(s.prize);
+    }
   }
 
   // 店の品揃えも実在するどうぐでなければ、話しかけた瞬間に落ちる
@@ -460,8 +468,12 @@ for (const [id, m] of Object.entries(MAPS)) {
       for (const name of l.shop ?? []) {
         check(`${id} の ${where} が売る ${name} が実在`, !!ITEMS[name], name);
         check(`${id} の ${where} が売る ${name} に ねだん`, ITEMS[name]?.price > 0);
+        reachableItems.add(name);
       }
-      if (l.give) check(`${id} の ${where} がくれる ${l.give} が実在`, !!ITEMS[l.give], l.give);
+      if (l.give) {
+        check(`${id} の ${where} がくれる ${l.give} が実在`, !!ITEMS[l.give], l.give);
+        reachableItems.add(l.give);
+      }
       if (l.trade) {
         check(`${id} の ${where} がほしがる ${l.trade.want} が実在`, !!SPECIES[l.trade.want], String(l.trade.want));
         check(`${id} の ${where} がくれる ${l.trade.give} が実在`, !!SPECIES[l.trade.give], String(l.trade.give));
@@ -493,6 +505,14 @@ for (const [id, m] of Object.entries(MAPS)) {
     const gensHere = new Set(table.map((e) => SPECIES[e.id]?.gen).filter(Boolean));
     check(`${id} の草むらが 1世代だけに 偏っていない`, gensHere.size >= 2, [...gensHere].join('・'));
   }
+}
+{
+  // 定義はあるのに、店にも落ちものにも会話の give にも ぬしの ほうしゅう にも
+  // 現れないどうぐを検出する。実装もテストも通っているのに、
+  // プレイヤーが一生さわれない「死蔵」を防ぐための担保。
+  const unreachable = Object.keys(ITEMS).filter((name) => !reachableItems.has(name));
+  check('すべての どうぐに 入手経路がある（店・落ちもの・give・ぬしの報酬）',
+    unreachable.length === 0, unreachable.join('・'));
 }
 {
   // 拾ったフラグはマップをまたいで一意。被ると片方を拾った時に両方消える。

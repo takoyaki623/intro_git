@@ -63,6 +63,8 @@ export default {
   items: [
     { x: 1, y: 1, item: 'げんきのかけら', n: 1, flag: 'item_cave1_revive' },
     { x: 18, y: 1, item: 'ハイパーボール', n: 2, flag: 'item_cave1_ball' },
+    // ニビから入ってすぐの部屋。
+    { x: 3, y: 13, item: 'むしよけスプレー', n: 1, flag: 'item_cave1_repel' },
   ],
   signs: [],
 };

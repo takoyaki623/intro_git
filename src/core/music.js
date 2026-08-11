@@ -96,6 +96,19 @@ export const SONGS = {
     drum: parse(`x h o h x h o h x h o h x o o o`),
   },
 
+  // ぬしポケモン専用。battle より遅く、低音を太くして「ただものではない」感を出す。
+  boss: {
+    bpm: 132, step: 0.5,
+    lead: parse(`
+      e4 ~ g4 ~  a4 ~ c5 ~  b4 ~ g4 ~  e4 ~ ~ ~
+      f4 ~ a4 ~  c5 ~ d5 ~  c5 ~ a4 ~  f4 ~ ~ ~`),
+    harm: parse(`
+      c4 ~ e4 ~  f4 ~ a4 ~  g4 ~ e4 ~  c4 ~ ~ ~
+      d4 ~ f4 ~  a4 ~ b4 ~  a4 ~ f4 ~  d4 ~ ~ ~`),
+    bass: parse(`a1 a1 a1 a1  f1 f1 f1 f1  g1 g1 g1 g1  a1 a1 a1 a1`),
+    drum: parse(`x - x h o - x h x - x h o - o o`),
+  },
+
   trainer: {
     bpm: 168, step: 0.5,
     lead: parse(`

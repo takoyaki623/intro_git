@@ -33,12 +33,13 @@ export class BattleScene {
    * 野生戦は { foe } だけ。
    * トレーナー戦は { trainer, trainerId, foeParty } を渡す（foe は先頭が使われる）。
    */
-  constructor({ foe, wild = true, trainer = null, trainerId = null, foeParty = null }) {
+  constructor({ foe, wild = true, trainer = null, trainerId = null, foeParty = null, isBoss = false }) {
     this.ctx = {
       mine: state.party.find((m) => m.curHP > 0) ?? state.party[0],
       foe: foe ?? foeParty?.[0],
       rng,
       isWild: wild && !trainer,
+      isBoss,
       trainer,
       trainerId,
       foeParty,
@@ -76,7 +77,7 @@ export class BattleScene {
 
   enter() {
     Input.clearEdges();
-    Music.play(this.ctx.trainer ? 'trainer' : 'battle');
+    Music.play(this.ctx.trainer ? 'trainer' : (this.ctx.isBoss ? 'boss' : 'battle'));
     this.gen = this.ctx.trainer ? trainerBattle(this.ctx) : wildBattle(this.ctx);
     this.advance();
   }

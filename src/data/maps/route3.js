@@ -63,6 +63,7 @@ export default {
   items: [
     { x: 3, y: 10, item: 'すごいきずぐすり', n: 2, flag: 'item_route3_potion' },
     { x: 16, y: 1, item: 'ハイパーボール', n: 3, flag: 'item_route3_ball' },
+    { x: 13, y: 1, item: 'きあいのハチマキ', n: 1, flag: 'item_route3_band' },
   ],
   signs: [
     { x: 9, y: 5, lines: ['３ばんどうろ', '→ ポケモンリーグ', 'これより さき、かいふくは できない'] },

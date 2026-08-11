@@ -132,13 +132,14 @@ export default {
     { x: 17, y: 2, item: 'かみなりのいし', n: 1, flag: 'item_forest_stone' },
     { x: 3, y: 7, item: 'スーパーボール', n: 3, flag: 'item_forest_ball' },
     { x: 16, y: 11, item: 'いいきずぐすり', n: 2, flag: 'item_forest_potion' },
+    { x: 10, y: 4, item: 'オボンのみ', n: 1, flag: 'item_forest_oran' },
   ],
   signs: [
     { x: 16, y: 17, lines: ['トキワのもり', 'むしポケモンの すみか', '↑ きた ： ２ばんどうろ'] },
   ],
   statics: [
     {
-      x: 10, y: 1, id: 12, lv: 15, flag: 'boss_forest',
+      x: 10, y: 1, id: 12, lv: 15, flag: 'boss_forest', prize: 'オボンのみ',
       lines: ['バサッ、バサッ…！', '大きな むしポケモンが とんでいる！'],
     },
   ],

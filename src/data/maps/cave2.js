@@ -76,13 +76,16 @@ export default {
     // 地底湖のまんなか。なみのり を覚えるまで取れない。
     { x: 8, y: 6, item: 'かみなりのいし', n: 1, flag: 'item_cave2_stone' },
     { x: 16, y: 1, item: 'まんたんのくすり', n: 1, flag: 'item_cave2_potion' },
+    { x: 14, y: 1, item: 'あなぬけのヒモ', n: 1, flag: 'item_cave2_escrope' },
+    // route3 への出口のすぐ手前。ここまで来られたご褒美。
+    { x: 15, y: 10, item: 'たべのこし', n: 1, flag: 'item_cave2_leftovers' },
   ],
   signs: [
     { x: 3, y: 1, lines: ['ちてい こ', 'なみのりが なければ わたれない'] },
   ],
   statics: [
     {
-      x: 4, y: 2, id: 75, lv: 25, flag: 'boss_cave2',
+      x: 4, y: 2, id: 75, lv: 25, flag: 'boss_cave2', prize: 'たべのこし',
       lines: ['ゴゴゴ…！', 'いわの かたまりが たちふさがった！'],
     },
   ],

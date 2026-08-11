@@ -91,7 +91,7 @@ export default {
   // ぬしポケモン。倒す/つかまえると二度と出てこない。にげれば残る。
   statics: [
     {
-      x: 4, y: 10, id: 26, lv: 10, flag: 'boss_route1',
+      x: 4, y: 10, id: 26, lv: 10, flag: 'boss_route1', prize: 'きあいのハチマキ',
       lines: ['グルル…！', 'つよそうな ポケモンが にらんでいる！'],
     },
   ],
