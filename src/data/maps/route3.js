@@ -42,6 +42,9 @@ export default {
       { id: 662, min: 62, max: 65, weight: 18 },
       { id: 42, min: 63, max: 66, weight: 12 },
       { id: 20, min: 62, max: 65, weight: 8 },
+      // 最終進化を低weightで混ぜる（Q-3）。御三家の最終形はリーグ前の道でだけ。
+      { id: 6, min: 62, max: 65, weight: 4 },   // リザードン
+      { id: 9, min: 62, max: 65, weight: 4 },   // カメックス
     ],
   },
   warps: [

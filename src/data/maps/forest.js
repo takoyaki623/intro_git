@@ -53,6 +53,10 @@ export default {
       { id: 11, min: 45, max: 48, weight: 7 },
       { id: 16, min: 44, max: 47, weight: 10 },
       { id: 19, min: 44, max: 47, weight: 5 },
+      // 最終進化を低weightで混ぜる（Q-3）。育てないと会えなかった姿が野生でも見られる。
+      { id: 281, min: 44, max: 47, weight: 4 },  // キルリア(←ラルトス)
+      { id: 873, min: 44, max: 47, weight: 4 },  // モスノウ(←ユキハミ)
+      { id: 3, min: 44, max: 47, weight: 4 },    // フシギバナ
     ],
   },
   // 池。なみのりを おぼえた みずポケモンがいれば わたれる。
@@ -139,7 +143,7 @@ export default {
   ],
   statics: [
     {
-      x: 10, y: 1, id: 12, lv: 15, flag: 'boss_forest', prize: 'オボンのみ',
+      x: 10, y: 1, id: 12, lv: 15, postgameLv: 55, flag: 'boss_forest', prize: 'オボンのみ',
       lines: ['バサッ、バサッ…！', '大きな むしポケモンが とんでいる！'],
     },
   ],

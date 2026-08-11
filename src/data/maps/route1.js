@@ -56,6 +56,7 @@ export default {
       { id: 19, min: 40, max: 45, weight: 10 },
       { id: 10, min: 38, max: 43, weight: 7 },
       { id: 25, min: 42, max: 47, weight: 3 },
+      { id: 17, min: 40, max: 45, weight: 4 },  // ピジョン(←ポッポ)。最終進化を低weightで(Q-3)
     ],
   },
   warps: [
@@ -91,7 +92,7 @@ export default {
   // ぬしポケモン。倒す/つかまえると二度と出てこない。にげれば残る。
   statics: [
     {
-      x: 4, y: 10, id: 26, lv: 10, flag: 'boss_route1', prize: 'きあいのハチマキ',
+      x: 4, y: 10, id: 26, lv: 10, postgameLv: 52, flag: 'boss_route1', prize: 'きあいのハチマキ',
       lines: ['グルル…！', 'つよそうな ポケモンが にらんでいる！'],
     },
   ],

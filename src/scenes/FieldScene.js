@@ -22,14 +22,22 @@ import { getSpecies } from '../data/species.js';
 import { RIVAL_BATTLES } from '../data/rival.js';
 
 /**
+ * クリア後の再挑戦ボーナス（Q-1/Q-2）。殿堂入りのたびに +15、最大3回ぶんまで。
+ * 賞金は prizeMoney() が「最後に出したポケモンのレベル」から計算するので、
+ * レベルさえ底上げすれば同率で増える。
+ */
+function levelBonus() {
+  return getFlag('hallOfFame') ? 15 * Math.min(state.hallOfFameCount, 3) : 0;
+}
+
+/**
  * トレーナーを解決する。ライバルだけは相手ごとの静的データではなく、
  * プレイヤーが選んだ御三家とライバルの名前から その場で組み立てる
  * （名前と手持ちの進化段階が、プレイの結果しだいで変わるため）。
  */
 function resolveTrainer(id) {
   const def = RIVAL_BATTLES[id];
-  if (!def) return getTrainer(id);
-  return {
+  const trainer = def ? {
     class: def.class,
     name: state.player.rivalName || 'ライバル',
     sprite: def.sprite,
@@ -40,6 +48,14 @@ function resolveTrainer(id) {
     intro: def.intro,
     defeat: def.defeat,
     after: def.after,
+  } : getTrainer(id);
+  if (!trainer) return trainer;
+
+  const bonus = levelBonus();
+  if (bonus <= 0) return trainer;
+  return {
+    ...trainer,
+    party: trainer.party.map((p) => ({ ...p, lv: Math.min(100, p.lv + bonus) })),
   };
 }
 

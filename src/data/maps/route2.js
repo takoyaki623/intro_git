@@ -51,6 +51,9 @@ export default {
       { id: 41, min: 48, max: 51, weight: 18 },
       { id: 74, min: 48, max: 51, weight: 12 },
       { id: 25, min: 48, max: 51, weight: 5 },
+      // 最終進化を低weightで混ぜる（Q-3）
+      { id: 608, min: 48, max: 51, weight: 4 },  // ランプラー(←ヒトモシ)
+      { id: 180, min: 48, max: 51, weight: 4 },  // モココ(←メリープ)
     ],
   },
   water: {

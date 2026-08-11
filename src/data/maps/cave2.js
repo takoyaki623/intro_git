@@ -41,6 +41,10 @@ export default {
       { id: 74, min: 56, max: 59, weight: 30 },
       { id: 75, min: 58, max: 61, weight: 9 },
       { id: 42, min: 58, max: 61, weight: 12 },
+      // 最終進化を低weightで混ぜる（Q-3）
+      { id: 634, min: 58, max: 61, weight: 4 },  // ジヘッド(←モノズ)
+      { id: 260, min: 58, max: 61, weight: 4 },  // ラグラージ。地底湖の主のよう
+      { id: 724, min: 58, max: 61, weight: 4 },  // ジュナイパー
     ],
   },
   water: {
@@ -86,7 +90,7 @@ export default {
   ],
   statics: [
     {
-      x: 4, y: 2, id: 75, lv: 25, flag: 'boss_cave2', prize: 'たべのこし',
+      x: 4, y: 2, id: 75, lv: 25, postgameLv: 58, flag: 'boss_cave2', prize: 'たべのこし',
       lines: ['ゴゴゴ…！', 'いわの かたまりが たちふさがった！'],
     },
   ],

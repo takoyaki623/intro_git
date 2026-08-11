@@ -82,7 +82,13 @@ export default {
     },
     {
       id: 'rival1', x: 9, y: 6, sprite: 'youngster', dir: 'down', sight: 6,
-      trainer: 'rival1', when: 'gotStarter',
+      trainer: 'rival1', when: 'gotStarter', unless: 'hallOfFame',
+      lines: ['また しょうぶ しような！'],
+    },
+    {
+      // 殿堂入り後、同じ場所に「成長したライバル」として再戦できる（Q-2）。
+      id: 'rival6', x: 9, y: 6, sprite: 'youngster', dir: 'down', sight: 6,
+      trainer: 'rival6', when: 'hallOfFame',
       lines: ['また しょうぶ しような！'],
     },
     {

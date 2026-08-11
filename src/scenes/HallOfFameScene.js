@@ -10,6 +10,7 @@ import { fillScreen } from '../engine/ui.js';
 import { TextBox } from '../engine/textbox.js';
 import { displayName } from '../game/monster.js';
 import { state, setFlag, autoSave } from '../game/state.js';
+import { MAPS } from '../data/maps/index.js';
 
 const W = Screen.W;
 const H = Screen.H;
@@ -38,6 +39,10 @@ export class HallOfFameScene {
     Music.play('victory');
     setFlag('hallOfFame');
     state.hallOfFameCount = (state.hallOfFameCount ?? 0) + 1;
+    // ぬしポケモンを復活させる（Q-4）。殿堂入りするたびに再登場のチャンスが増える。
+    for (const map of Object.values(MAPS)) {
+      for (const s of map.statics ?? []) setFlag(s.flag, false);
+    }
     autoSave();
   }
 

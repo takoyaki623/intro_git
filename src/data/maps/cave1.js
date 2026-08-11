@@ -42,6 +42,7 @@ export default {
       { id: 41, min: 52, max: 55, weight: 38 },
       { id: 74, min: 52, max: 55, weight: 32 },
       { id: 19, min: 52, max: 55, weight: 15 },
+      { id: 448, min: 52, max: 55, weight: 4 },  // ルカリオ(←リオル)。最終進化を低weightで(Q-3)
     ],
   },
   warps: [

@@ -58,6 +58,10 @@ export function loadMap(mapId, tx, ty, dir = 'down') {
   if (!map.outdoor && (!prevMap || prevMap.outdoor)) {
     state.lastEntrance = { map: mapId, x: tx, y: ty, dir };
   }
+  // クリア後は、リーグに入りなおすたびに4連戦をやり直せる（Q-1）。
+  if (mapId === 'league' && getFlag('hallOfFame')) {
+    for (const id of ['elite1', 'elite2', 'elite3', 'rival5']) setFlag(trainerFlag(id), false);
+  }
   const p = world.player;
   p.tx = tx; p.ty = ty; p.dir = dir;
   p.px = tx * 16; p.py = ty * 16;
@@ -83,10 +87,13 @@ export function loadMap(mapId, tx, ty, dir = 'down') {
   world.items = (map.items ?? []).filter((it) => !getFlag(it.flag)).filter(isVisible);
 
   // ぬしポケモン。倒す/つかまえると flag が立って消える。にげられたら残る。
+  // 殿堂入り後は postgameLv があればそちらを使う（Q-4）。flag 自体は
+  // 殿堂入りのたびに HallOfFameScene 側でクリアして復活させる。
+  const postgame = getFlag('hallOfFame');
   world.statics = (map.statics ?? [])
     .filter((s) => !getFlag(s.flag))
     .filter(isVisible)
-    .map((s) => ({ ...s, tx: s.x, ty: s.y }));
+    .map((s) => ({ ...s, tx: s.x, ty: s.y, lv: (postgame && s.postgameLv) ? s.postgameLv : s.lv }));
 
   state.player.pos = { map: mapId, x: tx, y: ty, dir };
   // 一度でも行った町は「そらをとぶ」の行き先になる
