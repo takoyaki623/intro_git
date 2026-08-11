@@ -72,6 +72,11 @@ export const MOVES = {
     effect: { kind: 'status', status: 'やけど', chance: 10 },
     desc: 'はげしい ほのおを あびせる。やけどさせる ことが ある。',
   },
+  'かえんぐるま': {
+    type: 'ほのお', category: '物理', power: 60, accuracy: 100, pp: 25,
+    effect: { kind: 'status', status: 'やけど', chance: 15 },
+    desc: 'からだを ほのおで つつみ とっしんする。やけどさせる ことが ある。',
+  },
 
   // ---- みず ----
   'みずでっぽう': {
@@ -110,6 +115,11 @@ export const MOVES = {
     effect: { kind: 'status', status: 'まひ', chance: 100 },
     desc: 'よわい でんきで あいてを まひさせる。',
   },
+  'スパーク': {
+    type: 'でんき', category: '物理', power: 65, accuracy: 100, pp: 20,
+    effect: { kind: 'status', status: 'まひ', chance: 30 },
+    desc: 'でんきを まとって たいあたりする。まひさせる ことが ある。',
+  },
 
   // ---- くさ ----
   'つるのムチ': {
@@ -142,6 +152,15 @@ export const MOVES = {
     effect: { kind: 'heal', ratio: 0.5 },
     desc: 'ひかりを あびて じぶんの たいりょくを はんぶん かいふくする。',
   },
+  'リーフブレード': {
+    type: 'くさ', category: '物理', power: 70, accuracy: 100, pp: 15,
+    effect: { kind: 'highCrit' },
+    desc: 'はっぱの やいばで きりさく。きゅうしょに あたりやすい。',
+  },
+  'ソーラービーム': {
+    type: 'くさ', category: '特殊', power: 120, accuracy: 100, pp: 10,
+    desc: 'ひかりを あつめた つよい ビームを はなつ。',
+  },
 
   // ---- こおり ----
   'こおりのつぶて': {
@@ -153,6 +172,11 @@ export const MOVES = {
     effect: { kind: 'status', status: 'こおり', chance: 10 },
     desc: 'こおりの ビームを はなつ。こおらせる ことが ある。',
   },
+  'れいとうパンチ': {
+    type: 'こおり', category: '物理', power: 75, accuracy: 100, pp: 15,
+    effect: { kind: 'status', status: 'こおり', chance: 10 },
+    desc: 'こおりのように つめたい こぶしで なぐる。こおらせる ことが ある。',
+  },
 
   // ---- かくとう ----
   'からてチョップ': {
@@ -163,6 +187,11 @@ export const MOVES = {
   'インファイト': {
     type: 'かくとう', category: '物理', power: 120, accuracy: 100, pp: 5,
     desc: 'みをけずって ぶつかりあう はげしい こうげき。',
+  },
+  'ローキック': {
+    type: 'かくとう', category: '物理', power: 65, accuracy: 100, pp: 20,
+    effect: { kind: 'stat', target: 'foe', stat: 'spe', stages: -1, chance: 100 },
+    desc: 'あいての あしを ねらって けとばす。すばやさを さげる。',
   },
 
   // ---- どく ----
@@ -176,11 +205,21 @@ export const MOVES = {
     effect: { kind: 'status', status: 'どく', chance: 100 },
     desc: 'どくの こなを まいて どく じょうたいに する。',
   },
+  'ヘドロこうげき': {
+    type: 'どく', category: '物理', power: 65, accuracy: 100, pp: 20,
+    effect: { kind: 'status', status: 'どく', chance: 30 },
+    desc: 'きたない ヘドロを なげつける。どく じょうたいに する ことが ある。',
+  },
 
   // ---- じめん ----
   'じしん': {
     type: 'じめん', category: '物理', power: 100, accuracy: 100, pp: 10,
     desc: 'じしんの しょうげきで あたりを こうげきする。',
+  },
+  'マッドショット': {
+    type: 'じめん', category: '特殊', power: 55, accuracy: 95, pp: 15,
+    effect: { kind: 'stat', target: 'foe', stat: 'spe', stages: -1, chance: 100 },
+    desc: 'どろを なげつける。あいての すばやさを さげる。',
   },
 
   // ---- ひこう ----
@@ -205,6 +244,11 @@ export const MOVES = {
     effect: { kind: 'flinch', chance: 30 },
     desc: 'するどい かぜの はを たたきつける。ひるませる ことが ある。',
   },
+  'ゴッドバード': {
+    type: 'ひこう', category: '物理', power: 90, accuracy: 90, pp: 5,
+    effect: { kind: 'highCrit' },
+    desc: 'つばさを たたみ とっしんする。きゅうしょに あたりやすい。',
+  },
 
   // ---- エスパー ----
   'ねんりき': {
@@ -221,6 +265,11 @@ export const MOVES = {
     type: 'エスパー', category: '変化', power: 0, accuracy: 60, pp: 10,
     effect: { kind: 'status', status: 'ねむり', chance: 100 },
     desc: 'あいてに さいみんじゅつを かけて ねむらせる。',
+  },
+  'サイコカッター': {
+    type: 'エスパー', category: '物理', power: 70, accuracy: 100, pp: 20,
+    effect: { kind: 'highCrit' },
+    desc: 'こころの やいばで きりつける。きゅうしょに あたりやすい。',
   },
 
   'あやしいひかり': {
@@ -248,6 +297,10 @@ export const MOVES = {
     type: 'むし', category: '物理', power: 70, accuracy: 100, pp: 20,
     desc: 'すばやく こうげきしてから みを ひるがえす。',
   },
+  'メガホーン': {
+    type: 'むし', category: '物理', power: 90, accuracy: 85, pp: 10,
+    desc: 'するどい つので つきさす。ちからいっぱいの こうげき。',
+  },
 
   // ---- いわ ----
   'いわおとし': {
@@ -258,6 +311,11 @@ export const MOVES = {
     type: 'いわ', category: '物理', power: 75, accuracy: 90, pp: 10,
     effect: { kind: 'flinch', chance: 30 },
     desc: 'おおきな いわを なだれのように おとす。ひるませる ことが ある。',
+  },
+  'ストーンエッジ': {
+    type: 'いわ', category: '物理', power: 100, accuracy: 80, pp: 5,
+    effect: { kind: 'highCrit' },
+    desc: 'するどい いわを つきたてる。きゅうしょに あたりやすい。',
   },
 
   // ---- ドラゴン ----

@@ -334,6 +334,56 @@ for (const sp of speciesList) {
   check(`${sp.name} の gen が 1..9`, sp.gen >= 1 && sp.gen <= 9, String(sp.gen));
 }
 
+// design-v3.md O-3: 学習セットの規格7項目。
+// Phase I で26体を足したとき、学習セットは3〜4行で済ませてしまい、
+// 中盤で手が止まる種族が量産された（51種中30種が技4つ以下）。
+// 「数を足すだけでは同じことを繰り返す」ので、満たすべき形をここで縛る。
+// 例外は sp.learnsetExempt に明記したものだけ見逃す（うっかりと わざと の区別）。
+section('データ整合性 ― 学習セットの規格（O-3）');
+{
+  const evoTargets = new Set(speciesList.filter((s) => s.evolution).map((s) => s.evolution.to));
+  const stageOf = (sp) => {
+    const isFinal = !sp.evolution;
+    const isPre = !evoTargets.has(sp.id);
+    if (isFinal && isPre) return 'single';
+    if (isFinal) return 'final';
+    if (isPre) return 'pre';
+    return 'mid';
+  };
+  const MIN_N = { single: 7, final: 7, mid: 6, pre: 5 };
+
+  for (const sp of speciesList) {
+    const exempt = sp.learnsetExempt ?? {};
+    const stage = stageOf(sp);
+    const atk = sp.learnset.map((e) => getMove(e.move)).filter((m) => m.category !== '変化');
+    const status = sp.learnset.map((e) => getMove(e.move)).filter((m) => m.category === '変化');
+    const stab = atk.filter((m) => sp.types.includes(m.type));
+    const atkTypes = new Set(atk.map((m) => m.type));
+    const lastLv = Math.max(...sp.learnset.map((e) => e.lv));
+
+    if (!exempt.all) {
+      check(`R1 ${sp.name}(${stage}) 技数 >= ${MIN_N[stage]}`,
+        sp.learnset.length >= MIN_N[stage], String(sp.learnset.length));
+      check(`R2 ${sp.name} タイプ一致の攻撃技を1つ以上`, stab.length >= 1);
+    }
+    if (stage === 'final' || stage === 'single') {
+      check(`R3 ${sp.name}(最終) 威力80以上のタイプ一致技`, stab.some((m) => m.power >= 80));
+    }
+    if (!exempt.all && !exempt.types) {
+      check(`R4 ${sp.name} 攻撃技のタイプが2種類以上`, atkTypes.size >= 2, [...atkTypes].join('・'));
+    }
+    check(`R5 ${sp.name} 変化技を1つ以上`, status.length >= 1);
+    if (!exempt.all) {
+      // stage が final/single なら Lv40 以上。進化するなら「進化Lv+10」以上。
+      // ただし stone 進化は level を持たないので、この規格では final 相当に扱う。
+      const need = (stage === 'final' || stage === 'single' || sp.evolution.method === 'stone')
+        ? 40 : sp.evolution.level + 10;
+      check(`R6 ${sp.name} 最終習得Lv >= ${need}`, lastLv >= need, String(lastLv));
+      check(`R7 ${sp.name} わざマシンを2つ以上`, (sp.tm ?? []).length >= 2, String((sp.tm ?? []).length));
+    }
+  }
+}
+
 // 種族の再編（design-species.md）で目指した「死んでいたタイプを起こす」の担保。
 // カントーの序盤だけでは18タイプのうち10タイプぶんしか種族がおらず、
 // タイプ相性の半分が実質死んでいた。以後どれだけ種族を足しても、
