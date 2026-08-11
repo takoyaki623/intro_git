@@ -79,6 +79,8 @@ export function createMonster(speciesId, level, opt = {}) {
     metLv: opt.metLv ?? level,
     metMap: opt.metMap ?? null,
     held: opt.held ?? null,
+    evoDeclined: false,
+    evoLocked: false,
   });
 }
 
@@ -268,6 +270,8 @@ export function serialize(m) {
     metLv: m.metLv,
     metMap: m.metMap,
     held: m.held ?? null,
+    evoDeclined: m.evoDeclined || undefined,
+    evoLocked: m.evoLocked || undefined,
   };
 }
 
@@ -331,5 +335,7 @@ export function hydrate(save) {
     metLv: save.metLv ?? level,
     metMap: save.metMap ?? null,
     held: save.held ?? null,
+    evoDeclined: save.evoDeclined ?? false,
+    evoLocked: save.evoLocked ?? false,
   });
 }

@@ -60,6 +60,8 @@ export class EvolveScene {
       }
       if (this.t >= LEN) {
         evolve(this.mon, this.toId);
+        this.mon.evoDeclined = false;
+        this.mon.evoLocked = false;
         registerCaught(this.toId);
         // 進化先が同じレベルで覚える技は、空きがあるぶんだけ自動で拾う
         for (const mv of movesLearnedAt(this.mon.species, this.mon.level)) {

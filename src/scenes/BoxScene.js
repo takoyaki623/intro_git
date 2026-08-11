@@ -8,8 +8,10 @@ import { drawWindow, drawBar, hpColor, COL } from '../engine/ui.js';
 import { Menu } from '../engine/menu.js';
 import { SE } from '../core/audio.js';
 import { TextBox } from '../engine/textbox.js';
-import { state, BOX_SIZE, PARTY_MAX } from '../game/state.js';
-import { displayName } from '../game/monster.js';
+import { state, BOX_SIZE, PARTY_MAX, registerCaught } from '../game/state.js';
+import { displayName, evolutionTarget, evolve, movesLearnedAt, MAX_MOVES } from '../game/monster.js';
+import { getSpecies } from '../data/species.js';
+import { getMove } from '../data/moves.js';
 
 const W = Screen.W;
 const H = Screen.H;
@@ -75,18 +77,22 @@ export class BoxScene {
   update() {
     if (this.box) {
       this.box.update(Input.isDown(BTN.A));
-      // にがすの確認だけは、本文を読み終えてから はい／いいえ を出す
+      // にがす／しんかの確認だけは、本文を読み終えてから はい／いいえ を出す
       if (this.confirm && this.box.waiting) {
         const r = this.confirm.update();
         if (r?.type === 'select') {
           this.confirm = null;
           this.box = null;
-          if (r.index === 1) this.doRelease();
+          if (this.pendingEvolve) {
+            if (r.index === 1) this.doEvolve();
+            else this.declineEvolveForever();
+          } else if (r.index === 1) this.doRelease();
           else this.pendingRelease = null;
         } else if (r?.type === 'cancel') {
           this.confirm = null;
           this.box = null;
           this.pendingRelease = null;
+          this.pendingEvolve = null;
         }
         return;
       }
@@ -141,6 +147,11 @@ export class BoxScene {
     if (!this.held) {
       const mon = this.slotMon();
       if (!mon) return;
+      // かつて Bでキャンセルした進化が残っていれば、つかむより先にここで聞く（S-2）
+      if (mon.evoDeclined && !mon.evoLocked && evolutionTarget(mon, 'level')) {
+        this.askEvolve(mon);
+        return;
+      }
       // 手持ちが1匹だけのときは連れ出せない
       if (this.area === 'party' && state.party.length <= 1) {
         this.say('さいごの １ぴきは あずけられない！');
@@ -153,6 +164,43 @@ export class BoxScene {
     }
 
     this.place();
+  }
+
+  /** 進化のやり直し（S-2）。ここで また断ると、もう二度と進化しなくなる。 */
+  askEvolve(mon) {
+    this.pendingEvolve = mon;
+    this.confirm = new Menu(['いいえ', 'はい'], { x: 168, y: 120, lineH: 16, colW: 60 });
+    this.say(`${displayName(mon)}を しんかさせますか？`);
+  }
+
+  doEvolve() {
+    const mon = this.pendingEvolve;
+    this.pendingEvolve = null;
+    const toId = evolutionTarget(mon, 'level');
+    const before = displayName(mon);
+    const after = getSpecies(toId);
+    if (!toId || !after) return;
+
+    evolve(mon, toId);
+    mon.evoDeclined = false;
+    mon.evoLocked = false;
+    registerCaught(toId);
+    for (const name of movesLearnedAt(mon.species, mon.level)) {
+      if (mon.moves.length >= MAX_MOVES) break;
+      if (mon.moves.some((mv) => mv.id === name)) continue;
+      const def = getMove(name);
+      if (def) mon.moves.push({ id: name, pp: def.pp, maxPp: def.pp });
+    }
+    SE.select();
+    this.say(`おめでとう！ ${before}は ${after.name}に しんかした！`);
+  }
+
+  declineEvolveForever() {
+    const mon = this.pendingEvolve;
+    this.pendingEvolve = null;
+    mon.evoLocked = true;
+    SE.cancel();
+    this.say(`${displayName(mon)}は もう しんかしない ようだ…`);
   }
 
   place() {

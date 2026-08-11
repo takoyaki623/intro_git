@@ -695,6 +695,9 @@ export function* tryLearn(ctx, mon, moveId) {
 function* checkEvolutions(ctx) {
   for (const mon of state.party) {
     if (mon.curHP <= 0) continue;
+    // 一度でも断った進化は、バトルでは二度と聞かない。ポケモンセンターのPCから
+    // やり直せる（S-2）。evoLocked ならそこでも二度と聞かれない。
+    if (mon.evoDeclined || mon.evoLocked) continue;
     const toId = evolutionTarget(mon, 'level');
     if (!toId) continue;
     yield* runEvolution(mon, toId);
@@ -711,10 +714,13 @@ export function* runEvolution(mon, toId) {
 
   if (cancelled) {
     yield msg(`あれ？ ${before}の ようすが…！`);
+    mon.evoDeclined = true;
     return false;
   }
 
   evolve(mon, toId);
+  mon.evoDeclined = false;
+  mon.evoLocked = false;
   registerCaught(toId);
   yield msg(`おめでとう！ ${before}は ${after.name}に しんかした！`);
 

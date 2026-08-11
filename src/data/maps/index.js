@@ -21,13 +21,14 @@ import hanakago from './hanakago.js';
 import gym3 from './gym3.js';
 import ghostcave from './ghostcave.js';
 import gym4 from './gym4.js';
+import legendroom from './legendroom.js';
 
 export const MAPS = {
   hajimari, myhouse, center, mart, gym, route1, forest,
   tokiwa, center3,
   route2, nibi, center2, mart2, gym2, cave1, cave2,
   hanakago, gym3, ghostcave, gym4,
-  route3, leaguecenter, league,
+  route3, leaguecenter, league, legendroom,
 };
 
 export const getMap = (id) => MAPS[id] ?? null;

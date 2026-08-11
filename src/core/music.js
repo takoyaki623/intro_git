@@ -109,6 +109,19 @@ export const SONGS = {
     drum: parse(`x - x h o - x h x - x h o - o o`),
   },
 
+  // 伝説のぬし専用（Phase S）。boss よりさらに遅く、低音の間を空けて「重々しさ」を出す。
+  legend: {
+    bpm: 108, step: 0.5,
+    lead: parse(`
+      d4 ~ ~ f4  ~ a4 ~ ~  g4 ~ ~ f4  ~ d4 ~ ~
+      c4 ~ ~ e4  ~ g4 ~ ~  a4 ~ g4 ~  f4 ~ ~ ~`),
+    harm: parse(`
+      a3 ~ ~ c4  ~ f4 ~ ~  d4 ~ ~ c4  ~ a3 ~ ~
+      f3 ~ ~ a3  ~ c4 ~ ~  f4 ~ d4 ~  c4 ~ ~ ~`),
+    bass: parse(`d1 ~ d1 ~  d1 ~ d1 ~  a1 ~ a1 ~  a1 ~ a1 ~`),
+    drum: parse(`x - - h  o - - h  x - - h  o - - -`),
+  },
+
   trainer: {
     bpm: 168, step: 0.5,
     lead: parse(`

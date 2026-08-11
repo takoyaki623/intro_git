@@ -6,7 +6,7 @@ export default {
   },
   // ここが最後の回復地点。この先のリーグ本殿には センターも どうぐの補充もない。
   tiles: [
-    'WWWWWWWWWWWWWW',
+    'WWWWWWWWWWWWDW',
     'WffffffffffffW',
     'WfCCCCCCCCfffW',
     'WffffffffffffW',
@@ -24,6 +24,8 @@ export default {
   warps: [
     { x: 1, y: 6, to: 'route3', tx: 18, ty: 10, dir: 'left' },
     { x: 7, y: 9, to: 'league', tx: 3, ty: 12, dir: 'up', when: 'allBadges' },
+    // 殿堂入り後だけ開く、うけつけ奥の とびら（S-1）。
+    { x: 12, y: 0, to: 'legendroom', tx: 4, ty: 7, dir: 'up', when: 'hallOfFame' },
   ],
   npcs: [
     {
@@ -46,12 +48,18 @@ export default {
     {
       id: 'leagueGuide', x: 9, y: 5, sprite: 'boy', dir: 'left', wander: true,
       lines: [
-        { if: 'allBadges', then: [
-          'バッジが 4つ そろってる！ とびらが ひらくはずだ。',
-          'なかは 4れんせんだ。とちゅうで もどれないぞ。',
+        { if: 'hallOfFame', then: [
+          'でんどうにゅうり おめでとう！',
+          'そういえば… うけつけの きたがわの とびら、いままで 気づかなかったな。',
+          'なにか いるのかも しれないぞ。',
         ], else: [
-          'ここは ポケモンリーグ うけつけ。',
-          'とびらは ジムバッジが 4つ ぜんぶ ないと ひらかないんだ。',
+          { if: 'allBadges', then: [
+            'バッジが 4つ そろってる！ とびらが ひらくはずだ。',
+            'なかは 4れんせんだ。とちゅうで もどれないぞ。',
+          ], else: [
+            'ここは ポケモンリーグ うけつけ。',
+            'とびらは ジムバッジが 4つ ぜんぶ ないと ひらかないんだ。',
+          ] },
         ] },
       ],
     },

@@ -282,7 +282,7 @@ export class FieldScene {
     }));
   }
 
-  async startWildBattle(enc, { isBoss = false } = {}) {
+  async startWildBattle(enc, { isBoss = false, legendary = false } = {}) {
     if (!state.party.some((m) => m.curHP > 0)) return; // 手持ちがいなければ出さない
     this.busy = true;
     const foe = spawnWild(enc, world.map.id, rng);
@@ -295,7 +295,7 @@ export class FieldScene {
       onDone: () => {
         Scenes.pop();                       // TransitionScene を畳んでから
         Scenes.push(new BattleScene({
-          foe, wild: true, isBoss,
+          foe, wild: true, isBoss, legendary,
           bg: world.surfing ? 'water' : (world.map.battleBg ?? 'grass'),
         }));
       },
@@ -314,11 +314,12 @@ export class FieldScene {
     this.shake();
     SE.spotted();
     const enc = { speciesId: boss.id, level: boss.lv };
+    const opts = { isBoss: true, legendary: !!boss.legendary };
     if (boss.lines?.length) {
-      this.openDialog(boss.lines, null, () => this.startWildBattle(enc, { isBoss: true }));
+      this.openDialog(boss.lines, null, () => this.startWildBattle(enc, opts));
       return;
     }
-    this.startWildBattle(enc, { isBoss: true });
+    this.startWildBattle(enc, opts);
   }
 
   interact() {
