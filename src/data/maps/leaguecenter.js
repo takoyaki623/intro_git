@@ -18,6 +18,7 @@ export default {
     'WWWWWWWDWWWWWW',
   ],
   bgm: 'center',
+  battleBg: 'indoor',
   respawn: { x: 6, y: 6 },
   encounters: null,
   warps: [

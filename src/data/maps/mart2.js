@@ -15,6 +15,7 @@ export default {
     'WWWWWMMWWWWW',
   ],
   bgm: 'town',
+  battleBg: 'indoor',
   encounters: null,
   warps: [
     { x: 5, y: 7, to: 'nibi', tx: 4, ty: 5, dir: 'down' },

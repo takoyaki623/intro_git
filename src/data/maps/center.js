@@ -17,6 +17,7 @@ export default {
     'WWWWWWMMWWWWWW',
   ],
   bgm: 'center',
+  battleBg: 'indoor',
   // 全滅したときに運ばれてくる場所。最後に入ったセンターが記録される。
   respawn: { x: 6, y: 6 },
   encounters: null,

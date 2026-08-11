@@ -12,22 +12,27 @@ import { state } from '../game/state.js';
 
 const W = Screen.W;
 const H = Screen.H;
-const ROWS = 8;
+const ROWS = 7;
+const STATUS_LABEL = ['すべて', 'みつけた', 'つかまえた'];
 
 /** ずかん。みつけた／つかまえた の状態で表示を変える。 */
 export class DexScene {
   constructor() {
     this.all = [...speciesList].sort((a, b) => a.id - b.id);
     this.filter = 0;          // 0 = すべて、1.. は TYPES の番号+1
+    this.status = 0;          // 0 = すべて、1 = みつけた、2 = つかまえた
     this.index = 0;
     this.scroll = 0;
     this.rebuild();
   }
 
-  /** タイプで絞り込む。空になる絞り込みでも一覧は空のまま出す（嘘をつかない）。 */
+  /** タイプ・状態で絞り込む。空になる絞り込みでも一覧は空のまま出す（嘘をつかない）。 */
   rebuild() {
     const t = this.filter === 0 ? null : TYPES[this.filter - 1];
-    this.list = t ? this.all.filter((s) => s.types.includes(t)) : this.all;
+    let list = t ? this.all.filter((s) => s.types.includes(t)) : this.all;
+    if (this.status === 1) list = list.filter((s) => this.seen(s));
+    else if (this.status === 2) list = list.filter((s) => this.caught(s));
+    this.list = list;
     this.index = Math.min(this.index, Math.max(0, this.list.length - 1));
     this.scroll = 0;
   }
@@ -42,6 +47,7 @@ export class DexScene {
     if (Input.justPressed(BTN.B)) { Scenes.pop(); return; }
     if (Input.repeated(BTN.LEFT)) { this.filter = (this.filter + TYPES.length) % (TYPES.length + 1); this.rebuild(); }
     if (Input.repeated(BTN.RIGHT)) { this.filter = (this.filter + 1) % (TYPES.length + 1); this.rebuild(); }
+    if (Input.justPressed(BTN.START)) { this.status = (this.status + 1) % STATUS_LABEL.length; this.rebuild(); }
     if (!this.list.length) return;
     if (Input.repeated(BTN.UP)) this.index = (this.index + this.list.length - 1) % this.list.length;
     if (Input.repeated(BTN.DOWN)) this.index = (this.index + 1) % this.list.length;
@@ -99,9 +105,16 @@ export class DexScene {
 
     if (this.caught(sp)) {
       const where = MAPS[state.dex.where[sp.id]]?.name;
-      if (where) drawText(ctx, `であった ${where}`, 144, 122, { color: COL.inkLight });
-      wrapText(sp.dex, 100).slice(0, 3).forEach((l, i) => {
-        drawText(ctx, l, 144, 136 + i * 13, { color: COL.ink });
+      let dexY = 136;
+      if (where) {
+        const whereLines = wrapText(`であった ${where}`, 100);
+        whereLines.forEach((l, i) => drawText(ctx, l, 144, 122 + i * 13, { color: COL.inkLight }));
+        dexY = 122 + whereLines.length * 13 + 1;
+      }
+      // 下の「みつけた/つかまえた」表示(y=168)にぶつからない範囲だけ出す。
+      const maxDexLines = Math.max(1, Math.floor((157 - dexY) / 13) + 1);
+      wrapText(sp.dex, 100).slice(0, maxDexLines).forEach((l, i) => {
+        drawText(ctx, l, 144, dexY + i * 13, { color: COL.ink });
       });
     } else {
       drawText(ctx, 'つかまえると', 144, 126, { color: COL.inkLight });
@@ -115,11 +128,15 @@ export class DexScene {
     drawTextRight(ctx, `つかまえた ${state.dex.caught.length}`, 244, 178, { color: COL.ink });
   }
 
-  /** 左下に絞り込みの状態。← → で切り替わることも書いておく。 */
+  /** 左下に絞り込みの状態を2段で。← → がタイプ、STARTが みつけた／つかまえた。 */
   renderFilter(ctx) {
     const t = this.filter === 0 ? null : TYPES[this.filter - 1];
     ctx.fillStyle = t ? TYPE_COLOR[t] : '#6a6a78';
-    ctx.fillRect(6, 172, 122, 14);
-    drawText(ctx, `← ${t ?? 'すべて'} →`, 12, 174, { color: '#ffffff' });
+    ctx.fillRect(6, 154, 122, 13);
+    drawText(ctx, `← ${t ?? 'すべて'} →`, 12, 156, { color: '#ffffff' });
+
+    ctx.fillStyle = this.status === 0 ? '#6a6a78' : (this.status === 1 ? '#4878b0' : '#c05838');
+    ctx.fillRect(6, 169, 122, 13);
+    drawText(ctx, `STARTで ${STATUS_LABEL[this.status]}`, 12, 171, { color: '#ffffff' });
   }
 }

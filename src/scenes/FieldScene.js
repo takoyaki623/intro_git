@@ -245,6 +245,7 @@ export class FieldScene {
         Scenes.pop();
         Scenes.push(new BattleScene({
           trainer, trainerId: npc.trainer, foeParty, wild: false,
+          bg: world.surfing ? 'water' : (world.map.battleBg ?? 'grass'),
         }));
       },
     }));
@@ -277,7 +278,10 @@ export class FieldScene {
       kind: 'battle',
       onDone: () => {
         Scenes.pop();                       // TransitionScene を畳んでから
-        Scenes.push(new BattleScene({ foe, wild: true, isBoss }));
+        Scenes.push(new BattleScene({
+          foe, wild: true, isBoss,
+          bg: world.surfing ? 'water' : (world.map.battleBg ?? 'grass'),
+        }));
       },
     }));
   }

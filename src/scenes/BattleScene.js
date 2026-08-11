@@ -12,7 +12,7 @@ import {
 } from '../engine/ui.js';
 import { TextBox } from '../engine/textbox.js';
 import { Menu } from '../engine/menu.js';
-import { TYPE_COLOR } from '../data/types.js';
+import { TYPE_COLOR, effectiveness } from '../data/types.js';
 import { getMove } from '../data/moves.js';
 import { wildBattle, trainerBattle } from '../game/battle.js';
 import { displayName, resetBattleState } from '../game/monster.js';
@@ -28,12 +28,54 @@ const FOE_X = 168, FOE_Y = 26, FOE_SCALE = 2;
 const MINE_X = 26, MINE_Y = 74, MINE_SCALE = 2.5;
 const BOX_Y = 148;
 
+/**
+ * タイプ相性の予測マーク（P-1）。
+ * 図鑑に登録済みの相手にだけ出す ―― 初見の相手では出さないので、
+ * 図鑑を埋めること自体に「相性が読めるようになる」という見返りが付く。
+ */
+function effMarkFor(eff) {
+  if (eff === 0) return { ch: '×', color: '#909098' };
+  if (eff > 1) return { ch: '▲', color: '#3a9c50' };
+  if (eff < 1) return { ch: '▽', color: '#c04838' };
+  return null;
+}
+
+/**
+ * 能力ランクの矢印（P-2）。いま「こうげきが あがった！」は文字だけで、
+ * 積み技を使っていても盤面から読めなかった。0でないものを、絶対値が
+ * 大きい順に最大2つだけ出す（欄が狭いので全部は出さない）。
+ */
+const RANK_SHORT = { atk: 'A', def: 'B', spa: 'C', spd: 'D', spe: 'S' };
+function rankText(stages) {
+  const entries = Object.entries(RANK_SHORT)
+    .map(([k, short]) => ({ short, v: stages?.[k] ?? 0 }))
+    .filter((e) => e.v !== 0)
+    .sort((a, b) => Math.abs(b.v) - Math.abs(a.v));
+  if (!entries.length) return '';
+  return entries.slice(0, 2)
+    .map((e) => e.short + (e.v > 0 ? '▲' : '▽').repeat(Math.min(Math.abs(e.v), 3)))
+    .join(' ');
+}
+
+/**
+ * 戦闘背景（P-3）。いままで草むらの1種類しか無く、洞窟や室内で戦っても
+ * 見た目が変わらなかった。マップの battleBg を見て空・地面・台座の色を
+ * 差し替える。なみのり中は マップの設定より優先して水面にする。
+ */
+const BG_THEME = {
+  grass: { sky1: '#88c8f0', sky2: '#a0d8f8', ground: '#78b048', edge: '#68a038', platform: '#8ac058' },
+  cave: { sky1: '#3a3a48', sky2: '#4a4a58', ground: '#5a5048', edge: '#463c34', platform: '#6a6058' },
+  water: { sky1: '#a8d8f0', sky2: '#c8e8f8', ground: '#4888c8', edge: '#3868a8', platform: '#78b8e8' },
+  indoor: { sky1: '#d8d0c0', sky2: '#e8e0d0', ground: '#b8a888', edge: '#a89876', platform: '#c8b898' },
+};
+
 export class BattleScene {
   /**
    * 野生戦は { foe } だけ。
    * トレーナー戦は { trainer, trainerId, foeParty } を渡す（foe は先頭が使われる）。
    */
-  constructor({ foe, wild = true, trainer = null, trainerId = null, foeParty = null, isBoss = false }) {
+  constructor({ foe, wild = true, trainer = null, trainerId = null, foeParty = null, isBoss = false, bg = 'grass' }) {
+    this.bg = bg;
     this.ctx = {
       mine: state.party.find((m) => m.curHP > 0) ?? state.party[0],
       foe: foe ?? foeParty?.[0],
@@ -179,9 +221,18 @@ export class BattleScene {
   }
 
   buildMoveMenu() {
+    // 図鑑に登録済みの相手にだけ、技の右に相性マークを出す(P-1)。
+    // 初見の相手では出さない。図鑑を埋めること自体に見返りを付けるため。
+    const foe = this.ctx.foe;
+    const foeKnown = !!foe && state.dex.caught.includes(foe.species.id);
     const items = this.ctx.mine.moves.map((mv) => {
       const def = getMove(mv.id);
-      return { label: mv.id, mv, def, disabled: mv.pp <= 0 };
+      const mark = (foeKnown && def.category !== '変化')
+        ? effMarkFor(effectiveness(def.type, foe.species.types)) : null;
+      return {
+        label: mv.id, mv, def, disabled: mv.pp <= 0,
+        render: mark ? (ctx, px, py) => drawText(ctx, mark.ch, px + 88, py, { color: mark.color }) : null,
+      };
     });
     this.moveMenu = new Menu(items, { cols: 2, x: 12, y: BOX_Y + 6, lineH: 15, colW: 108 });
   }
@@ -524,18 +575,20 @@ export class BattleScene {
 
   renderBackground(ctx) {
     // 空 → 地面。矩形の帯で描くのでドット絵と質感が揃う。
-    ctx.fillStyle = '#88c8f0';
+    // 場所ごとに配色を変える(P-3)。
+    const theme = BG_THEME[this.bg] ?? BG_THEME.grass;
+    ctx.fillStyle = theme.sky1;
     ctx.fillRect(0, 0, W, 96);
-    ctx.fillStyle = '#a0d8f8';
+    ctx.fillStyle = theme.sky2;
     ctx.fillRect(0, 0, W, 40);
-    ctx.fillStyle = '#78b048';
+    ctx.fillStyle = theme.ground;
     ctx.fillRect(0, 96, W, BOX_Y - 96);
-    ctx.fillStyle = '#68a038';
+    ctx.fillStyle = theme.edge;
     ctx.fillRect(0, 96, W, 3);
 
     // 台座
-    this.renderPlatform(ctx, FOE_X + 24, FOE_Y + 50, 44, 8, '#8ac058');
-    this.renderPlatform(ctx, MINE_X + 30, MINE_Y + 62, 58, 10, '#8ac058');
+    this.renderPlatform(ctx, FOE_X + 24, FOE_Y + 50, 44, 8, theme.platform);
+    this.renderPlatform(ctx, MINE_X + 30, MINE_Y + 62, 58, 10, theme.platform);
   }
 
   renderPlatform(ctx, cx, cy, rx, ry, color) {
@@ -573,7 +626,7 @@ export class BattleScene {
     const { mine, foe } = this.ctx;
 
     // 相手（状態異常があるときだけ HPバーを縮めて札を置く）
-    drawWindow(ctx, 6, 8, 122, 36);
+    drawWindow(ctx, 6, 8, 122, 48);
     // 図鑑に登録済みの種は名前の横に ◎ を出す（もう捕まえた、が一目でわかる）
     const foeCaught = !this.ctx.trainer && state.dex.caught.includes(foe.species.id);
     drawText(ctx, foeCaught ? `${foe.species.name} ◎` : foe.species.name, 14, 13, { color: COL.ink });
@@ -585,6 +638,8 @@ export class BattleScene {
     } else {
       drawBar(ctx, 32, 32, 84, this.dispHP.foe / foe.stats.hp, hpColor(this.dispHP.foe, foe.stats.hp));
     }
+    const foeRank = rankText(foe.stages);
+    if (foeRank) drawText(ctx, foeRank, 14, 42, { color: COL.inkLight });
 
     // 自分（なまえ / HPバー / HP数値 / 一番下に EXPバー）
     drawWindow(ctx, 126, 94, 124, 52);
@@ -594,11 +649,13 @@ export class BattleScene {
     drawBar(ctx, 152, 116, 84, this.dispHP.mine / mine.stats.hp, hpColor(this.dispHP.mine, mine.stats.hp));
     drawTextRight(ctx, `${Math.round(this.dispHP.mine)}/${mine.stats.hp}`, 244, 124, { color: COL.ink });
     if (mine.status) this.renderStatusTag(ctx, mine.status, 134, 125);
+    const mineRank = rankText(mine.stages);
+    if (mineRank) drawText(ctx, mineRank, 134, 131, { color: COL.inkLight });
     drawBar(ctx, 134, 140, 110, this.dispExp, COL.exp, { h: 2, frame: false });
 
     // トレーナー戦は「あと何匹いるか」が読めないと戦いようがない
     if (this.ctx.trainer) {
-      this.renderPips(ctx, 8, 47, this.ctx.foeParty ?? [foe], false);
+      this.renderPips(ctx, 8, 59, this.ctx.foeParty ?? [foe], false);
       this.renderPips(ctx, 248, 86, state.party, true);
     }
   }

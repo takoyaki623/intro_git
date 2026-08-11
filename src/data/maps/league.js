@@ -23,6 +23,7 @@ export default {
     'WWWWWWW',
   ],
   bgm: 'gym',
+  battleBg: 'indoor',
   encounters: null,
   warps: [
     { x: 3, y: 12, to: 'leaguecenter', tx: 7, ty: 8, dir: 'down' },

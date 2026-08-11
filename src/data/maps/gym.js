@@ -20,6 +20,7 @@ export default {
     'WWWWWMMWWWWW',
   ],
   bgm: 'gym',
+  battleBg: 'indoor',
   encounters: null,
   warps: [
     { x: 5, y: 10, to: 'tokiwa', tx: 5, ty: 10, dir: 'down' },

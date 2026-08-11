@@ -22,6 +22,7 @@ export default {
     'cccccccccccccccccc',
   ],
   bgm: 'cave',
+  battleBg: 'cave',
   encounters: {
     rate: 14,
     table: [
