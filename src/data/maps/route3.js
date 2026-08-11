@@ -25,12 +25,12 @@ export default {
   encounters: {
     rate: 10,
     table: [
-      { id: 397, min: 24, max: 27, weight: 22 },  // ムクバード
-      { id: 922, min: 24, max: 27, weight: 22 },  // パモット
-      { id: 820, min: 25, max: 28, weight: 18 },  // ヨクバリス
-      { id: 662, min: 24, max: 27, weight: 18 },  // ヒノヤコマ
-      { id: 42, min: 25, max: 28, weight: 12 },   // ゴルバット
-      { id: 20, min: 24, max: 27, weight: 8 },    // ラッタ
+      { id: 397, min: 38, max: 41, weight: 22 },  // ムクバード
+      { id: 922, min: 38, max: 41, weight: 22 },  // パモット
+      { id: 820, min: 39, max: 42, weight: 18 },  // ヨクバリス
+      { id: 662, min: 38, max: 41, weight: 18 },  // ヒノヤコマ
+      { id: 42, min: 39, max: 42, weight: 12 },   // ゴルバット
+      { id: 20, min: 38, max: 41, weight: 8 },    // ラッタ
     ],
   },
   postgame: {

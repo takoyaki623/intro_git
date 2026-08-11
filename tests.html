@@ -1166,20 +1166,31 @@ section('めもちょう ― objective(state) の全分岐');
     /でんきバッジ/.test(objective(mk({ gotStarter: true }))));
   check('いわバッジを持っていない',
     /いわバッジ/.test(objective(mk({ gotStarter: true, badge_denki: true }))));
-  check('両バッジ持ちだが 殿堂入りしていない',
-    /ポケモンリーグ/.test(objective(mk({ gotStarter: true, badge_denki: true, badge_iwa: true }))));
+  check('くさバッジを持っていない',
+    /くさバッジ/.test(objective(mk({ gotStarter: true, badge_denki: true, badge_iwa: true }))));
+  check('ゴーストバッジを持っていない',
+    /ゴーストジム/.test(objective(mk({
+      gotStarter: true, badge_denki: true, badge_iwa: true, badge_kusa: true,
+    }))));
+  check('4バッジ持ちだが 殿堂入りしていない',
+    /ポケモンリーグ/.test(objective(mk({
+      gotStarter: true, badge_denki: true, badge_iwa: true, badge_kusa: true, badge_ghost: true,
+    }))));
   check('殿堂入り直後、御三家をまだ交換していない',
     /御三家/.test(objective(mk({
-      gotStarter: true, badge_denki: true, badge_iwa: true, hallOfFame: true,
+      gotStarter: true, badge_denki: true, badge_iwa: true, badge_kusa: true, badge_ghost: true,
+      hallOfFame: true,
     }))));
   check('御三家をすべて交換済みだが 図鑑が未完成',
     /ずかん/.test(objective(mk({
-      gotStarter: true, badge_denki: true, badge_iwa: true, hallOfFame: true,
+      gotStarter: true, badge_denki: true, badge_iwa: true, badge_kusa: true, badge_ghost: true,
+      hallOfFame: true,
       trade_fushigidane: true, trade_zenigame: true, trade_b_done: true, trade_d_done: true,
     }))));
   check('図鑑コンプまで完了した後も 何かしらの文言が返る',
     !!objective(mk({
-      gotStarter: true, badge_denki: true, badge_iwa: true, hallOfFame: true,
+      gotStarter: true, badge_denki: true, badge_iwa: true, badge_kusa: true, badge_ghost: true,
+      hallOfFame: true,
       trade_fushigidane: true, trade_zenigame: true, trade_b_done: true, trade_d_done: true,
     }, total)));
 }

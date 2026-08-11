@@ -23,7 +23,7 @@ export default {
   encounters: null,
   warps: [
     { x: 1, y: 6, to: 'route3', tx: 18, ty: 10, dir: 'left' },
-    { x: 7, y: 9, to: 'league', tx: 3, ty: 12, dir: 'up', when: 'badge_iwa' },
+    { x: 7, y: 9, to: 'league', tx: 3, ty: 12, dir: 'up', when: 'allBadges' },
   ],
   npcs: [
     {
@@ -46,12 +46,12 @@ export default {
     {
       id: 'leagueGuide', x: 9, y: 5, sprite: 'boy', dir: 'left', wander: true,
       lines: [
-        { if: 'badge_iwa', then: [
-          'バッジが 2つ そろってる！ とびらが ひらくはずだ。',
+        { if: 'allBadges', then: [
+          'バッジが 4つ そろってる！ とびらが ひらくはずだ。',
           'なかは 4れんせんだ。とちゅうで もどれないぞ。',
         ], else: [
           'ここは ポケモンリーグ うけつけ。',
-          'とびらは ジムバッジが 2つ ないと ひらかないんだ。',
+          'とびらは ジムバッジが 4つ ぜんぶ ないと ひらかないんだ。',
         ] },
       ],
     },

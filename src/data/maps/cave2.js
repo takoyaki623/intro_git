@@ -69,6 +69,8 @@ export default {
   warps: [
     { x: 2, y: 1, to: 'cave1', tx: 17, ty: 10, dir: 'up' },
     { x: 17, y: 11, to: 'route3', tx: 1, ty: 6, dir: 'right' },
+    // 地底湖の南のはしに、さらに深い水路がある。なみのりで奥へ進むとハナカゴシティに出る。
+    { x: 9, y: 9, to: 'hanakago', tx: 7, ty: 9, dir: 'up' },
   ],
   npcs: [
     {
@@ -86,7 +88,7 @@ export default {
     { x: 15, y: 10, item: 'たべのこし', n: 1, flag: 'item_cave2_leftovers' },
   ],
   signs: [
-    { x: 3, y: 1, lines: ['ちてい こ', 'なみのりが なければ わたれない'] },
+    { x: 3, y: 1, lines: ['ちてい こ', 'なみのりが なければ わたれない', 'みなみの みずは さらに ふかく つづいているようだ'] },
   ],
   statics: [
     {

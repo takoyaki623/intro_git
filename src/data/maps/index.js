@@ -17,11 +17,16 @@ import center3 from './center3.js';
 import route3 from './route3.js';
 import leaguecenter from './leaguecenter.js';
 import league from './league.js';
+import hanakago from './hanakago.js';
+import gym3 from './gym3.js';
+import ghostcave from './ghostcave.js';
+import gym4 from './gym4.js';
 
 export const MAPS = {
   hajimari, myhouse, center, mart, gym, route1, forest,
   tokiwa, center3,
   route2, nibi, center2, mart2, gym2, cave1, cave2,
+  hanakago, gym3, ghostcave, gym4,
   route3, leaguecenter, league,
 };
 

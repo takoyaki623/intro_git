@@ -153,17 +153,127 @@ export const TRAINERS = {
     ],
   },
 
+  // ---- ハナカゴシティ（くさジム） ----
+  hanaboy1: {
+    class: 'はなやさん', name: 'そういち', skill: 2, sprite: 'youngster', prize: 85, sight: 4,
+    party: [{ id: 1, lv: 24 }, { id: 2, lv: 25 }],
+    intro: ['ようこそ ハナカゴシティへ。くさの ちからを みせてやる！'],
+    defeat: ['みずみずしい はいぼくだ…'],
+    after: ['くさタイプは みずと じめんに つよいんだ。'],
+  },
+  hanagirl1: {
+    class: 'フラワーガール', name: 'すみれ', skill: 2, sprite: 'lass', prize: 85, sight: 4,
+    party: [{ id: 722, lv: 26 }],
+    intro: ['モクローと いっしょに おはなを そだてているの。'],
+    defeat: ['はっぱが しおれちゃった…'],
+    after: ['ジムは この さきよ。がんばってね。'],
+  },
+  hanaboy2: {
+    class: 'きこりの こ', name: 'げん', skill: 2, sprite: 'boy', prize: 90, sight: 4,
+    party: [{ id: 723, lv: 27 }],
+    intro: ['もりの おくへ ようこそ。ここから さきは ちからだめしだ！'],
+    defeat: ['やられた… もりも まけを みとめるさ。'],
+    after: ['ジムリーダーの まえに ジムトレーナーが 2にん いるぞ。'],
+  },
+  gymgrass1: {
+    class: 'ジムトレーナー', name: 'あおい', skill: 2, sprite: 'lass', prize: 100, sight: 4,
+    party: [{ id: 2, lv: 27 }],
+    intro: ['ここから さきは くさの じんちだよ！'],
+    defeat: ['まけちゃった… でも たのしかった！'],
+    after: ['フシギソウは どくタイプも あわせもつんだよ。'],
+  },
+  gymgrass2: {
+    class: 'ジムトレーナー', name: 'りょくと', skill: 2, sprite: 'bugcatcher', prize: 100, sight: 4,
+    party: [{ id: 723, lv: 28 }],
+    intro: ['リーダーに あうまえに ぼくを たおしていけ！'],
+    defeat: ['くっ… もりの ちからが およばなかったか。'],
+    after: ['フクスローは すばやい こうげきが とくいだ。'],
+  },
+  leaderKusa: {
+    class: 'ジムリーダー', name: 'リンドウ', skill: 3, sprite: 'leader', prize: 180, sight: 0,
+    badge: 'kusa',
+    party: [{ id: 723, lv: 28 }, { id: 3, lv: 30 }],
+    intro: [
+      'ようこそ ハナカゴジムへ。',
+      'わたしが ジムリーダーの リンドウ。',
+      'くさの いのちの ちからを みせよう！',
+    ],
+    defeat: [
+      'みごとに さきほこったわね。',
+      'この くさバッジを うけとって。',
+    ],
+    after: [
+      'くさバッジが あれば、やせいポケモンが すこし つかまえやすく なるはずよ。',
+      'つぎは このさきの どうくつに ゴーストジムが あるわ。',
+    ],
+  },
+
+  // ---- ボレイどうくつ（ゴーストジム） ----
+  ghostboy1: {
+    class: 'いれいし', name: 'ゆうと', skill: 2, sprite: 'boy', prize: 95, sight: 4,
+    party: [{ id: 607, lv: 31 }],
+    intro: ['この さきは ボレイどうくつ… きみょうな けはいが するだろう？'],
+    defeat: ['ヒトモシの ひが きえた…'],
+    after: ['ほのおと ゴーストの タイプは めずらしい くみあわせだ。'],
+  },
+  ghostgirl1: {
+    class: 'れいばいし', name: 'かなえ', skill: 2, sprite: 'girl', prize: 95, sight: 4,
+    party: [{ id: 41, lv: 31 }, { id: 607, lv: 32 }],
+    intro: ['あなたの うしろに… ふふ、うそよ。しょうぶしましょう。'],
+    defeat: ['まさか この わたしが…'],
+    after: ['ゴーストタイプの わざは ノーマルタイプに きかないの。'],
+  },
+  ghostboy2: {
+    class: 'やみのちょうじゃ', name: 'くろむ', skill: 2, sprite: 'youngster', prize: 100, sight: 5,
+    party: [{ id: 633, lv: 33 }],
+    intro: ['おれの モノズは あくと ドラゴンの ちからを もつ。'],
+    defeat: ['ぐああ… やみに のまれたか。'],
+    after: ['この さきに ジムが ある。きを つけろよ。'],
+  },
+  gymghost1: {
+    class: 'ジムトレーナー', name: 'しのぶ', skill: 2, sprite: 'girl', prize: 105, sight: 4,
+    party: [{ id: 607, lv: 33 }],
+    intro: ['ようこそ、まよいびとよ…'],
+    defeat: ['きえて いく…'],
+    after: ['ランプラーは ひとだまのように とぶのよ。'],
+  },
+  gymghost2: {
+    class: 'ジムトレーナー', name: 'れい', skill: 2, sprite: 'boy', prize: 105, sight: 4,
+    party: [{ id: 608, lv: 34 }],
+    intro: ['リーダーに あうには おれを こえていけ。'],
+    defeat: ['からだが… とおく なって いく…'],
+    after: ['リーダーは この おくに いる。'],
+  },
+  leaderGhost: {
+    class: 'ジムリーダー', name: 'コトリ', skill: 3, sprite: 'leader', prize: 220, sight: 0,
+    badge: 'ghost',
+    party: [{ id: 607, lv: 35 }, { id: 608, lv: 37 }],
+    intro: [
+      'ようこそ… ボレイジムへ。',
+      'わたしが ジムリーダーの コトリ。',
+      'この よを さまよう たましいの ちからを みせるわ。',
+    ],
+    defeat: [
+      'ふふ… みごとよ。',
+      'この ゴーストバッジを うけとりなさい。',
+    ],
+    after: [
+      'ゴーストバッジが あれば、てにいれる けいけんちが すこし ふえるわ。',
+      'バッジが 4つ そろえば、ポケモンリーグの とびらが ひらくはずよ。',
+    ],
+  },
+
   // ---- ３ばんどうろ（リーグ前さいご） ----
   ace1: {
-    class: 'エキスパート', name: 'タクミ', skill: 2, sprite: 'youngster', prize: 90, sight: 4,
-    party: [{ id: 922, lv: 26 }, { id: 397, lv: 27 }],
+    class: 'エキスパート', name: 'タクミ', skill: 2, sprite: 'youngster', prize: 130, sight: 4,
+    party: [{ id: 922, lv: 38 }, { id: 397, lv: 39 }],
     intro: ['リーグに いどむまえの さいしゅう テストだ！'],
     defeat: ['やるじゃないか。リーグでも がんばれよ。'],
     after: ['この さきに センターと ポケモンリーグが ある。'],
   },
   ace2: {
-    class: 'エキスパート', name: 'ミワ', skill: 2, sprite: 'lass', prize: 90, sight: 4,
-    party: [{ id: 820, lv: 25 }, { id: 662, lv: 26 }],
+    class: 'エキスパート', name: 'ミワ', skill: 2, sprite: 'lass', prize: 130, sight: 4,
+    party: [{ id: 820, lv: 37 }, { id: 662, lv: 38 }],
     intro: ['あなたも リーグを めざしてるのね。まけないわよ！'],
     defeat: ['つよいのね… きっと リーグでも かつわ。'],
     after: ['じゅんびが できたら リーグの うけつけへ。'],
@@ -172,7 +282,7 @@ export const TRAINERS = {
   // ---- ポケモンリーグ ----
   elite1: {
     class: 'エリートフォー', name: 'カレン', skill: 3, sprite: 'lass', prize: 300, sight: 0,
-    party: [{ id: 397, lv: 30 }, { id: 12, lv: 31 }, { id: 873, lv: 33 }],
+    party: [{ id: 397, lv: 42 }, { id: 12, lv: 43 }, { id: 873, lv: 45 }],
     intro: [
       'ようこそ ポケモンリーグへ。',
       'むしと こおりの ぐんだんに おそれを なせ！',
@@ -182,7 +292,7 @@ export const TRAINERS = {
   },
   elite2: {
     class: 'エリートフォー', name: 'カンナ', skill: 3, sprite: 'girl', prize: 310, sight: 0,
-    party: [{ id: 42, lv: 31 }, { id: 608, lv: 32 }, { id: 724, lv: 34 }],
+    party: [{ id: 42, lv: 43 }, { id: 608, lv: 44 }, { id: 724, lv: 46 }],
     intro: [
       'この さきは ゴーストの せかい…',
       'こわくて とおれるかしら？',
@@ -192,7 +302,7 @@ export const TRAINERS = {
   },
   elite3: {
     class: 'エリートフォー', name: 'シバ', skill: 3, sprite: 'boy', prize: 320, sight: 0,
-    party: [{ id: 820, lv: 32 }, { id: 75, lv: 33 }, { id: 448, lv: 36 }],
+    party: [{ id: 820, lv: 44 }, { id: 75, lv: 45 }, { id: 448, lv: 48 }],
     intro: [
       'はどうと はがねの ちからを みせてやる！',
       'ここを こえれば チャンピオンだ！',
@@ -217,6 +327,20 @@ export const BADGES = [
     color: '#a08050',
     from: 'ニビジム ／ イワオ',
     effect: 'メニューから そらを とべる（行ったことのある まちへ）',
+  },
+  {
+    id: 'kusa',
+    name: 'くさバッジ',
+    color: '#48a058',
+    from: 'ハナカゴジム ／ リンドウ',
+    effect: 'やせいポケモンが つかまえやすくなる（捕獲率 ×1.2）',
+  },
+  {
+    id: 'ghost',
+    name: 'ゴーストバッジ',
+    color: '#7860a8',
+    from: 'ボレイジム ／ コトリ',
+    effect: 'てにはいる けいけんちが ふえる（+10%）',
   },
 ];
 

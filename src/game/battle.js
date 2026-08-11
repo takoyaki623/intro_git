@@ -25,7 +25,7 @@ import * as Music from '../core/music.js';
 import { MAX_LEVEL } from '../data/growth.js';
 import { getSpecies } from '../data/species.js';
 import {
-  state, addMonster, registerSeen, registerCaught, removeItem, partyFull, setFlag, countItem,
+  state, addMonster, registerSeen, registerCaught, removeItem, partyFull, setFlag, getFlag, countItem,
 } from './state.js';
 import { prizeMoney, trainerFlag, badgeFlag, BADGES } from '../data/trainers.js';
 import { getItem } from '../data/items.js';
@@ -97,6 +97,8 @@ export function* trainerBattle(ctx) {
     const badge = BADGES.find((b) => b.id === t.badge);
     yield anim('levelUp');
     yield msg(`${state.player.name}は ${badge?.name ?? 'バッジ'}を てにいれた！`);
+    // バッジが全部そろったかを1つのフラグにまとめておく（リーグの入場条件など）。
+    if (BADGES.every((b) => getFlag(badgeFlag(b.id)))) setFlag('allBadges');
   }
 
   yield* checkEvolutions(ctx);
@@ -589,7 +591,8 @@ function* throwBall(ctx, item) {
   removeItem(item.name, 1);
   yield msg(`${state.player.name}は ${item.name}を なげた！`);
 
-  const charmMul = countItem('ひかるおまもり') > 0 ? 1.5 : 1;
+  // くさバッジ: 捕獲率 ×1.2（Phase R）
+  const charmMul = (countItem('ひかるおまもり') > 0 ? 1.5 : 1) * (getFlag(badgeFlag('kusa')) ? 1.2 : 1);
   const { caught, shakes } = catchAttempt(ctx.foe, item, ctx.rng, charmMul);
   yield anim('ball', { shakes, caught });
 
@@ -627,7 +630,9 @@ function* gainExpAndLevel(ctx) {
   const ey = evYield(ctx.foe.species);
   addEV(mon.evs, ey.stat, ey.amount);
 
-  const gain = expGain(ctx.foe, 1, ctx.isWild);
+  // ゴーストバッジ: けいけんち +10%（Phase R）
+  const badgeMul = getFlag(badgeFlag('ghost')) ? 1.1 : 1;
+  const gain = Math.floor(expGain(ctx.foe, 1, ctx.isWild) * badgeMul);
   yield msg(`${displayName(mon)}は ${gain}けいけんちを もらった！`);
 
   let remaining = gain;
