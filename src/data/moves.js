@@ -40,6 +40,23 @@ export const MOVES = {
     effect: { kind: 'stat', target: 'self', stat: 'def', stages: 1, chance: 100 },
     desc: 'からだに ちからを いれて ぼうぎょを あげる。',
   },
+  // 積み技。序盤に撃つほど元が取れるので、AI（ai.js の statusScore）は
+  // HPが6割を超えているときだけ優先的に選ぶ。
+  'つるぎのまい': {
+    type: 'ノーマル', category: '変化', power: 0, accuracy: null, pp: 20,
+    effect: { kind: 'stat', target: 'self', stat: 'atk', stages: 2, chance: 100 },
+    desc: 'せいしんを とういつし こうげきりょくを ぐーんと たかめる。',
+  },
+  'めいそう': {
+    type: 'エスパー', category: '変化', power: 0, accuracy: null, pp: 20,
+    effect: { kind: 'stat', target: 'self', stats: [{ stat: 'spa', stages: 1 }, { stat: 'spd', stages: 1 }], chance: 100 },
+    desc: 'せいしんを しゅうちゅうさせ とくこうと とくぼうを たかめる。',
+  },
+  'こうそくいどう': {
+    type: 'エスパー', category: '変化', power: 0, accuracy: null, pp: 30,
+    effect: { kind: 'stat', target: 'self', stat: 'spe', stages: 2, chance: 100 },
+    desc: 'からだの ちからを ぬいて すばやく うごけるように なる。',
+  },
   'えんまく': {
     type: 'ノーマル', category: '変化', power: 0, accuracy: 100, pp: 20,
     effect: { kind: 'stat', target: 'foe', stat: 'acc', stages: -1, chance: 100 },

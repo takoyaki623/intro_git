@@ -34,9 +34,12 @@ function statusScore(user, target, e, hpRatio) {
     case 'stat': {
       const self = e.target === 'self';
       const victim = self ? user : target;
-      const cur = victim.stages[e.stat] ?? 0;
-      const next = Math.max(-6, Math.min(6, cur + e.stages));
-      if (next === cur) return 0;                       // もう限界
+      const changes = e.stats ?? [{ stat: e.stat, stages: e.stages }];
+      const anyRoom = changes.some(({ stat, stages }) => {
+        const cur = victim.stages[stat] ?? 0;
+        return Math.max(-6, Math.min(6, cur + stages)) !== cur;
+      });
+      if (!anyRoom) return 0;                            // もう限界
       // 序盤に積むほど元が取れる。終盤の積み技は無駄。
       return hpRatio > 0.6 ? 22 : 6;
     }

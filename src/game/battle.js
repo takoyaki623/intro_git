@@ -391,15 +391,19 @@ function* applyEffect(ctx, user, target, move, dealt) {
     case 'stat': {
       if (!ctx.rng.chance((e.chance ?? 100) / 100)) return;
       const victim = e.target === 'self' ? user : target;
-      const cur = victim.stages[e.stat] ?? 0;
-      const next = Math.max(-6, Math.min(6, cur + e.stages));
-      if (next === cur) {
-        yield msg(`${foeLabel(victim)}の ${STAT_LABEL[e.stat]}は もう ${e.stages > 0 ? 'あがらない' : 'さがらない'}！`);
-        return;
+      // めいそう のように2つの能力を同時に上げる技は stats（複数形）で渡す。
+      const changes = e.stats ?? [{ stat: e.stat, stages: e.stages }];
+      for (const { stat, stages } of changes) {
+        const cur = victim.stages[stat] ?? 0;
+        const next = Math.max(-6, Math.min(6, cur + stages));
+        if (next === cur) {
+          yield msg(`${foeLabel(victim)}の ${STAT_LABEL[stat]}は もう ${stages > 0 ? 'あがらない' : 'さがらない'}！`);
+          continue;
+        }
+        victim.stages[stat] = next;
+        const word = Math.abs(stages) >= 2 ? 'ぐーんと ' : '';
+        yield msg(`${foeLabel(victim)}の ${STAT_LABEL[stat]}が ${word}${stages > 0 ? 'あがった！' : 'さがった！'}`);
       }
-      victim.stages[e.stat] = next;
-      const word = Math.abs(e.stages) >= 2 ? 'ぐーんと ' : '';
-      yield msg(`${foeLabel(victim)}の ${STAT_LABEL[e.stat]}が ${word}${e.stages > 0 ? 'あがった！' : 'さがった！'}`);
       break;
     }
 
