@@ -63,4 +63,11 @@ export default {
     { x: 2, y: 7, item: 'まんたんのくすり', n: 1, flag: 'item_ghostcave_potion' },
   ],
   signs: [],
+  statics: [
+    // 渦の中心に眠るぬし。迷路の真ん中まで来た者だけが出会える。
+    {
+      x: 6, y: 5, id: 608, lv: 33, postgameLv: 60, flag: 'boss_ghostcave',
+      lines: ['ゆらり…', '渦の おくに ひとだまのような かげが うかんでいる！'],
+    },
+  ],
 };
