@@ -38,8 +38,8 @@ export default {
     ],
   },
   warps: [
-    { x: 5, y: 9, to: 'hanakago', tx: 7, ty: 2, dir: 'down' },
-    { x: 6, y: 9, to: 'hanakago', tx: 8, ty: 2, dir: 'down' },
+    { x: 5, y: 9, to: 'hanakago', tx: 10, ty: 2, dir: 'down' },
+    { x: 6, y: 9, to: 'hanakago', tx: 11, ty: 2, dir: 'down' },
     { x: 6, y: 1, to: 'gym4', tx: 5, ty: 9, dir: 'up' },
   ],
   npcs: [
