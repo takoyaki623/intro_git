@@ -31,6 +31,7 @@ export default {
       { id: 74, min: 15, max: 18, weight: 30 },   // イシツブテ
       { id: 75, min: 18, max: 20, weight: 9 },    // ゴローン
       { id: 42, min: 18, max: 20, weight: 12 },   // ゴルバット
+      { id: 220, min: 15, max: 18, weight: 15 },  // ウリムー（Phase U-2）
     ],
   },
   postgame: {
@@ -41,6 +42,7 @@ export default {
       { id: 74, min: 56, max: 59, weight: 30 },
       { id: 75, min: 58, max: 61, weight: 9 },
       { id: 42, min: 58, max: 61, weight: 12 },
+      { id: 220, min: 56, max: 59, weight: 15 }, // ウリムー（Phase U-2）
       // 最終進化を低weightで混ぜる（Q-3）
       { id: 634, min: 58, max: 61, weight: 4 },  // ジヘッド(←モノズ)
       { id: 260, min: 58, max: 61, weight: 4 },  // ラグラージ。地底湖の主のよう

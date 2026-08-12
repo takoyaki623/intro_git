@@ -26,6 +26,7 @@ export default {
       { id: 633, min: 30, max: 33, weight: 25 },  // モノズ
       { id: 41, min: 29, max: 32, weight: 30 },   // ズバット
       { id: 74, min: 29, max: 32, weight: 15 },   // イシツブテ
+      { id: 597, min: 29, max: 32, weight: 20 },  // テッシード（Phase U-2）
     ],
   },
   postgame: {
@@ -35,6 +36,7 @@ export default {
       { id: 633, min: 56, max: 59, weight: 25 },
       { id: 41, min: 55, max: 58, weight: 30 },
       { id: 74, min: 55, max: 58, weight: 15 },
+      { id: 597, min: 55, max: 58, weight: 20 }, // テッシード（Phase U-2）
     ],
   },
   warps: [

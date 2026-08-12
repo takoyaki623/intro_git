@@ -33,6 +33,7 @@ export default {
       { id: 41, min: 13, max: 16, weight: 38 },   // ズバット
       { id: 74, min: 13, max: 16, weight: 32 },   // イシツブテ
       { id: 19, min: 13, max: 16, weight: 15 },   // コラッタ
+      { id: 66, min: 13, max: 16, weight: 20 },   // ワンリキー（Phase U-2）
     ],
   },
   postgame: {
@@ -42,6 +43,7 @@ export default {
       { id: 41, min: 52, max: 55, weight: 38 },
       { id: 74, min: 52, max: 55, weight: 32 },
       { id: 19, min: 52, max: 55, weight: 15 },
+      { id: 66, min: 52, max: 55, weight: 20 },  // ワンリキー（Phase U-2）
       { id: 448, min: 52, max: 55, weight: 4 },  // ルカリオ(←リオル)。最終進化を低weightで(Q-3)
     ],
   },
