@@ -403,7 +403,7 @@ section('データ整合性 ― タイプと世代のカバレッジ');
 
   const ids = speciesList.map((sp) => sp.id);
   check('種族idに 重複が無い', new Set(ids).size === ids.length);
-  eq('種族の総数', speciesList.length, 51);
+  eq('種族の総数', speciesList.length, 61);
 }
 
 section('データ整合性 ― どうぐ');
