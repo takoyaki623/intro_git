@@ -91,6 +91,9 @@ export function statWithStage(mon, key, mode = 'normal') {
 export const CRIT_RATE = 1 / 16;
 export const HIGH_CRIT_RATE = 1 / 8;
 
+// とくせい（Phase V）: HP1/3以下で該当タイプの技を強化する
+const ABILITY_TYPE_BOOST = { 'もうか': 'ほのお', 'げきりゅう': 'みず', 'しんりょく': 'くさ' };
+
 /**
  * ダメージ計算。rng は { chance(p), int(min,max) } を持つもの。
  * 戻り値 { dmg, eff, crit }
@@ -100,7 +103,9 @@ export function damage(attacker, defender, move, rng, weather = null) {
     return { dmg: 0, eff: 1, crit: false };
   }
 
-  const eff = effectiveness(move.type, defender.types);
+  let eff = effectiveness(move.type, defender.types);
+  // ふゆう: じめん技が全く効かない
+  if (defender.species?.ability === 'ふゆう' && move.type === 'じめん') eff = 0;
   if (eff === 0) return { dmg: 0, eff: 0, crit: false };
 
   const phys = move.category === '物理';
@@ -118,6 +123,11 @@ export function damage(attacker, defender, move, rng, weather = null) {
   if (phys && attacker.status === 'やけど') d = Math.floor(d * 0.5);
   if (attacker.types.includes(move.type)) d = Math.floor(d * 1.5); // タイプ一致
   d = Math.floor(d * eff);
+  // もうか/げきりゅう/しんりょく（Phase V）: HP1/3以下で該当タイプの技を1.5倍
+  if (ABILITY_TYPE_BOOST[attacker.species?.ability] === move.type
+    && attacker.curHP / attacker.stats.hp <= 1 / 3) {
+    d = Math.floor(d * 1.5);
+  }
   // 天候（Phase W）: あめは みず1.5倍・ほのお0.5倍、にほんばれは その逆
   if (weather === 'rain') {
     if (move.type === 'みず') d = Math.floor(d * 1.5);
@@ -243,8 +253,10 @@ export function statusEndOfTurnDamage(mon) {
   return 0;
 }
 
-/** 素早さ（まひなら半減、ランク補正込み） */
-export function effectiveSpeed(mon) {
-  const s = statWithStage(mon, 'spe');
-  return mon.status === 'まひ' ? Math.floor(s * 0.5) : s;
+/** 素早さ（まひなら半減、すいすいならあめで2倍、ランク補正込み） */
+export function effectiveSpeed(mon, weather = null) {
+  let s = statWithStage(mon, 'spe');
+  if (mon.status === 'まひ') s = Math.floor(s * 0.5);
+  if (mon.species?.ability === 'すいすい' && weather === 'rain') s = Math.floor(s * 2);
+  return s;
 }

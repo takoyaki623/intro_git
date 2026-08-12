@@ -14,7 +14,7 @@ import { placeholderSprite } from '../engine/pixelArt.js';
 
 export const SPECIES = {
   1: {
-    name: 'フシギダネ', types: ['くさ', 'どく'],
+    name: 'フシギダネ', types: ['くさ', 'どく'], ability: 'しんりょく',
     base: { hp: 45, atk: 49, def: 49, spa: 65, spd: 65, spe: 45 },
     learnset: [
       { lv: 1, move: 'たいあたり' }, { lv: 1, move: 'なきごえ' },
@@ -30,7 +30,7 @@ export const SPECIES = {
     dex: 'うまれたときから せなかに ふしぎな タネが うえてあって からだと ともに そだつという。',
   },
   2: {
-    name: 'フシギソウ', types: ['くさ', 'どく'],
+    name: 'フシギソウ', types: ['くさ', 'どく'], ability: 'しんりょく',
     base: { hp: 60, atk: 62, def: 63, spa: 80, spd: 80, spe: 60 },
     learnset: [
       { lv: 1, move: 'たいあたり' },
@@ -49,7 +49,7 @@ export const SPECIES = {
     dex: 'つぼみを せなかに かかえて あるく。えいようを とられるので あしごしが つよくなる。',
   },
   3: {
-    name: 'フシギバナ', types: ['くさ', 'どく'],
+    name: 'フシギバナ', types: ['くさ', 'どく'], ability: 'しんりょく',
     base: { hp: 80, atk: 82, def: 83, spa: 100, spd: 100, spe: 80 },
     learnset: [
       { lv: 1, move: 'つるのムチ' },
@@ -70,7 +70,7 @@ export const SPECIES = {
   },
 
   4: {
-    name: 'ヒトカゲ', types: ['ほのお'],
+    name: 'ヒトカゲ', types: ['ほのお'], ability: 'もうか',
     base: { hp: 39, atk: 52, def: 43, spa: 60, spd: 50, spe: 65 },
     learnset: [
       { lv: 1, move: 'ひっかく' }, { lv: 1, move: 'なきごえ' },
@@ -85,7 +85,7 @@ export const SPECIES = {
     dex: 'うまれたときから しっぽに ほのおが ともっている。ほのおが きえたとき その いのちは おわる。',
   },
   5: {
-    name: 'リザード', types: ['ほのお'],
+    name: 'リザード', types: ['ほのお'], ability: 'もうか',
     base: { hp: 58, atk: 64, def: 58, spa: 80, spd: 65, spe: 80 },
     learnset: [
       { lv: 1, move: 'ひっかく' },
@@ -103,7 +103,7 @@ export const SPECIES = {
     dex: 'しっぽを ふりまわし するどい つめで あいてを ひきさく。きょうぼうな せいかく。',
   },
   6: {
-    name: 'リザードン', types: ['ほのお', 'ひこう'],
+    name: 'リザードン', types: ['ほのお', 'ひこう'], ability: 'もうか',
     base: { hp: 78, atk: 84, def: 78, spa: 109, spd: 85, spe: 100 },
     learnset: [
       { lv: 1, move: 'ひっかく' },
@@ -123,7 +123,7 @@ export const SPECIES = {
   },
 
   7: {
-    name: 'ゼニガメ', types: ['みず'],
+    name: 'ゼニガメ', types: ['みず'], ability: 'げきりゅう',
     base: { hp: 44, atk: 48, def: 65, spa: 50, spd: 64, spe: 43 },
     learnset: [
       { lv: 1, move: 'たいあたり' }, { lv: 1, move: 'しっぽをふる' },
@@ -138,7 +138,7 @@ export const SPECIES = {
     dex: 'こうらに とじこもって みを まもる。すきを みて はんげきの みずを はっしゃする。',
   },
   8: {
-    name: 'カメール', types: ['みず'],
+    name: 'カメール', types: ['みず'], ability: 'げきりゅう',
     base: { hp: 59, atk: 63, def: 80, spa: 65, spd: 80, spe: 58 },
     learnset: [
       { lv: 1, move: 'たいあたり' },
@@ -156,7 +156,7 @@ export const SPECIES = {
     dex: 'ふさふさの しっぽは ながいきの しるし。おいかけっこが とても はやい。',
   },
   9: {
-    name: 'カメックス', types: ['みず'],
+    name: 'カメックス', types: ['みず'], ability: 'げきりゅう',
     base: { hp: 79, atk: 83, def: 100, spa: 85, spd: 105, spe: 78 },
     learnset: [
       { lv: 1, move: 'みずでっぽう' },
@@ -280,7 +280,7 @@ export const SPECIES = {
     dex: 'まえばが じょうぶで かたい きも かじる。どこにでも すみつく たくましさ。',
   },
   20: {
-    name: 'ラッタ', types: ['ノーマル'],
+    name: 'ラッタ', types: ['ノーマル'], ability: 'いかく',
     base: { hp: 55, atk: 81, def: 60, spa: 50, spd: 70, spe: 97 },
     learnset: [
       { lv: 1, move: 'たいあたり' },
@@ -316,7 +316,7 @@ export const SPECIES = {
     dex: 'ほっぺの りょうがわに ちいさい でんきぶくろを もつ。ピリピリと でんきを ためている。',
   },
   26: {
-    name: 'ライチュウ', types: ['でんき'],
+    name: 'ライチュウ', types: ['でんき'], ability: 'せいでんき',
     base: { hp: 60, atk: 90, def: 55, spa: 90, spd: 80, spe: 110 },
     learnset: [
       { lv: 1, move: '10まんボルト' },
@@ -377,7 +377,7 @@ export const SPECIES = {
 
   // ---------- みずべ ----------
   54: {
-    name: 'コダック', types: ['みず'],
+    name: 'コダック', types: ['みず'], ability: 'すいすい',
     base: { hp: 50, atk: 52, def: 48, spa: 65, spd: 50, spe: 55 },
     learnset: [
       { lv: 1, move: 'ひっかく' },
@@ -397,7 +397,7 @@ export const SPECIES = {
 
   // ---------- いわ ----------
   74: {
-    name: 'イシツブテ', types: ['いわ', 'じめん'],
+    name: 'イシツブテ', types: ['いわ', 'じめん'], ability: 'がんじょう',
     base: { hp: 40, atk: 80, def: 100, spa: 30, spd: 30, spe: 20 },
     learnset: [
       { lv: 1, move: 'たいあたり' },
@@ -414,7 +414,7 @@ export const SPECIES = {
     dex: 'やまみちに ころがっている。いわと みわけが つかず ふんづけて しまうことも。',
   },
   75: {
-    name: 'ゴローン', types: ['いわ', 'じめん'],
+    name: 'ゴローン', types: ['いわ', 'じめん'], ability: 'がんじょう',
     base: { hp: 55, atk: 95, def: 115, spa: 45, spd: 45, spe: 35 },
     learnset: [
       { lv: 1, move: 'たいあたり' },
@@ -449,7 +449,7 @@ export const SPECIES = {
     dex: 'ちからも スピードも たいしたことは ない。せかいで いちばん よわくて なさけない ポケモン。',
   },
   130: {
-    name: 'ギャラドス', types: ['みず', 'ひこう'],
+    name: 'ギャラドス', types: ['みず', 'ひこう'], ability: 'いかく',
     base: { hp: 95, atk: 125, def: 79, spa: 60, spd: 100, spe: 81 },
     learnset: [
       { lv: 1, move: 'かみつく' }, { lv: 1, move: 'しっぽをふる' },
@@ -691,7 +691,7 @@ export const SPECIES = {
 
   // ---------- ゴースト・ほのお（5世代） ----------
   607: {
-    name: 'ヒトモシ', types: ['ゴースト', 'ほのお'], gen: 5,
+    name: 'ヒトモシ', types: ['ゴースト', 'ほのお'], gen: 5, ability: 'ほのおのからだ',
     base: { hp: 50, atk: 30, def: 55, spa: 65, spd: 55, spe: 20 },
     learnset: [
       { lv: 1, move: 'ひのこ' },
@@ -707,7 +707,7 @@ export const SPECIES = {
     dex: 'ひとの じゅみょうを もやして あかりに する。ながく そばに いると さむけが する。',
   },
   608: {
-    name: 'ランプラー', types: ['ゴースト', 'ほのお'], gen: 5,
+    name: 'ランプラー', types: ['ゴースト', 'ほのお'], gen: 5, ability: 'ほのおのからだ',
     base: { hp: 60, atk: 40, def: 60, spa: 95, spd: 60, spe: 55 },
     learnset: [
       { lv: 1, move: 'ひのこ' },
@@ -817,7 +817,7 @@ export const SPECIES = {
     dex: 'しっぽを じめんに こすりつけて でんきを ためる。おこると ほっぺが ひかる。',
   },
   922: {
-    name: 'パモット', types: ['でんき'], gen: 9,
+    name: 'パモット', types: ['でんき'], gen: 9, ability: 'せいでんき',
     base: { hp: 60, atk: 75, def: 40, spa: 50, spd: 40, spe: 85 },
     learnset: [
       { lv: 1, move: 'でんきショック' },
@@ -947,7 +947,7 @@ export const SPECIES = {
   // ---------- Phase U-1: 行き止まりだった系統に3段目を足す ----------
 
   76: {
-    name: 'ゴローニャ', types: ['いわ', 'じめん'],
+    name: 'ゴローニャ', types: ['いわ', 'じめん'], ability: 'がんじょう',
     base: { hp: 80, atk: 120, def: 130, spa: 55, spd: 65, spe: 45 },
     learnset: [
       { lv: 1, move: 'いわおとし' },
@@ -985,7 +985,7 @@ export const SPECIES = {
     dex: 'あいての かんじょうを よみとる ちからを もつ。たいせつな ひとを まもるためなら なんでもする。',
   },
   609: {
-    name: 'シャンデラ', types: ['ゴースト', 'ほのお'], gen: 5,
+    name: 'シャンデラ', types: ['ゴースト', 'ほのお'], gen: 5, ability: 'ふゆう',
     base: { hp: 60, atk: 55, def: 90, spa: 145, spd: 90, spe: 80 },
     learnset: [
       { lv: 1, move: 'したでなめる' },
@@ -1021,7 +1021,7 @@ export const SPECIES = {
     dex: 'みっつの あたまが おのおのの いしを もつ。あくと ドラゴンの ちからで そらを おおう。',
   },
   923: {
-    name: 'パーモット', types: ['でんき', 'かくとう'], gen: 9,
+    name: 'パーモット', types: ['でんき', 'かくとう'], gen: 9, ability: 'せいでんき',
     base: { hp: 70, atk: 115, def: 70, spa: 70, spd: 60, spe: 105 },
     learnset: [
       { lv: 1, move: 'からてチョップ' },
@@ -1233,7 +1233,7 @@ export const SPECIES = {
     dex: 'こしに まいた ベルトで ちからを ちょうせつする。とらないと あばれすぎて つかれはてる。',
   },
   68: {
-    name: 'カイリキー', types: ['かくとう'], gen: 1,
+    name: 'カイリキー', types: ['かくとう'], gen: 1, ability: 'いかく',
     base: { hp: 90, atk: 130, def: 80, spa: 65, spd: 85, spe: 55 },
     learnset: [
       { lv: 1, move: 'からてチョップ' },

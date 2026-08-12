@@ -48,8 +48,10 @@ export function* wildBattle(ctx) {
 
   yield anim('intro');
   yield msg(`あっ！ やせいの ${ctx.foe.species.name}が とびだしてきた！`);
+  yield* triggerSendOut(ctx, ctx.foe, false);
   yield anim('sendOut');
   yield msg(`ゆけっ！ ${displayName(ctx.mine)}！`);
+  yield* triggerSendOut(ctx, ctx.mine, true);
 
   const early = yield* battleLoop(ctx);
   if (early) return early;                       // にげた・つかまえた
@@ -76,8 +78,10 @@ export function* trainerBattle(ctx) {
 
   registerSeen(ctx.foe.species.id);
   yield msg(`${t.name}は ${ctx.foe.species.name}を くりだした！`);
+  yield* triggerSendOut(ctx, ctx.foe, false);
   yield anim('sendOut');
   yield msg(`ゆけっ！ ${displayName(ctx.mine)}！`);
+  yield* triggerSendOut(ctx, ctx.mine, true);
 
   const early = yield* battleLoop(ctx);
   if (early) return early;
@@ -116,7 +120,10 @@ function* battleLoop(ctx) {
 
     if (mine.type === 'run') {
       ctx.runAttempts++;
-      const ok = runAway(effectiveSpeed(ctx.mine), effectiveSpeed(ctx.foe), ctx.runAttempts - 1, ctx.rng);
+      const ok = runAway(
+        effectiveSpeed(ctx.mine, ctx.weather?.kind), effectiveSpeed(ctx.foe, ctx.weather?.kind),
+        ctx.runAttempts - 1, ctx.rng,
+      );
       if (ok) {
         yield msg('うまく にげきれた！');
         return { result: 'run' };
@@ -139,7 +146,7 @@ function* battleLoop(ctx) {
     // ここを分けていた（＝どうぐと交代がターンの実行に乗らない）のが
     // 「交代できない」「HPバーが1テンポ遅れる」の原因だった。
     const foeAction = chooseAction(ctx.foe, ctx.mine, ctx.rng, ctx.trainer?.skill ?? 0, ctx.weather);
-    const actions = orderActions([mine, foeAction], ctx.rng);
+    const actions = orderActions([mine, foeAction], ctx.rng, ctx.weather?.kind);
     if ((yield* resolveTurn(ctx, actions)).over) return null;
   }
 }
@@ -209,11 +216,11 @@ function priorityOf(act) {
   return 6; // どうぐ・交代・にげる は最優先
 }
 
-export function orderActions(actions, rng) {
+export function orderActions(actions, rng, weather = null) {
   return [...actions].sort((x, y) => {
     const p = priorityOf(y) - priorityOf(x);
     if (p !== 0) return p;
-    const s = effectiveSpeed(y.user) - effectiveSpeed(x.user);
+    const s = effectiveSpeed(y.user, weather) - effectiveSpeed(x.user, weather);
     if (s !== 0) return s;
     return rng.chance(0.5) ? 1 : -1;
   });
@@ -266,7 +273,8 @@ function* executeAction(ctx, act) {
   for (let i = 0; i < hits; i++) {
     if (isFainted(target)) break;
     const d0 = i === 0 ? dmg : damage(user, target, move, ctx.rng, ctx.weather?.kind).dmg;
-    const d = yield* applyEndure(ctx, target, d0);
+    const d1 = yield* applySturdy(ctx, target, d0);
+    const d = yield* applyEndure(ctx, target, d1);
     total += damageMon(target, d);
     yield anim('hit', { onFoe: isMine, eff });
     yield { t: 'hpTween', onFoe: isMine };
@@ -277,8 +285,46 @@ function* executeAction(ctx, act) {
   const em = effectivenessMessage(eff, `${isMine ? 'てきの ' : ''}${displayName(target)}`);
   if (em) yield msg(em);
 
+  yield* triggerContactAbility(ctx, user, target, move);
   yield* applyEffect(ctx, user, target, move, total);
   yield* checkPinchHeal(ctx, target);
+}
+
+// ---- とくせい（Phase V）----
+
+/** いかく。場に出た直後、相手のこうげきを1段階さげる。 */
+function* triggerSendOut(ctx, mon, isMine) {
+  if (mon.species.ability !== 'いかく') return;
+  const target = isMine ? ctx.foe : ctx.mine;
+  if (!target || isFainted(target)) return;
+  const cur = target.stages.atk ?? 0;
+  const next = Math.max(-6, Math.min(6, cur - 1));
+  if (next === cur) return;
+  target.stages.atk = next;
+  const monLabel = `${isMine ? '' : 'てきの '}${displayName(mon)}`;
+  const targetLabel = `${isMine ? 'てきの ' : ''}${displayName(target)}`;
+  yield msg(`${monLabel}の いかく！ ${targetLabel}の こうげきが さがった！`);
+}
+
+/** がんじょう。HP満タンから一撃で倒される一撃を、必ず HP1 まで軽くする。 */
+function* applySturdy(ctx, target, dmg) {
+  if (target.species.ability !== 'がんじょう') return dmg;
+  if (dmg < target.curHP || target.curHP !== target.stats.hp) return dmg;
+  yield msg(`${target === ctx.foe ? 'てきの ' : ''}${displayName(target)}は がんじょうで もちこたえた！`);
+  return target.curHP - 1;
+}
+
+const CONTACT_ABILITY_STATUS = { 'せいでんき': 'まひ', 'ほのおのからだ': 'やけど' };
+
+/** せいでんき/ほのおのからだ。物理接触を受けたとき、30%で こうげき側に状態異常を返す。 */
+function* triggerContactAbility(ctx, user, target, move) {
+  if (move.category !== '物理') return;
+  if (isFainted(user) || isFainted(target)) return;
+  const status = CONTACT_ABILITY_STATUS[target.species.ability];
+  if (!status || user.status) return;
+  if (!ctx.rng.chance(0.3)) return;
+  user.status = status;
+  yield msg(`${user === ctx.foe ? 'てきの ' : ''}${displayName(user)}は ${displayName(target)}の ${target.species.ability}で ${statusVerb(status)}`);
 }
 
 // ---- もちもの ----
@@ -589,6 +635,7 @@ function* sendOutFoe(ctx, next) {
   registerSeen(next.species.id);
   ctx.onFoeSwitch?.(next);
   yield anim('foeSendOut');
+  yield* triggerSendOut(ctx, next, false);
 }
 
 /** プレイヤーが自分の意思で交代する（1手ぶん）。 */
@@ -604,6 +651,7 @@ function* doSwitchAction(ctx, act) {
   ctx.onSwitch?.(next);         // dispHP.mine を新しい個体のHPに即同期する
   yield anim('sendOut');
   yield msg(`ゆけっ！ ${displayName(next)}！`);
+  yield* triggerSendOut(ctx, next, true);
 }
 
 /**
@@ -632,6 +680,7 @@ function* switchIn(ctx, index) {
   ctx.onSwitch?.(next);
   yield anim('sendOut');
   yield msg(`ゆけっ！ ${displayName(next)}！`);
+  yield* triggerSendOut(ctx, next, true);
 }
 
 // ---- ボール ----

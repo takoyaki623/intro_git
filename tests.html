@@ -394,6 +394,8 @@ section('データ整合性 ― タイプと世代のカバレッジ');
   for (const sp of speciesList) for (const t of sp.types) (byType[t] ??= []).push(sp.name);
   for (const t of TYPES) {
     check(`${t} タイプの種族が いる`, (byType[t]?.length ?? 0) > 0, byType[t]?.join('・') ?? 'なし');
+    // Phase U で「最少タイプでも3種」を保証した。ここで固定する。
+    check(`${t} タイプが 3種以上 いる`, (byType[t]?.length ?? 0) >= 3, byType[t]?.join('・') ?? 'なし');
   }
 
   const gens = new Set(speciesList.map((sp) => sp.gen));
@@ -404,6 +406,48 @@ section('データ整合性 ― タイプと世代のカバレッジ');
   const ids = speciesList.map((sp) => sp.id);
   check('種族idに 重複が無い', new Set(ids).size === ids.length);
   eq('種族の総数', speciesList.length, 68);
+}
+
+section('データ整合性 ― とくせい（Phase V）');
+{
+  // battle.js/formulas.js が解釈するとくせい名の一覧。ここに無いものは黙って無視されるだけになる。
+  const IMPLEMENTED_ABILITIES = [
+    'もうか', 'げきりゅう', 'しんりょく', 'いかく', 'ふゆう',
+    'せいでんき', 'ほのおのからだ', 'がんじょう', 'すいすい',
+  ];
+  const withAbility = speciesList.filter((sp) => sp.ability);
+  for (const sp of withAbility) {
+    check(`${sp.name} の ${sp.ability} は実装済み`, IMPLEMENTED_ABILITIES.includes(sp.ability), sp.ability);
+  }
+  check('とくせいを持つ種族が 20種ほど いる', withAbility.length >= 18 && withAbility.length <= 26, `${withAbility.length}種`);
+}
+
+section('データ整合性 ― 積み技と天候（Phase T-2 / W）');
+{
+  // 積み技: 自分を強化する技が、こうげき・とくこう・すばやさ それぞれに1つ以上ある
+  // （つるぎのまい atk+2 / めいそう spa+1・spd+1 / こうそくいどう spe+2、T-2 の仕様どおり）
+  const boostsBy = { atk: [], spa: [], spe: [] };
+  for (const [name, mv] of Object.entries(MOVES)) {
+    if (mv.category !== '変化' || mv.effect?.kind !== 'stat') continue;
+    if (mv.effect.target !== 'self') continue;
+    const changes = mv.effect.stats ?? [{ stat: mv.effect.stat, stages: mv.effect.stages }];
+    for (const { stat, stages } of changes) {
+      if (stages >= 1 && boostsBy[stat]) boostsBy[stat].push(name);
+    }
+  }
+  for (const stat of ['atk', 'spa', 'spe']) {
+    check(`${stat} をあげる自己強化技が ある`, boostsBy[stat].length > 0, boostsBy[stat].join('・'));
+  }
+
+  // 天候: あめ/にほんばれ/すなあらし を発生させる技が、それぞれ実在する
+  const WEATHERS = ['rain', 'sun', 'sand'];
+  const weatherMoves = {};
+  for (const [name, mv] of Object.entries(MOVES)) {
+    if (mv.effect?.kind === 'weather') (weatherMoves[mv.effect.weather] ??= []).push(name);
+  }
+  for (const w of WEATHERS) {
+    check(`天候 ${w} を起こす技が ある`, (weatherMoves[w]?.length ?? 0) > 0, weatherMoves[w]?.join('・') ?? 'なし');
+  }
 }
 
 section('データ整合性 ― どうぐ');
