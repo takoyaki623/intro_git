@@ -95,7 +95,7 @@ export const HIGH_CRIT_RATE = 1 / 8;
  * ダメージ計算。rng は { chance(p), int(min,max) } を持つもの。
  * 戻り値 { dmg, eff, crit }
  */
-export function damage(attacker, defender, move, rng) {
+export function damage(attacker, defender, move, rng, weather = null) {
   if (move.category === '変化' || !move.power) {
     return { dmg: 0, eff: 1, crit: false };
   }
@@ -118,6 +118,14 @@ export function damage(attacker, defender, move, rng) {
   if (phys && attacker.status === 'やけど') d = Math.floor(d * 0.5);
   if (attacker.types.includes(move.type)) d = Math.floor(d * 1.5); // タイプ一致
   d = Math.floor(d * eff);
+  // 天候（Phase W）: あめは みず1.5倍・ほのお0.5倍、にほんばれは その逆
+  if (weather === 'rain') {
+    if (move.type === 'みず') d = Math.floor(d * 1.5);
+    else if (move.type === 'ほのお') d = Math.floor(d * 0.5);
+  } else if (weather === 'sun') {
+    if (move.type === 'ほのお') d = Math.floor(d * 1.5);
+    else if (move.type === 'みず') d = Math.floor(d * 0.5);
+  }
   d = Math.floor((d * rng.int(85, 100)) / 100);
 
   return { dmg: Math.max(1, d), eff, crit };

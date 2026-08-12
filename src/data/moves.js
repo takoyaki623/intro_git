@@ -62,6 +62,22 @@ export const MOVES = {
     effect: { kind: 'stat', target: 'foe', stat: 'acc', stages: -1, chance: 100 },
     desc: 'すみや けむりで あいての めいちゅうを さげる。',
   },
+  // 天候技。5ターンのあいだ天候を変え、対応タイプの技の威力に補正がかかる。
+  'あまごい': {
+    type: 'みず', category: '変化', power: 0, accuracy: null, pp: 5,
+    effect: { kind: 'weather', weather: 'rain', turns: 5 },
+    desc: 'あめを ふらせて みずタイプの わざを つよめる。',
+  },
+  'にほんばれ': {
+    type: 'ほのお', category: '変化', power: 0, accuracy: null, pp: 5,
+    effect: { kind: 'weather', weather: 'sun', turns: 5 },
+    desc: 'ひざしを つよめて ほのおタイプの わざを つよめる。',
+  },
+  'すなあらし': {
+    type: 'いわ', category: '変化', power: 0, accuracy: null, pp: 10,
+    effect: { kind: 'weather', weather: 'sand', turns: 5 },
+    desc: 'すなあらしを まきおこす。いわ・じめん・はがね いがいは まいターン ダメージを うける。',
+  },
   'すなかけ': {
     type: 'じめん', category: '変化', power: 0, accuracy: 100, pp: 15,
     effect: { kind: 'stat', target: 'foe', stat: 'acc', stages: -1, chance: 100 },

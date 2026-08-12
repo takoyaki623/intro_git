@@ -11,9 +11,9 @@ import { effectiveness } from '../data/types.js';
 import { damage } from './formulas.js';
 
 /** 期待ダメージ（乱数と急所を平均で固定して評価する） */
-function expectedDamage(user, target, def) {
+function expectedDamage(user, target, def, weather) {
   const avg = { chance: () => false, int: (a, b) => Math.floor((a + b) / 2) };
-  const { dmg } = damage(user, target, def, avg);
+  const { dmg } = damage(user, target, def, avg, weather);
   return dmg;
 }
 
@@ -22,10 +22,13 @@ function expectedDamage(user, target, def) {
  * 「効かない場面で撃たない」ことのほうが、賢い一手を選ぶことより効く。
  * 状態異常が入っている相手にもう一度ねむりごなを撃つ、が一番しらける。
  */
-function statusScore(user, target, e, hpRatio) {
+function statusScore(user, target, e, hpRatio, weather) {
   if (!e) return 4;
 
   switch (e.kind) {
+    case 'weather':
+      // すでに同じ天候なら撃つ意味がない
+      return weather?.kind === e.weather ? 0 : 18;
     case 'status':
       if (target.status) return 0;                      // すでに掛かっている
       // 相手が元気なうちほど効く。削り切れる相手には撃たない。
@@ -59,20 +62,20 @@ function statusScore(user, target, e, hpRatio) {
 }
 
 /** その技のよさ。数字はダメージ換算のつもり。 */
-function score(user, target, move) {
+function score(user, target, move, weather) {
   const def = getMove(move.id);
   if (!def) return 0;
 
   const hpRatio = target.curHP / target.stats.hp;
 
   if (def.category === '変化') {
-    return statusScore(user, target, def.effect, hpRatio);
+    return statusScore(user, target, def.effect, hpRatio, weather);
   }
 
   const eff = effectiveness(def.type, target.types);
   if (eff === 0) return 0;
 
-  const dmg = expectedDamage(user, target, def);
+  const dmg = expectedDamage(user, target, def, weather);
   // 倒しきれる技は強く優先する
   if (dmg >= target.curHP) return dmg * 3 + 50;
   // 命中の低い技はそのぶん割り引く
@@ -83,7 +86,7 @@ function score(user, target, move) {
  * 1手えらぶ。
  * skill 0..3。0 は野生（気まぐれ多め）、3 はジムリーダー。
  */
-export function chooseAction(user, target, rng, skill = 0) {
+export function chooseAction(user, target, rng, skill = 0, weather = null) {
   const usable = user.moves.filter((m) => m.pp > 0);
   if (!usable.length) return { type: 'struggle', user };
 
@@ -93,7 +96,7 @@ export function chooseAction(user, target, rng, skill = 0) {
   const whim = [0.18, 0.12, 0.06, 0][Math.min(3, skill)];
   if (rng.chance(whim)) return pickMove(rng.pick(usable));
 
-  const scored = usable.map((m) => ({ m, s: score(user, target, m) }));
+  const scored = usable.map((m) => ({ m, s: score(user, target, m, weather) }));
   scored.sort((a, b) => b.s - a.s);
 
   // 弱いトレーナーは2番目に良い手をつかむことがある。

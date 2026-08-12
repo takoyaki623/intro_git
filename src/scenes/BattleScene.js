@@ -86,6 +86,8 @@ export class BattleScene {
       isWild: wild && !trainer,
       isBoss,
       legendary,
+      // 天候（Phase W）。あめ/にほんばれ/すなあらし。setターン数は endOfTurn で減らす。
+      weather: { kind: null, turns: 0 },
       trainer,
       trainerId,
       foeParty,

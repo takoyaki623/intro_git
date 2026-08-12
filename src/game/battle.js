@@ -122,7 +122,7 @@ function* battleLoop(ctx) {
         return { result: 'run' };
       }
       yield msg('にげられない！');
-      const foeAction = chooseAction(ctx.foe, ctx.mine, ctx.rng, ctx.trainer?.skill ?? 0);
+      const foeAction = chooseAction(ctx.foe, ctx.mine, ctx.rng, ctx.trainer?.skill ?? 0, ctx.weather);
       if ((yield* resolveTurn(ctx, [foeAction])).over) return null;
       continue;
     }
@@ -130,7 +130,7 @@ function* battleLoop(ctx) {
     if (mine.type === 'ball') {
       const caught = yield* throwBall(ctx, mine.item);
       if (caught) return { result: 'caught' };
-      const foeAction = chooseAction(ctx.foe, ctx.mine, ctx.rng, ctx.trainer?.skill ?? 0);
+      const foeAction = chooseAction(ctx.foe, ctx.mine, ctx.rng, ctx.trainer?.skill ?? 0, ctx.weather);
       if ((yield* resolveTurn(ctx, [foeAction])).over) return null;
       continue;
     }
@@ -138,7 +138,7 @@ function* battleLoop(ctx) {
     // わざ・どうぐ・交代は、どれも「こちらの1手」として同じ経路を通る。
     // ここを分けていた（＝どうぐと交代がターンの実行に乗らない）のが
     // 「交代できない」「HPバーが1テンポ遅れる」の原因だった。
-    const foeAction = chooseAction(ctx.foe, ctx.mine, ctx.rng, ctx.trainer?.skill ?? 0);
+    const foeAction = chooseAction(ctx.foe, ctx.mine, ctx.rng, ctx.trainer?.skill ?? 0, ctx.weather);
     const actions = orderActions([mine, foeAction], ctx.rng);
     if ((yield* resolveTurn(ctx, actions)).over) return null;
   }
@@ -254,7 +254,7 @@ function* executeAction(ctx, act) {
     return;
   }
 
-  const { dmg, eff, crit } = damage(user, target, move, ctx.rng);
+  const { dmg, eff, crit } = damage(user, target, move, ctx.rng, ctx.weather?.kind);
 
   if (eff === 0) {
     yield msg(`${isMine ? 'てきの ' : ''}${displayName(target)}には こうかが ないようだ…`);
@@ -265,7 +265,7 @@ function* executeAction(ctx, act) {
   let total = 0;
   for (let i = 0; i < hits; i++) {
     if (isFainted(target)) break;
-    const d0 = i === 0 ? dmg : damage(user, target, move, ctx.rng).dmg;
+    const d0 = i === 0 ? dmg : damage(user, target, move, ctx.rng, ctx.weather?.kind).dmg;
     const d = yield* applyEndure(ctx, target, d0);
     total += damageMon(target, d);
     yield anim('hit', { onFoe: isMine, eff });
@@ -452,11 +452,31 @@ function* applyEffect(ctx, user, target, move, dealt) {
       break;
     }
 
+    // 天候（Phase W）。あめ/にほんばれ/すなあらし。
+    case 'weather': {
+      ctx.weather.kind = e.weather;
+      ctx.weather.turns = e.turns ?? 5;
+      yield msg(WEATHER_START_MSG[e.weather]);
+      break;
+    }
+
     // highCrit / multiHit はダメージ計算側で処理済み。
     default:
       break;
   }
 }
+
+const WEATHER_START_MSG = {
+  rain: 'あめが ふりはじめた！',
+  sun: 'ひざしが つよくなった！',
+  sand: 'すなあらしが まきおこった！',
+};
+const WEATHER_END_MSG = {
+  rain: 'あめが やんだ。',
+  sun: 'ひざしが もとに もどった。',
+  sand: 'すなあらしが おさまった。',
+};
+const SAND_IMMUNE = ['いわ', 'じめん', 'はがね'];
 
 function statusVerb(status) {
   switch (status) {
@@ -472,6 +492,8 @@ function statusVerb(status) {
 // ---- ターン終了 ----
 
 function* endOfTurn(ctx) {
+  yield* tickWeather(ctx);
+
   for (const m of [ctx.mine, ctx.foe]) {
     if (isFainted(m)) continue;
     const d = statusEndOfTurnDamage(m);
@@ -492,6 +514,29 @@ function* endOfTurn(ctx) {
     heal(m, amt);
     yield msg(`${m === ctx.foe ? 'てきの ' : ''}${displayName(m)}は ${m.held}で すこし かいふくした！`);
     yield { t: 'hpTween', onFoe: m === ctx.foe };
+  }
+}
+
+/** 天候の継続処理（Phase W）。すなあらしはダメージ、切れたら告知して元に戻す。 */
+function* tickWeather(ctx) {
+  if (!ctx.weather.kind) return;
+
+  if (ctx.weather.kind === 'sand') {
+    for (const m of [ctx.mine, ctx.foe]) {
+      if (isFainted(m) || SAND_IMMUNE.some((t) => m.types.includes(t))) continue;
+      const d = Math.max(1, Math.floor(m.stats.hp / 16));
+      damageMon(m, d);
+      yield msg(`${m === ctx.foe ? 'てきの ' : ''}${displayName(m)}は すなあらしに ダメージを うけた！`);
+      yield { t: 'hpTween', onFoe: m === ctx.foe };
+      yield* checkPinchHeal(ctx, m);
+    }
+  }
+
+  ctx.weather.turns--;
+  if (ctx.weather.turns <= 0) {
+    const ending = ctx.weather.kind;
+    ctx.weather.kind = null;
+    yield msg(WEATHER_END_MSG[ending]);
   }
 }
 
