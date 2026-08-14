@@ -56,6 +56,7 @@ import { NATURES, getNature, natureMul } from './src/data/natures.js';
 import { wildBattle } from './src/game/battle.js';
 import { state, resetState, load, SAVE_VERSION, registerCaught } from './src/game/state.js';
 import { objective } from './src/game/objective.js';
+import { TOWER_TRAINERS } from './src/data/tower.js';
 import { charWidth, inkExtent } from './src/engine/font.js';
 import * as Storage from './src/core/storage.js';
 
@@ -1199,9 +1200,10 @@ section('図鑑の報酬 ― しきい値フラグ');
 // フラグの分岐をすべて踏んで、常に何かしらの文字列が返ることを確かめる。
 section('めもちょう ― objective(state) の全分岐');
 {
-  const mk = (flags, caughtN = 0) => ({
+  const mk = (flags, caughtN = 0, towerBest = 0) => ({
     flags,
     dex: { caught: Array.from({ length: caughtN }, (_, i) => i + 1) },
+    stats: { towerBest },
   });
   const total = Object.keys(SPECIES).length;
 
@@ -1220,23 +1222,26 @@ section('めもちょう ― objective(state) の全分岐');
     /ポケモンリーグ/.test(objective(mk({
       gotStarter: true, badge_denki: true, badge_iwa: true, badge_kusa: true, badge_ghost: true,
     }))));
-  check('殿堂入り直後、御三家をまだ交換していない',
-    /御三家/.test(objective(mk({
-      gotStarter: true, badge_denki: true, badge_iwa: true, badge_kusa: true, badge_ghost: true,
-      hallOfFame: true,
-    }))));
+  const cleared = {
+    gotStarter: true, badge_denki: true, badge_iwa: true, badge_kusa: true, badge_ghost: true,
+    hallOfFame: true,
+  };
+  const traded = {
+    ...cleared,
+    trade_fushigidane: true, trade_zenigame: true, trade_b_done: true, trade_d_done: true,
+  };
+  // 殿堂入りした直後は、まずタワーの存在を知らせる。Z-4 のコンテンツは
+  // ここで案内しないと、リーグうけつけまで戻る理由がプレイヤーに無い。
+  check('殿堂入り直後、まだタワーに挑んでいない',
+    /れんせんタワー/.test(objective(mk(cleared))));
+  check('タワーに挑んだ後は 御三家の交換に戻る',
+    /御三家/.test(objective(mk(cleared, 0, 1))));
   check('御三家をすべて交換済みだが 図鑑が未完成',
-    /ずかん/.test(objective(mk({
-      gotStarter: true, badge_denki: true, badge_iwa: true, badge_kusa: true, badge_ghost: true,
-      hallOfFame: true,
-      trade_fushigidane: true, trade_zenigame: true, trade_b_done: true, trade_d_done: true,
-    }))));
-  check('図鑑コンプまで完了した後も 何かしらの文言が返る',
-    !!objective(mk({
-      gotStarter: true, badge_denki: true, badge_iwa: true, badge_kusa: true, badge_ghost: true,
-      hallOfFame: true,
-      trade_fushigidane: true, trade_zenigame: true, trade_b_done: true, trade_d_done: true,
-    }, total)));
+    /ずかん/.test(objective(mk(traded, 0, 1))));
+  check('図鑑コンプ後は タワーの全勝が目標になる',
+    /れんしょう/.test(objective(mk(traded, total, 1))));
+  check('タワーも全勝したら 何かしらの文言が返る',
+    !!objective(mk(traded, total, TOWER_TRAINERS.length)));
 }
 
 // ---------------------------------------------------------------- 文字が重ならない
