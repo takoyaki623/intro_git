@@ -64,6 +64,24 @@ export class SettingsScene {
         cycle: (d) => set('musicVolume', Math.max(0, Math.min(1, settings.musicVolume + d * 0.1))),
         hint: 'こうかおんとは べつに かえられます。',
       },
+      {
+        label: 'データを かきだす',
+        action: async () => {
+          const { exportSaveText } = await import('../game/state.js');
+          const { showExport } = await import('../core/ioOverlay.js');
+          showExport(exportSaveText());
+        },
+        hint: 'いまの ぼうけんを もじれつに して コピーできます。',
+      },
+      {
+        label: 'データを よみこむ',
+        action: async () => {
+          const { showImport } = await import('../core/ioOverlay.js');
+          const { importSaveText } = await import('../game/state.js');
+          showImport((text) => importSaveText(text));
+        },
+        hint: 'コピーした もじれつを はりつけて、ぼうけんを もどします。',
+      },
     ];
   }
 
@@ -74,6 +92,8 @@ export class SettingsScene {
   async update() {
     if (Input.justPressed(BTN.B)) { Scenes.pop(); return; }
     if (Input.justPressed(BTN.A)) {
+      const row = this.rows[this.index];
+      if (row.action) { await row.action(); return; }
       const { KeyConfigScene } = await import('./KeyConfigScene.js');
       Scenes.push(new KeyConfigScene());
       return;
@@ -82,14 +102,16 @@ export class SettingsScene {
     if (Input.repeated(BTN.UP)) { this.index = (this.index + this.rows.length - 1) % this.rows.length; SE.cursor(); }
     if (Input.repeated(BTN.DOWN)) { this.index = (this.index + 1) % this.rows.length; SE.cursor(); }
 
+    const row = this.rows[this.index];
     const d = Input.repeated(BTN.RIGHT) ? 1 : Input.repeated(BTN.LEFT) ? -1 : 0;
-    if (d) {
-      this.rows[this.index].cycle(d);
+    if (d && row.cycle) {
+      row.cycle(d);
       SE.select();     // 音を切った直後は鳴らないが、それが「切れた」合図になる
     }
   }
 
   render(ctx) {
+    const row = this.rows[this.index];
     ctx.fillStyle = '#3c4a68';
     ctx.fillRect(0, 0, W, H);
 
@@ -97,15 +119,20 @@ export class SettingsScene {
     drawText(ctx, 'せってい', 12, 9, { color: COL.ink });
     drawTextRight(ctx, '← → で かえる', 244, 10, { color: COL.inkLight });
 
+    const lineH = 13;
     drawWindow(ctx, 4, 34, 248, 112);
     this.rows.forEach((r, i) => {
-      const y = 40 + i * 18;
+      const y = 39 + i * lineH;
       const on = i === this.index;
       if (on) {
         ctx.fillStyle = '#e8e0c8';
-        ctx.fillRect(10, y - 3, 236, 18);
+        ctx.fillRect(10, y - 3, 236, lineH + 2);
       }
       drawText(ctx, r.label, 18, y, { color: COL.ink });
+      if (r.action) {
+        if (on) drawTextRight(ctx, 'Ａ ▶', 234, y, { color: COL.select });
+        return;
+      }
       const v = r.get();
       drawTextRight(ctx, `${on ? '◀ ' : ''}${v}${on ? ' ▶' : ''}`, 234, y, {
         color: on ? COL.select : COL.ink,
@@ -113,7 +140,8 @@ export class SettingsScene {
     });
 
     drawWindow(ctx, 4, 150, 248, 38);
-    drawText(ctx, this.rows[this.index].hint, 12, 156, { color: COL.ink });
-    drawTextCentered(ctx, 'Ａ ： キーの わりあて　　Ｂ ： とじる', W / 2, 172, { color: COL.inkLight });
+    drawText(ctx, row.hint, 12, 156, { color: COL.ink });
+    const aLabel = row.action ? 'じっこう' : 'キーの わりあて';
+    drawTextCentered(ctx, `Ａ ： ${aLabel}　　Ｂ ： とじる`, W / 2, 172, { color: COL.inkLight });
   }
 }

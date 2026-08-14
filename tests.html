@@ -54,7 +54,9 @@ import { createMonster, serialize, hydrate, evolve, recalcStats } from './src/ga
 import { chooseAction } from './src/game/ai.js';
 import { NATURES, getNature, natureMul } from './src/data/natures.js';
 import { wildBattle } from './src/game/battle.js';
-import { state, resetState, load, SAVE_VERSION, registerCaught } from './src/game/state.js';
+import {
+  state, resetState, load, SAVE_VERSION, registerCaught, exportSaveText, importSaveText,
+} from './src/game/state.js';
 import { objective } from './src/game/objective.js';
 import { TOWER_TRAINERS } from './src/data/tower.js';
 import { charWidth, inkExtent } from './src/engine/font.js';
@@ -948,6 +950,36 @@ section('セーブの往復');
   check('未知の種族は null を返して落ちない', hydrate(broken) === null);
   const m2 = hydrate({ id: 4, lv: 5, exp: 135, ivs: { hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 }, moves: [{ id: 'ないわざ', pp: 1 }] });
   check('未知の技は捨てて技が補われる', !!m2 && m2.moves.length > 0);
+}
+
+// ---------------------------------------------------------------- セーブの文字列入出力(A3)
+// exportSaveText/importSaveText は buildSave/load と同じ経路(applySave)を通るので、
+// ここでは「文字列化して戻すと state が一致する」ことと、壊れた入力で
+// クラッシュしないことだけを確かめる。
+section('セーブの文字列入出力（A3）');
+{
+  resetState();
+  state.player.name = 'たろう';
+  state.player.money = 1234;
+  registerCaught(4);
+  const text = exportSaveText();
+  check('書き出した文字列は空でない', typeof text === 'string' && text.length > 0);
+
+  state.player.money = 0; // 壊しておいて、読み込みで戻るか見る
+  const res = importSaveText(text);
+  check('読み込みが成功する', res.ok === true, JSON.stringify(res));
+  eq('プレイヤー名が往復で一致', state.player.name, 'たろう');
+  eq('所持金が往復で一致', state.player.money, 1234);
+  check('図鑑の捕獲状況が往復で一致', state.dex.caught.includes(4));
+
+  check('壊れた文字列は落ちずに reason:broken を返す',
+    importSaveText('これは Base64 ではない').ok === false);
+  check('空文字列は落ちずに reason:broken を返す', importSaveText('').ok === false);
+
+  const future = btoa(JSON.stringify({ version: SAVE_VERSION + 1 }));
+  check('未来のバージョンは reason:newer を返す', importSaveText(future).reason === 'newer');
+
+  resetState();
 }
 
 // ---------------------------------------------------------------- 進化

@@ -49,8 +49,17 @@ const heldFrames = new Map();
 let queuedDown = new Set();
 let queuedUp = new Set();
 
+// テキスト入力欄(セーブの文字列入出力など)にフォーカスがある間は、ゲーム側の
+// キー捕捉を止める。そうしないと Backspace/矢印/Enter が全部 preventDefault され、
+// 文字が打てない・貼り付けられない。
+const isTextInputFocused = () => {
+  const el = document.activeElement;
+  return !!el && (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT');
+};
+
 export function init() {
   addEventListener('keydown', (e) => {
+    if (isTextInputFocused()) return;
     const b = MAP[e.code];
     if (!b) return;
     e.preventDefault();
@@ -60,6 +69,7 @@ export function init() {
   });
 
   addEventListener('keyup', (e) => {
+    if (isTextInputFocused()) return;
     const b = MAP[e.code];
     if (!b) return;
     e.preventDefault();

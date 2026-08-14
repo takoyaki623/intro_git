@@ -253,7 +253,15 @@ export function load(slot = 0) {
   const raw = Storage.read(Storage.slotKey(slot))
     ?? (slot === 0 ? Storage.read(Storage.SAVE_KEY) : null);
   if (!raw) return { ok: false, reason: 'none' };
+  return applySave(raw);
+}
 
+/**
+ * 生のセーブオブジェクト(raw)を state に反映する。
+ * load() と、文字列インポート(importSaveText)の両方から使う共通経路。
+ * マイグレーションもここで通すので、書き出した時点のバージョンが古くても読める。
+ */
+function applySave(raw) {
   let s = raw;
   if (typeof s.version !== 'number') return { ok: false, reason: 'broken' };
   // 未来のバージョンは読まない。黙って壊すより読めないと言うほうがまし。
@@ -316,6 +324,43 @@ export function load(slot = 0) {
     console.error('[state] セーブの復元に失敗しました', e);
     return { ok: false, reason: 'broken' };
   }
+}
+
+// ---- セーブの文字列入出力（A3）----
+// 端末をまたいで進行を渡すための、コピー＆貼り付け用の文字列。
+// btoa は Latin1 前提で日本語(UTF-8)を直接は通せないので、バイト列を経由する。
+
+function bytesToBase64(bytes) {
+  let bin = '';
+  for (const b of bytes) bin += String.fromCharCode(b);
+  return btoa(bin);
+}
+
+function base64ToBytes(b64) {
+  const bin = atob(b64);
+  return Uint8Array.from(bin, (c) => c.charCodeAt(0));
+}
+
+/** いま進行中の state を、貼り付け可能な1つの文字列にする。 */
+export function exportSaveText() {
+  const json = JSON.stringify(buildSave());
+  return bytesToBase64(new TextEncoder().encode(json));
+}
+
+/**
+ * exportSaveText() で作った文字列を state に反映する。
+ * 壊れた文字列・未対応バージョンでもクラッシュせず { ok:false, reason } を返す。
+ */
+export function importSaveText(text) {
+  let raw;
+  try {
+    const json = new TextDecoder().decode(base64ToBytes(String(text).trim()));
+    raw = JSON.parse(json);
+  } catch {
+    return { ok: false, reason: 'broken' };
+  }
+  if (raw === null || typeof raw !== 'object') return { ok: false, reason: 'broken' };
+  return applySave(raw);
 }
 
 /** プレイ時間の表示（h:mm） */

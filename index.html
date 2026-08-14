@@ -35,6 +35,20 @@
     </div>
   </div>
 
+  <!-- セーブの文字列入出力(A3)。canvasはテキストの選択・貼り付けができないので、
+       ここだけは実DOMの textarea を使う。表示・非表示は ioOverlay.js が切り替える。 -->
+  <div id="io-overlay" hidden>
+    <div id="io-box">
+      <p id="io-label"></p>
+      <textarea id="io-text" rows="6" spellcheck="false"></textarea>
+      <p id="io-msg"></p>
+      <div id="io-actions">
+        <button id="io-confirm" type="button"></button>
+        <button id="io-cancel" type="button">とじる</button>
+      </div>
+    </div>
+  </div>
+
   <script type="module" src="./src/main.js"></script>
 </body>
 </html>
