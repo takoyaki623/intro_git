@@ -257,6 +257,7 @@ export class FieldScene {
     ]);
     Scenes.push(new TransitionScene({
       kind: 'battle',
+      variant: trainer.badge ? 'leader' : null, // Phase Y-3: ジムリーダー戦は縦じまワイプで格を分ける
       onDone: () => {
         Scenes.pop();
         Scenes.push(new BattleScene({
@@ -292,6 +293,8 @@ export class FieldScene {
     ]);
     Scenes.push(new TransitionScene({
       kind: 'battle',
+      // Phase Y-3: ぬし戦・伝説戦は導入ワイプを変えて、格の違いを見た目にも出す
+      variant: legendary ? 'legend' : (isBoss ? 'boss' : null),
       onDone: () => {
         Scenes.pop();                       // TransitionScene を畳んでから
         Scenes.push(new BattleScene({
