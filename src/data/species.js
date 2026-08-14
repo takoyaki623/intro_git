@@ -9,8 +9,10 @@ import { SPR } from './sprites/monsters.js';
 import { placeholderSprite } from '../engine/pixelArt.js';
 
 // 他世代の追加種族(26体)のドット絵も sprites/monsters.js に揃えてある。
-// Phase U-1 で足した10種は、まだ手描きのドット絵が無いので placeholderSprite で仮の姿にしてある
-// （1体1コミットで後から差し替える運用。design-v4.md 参照）。
+// Phase U-1 で足した10種のうち、前段のドット絵がある最終進化はB2で描き終えた
+// （前段のパレット/シルエットを延長する形。sprites/monsters.js の「B2:」節を参照）。
+// Phase U-2 の新系統7種(597/598, 220/221, 66/67/68)は前段の絵も無いので、
+// まだ placeholderSprite で仮の姿にしてある（design-v4.md 参照）。
 
 export const SPECIES = {
   1: {
@@ -966,7 +968,7 @@ export const SPECIES = {
     ],
     tm: ['じしん', 'いわなだれ'],
     evolution: null,
-    catchRate: 45, baseExp: 223, expType: 'mediumSlow', sprite: placeholderSprite(76, '#8a7860', 24, 'quadruped'),
+    catchRate: 45, baseExp: 223, expType: 'mediumSlow', sprite: SPR.goroonya,
     height: 1.4, weight: 300.0,
     dex: 'ぜんしんが がんせきで できている。やまを ころがりおちる いきおいは れっしゃにも まけない。',
   },
@@ -985,7 +987,7 @@ export const SPECIES = {
     ],
     tm: ['ねんりき', 'マジカルシャイン'],
     evolution: null,
-    catchRate: 45, baseExp: 233, expType: 'mediumSlow', sprite: placeholderSprite(282, '#5aa8b0', 24, 'humanoid'),
+    catchRate: 45, baseExp: 233, expType: 'mediumSlow', sprite: SPR.saanaito,
     height: 1.6, weight: 48.4,
     dex: 'あいての かんじょうを よみとる ちからを もつ。たいせつな ひとを まもるためなら なんでもする。',
   },
@@ -1003,7 +1005,7 @@ export const SPECIES = {
     ],
     tm: ['かえんほうしゃ', 'シャドーボール'],
     evolution: null,
-    catchRate: 45, baseExp: 234, expType: 'mediumFast', sprite: placeholderSprite(609, '#6848a0', 24, 'ghost'),
+    catchRate: 45, baseExp: 234, expType: 'mediumFast', sprite: SPR.shandera,
     height: 1.0, weight: 34.3,
     dex: 'ひとの たましいを もやして あかりに する。ちかづくものの いのちを すいとると いわれる。',
   },
@@ -1021,7 +1023,7 @@ export const SPECIES = {
     ],
     tm: ['かみつく', 'ドラゴンクロー'],
     evolution: null,
-    catchRate: 45, baseExp: 270, expType: 'slow', sprite: placeholderSprite(635, '#3a2858', 24, 'dragon'),
+    catchRate: 45, baseExp: 270, expType: 'slow', sprite: SPR.sazandora,
     height: 1.8, weight: 92.0,
     dex: 'みっつの あたまが おのおのの いしを もつ。あくと ドラゴンの ちからで そらを おおう。',
   },
@@ -1039,7 +1041,7 @@ export const SPECIES = {
     ],
     tm: ['10まんボルト', 'インファイト'],
     evolution: null,
-    catchRate: 45, baseExp: 226, expType: 'mediumFast', sprite: placeholderSprite(923, '#e8c848', 24, 'humanoid'),
+    catchRate: 45, baseExp: 226, expType: 'mediumFast', sprite: SPR.paamotto,
     height: 0.9, weight: 41.0,
     dex: 'りょうこぶしに でんきを ためて うちこむ。かくとうぎの わざも みにつけている。',
   },
@@ -1057,7 +1059,7 @@ export const SPECIES = {
     ],
     tm: ['10まんボルト', 'ねんりき'],
     evolution: null,
-    catchRate: 45, baseExp: 230, expType: 'mediumSlow', sprite: placeholderSprite(181, '#f0d030', 24, 'quadruped'),
+    catchRate: 45, baseExp: 230, expType: 'mediumSlow', sprite: SPR.denryuu,
     height: 1.4, weight: 61.5,
     dex: 'しっぽの あかりで なかまと あいずを かわす。あらしの よるは ひときわ つよく ひかる。',
   },
@@ -1076,7 +1078,7 @@ export const SPECIES = {
     ],
     tm: ['ヘドロばくだん', 'エアスラッシュ'],
     evolution: null,
-    catchRate: 45, baseExp: 241, expType: 'mediumFast', sprite: placeholderSprite(169, '#6848a8', 24, 'bird'),
+    catchRate: 45, baseExp: 241, expType: 'mediumFast', sprite: SPR.kurobatto,
     height: 1.8, weight: 75.0,
     dex: 'よん枚の はねで おとも たてずに とぶ。あしを つかわず りょう手も こうげきに つかえる。',
   },
@@ -1094,7 +1096,7 @@ export const SPECIES = {
     ],
     tm: ['のしかかり', 'エアスラッシュ'],
     evolution: null,
-    catchRate: 45, baseExp: 216, expType: 'mediumSlow', sprite: placeholderSprite(18, '#c8a058', 24, 'bird'),
+    catchRate: 45, baseExp: 216, expType: 'mediumSlow', sprite: SPR.pijotto,
     height: 1.5, weight: 39.5,
     dex: 'じそくは 300キロを こえる。えものを ねらうときの ひこうは まさに だんがんの ようだ。',
   },
@@ -1112,7 +1114,7 @@ export const SPECIES = {
     ],
     tm: ['のしかかり', 'エアスラッシュ'],
     evolution: null,
-    catchRate: 45, baseExp: 218, expType: 'mediumFast', sprite: placeholderSprite(398, '#785038', 24, 'bird'),
+    catchRate: 45, baseExp: 218, expType: 'mediumFast', sprite: SPR.mukuhouku,
     height: 1.2, weight: 24.9,
     dex: 'むれの ちょうてんに たつ もの。てきに たいしては ようしゃなく きゅうこうかを しかける。',
   },
@@ -1130,7 +1132,7 @@ export const SPECIES = {
     ],
     tm: ['かえんほうしゃ', 'エアスラッシュ'],
     evolution: null,
-    catchRate: 45, baseExp: 238, expType: 'mediumFast', sprite: placeholderSprite(663, '#e04830', 24, 'bird'),
+    catchRate: 45, baseExp: 238, expType: 'mediumFast', sprite: SPR.faiyaroo,
     height: 1.2, weight: 24.5,
     dex: 'つばさに ほのおを まとって とぶ。なわばりに はいった ものには ようしゃなく つっこむ。',
   },
