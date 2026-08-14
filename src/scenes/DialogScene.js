@@ -27,6 +27,7 @@ import { SE } from '../core/audio.js';
  *   { shop:['モンスターボール','きずぐすり'] }
  *   { trade:{ want:10, give:1, lv:8, nick:null, flag:'trade_bulba' } }
  *   { daycare:true }
+ *   { tower:true }
  *
  * パーサを書かずに済むよう、素の JS の値をそのまま解釈する。
  */
@@ -129,6 +130,10 @@ export class DialogScene {
       }
       if (cmd.fish) {
         this.pendingField = () => this.field?.fish();
+        continue;
+      }
+      if (cmd.tower) {
+        this.pendingField = () => this.field?.startTowerChallenge();
         continue;
       }
     }

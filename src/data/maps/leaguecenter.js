@@ -46,6 +46,23 @@ export default {
       ],
     },
     {
+      id: 'towerGuide', x: 2, y: 3, sprite: 'girl', dir: 'down',
+      lines: [
+        { if: 'hallOfFame', then: [
+          'ようこそ れんせんタワーへ！',
+          'てもちの ポケモンを ぜんいん Lv50に そろえて、10れんせんに ちょうせんできるよ。',
+          'とちゅうで かいふくは できないから、きを つけてね。',
+          {
+            ask: true,
+            yes: [{ tower: true }],
+            no: ['じゅんびが できたら また きてね。'],
+          },
+        ], else: [
+          'れんせんタワーは でんどうにゅうりした あとに ひらくみたい。',
+        ] },
+      ],
+    },
+    {
       id: 'leagueGuide', x: 9, y: 5, sprite: 'boy', dir: 'left', wander: true,
       lines: [
         { if: 'hallOfFame', then: [

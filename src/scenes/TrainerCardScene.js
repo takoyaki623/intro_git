@@ -39,13 +39,13 @@ export class TrainerCardScene {
     drawText(ctx, 'トレーナーカード', 20, 16, { color: COL.ink });
 
     drawText(ctx, state.player.name, 20, 30, { color: COL.ink });
-    drawTextRight(ctx, playTimeText(), W - 20, 30, { color: COL.inkLight });
     drawText(ctx, `おかね ${state.player.money}円`, 20, 42, { color: COL.inkLight });
+    drawTextRight(ctx, playTimeText(), W - 20, 42, { color: COL.inkLight });
 
-    drawText(ctx, 'バッジ', 20, 57, { color: COL.inkLight });
+    drawText(ctx, 'バッジ', 20, 56, { color: COL.inkLight });
     BADGES.forEach((b, i) => {
       const bx = 56 + i * 13;
-      const y = 54;
+      const y = 53;
       const got = !!state.flags[badgeFlag(b.id)];
       ctx.fillStyle = COL.ink;
       ctx.fillRect(bx, y, 10, 10);
@@ -54,23 +54,24 @@ export class TrainerCardScene {
       if (got) { ctx.fillStyle = '#ffffff'; ctx.fillRect(bx + 3, y + 3, 2, 2); }
     });
 
+    // 2列×3行で6項目ぶん。1列ぶんだと縦に収まらないので、ここだけ横に並べる。
     const s = state.stats ?? {};
-    const lines = [
-      ['あるいた 歩数', `${s.steps ?? 0}ほ`],
-      ['たたかった 回数', `${s.battles ?? 0}かい`],
-      ['つかまえた 数', `${s.caught ?? 0}ひき`],
-      ['にげた 回数', `${s.fled ?? 0}かい`],
-      ['つかった ボール', `${s.ballsUsed ?? 0}個`],
+    const pairs = [
+      ['あるいた', `${s.steps ?? 0}ほ`, 'たたかった', `${s.battles ?? 0}かい`],
+      ['つかまえた', `${s.caught ?? 0}ひき`, 'にげた', `${s.fled ?? 0}かい`],
+      ['ボール', `${s.ballsUsed ?? 0}個`, 'タワー', `${s.towerBest ?? 0}れん`],
     ];
-    let ly = 74;
-    for (const [label, val] of lines) {
-      drawText(ctx, label, 20, ly, { color: COL.inkLight });
-      drawTextRight(ctx, val, W - 20, ly, { color: COL.ink });
-      ly += 11;
+    let ly = 72;
+    for (const [l1, v1, l2, v2] of pairs) {
+      drawText(ctx, l1, 20, ly, { color: COL.inkLight });
+      drawTextRight(ctx, v1, 118, ly, { color: COL.ink });
+      drawText(ctx, l2, 138, ly, { color: COL.inkLight });
+      drawTextRight(ctx, v2, W - 20, ly, { color: COL.ink });
+      ly += 12;
     }
 
     // 2列: いちばんそだてた／はじめてつかまえた（どちらも小さく1匹ぶんだけ出す）
-    const colY = ly + 8;
+    const colY = ly + 12;
     const col2 = 134;
     drawText(ctx, 'そだてた', 20, colY, { color: COL.inkLight });
     drawText(ctx, 'はじめて', col2, colY, { color: COL.inkLight });

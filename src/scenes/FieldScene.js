@@ -15,11 +15,12 @@ import { world } from '../game/world.js';
 import { state, setFlag, getFlag, healParty, addItem } from '../game/state.js';
 import { stepCheck, fishCheck, spawnWild } from '../game/encounter.js';
 import { getTrainer, trainerFlag } from '../data/trainers.js';
-import { createMonster, displayName, raiseBySteps } from '../game/monster.js';
+import { createMonster, displayName, raiseBySteps, serialize, hydrate } from '../game/monster.js';
 import { getMove } from '../data/moves.js';
 import { ITEMS } from '../data/items.js';
 import { getSpecies } from '../data/species.js';
 import { RIVAL_BATTLES } from '../data/rival.js';
+import { TOWER_LEVEL, TOWER_TRAINERS } from '../data/tower.js';
 
 /**
  * クリア後の再挑戦ボーナス（Q-1/Q-2）。殿堂入りのたびに +15、最大3回ぶんまで。
@@ -98,6 +99,12 @@ export class FieldScene {
     // それを「バトルの本当の決着」と区別しないと、pendingChampion / pendingStatic が
     // 戦闘の結果が返ってくる前に消えてしまう（本物の決着は必ず { result: '...' } の形）。
     if (result && typeof result === 'object' && 'result' in result) {
+      // れんせんタワー（Phase Z-4）の途中結果。連戦を回し切るまで通常のリセットに入らない。
+      if (this.towerRun) {
+        this.handleTowerResult(result);
+        return;
+      }
+
       // チャンピオン(ライバル5戦目)に勝ったら、そのまま殿堂入りへ。
       const champion = this.pendingChampion;
       this.pendingChampion = false;
@@ -263,6 +270,73 @@ export class FieldScene {
         Scenes.push(new BattleScene({
           trainer, trainerId: npc.trainer, foeParty, wild: false,
           bg: world.surfing ? 'water' : (world.map.battleBg ?? 'grass'),
+        }));
+      },
+    }));
+  }
+
+  // ---- れんせんタワー（Phase Z-4）----
+  // 手持ちを Lv50 の仮のポケモンに差し替えて10連戦させ、終わったら必ず元に戻す。
+  // 既存の trainerBattle をそのまま10回まわすだけで、新しい戦闘ロジックは足していない。
+
+  async startTowerChallenge() {
+    if (!state.party.some((m) => m.curHP > 0)) return;
+    this.busy = true;
+    const snapshot = state.party.map(serialize);
+    this.towerRun = { streak: 0, snapshot };
+    // IV・せいかく・もちものは そのまま、レベルだけ 50 にそろえた仮の個体を用意する。
+    state.party = snapshot.map((save) => createMonster(save.id, TOWER_LEVEL, {
+      rng, ivs: save.ivs, evs: save.evs, natureId: save.natureId, held: save.held,
+    }));
+    await this.startTowerBattle(0);
+  }
+
+  handleTowerResult(result) {
+    const run = this.towerRun;
+    if (result.result === 'win') {
+      run.streak++;
+      if (run.streak >= TOWER_TRAINERS.length) { this.finishTower(true); return; }
+      this.startTowerBattle(run.streak); // とちゅうの かいふくは しない
+      return;
+    }
+    this.finishTower(false);
+  }
+
+  finishTower(cleared) {
+    const run = this.towerRun;
+    this.towerRun = null;
+    state.party = run.snapshot.map(hydrate).filter(Boolean);
+    healParty();
+    state.stats.towerBest = Math.max(state.stats.towerBest ?? 0, run.streak);
+
+    this.busy = false;
+    this.approach = null;
+    world.frozen = false;
+    Input.clearEdges();
+    this.playMapMusic();
+    this.openDialog([
+      cleared ? '10れんしょう！ れんせんタワーを せいはした！' : `${run.streak}れんしょうで はいぼく…`,
+      `さいこう れんしょう きろく：${state.stats.towerBest}れん`,
+      'てもちの ポケモンは もとの レベルに もどった。',
+    ]);
+  }
+
+  async startTowerBattle(index) {
+    const trainer = TOWER_TRAINERS[index];
+    const foeParty = trainer.party.map((p) => createMonster(p.id, p.lv, { rng }));
+
+    const [{ TransitionScene }, { BattleScene }] = await Promise.all([
+      import('./TransitionScene.js'),
+      import('./BattleScene.js'),
+    ]);
+    Scenes.push(new TransitionScene({
+      kind: 'battle',
+      variant: 'leader',
+      onDone: () => {
+        Scenes.pop();
+        Scenes.push(new BattleScene({
+          trainer, trainerId: `tower_${index}`, foeParty, wild: false,
+          bg: 'indoor',
         }));
       },
     }));

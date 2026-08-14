@@ -42,7 +42,7 @@ const MIGRATIONS = {
   2: (s) => ({
     ...s,
     version: 3,
-    stats: { steps: 0, battles: 0, caught: 0, fled: 0, ballsUsed: 0, ...(s.stats ?? {}) },
+    stats: { steps: 0, battles: 0, caught: 0, fled: 0, ballsUsed: 0, towerBest: 0, ...(s.stats ?? {}) },
     hallOfFame: s.hallOfFame ?? [],
   }),
 };
@@ -69,7 +69,7 @@ export const state = {
   // でんどうのま（Phase Z-2）。何回目にどのパーティで勝ったかを残す。
   hallOfFame: [],
   // トレーナーカード用の記録（Phase Z-1）。
-  stats: { steps: 0, battles: 0, caught: 0, fled: 0, ballsUsed: 0 },
+  stats: { steps: 0, battles: 0, caught: 0, fled: 0, ballsUsed: 0, towerBest: 0 },
   // そだてや に あずけた1匹。{ mon, stepsLeft, startLv }
   daycare: null,
   // むしよけスプレーの残り歩数。セーブには含めない（リロードで切れても実害が薄い）。
@@ -97,7 +97,7 @@ export function resetState() {
   state.startedAt = Date.now();
   state.hallOfFameCount = 0;
   state.hallOfFame = [];
-  state.stats = { steps: 0, battles: 0, caught: 0, fled: 0, ballsUsed: 0 };
+  state.stats = { steps: 0, battles: 0, caught: 0, fled: 0, ballsUsed: 0, towerBest: 0 };
   state.daycare = null;
   state.repelSteps = 0;
   state.lastEntrance = null;
@@ -303,7 +303,7 @@ export function load(slot = 0) {
     state.playTimeMs = s.playTimeMs ?? 0;
     state.hallOfFameCount = s.hallOfFameCount ?? 0;
     state.hallOfFame = Array.isArray(s.hallOfFame) ? s.hallOfFame.map((h) => ({ at: h.at, party: h.party ?? [] })) : [];
-    state.stats = { steps: 0, battles: 0, caught: 0, fled: 0, ballsUsed: 0, ...(s.stats ?? {}) };
+    state.stats = { steps: 0, battles: 0, caught: 0, fled: 0, ballsUsed: 0, towerBest: 0, ...(s.stats ?? {}) };
     state.stepsSinceEncounter = 0;
     state.repelSteps = 0;
     state.lastEntrance = null;
