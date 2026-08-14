@@ -338,7 +338,7 @@ function* executeAction(ctx, act) {
       const absorbed = Math.min(d0, target.volatile.substitute);
       target.volatile.substitute -= absorbed;
       total += absorbed;
-      yield anim('hit', { onFoe: isMine, eff });
+      yield anim('hit', { onFoe: isMine, eff, type: move.type });
       if (target.volatile.substitute <= 0) {
         target.volatile.substitute = 0;
         yield msg(`${isMine ? 'てきの ' : ''}${displayName(target)}の みがわりが きえた！`);
@@ -349,7 +349,7 @@ function* executeAction(ctx, act) {
     const d1 = yield* applySturdy(ctx, target, d0);
     const d = yield* applyEndure(ctx, target, d1);
     total += damageMon(target, d);
-    yield anim('hit', { onFoe: isMine, eff });
+    yield anim('hit', { onFoe: isMine, eff, type: move.type });
     yield { t: 'hpTween', onFoe: isMine };
   }
   if (hits > 1) yield msg(`${hits}かい あたった！`);

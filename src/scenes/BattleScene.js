@@ -28,6 +28,19 @@ const FOE_X = 168, FOE_Y = 26, FOE_SCALE = 2;
 const MINE_X = 26, MINE_Y = 74, MINE_SCALE = 2.5;
 const BOX_Y = 148;
 
+// タイプ別の被弾エフェクト（Phase Y-1）。8タイプぶんだけ用意し、それ以外は既存の白点滅のまま。
+// 矩形と円だけで描けるものに絞ってある（アセット追加ゼロ）。
+const TYPE_FX_COLOR = {
+  'ほのお': ['#ff9040', '#ff6020', '#ffc060'],
+  'みず': ['#4098f0', '#60b8ff', '#2070c0'],
+  'でんき': ['#f8e030', '#fff890', '#d0b000'],
+  'くさ': ['#58c040', '#88e068', '#308020'],
+  'かくとう': ['#f8f8f8', '#ffffff', '#d0d0d0'],
+  'こおり': ['#c8f0ff', '#ffffff', '#88d0f0'],
+  'どく': ['#a848c0', '#c878e0', '#7830a0'],
+  'エスパー': ['#ff90c0', '#ffb8d8', '#e060a0'],
+};
+
 /**
  * タイプ相性の予測マーク（P-1）。
  * 図鑑に登録済みの相手にだけ出す ―― 初見の相手では出さないので、
@@ -317,7 +330,7 @@ export class BattleScene {
       this.dispHP.mine = this.ctx.mine.curHP;
       this.dispExp = expRatio(this.ctx.mine);
     } else if (kind === 'hit') {
-      this.anim = { kind, t: 0, len: 24, onFoe: fx.onFoe };
+      this.anim = { kind, t: 0, len: 24, onFoe: fx.onFoe, type: fx.type };
       SE.hit(fx.eff ?? 1);
     } else if (kind === 'faint') {
       this.anim = { kind, t: 0, len: 30, onFoe: fx.onFoe };
@@ -568,6 +581,7 @@ export class BattleScene {
     ctx.save();
     if (this.shake) ctx.translate(this.shake, 0);
     this.renderMonsters(ctx);
+    if (this.anim?.kind === 'hit' && this.anim.type) this.renderHitEffect(ctx, this.anim);
     ctx.restore();
 
     this.renderStatusBoxes(ctx);
@@ -629,6 +643,114 @@ export class BattleScene {
         clipH: this.faintClip.mine,
       });
     }
+  }
+
+  /** タイプ別の被弾エフェクト（Phase Y-1）。矩形と円だけで、進行度 r=t/len から毎フレーム計算する。 */
+  renderHitEffect(ctx, a) {
+    const colors = TYPE_FX_COLOR[a.type];
+    if (!colors) return;
+
+    const onFoe = a.onFoe;
+    const cx = onFoe ? FOE_X + 24 : MINE_X + 30;
+    const cy = onFoe ? FOE_Y + 24 : MINE_Y + 30;
+    const r = Math.min(1, a.t / a.len);
+    const n = 6;
+
+    ctx.save();
+    switch (a.type) {
+      case 'ほのお': // 赤〜橙の粒が下から立ちのぼる
+        for (let i = 0; i < n; i++) {
+          const p = (r + i / n) % 1;
+          const x = cx + (i - n / 2) * 6;
+          const y = cy + 18 - p * 40;
+          ctx.fillStyle = colors[i % colors.length];
+          ctx.fillRect(Math.round(x) - 2, Math.round(y) - 2, 4, 4);
+        }
+        break;
+
+      case 'みず': // 青い横波が3本、左から右へ走る
+        for (let i = 0; i < 3; i++) {
+          const y = cy - 16 + i * 14;
+          const x = cx - 26 + ((r + i * 0.25) % 1) * 52;
+          ctx.fillStyle = colors[i % colors.length];
+          ctx.fillRect(Math.round(x) - 8, Math.round(y) - 1, 16, 3);
+        }
+        break;
+
+      case 'でんき': // 黄色いギザギザが縦に落ちる
+        for (let i = 0; i < n; i++) {
+          const p = (r + i / n) % 1;
+          const x = cx + (i - n / 2) * 7;
+          const y = cy - 22 + p * 46;
+          const zig = Math.floor(p * 8) % 2 ? 3 : -3;
+          ctx.fillStyle = colors[i % colors.length];
+          ctx.fillRect(Math.round(x) + zig - 1, Math.round(y) - 1, 3, 6);
+        }
+        break;
+
+      case 'くさ': // 緑の葉が回転しながら飛ぶ
+        for (let i = 0; i < n; i++) {
+          const p = (r + i / n) % 1;
+          const ang = p * Math.PI * 4 + i * 1.3;
+          const x = cx + Math.cos(ang) * 18 * p;
+          const y = cy - p * 24;
+          ctx.fillStyle = colors[i % colors.length];
+          ctx.fillRect(Math.round(x) - 2, Math.round(y) - 2, 4, 4);
+        }
+        break;
+
+      case 'かくとう': // 白い衝撃線が中心から放射
+        ctx.strokeStyle = colors[0];
+        ctx.lineWidth = 2;
+        for (let i = 0; i < 8; i++) {
+          const ang = (i / 8) * Math.PI * 2;
+          const len = 6 + r * 20;
+          ctx.beginPath();
+          ctx.moveTo(cx + Math.cos(ang) * 6, cy + Math.sin(ang) * 6);
+          ctx.lineTo(cx + Math.cos(ang) * len, cy + Math.sin(ang) * len);
+          ctx.stroke();
+        }
+        break;
+
+      case 'こおり': // 白い結晶が上から降る
+        for (let i = 0; i < n; i++) {
+          const p = (r + i / n) % 1;
+          const x = cx + (i - n / 2) * 7;
+          const y = cy - 22 + p * 44;
+          ctx.fillStyle = colors[i % colors.length];
+          ctx.fillRect(Math.round(x) - 1, Math.round(y) - 3, 2, 6);
+          ctx.fillRect(Math.round(x) - 3, Math.round(y) - 1, 6, 2);
+        }
+        break;
+
+      case 'どく': // 紫の泡が浮かぶ
+        for (let i = 0; i < n; i++) {
+          const p = (r + i / n) % 1;
+          const x = cx + Math.sin(i * 2 + p * 6) * 14;
+          const y = cy + 14 - p * 34;
+          const rad = 2 + (i % 3);
+          ctx.fillStyle = colors[i % colors.length];
+          ctx.beginPath();
+          ctx.arc(Math.round(x), Math.round(y), rad, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        break;
+
+      case 'エスパー': // 桃色の同心円が広がる
+        ctx.lineWidth = 2;
+        for (let i = 0; i < 3; i++) {
+          const p = (r + i / 3) % 1;
+          ctx.strokeStyle = colors[i % colors.length];
+          ctx.beginPath();
+          ctx.arc(cx, cy, 4 + p * 24, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+        break;
+
+      default:
+        break;
+    }
+    ctx.restore();
   }
 
   renderStatusBoxes(ctx) {
