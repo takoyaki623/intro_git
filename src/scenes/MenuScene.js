@@ -26,6 +26,7 @@ export class MenuScene {
         { label: 'バッグ', id: 'bag' },
         { label: 'ずかん', id: 'dex' },
         { label: 'カード', id: 'card' },
+        { label: 'じっせき', id: 'achievements' },
         { label: 'めもちょう', id: 'note' },
         // いわバッジを取るまでは並べない（取れば増える、が分かりやすい）
         ...(getFlag(badgeFlag('iwa')) ? [{ label: 'そらをとぶ', id: 'fly' }] : []),
@@ -84,6 +85,11 @@ export class MenuScene {
     if (id === 'card') {
       const { TrainerCardScene } = await import('./TrainerCardScene.js');
       Scenes.push(new TrainerCardScene());
+      return;
+    }
+    if (id === 'achievements') {
+      const { AchievementScene } = await import('./AchievementScene.js');
+      Scenes.push(new AchievementScene());
       return;
     }
     if (id === 'hof') {
