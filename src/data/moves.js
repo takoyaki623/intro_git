@@ -78,6 +78,22 @@ export const MOVES = {
     effect: { kind: 'weather', weather: 'sand', turns: 5 },
     desc: 'すなあらしを まきおこす。いわ・じめん・はがね いがいは まいターン ダメージを うける。',
   },
+  // 変化技の幅を広げる3つ（Phase X-1）。受け型に存在意義を持たせる。
+  'まもる': {
+    type: 'ノーマル', category: '変化', power: 0, accuracy: null, pp: 10, priority: 4,
+    effect: { kind: 'protect', target: 'self' },
+    desc: 'その ターン、あいての わざを ほぼ かんぜんに ふせぐ。',
+  },
+  'みがわり': {
+    type: 'ノーマル', category: '変化', power: 0, accuracy: null, pp: 10,
+    effect: { kind: 'substitute', target: 'self' },
+    desc: 'じぶんの HPを けずって みがわり人形を つくり、こうげきの みがわりに する。',
+  },
+  'どくどく': {
+    type: 'どく', category: '変化', power: 0, accuracy: 90, pp: 10,
+    effect: { kind: 'status', status: 'もうどく', chance: 100 },
+    desc: 'じわじわと ダメージが ふえていく もうどくを あたえる。',
+  },
   'すなかけ': {
     type: 'じめん', category: '変化', power: 0, accuracy: 100, pp: 15,
     effect: { kind: 'stat', target: 'foe', stat: 'acc', stages: -1, chance: 100 },

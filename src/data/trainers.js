@@ -49,7 +49,7 @@ export const TRAINERS = {
   // ---- ジム ----
   gymboy1: {
     class: 'ジムトレーナー', name: 'たけし', skill: 2, sprite: 'youngster', prize: 60, sight: 5,
-    party: [{ id: 25, lv: 9 }],
+    party: [{ id: 19, lv: 8 }, { id: 25, lv: 9 }],
     intro: ['ジムリーダーに あいたければ ぼくを たおしてから だ！'],
     defeat: ['ぐぬぬ… やるな！'],
     after: ['でんきタイプは じめんタイプに ぜんぜん ダメージが とおらないぞ。'],
@@ -64,7 +64,8 @@ export const TRAINERS = {
   leaderDenki: {
     class: 'ジムリーダー', name: 'マチス', skill: 3, sprite: 'leader', prize: 120, sight: 0,
     badge: 'denki',
-    party: [{ id: 25, lv: 9 }, { id: 26, lv: 11 }],
+    party: [{ id: 25, lv: 9 }, { id: 26, lv: 11, held: 'じしゃく' }],
+    items: ['なんでもなおし'],
     intro: [
       'ようこそ トキワジムへ！',
       'わたしが ジムリーダーの マチスだ。',
@@ -122,7 +123,7 @@ export const TRAINERS = {
   // ---- ニビジム ----
   gymrock1: {
     class: 'ジムトレーナー', name: 'こうじ', skill: 2, sprite: 'youngster', prize: 80, sight: 4,
-    party: [{ id: 74, lv: 18 }],
+    party: [{ id: 41, lv: 17 }, { id: 74, lv: 18 }],
     intro: ['リーダーに あうには ぼくを たおしてからだ！'],
     defeat: ['ぐっ… やるな。'],
     after: ['いわは かたい。だが みずには かなわない。'],
@@ -137,7 +138,8 @@ export const TRAINERS = {
   leaderIwa: {
     class: 'ジムリーダー', name: 'イワオ', skill: 3, sprite: 'leader', prize: 150, sight: 0,
     badge: 'iwa',
-    party: [{ id: 74, lv: 20 }, { id: 75, lv: 22 }],
+    party: [{ id: 74, lv: 20 }, { id: 75, lv: 22, held: 'きあいのハチマキ' }],
+    items: ['なんでもなおし'],
     intro: [
       'よく ここまで きたな。',
       'わたしが ニビジムリーダーの イワオだ。',
@@ -177,14 +179,14 @@ export const TRAINERS = {
   },
   gymgrass1: {
     class: 'ジムトレーナー', name: 'あおい', skill: 2, sprite: 'lass', prize: 100, sight: 4,
-    party: [{ id: 2, lv: 27 }],
+    party: [{ id: 1, lv: 26 }, { id: 2, lv: 27 }],
     intro: ['ここから さきは くさの じんちだよ！'],
     defeat: ['まけちゃった… でも たのしかった！'],
     after: ['フシギソウは どくタイプも あわせもつんだよ。'],
   },
   gymgrass2: {
     class: 'ジムトレーナー', name: 'りょくと', skill: 2, sprite: 'bugcatcher', prize: 100, sight: 4,
-    party: [{ id: 723, lv: 28 }],
+    party: [{ id: 722, lv: 27 }, { id: 723, lv: 28 }],
     intro: ['リーダーに あうまえに ぼくを たおしていけ！'],
     defeat: ['くっ… もりの ちからが およばなかったか。'],
     after: ['フクスローは すばやい こうげきが とくいだ。'],
@@ -192,7 +194,9 @@ export const TRAINERS = {
   leaderKusa: {
     class: 'ジムリーダー', name: 'リンドウ', skill: 3, sprite: 'leader', prize: 180, sight: 0,
     badge: 'kusa',
-    party: [{ id: 723, lv: 28 }, { id: 3, lv: 30 }],
+    // Phase X-3: 別系統の3匹に厚みを持たせる（フクスロー系・ナットレイ・フシギバナ系）
+    party: [{ id: 723, lv: 28 }, { id: 598, lv: 29 }, { id: 3, lv: 31, held: 'きせきのたね' }],
+    items: ['なんでもなおし'],
     intro: [
       'ようこそ ハナカゴジムへ。',
       'わたしが ジムリーダーの リンドウ。',
@@ -232,14 +236,14 @@ export const TRAINERS = {
   },
   gymghost1: {
     class: 'ジムトレーナー', name: 'しのぶ', skill: 2, sprite: 'girl', prize: 105, sight: 4,
-    party: [{ id: 607, lv: 33 }],
+    party: [{ id: 42, lv: 32 }, { id: 607, lv: 33 }],
     intro: ['ようこそ、まよいびとよ…'],
     defeat: ['きえて いく…'],
     after: ['ランプラーは ひとだまのように とぶのよ。'],
   },
   gymghost2: {
     class: 'ジムトレーナー', name: 'れい', skill: 2, sprite: 'boy', prize: 105, sight: 4,
-    party: [{ id: 608, lv: 34 }],
+    party: [{ id: 607, lv: 33 }, { id: 608, lv: 34 }],
     intro: ['リーダーに あうには おれを こえていけ。'],
     defeat: ['からだが… とおく なって いく…'],
     after: ['リーダーは この おくに いる。'],
@@ -247,7 +251,12 @@ export const TRAINERS = {
   leaderGhost: {
     class: 'ジムリーダー', name: 'コトリ', skill: 3, sprite: 'leader', prize: 220, sight: 0,
     badge: 'ghost',
-    party: [{ id: 607, lv: 35 }, { id: 608, lv: 37 }],
+    // Phase X-3: ヒトモシ系に加え クロバット を混ぜ、別系統2匹以上の厚みを持たせる
+    party: [
+      { id: 607, lv: 35 }, { id: 169, lv: 36 },
+      { id: 608, lv: 38 }, { id: 609, lv: 40, held: 'オボンのみ' },
+    ],
+    items: ['なんでもなおし'],
     intro: [
       'ようこそ… ボレイジムへ。',
       'わたしが ジムリーダーの コトリ。',

@@ -9,7 +9,7 @@
 // yield するのは「エフェクト」。BattleScene がそれを実行し、結果を next() で返す。
 
 import { getMove } from '../data/moves.js';
-import { effectivenessMessage } from '../data/types.js';
+import { effectivenessMessage, effectiveness } from '../data/types.js';
 import {
   damage, accuracyCheck, expGain, expForLevel, statusEndOfTurnDamage,
   effectiveSpeed, catchAttempt, runAway, CATCH_FAIL_MESSAGE, STAT_LABEL,
@@ -129,7 +129,7 @@ function* battleLoop(ctx) {
         return { result: 'run' };
       }
       yield msg('にげられない！');
-      const foeAction = chooseAction(ctx.foe, ctx.mine, ctx.rng, ctx.trainer?.skill ?? 0, ctx.weather);
+      const foeAction = decideFoeAction(ctx);
       if ((yield* resolveTurn(ctx, [foeAction])).over) return null;
       continue;
     }
@@ -137,7 +137,7 @@ function* battleLoop(ctx) {
     if (mine.type === 'ball') {
       const caught = yield* throwBall(ctx, mine.item);
       if (caught) return { result: 'caught' };
-      const foeAction = chooseAction(ctx.foe, ctx.mine, ctx.rng, ctx.trainer?.skill ?? 0, ctx.weather);
+      const foeAction = decideFoeAction(ctx);
       if ((yield* resolveTurn(ctx, [foeAction])).over) return null;
       continue;
     }
@@ -145,7 +145,7 @@ function* battleLoop(ctx) {
     // わざ・どうぐ・交代は、どれも「こちらの1手」として同じ経路を通る。
     // ここを分けていた（＝どうぐと交代がターンの実行に乗らない）のが
     // 「交代できない」「HPバーが1テンポ遅れる」の原因だった。
-    const foeAction = chooseAction(ctx.foe, ctx.mine, ctx.rng, ctx.trainer?.skill ?? 0, ctx.weather);
+    const foeAction = decideFoeAction(ctx);
     const actions = orderActions([mine, foeAction], ctx.rng, ctx.weather?.kind);
     if ((yield* resolveTurn(ctx, actions)).over) return null;
   }
@@ -209,6 +209,56 @@ function* chooseCommand(ctx) {
   }
 }
 
+// ---- 相手（トレーナー）の1手 ----
+
+/**
+ * ジムリーダー(skill:3)は状態異常を1回だけ回復するどうぐを持つ（Phase X-3）。
+ * 手持ちが状態異常なら、攻撃より先にそれを使ってくる。
+ */
+function pickFoeItem(ctx) {
+  if (!ctx.trainer || (ctx.trainer.skill ?? 0) < 3 || !ctx.foe.status) return null;
+  const items = ctx.trainerItemsLeft;
+  if (!items?.length) return null;
+  const idx = items.findIndex((name) => {
+    const use = getItem(name)?.use;
+    return use?.kind === 'cure' && (use.status === 'all' || use.status === ctx.foe.status);
+  });
+  if (idx < 0) return null;
+  const [itemName] = items.splice(idx, 1);
+  return { type: 'foeItem', user: ctx.foe, itemName };
+}
+
+/**
+ * AI交代（Phase X-2）。skill:3 だけ、いまの子が2倍弱点を突かれていて、
+ * ひかえに その弱点を持たない子がいれば 攻撃より先に交代する。
+ * 交代先は毎回「弱点をやわらげる」ことしか見ないので、直した先がまた弱点なら次のターンも交代できる
+ * （＝無限ループにはならない。ベンチが尽きれば普通に攻撃を選ぶ）。
+ */
+function pickFoeSwitch(ctx) {
+  if (!ctx.trainer || (ctx.trainer.skill ?? 0) < 3 || !ctx.foeParty) return null;
+  const bench = ctx.foeParty.filter((m) => m !== ctx.foe && !isFainted(m));
+  if (!bench.length) return null;
+
+  // 自分の各タイプが相手にどれだけ通るかの最大値を「弱点の深さ」とする
+  const threatIn = (types) => Math.max(0, ...ctx.mine.types.map((t) => effectiveness(t, types)));
+  const currentThreat = threatIn(ctx.foe.types);
+  if (currentThreat < 2) return null; // いまの子が特別 不利でなければ交代しない
+
+  let best = null;
+  let bestThreat = currentThreat;
+  for (const m of bench) {
+    const t = threatIn(m.types);
+    if (t < bestThreat) { best = m; bestThreat = t; }
+  }
+  if (!best) return null;
+  return { type: 'foeSwitch', user: ctx.foe, next: best };
+}
+
+function decideFoeAction(ctx) {
+  return pickFoeSwitch(ctx) ?? pickFoeItem(ctx)
+    ?? chooseAction(ctx.foe, ctx.mine, ctx.rng, ctx.trainer?.skill ?? 0, ctx.weather);
+}
+
 // ---- 行動順 ----
 
 function priorityOf(act) {
@@ -231,6 +281,8 @@ export function orderActions(actions, rng, weather = null) {
 function* executeAction(ctx, act) {
   if (act.type === 'switch') { yield* doSwitchAction(ctx, act); return; }
   if (act.type === 'item') { yield* doItemAction(ctx, act); return; }
+  if (act.type === 'foeItem') { yield* doFoeItemAction(ctx, act); return; }
+  if (act.type === 'foeSwitch') { yield* doFoeSwitchAction(ctx, act); return; }
 
   const user = act.user;
   const target = user === ctx.mine ? ctx.foe : ctx.mine;
@@ -249,6 +301,13 @@ function* executeAction(ctx, act) {
   }
 
   yield msg(`${isMine ? '' : 'てきの '}${displayName(user)}の ${move.name}！`);
+
+  // まもる（Phase X-1）。自分自身にかける変化技（積み技など）以外は、このターンすべて防ぐ。
+  const targetsOpponent = !(move.category === '変化' && move.effect?.target === 'self');
+  if (targetsOpponent && target.volatile.protecting) {
+    yield msg(`${isMine ? 'てきの ' : ''}${displayName(target)}は みを まもっている！`);
+    return;
+  }
 
   if (!accuracyCheck(user, target, move, ctx.rng)) {
     yield msg(`${displayName(user)}の こうげきは はずれた！`);
@@ -273,6 +332,20 @@ function* executeAction(ctx, act) {
   for (let i = 0; i < hits; i++) {
     if (isFainted(target)) break;
     const d0 = i === 0 ? dmg : damage(user, target, move, ctx.rng, ctx.weather?.kind).dmg;
+
+    // みがわり: 本体の代わりに人形が受ける。壊れても余った分は本体に流れ込まない。
+    if (target.volatile.substitute > 0) {
+      const absorbed = Math.min(d0, target.volatile.substitute);
+      target.volatile.substitute -= absorbed;
+      total += absorbed;
+      yield anim('hit', { onFoe: isMine, eff });
+      if (target.volatile.substitute <= 0) {
+        target.volatile.substitute = 0;
+        yield msg(`${isMine ? 'てきの ' : ''}${displayName(target)}の みがわりが きえた！`);
+      }
+      continue;
+    }
+
     const d1 = yield* applySturdy(ctx, target, d0);
     const d = yield* applyEndure(ctx, target, d1);
     total += damageMon(target, d);
@@ -420,6 +493,12 @@ function* applyEffect(ctx, user, target, move, dealt) {
   const isMine = user === ctx.mine;
   const foeLabel = (m) => `${(m === ctx.foe ? 'てきの ' : '')}${displayName(m)}`;
 
+  // みがわり: 相手が対象の状態異常・能力ダウン・混乱・ひるみは、みがわりが残っていると素通しにする
+  if (target.volatile.substitute > 0 && e.target !== 'self'
+    && ['status', 'stat', 'confuse', 'flinch'].includes(e.kind)) {
+    return;
+  }
+
   switch (e.kind) {
     case 'status': {
       if (!ctx.rng.chance((e.chance ?? 100) / 100)) return;
@@ -430,6 +509,7 @@ function* applyEffect(ctx, user, target, move, dealt) {
       }
       victim.status = e.status;
       if (e.status === 'ねむり') victim.statusTurns = ctx.rng.int(1, 3);
+      else if (e.status === 'もうどく') victim.statusTurns = 0; // 毎ターン増える方向のカウント（formulas.js側）
       yield msg(`${foeLabel(victim)}は ${statusVerb(e.status)}`);
       break;
     }
@@ -506,6 +586,31 @@ function* applyEffect(ctx, user, target, move, dealt) {
       break;
     }
 
+    // みがわり（Phase X-1）。HPの1/4を代償に、こうげきの身代わりになる人形を出す。
+    case 'substitute': {
+      if (user.volatile.substitute > 0) {
+        yield msg('しかし もう みがわりが いる！');
+        return;
+      }
+      const cost = Math.max(1, Math.floor(user.stats.hp / 4));
+      if (user.curHP <= cost) {
+        yield msg(`${foeLabel(user)}には たいりょくが たりない！`);
+        return;
+      }
+      damageMon(user, cost);
+      user.volatile.substitute = cost;
+      yield { t: 'hpTween', onFoe: !isMine };
+      yield msg(`${foeLabel(user)}は みがわりを つくった！`);
+      break;
+    }
+
+    // まもる（Phase X-1）。優先度+4で必ず先手を取り、このターンの相手の技を防ぐ。
+    case 'protect': {
+      user.volatile.protecting = true;
+      yield msg(`${foeLabel(user)}は みを まもった！`);
+      break;
+    }
+
     // highCrit / multiHit はダメージ計算側で処理済み。
     default:
       break;
@@ -527,6 +632,7 @@ const SAND_IMMUNE = ['いわ', 'じめん', 'はがね'];
 function statusVerb(status) {
   switch (status) {
     case 'どく': return 'どくを あびた！';
+    case 'もうどく': return 'もうどくを あびた！';
     case 'やけど': return 'やけどを おった！';
     case 'まひ': return 'まひして わざが でにくくなった！';
     case 'ねむり': return 'ねむってしまった！';
@@ -542,14 +648,19 @@ function* endOfTurn(ctx) {
 
   for (const m of [ctx.mine, ctx.foe]) {
     if (isFainted(m)) continue;
+    if (m.status === 'もうどく') m.statusTurns++; // ターンを追うごとにダメージが増える
     const d = statusEndOfTurnDamage(m);
     if (d <= 0) continue;
     damageMon(m, d);
     const label = `${m === ctx.foe ? 'てきの ' : ''}${displayName(m)}`;
-    yield msg(`${label}は ${m.status === 'どく' ? 'どくの' : 'やけどの'} ダメージを うけた！`);
+    yield msg(`${label}は ${(m.status === 'どく' || m.status === 'もうどく') ? 'どくの' : 'やけどの'} ダメージを うけた！`);
     yield { t: 'hpTween', onFoe: m === ctx.foe };
     yield* checkPinchHeal(ctx, m);
   }
+
+  // まもるは1ターンだけ効く。次のターンに持ち越さない。
+  ctx.mine.volatile.protecting = false;
+  ctx.foe.volatile.protecting = false;
 
   // たべのこし。まいターン すこしずつ回復する。
   for (const m of [ctx.mine, ctx.foe]) {
@@ -670,6 +781,27 @@ function* doItemAction(ctx, act) {
   yield msg(`${state.player.name}は ${item.name}を つかった！`);
   yield { t: 'hpTween', onFoe: false };
   yield msg(r.message);
+}
+
+/** トレーナーが自分のポケモンにどうぐを使う（Phase X-3）。1回きりで、消費は pickFoeItem 側で済ませてある。 */
+function* doFoeItemAction(ctx, act) {
+  const r = applyItemUse(ctx.foe, getItem(act.itemName)?.use);
+  yield msg(`${ctx.trainer?.name ?? 'あいて'}は ${act.itemName}を つかった！`);
+  if (r.ok) yield msg(r.message);
+}
+
+/** AI交代（Phase X-2）。トレーナーが不利な子を自分の意思でひっこめる。 */
+function* doFoeSwitchAction(ctx, act) {
+  const t = ctx.trainer;
+  const out = ctx.foe;
+  yield msg(`${t?.name ?? 'あいて'}は ${displayName(out)}を もどした！`);
+  resetBattleState(out);
+  ctx.foe = act.next;
+  registerSeen(act.next.species.id);
+  ctx.onFoeSwitch?.(act.next);
+  yield anim('foeSendOut');
+  yield msg(`${t?.name ?? 'あいて'}は ${act.next.species.name}を くりだした！`);
+  yield* triggerSendOut(ctx, act.next, false);
 }
 
 function* switchIn(ctx, index) {

@@ -92,6 +92,8 @@ export class BattleScene {
       trainerId,
       foeParty,
       runAttempts: 0,
+      // ジムリーダー(skill:3)が状態異常を1回だけ回復する持ちもの（Phase X-3）
+      trainerItemsLeft: trainer?.items ? [...trainer.items] : [],
       onSwitch: (m) => { this.dispHP.mine = m.curHP; this.dispExp = expRatio(m); },
       onFoeSwitch: (m) => { this.dispHP.foe = m.curHP; },
     };

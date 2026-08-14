@@ -249,7 +249,7 @@ export class FieldScene {
     this.busy = true;
     this.pendingChampion = npc.trainer === 'rival5';
     const trainer = resolveTrainer(npc.trainer);
-    const foeParty = trainer.party.map((p) => createMonster(p.id, p.lv, { rng, moves: p.moves }));
+    const foeParty = trainer.party.map((p) => createMonster(p.id, p.lv, { rng, moves: p.moves, held: p.held }));
 
     const [{ TransitionScene }, { BattleScene }] = await Promise.all([
       import('./TransitionScene.js'),

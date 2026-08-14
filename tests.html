@@ -470,7 +470,7 @@ for (const [name, it] of Object.entries(ITEMS)) {
   }
   if (it.hold) {
     // battle.js が解釈する hold.kind の一覧。ここに無いものは黙って無視されるだけになる。
-    const HOLD_KINDS = ['pinchHeal', 'endTurnHeal', 'endure'];
+    const HOLD_KINDS = ['pinchHeal', 'endTurnHeal', 'endure', 'typeBoost'];
     check(`${name} の hold.kind がエンジンに実装済み`, HOLD_KINDS.includes(it.hold.kind), it.hold.kind);
     check(`${name} の pocket が もちもの`, it.pocket === 'もちもの', it.pocket);
   }

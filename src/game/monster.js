@@ -113,7 +113,10 @@ export function itemUseError(m, use) {
       if (m.curHP >= m.stats.hp) return 'HPは まんたんだ！';
       return null;
     case 'cure': {
-      const match = use.status === 'all' ? !!m.status : m.status === use.status;
+      // どくけしは もうどく も なおす（本家と同じ）
+      const match = use.status === 'all' ? !!m.status
+        : use.status === 'どく' ? (m.status === 'どく' || m.status === 'もうどく')
+        : m.status === use.status;
       return match ? null : 'それを つかっても いみが なさそうだ。';
     }
     case 'revive':

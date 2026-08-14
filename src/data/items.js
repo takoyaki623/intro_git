@@ -145,6 +145,28 @@ export const ITEMS = {
     pocket: 'もちもの', price: 1000, hold: { kind: 'endure', chance: 10 },
     desc: 'もたせると、ときどき ひんしに なる こうげきを HP1で もちこたえる。',
   },
+
+  // タイプ強化どうぐ（Phase X-5）。対応タイプの技のダメージを1.2倍にする。
+  'もくたん': {
+    pocket: 'もちもの', price: 2000, hold: { kind: 'typeBoost', type: 'ほのお', mul: 1.2 },
+    desc: 'もたせると、ほのおタイプの わざの いりょくが あがる。',
+  },
+  'しんぴのしずく': {
+    pocket: 'もちもの', price: 2000, hold: { kind: 'typeBoost', type: 'みず', mul: 1.2 },
+    desc: 'もたせると、みずタイプの わざの いりょくが あがる。',
+  },
+  'じしゃく': {
+    pocket: 'もちもの', price: 2000, hold: { kind: 'typeBoost', type: 'でんき', mul: 1.2 },
+    desc: 'もたせると、でんきタイプの わざの いりょくが あがる。',
+  },
+  'きせきのたね': {
+    pocket: 'もちもの', price: 2000, hold: { kind: 'typeBoost', type: 'くさ', mul: 1.2 },
+    desc: 'もたせると、くさタイプの わざの いりょくが あがる。',
+  },
+  'するどいくちばし': {
+    pocket: 'もちもの', price: 2000, hold: { kind: 'typeBoost', type: 'ひこう', mul: 1.2 },
+    desc: 'もたせると、ひこうタイプの わざの いりょくが あがる。',
+  },
 };
 
 // わざマシン。使っても無くならない（何匹にでも教えられる）。

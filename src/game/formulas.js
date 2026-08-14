@@ -6,6 +6,7 @@
 import { effectiveness } from '../data/types.js';
 import { natureMul } from '../data/natures.js';
 import { CURVE, MAX_LEVEL } from '../data/growth.js';
+import { getItem } from '../data/items.js';
 
 export const STATS = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
 
@@ -136,6 +137,11 @@ export function damage(attacker, defender, move, rng, weather = null) {
     if (move.type === 'ほのお') d = Math.floor(d * 1.5);
     else if (move.type === 'みず') d = Math.floor(d * 0.5);
   }
+  // タイプ強化どうぐ（Phase X-5）: もくたん・じしゃく等、対応タイプの技を1.2倍
+  const boost = getItem(attacker.held ?? '')?.hold;
+  if (boost?.kind === 'typeBoost' && boost.type === move.type) {
+    d = Math.floor(d * (boost.mul ?? 1.2));
+  }
   d = Math.floor((d * rng.int(85, 100)) / 100);
 
   return { dmg: Math.max(1, d), eff, crit };
@@ -185,7 +191,7 @@ export function expRatio(mon) {
 // ---- 捕獲 ----
 
 export const STATUS_CATCH_BONUS = {
-  'ねむり': 2, 'こおり': 2, 'まひ': 1.5, 'どく': 1.5, 'やけど': 1.5,
+  'ねむり': 2, 'こおり': 2, 'まひ': 1.5, 'どく': 1.5, 'やけど': 1.5, 'もうどく': 1.5,
 };
 
 /**
@@ -243,12 +249,17 @@ export function runAway(mySpe, foeSpe, attempts, rng) {
 
 export const STATUS_SHORT = {
   'どく': 'どく', 'やけど': 'やけど', 'まひ': 'まひ',
-  'ねむり': 'ねむり', 'こおり': 'こおり',
+  'ねむり': 'ねむり', 'こおり': 'こおり', 'もうどく': 'もうどく',
 };
 
-/** 毎ターン終了時のスリップダメージ */
+/**
+ * 毎ターン終了時のスリップダメージ。
+ * もうどく（Phase X-1）は「かかってからのターン数」を mon.statusTurns に積んでおき
+ * （ねむりのカウントダウンと同じ場所を、増える方向で使い回す）、ダメージが毎ターン増えていく。
+ */
 export function statusEndOfTurnDamage(mon) {
   if (mon.status === 'どく') return Math.max(1, Math.floor(mon.stats.hp / 8));
+  if (mon.status === 'もうどく') return Math.max(1, Math.floor((mon.stats.hp * mon.statusTurns) / 16));
   if (mon.status === 'やけど') return Math.max(1, Math.floor(mon.stats.hp / 16));
   return 0;
 }
