@@ -8,7 +8,7 @@ import { SPECIES } from '../data/species.js';
 
 const DEX_TOTAL = Object.keys(SPECIES).length;
 
-export const SAVE_VERSION = 2;
+export const SAVE_VERSION = 3;
 export const PARTY_MAX = 6;
 export const BOX_COUNT = 3;
 export const BOX_SIZE = 30;
@@ -38,6 +38,13 @@ const MIGRATIONS = {
       daycare: s.daycare ? { ...s.daycare, mon: remapMon(s.daycare.mon) } : s.daycare,
     };
   },
+  // Phase Z-1/Z-2: プレイ統計・でんどうのま記録・色違いを追加。古いセーブは空の記録から始まる。
+  2: (s) => ({
+    ...s,
+    version: 3,
+    stats: { steps: 0, battles: 0, caught: 0, fled: 0, ballsUsed: 0, ...(s.stats ?? {}) },
+    hallOfFame: s.hallOfFame ?? [],
+  }),
 };
 
 export const state = {
@@ -53,12 +60,16 @@ export const state = {
   boxes: Array.from({ length: BOX_COUNT }, () => new Array(BOX_SIZE).fill(null)),
   bag: {},
   flags: {},
-  dex: { seen: [], caught: [], where: {} },
+  dex: { seen: [], caught: [], where: {}, shiny: [] },
   playTimeMs: 0,
   stepsSinceEncounter: 0,
   startedAt: Date.now(),
   // 殿堂入りした回数。タイトルの「つづきから」に ★ を出すのに使う。
   hallOfFameCount: 0,
+  // でんどうのま（Phase Z-2）。何回目にどのパーティで勝ったかを残す。
+  hallOfFame: [],
+  // トレーナーカード用の記録（Phase Z-1）。
+  stats: { steps: 0, battles: 0, caught: 0, fled: 0, ballsUsed: 0 },
   // そだてや に あずけた1匹。{ mon, stepsLeft, startLv }
   daycare: null,
   // むしよけスプレーの残り歩数。セーブには含めない（リロードで切れても実害が薄い）。
@@ -80,11 +91,13 @@ export function resetState() {
   state.boxes = Array.from({ length: BOX_COUNT }, () => new Array(BOX_SIZE).fill(null));
   state.bag = { 'モンスターボール': 5, 'きずぐすり': 3 };
   state.flags = {};
-  state.dex = { seen: [], caught: [], where: {} };
+  state.dex = { seen: [], caught: [], where: {}, shiny: [] };
   state.playTimeMs = 0;
   state.stepsSinceEncounter = 0;
   state.startedAt = Date.now();
   state.hallOfFameCount = 0;
+  state.hallOfFame = [];
+  state.stats = { steps: 0, battles: 0, caught: 0, fled: 0, ballsUsed: 0 };
   state.daycare = null;
   state.repelSteps = 0;
   state.lastEntrance = null;
@@ -108,6 +121,12 @@ export function registerCaught(id) {
   if (n >= 10) state.flags.dexReady10 = true;
   if (n >= 20) state.flags.dexReady20 = true;
   if (n >= DEX_TOTAL) state.flags.dexReadyAll = true;
+}
+
+/** 色違いを捕まえたことを図鑑に記す（Phase Z-3）。 */
+export function registerShinyCaught(id) {
+  state.dex.shiny ??= [];
+  if (!state.dex.shiny.includes(id)) state.dex.shiny.push(id);
 }
 
 // ---- バッグ ----
@@ -166,6 +185,19 @@ export function healParty() {
   for (const m of state.party) fullHeal(m);
 }
 
+// ---- プレイ統計（Phase Z-1）----
+export const addStat = (key, n = 1) => { state.stats[key] = (state.stats[key] ?? 0) + n; };
+
+/** でんどうのまの記録を1本足す（Phase Z-2）。パーティの種族・Lv・ニックネームだけ残す。 */
+export function recordHallOfFame() {
+  state.hallOfFame.push({
+    at: Date.now(),
+    party: state.party.map((m) => ({
+      speciesId: m.species.id, name: m.species.name, nick: m.nick, level: m.level, shiny: !!m.shiny,
+    })),
+  });
+}
+
 // ---- セーブ ----
 
 export function buildSave() {
@@ -174,6 +206,8 @@ export function buildSave() {
     savedAt: Date.now(),
     playTimeMs: state.playTimeMs,
     hallOfFameCount: state.hallOfFameCount,
+    hallOfFame: state.hallOfFame.map((h) => ({ at: h.at, party: h.party.map((m) => ({ ...m })) })),
+    stats: { ...state.stats },
     rngSeed: rng.seed,
     player: {
       name: state.player.name,
@@ -187,7 +221,10 @@ export function buildSave() {
     boxes: state.boxes.map((b) => b.map((m) => (m ? serialize(m) : null))),
     bag: { ...state.bag },
     flags: { ...state.flags },
-    dex: { seen: [...state.dex.seen], caught: [...state.dex.caught], where: { ...state.dex.where } },
+    dex: {
+      seen: [...state.dex.seen], caught: [...state.dex.caught], where: { ...state.dex.where },
+      shiny: [...(state.dex.shiny ?? [])],
+    },
     daycare: state.daycare
       ? { mon: serialize(state.daycare.mon), steps: state.daycare.steps, startLv: state.daycare.startLv }
       : null,
@@ -261,9 +298,12 @@ export function load(slot = 0) {
       seen: [...(s.dex?.seen ?? [])],
       caught: [...(s.dex?.caught ?? [])],
       where: { ...(s.dex?.where ?? {}) },
+      shiny: [...(s.dex?.shiny ?? [])],
     };
     state.playTimeMs = s.playTimeMs ?? 0;
     state.hallOfFameCount = s.hallOfFameCount ?? 0;
+    state.hallOfFame = Array.isArray(s.hallOfFame) ? s.hallOfFame.map((h) => ({ at: h.at, party: h.party ?? [] })) : [];
+    state.stats = { steps: 0, battles: 0, caught: 0, fled: 0, ballsUsed: 0, ...(s.stats ?? {}) };
     state.stepsSinceEncounter = 0;
     state.repelSteps = 0;
     state.lastEntrance = null;

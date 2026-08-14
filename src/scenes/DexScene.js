@@ -96,7 +96,8 @@ export class DexScene {
     }
 
     drawSprite(ctx, sp.sprite, 170, 12, { scale: 2 });
-    drawText(ctx, sp.name, 144, 64, { color: COL.ink });
+    const gotShiny = (state.dex.shiny ?? []).includes(sp.id);
+    drawText(ctx, gotShiny ? `☆${sp.name}` : sp.name, 144, 64, { color: COL.ink });
     let tx = 144;
     for (const t of sp.types) tx += drawTypeTag(ctx, t, TYPE_COLOR[t], tx, 80) + 3;
 

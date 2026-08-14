@@ -25,7 +25,8 @@ import * as Music from '../core/music.js';
 import { MAX_LEVEL } from '../data/growth.js';
 import { getSpecies } from '../data/species.js';
 import {
-  state, addMonster, registerSeen, registerCaught, removeItem, partyFull, setFlag, getFlag, countItem,
+  state, addMonster, registerSeen, registerCaught, registerShinyCaught, removeItem, partyFull, setFlag, getFlag,
+  countItem, addStat,
 } from './state.js';
 import { prizeMoney, trainerFlag, badgeFlag, BADGES } from '../data/trainers.js';
 import { getItem } from '../data/items.js';
@@ -44,6 +45,7 @@ const wait = (frames) => ({ t: 'wait', frames });
  */
 export function* wildBattle(ctx) {
   ctx.isWild = true;
+  addStat('battles');
   registerSeen(ctx.foe.species.id);
 
   yield anim('intro');
@@ -71,6 +73,7 @@ export function* wildBattle(ctx) {
 export function* trainerBattle(ctx) {
   const t = ctx.trainer;
   ctx.isWild = false;
+  addStat('battles');
 
   yield anim('intro');
   yield msg(`${t.class}の ${t.name}が しょうぶを しかけてきた！`);
@@ -126,6 +129,7 @@ function* battleLoop(ctx) {
       );
       if (ok) {
         yield msg('うまく にげきれた！');
+        addStat('fled');
         return { result: 'run' };
       }
       yield msg('にげられない！');
@@ -819,6 +823,7 @@ function* switchIn(ctx, index) {
 
 function* throwBall(ctx, item) {
   removeItem(item.name, 1);
+  addStat('ballsUsed');
   yield msg(`${state.player.name}は ${item.name}を なげた！`);
 
   // くさバッジ: 捕獲率 ×1.2（Phase R）
@@ -833,6 +838,8 @@ function* throwBall(ctx, item) {
 
   yield msg(`やったー！ ${displayName(ctx.foe)}を つかまえたぞ！`);
   registerCaught(ctx.foe.species.id);
+  if (ctx.foe.shiny) registerShinyCaught(ctx.foe.species.id);
+  addStat('caught');
 
   // ニックネーム。つけないほうが多いので「いいえ」を初期選択にしてある。
   if (yield { t: 'confirm', text: `${ctx.foe.species.name}に ニックネームを つけますか？`, defaultNo: true }) {

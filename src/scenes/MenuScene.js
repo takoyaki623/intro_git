@@ -25,9 +25,12 @@ export class MenuScene {
         { label: 'ポケモン', id: 'party', disabled: state.party.length === 0 },
         { label: 'バッグ', id: 'bag' },
         { label: 'ずかん', id: 'dex' },
+        { label: 'カード', id: 'card' },
         { label: 'めもちょう', id: 'note' },
         // いわバッジを取るまでは並べない（取れば増える、が分かりやすい）
         ...(getFlag(badgeFlag('iwa')) ? [{ label: 'そらをとぶ', id: 'fly' }] : []),
+        // 殿堂入りしたことがあるときだけ出す（Phase Z-2）
+        ...(getFlag('hallOfFame') ? [{ label: 'でんどうのま', id: 'hof' }] : []),
         { label: 'レポート', id: 'save' },
         { label: 'せってい', id: 'settings' },
         { label: 'とじる', id: 'close' },
@@ -76,6 +79,16 @@ export class MenuScene {
     if (id === 'dex') {
       const { DexScene } = await import('./DexScene.js');
       Scenes.push(new DexScene());
+      return;
+    }
+    if (id === 'card') {
+      const { TrainerCardScene } = await import('./TrainerCardScene.js');
+      Scenes.push(new TrainerCardScene());
+      return;
+    }
+    if (id === 'hof') {
+      const { HallOfFameRecordScene } = await import('./HallOfFameRecordScene.js');
+      Scenes.push(new HallOfFameRecordScene());
       return;
     }
     if (id === 'note') {

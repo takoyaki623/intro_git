@@ -5,7 +5,7 @@ import { BTN } from '../core/input.js';
 import { rng } from '../core/rng.js';
 import { SE } from '../core/audio.js';
 import * as Music from '../core/music.js';
-import { draw as drawSprite } from '../engine/pixelArt.js';
+import { draw as drawSprite, shinyVariant } from '../engine/pixelArt.js';
 import { drawText, drawTextRight, drawTextCentered } from '../engine/font.js';
 import {
   drawWindow, drawBar, drawCursor, hpColor, fillScreen, drawTypeTag, COL,
@@ -629,14 +629,16 @@ export class BattleScene {
     const { mine, foe } = this.ctx;
 
     if (!this.hidden.foe) {
-      drawSprite(ctx, foe.species.sprite, FOE_X + this.spriteOffset.foe, FOE_Y + (this.faintClip.foe !== null ? this.spriteOffset.foe : 0), {
+      const sprite = foe.shiny ? shinyVariant(foe.species.sprite) : foe.species.sprite;
+      drawSprite(ctx, sprite, FOE_X + this.spriteOffset.foe, FOE_Y + (this.faintClip.foe !== null ? this.spriteOffset.foe : 0), {
         scale: FOE_SCALE,
         flash: this.flash.foe > 0,
         clipH: this.faintClip.foe,
       });
     }
     if (!this.hidden.mine) {
-      drawSprite(ctx, mine.species.sprite, MINE_X, MINE_Y + this.spriteOffset.mine, {
+      const sprite = mine.shiny ? shinyVariant(mine.species.sprite) : mine.species.sprite;
+      drawSprite(ctx, sprite, MINE_X, MINE_Y + this.spriteOffset.mine, {
         scale: MINE_SCALE,
         flip: true,
         flash: this.flash.mine > 0,
@@ -760,7 +762,8 @@ export class BattleScene {
     drawWindow(ctx, 6, 8, 122, 48);
     // 図鑑に登録済みの種は名前の横に ◎ を出す（もう捕まえた、が一目でわかる）
     const foeCaught = !this.ctx.trainer && state.dex.caught.includes(foe.species.id);
-    drawText(ctx, foeCaught ? `${foe.species.name} ◎` : foe.species.name, 14, 13, { color: COL.ink });
+    const foeName = `${foe.shiny ? '☆' : ''}${foe.species.name}${foeCaught ? ' ◎' : ''}`;
+    drawText(ctx, foeName, 14, 13, { color: COL.ink });
     drawTextRight(ctx, `Lv${foe.level}`, 122, 13, { color: COL.ink });
     drawText(ctx, 'HP', 14, 28, { color: '#f0a020' });
     if (foe.status) {
@@ -774,7 +777,7 @@ export class BattleScene {
 
     // 自分（なまえ / HPバー / HP数値 / 一番下に EXPバー）
     drawWindow(ctx, 126, 94, 124, 52);
-    drawText(ctx, displayName(mine), 134, 98, { color: COL.ink });
+    drawText(ctx, `${mine.shiny ? '☆' : ''}${displayName(mine)}`, 134, 98, { color: COL.ink });
     drawTextRight(ctx, `Lv${mine.level}`, 244, 98, { color: COL.ink });
     drawText(ctx, 'HP', 134, 112, { color: '#f0a020' });
     drawBar(ctx, 152, 116, 84, this.dispHP.mine / mine.stats.hp, hpColor(this.dispHP.mine, mine.stats.hp));

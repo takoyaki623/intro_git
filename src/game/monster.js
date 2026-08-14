@@ -12,6 +12,8 @@ import { levelFromExp, MAX_LEVEL } from '../data/growth.js';
 import { rng as defaultRng } from '../core/rng.js';
 
 export const MAX_MOVES = 4;
+// 色違い（Phase Z-3）の出現率。
+export const SHINY_RATE = 1 / 512;
 
 function rollIVs(rng) {
   return {
@@ -79,6 +81,7 @@ export function createMonster(speciesId, level, opt = {}) {
     metLv: opt.metLv ?? level,
     metMap: opt.metMap ?? null,
     held: opt.held ?? null,
+    shiny: opt.shiny ?? rng.chance(SHINY_RATE),
     evoDeclined: false,
     evoLocked: false,
   });
@@ -273,6 +276,7 @@ export function serialize(m) {
     metLv: m.metLv,
     metMap: m.metMap,
     held: m.held ?? null,
+    shiny: m.shiny || undefined,
     evoDeclined: m.evoDeclined || undefined,
     evoLocked: m.evoLocked || undefined,
   };
@@ -338,6 +342,7 @@ export function hydrate(save) {
     metLv: save.metLv ?? level,
     metMap: save.metMap ?? null,
     held: save.held ?? null,
+    shiny: !!save.shiny,
     evoDeclined: save.evoDeclined ?? false,
     evoLocked: save.evoLocked ?? false,
   });

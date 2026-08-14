@@ -3,7 +3,7 @@
 
 import { getMap, mapWidth, mapHeight, tileKeyAt } from '../data/maps/index.js';
 import { TILE } from '../data/tiles.js';
-import { state, getFlag, setFlag } from './state.js';
+import { state, getFlag, setFlag, addStat } from './state.js';
 import { getTrainer, trainerFlag } from '../data/trainers.js';
 import { rng } from '../core/rng.js';
 
@@ -222,12 +222,14 @@ export function tryStep(dir, running = false) {
     if (!isWalkable(lx, ly)) return false;
     startMove(p, lx, ly, JUMP_FRAMES);
     p.jumping = true;
+    addStat('steps');
     return true;
   }
 
   if (!isWalkable(nx, ny)) return false;
 
   startMove(p, nx, ny, running ? RUN_FRAMES : WALK_FRAMES);
+  addStat('steps');
   return true;
 }
 

@@ -320,3 +320,61 @@ export function shade(hex, amount) {
   });
   return '#' + ch.map((v) => v.toString(16).padStart(2, '0')).join('');
 }
+
+// ---- 色違い（Phase Z-3） ----
+// pixelArt.js が既にパレット方式なので、パレットの色相を回すだけで別バリエーションになる。
+
+function hexToHsl(hex) {
+  const r = parseInt(hex.slice(1, 3), 16) / 255;
+  const g = parseInt(hex.slice(3, 5), 16) / 255;
+  const b = parseInt(hex.slice(5, 7), 16) / 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  let h = 0;
+  const l = (max + min) / 2;
+  const d = max - min;
+  const s = d === 0 ? 0 : d / (1 - Math.abs(2 * l - 1));
+  if (d !== 0) {
+    switch (max) {
+      case r: h = ((g - b) / d) % 6; break;
+      case g: h = (b - r) / d + 2; break;
+      default: h = (r - g) / d + 4; break;
+    }
+    h *= 60;
+    if (h < 0) h += 360;
+  }
+  return [h, s, l];
+}
+
+function hslToHex(h, s, l) {
+  const c = (1 - Math.abs(2 * l - 1)) * s;
+  const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+  const m = l - c / 2;
+  let [r, g, b] = h < 60 ? [c, x, 0] : h < 120 ? [x, c, 0] : h < 180 ? [0, c, x]
+    : h < 240 ? [0, x, c] : h < 300 ? [x, 0, c] : [c, 0, x];
+  const toHex = (v) => Math.round((v + m) * 255).toString(16).padStart(2, '0');
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
+
+/** 16進色の色相を deg 度だけ回す。彩度・明度はそのまま。 */
+function rotateHue(hex, deg) {
+  const [h, s, l] = hexToHsl(hex);
+  return hslToHex((h + deg + 360) % 360, s, l);
+}
+
+const shinyCache = new WeakMap();
+
+/**
+ * 色違い版のスプライト定義を作る。パレットの色相を90度回すだけ。
+ * 同じ def には同じ結果を毎回返す（bake() のキャッシュと相性がいいように）。
+ */
+export function shinyVariant(def) {
+  const hit = shinyCache.get(def);
+  if (hit) return hit;
+  const palette = {};
+  for (const [ch, col] of Object.entries(def.palette)) {
+    palette[ch] = col ? rotateHue(col, 90) : col;
+  }
+  const out = { palette, pixels: def.pixels };
+  shinyCache.set(def, out);
+  return out;
+}
