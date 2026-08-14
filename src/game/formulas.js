@@ -92,8 +92,10 @@ export function statWithStage(mon, key, mode = 'normal') {
 export const CRIT_RATE = 1 / 16;
 export const HIGH_CRIT_RATE = 1 / 8;
 
-// とくせい（Phase V）: HP1/3以下で該当タイプの技を強化する
-const ABILITY_TYPE_BOOST = { 'もうか': 'ほのお', 'げきりゅう': 'みず', 'しんりょく': 'くさ' };
+// とくせい（Phase V / B1）: HP1/3以下で該当タイプの技を強化する
+const ABILITY_TYPE_BOOST = {
+  'もうか': 'ほのお', 'げきりゅう': 'みず', 'しんりょく': 'くさ', 'むしのしらせ': 'むし',
+};
 
 /**
  * ダメージ計算。rng は { chance(p), int(min,max) } を持つもの。

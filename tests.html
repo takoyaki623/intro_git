@@ -411,18 +411,19 @@ section('データ整合性 ― タイプと世代のカバレッジ');
   eq('種族の総数', speciesList.length, 68);
 }
 
-section('データ整合性 ― とくせい（Phase V）');
+section('データ整合性 ― とくせい（Phase V / B1）');
 {
   // battle.js/formulas.js が解釈するとくせい名の一覧。ここに無いものは黙って無視されるだけになる。
   const IMPLEMENTED_ABILITIES = [
-    'もうか', 'げきりゅう', 'しんりょく', 'いかく', 'ふゆう',
+    'もうか', 'げきりゅう', 'しんりょく', 'むしのしらせ', 'いかく', 'ふゆう',
     'せいでんき', 'ほのおのからだ', 'がんじょう', 'すいすい',
   ];
-  const withAbility = speciesList.filter((sp) => sp.ability);
-  for (const sp of withAbility) {
-    check(`${sp.name} の ${sp.ability} は実装済み`, IMPLEMENTED_ABILITIES.includes(sp.ability), sp.ability);
+  for (const sp of speciesList) {
+    check(`${sp.name} に とくせいがある`, !!sp.ability, sp.name);
+    if (sp.ability) {
+      check(`${sp.name} の ${sp.ability} は実装済み`, IMPLEMENTED_ABILITIES.includes(sp.ability), sp.ability);
+    }
   }
-  check('とくせいを持つ種族が 20種ほど いる', withAbility.length >= 18 && withAbility.length <= 26, `${withAbility.length}種`);
 }
 
 section('データ整合性 ― 積み技と天候（Phase T-2 / W）');

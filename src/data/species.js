@@ -177,7 +177,7 @@ export const SPECIES = {
   },
 
   10: {
-    name: 'キャタピー', types: ['むし'],
+    name: 'キャタピー', types: ['むし'], ability: 'むしのしらせ',
     base: { hp: 45, atk: 30, def: 35, spa: 20, spd: 20, spe: 45 },
     learnset: [
       { lv: 1, move: 'たいあたり' },
@@ -193,7 +193,7 @@ export const SPECIES = {
     dex: 'あたまの しょっかくから すごい においを だして てきを おいはらう。',
   },
   11: {
-    name: 'トランセル', types: ['むし'],
+    name: 'トランセル', types: ['むし'], ability: 'むしのしらせ',
     learnsetExempt: { all: true, note: 'さなぎ。学習セットの規格7項目は意図的に対象外（O-3）。' },
     base: { hp: 50, atk: 20, def: 55, spa: 25, spd: 25, spe: 30 },
     learnset: [
@@ -206,7 +206,7 @@ export const SPECIES = {
     dex: 'からを かたくして しんかの ときを まつ。なかみは やわらかく むりょくだ。',
   },
   12: {
-    name: 'バタフリー', types: ['むし', 'ひこう'],
+    name: 'バタフリー', types: ['むし', 'ひこう'], ability: 'むしのしらせ',
     base: { hp: 60, atk: 45, def: 50, spa: 90, spd: 80, spe: 70 },
     learnset: [
       { lv: 1, move: 'たいあたり' },
@@ -227,7 +227,7 @@ export const SPECIES = {
   },
 
   16: {
-    name: 'ポッポ', types: ['ノーマル', 'ひこう'],
+    name: 'ポッポ', types: ['ノーマル', 'ひこう'], ability: 'いかく',
     base: { hp: 40, atk: 45, def: 40, spa: 35, spd: 35, spe: 56 },
     learnset: [
       { lv: 1, move: 'たいあたり' },
@@ -245,7 +245,7 @@ export const SPECIES = {
     dex: 'おとなしくて めったに あらそわない。おどろくと すなを まきあげて みを まもる。',
   },
   17: {
-    name: 'ピジョン', types: ['ノーマル', 'ひこう'],
+    name: 'ピジョン', types: ['ノーマル', 'ひこう'], ability: 'いかく',
     base: { hp: 63, atk: 60, def: 55, spa: 50, spd: 50, spe: 71 },
     learnset: [
       { lv: 1, move: 'たいあたり' },
@@ -264,7 +264,7 @@ export const SPECIES = {
   },
 
   19: {
-    name: 'コラッタ', types: ['ノーマル'],
+    name: 'コラッタ', types: ['ノーマル'], ability: 'いかく',
     base: { hp: 30, atk: 56, def: 35, spa: 25, spd: 35, spe: 72 },
     learnset: [
       { lv: 1, move: 'たいあたり' },
@@ -301,7 +301,7 @@ export const SPECIES = {
   },
 
   25: {
-    name: 'ピカチュウ', types: ['でんき'],
+    name: 'ピカチュウ', types: ['でんき'], ability: 'せいでんき',
     base: { hp: 35, atk: 55, def: 40, spa: 50, spd: 50, spe: 90 },
     learnset: [
       { lv: 1, move: 'でんきショック' }, { lv: 1, move: 'なきごえ' },
@@ -338,7 +338,7 @@ export const SPECIES = {
 
   // ---------- どうくつ ----------
   41: {
-    name: 'ズバット', types: ['どく', 'ひこう'],
+    name: 'ズバット', types: ['どく', 'ひこう'], ability: 'ふゆう',
     base: { hp: 40, atk: 45, def: 35, spa: 30, spd: 40, spe: 55 },
     learnset: [
       { lv: 1, move: 'たいあたり' },
@@ -357,7 +357,7 @@ export const SPECIES = {
     dex: 'めが たいかしていて まわりが みえない。ちょうおんぱで あいてを さぐる。',
   },
   42: {
-    name: 'ゴルバット', types: ['どく', 'ひこう'],
+    name: 'ゴルバット', types: ['どく', 'ひこう'], ability: 'ふゆう',
     base: { hp: 75, atk: 80, def: 70, spa: 65, spd: 75, spe: 90 },
     learnset: [
       { lv: 1, move: 'かみつく' },
@@ -436,7 +436,7 @@ export const SPECIES = {
   },
 
   129: {
-    name: 'コイキング', types: ['みず'],
+    name: 'コイキング', types: ['みず'], ability: 'いかく',
     learnsetExempt: { all: true, note: '育成の山場として、あえて弱く作ってある。学習セットの規格7項目は対象外（O-3）。' },
     base: { hp: 20, atk: 10, def: 55, spa: 15, spd: 20, spe: 80 },
     learnset: [
@@ -474,7 +474,7 @@ export const SPECIES = {
 
   // ---------- 御三家（みず・3世代） ----------
   258: {
-    name: 'ミズゴロウ', types: ['みず'], gen: 3,
+    name: 'ミズゴロウ', types: ['みず'], gen: 3, ability: 'げきりゅう',
     base: { hp: 50, atk: 70, def: 50, spa: 50, spd: 50, spe: 40 },
     learnset: [
       { lv: 1, move: 'たいあたり' },
@@ -490,7 +490,7 @@ export const SPECIES = {
     dex: 'あしうらの ひれで じめんを たたき しんどうで てきを けんちする。',
   },
   259: {
-    name: 'ヌマクロー', types: ['みず', 'じめん'], gen: 3,
+    name: 'ヌマクロー', types: ['みず', 'じめん'], gen: 3, ability: 'げきりゅう',
     base: { hp: 70, atk: 85, def: 70, spa: 60, spd: 70, spe: 50 },
     learnset: [
       { lv: 1, move: 'たいあたり' },
@@ -507,7 +507,7 @@ export const SPECIES = {
     dex: 'うしろあしで たつことも できる。おかでも すばやく うごきまわれる。',
   },
   260: {
-    name: 'ラグラージ', types: ['みず', 'じめん'], gen: 3,
+    name: 'ラグラージ', types: ['みず', 'じめん'], gen: 3, ability: 'げきりゅう',
     base: { hp: 100, atk: 110, def: 90, spa: 85, spd: 90, spe: 60 },
     learnset: [
       { lv: 1, move: 'たいあたり' },
@@ -529,7 +529,7 @@ export const SPECIES = {
 
   // ---------- 御三家（くさ・7世代） ----------
   722: {
-    name: 'モクロー', types: ['くさ', 'ひこう'], gen: 7,
+    name: 'モクロー', types: ['くさ', 'ひこう'], gen: 7, ability: 'しんりょく',
     base: { hp: 40, atk: 50, def: 40, spa: 55, spd: 50, spe: 70 },
     learnset: [
       { lv: 1, move: 'たいあたり' },
@@ -545,7 +545,7 @@ export const SPECIES = {
     dex: 'よるの もりを おとも たてずに とぶ。まだ うまく とべない ひよっこ。',
   },
   723: {
-    name: 'フクスロー', types: ['くさ', 'ひこう'], gen: 7,
+    name: 'フクスロー', types: ['くさ', 'ひこう'], gen: 7, ability: 'しんりょく',
     base: { hp: 55, atk: 65, def: 55, spa: 70, spd: 65, spe: 85 },
     learnset: [
       { lv: 1, move: 'たいあたり' },
@@ -562,7 +562,7 @@ export const SPECIES = {
     dex: 'はねを ナイフのように するどく とがらせて てきに たたきつける。',
   },
   724: {
-    name: 'ジュナイパー', types: ['くさ', 'ゴースト'], gen: 7,
+    name: 'ジュナイパー', types: ['くさ', 'ゴースト'], gen: 7, ability: 'しんりょく',
     base: { hp: 78, atk: 100, def: 75, spa: 95, spd: 95, spe: 95 },
     learnset: [
       { lv: 1, move: 'たいあたり' },
@@ -583,7 +583,7 @@ export const SPECIES = {
 
   // ---------- エスパー・フェアリー（3世代） ----------
   280: {
-    name: 'ラルトス', types: ['エスパー', 'フェアリー'], gen: 3,
+    name: 'ラルトス', types: ['エスパー', 'フェアリー'], gen: 3, ability: 'ふゆう',
     base: { hp: 28, atk: 25, def: 25, spa: 45, spd: 35, spe: 40 },
     learnset: [
       { lv: 1, move: 'ねんりき' },
@@ -599,7 +599,7 @@ export const SPECIES = {
     dex: 'ひとの きもちを かんじとる。うれしいときは からだが ほんのり あたたかくなる。',
   },
   281: {
-    name: 'キルリア', types: ['エスパー', 'フェアリー'], gen: 3,
+    name: 'キルリア', types: ['エスパー', 'フェアリー'], gen: 3, ability: 'ふゆう',
     base: { hp: 38, atk: 35, def: 35, spa: 65, spd: 55, spe: 50 },
     learnset: [
       { lv: 1, move: 'ねんりき' },
@@ -620,7 +620,7 @@ export const SPECIES = {
 
   // ---------- かくとう・はがね（4世代） ----------
   447: {
-    name: 'リオル', types: ['かくとう'], gen: 4,
+    name: 'リオル', types: ['かくとう'], gen: 4, ability: 'がんじょう',
     base: { hp: 40, atk: 70, def: 40, spa: 35, spd: 40, spe: 60 },
     learnset: [
       { lv: 1, move: 'たいあたり' },
@@ -636,7 +636,7 @@ export const SPECIES = {
     dex: 'はどうを あやつり なかまと こうしんする。すんだ みずと きれいな くうきを このむ。',
   },
   448: {
-    name: 'ルカリオ', types: ['かくとう', 'はがね'], gen: 4,
+    name: 'ルカリオ', types: ['かくとう', 'はがね'], gen: 4, ability: 'がんじょう',
     base: { hp: 70, atk: 110, def: 70, spa: 85, spd: 70, spe: 95 },
     learnset: [
       { lv: 1, move: 'からてチョップ' },
@@ -657,7 +657,7 @@ export const SPECIES = {
 
   // ---------- あく・ドラゴン（5世代） ----------
   633: {
-    name: 'モノズ', types: ['あく', 'ドラゴン'], gen: 5,
+    name: 'モノズ', types: ['あく', 'ドラゴン'], gen: 5, ability: 'いかく',
     base: { hp: 52, atk: 65, def: 50, spa: 45, spd: 50, spe: 38 },
     learnset: [
       { lv: 1, move: 'たいあたり' },
@@ -673,7 +673,7 @@ export const SPECIES = {
     dex: 'ずつうと しっぽの め、みっつの あたまが てんでばらばらに うごく。',
   },
   634: {
-    name: 'ジヘッド', types: ['あく', 'ドラゴン'], gen: 5,
+    name: 'ジヘッド', types: ['あく', 'ドラゴン'], gen: 5, ability: 'いかく',
     base: { hp: 72, atk: 85, def: 70, spa: 65, spd: 70, spe: 58 },
     learnset: [
       { lv: 1, move: 'かみつく' },
@@ -731,7 +731,7 @@ export const SPECIES = {
 
   // ---------- こおり・むし（8世代） ----------
   872: {
-    name: 'ユキハミ', types: ['こおり', 'むし'], gen: 8,
+    name: 'ユキハミ', types: ['こおり', 'むし'], gen: 8, ability: 'むしのしらせ',
     base: { hp: 30, atk: 25, def: 35, spa: 45, spd: 35, spe: 20 },
     learnset: [
       { lv: 1, move: 'むしくい' },
@@ -747,7 +747,7 @@ export const SPECIES = {
     dex: 'ゆきの けっしょうを からだに つけて うごく。さむさが へいきな めずらしい むし。',
   },
   873: {
-    name: 'モスノウ', types: ['こおり', 'むし'], gen: 8,
+    name: 'モスノウ', types: ['こおり', 'むし'], gen: 8, ability: 'むしのしらせ',
     base: { hp: 70, atk: 65, def: 60, spa: 125, spd: 90, spe: 65 },
     learnset: [
       { lv: 1, move: 'むしくい' },
@@ -769,7 +769,7 @@ export const SPECIES = {
 
   // ---------- ノーマル・ひこう（4世代） ----------
   396: {
-    name: 'ムックル', types: ['ノーマル', 'ひこう'], gen: 4,
+    name: 'ムックル', types: ['ノーマル', 'ひこう'], gen: 4, ability: 'いかく',
     base: { hp: 40, atk: 55, def: 30, spa: 30, spd: 30, spe: 60 },
     learnset: [
       { lv: 1, move: 'たいあたり' },
@@ -785,7 +785,7 @@ export const SPECIES = {
     dex: 'なわばりいしきが つよく、じぶんより おおきな あいてにも つっかかっていく。',
   },
   397: {
-    name: 'ムクバード', types: ['ノーマル', 'ひこう'], gen: 4,
+    name: 'ムクバード', types: ['ノーマル', 'ひこう'], gen: 4, ability: 'いかく',
     base: { hp: 55, atk: 75, def: 50, spa: 40, spd: 40, spe: 80 },
     learnset: [
       { lv: 1, move: 'たいあたり' },
@@ -805,7 +805,7 @@ export const SPECIES = {
 
   // ---------- でんき（9世代） ----------
   921: {
-    name: 'パモ', types: ['でんき'], gen: 9,
+    name: 'パモ', types: ['でんき'], gen: 9, ability: 'せいでんき',
     base: { hp: 45, atk: 50, def: 20, spa: 40, spd: 25, spe: 60 },
     learnset: [
       { lv: 1, move: 'でんきショック' },
@@ -841,7 +841,7 @@ export const SPECIES = {
 
   // ---------- ノーマル（8世代） ----------
   819: {
-    name: 'ホシガリス', types: ['ノーマル'], gen: 8,
+    name: 'ホシガリス', types: ['ノーマル'], gen: 8, ability: 'がんじょう',
     base: { hp: 70, atk: 45, def: 40, spa: 30, spd: 40, spe: 25 },
     learnset: [
       { lv: 1, move: 'たいあたり' },
@@ -857,7 +857,7 @@ export const SPECIES = {
     dex: 'ほおぶくろに たべものを ためこむ。いつも なにか かじっている。',
   },
   820: {
-    name: 'ヨクバリス', types: ['ノーマル'], gen: 8,
+    name: 'ヨクバリス', types: ['ノーマル'], gen: 8, ability: 'がんじょう',
     base: { hp: 120, atk: 95, def: 55, spa: 55, spd: 75, spe: 20 },
     learnset: [
       { lv: 1, move: 'たいあたり' },
@@ -877,7 +877,7 @@ export const SPECIES = {
 
   // ---------- でんき（2世代） ----------
   179: {
-    name: 'メリープ', types: ['でんき'], gen: 2,
+    name: 'メリープ', types: ['でんき'], gen: 2, ability: 'せいでんき',
     learnsetExempt: { types: true, note: 'でんきタイプ一本で通す伝統に合わせ、攻撃技タイプ数(R4)だけ対象外。' },
     base: { hp: 55, atk: 40, def: 40, spa: 65, spd: 45, spe: 35 },
     learnset: [
@@ -894,7 +894,7 @@ export const SPECIES = {
     dex: 'けが けばだつと ほうでんの あいず。かみなりぐもが ちかづくと ちぢれる。',
   },
   180: {
-    name: 'モココ', types: ['でんき'], gen: 2,
+    name: 'モココ', types: ['でんき'], gen: 2, ability: 'せいでんき',
     base: { hp: 70, atk: 55, def: 55, spa: 80, spd: 60, spe: 45 },
     learnset: [
       { lv: 1, move: 'でんきショック' },
@@ -914,7 +914,7 @@ export const SPECIES = {
 
   // ---------- ノーマル・ひこう（6世代） ----------
   661: {
-    name: 'ヤヤコマ', types: ['ノーマル', 'ひこう'], gen: 6,
+    name: 'ヤヤコマ', types: ['ノーマル', 'ひこう'], gen: 6, ability: 'もうか',
     base: { hp: 45, atk: 50, def: 43, spa: 40, spd: 38, spe: 62 },
     learnset: [
       { lv: 1, move: 'たいあたり' },
@@ -930,7 +930,7 @@ export const SPECIES = {
     dex: 'たいおんが たかく、さむい あさは からだから ゆげが たちのぼる。',
   },
   662: {
-    name: 'ヒノヤコマ', types: ['ノーマル', 'ひこう'], gen: 6,
+    name: 'ヒノヤコマ', types: ['ノーマル', 'ひこう'], gen: 6, ability: 'もうか',
     base: { hp: 62, atk: 73, def: 55, spa: 56, spd: 52, spe: 84 },
     learnset: [
       { lv: 1, move: 'たいあたり' },
@@ -971,7 +971,7 @@ export const SPECIES = {
     dex: 'ぜんしんが がんせきで できている。やまを ころがりおちる いきおいは れっしゃにも まけない。',
   },
   282: {
-    name: 'サーナイト', types: ['エスパー', 'フェアリー'], gen: 3,
+    name: 'サーナイト', types: ['エスパー', 'フェアリー'], gen: 3, ability: 'ふゆう',
     base: { hp: 68, atk: 65, def: 65, spa: 125, spd: 115, spe: 80 },
     learnset: [
       { lv: 1, move: 'ねんりき' },
@@ -1008,7 +1008,7 @@ export const SPECIES = {
     dex: 'ひとの たましいを もやして あかりに する。ちかづくものの いのちを すいとると いわれる。',
   },
   635: {
-    name: 'サザンドラ', types: ['あく', 'ドラゴン'], gen: 5,
+    name: 'サザンドラ', types: ['あく', 'ドラゴン'], gen: 5, ability: 'いかく',
     base: { hp: 92, atk: 105, def: 90, spa: 125, spd: 90, spe: 98 },
     learnset: [
       { lv: 1, move: 'かみつく' },
@@ -1044,7 +1044,7 @@ export const SPECIES = {
     dex: 'りょうこぶしに でんきを ためて うちこむ。かくとうぎの わざも みにつけている。',
   },
   181: {
-    name: 'デンリュウ', types: ['でんき'], gen: 2,
+    name: 'デンリュウ', types: ['でんき'], gen: 2, ability: 'せいでんき',
     base: { hp: 90, atk: 75, def: 85, spa: 115, spd: 90, spe: 55 },
     learnset: [
       { lv: 1, move: 'でんきショック' },
@@ -1062,7 +1062,7 @@ export const SPECIES = {
     dex: 'しっぽの あかりで なかまと あいずを かわす。あらしの よるは ひときわ つよく ひかる。',
   },
   169: {
-    name: 'クロバット', types: ['どく', 'ひこう'], gen: 2,
+    name: 'クロバット', types: ['どく', 'ひこう'], gen: 2, ability: 'ふゆう',
     base: { hp: 85, atk: 90, def: 80, spa: 70, spd: 80, spe: 130 },
     learnset: [
       { lv: 1, move: 'かみつく' },
@@ -1081,7 +1081,7 @@ export const SPECIES = {
     dex: 'よん枚の はねで おとも たてずに とぶ。あしを つかわず りょう手も こうげきに つかえる。',
   },
   18: {
-    name: 'ピジョット', types: ['ノーマル', 'ひこう'],
+    name: 'ピジョット', types: ['ノーマル', 'ひこう'], ability: 'いかく',
     base: { hp: 83, atk: 80, def: 75, spa: 70, spd: 70, spe: 101 },
     learnset: [
       { lv: 1, move: 'つつく' },
@@ -1099,7 +1099,7 @@ export const SPECIES = {
     dex: 'じそくは 300キロを こえる。えものを ねらうときの ひこうは まさに だんがんの ようだ。',
   },
   398: {
-    name: 'ムクホーク', types: ['ノーマル', 'ひこう'], gen: 4,
+    name: 'ムクホーク', types: ['ノーマル', 'ひこう'], gen: 4, ability: 'いかく',
     base: { hp: 85, atk: 120, def: 70, spa: 50, spd: 60, spe: 100 },
     learnset: [
       { lv: 1, move: 'つつく' },
@@ -1117,7 +1117,7 @@ export const SPECIES = {
     dex: 'むれの ちょうてんに たつ もの。てきに たいしては ようしゃなく きゅうこうかを しかける。',
   },
   663: {
-    name: 'ファイアロー', types: ['ほのお', 'ひこう'], gen: 6,
+    name: 'ファイアロー', types: ['ほのお', 'ひこう'], gen: 6, ability: 'もうか',
     base: { hp: 78, atk: 81, def: 71, spa: 74, spd: 69, spe: 126 },
     learnset: [
       { lv: 1, move: 'ひのこ' },
@@ -1138,7 +1138,7 @@ export const SPECIES = {
   // ---------- Phase U-2: 足りないタイプ（はがね・こおり・かくとう）に新系統 ----------
 
   597: {
-    name: 'テッシード', types: ['くさ', 'はがね'], gen: 5,
+    name: 'テッシード', types: ['くさ', 'はがね'], gen: 5, ability: 'がんじょう',
     base: { hp: 44, atk: 50, def: 91, spa: 24, spd: 86, spe: 10 },
     learnset: [
       { lv: 1, move: 'つるのムチ' },
@@ -1154,7 +1154,7 @@ export const SPECIES = {
     dex: 'どうくつの てんじょうに とげを ひっかけて ぶらさがる。おちてくるのを まちぶせする。',
   },
   598: {
-    name: 'ナットレイ', types: ['くさ', 'はがね'], gen: 5,
+    name: 'ナットレイ', types: ['くさ', 'はがね'], gen: 5, ability: 'がんじょう',
     base: { hp: 74, atk: 94, def: 131, spa: 54, spd: 116, spe: 20 },
     learnset: [
       { lv: 1, move: 'つるのムチ' },
@@ -1173,7 +1173,7 @@ export const SPECIES = {
     dex: 'とげの すべてが とげ。うっかり さわると いたい。とても おもいので うごきは にぶい。',
   },
   220: {
-    name: 'ウリムー', types: ['こおり', 'じめん'], gen: 2,
+    name: 'ウリムー', types: ['こおり', 'じめん'], gen: 2, ability: 'がんじょう',
     base: { hp: 50, atk: 50, def: 40, spa: 30, spd: 30, spe: 50 },
     learnset: [
       { lv: 1, move: 'こおりのつぶて' },
@@ -1189,7 +1189,7 @@ export const SPECIES = {
     dex: 'はなさきで じめんを ほって えさを さがす。さむさには つよいが あつさには よわい。',
   },
   221: {
-    name: 'イノムー', types: ['こおり', 'じめん'], gen: 2,
+    name: 'イノムー', types: ['こおり', 'じめん'], gen: 2, ability: 'がんじょう',
     base: { hp: 100, atk: 100, def: 80, spa: 60, spd: 60, spe: 50 },
     learnset: [
       { lv: 1, move: 'こおりのつぶて' },
@@ -1207,7 +1207,7 @@ export const SPECIES = {
     dex: 'ながい きばで こおりついた じめんを くだいて すすむ。むれで こうどうする。',
   },
   66: {
-    name: 'ワンリキー', types: ['かくとう'], gen: 1,
+    name: 'ワンリキー', types: ['かくとう'], gen: 1, ability: 'いかく',
     base: { hp: 70, atk: 80, def: 50, spa: 35, spd: 35, spe: 35 },
     learnset: [
       { lv: 1, move: 'からてチョップ' },
@@ -1223,7 +1223,7 @@ export const SPECIES = {
     dex: 'ぜんしん きんにくの かたまり。ものを もちあげる ちからは たいじゅうの 100ばい。',
   },
   67: {
-    name: 'ゴーリキー', types: ['かくとう'], gen: 1,
+    name: 'ゴーリキー', types: ['かくとう'], gen: 1, ability: 'いかく',
     base: { hp: 80, atk: 100, def: 70, spa: 50, spd: 60, spe: 45 },
     learnset: [
       { lv: 1, move: 'からてチョップ' },
