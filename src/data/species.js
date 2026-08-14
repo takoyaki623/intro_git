@@ -6,13 +6,9 @@
 //   null（進化しない）
 
 import { SPR } from './sprites/monsters.js';
-import { placeholderSprite } from '../engine/pixelArt.js';
 
-// 他世代の追加種族(26体)のドット絵も sprites/monsters.js に揃えてある。
-// Phase U-1 で足した10種のうち、前段のドット絵がある最終進化はB2で描き終えた
-// （前段のパレット/シルエットを延長する形。sprites/monsters.js の「B2:」節を参照）。
-// Phase U-2 の新系統7種(597/598, 220/221, 66/67/68)は前段の絵も無いので、
-// まだ placeholderSprite で仮の姿にしてある（design-v4.md 参照）。
+// 全68種のドット絵が sprites/monsters.js に揃っている（B2 で仮の姿を全て描き終えた）。
+// もう placeholderSprite に頼っている種族は無い。
 
 export const SPECIES = {
   1: {
@@ -1151,7 +1147,7 @@ export const SPECIES = {
     ],
     tm: ['はっぱカッター', 'メタルクロー'],
     evolution: { method: 'level', level: 30, to: 598 },
-    catchRate: 90, baseExp: 61, expType: 'mediumSlow', sprite: placeholderSprite(597, '#5a7838', 24, 'blob'),
+    catchRate: 90, baseExp: 61, expType: 'mediumSlow', sprite: SPR.tesshiido,
     height: 0.6, weight: 18.8,
     dex: 'どうくつの てんじょうに とげを ひっかけて ぶらさがる。おちてくるのを まちぶせする。',
   },
@@ -1170,7 +1166,7 @@ export const SPECIES = {
     ],
     tm: ['はっぱカッター', 'こうごうせい'],
     evolution: null,
-    catchRate: 45, baseExp: 171, expType: 'mediumSlow', sprite: placeholderSprite(598, '#3a5828', 24, 'blob'),
+    catchRate: 45, baseExp: 171, expType: 'mediumSlow', sprite: SPR.nattorei,
     height: 1.0, weight: 110.0,
     dex: 'とげの すべてが とげ。うっかり さわると いたい。とても おもいので うごきは にぶい。',
   },
@@ -1186,7 +1182,7 @@ export const SPECIES = {
     ],
     tm: ['じしん', 'れいとうビーム'],
     evolution: { method: 'level', level: 26, to: 221 },
-    catchRate: 225, baseExp: 50, expType: 'mediumFast', sprite: placeholderSprite(220, '#c8d8e8', 24, 'quadruped'),
+    catchRate: 225, baseExp: 50, expType: 'mediumFast', sprite: SPR.urimuu,
     height: 0.4, weight: 6.5,
     dex: 'はなさきで じめんを ほって えさを さがす。さむさには つよいが あつさには よわい。',
   },
@@ -1204,7 +1200,7 @@ export const SPECIES = {
     ],
     tm: ['れいとうビーム', 'じしん'],
     evolution: null,
-    catchRate: 75, baseExp: 158, expType: 'mediumFast', sprite: placeholderSprite(221, '#a8c0d8', 24, 'quadruped'),
+    catchRate: 75, baseExp: 158, expType: 'mediumFast', sprite: SPR.inomuu,
     height: 1.1, weight: 55.8,
     dex: 'ながい きばで こおりついた じめんを くだいて すすむ。むれで こうどうする。',
   },
@@ -1220,7 +1216,7 @@ export const SPECIES = {
     ],
     tm: ['インファイト', 'のしかかり'],
     evolution: { method: 'level', level: 24, to: 67 },
-    catchRate: 180, baseExp: 61, expType: 'mediumSlow', sprite: placeholderSprite(66, '#c85838', 24, 'humanoid'),
+    catchRate: 180, baseExp: 61, expType: 'mediumSlow', sprite: SPR.wanriki,
     height: 0.8, weight: 19.5,
     dex: 'ぜんしん きんにくの かたまり。ものを もちあげる ちからは たいじゅうの 100ばい。',
   },
@@ -1237,7 +1233,7 @@ export const SPECIES = {
     ],
     tm: ['インファイト', 'じしん'],
     evolution: { method: 'level', level: 38, to: 68 },
-    catchRate: 90, baseExp: 142, expType: 'mediumSlow', sprite: placeholderSprite(67, '#a84828', 24, 'humanoid'),
+    catchRate: 90, baseExp: 142, expType: 'mediumSlow', sprite: SPR.goriki,
     height: 1.5, weight: 70.5,
     dex: 'こしに まいた ベルトで ちからを ちょうせつする。とらないと あばれすぎて つかれはてる。',
   },
@@ -1255,7 +1251,7 @@ export const SPECIES = {
     ],
     tm: ['インファイト', 'じしん'],
     evolution: null,
-    catchRate: 45, baseExp: 220, expType: 'mediumSlow', sprite: placeholderSprite(68, '#983820', 24, 'humanoid'),
+    catchRate: 45, baseExp: 220, expType: 'mediumSlow', sprite: SPR.kairiki,
     height: 1.6, weight: 130.0,
     dex: 'よんほんの うでを ふるって 1びょうかんに 1000ぱつの パンチを くりだす。',
   },
