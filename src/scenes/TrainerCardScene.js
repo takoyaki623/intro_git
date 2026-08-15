@@ -39,6 +39,9 @@ export class TrainerCardScene {
     drawText(ctx, 'トレーナーカード', 20, 16, { color: COL.ink });
 
     drawText(ctx, state.player.name, 20, 30, { color: COL.ink });
+    if (state.flags.nuzlocke) {
+      drawTextRight(ctx, 'しょうがいれんぞく', W - 20, 30, { color: COL.select });
+    }
     drawText(ctx, `おかね ${state.player.money}円`, 20, 42, { color: COL.inkLight });
     drawTextRight(ctx, playTimeText(), W - 20, 42, { color: COL.inkLight });
 

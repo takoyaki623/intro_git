@@ -181,6 +181,22 @@ export function addMonster(mon) {
   return null;
 }
 
+/**
+ * 手持ちには戻さず、ボックスの空きへ直接送る。
+ * しょうがいれんぞく(C2)で、ひんしになった個体を退場させるのに使う。
+ * 戻り値: 送れたら true、ボックスも満杯なら false（手持ちに残す）。
+ */
+export function sendToBox(mon) {
+  for (const box of state.boxes) {
+    const i = box.indexOf(null);
+    if (i >= 0) {
+      box[i] = mon;
+      return true;
+    }
+  }
+  return false;
+}
+
 export function healParty() {
   for (const m of state.party) fullHeal(m);
 }

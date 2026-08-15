@@ -26,7 +26,7 @@ import { MAX_LEVEL } from '../data/growth.js';
 import { getSpecies } from '../data/species.js';
 import {
   state, addMonster, registerSeen, registerCaught, registerShinyCaught, removeItem, partyFull, setFlag, getFlag,
-  countItem, addStat,
+  countItem, addStat, sendToBox,
 } from './state.js';
 import { prizeMoney, trainerFlag, badgeFlag, BADGES } from '../data/trainers.js';
 import { getItem } from '../data/items.js';
@@ -60,6 +60,7 @@ export function* wildBattle(ctx) {
 
   if (ctx.over === 'win') {
     yield* checkEvolutions(ctx);
+    yield* releaseFaintedForNuzlocke(ctx);
     return { result: 'win' };
   }
   return { result: 'lose' };
@@ -109,6 +110,7 @@ export function* trainerBattle(ctx) {
   }
 
   yield* checkEvolutions(ctx);
+  yield* releaseFaintedForNuzlocke(ctx);
   return { result: 'win' };
 }
 
@@ -740,6 +742,23 @@ function* checkFaint(ctx) {
     return true;
   }
   return false;
+}
+
+/**
+ * しょうがいれんぞく(C2)。勝った戦闘のあと、道中でひんしになった手持ちを
+ * ボックスへ送る。全滅による敗北では手持ちが空になってしまうので対象外
+ * （負けは今まで通りセンターに戻るだけ ―― これ以上の罰は重すぎる）。
+ */
+function* releaseFaintedForNuzlocke(ctx) {
+  if (!getFlag('nuzlocke')) return;
+  const fainted = state.party.filter((m) => isFainted(m));
+  for (const m of fainted) {
+    const sent = sendToBox(m);
+    yield msg(sent
+      ? `しょうがいれんぞく：${displayName(m)}は ボックスへ おくられた…`
+      : `しょうがいれんぞく：ボックスも いっぱいで ${displayName(m)}を おくれなかった…`);
+  }
+  state.party = state.party.filter((m) => !isFainted(m));
 }
 
 /** トレーナーが次のポケモンを出す */

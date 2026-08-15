@@ -62,6 +62,17 @@ function openIntro(field) {
     lines: [
       'ようこそ ポケモンの せかいへ！',
       `きみの なまえは ${state.player.name}。`,
+      // C2: しょうがいれんぞく。新しい仕組みは足さず、既存の flag に乗せるだけ
+      // ―― battle.js の releaseFaintedForNuzlocke が getFlag('nuzlocke') を見る。
+      'さいごに ひとつ。「しょうがいれんぞく」で あそびますか？ ひんしに なった ポケモンは、そのバトルに かったあと じどうで ボックスへ おくられます。',
+      {
+        ask: true,
+        yes: [
+          { flag: 'nuzlocke' },
+          'しょうがいれんぞくで はじめる！ 1ぴき1ぴきを だいじに たたかおう。',
+        ],
+        no: ['つうじょうモードで はじめる。'],
+      },
       'むらの まんなかに いる はかせに はなしかけて さいしょの ポケモンを もらおう！',
     ],
     onClose: () => { field.busy = false; },

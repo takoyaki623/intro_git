@@ -56,6 +56,7 @@ import { NATURES, getNature, natureMul } from './src/data/natures.js';
 import { wildBattle } from './src/game/battle.js';
 import {
   state, resetState, load, SAVE_VERSION, registerCaught, exportSaveText, importSaveText,
+  setFlag, sendToBox, BOX_SIZE,
 } from './src/game/state.js';
 import { objective } from './src/game/objective.js';
 import { ACHIEVEMENTS, achievementStatus } from './src/game/achievements.js';
@@ -1177,6 +1178,63 @@ section('バトル ― もちもの が戦闘中に働く');
   check('きあいのハチマキで「こらえた」メッセージが出る',
     log.some((fx) => fx.t === 'msg' && fx.text?.includes('こらえた')));
   check('HP が 1 で もちこたえている（ひんしにならない）', mine.curHP === 1);
+}
+
+// ---------------------------------------------------------------- しょうがいれんぞく(C2)
+section('しょうがいれんぞく（C2）');
+{
+  resetState();
+  check('sendToBox: 空きがあれば入る', sendToBox(createMonster(1, 5, { rng })) === true);
+  check('sendToBox: 入れた個体が実際にボックスにいる',
+    state.boxes.some((box) => box.some((m) => m?.species.id === 1)));
+}
+{
+  resetState();
+  // ボックスを埋め尽くしてから sendToBox すると false が返る（手持ちに残す判断はbattle.js側の仕事）
+  for (const box of state.boxes) box.fill(createMonster(1, 5, { rng }));
+  check('sendToBox: ボックスが満杯なら false', sendToBox(createMonster(1, 5, { rng })) === false);
+  resetState();
+}
+{
+  resetState();
+  setFlag('nuzlocke', true);
+  // weak は 1HP、foe はレベル差で確実に一撃で沈める。foeを倒したあと strong で確実に勝つ。
+  const weak = createMonster(4, 3, { rng });
+  weak.curHP = 1;
+  const strongMon = createMonster(4, 60, { rng });
+  state.party = [weak, strongMon];
+  const foe = createMonster(10, 50, { rng });
+  const ctx = {
+    mine: weak, foe, rng, isWild: true, runAttempts: 0,
+    weather: { kind: null, turns: 0 }, onSwitch: () => {}, onFoeSwitch: () => {},
+  };
+
+  const gen = wildBattle(ctx);
+  let r = gen.next();
+  for (let i = 0; i < 300 && !r.done; i++) {
+    const fx = r.value;
+    if (fx?.t === 'command') { r = gen.next({ type: 'fight', move: null }); continue; }
+    if (fx?.t === 'moveSelect') {
+      const usable = ctx.mine.moves.findIndex((mv) => mv.pp > 0);
+      r = gen.next(usable >= 0 ? usable : 0);
+      continue;
+    }
+    if (fx?.t === 'forceSwitch') {
+      const idx = state.party.findIndex((m) => m !== ctx.mine && m.curHP > 0);
+      r = gen.next(idx >= 0 ? idx : null);
+      continue;
+    }
+    if (fx?.t === 'party') { r = gen.next(null); continue; }
+    if (fx?.t === 'bag') { r = gen.next(null); continue; }
+    r = gen.next();
+  }
+
+  check('弱い方が倒れたあと 強い方で勝てる（テスト前提の確認）', r.value?.result === 'win');
+  check('しょうがいれんぞく: ひんしになった個体は手持ちから消える',
+    state.party.length === 1 && state.party[0] === strongMon);
+  check('しょうがいれんぞく: ボックスへ送られている',
+    state.boxes.some((box) => box.some((m) => m === weak)));
+  resetState();
 }
 
 // ---------------------------------------------------------------- セーブ移行
