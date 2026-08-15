@@ -56,9 +56,11 @@ export class SummaryScene {
 
     drawWindow(ctx, 4, 128, 90, 60);
     drawText(ctx, 'ずかん', 12, 133, { color: COL.inkLight });
-    drawText(ctx, `No.${String(m.species.id).padStart(3, '0')}`, 12, 146, { color: COL.ink });
-    drawText(ctx, 'どうぐ', 12, 160, { color: COL.inkLight });
-    drawText(ctx, m.held ?? 'なし', 12, 173, { color: COL.ink });
+    drawTextRight(ctx, `No.${String(m.species.id).padStart(3, '0')}`, 86, 133, { color: COL.ink });
+    drawText(ctx, 'どうぐ', 12, 150, { color: COL.inkLight });
+    drawTextRight(ctx, m.held ?? 'なし', 86, 150, { color: COL.ink });
+    drawText(ctx, 'とくせい', 12, 167, { color: COL.inkLight });
+    drawTextRight(ctx, m.species.ability ?? 'なし', 86, 167, { color: COL.ink });
 
     drawWindow(ctx, 98, 172, 154, 16);
     drawText(ctx, this.page === 0 ? 'A ： わざを みる' : 'A ： のうりょくを みる', 106, 175, { color: COL.ink });

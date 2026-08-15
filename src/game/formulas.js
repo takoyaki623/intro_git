@@ -107,9 +107,14 @@ export function damage(attacker, defender, move, rng, weather = null) {
   }
 
   let eff = effectiveness(move.type, defender.types);
-  // ふゆう: じめん技が全く効かない
-  if (defender.species?.ability === 'ふゆう' && move.type === 'じめん') eff = 0;
-  if (eff === 0) return { dmg: 0, eff: 0, crit: false };
+  // ふゆう: じめん技が全く効かない。タイプ相性の「こうかがない」と違う理由なので、
+  // 呼び出し側(battle.js)がとくせい名を出したメッセージに切り替えられるよう区別しておく。
+  let levitated = false;
+  if (defender.species?.ability === 'ふゆう' && move.type === 'じめん' && eff !== 0) {
+    eff = 0;
+    levitated = true;
+  }
+  if (eff === 0) return { dmg: 0, eff: 0, crit: false, levitated };
 
   const phys = move.category === '物理';
   const critRate = move.effect?.kind === 'highCrit' ? HIGH_CRIT_RATE : CRIT_RATE;

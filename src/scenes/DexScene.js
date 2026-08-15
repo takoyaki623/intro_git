@@ -103,14 +103,15 @@ export class DexScene {
 
     drawText(ctx, `たかさ ${sp.height}m`, 144, 96, { color: COL.ink });
     drawText(ctx, `おもさ ${sp.weight}kg`, 144, 109, { color: COL.ink });
+    drawText(ctx, `とくせい ${sp.ability}`, 144, 122, { color: COL.ink });
 
     if (this.caught(sp)) {
       const where = MAPS[state.dex.where[sp.id]]?.name;
-      let dexY = 136;
+      let dexY = 149;
       if (where) {
         const whereLines = wrapText(`であった ${where}`, 100);
-        whereLines.forEach((l, i) => drawText(ctx, l, 144, 122 + i * 13, { color: COL.inkLight }));
-        dexY = 122 + whereLines.length * 13 + 1;
+        whereLines.forEach((l, i) => drawText(ctx, l, 144, 135 + i * 13, { color: COL.inkLight }));
+        dexY = 135 + whereLines.length * 13 + 1;
       }
       // 下の「みつけた/つかまえた」表示(y=168)にぶつからない範囲だけ出す。
       const maxDexLines = Math.max(1, Math.floor((157 - dexY) / 13) + 1);
@@ -118,8 +119,8 @@ export class DexScene {
         drawText(ctx, l, 144, dexY + i * 13, { color: COL.ink });
       });
     } else {
-      drawText(ctx, 'つかまえると', 144, 126, { color: COL.inkLight });
-      drawText(ctx, 'せつめいが よめる', 144, 139, { color: COL.inkLight });
+      drawText(ctx, 'つかまえると', 144, 139, { color: COL.inkLight });
+      drawText(ctx, 'せつめいが よめる', 144, 152, { color: COL.inkLight });
     }
     this.renderCounts(ctx);
   }

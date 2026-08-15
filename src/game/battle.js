@@ -26,7 +26,7 @@ import { MAX_LEVEL } from '../data/growth.js';
 import { getSpecies } from '../data/species.js';
 import {
   state, addMonster, registerSeen, registerCaught, registerShinyCaught, removeItem, partyFull, setFlag, getFlag,
-  countItem, addStat, sendToBox,
+  countItem, addStat, sendToBox, autoSave,
 } from './state.js';
 import { prizeMoney, trainerFlag, badgeFlag, BADGES } from '../data/trainers.js';
 import { getItem } from '../data/items.js';
@@ -107,6 +107,8 @@ export function* trainerBattle(ctx) {
     yield msg(`${state.player.name}は ${badge?.name ?? 'バッジ'}を てにいれた！`);
     // バッジが全部そろったかを1つのフラグにまとめておく（リーグの入場条件など）。
     if (BADGES.every((b) => getFlag(badgeFlag(b.id)))) setFlag('allBadges');
+    // ジムリーダーを倒した直後は「ここまでは確実」と言える地点。オートセーブしておく。
+    autoSave();
   }
 
   yield* checkEvolutions(ctx);
@@ -326,10 +328,12 @@ function* executeAction(ctx, act) {
     return;
   }
 
-  const { dmg, eff, crit } = damage(user, target, move, ctx.rng, ctx.weather?.kind);
+  const { dmg, eff, crit, levitated } = damage(user, target, move, ctx.rng, ctx.weather?.kind);
 
   if (eff === 0) {
-    yield msg(`${isMine ? 'てきの ' : ''}${displayName(target)}には こうかが ないようだ…`);
+    yield msg(levitated
+      ? `${isMine ? 'てきの ' : ''}${displayName(target)}には ふゆうで じめんの わざが きかない！`
+      : `${isMine ? 'てきの ' : ''}${displayName(target)}には こうかが ないようだ…`);
     return;
   }
 

@@ -82,6 +82,14 @@ const BG_THEME = {
   indoor: { sky1: '#d8d0c0', sky2: '#e8e0d0', ground: '#b8a888', edge: '#a89876', platform: '#c8b898' },
 };
 
+// 天候の常設バッジ(Phase W の見せかた改善)。開始/終了メッセージだけだと
+// 効果中かどうかが画面のどこにも残らないので、短い札を出しっぱなしにする。
+const WEATHER_TAG = {
+  rain: { text: 'あめ', color: '#3868c8' },
+  sun: { text: 'はれ', color: '#e08820' },
+  sand: { text: 'すな', color: '#b89858' },
+};
+
 export class BattleScene {
   /**
    * 野生戦は { foe } だけ。
@@ -795,6 +803,26 @@ export class BattleScene {
       this.renderPips(ctx, 8, 59, this.ctx.foeParty ?? [foe], false);
       this.renderPips(ctx, 248, 86, state.party, true);
     }
+
+    this.renderWeather(ctx);
+  }
+
+  /**
+   * 天候の常設表示（残りターンつき）。
+   * 開始/終了メッセージは一瞬で流れて忘れるので、効いている間ずっと見える札を出す。
+   */
+  renderWeather(ctx) {
+    const w = this.ctx.weather;
+    if (!w?.kind) return;
+    const label = WEATHER_TAG[w.kind];
+    if (!label) return;
+    const x = 134, y = 8, width = label.text.length * 12 + 22;
+    ctx.fillStyle = label.color;
+    ctx.fillRect(x, y, width, 15);
+    ctx.fillStyle = '#202028';
+    ctx.fillRect(x, y, width, 2);
+    drawText(ctx, label.text, x + 4, y + 2, { color: '#ffffff' });
+    drawTextRight(ctx, `${w.turns}`, x + width - 4, y + 2, { color: '#ffffff' });
   }
 
   /** 残りポケモン数のしるし。健在は白、ひんしは沈んだ色。 */
