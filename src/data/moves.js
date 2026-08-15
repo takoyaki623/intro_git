@@ -104,6 +104,21 @@ export const MOVES = {
     effect: { kind: 'recoil', ratio: 0.25 },
     desc: 'つよい こうせんを はなつ。はんどうが おおきい。',
   },
+  'とっしん': {
+    type: 'ノーマル', category: '物理', power: 90, accuracy: 85, pp: 20,
+    effect: { kind: 'recoil', ratio: 0.25 },
+    desc: 'からだあたり こうげきする。はんどうダメージを うける。',
+  },
+  'すてみタックル': {
+    type: 'ノーマル', category: '物理', power: 120, accuracy: 100, pp: 15,
+    effect: { kind: 'recoil', ratio: 0.33 },
+    desc: 'みをすてて ぶつかる はげしい タックル。はんどうダメージが おおきい。',
+  },
+  'フラフラダンス': {
+    type: 'ノーマル', category: '変化', power: 0, accuracy: 100, pp: 20,
+    effect: { kind: 'confuse', chance: 100 },
+    desc: 'ふらふらな おどりを おどらせて あいてを こんらんさせる。',
+  },
   'したでなめる': {
     type: 'ゴースト', category: '物理', power: 30, accuracy: 100, pp: 30,
     effect: { kind: 'status', status: 'まひ', chance: 30 },
@@ -185,6 +200,11 @@ export const MOVES = {
     effect: { kind: 'drain', ratio: 0.5 },
     desc: 'あたえた ダメージの はんぶん たいりょくを すいとる。',
   },
+  'メガドレイン': {
+    type: 'くさ', category: '特殊', power: 40, accuracy: 100, pp: 15,
+    effect: { kind: 'drain', ratio: 0.5 },
+    desc: 'あたえた ダメージの はんぶん たいりょくを すいとる。',
+  },
   'ねむりごな': {
     type: 'くさ', category: '変化', power: 0, accuracy: 75, pp: 15,
     effect: { kind: 'status', status: 'ねむり', chance: 100 },
@@ -236,6 +256,21 @@ export const MOVES = {
   'インファイト': {
     type: 'かくとう', category: '物理', power: 120, accuracy: 100, pp: 5,
     desc: 'みをけずって ぶつかりあう はげしい こうげき。',
+  },
+  'にどげり': {
+    type: 'かくとう', category: '物理', power: 30, accuracy: 100, pp: 30,
+    effect: { kind: 'multiHit', hits: 2 },
+    desc: 'すばやく 2かい けりを くりだす。',
+  },
+  'みきり': {
+    type: 'かくとう', category: '変化', power: 0, accuracy: null, pp: 10, priority: 4,
+    effect: { kind: 'protect', target: 'self' },
+    desc: 'あいての うごきを よみ、その ターンの わざを ほぼ かんぜんに ふせぐ。',
+  },
+  'ドレインパンチ': {
+    type: 'かくとう', category: '物理', power: 40, accuracy: 100, pp: 10,
+    effect: { kind: 'drain', ratio: 0.5 },
+    desc: 'ちからを すいとる パンチ。あたえた ダメージの はんぶん たいりょくを かいふくする。',
   },
   'ローキック': {
     type: 'かくとう', category: '物理', power: 65, accuracy: 100, pp: 20,
@@ -320,6 +355,11 @@ export const MOVES = {
     effect: { kind: 'highCrit' },
     desc: 'こころの やいばで きりつける。きゅうしょに あたりやすい。',
   },
+  'じこさいせい': {
+    type: 'エスパー', category: '変化', power: 0, accuracy: null, pp: 5,
+    effect: { kind: 'heal', ratio: 0.5 },
+    desc: 'さいぼうを かっせいかさせて じぶんの たいりょくを はんぶん かいふくする。',
+  },
 
   'あやしいひかり': {
     type: 'ゴースト', category: '変化', power: 0, accuracy: 100, pp: 10,
@@ -403,6 +443,11 @@ export const MOVES = {
     type: 'はがね', category: '特殊', power: 80, accuracy: 90, pp: 10,
     desc: 'ひかりの エネルギーを ほうしゃする。',
   },
+  'コメットパンチ': {
+    type: 'はがね', category: '物理', power: 18, accuracy: 90, pp: 15,
+    effect: { kind: 'multiHit' },
+    desc: 'はがねの こぶしで 2〜5かい つづけて なぐる。',
+  },
 
   // ---- フェアリー ----
   'ようせいのかぜ': {
@@ -416,6 +461,16 @@ export const MOVES = {
   'チャームボイス': {
     type: 'フェアリー', category: '特殊', power: 40, accuracy: null, pp: 15,
     desc: 'かわいい こえで こうげきする。かならず あたる。',
+  },
+  'つきのひかり': {
+    type: 'フェアリー', category: '変化', power: 0, accuracy: null, pp: 5,
+    effect: { kind: 'heal', ratio: 0.5 },
+    desc: 'つきの ひかりを あびて じぶんの たいりょくを はんぶん かいふくする。',
+  },
+  'てんしのキッス': {
+    type: 'フェアリー', category: '変化', power: 0, accuracy: 75, pp: 10,
+    effect: { kind: 'confuse', chance: 100 },
+    desc: 'てんしのような しぐさで あいてを こんらんさせる。',
   },
 
   // ---- どく（つづき） ----

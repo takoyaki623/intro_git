@@ -337,7 +337,7 @@ function* executeAction(ctx, act) {
     return;
   }
 
-  const hits = move.effect?.kind === 'multiHit' ? ctx.rng.int(2, 5) : 1;
+  const hits = move.effect?.kind === 'multiHit' ? (move.effect.hits ?? ctx.rng.int(2, 5)) : 1;
   let total = 0;
   for (let i = 0; i < hits; i++) {
     if (isFainted(target)) break;
