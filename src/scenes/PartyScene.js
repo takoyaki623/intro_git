@@ -4,7 +4,7 @@ import * as Input from '../core/input.js';
 import { BTN } from '../core/input.js';
 import { draw as drawSprite } from '../engine/pixelArt.js';
 import { drawText, drawTextRight } from '../engine/font.js';
-import { drawWindow, drawBar, hpColor, drawCursor, COL } from '../engine/ui.js';
+import { drawWindow, drawBar, hpColor, HP_THRESHOLDS, drawCursor, COL } from '../engine/ui.js';
 import { Menu } from '../engine/menu.js';
 import { TextBox } from '../engine/textbox.js';
 import { state, bagPocket, addItem, removeItem } from '../game/state.js';
@@ -345,13 +345,13 @@ export class PartyScene {
       drawText(ctx, displayName(mon), x + 6, y + 56, { color: COL.ink });
       drawText(ctx, `Lv${mon.level}`, x + 6, y + 70, { color: COL.ink });
       drawTextRight(ctx, `${mon.curHP}/${mon.stats.hp}`, x + 66, y + 70, { color: COL.ink });
-      drawBar(ctx, x + 8, y + 86, 56, mon.curHP / mon.stats.hp, hpColor(mon.curHP, mon.stats.hp));
+      drawBar(ctx, x + 8, y + 86, 56, mon.curHP / mon.stats.hp, hpColor(mon.curHP, mon.stats.hp), { critAt: HP_THRESHOLDS });
       if (mon.curHP <= 0) drawText(ctx, 'ひんし', x + 40, y + 56, { color: COL.select });
     } else {
       drawSprite(ctx, mon.species.sprite, x + 2, y + 3, { scale: 1 });
       drawText(ctx, displayName(mon), x + 28, y + 4, { color: COL.ink });
       drawText(ctx, `Lv${mon.level}`, x + 28, y + 17, { color: COL.ink });
-      drawBar(ctx, x + 62, y + 21, 50, mon.curHP / mon.stats.hp, hpColor(mon.curHP, mon.stats.hp));
+      drawBar(ctx, x + 62, y + 21, 50, mon.curHP / mon.stats.hp, hpColor(mon.curHP, mon.stats.hp), { critAt: HP_THRESHOLDS });
       drawTextRight(ctx, `${mon.curHP}/${mon.stats.hp}`, x + 154, y + 4, { color: COL.ink });
       const tag = mon.curHP <= 0 ? 'ひんし' : mon.status;
       if (tag) drawText(ctx, tag, x + 118, y + 17, { color: COL.select });

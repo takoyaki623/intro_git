@@ -53,19 +53,24 @@ export function drawArrowDown(ctx, x, y, color = COL.ink) {
   for (let i = 0; i < 4; i++) ctx.fillRect(x + i, y + i, 7 - i * 2, 1);
 }
 
+/** hpColor の色分けの境目。drawBar の critAt にそのまま渡して、色以外でも読み取れる目印にする（D1）。 */
+export const HP_THRESHOLDS = [0.5, 0.2];
+
 export function hpColor(cur, max) {
   const r = max > 0 ? cur / max : 0;
-  if (r > 0.5) return COL.hpHigh;
-  if (r > 0.2) return COL.hpMid;
+  if (r > HP_THRESHOLDS[0]) return COL.hpHigh;
+  if (r > HP_THRESHOLDS[1]) return COL.hpMid;
   return COL.hpLow;
 }
 
 /**
  * HPバー。ratio は 0..1。
  * 残量が 1px 未満でも 0 でなければ 1px 残す（「まだ生きている」を見せるため）。
+ * critAt を渡すと、その割合の位置に色に頼らない目印（縦線）を刻む（D1）。
+ * 危険域(hpColorのlow境界)を色を判別できなくても読み取れるようにするため。
  */
 export function drawBar(ctx, x, y, w, ratio, color, opt = {}) {
-  const { h = 3, back = COL.barBack, frame = true } = opt;
+  const { h = 3, back = COL.barBack, frame = true, critAt = null } = opt;
   x = Math.round(x); y = Math.round(y);
 
   if (frame) {
@@ -78,6 +83,14 @@ export function drawBar(ctx, x, y, w, ratio, color, opt = {}) {
   const fill = ratio <= 0 ? 0 : Math.max(1, Math.round(w * Math.min(1, ratio)));
   ctx.fillStyle = color;
   ctx.fillRect(x, y, fill, h);
+
+  if (critAt != null) {
+    ctx.fillStyle = COL.ink;
+    for (const at of Array.isArray(critAt) ? critAt : [critAt]) {
+      const tickX = Math.min(x + w - 1, x + Math.round(w * at));
+      ctx.fillRect(tickX, y, 1, h);
+    }
+  }
 }
 
 /** 「HP」ラベル付きのバー */

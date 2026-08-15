@@ -4,7 +4,7 @@ import * as Input from '../core/input.js';
 import { BTN } from '../core/input.js';
 import { draw as drawSprite } from '../engine/pixelArt.js';
 import { drawText, drawTextRight, drawTextCentered, wrapText } from '../engine/font.js';
-import { drawWindow, drawBar, hpColor, drawTypeTag, COL } from '../engine/ui.js';
+import { drawWindow, drawBar, hpColor, HP_THRESHOLDS, drawTypeTag, COL } from '../engine/ui.js';
 import { TYPE_COLOR } from '../data/types.js';
 import { getMove } from '../data/moves.js';
 import { displayName } from '../game/monster.js';
@@ -48,7 +48,7 @@ export class SummaryScene {
     let tx = 10;
     for (const t of m.species.types) tx += drawTypeTag(ctx, t, TYPE_COLOR[t], tx, 92) + 3;
 
-    drawBar(ctx, 12, 114, 70, m.curHP / m.stats.hp, hpColor(m.curHP, m.stats.hp));
+    drawBar(ctx, 12, 114, 70, m.curHP / m.stats.hp, hpColor(m.curHP, m.stats.hp), { critAt: HP_THRESHOLDS });
     drawTextRight(ctx, `${m.curHP}/${m.stats.hp}`, 84, 102, { color: COL.ink });
 
     if (this.page === 0) this.renderStats(ctx);

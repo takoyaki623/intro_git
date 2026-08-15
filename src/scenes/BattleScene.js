@@ -8,7 +8,7 @@ import * as Music from '../core/music.js';
 import { draw as drawSprite, shinyVariant } from '../engine/pixelArt.js';
 import { drawText, drawTextRight, drawTextCentered } from '../engine/font.js';
 import {
-  drawWindow, drawBar, drawCursor, hpColor, fillScreen, drawTypeTag, COL,
+  drawWindow, drawBar, drawCursor, hpColor, HP_THRESHOLDS, fillScreen, drawTypeTag, COL,
 } from '../engine/ui.js';
 import { TextBox } from '../engine/textbox.js';
 import { Menu } from '../engine/menu.js';
@@ -779,9 +779,9 @@ export class BattleScene {
     drawText(ctx, 'HP', 14, 28, { color: '#f0a020' });
     if (foe.status) {
       const w = this.renderStatusTag(ctx, foe.status, 30, 28);
-      drawBar(ctx, 34 + w, 32, 116 - (34 + w) + 6, this.dispHP.foe / foe.stats.hp, hpColor(this.dispHP.foe, foe.stats.hp));
+      drawBar(ctx, 34 + w, 32, 116 - (34 + w) + 6, this.dispHP.foe / foe.stats.hp, hpColor(this.dispHP.foe, foe.stats.hp), { critAt: HP_THRESHOLDS });
     } else {
-      drawBar(ctx, 32, 32, 84, this.dispHP.foe / foe.stats.hp, hpColor(this.dispHP.foe, foe.stats.hp));
+      drawBar(ctx, 32, 32, 84, this.dispHP.foe / foe.stats.hp, hpColor(this.dispHP.foe, foe.stats.hp), { critAt: HP_THRESHOLDS });
     }
     const foeRank = rankText(foe.stages);
     if (foeRank) drawText(ctx, foeRank, 14, 42, { color: COL.inkLight });
@@ -791,7 +791,7 @@ export class BattleScene {
     drawText(ctx, `${mine.shiny ? '☆' : ''}${displayName(mine)}`, 134, 98, { color: COL.ink });
     drawTextRight(ctx, `Lv${mine.level}`, 244, 98, { color: COL.ink });
     drawText(ctx, 'HP', 134, 112, { color: '#f0a020' });
-    drawBar(ctx, 152, 116, 84, this.dispHP.mine / mine.stats.hp, hpColor(this.dispHP.mine, mine.stats.hp));
+    drawBar(ctx, 152, 116, 84, this.dispHP.mine / mine.stats.hp, hpColor(this.dispHP.mine, mine.stats.hp), { critAt: HP_THRESHOLDS });
     drawTextRight(ctx, `${Math.round(this.dispHP.mine)}/${mine.stats.hp}`, 244, 124, { color: COL.ink });
     if (mine.status) this.renderStatusTag(ctx, mine.status, 134, 125);
     const mineRank = rankText(mine.stages);
