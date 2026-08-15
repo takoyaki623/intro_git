@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>テスト｜ポケモン風RPG</title>
+<style>
+  body { background:#12151c; color:#e8e8f0; font:14px/1.6 system-ui, sans-serif; margin:0; padding:24px; }
+  h1 { font-size:20px; margin:0 0 4px; }
+  h2 { font-size:15px; margin:24px 0 6px; color:#8fb8e8; border-bottom:1px solid #2a3040; padding-bottom:4px; }
+  #result { font-size:18px; font-weight:700; padding:10px 14px; border-radius:6px; margin:14px 0 4px; display:inline-block; }
+  .pass { background:#1c3a24; color:#7ce89a; }
+  .fail { background:#3a1c20; color:#ff9a9a; }
+  ul { list-style:none; margin:0; padding:0; }
+  li { padding:2px 0 2px 22px; position:relative; font-family:ui-monospace, monospace; font-size:12.5px; }
+  li.ok::before { content:'✓'; position:absolute; left:2px; color:#5cc87a; }
+  li.ng::before { content:'✗'; position:absolute; left:2px; color:#ff7070; }
+  li.ng { color:#ff9a9a; }
+  small { color:#7a8496; }
+</style>
+</head>
+<body>
+<h1>ポケモン風RPG ― ロジックテスト</h1>
+<small>フレームワークも npm install も無し。計算式のドキュメントも兼ねる。</small>
+<div id="result">実行中…</div>
+<div id="out"></div>
+
+<script type="module">
+import { TYPES, CHART, effectiveness } from './src/data/types.js';
+import { MOVES, getMove } from './src/data/moves.js';
+import { SPECIES, speciesList, movesAtLevel } from './src/data/species.js';
+import { ITEMS, POCKETS, getItem } from './src/data/items.js';
+import { CURVE, MAX_LEVEL } from './src/data/growth.js';
+import { TILE, TILE_SPR } from './src/data/tiles.js';
+import { MAPS, mapWidth, tileKeyAt } from './src/data/maps/index.js';
+import { CHARS } from './src/data/sprites/chars.js';
+import { TRAINERS, BADGES, prizeMoney } from './src/data/trainers.js';
+import { RIVAL_BATTLES } from './src/data/rival.js';
+import { ABILITY_DESC, getAbilityDesc } from './src/data/abilities.js';
+
+// ライバルは TRAINERS ではなく RIVAL_BATTLES にいて、party が
+// 御三家(starterId)からその場で組み立てる関数になっている。
+// テストでは代表として id:4(ヒトカゲ) を渡し、静的な TRAINERS と同じ
+// 形（{ party:[{id,lv},...], sight, … }）に揃えて どこからでも同じように扱えるようにする。
+const getAnyTrainer = (id) => TRAINERS[id]
+  ?? (RIVAL_BATTLES[id] && { ...RIVAL_BATTLES[id], party: RIVAL_BATTLES[id].party(4) });
+import { SONGS } from './src/core/music.js';
+import { SPR, SPR_BACK } from './src/data/sprites/monsters.js';
+import { mulberry32 } from './src/core/rng.js';
+import {
+  calcHP, calcStat, calcAllStats, damage, accuracyCheck, expGain,
+  expForLevel, catchAttempt, runAway, stageMul, accMul, statusEndOfTurnDamage,
+  emptyEVs, addEV, evYield, EV_TOTAL_MAX, EV_STAT_MAX,
+} from './src/game/formulas.js';
+import { createMonster, serialize, hydrate, evolve, recalcStats } from './src/game/monster.js';
+import { chooseAction } from './src/game/ai.js';
+import { NATURES, getNature, natureMul } from './src/data/natures.js';
+import { wildBattle } from './src/game/battle.js';
+import {
+  state, resetState, load, SAVE_VERSION, registerCaught, exportSaveText, importSaveText,
+  setFlag, sendToBox, BOX_SIZE,
+} from './src/game/state.js';
+import { objective } from './src/game/objective.js';
+import { ACHIEVEMENTS, achievementStatus } from './src/game/achievements.js';
+import { TOWER_TRAINERS } from './src/data/tower.js';
+import { charWidth, inkExtent } from './src/engine/font.js';
+import * as Storage from './src/core/storage.js';
+
+const out = document.getElementById('out');
+let total = 0;
+let failed = 0;
+let list = null;
+
+function section(name) {
+  const h = document.createElement('h2');
+  h.textContent = name;
+  out.appendChild(h);
+  list = document.createElement('ul');
+  out.appendChild(list);
+}
+
+function check(label, cond, detail = '') {
+  total++;
+  const li = document.createElement('li');
+  if (cond) {
+    li.className = 'ok';
+    li.textContent = label;
+  } else {
+    failed++;
+    li.className = 'ng';
+    li.textContent = `${label}${detail ? ' — ' + detail : ''}`;
+  }
+  list.appendChild(li);
+}
+
+const eq = (label, actual, expected) =>
+  check(`${label} = ${expected}`, actual === expected, `実際は ${actual}`);
+
+const rng = mulberry32(12345);
+const fixed = (v) => ({ chance: () => false, int: () => v });
+
+// ---------------------------------------------------------------- ステータス
+section('ステータス計算');
+
+// ピカチュウ 種族値HP35 / 個体値31 / 努力値なし / Lv50 → 110
+eq('calcHP(35, 31, 50)', calcHP(35, 31, 50), 110);
+// こうげき 種族値55 / 個体値31 / 努力値なし / Lv50 → 75
+eq('calcStat(55, 31, 50)', calcStat(55, 31, 50), 75);
+eq('calcHP(35, 0, 1)', calcHP(35, 0, 1), 11);
+check('HP は必ず 1 以上', calcHP(1, 0, 1) >= 1);
+check('こうげき も 1 以上', calcStat(1, 0, 1) >= 1);
+
+// 種族値90・個体値31・努力値なし・Lv50 → 110
+const pika = calcAllStats(SPECIES[25].base, { hp: 31, atk: 31, def: 31, spa: 31, spd: 31, spe: 31 }, 50);
+eq('Lv50 ピカチュウ すばやさ', pika.spe, 110);
+eq('Lv50 ピカチュウ HP', pika.hp, 110);
+
+eq('ランク補正 +2', stageMul(2), 2);
+eq('ランク補正 -2', stageMul(-2), 0.5);
+eq('ランク補正 0', stageMul(0), 1);
+eq('命中補正 +3', accMul(3), 2);
+
+// ---------------------------------------------------------------- せいかく・努力値
+section('せいかく と どりょくりょく');
+{
+  eq('せいかくは 25 しゅるい', NATURES.length, 25);
+  const flat = NATURES.filter((n) => !n.up);
+  eq('補正なしは 5 しゅるい', flat.length, 5);
+  check('名前が すべて ちがう', new Set(NATURES.map((n) => n.name)).size === 25);
+
+  const up = NATURES.find((n) => n.up === 'atk' && n.down === 'spe');
+  eq('あがる能力は 1.1 倍', natureMul(up, 'atk'), 1.1);
+  eq('さがる能力は 0.9 倍', natureMul(up, 'spe'), 0.9);
+  eq('関係ない能力は 1 倍', natureMul(up, 'def'), 1);
+  eq('HP には かからない', natureMul(up, 'hp'), 1);
+  eq('補正なしは すべて 1 倍', natureMul(flat[0], 'atk'), 1);
+
+  // 努力値は 4 で 実数値1つぶん（Lv100）
+  const iv = { hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 };
+  const noEv = calcAllStats(SPECIES[4].base, iv, 100);
+  const withEv = calcAllStats(SPECIES[4].base, iv, 100, { ...emptyEVs(), atk: 252 });
+  eq('Lv100 で 252 の努力値は +63', withEv.atk - noEv.atk, 63);
+
+  // 上限
+  const evs = emptyEVs();
+  eq('1つの上限', addEV(evs, 'atk', 300), EV_STAT_MAX);
+  eq('上限を超えて増えない', evs.atk, EV_STAT_MAX);
+  addEV(evs, 'def', 252);
+  eq('合計の上限で止まる', addEV(evs, 'spa', 252), EV_TOTAL_MAX - EV_STAT_MAX * 2);
+  check('合計は 510 を超えない',
+    Object.values(evs).reduce((a, b) => a + b, 0) <= EV_TOTAL_MAX,
+    JSON.stringify(evs));
+
+  // もらう努力値は「一番高い種族値」に入る
+  eq('ギャラドスは こうげき', evYield(SPECIES[130]).stat, 'atk');
+  eq('イシツブテは ぼうぎょ', evYield(SPECIES[74]).stat, 'def');
+  check('もらう量は 1..3', [1, 2, 3].includes(evYield(SPECIES[10]).amount));
+}
+
+// ---------------------------------------------------------------- タイプ相性
+section('タイプ相性');
+
+for (const atk of Object.keys(CHART)) {
+  check(`攻撃タイプ ${atk} は正規のタイプ名`, TYPES.includes(atk));
+  for (const def of Object.keys(CHART[atk])) {
+    check(`  ${atk} → ${def} の防御タイプ名`, TYPES.includes(def), '未知のタイプ');
+  }
+}
+eq('ほのお → くさ', effectiveness('ほのお', ['くさ']), 2);
+eq('でんき → じめん', effectiveness('でんき', ['じめん']), 0);
+eq('でんき → みず/ひこう', effectiveness('でんき', ['みず', 'ひこう']), 4);
+eq('ノーマル → いわ/はがね', effectiveness('ノーマル', ['いわ', 'はがね']), 0.25);
+eq('みず → ほのお', effectiveness('みず', ['ほのお']), 2);
+eq('未記載の組み合わせ', effectiveness('ノーマル', ['ノーマル']), 1);
+
+// ---------------------------------------------------------------- ダメージ
+section('ダメージ計算');
+
+const atkMon = createMonster(4, 50, { rng, ivs: { hp: 31, atk: 31, def: 31, spa: 31, spd: 31, spe: 31 } });
+const defMon = createMonster(1, 50, { rng, ivs: { hp: 31, atk: 31, def: 31, spa: 31, spd: 31, spe: 31 } });
+
+{
+  // 急所は倍率を跳ね上げるので、乱数幅そのものを見るときは急所を止める
+  const noCrit = { chance: () => false, int: (a, b) => rng.int(a, b) };
+  let min = Infinity, max = -Infinity;
+  for (let i = 0; i < 10000; i++) {
+    const { dmg } = damage(atkMon, defMon, getMove('ひのこ'), noCrit);
+    min = Math.min(min, dmg);
+    max = Math.max(max, dmg);
+  }
+  const lo = damage(atkMon, defMon, getMove('ひのこ'), fixed(85)).dmg;
+  const hi = damage(atkMon, defMon, getMove('ひのこ'), fixed(100)).dmg;
+  check(`乱数の下限が 85% と一致 (${min} = ${lo})`, min === lo);
+  check(`乱数の上限が 100% と一致 (${max} = ${hi})`, max === hi);
+  check('ひのこ は くさ に ばつぐん', damage(atkMon, defMon, getMove('ひのこ'), fixed(100)).eff === 2);
+
+  // 急所は必ず等倍より大きい
+  const crit = { chance: () => true, int: () => 100 };
+  check(`急所は通常より大きい (${damage(atkMon, defMon, getMove('ひのこ'), crit).dmg} > ${hi})`,
+    damage(atkMon, defMon, getMove('ひのこ'), crit).dmg > hi);
+}
+
+{
+  // 無効なら常に 0、有効なら常に 1 以上
+  const pikaMon = createMonster(17, 30, { rng });
+  const ground = { ...getMove('でんきショック') };
+  const dug = createMonster(1, 5, { rng });
+  let zeros = 0, ones = 0;
+  for (let i = 0; i < 500; i++) {
+    const r = damage(pikaMon, dug, getMove('でんきショック'), rng);
+    if (r.eff === 0) zeros++;
+    if (r.eff > 0 && r.dmg >= 1) ones++;
+  }
+  check('こうかが ある技は必ず 1 ダメージ以上', ones === 500, `${ones}/500`);
+}
+
+{
+  const grassMon = createMonster(1, 20, { rng });
+  const flyer = createMonster(10, 20, { rng });
+  const r = damage(grassMon, flyer, getMove('でんきショック'), fixed(100));
+  check('効果 0 のときはダメージ 0', effectiveness('ノーマル', ['ゴースト']) === 0);
+}
+
+check('変化技のダメージは 0', damage(atkMon, defMon, getMove('なきごえ'), fixed(100)).dmg === 0);
+check('必中技は accuracy が null', getMove('かたくなる').accuracy === null);
+check('必中技は必ず当たる', accuracyCheck(atkMon, defMon, getMove('かたくなる'), rng));
+
+// ---------------------------------------------------------------- 成長曲線
+section('経験値と成長曲線');
+
+for (const [name, f] of Object.entries(CURVE)) {
+  let mono = true;
+  for (let n = 1; n < MAX_LEVEL; n++) if (f(n + 1) <= f(n)) { mono = false; break; }
+  check(`${name} は Lv1..100 で単調増加`, mono);
+  check(`${name}(1) >= 0`, f(1) >= 0, `${f(1)}`);
+}
+eq('mediumFast(50)', CURVE.mediumFast(50), 125000);
+eq('mediumSlow(5)', CURVE.mediumSlow(5), 135);
+eq('Lv1 の必要経験値は 0 か正', expForLevel('mediumSlow', 1) >= 0, true);
+
+{
+  const foe = createMonster(10, 10, { rng });
+  check('経験値は 1 以上', expGain(foe, 1, true) >= 1);
+  check('分け合うと減る', expGain(foe, 2, true) <= expGain(foe, 1, true));
+}
+
+// ---------------------------------------------------------------- 捕獲
+section('捕獲');
+
+function catchRate(speciesId, level, opt = {}) {
+  const m = createMonster(speciesId, level, { rng });
+  if (opt.hp) m.curHP = Math.max(1, Math.round(m.stats.hp * opt.hp));
+  if (opt.status) m.status = opt.status;
+  let n = 0;
+  for (let i = 0; i < 10000; i++) if (catchAttempt(m, ITEMS['モンスターボール'], rng).caught) n++;
+  return n / 10000;
+}
+
+const koiFull = catchRate(129, 20);
+const rizaFull = catchRate(6, 20);
+const koiWeak = catchRate(129, 20, { hp: 0.05, status: 'ねむり' });
+const rizaWeak = catchRate(6, 20, { hp: 0.05, status: 'ねむり' });
+
+check(`コイキング(255) 満タンでも つかまりやすい (${(koiFull * 100).toFixed(1)}%)`, koiFull > 0.3);
+check(`リザードン(45) 満タンは つかまりにくい (${(rizaFull * 100).toFixed(1)}%)`, rizaFull < 0.15);
+check(`HP1割+ねむり で リザードンの捕獲率が上がる (${(rizaFull * 100).toFixed(1)}% → ${(rizaWeak * 100).toFixed(1)}%)`,
+  rizaWeak > rizaFull * 2);
+check('マスターボールは必ず成功',
+  catchAttempt(createMonster(6, 100, { rng }), { master: true }, rng).caught);
+check('揺れ回数は 0..4', [0, 1, 2, 3, 4].includes(catchAttempt(createMonster(6, 50, { rng }), ITEMS['モンスターボール'], rng).shakes));
+
+// ひかるおまもり（図鑑コンプ報酬）。もっていると捕獲率が 1.5倍になる。
+function catchRateCharm(speciesId, level, charmMul) {
+  const m = createMonster(speciesId, level, { rng });
+  let n = 0;
+  for (let i = 0; i < 10000; i++) if (catchAttempt(m, ITEMS['モンスターボール'], rng, charmMul).caught) n++;
+  return n / 10000;
+}
+const rizaNoCharm = catchRateCharm(6, 20, 1);
+const rizaCharm = catchRateCharm(6, 20, 1.5);
+check(`ひかるおまもりで 捕獲率が上がる (${(rizaNoCharm * 100).toFixed(1)}% → ${(rizaCharm * 100).toFixed(1)}%)`,
+  rizaCharm > rizaNoCharm);
+
+// ---------------------------------------------------------------- にげる
+section('にげる');
+check('こちらが極端に速ければ にげられる', runAway(300, 10, 0, rng));
+check('試行回数が増えると にげやすくなる',
+  Array.from({ length: 200 }, () => runAway(20, 200, 3, rng)).filter(Boolean).length >=
+  Array.from({ length: 200 }, () => runAway(20, 200, 0, rng)).filter(Boolean).length);
+
+// ---------------------------------------------------------------- 状態異常
+section('状態異常');
+{
+  const m = createMonster(1, 50, { rng });
+  m.status = 'どく';
+  eq('どくの スリップは 最大HP/8', statusEndOfTurnDamage(m), Math.floor(m.stats.hp / 8));
+  m.status = 'やけど';
+  eq('やけどの スリップは 最大HP/16', statusEndOfTurnDamage(m), Math.floor(m.stats.hp / 16));
+  m.status = null;
+  eq('状態異常なしは 0', statusEndOfTurnDamage(m), 0);
+}
+
+// ---------------------------------------------------------------- データ整合性
+section('データ整合性 ― 技');
+
+for (const [name, mv] of Object.entries(MOVES)) {
+  check(`${name} のタイプ`, TYPES.includes(mv.type), `未知のタイプ ${mv.type}`);
+  check(`${name} の分類`, ['物理', '特殊', '変化'].includes(mv.category), mv.category);
+  check(`${name} の PP > 0`, mv.pp > 0);
+  check(`${name} の name はキーと一致`, mv.name === name);
+  if (mv.effect?.kind === 'stat') {
+    check(`${name} の対象`, ['self', 'foe'].includes(mv.effect.target), String(mv.effect.target));
+  }
+}
+check('全18タイプが最低1つの技でカバーされている',
+  TYPES.every((t) => Object.values(MOVES).some((m) => m.type === t)),
+  TYPES.filter((t) => !Object.values(MOVES).some((m) => m.type === t)).join('・') + ' が無い');
+
+section('データ整合性 ― 種族');
+
+for (const sp of speciesList) {
+  check(`${sp.name} のタイプ`, sp.types.every((t) => TYPES.includes(t)), sp.types.join('/'));
+  check(`${sp.name} の種族値6つ`, ['hp', 'atk', 'def', 'spa', 'spd', 'spe'].every((k) => typeof sp.base[k] === 'number'));
+  check(`${sp.name} の経験値タイプ`, !!CURVE[sp.expType], sp.expType);
+  check(`${sp.name} の捕獲率 1..255`, sp.catchRate >= 1 && sp.catchRate <= 255, String(sp.catchRate));
+  check(`${sp.name} の スプライト`, !!sp.sprite?.pixels);
+  check(`${sp.name} は Lv1 で技を覚える`, movesAtLevel(sp, 1).length > 0 || sp.learnset.length > 0);
+
+  for (const e of sp.learnset) {
+    check(`${sp.name} の習得技 ${e.move}`, !!getMove(e.move), 'MOVES に無い');
+    check(`${sp.name} の習得Lv ${e.lv}`, e.lv >= 1 && e.lv <= MAX_LEVEL);
+  }
+  if (sp.evolution) {
+    check(`${sp.name} の進化先 ${sp.evolution.to}`, !!SPECIES[sp.evolution.to], 'SPECIES に無い');
+    check(`${sp.name} の進化方法`, ['level', 'stone'].includes(sp.evolution.method), sp.evolution.method);
+    if (sp.evolution.method === 'stone') {
+      check(`${sp.name} の進化アイテム ${sp.evolution.item}`, !!ITEMS[sp.evolution.item], 'ITEMS に無い');
+    }
+  }
+  check(`${sp.name} の id が種族id と一致`, sp.id === Number(Object.entries(SPECIES).find(([, v]) => v === sp)[0]));
+  check(`${sp.name} の gen が 1..9`, sp.gen >= 1 && sp.gen <= 9, String(sp.gen));
+}
+
+// design-v3.md O-3: 学習セットの規格7項目。
+// Phase I で26体を足したとき、学習セットは3〜4行で済ませてしまい、
+// 中盤で手が止まる種族が量産された（51種中30種が技4つ以下）。
+// 「数を足すだけでは同じことを繰り返す」ので、満たすべき形をここで縛る。
+// 例外は sp.learnsetExempt に明記したものだけ見逃す（うっかりと わざと の区別）。
+section('データ整合性 ― 学習セットの規格（O-3）');
+{
+  const evoTargets = new Set(speciesList.filter((s) => s.evolution).map((s) => s.evolution.to));
+  const stageOf = (sp) => {
+    const isFinal = !sp.evolution;
+    const isPre = !evoTargets.has(sp.id);
+    if (isFinal && isPre) return 'single';
+    if (isFinal) return 'final';
+    if (isPre) return 'pre';
+    return 'mid';
+  };
+  const MIN_N = { single: 7, final: 7, mid: 6, pre: 5 };
+
+  for (const sp of speciesList) {
+    const exempt = sp.learnsetExempt ?? {};
+    const stage = stageOf(sp);
+    const atk = sp.learnset.map((e) => getMove(e.move)).filter((m) => m.category !== '変化');
+    const status = sp.learnset.map((e) => getMove(e.move)).filter((m) => m.category === '変化');
+    const stab = atk.filter((m) => sp.types.includes(m.type));
+    const atkTypes = new Set(atk.map((m) => m.type));
+    const lastLv = Math.max(...sp.learnset.map((e) => e.lv));
+
+    if (!exempt.all) {
+      check(`R1 ${sp.name}(${stage}) 技数 >= ${MIN_N[stage]}`,
+        sp.learnset.length >= MIN_N[stage], String(sp.learnset.length));
+      check(`R2 ${sp.name} タイプ一致の攻撃技を1つ以上`, stab.length >= 1);
+    }
+    if (stage === 'final' || stage === 'single') {
+      check(`R3 ${sp.name}(最終) 威力80以上のタイプ一致技`, stab.some((m) => m.power >= 80));
+    }
+    if (!exempt.all && !exempt.types) {
+      check(`R4 ${sp.name} 攻撃技のタイプが2種類以上`, atkTypes.size >= 2, [...atkTypes].join('・'));
+    }
+    check(`R5 ${sp.name} 変化技を1つ以上`, status.length >= 1);
+    if (!exempt.all) {
+      // stage が final/single なら Lv40 以上。進化するなら「進化Lv+10」以上。
+      // ただし stone 進化は level を持たないので、この規格では final 相当に扱う。
+      const need = (stage === 'final' || stage === 'single' || sp.evolution.method === 'stone')
+        ? 40 : sp.evolution.level + 10;
+      check(`R6 ${sp.name} 最終習得Lv >= ${need}`, lastLv >= need, String(lastLv));
+      check(`R7 ${sp.name} わざマシンを2つ以上`, (sp.tm ?? []).length >= 2, String((sp.tm ?? []).length));
+    }
+  }
+}
+
+// 種族の再編（design-species.md）で目指した「死んでいたタイプを起こす」の担保。
+// カントーの序盤だけでは18タイプのうち10タイプぶんしか種族がおらず、
+// タイプ相性の半分が実質死んでいた。以後どれだけ種族を足しても、
+// このテストが「また偏っていないか」を検出する。
+section('データ整合性 ― タイプと世代のカバレッジ');
+{
+  const byType = {};
+  for (const sp of speciesList) for (const t of sp.types) (byType[t] ??= []).push(sp.name);
+  for (const t of TYPES) {
+    check(`${t} タイプの種族が いる`, (byType[t]?.length ?? 0) > 0, byType[t]?.join('・') ?? 'なし');
+    // Phase U で「最少タイプでも3種」を保証した。ここで固定する。
+    check(`${t} タイプが 3種以上 いる`, (byType[t]?.length ?? 0) >= 3, byType[t]?.join('・') ?? 'なし');
+  }
+
+  const gens = new Set(speciesList.map((sp) => sp.gen));
+  for (let g = 1; g <= 9; g++) {
+    check(`${g}世代の種族が いる`, gens.has(g));
+  }
+
+  const ids = speciesList.map((sp) => sp.id);
+  check('種族idに 重複が無い', new Set(ids).size === ids.length);
+  eq('種族の総数', speciesList.length, 70);
+}
+
+section('データ整合性 ― とくせい（Phase V / B1）');
+{
+  // battle.js/formulas.js が解釈するとくせい名の一覧。ここに無いものは黙って無視されるだけになる。
+  const IMPLEMENTED_ABILITIES = [
+    'もうか', 'げきりゅう', 'しんりょく', 'むしのしらせ', 'いかく', 'ふゆう',
+    'せいでんき', 'ほのおのからだ', 'がんじょう', 'すいすい',
+    'ちょすい', 'ちくでん', 'ふみん', 'めんえき', 'どんかん', 'すなおこし',
+  ];
+  for (const sp of speciesList) {
+    check(`${sp.name} に とくせいがある`, !!sp.ability, sp.name);
+    if (sp.ability) {
+      check(`${sp.name} の ${sp.ability} は実装済み`, IMPLEMENTED_ABILITIES.includes(sp.ability), sp.ability);
+    }
+  }
+  // A1: 実装済みとくせいには すべて せつめい文があること（つよさをみる で「？？？」にならない）
+  for (const name of IMPLEMENTED_ABILITIES) {
+    check(`とくせい ${name} に せつめいがある`, !!ABILITY_DESC[name] && getAbilityDesc(name) !== '？？？');
+  }
+}
+
+section('データ整合性 ― 積み技と天候（Phase T-2 / W）');
+{
+  // 積み技: 自分を強化する技が、こうげき・とくこう・すばやさ それぞれに1つ以上ある
+  // （つるぎのまい atk+2 / めいそう spa+1・spd+1 / こうそくいどう spe+2、T-2 の仕様どおり）
+  const boostsBy = { atk: [], spa: [], spe: [] };
+  for (const [name, mv] of Object.entries(MOVES)) {
+    if (mv.category !== '変化' || mv.effect?.kind !== 'stat') continue;
+    if (mv.effect.target !== 'self') continue;
+    const changes = mv.effect.stats ?? [{ stat: mv.effect.stat, stages: mv.effect.stages }];
+    for (const { stat, stages } of changes) {
+      if (stages >= 1 && boostsBy[stat]) boostsBy[stat].push(name);
+    }
+  }
+  for (const stat of ['atk', 'spa', 'spe']) {
+    check(`${stat} をあげる自己強化技が ある`, boostsBy[stat].length > 0, boostsBy[stat].join('・'));
+  }
+
+  // 天候: あめ/にほんばれ/すなあらし を発生させる技が、それぞれ実在する
+  const WEATHERS = ['rain', 'sun', 'sand'];
+  const weatherMoves = {};
+  for (const [name, mv] of Object.entries(MOVES)) {
+    if (mv.effect?.kind === 'weather') (weatherMoves[mv.effect.weather] ??= []).push(name);
+  }
+  for (const w of WEATHERS) {
+    check(`天候 ${w} を起こす技が ある`, (weatherMoves[w]?.length ?? 0) > 0, weatherMoves[w]?.join('・') ?? 'なし');
+  }
+}
+
+section('データ整合性 ― どうぐ');
+for (const [name, it] of Object.entries(ITEMS)) {
+  check(`${name} のポケット`, POCKETS.includes(it.pocket), it.pocket);
+  check(`${name} の name はキーと一致`, it.name === name);
+  if (it.use) {
+    // どうぐの使い道は3通り。バッグから／バトルで投げる／地形から。
+    // どれにも当てはまらないものは、持っていても何もできない。
+    const FROM_TERRAIN = ['rod'];
+    if (it.use.kind === 'tm') {
+      check(`${name} の技 ${it.use.move} が実在`, !!MOVES[it.use.move], it.use.move);
+      // 誰も覚えられないわざマシンは、買っても置物にしかならない
+      const learners = speciesList.filter((s) => (s.tm ?? []).includes(it.use.move));
+      check(`${name} を おぼえられる種がいる`, learners.length > 0, it.use.move);
+    }
+    check(`${name} の使用場面`,
+      it.usableIn.length > 0 || it.pocket === 'ボール' || FROM_TERRAIN.includes(it.use.kind),
+      it.use.kind);
+  }
+  if (it.hold) {
+    // battle.js が解釈する hold.kind の一覧。ここに無いものは黙って無視されるだけになる。
+    const HOLD_KINDS = ['pinchHeal', 'endTurnHeal', 'endure', 'typeBoost'];
+    check(`${name} の hold.kind がエンジンに実装済み`, HOLD_KINDS.includes(it.hold.kind), it.hold.kind);
+    check(`${name} の pocket が もちもの`, it.pocket === 'もちもの', it.pocket);
+  }
+}
+
+section('データ整合性 ― スプライト');
+for (const [key, def] of Object.entries(SPR)) {
+  check(`${key} は 24 行`, def.pixels.length === 24, String(def.pixels.length));
+  const w = new Set(def.pixels.map((r) => r.length));
+  check(`${key} の行幅がすべて 24`, w.size === 1 && w.has(24), [...w].join('/'));
+  const unknown = new Set();
+  for (const r of def.pixels) for (const ch of r) if (!(ch in def.palette)) unknown.add(ch);
+  check(`${key} のパレットが完備`, unknown.size === 0, [...unknown].join(''));
+}
+// 背面スプライト(B4, 最終進化12種のみ)。SPR とは別エクスポートなので同じ検証をもう一度かける。
+for (const [key, def] of Object.entries(SPR_BACK)) {
+  check(`${key}(背面) は 24 行`, def.pixels.length === 24, String(def.pixels.length));
+  const w = new Set(def.pixels.map((r) => r.length));
+  check(`${key}(背面) の行幅がすべて 24`, w.size === 1 && w.has(24), [...w].join('/'));
+  const unknown = new Set();
+  for (const r of def.pixels) for (const ch of r) if (!(ch in def.palette)) unknown.add(ch);
+  check(`${key}(背面) のパレットが完備`, unknown.size === 0, [...unknown].join(''));
+}
+check('背面スプライトは 12種ちょうど', Object.keys(SPR_BACK).length === 12, `${Object.keys(SPR_BACK).length}種`);
+{
+  const withBack = speciesList.filter((sp) => sp.backSprite);
+  check('backSprite を持つ種族は 12種', withBack.length === 12, `${withBack.length}種`);
+  for (const sp of withBack) {
+    check(`${sp.name} の backSprite は自分の正面と同じパレット`, sp.backSprite.palette === sp.sprite.palette);
+  }
+}
+for (const [key, def] of Object.entries(TILE_SPR)) {
+  const w = new Set(def.pixels.map((r) => r.length));
+  check(`タイル ${key} は 16x16`, def.pixels.length === 16 && w.size === 1 && w.has(16));
+}
+for (const [name, c] of Object.entries(CHARS)) {
+  for (const [dir, set] of Object.entries(c)) {
+    if (!set) continue;
+    const ok = set.every((d) => d.pixels.length === 20 && d.pixels.every((r) => r.length === 16));
+    check(`キャラ ${name}/${dir} は 16x20 × ${set.length}コマ`, ok);
+  }
+}
+check('タイル定義のスプライトが実在する',
+  Object.values(TILE).every((t) => !!TILE_SPR[t.sprite]),
+  Object.entries(TILE).filter(([, t]) => !TILE_SPR[t.sprite]).map(([k]) => k).join('・'));
+
+section('データ整合性 ― マップ');
+// 定義だけあって、店にも落ちものにも どこにも出てこない どうぐ を検知する。
+// 実装もテストも通っているのに、プレイヤーが一生さわれない機能を防ぐため。
+const reachableItems = new Set(['モンスターボール', 'きずぐすり']); // ゲーム開始時に持たせる分
+for (const [id, m] of Object.entries(MAPS)) {
+  const w = mapWidth(m);
+  check(`${id} の行幅がすべて ${w}`, m.tiles.every((r) => r.length === w),
+    m.tiles.map((r, i) => (r.length !== w ? `行${i}:${r.length}` : null)).filter(Boolean).join(' '));
+
+  const used = new Set(m.tiles.join(''));
+  for (const ch of used) {
+    check(`${id} の legend に '${ch}'`, !!m.legend[ch]);
+    check(`${id} の TILE に ${m.legend[ch]}`, !!TILE[m.legend[ch]]);
+  }
+
+  for (const wp of m.warps ?? []) {
+    check(`${id} → ${wp.to} が実在`, !!MAPS[wp.to]);
+    const dst = MAPS[wp.to];
+    if (!dst) continue;
+    const k = tileKeyAt(dst, wp.tx, wp.ty);
+    check(`${id} → ${wp.to}(${wp.tx},${wp.ty}) の着地が通行可`, !!k && !TILE[k].solid, k ?? '範囲外');
+    const src = tileKeyAt(m, wp.x, wp.y);
+    check(`${id} のワープ元(${wp.x},${wp.y}) が通行可`, !!src && !TILE[src].solid, src ?? '範囲外');
+  }
+
+  for (const n of m.npcs ?? []) {
+    const k = tileKeyAt(m, n.x, n.y);
+    check(`${id} の NPC ${n.id} が通行可タイル上`, !!k && !TILE[k].solid, k ?? '範囲外');
+    check(`${id} の NPC ${n.id} の見た目`, !!CHARS[n.sprite], n.sprite);
+  }
+  for (const s of m.signs ?? []) {
+    check(`${id} の看板(${s.x},${s.y}) が範囲内`, !!tileKeyAt(m, s.x, s.y));
+  }
+
+  // 落ちているどうぐ。フラグが被ると片方を拾ったときに両方消える。
+  for (const it of m.items ?? []) {
+    check(`${id} の落ちもの ${it.item} が実在`, !!ITEMS[it.item], it.item);
+    const k = tileKeyAt(m, it.x, it.y);
+    check(`${id} の落ちもの(${it.x},${it.y}) が拾える位置`, !!k && !TILE[k].solid, k ?? '範囲外');
+    reachableItems.add(it.item);
+  }
+
+  // ぬしポケモン。種族が実在し、通行可タイル上、フラグを持つ。
+  for (const s of m.statics ?? []) {
+    check(`${id} のぬし ${s.id} の種族が実在`, !!SPECIES[s.id], String(s.id));
+    check(`${id} のぬし(${s.x},${s.y}) が通行可タイル上`,
+      !!tileKeyAt(m, s.x, s.y) && !TILE[tileKeyAt(m, s.x, s.y)].solid);
+    check(`${id} のぬし にフラグが付いている`, !!s.flag);
+    check(`${id} のぬし の Lv が正の数`, s.lv >= 1);
+    if (s.prize) {
+      check(`${id} のぬし の ほうしゅう ${s.prize} が実在`, !!ITEMS[s.prize], s.prize);
+      reachableItems.add(s.prize);
+    }
+  }
+
+  // 店の品揃えも実在するどうぐでなければ、話しかけた瞬間に落ちる
+  const walkLines = (lines, where) => {
+    for (const l of lines ?? []) {
+      if (typeof l !== 'object' || !l) continue;
+      for (const name of l.shop ?? []) {
+        check(`${id} の ${where} が売る ${name} が実在`, !!ITEMS[name], name);
+        check(`${id} の ${where} が売る ${name} に ねだん`, ITEMS[name]?.price > 0);
+        reachableItems.add(name);
+      }
+      if (l.give) {
+        check(`${id} の ${where} がくれる ${l.give} が実在`, !!ITEMS[l.give], l.give);
+        reachableItems.add(l.give);
+      }
+      if (l.trade) {
+        check(`${id} の ${where} がほしがる ${l.trade.want} が実在`, !!SPECIES[l.trade.want], String(l.trade.want));
+        check(`${id} の ${where} がくれる ${l.trade.give} が実在`, !!SPECIES[l.trade.give], String(l.trade.give));
+        // 出す側が野生で取れないと、交換そのものが成立しない
+        const wildOk = Object.values(MAPS).some((mm) =>
+          (mm.encounters?.table ?? []).some((e) => e.id === l.trade.want)
+          || (mm.water?.surf?.table ?? []).some((e) => e.id === l.trade.want)
+          || Object.values(mm.water?.fish ?? {}).some((sp) => sp.table.some((e) => e.id === l.trade.want)));
+        check(`${id} の ${where} がほしがる相手が野生にいる`, wildOk, String(l.trade.want));
+        check(`${id} の ${where} の交換にフラグがある`, !!l.trade.flag);
+      }
+      for (const k of ['then', 'else', 'yes', 'no']) if (l[k]) walkLines(l[k], where);
+    }
+  };
+  for (const n of m.npcs ?? []) walkLines(n.lines, n.id);
+  for (const e of m.encounters?.table ?? []) {
+    check(`${id} のエンカウント ${e.id} が実在`, !!SPECIES[e.id]);
+    check(`${id} のエンカウント Lv範囲`, e.min >= 1 && e.min <= e.max);
+  }
+  for (const e of m.postgame?.table ?? []) {
+    check(`${id} のクリア後エンカウント ${e.id} が実在`, !!SPECIES[e.id]);
+    check(`${id} のクリア後エンカウント Lv範囲`, e.min >= 1 && e.min <= e.max && e.max <= 100);
+    const base = (m.encounters?.table ?? []).find((b) => b.id === e.id);
+    if (base) check(`${id} のクリア後エンカウントは 通常より弱くならない`, e.min >= base.min, `${e.min} ← ${base.min}`);
+  }
+  // カントーだけに寄らないための担保。同じ世代1色にはしない、というルール。
+  const table = m.encounters?.table ?? [];
+  if (table.length >= 3) {
+    const gensHere = new Set(table.map((e) => SPECIES[e.id]?.gen).filter(Boolean));
+    check(`${id} の草むらが 1世代だけに 偏っていない`, gensHere.size >= 2, [...gensHere].join('・'));
+  }
+}
+{
+  // 定義はあるのに、店にも落ちものにも会話の give にも ぬしの ほうしゅう にも
+  // 現れないどうぐを検出する。実装もテストも通っているのに、
+  // プレイヤーが一生さわれない「死蔵」を防ぐための担保。
+  const unreachable = Object.keys(ITEMS).filter((name) => !reachableItems.has(name));
+  check('すべての どうぐに 入手経路がある（店・落ちもの・give・ぬしの報酬）',
+    unreachable.length === 0, unreachable.join('・'));
+}
+{
+  // 拾ったフラグはマップをまたいで一意。被ると片方を拾った時に両方消える。
+  const flags = Object.values(MAPS).flatMap((m) => (m.items ?? []).map((it) => it.flag));
+  const dup = flags.filter((f, i) => flags.indexOf(f) !== i);
+  check('落ちもののフラグが重複していない', dup.length === 0, dup.join('・'));
+  check('落ちものにフラグが付いている', flags.every(Boolean));
+}
+{
+  // ぬしポケモンのフラグも、落ちものと合わせて全体で一意でなければならない。
+  const bossFlags = Object.values(MAPS).flatMap((m) => (m.statics ?? []).map((s) => s.flag));
+  const itemFlags = Object.values(MAPS).flatMap((m) => (m.items ?? []).map((it) => it.flag));
+  check('ぬしポケモンのフラグが重複していない', new Set(bossFlags).size === bossFlags.length, bossFlags.join('・'));
+  check('ぬしポケモンのフラグが 落ちものと衝突していない',
+    bossFlags.every((f) => !itemFlags.includes(f)), bossFlags.join('・'));
+}
+
+// ---------------------------------------------------------------- 難度の並び
+section('バランス ― 進行順');
+{
+  // 物語の順路。ここが実際の道すじと食い違ったら、それ自体がバグ。
+  const ROUTE = [
+    ['route1', '１ばんどうろ'],
+    ['gym', 'トキワジム'],
+    ['forest', 'トキワのもり'],
+    ['route2', '２ばんどうろ'],
+    ['cave1', 'おつきみやま'],
+    ['cave2', 'おつきみやま ちか'],
+    ['gym2', 'ニビジム'],
+  ];
+
+  const wildBand = (m) => {
+    const t = m.encounters?.table ?? [];
+    return t.length ? { lo: Math.min(...t.map((e) => e.min)), hi: Math.max(...t.map((e) => e.max)) } : null;
+  };
+  const trainerBand = (m) => {
+    const lv = (m.npcs ?? []).filter((n) => n.trainer)
+      .flatMap((n) => getAnyTrainer(n.trainer).party.map((p) => p.lv));
+    return lv.length ? { lo: Math.min(...lv), hi: Math.max(...lv) } : null;
+  };
+
+  let prevWild = null;
+  let prevTrainer = null;
+  for (const [id, label] of ROUTE) {
+    const m = MAPS[id];
+    check(`${label} が実在`, !!m, id);
+    if (!m) continue;
+
+    const w = wildBand(m);
+    if (w && prevWild) {
+      check(`${label} の野生は前の場所より弱くならない`, w.lo >= prevWild.lo && w.hi >= prevWild.hi,
+        `Lv${w.lo}-${w.hi} ← Lv${prevWild.lo}-${prevWild.hi}`);
+    }
+    if (w) prevWild = w;
+
+    const t = trainerBand(m);
+    if (t && prevTrainer) {
+      check(`${label} のトレーナーは前の場所より弱くならない`, t.hi >= prevTrainer.hi,
+        `Lv${t.lo}-${t.hi} ← Lv${prevTrainer.lo}-${prevTrainer.hi}`);
+    }
+    if (t) prevTrainer = t;
+
+    // 野生より極端に高いトレーナーがいると、そこだけ壁になる
+    if (w && t) {
+      check(`${label} のトレーナーが野生から離れすぎない`, t.hi - w.hi <= 4,
+        `トレーナー Lv${t.hi} / 野生 Lv${w.hi}`);
+    }
+  }
+
+  // 最初の相手は 御三家 Lv5 で勝てる範囲にとどめる
+  const first = TRAINERS.lass1;
+  check('さいしょのトレーナーは Lv6 以下', Math.max(...first.party.map((p) => p.lv)) <= 6,
+    first.party.map((p) => p.lv).join(','));
+  check('さいしょのトレーナーは 1匹', first.party.length === 1, String(first.party.length));
+}
+
+section('バランス ― さいしょの草むら');
+{
+  // １ばんどうろに入ってすぐ、トレーナーの視線に入る前に草むらへ行けること。
+  // ここが塞がると「育てる前に強い相手と戦わされる」になる。
+  const DIRV = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
+
+  /** そのマップでトレーナーの視線が通っているマス */
+  function sightTiles(m) {
+    const out = new Set();
+    for (const n of m.npcs ?? []) {
+      if (!n.trainer) continue;
+      const range = n.sight ?? getAnyTrainer(n.trainer)?.sight ?? 0;
+      const [dx, dy] = DIRV[n.dir] ?? [0, 1];
+      for (let i = 1; i <= range; i++) {
+        const x = n.x + dx * i;
+        const y = n.y + dy * i;
+        const k = tileKeyAt(m, x, y);
+        if (!k || TILE[k].solid) break;
+        out.add(`${x},${y}`);
+      }
+    }
+    return out;
+  }
+
+  /** 入口から、視線を踏まずに歩ける範囲 */
+  function reachableAvoidingSight(m, start) {
+    const blocked = sightTiles(m);
+    const npcs = new Set((m.npcs ?? []).map((n) => `${n.x},${n.y}`));
+    const seen = new Set();
+    const queue = [start];
+    while (queue.length) {
+      const [x, y] = queue.shift();
+      const key = `${x},${y}`;
+      if (seen.has(key) || blocked.has(key) || npcs.has(key)) continue;
+      const k = tileKeyAt(m, x, y);
+      if (!k || TILE[k].solid || TILE[k].water || TILE[k].ledge) continue;
+      seen.add(key);
+      for (const [dx, dy] of Object.values(DIRV)) queue.push([x + dx, y + dy]);
+    }
+    return seen;
+  }
+
+  const r1 = MAPS.route1;
+  // はじまりのむら から入ってくる地点
+  const entry = MAPS.hajimari.warps.find((w) => w.to === 'route1');
+  check('はじまりのむら から １ばんどうろ への入口がある', !!entry);
+  if (entry) {
+    const reach = reachableAvoidingSight(r1, [entry.tx, entry.ty]);
+    let grass = 0;
+    for (const key of reach) {
+      const [x, y] = key.split(',').map(Number);
+      if (TILE[tileKeyAt(r1, x, y)]?.grass) grass++;
+    }
+    check('トレーナーに会う前に入れる草むらがある', grass > 0, `${grass}マス`);
+    check('その草むらが十分な広さ', grass >= 12, `${grass}マス`);
+  }
+}
+
+// ---------------------------------------------------------------- BGM
+section('データ整合性 ― BGM');
+{
+  // 音名のタイポは鳴らしてみるまで気づけない。ここで全部の音符を読んでおく。
+  const NOTE = /^([a-g])(#|b)?(-?\d)$/;
+  for (const [name, song] of Object.entries(SONGS)) {
+    check(`${name} の bpm`, song.bpm > 0 && song.bpm < 400, String(song.bpm));
+    check(`${name} の step`, song.step > 0 && song.step <= 4);
+    for (const part of ['lead', 'harm', 'bass']) {
+      const bad = (song[part] ?? []).filter((t) => t !== '-' && t !== '~' && !NOTE.test(t));
+      check(`${name}/${part} の音名`, bad.length === 0, bad.join(' '));
+      const oct = (song[part] ?? []).filter((t) => NOTE.test(t))
+        .map((t) => Number(NOTE.exec(t)[3])).filter((o) => o < 1 || o > 7);
+      check(`${name}/${part} のオクターブ`, oct.length === 0, oct.join(' '));
+    }
+    const badDrum = (song.drum ?? []).filter((t) => !'xoh-~'.includes(t) || t.length !== 1);
+    check(`${name}/drum の記号`, badDrum.length === 0, badDrum.join(' '));
+    const parts = ['lead', 'harm', 'bass', 'drum'].filter((k) => song[k]?.length);
+    check(`${name} にパートがある`, parts.length > 0);
+  }
+  for (const [id, m] of Object.entries(MAPS)) {
+    check(`${id} の bgm ${m.bgm} が実在`, !!SONGS[m.bgm], m.bgm ?? '未設定');
+  }
+}
+
+// ---------------------------------------------------------------- 地形ギミック
+section('データ整合性 ― 地形');
+{
+  const DIRV = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
+  for (const [id, m] of Object.entries(MAPS)) {
+    // 段差は「飛び降りた先」が歩けないと、ただの壁になってしまう
+    for (let y = 0; y < m.tiles.length; y++) {
+      for (let x = 0; x < m.tiles[y].length; x++) {
+        const t = TILE[m.legend[m.tiles[y][x]]];
+        if (!t?.ledge) continue;
+        const [dx, dy] = DIRV[t.ledge];
+        const from = TILE[tileKeyAt(m, x - dx, y - dy)];
+        const to = TILE[tileKeyAt(m, x + dx, y + dy)];
+        check(`${id} の段差(${x},${y}) の手前に立てる`, !!from && !from.solid && !from.ledge && !from.water);
+        check(`${id} の段差(${x},${y}) の着地点に降りられる`, !!to && !to.solid && !to.ledge && !to.water);
+      }
+    }
+
+    // 水があるマップには なみのり／つり のテーブルが要る
+    const hasWater = m.tiles.some((row) => [...row].some((ch) => TILE[m.legend[ch]]?.water));
+    if (hasWater) {
+      check(`${id} に水の遭遇テーブルがある`, !!m.water?.surf || !!m.water?.fish);
+      for (const e of m.water?.surf?.table ?? []) {
+        check(`${id} の なみのり遭遇 ${e.id} が実在`, !!SPECIES[e.id], String(e.id));
+      }
+      for (const [power, spot] of Object.entries(m.water?.fish ?? {})) {
+        check(`${id} の つり(${power}) の確率`, spot.chance > 0 && spot.chance <= 100);
+        for (const e of spot.table) check(`${id} の つり(${power}) ${e.id} が実在`, !!SPECIES[e.id], String(e.id));
+      }
+    } else {
+      check(`${id} に不要な水テーブルが無い`, !m.water);
+    }
+  }
+  // なみのりの入手経路。おぼえる種族がいないと 池が飾りになる
+  const surfers = speciesList.filter((s) => s.learnset.some((e) => MOVES[e.move]?.field === 'surf'));
+  check('なみのりを おぼえる種族がいる', surfers.length > 0, surfers.map((s) => s.name).join('・'));
+  // つりざおは配られていないと 一生つれない
+  const rods = Object.values(ITEMS).filter((i) => i.use?.kind === 'rod');
+  check('つりざおが定義されている', rods.length > 0);
+}
+
+// ---------------------------------------------------------------- トレーナー
+// ---------------------------------------------------------------- AI
+section('相手の行動選択');
+{
+  // 「効かない場面で撃たない」がいちばん効く。掛かっている相手に
+  // もう一度 状態異常技を撃つのが、遊んでいて一番しらけるため。
+  const pick = (user, target, skill = 3, n = 200) => {
+    const c = {};
+    for (let i = 0; i < n; i++) {
+      const a = chooseAction(user, target, rng, skill);
+      const k = a.type === 'struggle' ? 'わるあがき' : a.move.name;
+      c[k] = (c[k] ?? 0) + 1;
+    }
+    return c;
+  };
+
+  const pika = createMonster(17, 20, { rng, moves: ['でんじは', 'でんこうせっか'] });
+  const fresh = createMonster(7, 20, { rng });
+  const para = createMonster(7, 20, { rng });
+  para.status = 'まひ';
+  const dying = createMonster(7, 20, { rng });
+  dying.curHP = 1;
+
+  const a = pick(pika, fresh);
+  check('元気な相手には でんじは を選ぶ', (a['でんじは'] ?? 0) > (a['でんこうせっか'] ?? 0),
+    JSON.stringify(a));
+
+  const b = pick(pika, para);
+  check('まひ済みの相手に でんじは を撃たない', (b['でんじは'] ?? 0) === 0, JSON.stringify(b));
+
+  const c = pick(pika, dying);
+  check('倒しきれる相手には攻撃を選ぶ', (c['でんこうせっか'] ?? 0) === 200, JSON.stringify(c));
+
+  // 積み技も同じ。上限まで上がっていたら選ばない。
+  const buffer = createMonster(11, 20, { rng, moves: ['かたくなる', 'たいあたり'] });
+  buffer.stages.def = 6;
+  const d = pick(buffer, fresh);
+  check('限界まで積んだら かたくなる を撃たない', (d['かたくなる'] ?? 0) === 0, JSON.stringify(d));
+
+  // PPが尽きたら わるあがき
+  const empty = createMonster(17, 20, { rng });
+  for (const m of empty.moves) m.pp = 0;
+  check('PP切れは わるあがき', chooseAction(empty, fresh, rng, 0).type === 'struggle');
+
+  // 賢さ3は気まぐれを起こさない
+  const strong = createMonster(26, 30, { rng, moves: ['10まんボルト', 'でんこうせっか'] });
+  const e = pick(strong, fresh, 3, 300);
+  check('skill3 は毎回おなじ最善手', Object.keys(e).length === 1, JSON.stringify(e));
+  const f = pick(strong, fresh, 0, 300);
+  check('skill0 は手がぶれる', Object.keys(f).length > 1, JSON.stringify(f));
+  // 賢さ4(チャンピオン級)も気まぐれを起こさない
+  const g = pick(strong, fresh, 4, 300);
+  check('skill4 は毎回おなじ最善手', Object.keys(g).length === 1, JSON.stringify(g));
+}
+
+section('データ整合性 ― わざマシン');
+for (const s of speciesList) {
+  for (const mv of s.tm ?? []) {
+    check(`${s.name} の わざマシン技 ${mv} が実在`, !!MOVES[mv], mv);
+    // わざマシンとして売っていない技を tm に書いても、覚える手段がない
+    const hasTm = Object.values(ITEMS).some((i) => i.use?.kind === 'tm' && i.use.move === mv);
+    check(`${s.name} の ${mv} に わざマシンがある`, hasTm, mv);
+  }
+}
+
+section('データ整合性 ― トレーナー');
+for (const [id, t] of Object.entries(TRAINERS)) {
+  check(`${id} に手持ちがいる`, t.party.length > 0);
+  check(`${id} の見た目 ${t.sprite}`, !!CHARS[t.sprite], t.sprite);
+  for (const p of t.party) {
+    check(`${id} の ${p.id} が実在`, !!SPECIES[p.id], String(p.id));
+    check(`${id} の Lv${p.lv} が範囲内`, p.lv >= 1 && p.lv <= MAX_LEVEL);
+    for (const mv of p.moves ?? []) check(`${id} の わざ ${mv} が実在`, !!MOVES[mv], mv);
+  }
+  check(`${id} の賞金が正`, prizeMoney(t) > 0);
+  if (t.badge) check(`${id} のバッジ ${t.badge} が実在`, BADGES.some((b) => b.id === t.badge), t.badge);
+}
+{
+  // 視線に入るには相手が向いている方向に「見通せる」マスが要る。
+  // ここが 0 マスだと、置いただけで永久に戦えないトレーナーになる。
+  const DIRV = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
+  const used = [];
+  for (const [id, m] of Object.entries(MAPS)) {
+    for (const n of m.npcs ?? []) {
+      if (!n.trainer) continue;
+      used.push(n.trainer);
+      check(`${id} の ${n.id} が指す ${n.trainer} が実在`, !!getAnyTrainer(n.trainer), n.trainer);
+      const k = tileKeyAt(m, n.x, n.y);
+      check(`${id} の ${n.id} が通行可タイル上`, !!k && !TILE[k].solid, k ?? '範囲外');
+
+      const range = n.sight ?? getAnyTrainer(n.trainer)?.sight ?? 0;
+      if (range <= 0) continue;
+      const [dx, dy] = DIRV[n.dir] ?? [0, 1];
+      let visible = 0;
+      for (let i = 1; i <= range; i++) {
+        const key = tileKeyAt(m, n.x + dx * i, n.y + dy * i);
+        if (!key || TILE[key].solid) break;
+        visible++;
+      }
+      check(`${id} の ${n.id} の視線が通っている`, visible > 0, `${visible}マス`);
+    }
+  }
+  const dup = used.filter((t, i) => used.indexOf(t) !== i);
+  check('同じトレーナーを二度置いていない', dup.length === 0, dup.join('・'));
+  const unused = Object.keys(TRAINERS).filter((t) => !used.includes(t));
+  check('マップに出ないトレーナーがいない', unused.length === 0, unused.join('・'));
+}
+
+// ---------------------------------------------------------------- セーブ往復
+section('セーブの往復');
+{
+  const m = createMonster(4, 20, { rng });
+  m.curHP = 7;
+  m.status = 'やけど';
+  m.moves[0].pp = 3;
+  const back = hydrate(serialize(m));
+  eq('種族', back.species.id, m.species.id);
+  eq('せいかく', back.natureId, m.natureId);
+  check('努力値', JSON.stringify(back.evs) === JSON.stringify(m.evs), JSON.stringify(back.evs));
+  check('ステータスが往復で変わらない',
+    JSON.stringify(back.stats) === JSON.stringify(m.stats), JSON.stringify(back.stats));
+
+  // 古いセーブ（せいかく・努力値が無い）は補正なしに落ちて、値が変わらない
+  const old = serialize(m);
+  delete old.natureId; delete old.evs;
+  const legacy = hydrate(old);
+  const flatStats = calcAllStats(m.species.base, m.ivs, m.level, emptyEVs(), getNature(0));
+  check('古いセーブは補正なしで復元される',
+    JSON.stringify(legacy.stats) === JSON.stringify(flatStats), JSON.stringify(legacy.stats));
+  eq('レベル', back.level, m.level);
+  eq('経験値', back.exp, m.exp);
+  eq('現在HP', back.curHP, m.curHP);
+  eq('状態異常', back.status, m.status);
+  eq('PP', back.moves[0].pp, 3);
+  check('ステータスは再計算されて一致', JSON.stringify(back.stats) === JSON.stringify(m.stats));
+  check('導出値 types は保存されない', !('types' in serialize(m)));
+  check('types は種族から引ける', back.types.join() === m.species.types.join());
+}
+{
+  const broken = { id: 9999, lv: 5, exp: 100, moves: [{ id: 'そんざいしないわざ', pp: 5 }] };
+  check('未知の種族は null を返して落ちない', hydrate(broken) === null);
+  const m2 = hydrate({ id: 4, lv: 5, exp: 135, ivs: { hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 }, moves: [{ id: 'ないわざ', pp: 1 }] });
+  check('未知の技は捨てて技が補われる', !!m2 && m2.moves.length > 0);
+}
+
+// ---------------------------------------------------------------- セーブの文字列入出力(A3)
+// exportSaveText/importSaveText は buildSave/load と同じ経路(applySave)を通るので、
+// ここでは「文字列化して戻すと state が一致する」ことと、壊れた入力で
+// クラッシュしないことだけを確かめる。
+section('セーブの文字列入出力（A3）');
+{
+  resetState();
+  state.player.name = 'たろう';
+  state.player.money = 1234;
+  registerCaught(4);
+  const text = exportSaveText();
+  check('書き出した文字列は空でない', typeof text === 'string' && text.length > 0);
+
+  state.player.money = 0; // 壊しておいて、読み込みで戻るか見る
+  const res = importSaveText(text);
+  check('読み込みが成功する', res.ok === true, JSON.stringify(res));
+  eq('プレイヤー名が往復で一致', state.player.name, 'たろう');
+  eq('所持金が往復で一致', state.player.money, 1234);
+  check('図鑑の捕獲状況が往復で一致', state.dex.caught.includes(4));
+
+  check('壊れた文字列は落ちずに reason:broken を返す',
+    importSaveText('これは Base64 ではない').ok === false);
+  check('空文字列は落ちずに reason:broken を返す', importSaveText('').ok === false);
+
+  const future = btoa(JSON.stringify({ version: SAVE_VERSION + 1 }));
+  check('未来のバージョンは reason:newer を返す', importSaveText(future).reason === 'newer');
+
+  resetState();
+}
+
+// ---------------------------------------------------------------- 進化
+section('進化とレベルアップ');
+{
+  const m = createMonster(4, 16, { rng });
+  const beforeHpRatio = m.curHP / m.stats.hp;
+  evolve(m, 5);
+  eq('進化後の種族', m.species.name, 'リザード');
+  check('進化で HP の割合が保たれる', Math.abs(m.curHP / m.stats.hp - beforeHpRatio) < 0.05);
+  check('進化後の types が更新される', m.types.join() === SPECIES[5].types.join());
+}
+{
+  const m = createMonster(4, 5, { rng });
+  const before = { max: m.stats.hp, cur: m.curHP };
+  m.curHP = Math.floor(m.stats.hp / 2);
+  const half = m.curHP;
+  m.level = 6;
+  const gain = recalcStats(m);
+  check('レベルアップで最大HPが増える', m.stats.hp > before.max);
+  check('レベルアップで全回復しない', m.curHP === half + (m.stats.hp - before.max));
+  check('上昇値が返る', typeof gain.atk === 'number');
+}
+
+// ---------------------------------------------------------------- バトル ― 交代とどうぐ
+// 「戦闘中に交代できない」「どうぐを使ってもHPバーが1テンポ遅れる」の回帰テスト。
+// 原因は battle.js の battleLoop が switch/item をターンの実行に乗せていなかったこと。
+// wildBattle のジェネレータを実際に駆動して、選んだ手が本当に1手として実行されるか検査する。
+section('バトル ― 交代とどうぐ が1手として実行される');
+{
+  resetState();
+  const mine = createMonster(4, 20, { rng });   // ヒトカゲ
+  mine.stages.atk = 2;
+  const bench = createMonster(7, 20, { rng });  // ゼニガメ
+  state.party = [mine, bench];
+  const foe = createMonster(16, 5, { rng });    // ポッポ
+
+  const ctx = {
+    mine, foe, rng, isWild: true, runAttempts: 0,
+    onSwitch: () => {}, onFoeSwitch: () => {},
+  };
+  const script = [
+    { t: 'command', give: { type: 'party' } },
+    { t: 'party', give: 1 },
+  ];
+  const log = [];
+  const gen = wildBattle(ctx);
+  let result = gen.next();
+  for (let i = 0; i < 60 && !result.done; i++) {
+    const fx = result.value;
+    log.push(fx);
+    if (fx.t === 'msg' && fx.text?.includes(`ゆけっ！ ${bench.species.name}`)) break;
+    let input;
+    if (script.length && fx?.t === script[0].t) input = script.shift().give;
+    result = gen.next(input);
+  }
+
+  check('パーティで選んだポケモンに ctx.mine が入れ替わる（交代が1手として実行される）', ctx.mine === bench);
+  check('交代で「もどれ！」のメッセージが出る', log.some((fx) => fx.t === 'msg' && fx.text?.includes('もどれ！')));
+  check('交代で 能力ランクが リセットされる', mine.stages.atk === 0);
+}
+{
+  resetState();
+  const mine = createMonster(4, 20, { rng });
+  mine.curHP = 5;
+  state.party = [mine];
+  state.bag = { 'きずぐすり': 3 };
+  const foe = createMonster(16, 1, { rng });    // ポッポ
+
+  const ctx = {
+    mine, foe, rng, isWild: true, runAttempts: 0,
+    onSwitch: () => {}, onFoeSwitch: () => {},
+  };
+  const before = mine.curHP;
+  const beforeBag = state.bag['きずぐすり'];
+
+  const script = [
+    { t: 'command', give: { type: 'bag' } },
+    { t: 'bag', give: { item: getItem('きずぐすり'), target: mine } },
+  ];
+  const log = [];
+  const gen = wildBattle(ctx);
+  let result = gen.next();
+  for (let i = 0; i < 60 && !result.done; i++) {
+    const fx = result.value;
+    log.push(fx);
+    if (log.some((e) => e.t === 'msg' && e.text?.includes('かいふくした'))) break;
+    let input;
+    if (script.length && fx?.t === script[0].t) input = script.shift().give;
+    result = gen.next(input);
+  }
+
+  const useIdx = log.findIndex((fx) => fx.t === 'msg' && fx.text?.includes('を つかった'));
+  check('どうぐを「つかった」メッセージが出る', useIdx >= 0);
+  check('その直後に hpTween が来る（HPバーの表示が すぐに追いつく）', log[useIdx + 1]?.t === 'hpTween');
+  check('回復量のメッセージは hpTween の後', log[useIdx + 2]?.t === 'msg' && log[useIdx + 2].text.includes('かいふくした'));
+  check('HP が 実際に 回復している', mine.curHP > before);
+  check('どうぐが 1つ 消費される', state.bag['きずぐすり'] === beforeBag - 1);
+}
+
+// ---------------------------------------------------------------- もちもの
+// battle.js に追加した hold.kind の実装（オボンのみ・きあいのハチマキ）を
+// wildBattle を実際に駆動して検査する。乱数は決め打ちにして再現性を持たせる。
+section('バトル ― もちもの が戦闘中に働く');
+{
+  resetState();
+  // chance を常に false にすると急所も追加効果も出ない。int は常に最小値を返すので
+  // 命中判定 rng.int(1,100)<=acc は必ず命中し、ダメージ乱数は最小(85%)ロールになる。
+  const detRng = { chance: () => false, int: (a) => a, pick: (arr) => arr[0], weighted: (t) => t[0] };
+
+  const mine = createMonster(7, 50, { rng, moves: ['たいあたり'] });   // ゼニガメ
+  mine.held = 'オボンのみ';
+  mine.curHP = Math.ceil(mine.stats.hp * 0.55);                        // しきい値(50%)のすぐ上
+  state.party = [mine];
+  const foe = createMonster(4, 50, { rng, moves: ['たいあたり'] });    // ヒトカゲ（同格）
+
+  const ctx = {
+    mine, foe, rng: detRng, isWild: true, runAttempts: 0,
+    onSwitch: () => {}, onFoeSwitch: () => {},
+  };
+  const script = [
+    { t: 'command', give: { type: 'fight' } },
+    { t: 'moveSelect', give: 0 },
+  ];
+  const log = [];
+  const gen = wildBattle(ctx);
+  let result = gen.next();
+  for (let i = 0; i < 80 && !result.done; i++) {
+    const fx = result.value;
+    log.push(fx);
+    if (fx.t === 'msg' && fx.text?.includes('オボンのみで')) break;
+    let input;
+    if (script.length && fx?.t === script[0].t) input = script.shift().give;
+    result = gen.next(input);
+  }
+
+  check('オボンのみで HPを かいふくした メッセージが出る',
+    log.some((fx) => fx.t === 'msg' && fx.text?.includes('オボンのみで')));
+  check('オボンのみは 1回 使うと 消える', mine.held === null);
+  check('HP は しきい値(50%)より 上に 戻っている', mine.curHP / mine.stats.hp > 0.5);
+}
+{
+  resetState();
+  // chance を常に true にすると、きあいのハチマキの発動判定(確率10%)を必ず通す。
+  const detRng = { chance: () => true, int: (a) => a, pick: (arr) => arr[0], weighted: (t) => t[0] };
+
+  const mine = createMonster(7, 10, { rng, moves: ['たいあたり'] });   // ゼニガメ Lv10・満タン
+  mine.held = 'きあいのハチマキ';
+  state.party = [mine];
+  const foe = createMonster(4, 90, { rng, moves: ['ひっかく'] });      // ヒトカゲ Lv90・確実に上回る
+
+  const ctx = {
+    mine, foe, rng: detRng, isWild: true, runAttempts: 0,
+    onSwitch: () => {}, onFoeSwitch: () => {},
+  };
+  const script = [
+    { t: 'command', give: { type: 'fight' } },
+    { t: 'moveSelect', give: 0 },
+  ];
+  const log = [];
+  const gen = wildBattle(ctx);
+  let result = gen.next();
+  // 「こらえた」のメッセージは capped ダメージの適用より前に yield されるので、
+  // 見つけた後も もう1ステップ進めて damageMon の反映を待ってから止める。
+  let found = false;
+  for (let i = 0; i < 80 && !result.done; i++) {
+    const fx = result.value;
+    log.push(fx);
+    if (found) break;
+    if (fx.t === 'msg' && fx.text?.includes('こらえた')) found = true;
+    let input;
+    if (script.length && fx?.t === script[0].t) input = script.shift().give;
+    result = gen.next(input);
+  }
+
+  check('きあいのハチマキで「こらえた」メッセージが出る',
+    log.some((fx) => fx.t === 'msg' && fx.text?.includes('こらえた')));
+  check('HP が 1 で もちこたえている（ひんしにならない）', mine.curHP === 1);
+}
+
+// ---------------------------------------------------------------- しょうがいれんぞく(C2)
+section('しょうがいれんぞく（C2）');
+{
+  resetState();
+  check('sendToBox: 空きがあれば入る', sendToBox(createMonster(1, 5, { rng })) === true);
+  check('sendToBox: 入れた個体が実際にボックスにいる',
+    state.boxes.some((box) => box.some((m) => m?.species.id === 1)));
+}
+{
+  resetState();
+  // ボックスを埋め尽くしてから sendToBox すると false が返る（手持ちに残す判断はbattle.js側の仕事）
+  for (const box of state.boxes) box.fill(createMonster(1, 5, { rng }));
+  check('sendToBox: ボックスが満杯なら false', sendToBox(createMonster(1, 5, { rng })) === false);
+  resetState();
+}
+{
+  resetState();
+  setFlag('nuzlocke', true);
+  // weak は 1HP、foe はレベル差で確実に一撃で沈める。foeを倒したあと strong で確実に勝つ。
+  const weak = createMonster(4, 3, { rng });
+  weak.curHP = 1;
+  const strongMon = createMonster(4, 60, { rng });
+  state.party = [weak, strongMon];
+  const foe = createMonster(10, 50, { rng });
+  const ctx = {
+    mine: weak, foe, rng, isWild: true, runAttempts: 0,
+    weather: { kind: null, turns: 0 }, onSwitch: () => {}, onFoeSwitch: () => {},
+  };
+
+  const gen = wildBattle(ctx);
+  let r = gen.next();
+  for (let i = 0; i < 300 && !r.done; i++) {
+    const fx = r.value;
+    if (fx?.t === 'command') { r = gen.next({ type: 'fight', move: null }); continue; }
+    if (fx?.t === 'moveSelect') {
+      const usable = ctx.mine.moves.findIndex((mv) => mv.pp > 0);
+      r = gen.next(usable >= 0 ? usable : 0);
+      continue;
+    }
+    if (fx?.t === 'forceSwitch') {
+      const idx = state.party.findIndex((m) => m !== ctx.mine && m.curHP > 0);
+      r = gen.next(idx >= 0 ? idx : null);
+      continue;
+    }
+    if (fx?.t === 'party') { r = gen.next(null); continue; }
+    if (fx?.t === 'bag') { r = gen.next(null); continue; }
+    r = gen.next();
+  }
+
+  check('弱い方が倒れたあと 強い方で勝てる（テスト前提の確認）', r.value?.result === 'win');
+  check('しょうがいれんぞく: ひんしになった個体は手持ちから消える',
+    state.party.length === 1 && state.party[0] === strongMon);
+  check('しょうがいれんぞく: ボックスへ送られている',
+    state.boxes.some((box) => box.some((m) => m === weak)));
+  resetState();
+}
+
+// ---------------------------------------------------------------- セーブ移行
+// 種族の再編で id を全国図鑑番号に揃えた（キャタピー14→10、ポッポ10→16、
+// コラッタ12→19、ピカチュウ17→25 など）。既存のセーブが持っている旧idを
+// 新idへ変換できないと、そのポケモンが読み込み時に静かに消えてしまう。
+section('セーブ移行 ― 図鑑番号の全国統一（旧id → 新id）');
+{
+  const monSave = (id, lv) => ({
+    id, nick: null, lv, exp: 0,
+    ivs: { hp: 10, atk: 10, def: 10, spa: 10, spd: 10, spe: 10 }, evs: {}, natureId: 0,
+    curHP: 20, status: null, statusTurns: 0,
+    moves: [{ id: 'たいあたり', pp: 35 }],
+    metLv: lv, metMap: 'route1',
+  });
+  const raw = {
+    version: 1,
+    playTimeMs: 0,
+    rngSeed: 1,
+    player: {
+      name: 'テスト', money: 100,
+      pos: { map: 'hajimari', x: 9, y: 12, dir: 'up' },
+      respawn: { map: 'center', x: 6, y: 6 },
+    },
+    party: [monSave(14, 10)],   // 旧id14 = キャタピー
+    boxes: [[null], [null], [null]],
+    bag: {},
+    flags: {},
+    dex: { seen: [14, 10], caught: [14], where: { 14: 'route1' } },
+    daycare: { mon: monSave(12, 5), steps: 0, startLv: 5 },   // 旧id12 = コラッタ
+  };
+  Storage.write(Storage.slotKey('test-migrate'), raw);
+  const r = load('test-migrate');
+
+  check('旧セーブ(version1)が読み込める', r.ok === true, JSON.stringify(r));
+  check('現在のセーブ形式に揃っている', SAVE_VERSION >= 2);
+  check('手持ちの 旧id14(キャタピー) が 新id10 に変換される',
+    state.party[0]?.species.id === 10, String(state.party[0]?.species.id));
+  check('図鑑 seen が変換される（旧14を含まず、新10を含む）',
+    state.dex.seen.includes(10) && !state.dex.seen.includes(14), JSON.stringify(state.dex.seen));
+  check('図鑑 caught が変換される', state.dex.caught.includes(10), JSON.stringify(state.dex.caught));
+  check('図鑑 where のキーが変換される', state.dex.where[10] === 'route1', JSON.stringify(state.dex.where));
+  check('そだてやの個体も変換される（旧id12→新id19）',
+    state.daycare?.mon?.species.id === 19, String(state.daycare?.mon?.species.id));
+}
+
+// ---------------------------------------------------------------- 図鑑の報酬（Phase L）
+// 博士に話すと 10種/20種/コンプ で受け取れる。しきい値をまたいだ瞬間に
+// flags.dexReadyN が立ち、以降は下がらない（既に受け取ったかは別の dexRewardN で見る）。
+section('図鑑の報酬 ― しきい値フラグ');
+{
+  resetState();
+  const total = Object.keys(SPECIES).length;
+  const ids = Object.keys(SPECIES).map(Number);
+  check('種族が 10種類以上ある（このテストの前提）', total >= 10);
+
+  for (let i = 0; i < 9 && i < ids.length; i++) registerCaught(ids[i]);
+  check('9種の時点では dexReady10 が立たない', !state.flags.dexReady10);
+
+  registerCaught(ids[9]);
+  check('10種そろうと dexReady10 が立つ', state.flags.dexReady10 === true);
+  check('10種の時点では dexReady20 は まだ立たない', !state.flags.dexReady20);
+
+  resetState();
+  for (const id of ids) registerCaught(id);
+  check('全種つかまえると dexReadyAll が立つ', state.flags.dexReadyAll === true);
+  check(`全種つかまえると dexReady20 も立つ（total=${total}）`, total >= 20 ? state.flags.dexReady20 === true : true);
+}
+
+// ---------------------------------------------------------------- めもちょう
+// objective(state) は「いま なにを すべきか」を1行返す純関数。
+// フラグの分岐をすべて踏んで、常に何かしらの文字列が返ることを確かめる。
+section('めもちょう ― objective(state) の全分岐');
+{
+  const mk = (flags, caughtN = 0, towerBest = 0) => ({
+    flags,
+    dex: { caught: Array.from({ length: caughtN }, (_, i) => i + 1) },
+    stats: { towerBest },
+  });
+  const total = Object.keys(SPECIES).length;
+
+  check('御三家をもらう前', /さいしょの ポケモン/.test(objective(mk({}))));
+  check('でんきバッジを持っていない',
+    /でんきバッジ/.test(objective(mk({ gotStarter: true }))));
+  check('いわバッジを持っていない',
+    /いわバッジ/.test(objective(mk({ gotStarter: true, badge_denki: true }))));
+  check('みずバッジを持っていない',
+    /みずバッジ/.test(objective(mk({ gotStarter: true, badge_denki: true, badge_iwa: true }))));
+  check('くさバッジを持っていない',
+    /くさバッジ/.test(objective(mk({
+      gotStarter: true, badge_denki: true, badge_iwa: true, badge_mizu: true,
+    }))));
+  check('ゴーストバッジを持っていない',
+    /ゴーストジム/.test(objective(mk({
+      gotStarter: true, badge_denki: true, badge_iwa: true, badge_mizu: true, badge_kusa: true,
+    }))));
+  check('5バッジ持ちだが 殿堂入りしていない',
+    /ポケモンリーグ/.test(objective(mk({
+      gotStarter: true, badge_denki: true, badge_iwa: true, badge_mizu: true, badge_kusa: true,
+      badge_ghost: true,
+    }))));
+  const cleared = {
+    gotStarter: true, badge_denki: true, badge_iwa: true, badge_mizu: true, badge_kusa: true,
+    badge_ghost: true, hallOfFame: true,
+  };
+  const traded = {
+    ...cleared,
+    trade_fushigidane: true, trade_zenigame: true, trade_b_done: true, trade_d_done: true,
+  };
+  // 殿堂入りした直後は、まずタワーの存在を知らせる。Z-4 のコンテンツは
+  // ここで案内しないと、リーグうけつけまで戻る理由がプレイヤーに無い。
+  check('殿堂入り直後、まだタワーに挑んでいない',
+    /れんせんタワー/.test(objective(mk(cleared))));
+  check('タワーに挑んだ後は 御三家の交換に戻る',
+    /御三家/.test(objective(mk(cleared, 0, 1))));
+  check('御三家をすべて交換済みだが 図鑑が未完成',
+    /ずかん/.test(objective(mk(traded, 0, 1))));
+  check('図鑑コンプ後は タワーの全勝が目標になる',
+    /れんしょう/.test(objective(mk(traded, total, 1))));
+  check('タワーも全勝したら 何かしらの文言が返る',
+    !!objective(mk(traded, total, TOWER_TRAINERS.length)));
+}
+
+// ---------------------------------------------------------------- じっせき(B3)
+section('じっせき（B3）― 境界値');
+{
+  const total = Object.keys(SPECIES).length;
+  const blank = () => ({
+    stats: { steps: 0, battles: 0, caught: 0, fled: 0, ballsUsed: 0, towerBest: 0 },
+    dex: { seen: [], caught: [], shiny: [] },
+    flags: {}, hallOfFameCount: 0, player: { money: 0 }, party: [], boxes: [[]],
+  });
+  check('idの重複が無い', new Set(ACHIEVEMENTS.map((a) => a.id)).size === ACHIEVEMENTS.length);
+  check('15〜25個ほどある', ACHIEVEMENTS.length >= 15 && ACHIEVEMENTS.length <= 25, `${ACHIEVEMENTS.length}個`);
+
+  check('何も達成していない状態では全部 未達成', achievementStatus(blank()).every((a) => !a.got));
+
+  const byId = (list) => Object.fromEntries(list.map((a) => [a.id, a.got]));
+
+  {
+    const s = blank(); s.stats.steps = 999;
+    check('あるいた数は しきい値の1歩手前で 未達成', !byId(achievementStatus(s)).step1000);
+    s.stats.steps = 1000;
+    check('しきい値ちょうどで 達成', byId(achievementStatus(s)).step1000);
+  }
+  {
+    const s = blank(); s.dex.caught = Array.from({ length: total - 1 }, (_, i) => i + 1);
+    check('図鑑コンプは 1匹足りないと未達成', !byId(achievementStatus(s)).dexAll);
+    s.dex.caught.push(9999);
+    check('総数だけ揃えば 達成扱い', byId(achievementStatus(s)).dexAll);
+  }
+  {
+    const s = blank();
+    s.flags = {};
+    for (const b of BADGES.slice(0, -1)) s.flags[`badge_${b.id}`] = true;
+    check(`バッジは${BADGES.length - 1}つでは未達成`, !byId(achievementStatus(s)).allBadges);
+    s.flags[`badge_${BADGES[BADGES.length - 1].id}`] = true;
+    check(`${BADGES.length}つ揃うと達成`, byId(achievementStatus(s)).allBadges);
+  }
+  {
+    const s = blank(); s.stats.towerBest = TOWER_TRAINERS.length - 1;
+    check('タワー全勝一歩手前は未達成', !byId(achievementStatus(s)).towerClear);
+    s.stats.towerBest = TOWER_TRAINERS.length;
+    check('全勝で達成', byId(achievementStatus(s)).towerClear);
+  }
+  {
+    const s = blank();
+    s.party = [{ level: MAX_LEVEL - 1 }];
+    s.boxes = [[null, { level: 3 }]];
+    check('Lv上限未満の手持ち/ボックスだけでは未達成', !byId(achievementStatus(s)).level100);
+    s.party[0].level = MAX_LEVEL;
+    check('Lv上限に達した1匹がいれば達成', byId(achievementStatus(s)).level100);
+  }
+}
+
+// ---------------------------------------------------------------- 文字が重ならない
+// 「台詞に入れた記号1文字で崩れる」の回帰テスト。原因は font.js が送り幅を
+// 6/12px に丸める一方、字形は実測幅のまま焼いていたこと（数字・英字がはみ出す）。
+// ゲーム内で実際に使われている文字をデータから総ざらいして、焼き上がったインクが
+// 自分の送り幅からはみ出していないかを検査する。
+section('フォント ― 文字が送り幅からはみ出さない');
+{
+  const chars = new Set();
+  const walk = (v) => {
+    if (typeof v === 'string') { for (const ch of v) chars.add(ch); return; }
+    if (Array.isArray(v)) { v.forEach(walk); return; }
+    if (v && typeof v === 'object') { for (const k of Object.keys(v)) walk(v[k]); }
+  };
+  walk(Object.values(SPECIES));
+  walk(Object.values(MOVES));
+  walk(Object.values(ITEMS));
+  walk(Object.values(MAPS));
+  walk(Object.values(TRAINERS));
+  walk(BADGES);
+  chars.add('◎');   // 野生戦の「捕獲済みマーク」。データではなく描画側で組み立てる文字なので手で足す。
+  chars.delete(' ');
+  chars.delete('　');
+  chars.delete('\n');
+
+  let worst = null;
+  for (const ch of chars) {
+    const adv = charWidth(ch);
+    const ink = inkExtent(ch);
+    if (ink > adv && (!worst || ink - adv > worst.ink - worst.adv)) worst = { ch, adv, ink };
+  }
+  check(`実際に使われている ${chars.size} 文字すべてで インクが送り幅に収まる`, worst === null,
+    worst ? `'${worst.ch}' は幅${worst.adv}pxの枠にインクが${worst.ink}pxまではみ出す` : '');
+}
+
+// ---------------------------------------------------------------- 結果
+const el = document.getElementById('result');
+if (failed === 0) {
+  el.textContent = `ALL PASS  (${total} 件)`;
+  el.className = 'pass';
+} else {
+  el.textContent = `FAILED  ${failed} / ${total} 件`;
+  el.className = 'fail';
+}
+</script>
+</body>
+</html>

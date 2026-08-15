@@ -1,0 +1,103 @@
+export default {
+  id: 'cave2',
+  name: 'おつきみやま ちか１かい',
+  legend: {
+    '.': 'path', 'c': 'cliff', '~': 'water', 'S': 'sign', '<': 'stairs',
+  },
+  // 行き止まりの小部屋。地底湖があり、なみのり でしか渡れない先に
+  // つきのいし（＝ここではライチュウ用の かみなりのいし の予備）が置いてある。
+  tiles: [
+    'cccccccccccccccccc',
+    'cc<..............c',
+    'cc...............c',
+    'c......cccc......c',
+    'c.....cc~~cc.....c',
+    'c....cc~~~~cc....c',
+    'c....c~~~~~~c....c',
+    'c....c~~~~~~c....c',
+    'c....cc~~~~cc....c',
+    'c.....cc~~cc.....c',
+    'c......c..c......c',
+    'c.................',
+    'cccccccccccccccccc',
+  ],
+  bgm: 'cave',
+  battleBg: 'cave',
+  encounters: {
+    rate: 14,
+    table: [
+      { id: 633, min: 15, max: 18, weight: 14 },  // モノズ(5世代)
+      { id: 41, min: 15, max: 18, weight: 35 },   // ズバット
+      { id: 74, min: 15, max: 18, weight: 30 },   // イシツブテ
+      { id: 75, min: 18, max: 20, weight: 9 },    // ゴローン
+      { id: 42, min: 18, max: 20, weight: 12 },   // ゴルバット
+      { id: 220, min: 15, max: 18, weight: 15 },  // ウリムー（Phase U-2）
+    ],
+  },
+  postgame: {
+    rate: 14,
+    table: [
+      { id: 633, min: 56, max: 59, weight: 14 },
+      { id: 41, min: 56, max: 59, weight: 35 },
+      { id: 74, min: 56, max: 59, weight: 30 },
+      { id: 75, min: 58, max: 61, weight: 9 },
+      { id: 42, min: 58, max: 61, weight: 12 },
+      { id: 220, min: 56, max: 59, weight: 15 }, // ウリムー（Phase U-2）
+      // 最終進化を低weightで混ぜる（Q-3）
+      { id: 634, min: 58, max: 61, weight: 4 },  // ジヘッド(←モノズ)
+      { id: 260, min: 58, max: 61, weight: 4 },  // ラグラージ。地底湖の主のよう
+      { id: 724, min: 58, max: 61, weight: 4 },  // ジュナイパー
+    ],
+  },
+  water: {
+    surf: {
+      rate: 10,
+      table: [
+        { id: 54, min: 14, max: 20, weight: 50 },   // コダック
+        { id: 129, min: 10, max: 15, weight: 30 },  // コイキング
+        { id: 120, min: 16, max: 20, weight: 20 },  // ヒトデマン。ハナダジムの手前で出会える
+      ],
+    },
+    fish: {
+      1: { chance: 50, table: [{ id: 129, min: 10, max: 14, weight: 100 }] },
+      2: {
+        chance: 75,
+        table: [
+          { id: 54, min: 14, max: 20, weight: 45 },
+          { id: 129, min: 14, max: 18, weight: 25 },
+          { id: 120, min: 16, max: 20, weight: 30 },
+        ],
+      },
+    },
+  },
+  warps: [
+    { x: 2, y: 1, to: 'cave1', tx: 17, ty: 10, dir: 'up' },
+    { x: 17, y: 11, to: 'route3', tx: 1, ty: 6, dir: 'right' },
+    // 地底湖の南のはしに、さらに深い水路がある。なみのりで奥へ進むとハナダシティに出る。
+    { x: 9, y: 9, to: 'hanada', tx: 10, ty: 10, dir: 'up' },
+  ],
+  npcs: [
+    {
+      id: 'hiker3', x: 14, y: 11, sprite: 'boy', dir: 'left', sight: 5,
+      trainer: 'hiker3',
+      lines: ['よく こんな おくまで きたな！'],
+    },
+  ],
+  items: [
+    // 地底湖のまんなか。なみのり を覚えるまで取れない。
+    { x: 8, y: 6, item: 'かみなりのいし', n: 1, flag: 'item_cave2_stone' },
+    { x: 16, y: 1, item: 'まんたんのくすり', n: 1, flag: 'item_cave2_potion' },
+    { x: 14, y: 1, item: 'あなぬけのヒモ', n: 1, flag: 'item_cave2_escrope' },
+    // route3 への出口のすぐ手前。ここまで来られたご褒美。
+    { x: 15, y: 10, item: 'たべのこし', n: 1, flag: 'item_cave2_leftovers' },
+  ],
+  signs: [
+    { x: 3, y: 1, lines: ['ちてい こ', 'なみのりが なければ わたれない', 'みなみの みずは さらに ふかく つづいているようだ'] },
+  ],
+  statics: [
+    {
+      x: 4, y: 2, id: 75, lv: 25, postgameLv: 58, flag: 'boss_cave2', prize: 'たべのこし',
+      lines: ['ゴゴゴ…！', 'いわの かたまりが たちふさがった！'],
+    },
+  ],
+};

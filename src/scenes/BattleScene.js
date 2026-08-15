@@ -1,0 +1,937 @@
+import * as Screen from '../core/screen.js';
+import * as Scenes from '../core/sceneStack.js';
+import * as Input from '../core/input.js';
+import { BTN } from '../core/input.js';
+import { rng } from '../core/rng.js';
+import { SE } from '../core/audio.js';
+import * as Music from '../core/music.js';
+import { draw as drawSprite, shinyVariant } from '../engine/pixelArt.js';
+import { drawText, drawTextRight, drawTextCentered } from '../engine/font.js';
+import {
+  drawWindow, drawBar, drawCursor, hpColor, HP_THRESHOLDS, fillScreen, drawTypeTag, COL,
+} from '../engine/ui.js';
+import { TextBox } from '../engine/textbox.js';
+import { Menu } from '../engine/menu.js';
+import { TYPE_COLOR, effectiveness } from '../data/types.js';
+import { getMove } from '../data/moves.js';
+import { wildBattle, trainerBattle } from '../game/battle.js';
+import { displayName, resetBattleState } from '../game/monster.js';
+import { expRatio, STAT_LABEL } from '../game/formulas.js';
+import { state } from '../game/state.js';
+import { battleSpeedMul } from '../core/settings.js';
+
+const W = Screen.W;
+const H = Screen.H;
+
+// レイアウト
+const FOE_X = 168, FOE_Y = 26, FOE_SCALE = 2;
+const MINE_X = 26, MINE_Y = 74, MINE_SCALE = 2.5;
+const BOX_Y = 148;
+
+// タイプ別の被弾エフェクト（Phase Y-1）。8タイプぶんだけ用意し、それ以外は既存の白点滅のまま。
+// 矩形と円だけで描けるものに絞ってある（アセット追加ゼロ）。
+const TYPE_FX_COLOR = {
+  'ほのお': ['#ff9040', '#ff6020', '#ffc060'],
+  'みず': ['#4098f0', '#60b8ff', '#2070c0'],
+  'でんき': ['#f8e030', '#fff890', '#d0b000'],
+  'くさ': ['#58c040', '#88e068', '#308020'],
+  'かくとう': ['#f8f8f8', '#ffffff', '#d0d0d0'],
+  'こおり': ['#c8f0ff', '#ffffff', '#88d0f0'],
+  'どく': ['#a848c0', '#c878e0', '#7830a0'],
+  'エスパー': ['#ff90c0', '#ffb8d8', '#e060a0'],
+};
+
+/**
+ * タイプ相性の予測マーク（P-1）。
+ * 図鑑に登録済みの相手にだけ出す ―― 初見の相手では出さないので、
+ * 図鑑を埋めること自体に「相性が読めるようになる」という見返りが付く。
+ */
+function effMarkFor(eff) {
+  if (eff === 0) return { ch: '×', color: '#909098' };
+  if (eff > 1) return { ch: '▲', color: '#3a9c50' };
+  if (eff < 1) return { ch: '▽', color: '#c04838' };
+  return null;
+}
+
+/**
+ * 能力ランクの矢印（P-2）。いま「こうげきが あがった！」は文字だけで、
+ * 積み技を使っていても盤面から読めなかった。0でないものを、絶対値が
+ * 大きい順に最大2つだけ出す（欄が狭いので全部は出さない）。
+ */
+const RANK_SHORT = { atk: 'A', def: 'B', spa: 'C', spd: 'D', spe: 'S' };
+function rankText(stages) {
+  const entries = Object.entries(RANK_SHORT)
+    .map(([k, short]) => ({ short, v: stages?.[k] ?? 0 }))
+    .filter((e) => e.v !== 0)
+    .sort((a, b) => Math.abs(b.v) - Math.abs(a.v));
+  if (!entries.length) return '';
+  return entries.slice(0, 2)
+    .map((e) => e.short + (e.v > 0 ? '▲' : '▽').repeat(Math.min(Math.abs(e.v), 3)))
+    .join(' ');
+}
+
+/**
+ * 戦闘背景（P-3）。いままで草むらの1種類しか無く、洞窟や室内で戦っても
+ * 見た目が変わらなかった。マップの battleBg を見て空・地面・台座の色を
+ * 差し替える。なみのり中は マップの設定より優先して水面にする。
+ */
+const BG_THEME = {
+  grass: { sky1: '#88c8f0', sky2: '#a0d8f8', ground: '#78b048', edge: '#68a038', platform: '#8ac058' },
+  cave: { sky1: '#3a3a48', sky2: '#4a4a58', ground: '#5a5048', edge: '#463c34', platform: '#6a6058' },
+  water: { sky1: '#a8d8f0', sky2: '#c8e8f8', ground: '#4888c8', edge: '#3868a8', platform: '#78b8e8' },
+  indoor: { sky1: '#d8d0c0', sky2: '#e8e0d0', ground: '#b8a888', edge: '#a89876', platform: '#c8b898' },
+};
+
+// 天候の常設バッジ(Phase W の見せかた改善)。開始/終了メッセージだけだと
+// 効果中かどうかが画面のどこにも残らないので、短い札を出しっぱなしにする。
+const WEATHER_TAG = {
+  rain: { text: 'あめ', color: '#3868c8' },
+  sun: { text: 'はれ', color: '#e08820' },
+  sand: { text: 'すな', color: '#b89858' },
+};
+
+export class BattleScene {
+  /**
+   * 野生戦は { foe } だけ。
+   * トレーナー戦は { trainer, trainerId, foeParty } を渡す（foe は先頭が使われる）。
+   */
+  constructor({
+    foe, wild = true, trainer = null, trainerId = null, foeParty = null,
+    isBoss = false, legendary = false, bg = 'grass',
+  }) {
+    this.bg = bg;
+    this.ctx = {
+      mine: state.party.find((m) => m.curHP > 0) ?? state.party[0],
+      foe: foe ?? foeParty?.[0],
+      rng,
+      isWild: wild && !trainer,
+      isBoss,
+      legendary,
+      // 天候（Phase W）。あめ/にほんばれ/すなあらし。setターン数は endOfTurn で減らす。
+      weather: { kind: null, turns: 0 },
+      trainer,
+      trainerId,
+      foeParty,
+      runAttempts: 0,
+      // ジムリーダー(skill:3)が状態異常を1回だけ回復する持ちもの（Phase X-3）
+      trainerItemsLeft: trainer?.items ? [...trainer.items] : [],
+      onSwitch: (m) => { this.dispHP.mine = m.curHP; this.dispExp = expRatio(m); },
+      onFoeSwitch: (m) => { this.dispHP.foe = m.curHP; },
+    };
+    foe = this.ctx.foe;
+
+    this.box = new TextBox();
+    this.mode = 'run';          // run | msg | command | moveSelect | statPanel | anim | tween | sub
+    this.pending = null;
+    this.result = null;
+
+    this.dispHP = { mine: this.ctx.mine.curHP, foe: foe.curHP };
+    this.dispExp = expRatio(this.ctx.mine);
+
+    this.commandMenu = new Menu(['たたかう', 'バッグ', 'ポケモン', 'にげる'], {
+      cols: 2, x: 138, y: BOX_Y + 8, lineH: 16, colW: 58,
+    });
+    this.moveMenu = null;
+
+    // 演出用
+    this.anim = null;
+    this.shake = 0;
+    this.flash = { mine: 0, foe: 0 };
+    this.spriteOffset = { mine: 0, foe: 0 };
+    this.faintClip = { mine: null, foe: null };
+    this.hidden = { mine: true, foe: true };
+    this.ball = null;
+    this.evolveState = null;
+    this.statPanel = null;
+    this.t = 0;
+  }
+
+  enter() {
+    Input.clearEdges();
+    Music.play(this.ctx.trainer ? 'trainer'
+      : (this.ctx.legendary ? 'legend' : (this.ctx.isBoss ? 'boss' : 'battle')));
+    this.gen = this.ctx.trainer ? trainerBattle(this.ctx) : wildBattle(this.ctx);
+    this.advance();
+  }
+
+  exit() {
+    resetBattleState(this.ctx.mine);
+    for (const m of state.party) resetBattleState(m);
+  }
+
+  /** ジェネレータを1つ進めて、次のエフェクトを受け取る */
+  advance(value) {
+    const r = this.gen.next(value);
+    if (r.done) {
+      this.result = r.value;
+      this.finish();
+      return;
+    }
+    this.handle(r.value);
+  }
+
+  finish() {
+    Scenes.pop(this.result);
+  }
+
+  handle(fx) {
+    this.pending = fx;
+
+    switch (fx.t) {
+      case 'msg':
+        this.box.setText(fx.text);
+        this.mode = 'msg';
+        break;
+
+      case 'command':
+        this.commandMenu.index = 0;
+        this.mode = 'command';
+        break;
+
+      case 'moveSelect':
+        this.buildMoveMenu();
+        this.mode = 'moveSelect';
+        break;
+
+      case 'hpTween':
+        this.mode = 'tween';
+        this.tweenKind = 'hp';
+        this.tweenTimer = 0;
+        break;
+
+      case 'expTween':
+        this.mode = 'tween';
+        this.tweenKind = 'exp';
+        this.tweenTimer = 0;
+        break;
+
+      case 'statPanel':
+        this.statPanel = fx.gain;
+        this.mode = 'statPanel';
+        break;
+
+      case 'wait':
+        this.mode = 'anim';
+        this.anim = { kind: 'wait', t: 0, len: fx.frames ?? 20 };
+        break;
+
+      case 'anim':
+        this.startAnim(fx);
+        break;
+
+      case 'party':
+      case 'forceSwitch':
+        this.openParty(fx.t === 'forceSwitch');
+        break;
+
+      case 'bag':
+        this.openBag();
+        break;
+
+      case 'forgetSelect':
+        this.openForget(fx);
+        break;
+
+      case 'confirm':
+        this.box.setText(fx.text);
+        this.confirmMenu = new Menu(['はい', 'いいえ'], {
+          x: 186, y: BOX_Y - 40, lineH: 16, colW: 60, index: fx.defaultNo ? 1 : 0,
+        });
+        this.mode = 'confirm';
+        break;
+
+      case 'nickname':
+        this.openNaming(fx.mon);
+        break;
+
+      default:
+        // 知らないエフェクトは黙って飛ばす（エンジンより先にデータが増えても止まらない）
+        this.advance();
+    }
+  }
+
+  buildMoveMenu() {
+    // 図鑑に登録済みの相手にだけ、技の右に相性マークを出す(P-1)。
+    // 初見の相手では出さない。図鑑を埋めること自体に見返りを付けるため。
+    const foe = this.ctx.foe;
+    const foeKnown = !!foe && state.dex.caught.includes(foe.species.id);
+    const items = this.ctx.mine.moves.map((mv) => {
+      const def = getMove(mv.id);
+      const mark = (foeKnown && def.category !== '変化')
+        ? effMarkFor(effectiveness(def.type, foe.species.types)) : null;
+      return {
+        label: mv.id, mv, def, disabled: mv.pp <= 0,
+        render: mark ? (ctx, px, py) => drawText(ctx, mark.ch, px + 88, py, { color: mark.color }) : null,
+      };
+    });
+    this.moveMenu = new Menu(items, { cols: 2, x: 12, y: BOX_Y - 8, lineH: 15, colW: 108 });
+  }
+
+  // ---- サブ画面 ----
+
+  async openParty(forced) {
+    this.mode = 'sub';
+    const { PartyScene } = await import('./PartyScene.js');
+    Scenes.push(new PartyScene({
+      mode: forced ? 'forceSwitch' : 'switch',
+      exclude: this.ctx.mine,
+    }));
+  }
+
+  async openBag() {
+    this.mode = 'sub';
+    const { BagScene } = await import('./BagScene.js');
+    Scenes.push(new BagScene({ mode: 'battle' }));
+  }
+
+  async openForget(fx) {
+    this.mode = 'sub';
+    const { ForgetScene } = await import('./ForgetScene.js');
+    Scenes.push(new ForgetScene({ mon: fx.mon, newMove: fx.newMove }));
+  }
+
+  async openNaming(mon) {
+    this.mode = 'sub';
+    const { NameScene } = await import('./NameScene.js');
+    Scenes.push(new NameScene({
+      title: `${mon.species.name}の ニックネーム`,
+      max: 5,
+      sprite: mon.species.sprite,
+      // 結果は resume(name) で受ける。onDone は使わない（両方だと二重に進む）
+    }));
+  }
+
+  /** サブ画面から戻ってきた */
+  resume(result) {
+    Input.clearEdges();
+    const fx = this.pending;
+
+    if (fx?.t === 'party' || fx?.t === 'forceSwitch') {
+      // 強制交代でキャンセルされたら選び直させる
+      if (fx.t === 'forceSwitch' && (result === null || result === undefined)) {
+        this.openParty(true);
+        return;
+      }
+      this.advance(result ?? null);
+      return;
+    }
+    this.advance(result ?? null);
+  }
+
+  // ---- 演出 ----
+
+  startAnim(fx) {
+    this.mode = 'anim';
+    const kind = fx.kind;
+
+    if (kind === 'intro' || kind === 'foeSendOut') {
+      this.anim = { kind: 'intro', t: 0, len: 26 };
+      this.hidden.foe = false;
+      this.faintClip.foe = null;
+      this.spriteOffset.foe = 0;
+      this.dispHP.foe = this.ctx.foe.curHP;
+      SE.encounter();
+    } else if (kind === 'sendOut') {
+      this.anim = { kind, t: 0, len: 22 };
+      this.hidden.mine = false;
+      this.faintClip.mine = null;
+      this.dispHP.mine = this.ctx.mine.curHP;
+      this.dispExp = expRatio(this.ctx.mine);
+    } else if (kind === 'hit') {
+      this.anim = { kind, t: 0, len: 24, onFoe: fx.onFoe, type: fx.type };
+      SE.hit(fx.eff ?? 1);
+    } else if (kind === 'faint') {
+      this.anim = { kind, t: 0, len: 30, onFoe: fx.onFoe };
+      SE.faint();
+    } else if (kind === 'recall') {
+      // 自分の意思での交代。見た目はひんしと同じ「引っ込む」動きを流用するが短め。
+      this.anim = { kind: 'faint', t: 0, len: 16, onFoe: false };
+      SE.select();
+    } else if (kind === 'ball') {
+      this.anim = {
+        kind, t: 0, shakes: fx.shakes, caught: fx.caught, shakeIndex: -1,
+        len: 40 + (fx.shakes ?? 0) * 34 + (fx.caught ? 30 : 0),
+      };
+      this.ball = { x: 40, y: 130, t: 0 };
+      SE.ballThrow();
+    } else if (kind === 'levelUp') {
+      this.anim = { kind, t: 0, len: 24 };
+      SE.levelUp();
+    } else if (kind === 'evolve') {
+      this.anim = { kind, t: 0, len: 190, from: fx.from, to: fx.to, cancelled: false };
+      this.evolveState = { from: fx.from, to: fx.to };
+      SE.evolve();
+    } else {
+      this.anim = { kind, t: 0, len: 12 };
+    }
+  }
+
+  /** せってい の「バトルの えんしゅつ」＋ Ｂ 長押しの早送り。演出のフレーム進みを一括で速める。 */
+  speedStep() {
+    return Input.isDown(BTN.B) ? 4 : 1 / battleSpeedMul();
+  }
+
+  updateAnim() {
+    const a = this.anim;
+    if (!a) { this.advance(); return; }
+    a.t += this.speedStep();
+
+    if (a.kind === 'hit') {
+      const side = a.onFoe ? 'foe' : 'mine';
+      this.flash[side] = a.t % 8 < 4 && a.t < 18 ? 1 : 0;
+      this.shake = a.t < 18 ? (a.t % 4 < 2 ? 3 : -3) : 0;
+      if (a.t >= a.len) { this.flash[side] = 0; this.shake = 0; this.advance(); }
+      return;
+    }
+
+    if (a.kind === 'faint') {
+      const side = a.onFoe ? 'foe' : 'mine';
+      const r = Math.min(1, a.t / a.len);
+      this.faintClip[side] = Math.round(24 * (1 - r));
+      this.spriteOffset[side] = Math.round(24 * r * (a.onFoe ? FOE_SCALE : MINE_SCALE) / 2);
+      if (a.t >= a.len) { this.hidden[side] = true; this.advance(); }
+      return;
+    }
+
+    if (a.kind === 'intro' || a.kind === 'sendOut') {
+      const r = Math.min(1, a.t / a.len);
+      const side = a.kind === 'intro' ? 'foe' : 'mine';
+      this.spriteOffset[side] = Math.round((1 - r) * (a.kind === 'intro' ? 90 : -90));
+      if (a.t >= a.len) { this.spriteOffset[side] = 0; this.advance(); }
+      return;
+    }
+
+    if (a.kind === 'levelUp' || a.kind === 'wait') {
+      if (a.t >= a.len) this.advance();
+      return;
+    }
+
+    if (a.kind === 'ball') {
+      this.updateBallAnim(a);
+      return;
+    }
+
+    if (a.kind === 'evolve') {
+      this.updateEvolveAnim(a);
+      return;
+    }
+
+    if (a.t >= a.len) this.advance();
+  }
+
+  updateBallAnim(a) {
+    const throwLen = 34;
+
+    if (a.t <= throwLen) {
+      // 放物線でボールが飛ぶ
+      const r = a.t / throwLen;
+      this.ball = {
+        x: 40 + (FOE_X + 20 - 40) * r,
+        y: 130 + (FOE_Y + 22 - 130) * r - Math.sin(r * Math.PI) * 46,
+        open: false, shake: 0,
+      };
+      return;
+    }
+    if (a.t <= throwLen + 8) {
+      // 吸い込み（白フラッシュ＋縮小）
+      this.flash.foe = 1;
+      this.ball.open = true;
+      return;
+    }
+
+    this.flash.foe = 0;
+    this.hidden.foe = true;
+    this.ball.open = false;
+
+    const after = a.t - throwLen - 8;
+    const per = 34;
+    const shakeIdx = Math.floor(after / per);
+    const inShake = after % per;
+
+    if (shakeIdx < a.shakes) {
+      // しばらく待って、カタッと揺れる
+      if (inShake > 20) {
+        if (a.shakeIndex !== shakeIdx) { a.shakeIndex = shakeIdx; SE.ballShake(); }
+        this.ball.shake = inShake % 6 < 3 ? 3 : -3;
+      } else {
+        this.ball.shake = 0;
+      }
+      return;
+    }
+
+    if (a.caught) {
+      this.ball.shake = 0;
+      if (!a.caughtSe) { a.caughtSe = true; SE.caught(); }
+      if (after >= a.shakes * per + 24) { this.ball = null; this.advance(); }
+      return;
+    }
+
+    // 失敗 → 飛び出す
+    this.ball = null;
+    this.hidden.foe = false;
+    this.advance();
+  }
+
+  updateEvolveAnim(a) {
+    // B でキャンセルできる
+    if (Input.justPressed(BTN.B) && !a.cancelled) {
+      a.cancelled = true;
+      this.advance(true);
+      return;
+    }
+    if (a.t >= a.len) {
+      this.evolveState = null;
+      this.advance(false);
+    }
+  }
+
+  // ---- 更新 ----
+
+  update() {
+    this.t++;
+
+    // HPが2割を切ったら警告音を鳴らし続ける
+    const mine = this.ctx.mine;
+    if (this.mode !== 'sub' && mine.curHP > 0 && mine.curHP / mine.stats.hp <= 0.2) {
+      if (this.t % 40 === 0) SE.lowHp();
+    }
+
+    switch (this.mode) {
+      case 'msg': {
+        this.box.update(Input.isDown(BTN.A));
+        if (Input.justPressed(BTN.A) && this.box.advance()) this.advance();
+        break;
+      }
+
+      case 'command': {
+        const r = this.commandMenu.update();
+        if (r?.type === 'select') {
+          const map = ['fight', 'bag', 'party', 'run'];
+          this.advance({ type: map[r.index] });
+        }
+        break;
+      }
+
+      case 'moveSelect': {
+        const r = this.moveMenu.update();
+        if (r?.type === 'select') this.advance(r.index);
+        else if (r?.type === 'cancel') this.advance(null);
+        break;
+      }
+
+      case 'statPanel': {
+        if (Input.justPressed(BTN.A) || Input.justPressed(BTN.B)) {
+          this.statPanel = null;
+          this.advance();
+        }
+        break;
+      }
+
+      case 'confirm': {
+        // 本文を読み終わってから選ばせる
+        this.box.update(Input.isDown(BTN.A));
+        if (!this.box.waiting) break;
+        const r = this.confirmMenu.update();
+        if (r?.type === 'select') { this.confirmMenu = null; this.advance(r.index === 0); }
+        else if (r?.type === 'cancel') { this.confirmMenu = null; this.advance(false); }
+        break;
+      }
+
+      case 'tween':
+        this.updateTween();
+        break;
+
+      case 'anim':
+        this.updateAnim();
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  updateTween() {
+    const step = this.speedStep();
+    this.tweenTimer += step;
+
+    if (this.tweenKind === 'hp') {
+      let done = true;
+      for (const [key, mon] of [['mine', this.ctx.mine], ['foe', this.ctx.foe]]) {
+        const target = mon.curHP;
+        const cur = this.dispHP[key];
+        if (cur === target) continue;
+        done = false;
+        // 最大HPが大きいほど速く動かす（大型でも待たされすぎない）
+        const speed = Math.max(1, Math.ceil(mon.stats.hp / 60)) * step;
+        this.dispHP[key] = cur < target
+          ? Math.min(target, cur + speed)
+          : Math.max(target, cur - speed);
+      }
+      if (done && this.tweenTimer > 8) this.advance();
+      return;
+    }
+
+    const target = expRatio(this.ctx.mine);
+    const diff = target - this.dispExp;
+    if (Math.abs(diff) < 0.01 || this.tweenTimer > 60) {
+      this.dispExp = target;
+      this.advance();
+      return;
+    }
+    this.dispExp += Math.sign(diff) * 0.02 * step;
+  }
+
+  // ---- 描画 ----
+
+  render(ctx) {
+    this.renderBackground(ctx);
+
+    ctx.save();
+    if (this.shake) ctx.translate(this.shake, 0);
+    this.renderMonsters(ctx);
+    if (this.anim?.kind === 'hit' && this.anim.type) this.renderHitEffect(ctx, this.anim);
+    ctx.restore();
+
+    this.renderStatusBoxes(ctx);
+    if (this.ball) this.renderBall(ctx);
+
+    if (this.evolveState) {
+      this.renderEvolve(ctx);
+      return;
+    }
+
+    this.renderBottom(ctx);
+    if (this.statPanel) this.renderStatPanel(ctx);
+  }
+
+  renderBackground(ctx) {
+    // 空 → 地面。矩形の帯で描くのでドット絵と質感が揃う。
+    // 場所ごとに配色を変える(P-3)。
+    const theme = BG_THEME[this.bg] ?? BG_THEME.grass;
+    ctx.fillStyle = theme.sky1;
+    ctx.fillRect(0, 0, W, 96);
+    ctx.fillStyle = theme.sky2;
+    ctx.fillRect(0, 0, W, 40);
+    ctx.fillStyle = theme.ground;
+    ctx.fillRect(0, 96, W, BOX_Y - 96);
+    ctx.fillStyle = theme.edge;
+    ctx.fillRect(0, 96, W, 3);
+
+    // 台座
+    this.renderPlatform(ctx, FOE_X + 24, FOE_Y + 50, 44, 8, theme.platform);
+    this.renderPlatform(ctx, MINE_X + 30, MINE_Y + 62, 58, 10, theme.platform);
+  }
+
+  renderPlatform(ctx, cx, cy, rx, ry, color) {
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = 'rgba(0,0,0,0.12)';
+    ctx.beginPath();
+    ctx.ellipse(cx, cy + 2, rx * 0.8, ry * 0.55, 0, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  renderMonsters(ctx) {
+    const { mine, foe } = this.ctx;
+
+    if (!this.hidden.foe) {
+      const sprite = foe.shiny ? shinyVariant(foe.species.sprite) : foe.species.sprite;
+      drawSprite(ctx, sprite, FOE_X + this.spriteOffset.foe, FOE_Y + (this.faintClip.foe !== null ? this.spriteOffset.foe : 0), {
+        scale: FOE_SCALE,
+        flash: this.flash.foe > 0,
+        clipH: this.faintClip.foe,
+      });
+    }
+    if (!this.hidden.mine) {
+      // 背面スプライトがある種族(B4, 最終進化12種)はそちらを使う。
+      // 無い種族は今まで通り 正面+反転 でフォールバックする。
+      const base = mine.species.backSprite ?? mine.species.sprite;
+      const sprite = mine.shiny ? shinyVariant(base) : base;
+      drawSprite(ctx, sprite, MINE_X, MINE_Y + this.spriteOffset.mine, {
+        scale: MINE_SCALE,
+        flip: true,
+        flash: this.flash.mine > 0,
+        clipH: this.faintClip.mine,
+      });
+    }
+  }
+
+  /** タイプ別の被弾エフェクト（Phase Y-1）。矩形と円だけで、進行度 r=t/len から毎フレーム計算する。 */
+  renderHitEffect(ctx, a) {
+    const colors = TYPE_FX_COLOR[a.type];
+    if (!colors) return;
+
+    const onFoe = a.onFoe;
+    const cx = onFoe ? FOE_X + 24 : MINE_X + 30;
+    const cy = onFoe ? FOE_Y + 24 : MINE_Y + 30;
+    const r = Math.min(1, a.t / a.len);
+    const n = 6;
+
+    ctx.save();
+    switch (a.type) {
+      case 'ほのお': // 赤〜橙の粒が下から立ちのぼる
+        for (let i = 0; i < n; i++) {
+          const p = (r + i / n) % 1;
+          const x = cx + (i - n / 2) * 6;
+          const y = cy + 18 - p * 40;
+          ctx.fillStyle = colors[i % colors.length];
+          ctx.fillRect(Math.round(x) - 2, Math.round(y) - 2, 4, 4);
+        }
+        break;
+
+      case 'みず': // 青い横波が3本、左から右へ走る
+        for (let i = 0; i < 3; i++) {
+          const y = cy - 16 + i * 14;
+          const x = cx - 26 + ((r + i * 0.25) % 1) * 52;
+          ctx.fillStyle = colors[i % colors.length];
+          ctx.fillRect(Math.round(x) - 8, Math.round(y) - 1, 16, 3);
+        }
+        break;
+
+      case 'でんき': // 黄色いギザギザが縦に落ちる
+        for (let i = 0; i < n; i++) {
+          const p = (r + i / n) % 1;
+          const x = cx + (i - n / 2) * 7;
+          const y = cy - 22 + p * 46;
+          const zig = Math.floor(p * 8) % 2 ? 3 : -3;
+          ctx.fillStyle = colors[i % colors.length];
+          ctx.fillRect(Math.round(x) + zig - 1, Math.round(y) - 1, 3, 6);
+        }
+        break;
+
+      case 'くさ': // 緑の葉が回転しながら飛ぶ
+        for (let i = 0; i < n; i++) {
+          const p = (r + i / n) % 1;
+          const ang = p * Math.PI * 4 + i * 1.3;
+          const x = cx + Math.cos(ang) * 18 * p;
+          const y = cy - p * 24;
+          ctx.fillStyle = colors[i % colors.length];
+          ctx.fillRect(Math.round(x) - 2, Math.round(y) - 2, 4, 4);
+        }
+        break;
+
+      case 'かくとう': // 白い衝撃線が中心から放射
+        ctx.strokeStyle = colors[0];
+        ctx.lineWidth = 2;
+        for (let i = 0; i < 8; i++) {
+          const ang = (i / 8) * Math.PI * 2;
+          const len = 6 + r * 20;
+          ctx.beginPath();
+          ctx.moveTo(cx + Math.cos(ang) * 6, cy + Math.sin(ang) * 6);
+          ctx.lineTo(cx + Math.cos(ang) * len, cy + Math.sin(ang) * len);
+          ctx.stroke();
+        }
+        break;
+
+      case 'こおり': // 白い結晶が上から降る
+        for (let i = 0; i < n; i++) {
+          const p = (r + i / n) % 1;
+          const x = cx + (i - n / 2) * 7;
+          const y = cy - 22 + p * 44;
+          ctx.fillStyle = colors[i % colors.length];
+          ctx.fillRect(Math.round(x) - 1, Math.round(y) - 3, 2, 6);
+          ctx.fillRect(Math.round(x) - 3, Math.round(y) - 1, 6, 2);
+        }
+        break;
+
+      case 'どく': // 紫の泡が浮かぶ
+        for (let i = 0; i < n; i++) {
+          const p = (r + i / n) % 1;
+          const x = cx + Math.sin(i * 2 + p * 6) * 14;
+          const y = cy + 14 - p * 34;
+          const rad = 2 + (i % 3);
+          ctx.fillStyle = colors[i % colors.length];
+          ctx.beginPath();
+          ctx.arc(Math.round(x), Math.round(y), rad, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        break;
+
+      case 'エスパー': // 桃色の同心円が広がる
+        ctx.lineWidth = 2;
+        for (let i = 0; i < 3; i++) {
+          const p = (r + i / 3) % 1;
+          ctx.strokeStyle = colors[i % colors.length];
+          ctx.beginPath();
+          ctx.arc(cx, cy, 4 + p * 24, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+        break;
+
+      default:
+        break;
+    }
+    ctx.restore();
+  }
+
+  renderStatusBoxes(ctx) {
+    const { mine, foe } = this.ctx;
+
+    // 相手（状態異常があるときだけ HPバーを縮めて札を置く）
+    drawWindow(ctx, 6, 8, 122, 48);
+    // 図鑑に登録済みの種は名前の横に ◎ を出す（もう捕まえた、が一目でわかる）
+    const foeCaught = !this.ctx.trainer && state.dex.caught.includes(foe.species.id);
+    const foeName = `${foe.shiny ? '☆' : ''}${foe.species.name}${foeCaught ? ' ◎' : ''}`;
+    drawText(ctx, foeName, 14, 13, { color: COL.ink });
+    drawTextRight(ctx, `Lv${foe.level}`, 122, 13, { color: COL.ink });
+    drawText(ctx, 'HP', 14, 28, { color: '#f0a020' });
+    if (foe.status) {
+      const w = this.renderStatusTag(ctx, foe.status, 30, 28);
+      drawBar(ctx, 34 + w, 32, 116 - (34 + w) + 6, this.dispHP.foe / foe.stats.hp, hpColor(this.dispHP.foe, foe.stats.hp), { critAt: HP_THRESHOLDS });
+    } else {
+      drawBar(ctx, 32, 32, 84, this.dispHP.foe / foe.stats.hp, hpColor(this.dispHP.foe, foe.stats.hp), { critAt: HP_THRESHOLDS });
+    }
+    const foeRank = rankText(foe.stages);
+    if (foeRank) drawText(ctx, foeRank, 14, 42, { color: COL.inkLight });
+
+    // 自分（なまえ / HPバー / HP数値 / 一番下に EXPバー）
+    drawWindow(ctx, 126, 94, 124, 52);
+    drawText(ctx, `${mine.shiny ? '☆' : ''}${displayName(mine)}`, 134, 98, { color: COL.ink });
+    drawTextRight(ctx, `Lv${mine.level}`, 244, 98, { color: COL.ink });
+    drawText(ctx, 'HP', 134, 112, { color: '#f0a020' });
+    drawBar(ctx, 152, 116, 84, this.dispHP.mine / mine.stats.hp, hpColor(this.dispHP.mine, mine.stats.hp), { critAt: HP_THRESHOLDS });
+    drawTextRight(ctx, `${Math.round(this.dispHP.mine)}/${mine.stats.hp}`, 244, 124, { color: COL.ink });
+    if (mine.status) this.renderStatusTag(ctx, mine.status, 134, 125);
+    const mineRank = rankText(mine.stages);
+    if (mineRank) drawText(ctx, mineRank, 134, 131, { color: COL.inkLight });
+    drawBar(ctx, 134, 140, 110, this.dispExp, COL.exp, { h: 2, frame: false });
+
+    // トレーナー戦は「あと何匹いるか」が読めないと戦いようがない
+    if (this.ctx.trainer) {
+      this.renderPips(ctx, 8, 59, this.ctx.foeParty ?? [foe], false);
+      this.renderPips(ctx, 248, 86, state.party, true);
+    }
+
+    this.renderWeather(ctx);
+  }
+
+  /**
+   * 天候の常設表示（残りターンつき）。
+   * 開始/終了メッセージは一瞬で流れて忘れるので、効いている間ずっと見える札を出す。
+   */
+  renderWeather(ctx) {
+    const w = this.ctx.weather;
+    if (!w?.kind) return;
+    const label = WEATHER_TAG[w.kind];
+    if (!label) return;
+    const x = 134, y = 8, width = label.text.length * 12 + 22;
+    ctx.fillStyle = label.color;
+    ctx.fillRect(x, y, width, 15);
+    ctx.fillStyle = '#202028';
+    ctx.fillRect(x, y, width, 2);
+    drawText(ctx, label.text, x + 4, y + 2, { color: '#ffffff' });
+    drawTextRight(ctx, `${w.turns}`, x + width - 4, y + 2, { color: '#ffffff' });
+  }
+
+  /** 残りポケモン数のしるし。健在は白、ひんしは沈んだ色。 */
+  renderPips(ctx, x, y, list, rightAlign) {
+    const n = list.length;
+    for (let i = 0; i < n; i++) {
+      const idx = rightAlign ? n - 1 - i : i;
+      const px = rightAlign ? x - 8 - i * 9 : x + i * 9;
+      const alive = list[idx].curHP > 0;
+      ctx.fillStyle = '#202028';
+      ctx.fillRect(px, y, 7, 7);
+      ctx.fillStyle = alive ? '#f8f8f8' : '#606070';
+      ctx.fillRect(px + 1, y + 1, 5, 5);
+      if (alive) {
+        ctx.fillStyle = '#e04030';
+        ctx.fillRect(px + 2, y + 2, 3, 2);
+      }
+    }
+  }
+
+  /** 状態異常の札。描いた幅を返す。 */
+  renderStatusTag(ctx, status, x, y) {
+    const colors = {
+      'どく': '#a040a0', 'やけど': '#e06030', 'まひ': '#d8c020',
+      'ねむり': '#8890a0', 'こおり': '#68c8d8',
+    };
+    const w = status.length * 12 + 4;
+    ctx.fillStyle = colors[status] ?? '#808080';
+    ctx.fillRect(Math.round(x), Math.round(y) - 1, w, 11);
+    drawText(ctx, status, x + 2, y, { color: '#ffffff' });
+    return w;
+  }
+
+  renderBall(ctx) {
+    const b = this.ball;
+    const x = Math.round(b.x + (b.shake ?? 0));
+    const y = Math.round(b.y);
+    // 上半分赤・下半分白のボール
+    ctx.fillStyle = '#202028';
+    ctx.fillRect(x - 5, y - 5, 10, 10);
+    ctx.fillStyle = '#e04030';
+    ctx.fillRect(x - 4, y - 4, 8, 3);
+    ctx.fillStyle = '#f8f8f8';
+    ctx.fillRect(x - 4, y + 1, 8, 3);
+    ctx.fillStyle = '#202028';
+    ctx.fillRect(x - 4, y - 1, 8, 2);
+    ctx.fillStyle = b.open ? '#ffe14a' : '#c8c8d0';
+    ctx.fillRect(x - 1, y - 1, 2, 2);
+  }
+
+  renderEvolve(ctx) {
+    const a = this.anim;
+    const r = a.t / a.len;
+    fillScreen(ctx, '#101018', 1);
+
+    // 進むほど速く点滅し、終わりに新しい姿へ切り替わる
+    const freq = Math.max(3, Math.round(16 - r * 14));
+    const showNew = Math.floor(a.t / freq) % 2 === 1;
+    const sp = showNew ? a.to : a.from;
+    const white = r < 0.9;
+
+    drawSprite(ctx, sp.sprite, W / 2 - 36, 44, { scale: 3, flash: white });
+
+    this.box.render(ctx);
+    if (r < 0.85) {
+      drawTextCentered(ctx, 'B ： しんかを ストップ', W / 2, 132, { color: '#ffffff', shadow: '#303050' });
+    }
+  }
+
+  renderBottom(ctx) {
+    if (this.mode === 'command') {
+      // 左にメッセージ、右にコマンド
+      drawWindow(ctx, 4, BOX_Y, 130, 40);
+      drawText(ctx, `${displayName(this.ctx.mine)}は`, 12, BOX_Y + 7, { color: COL.ink });
+      drawText(ctx, 'どうする？', 12, BOX_Y + 21, { color: COL.ink });
+      drawWindow(ctx, 132, BOX_Y, 120, 40);
+      this.commandMenu.render(ctx);
+      return;
+    }
+
+    if (this.mode === 'moveSelect') {
+      drawWindow(ctx, 4, BOX_Y - 14, 248, 54);
+      this.moveMenu.render(ctx);
+      const cur = this.moveMenu.current;
+      if (cur?.def) {
+        const w = drawTypeTag(ctx, cur.def.type, TYPE_COLOR[cur.def.type], 12, BOX_Y + 26);
+        const power = cur.def.power > 0 ? String(cur.def.power) : 'ー';
+        drawText(ctx, `いりょく ${power}`, 12 + w + 6, BOX_Y + 26, { color: COL.ink });
+        drawTextRight(ctx, `PP ${cur.mv.pp}/${cur.mv.maxPp}`, 246, BOX_Y + 26, { color: COL.ink });
+      }
+      return;
+    }
+
+    this.box.render(ctx);
+
+    if (this.mode === 'confirm' && this.box.waiting) {
+      drawWindow(ctx, 178, BOX_Y - 48, 72, 46);
+      this.confirmMenu.render(ctx);
+    }
+  }
+
+  renderStatPanel(ctx) {
+    drawWindow(ctx, 120, 60, 130, 86);
+    const rows = ['hp', 'atk', 'def', 'spa', 'spd', 'spe'];
+    rows.forEach((k, i) => {
+      const y = 66 + i * 13;
+      drawText(ctx, STAT_LABEL[k], 128, y, { color: COL.ink });
+      const g = this.statPanel[k] ?? 0;
+      drawTextRight(ctx, `+${g}`, 242, y, { color: g > 0 ? COL.select : COL.inkLight });
+    });
+  }
+}

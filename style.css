@@ -1,0 +1,238 @@
+:root {
+  --bg: #101018;
+  --pad: rgba(255, 255, 255, 0.14);
+  --pad-active: rgba(255, 255, 255, 0.34);
+
+  /* 操作パッドに割り当てる領域。ゲーム画面はこの残りを使う。
+     十字キー・A/B のどちらもこの幅に収まるようにしてある。 */
+  --controls-h: 196px;   /* 縦持ち: 画面下に確保する高さ */
+  --controls-w: 160px;   /* 横持ち: 左右に確保する幅 */
+  --dpad-size: 150px;
+  --btn-size: 66px;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  height: 100%;
+  background: var(--bg);
+}
+
+body {
+  margin: 0;
+  /* dvh を使うとアドレスバーの出入りで下が切れない */
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  font-family: system-ui, sans-serif;
+}
+
+/*
+ * レイアウトの考えかた:
+ *   #stage は「ゲーム画面を置ける実際の箱」。JS はこの箱の大きさを測って拡大率を決める。
+ *   操作パッドは #stage の外に置く。重ねてしまうと画面の下 1/4 が指で隠れる。
+ *
+ *   縦持ち … 上に画面、下にパッド（ふつうの縦並び）
+ *   横持ち … パッドを左右の余白に重ね、#stage をその内側へ寄せる
+ *   PC    … パッドなし。画面いっぱい。
+ */
+#stage {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+}
+
+/* 縦持ちは上寄せ。余った高さを親指の側にまとめると携帯機らしい配置になる。 */
+@media (orientation: portrait) {
+  body.touch #stage {
+    align-items: start;
+    padding-top: max(10px, env(safe-area-inset-top, 0px));
+  }
+}
+
+/* 基準解像度 256x192 を拡大する。ぼかしは絶対にかけない。 */
+#screen {
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  background: #000;
+}
+
+/* ---- タッチ操作 ---- */
+#touch {
+  display: none;
+  position: relative;
+  flex: 0 0 var(--controls-h);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+body.touch #touch { display: block; }
+
+@media (orientation: landscape) {
+  body.touch #touch {
+    position: fixed;
+    inset: 0;
+    flex: none;
+    padding-bottom: 0;
+    pointer-events: none;   /* 中央の素通し。パッド自身は個別に有効化する */
+    z-index: 10;
+  }
+  body.touch #stage {
+    margin-left: var(--controls-w);
+    margin-right: var(--controls-w);
+  }
+}
+
+#dpad, #btns { position: absolute; pointer-events: auto; }
+
+/*
+ * 十字キーは1枚の判定領域。指の位置から方向を決めるので、
+ * 個々のキーは見た目だけを担当する（判定は親の #dpad が受ける）。
+ */
+#dpad {
+  left: max(18px, env(safe-area-inset-left, 0px));
+  bottom: 20px;
+  width: var(--dpad-size);
+  height: var(--dpad-size);
+  display: grid;
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  touch-action: none;
+}
+
+#btns {
+  right: max(18px, env(safe-area-inset-right, 0px));
+  bottom: 24px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-end;
+}
+
+/*
+ * メニューは押す頻度が低いので、本体の A/B とは離して隅に置く。
+ * 一列に並べると、幅 360px 級の端末で十字キーとぶつかる。
+ */
+#menu-btn {
+  position: absolute;
+  top: 10px;
+  right: max(18px, env(safe-area-inset-right, 0px));
+  width: 46px;
+  height: 46px;
+  pointer-events: auto;
+}
+
+@media (orientation: landscape) {
+  /* 横持ちでは左右の帯（--controls-w）の内側に収める。
+     はみ出すとゲーム画面に指がかぶる。 */
+  :root {
+    --dpad-size: 132px;
+    --btn-size: 60px;
+  }
+  #dpad {
+    top: 50%;
+    bottom: auto;
+    transform: translateY(-50%);
+  }
+  #btns {
+    top: 50%;
+    bottom: auto;
+    transform: translateY(-50%);
+    gap: 10px;
+  }
+  #menu-btn {
+    top: max(10px, env(safe-area-inset-top, 0px));
+    width: 42px;
+    height: 42px;
+  }
+}
+
+.pad, .rb {
+  border: none;
+  background: var(--pad);
+  color: #fff;
+  font: 600 20px/1 system-ui, sans-serif;
+  touch-action: none;
+}
+.rb:active, .rb.on, .pad.on { background: var(--pad-active); }
+
+.pad {
+  border-radius: 8px;
+  pointer-events: none;   /* 判定は #dpad がまとめて受ける */
+}
+.pad.up    { grid-area: 1 / 2; }
+.pad.left  { grid-area: 2 / 1; }
+.pad.right { grid-area: 2 / 3; }
+.pad.down  { grid-area: 3 / 2; }
+
+/* 中央のへこみ。これがあると十字に見える。 */
+#dpad::after {
+  content: '';
+  grid-area: 2 / 2;
+  background: var(--pad);
+  border-radius: 4px;
+}
+
+.rb {
+  width: var(--btn-size);
+  height: var(--btn-size);
+  border-radius: 50%;
+}
+/* A を少し高い位置に置くと、親指の自然な角度に合う */
+#btns .rb:last-child { margin-bottom: 28px; }
+
+/* セーブの文字列入出力(A3)のオーバーレイ */
+#io-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(8, 8, 14, 0.78);
+  padding: 16px;
+  touch-action: auto;
+}
+/* [hidden] の既定 display:none は、上のID指定(display:flex)より詳細度が
+   低いため負けて上書きされてしまう。ここで明示的に勝たせる。 */
+#io-overlay[hidden] { display: none; }
+#io-box {
+  width: min(420px, 100%);
+  background: #f4ecd8;
+  border: 3px solid #303050;
+  border-radius: 6px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  user-select: auto;
+  -webkit-user-select: auto;
+}
+#io-label { margin: 0; font: 600 14px/1.4 system-ui, sans-serif; color: #201830; }
+#io-text {
+  width: 100%;
+  resize: vertical;
+  font: 12px/1.4 ui-monospace, monospace;
+  padding: 8px;
+  border: 2px solid #a89870;
+  border-radius: 4px;
+  background: #fff;
+  color: #201830;
+}
+#io-msg { margin: 0; min-height: 1.2em; font: 12px/1.3 system-ui, sans-serif; color: #a03030; }
+#io-actions { display: flex; justify-content: flex-end; gap: 8px; }
+#io-actions button {
+  font: 600 13px system-ui, sans-serif;
+  padding: 8px 14px;
+  border-radius: 4px;
+  border: 2px solid #303050;
+  background: #e8e0c8;
+  color: #201830;
+}
+#io-actions button:active { background: #d0c4a0; }
