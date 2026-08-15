@@ -60,7 +60,8 @@ export const RIVAL_BATTLES = {
   },
   /** クリア後、はじまりのむらに現れる再戦相手（Q-2）。手持ちはチャンピオン戦と同じ構成。 */
   rival6: {
-    class: 'チャンピオン', sprite: 'youngster', prize: 500, sight: 5, skill: 3,
+    class: 'チャンピオン', sprite: 'youngster', prize: 500, sight: 5, skill: 4,
+    items: ['まんたんのくすり', 'なんでもなおし'],
     party: (starterId) => [
       { id: 26, lv: 46 },
       { id: 130, lv: 47 },
@@ -77,7 +78,8 @@ export const RIVAL_BATTLES = {
     after: ['また つよくなったら いつでも あいてに なるぜ。'],
   },
   rival5: {
-    class: 'チャンピオン', sprite: 'youngster', prize: 500, sight: 3, skill: 3,
+    class: 'チャンピオン', sprite: 'youngster', prize: 500, sight: 3, skill: 4,
+    items: ['まんたんのくすり', 'なんでもなおし'],
     party: (starterId) => [
       { id: 26, lv: 46 },
       { id: 130, lv: 47 },

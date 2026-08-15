@@ -45,6 +45,7 @@ function resolveTrainer(id) {
     prize: def.prize,
     sight: def.sight,
     skill: def.skill,
+    items: def.items,
     party: def.party(state.player.rivalStarter ?? 4),
     intro: def.intro,
     defeat: def.defeat,

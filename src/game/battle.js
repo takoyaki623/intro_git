@@ -222,18 +222,34 @@ function* chooseCommand(ctx) {
 /**
  * ジムリーダー(skill:3)は状態異常を1回だけ回復するどうぐを持つ（Phase X-3）。
  * 手持ちが状態異常なら、攻撃より先にそれを使ってくる。
+ * チャンピオン級(skill:4)は、それに加えてHPが少ないときにも回復薬を使ってくる。
  */
 function pickFoeItem(ctx) {
-  if (!ctx.trainer || (ctx.trainer.skill ?? 0) < 3 || !ctx.foe.status) return null;
+  const skill = ctx.trainer?.skill ?? 0;
+  if (!ctx.trainer || skill < 3) return null;
   const items = ctx.trainerItemsLeft;
   if (!items?.length) return null;
-  const idx = items.findIndex((name) => {
-    const use = getItem(name)?.use;
-    return use?.kind === 'cure' && (use.status === 'all' || use.status === ctx.foe.status);
-  });
-  if (idx < 0) return null;
-  const [itemName] = items.splice(idx, 1);
-  return { type: 'foeItem', user: ctx.foe, itemName };
+
+  if (ctx.foe.status) {
+    const idx = items.findIndex((name) => {
+      const use = getItem(name)?.use;
+      return use?.kind === 'cure' && (use.status === 'all' || use.status === ctx.foe.status);
+    });
+    if (idx >= 0) {
+      const [itemName] = items.splice(idx, 1);
+      return { type: 'foeItem', user: ctx.foe, itemName };
+    }
+  }
+
+  if (skill >= 4 && ctx.foe.curHP / ctx.foe.stats.hp <= 0.3) {
+    const idx = items.findIndex((name) => getItem(name)?.use?.kind === 'heal');
+    if (idx >= 0) {
+      const [itemName] = items.splice(idx, 1);
+      return { type: 'foeItem', user: ctx.foe, itemName };
+    }
+  }
+
+  return null;
 }
 
 /**
@@ -241,25 +257,43 @@ function pickFoeItem(ctx) {
  * ひかえに その弱点を持たない子がいれば 攻撃より先に交代する。
  * 交代先は毎回「弱点をやわらげる」ことしか見ないので、直した先がまた弱点なら次のターンも交代できる
  * （＝無限ループにはならない。ベンチが尽きれば普通に攻撃を選ぶ）。
+ * チャンピオン級(skill:4)は、それに加えて弱点を突かれていなくても、
+ * ひかえに いまの相手へ2倍有利な子がいれば 攻めのために自分から交代してくる。
  */
 function pickFoeSwitch(ctx) {
-  if (!ctx.trainer || (ctx.trainer.skill ?? 0) < 3 || !ctx.foeParty) return null;
+  const skill = ctx.trainer?.skill ?? 0;
+  if (!ctx.trainer || skill < 3 || !ctx.foeParty) return null;
   const bench = ctx.foeParty.filter((m) => m !== ctx.foe && !isFainted(m));
   if (!bench.length) return null;
 
   // 自分の各タイプが相手にどれだけ通るかの最大値を「弱点の深さ」とする
   const threatIn = (types) => Math.max(0, ...ctx.mine.types.map((t) => effectiveness(t, types)));
   const currentThreat = threatIn(ctx.foe.types);
-  if (currentThreat < 2) return null; // いまの子が特別 不利でなければ交代しない
 
-  let best = null;
-  let bestThreat = currentThreat;
-  for (const m of bench) {
-    const t = threatIn(m.types);
-    if (t < bestThreat) { best = m; bestThreat = t; }
+  if (currentThreat >= 2) {
+    let best = null;
+    let bestThreat = currentThreat;
+    for (const m of bench) {
+      const t = threatIn(m.types);
+      if (t < bestThreat) { best = m; bestThreat = t; }
+    }
+    if (best) return { type: 'foeSwitch', user: ctx.foe, next: best };
   }
-  if (!best) return null;
-  return { type: 'foeSwitch', user: ctx.foe, next: best };
+
+  if (skill >= 4) {
+    // 自分の各タイプが相手にどれだけ通るかの最大値を「攻めの強さ」とする
+    const offenseIn = (types) => Math.max(0, ...types.map((t) => effectiveness(t, ctx.mine.types)));
+    const currentOffense = offenseIn(ctx.foe.types);
+    let best = null;
+    let bestOffense = currentOffense;
+    for (const m of bench) {
+      const o = offenseIn(m.types);
+      if (o >= 2 && o > bestOffense) { best = m; bestOffense = o; }
+    }
+    if (best) return { type: 'foeSwitch', user: ctx.foe, next: best };
+  }
+
+  return null;
 }
 
 function decideFoeAction(ctx) {

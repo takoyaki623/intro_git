@@ -881,6 +881,9 @@ section('相手の行動選択');
   check('skill3 は毎回おなじ最善手', Object.keys(e).length === 1, JSON.stringify(e));
   const f = pick(strong, fresh, 0, 300);
   check('skill0 は手がぶれる', Object.keys(f).length > 1, JSON.stringify(f));
+  // 賢さ4(チャンピオン級)も気まぐれを起こさない
+  const g = pick(strong, fresh, 4, 300);
+  check('skill4 は毎回おなじ最善手', Object.keys(g).length === 1, JSON.stringify(g));
 }
 
 section('データ整合性 ― わざマシン');

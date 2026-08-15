@@ -84,7 +84,7 @@ function score(user, target, move, weather) {
 
 /**
  * 1手えらぶ。
- * skill 0..3。0 は野生（気まぐれ多め）、3 はジムリーダー。
+ * skill 0..4。0 は野生（気まぐれ多め）、3 はジムリーダー、4 はチャンピオン級。
  */
 export function chooseAction(user, target, rng, skill = 0, weather = null) {
   const usable = user.moves.filter((m) => m.pp > 0);
@@ -93,7 +93,7 @@ export function chooseAction(user, target, rng, skill = 0, weather = null) {
   const pickMove = (m) => ({ type: 'move', user, move: getMove(m.id), slot: user.moves.indexOf(m) });
 
   // 賢いほど気まぐれを起こさない
-  const whim = [0.18, 0.12, 0.06, 0][Math.min(3, skill)];
+  const whim = [0.18, 0.12, 0.06, 0, 0][Math.min(4, skill)];
   if (rng.chance(whim)) return pickMove(rng.pick(usable));
 
   const scored = usable.map((m) => ({ m, s: score(user, target, m, weather) }));
