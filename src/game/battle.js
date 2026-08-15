@@ -328,12 +328,21 @@ function* executeAction(ctx, act) {
     return;
   }
 
-  const { dmg, eff, crit, levitated } = damage(user, target, move, ctx.rng, ctx.weather?.kind);
+  const { dmg, eff, crit, levitated, absorbedBy } = damage(user, target, move, ctx.rng, ctx.weather?.kind);
 
   if (eff === 0) {
-    yield msg(levitated
-      ? `${isMine ? 'てきの ' : ''}${displayName(target)}には ふゆうで じめんの わざが きかない！`
-      : `${isMine ? 'てきの ' : ''}${displayName(target)}には こうかが ないようだ…`);
+    if (levitated) {
+      yield msg(`${isMine ? 'てきの ' : ''}${displayName(target)}には ふゆうで じめんの わざが きかない！`);
+    } else if (absorbedBy) {
+      yield msg(`${isMine ? 'てきの ' : ''}${displayName(target)}の ${absorbedBy}が わざを すいこんだ！`);
+      if (target.curHP < target.stats.hp) {
+        heal(target, Math.max(1, Math.floor(target.stats.hp / 4)));
+        yield { t: 'hpTween', onFoe: isMine };
+        yield msg(`${isMine ? 'てきの ' : ''}${displayName(target)}は たいりょくを かいふくした！`);
+      }
+    } else {
+      yield msg(`${isMine ? 'てきの ' : ''}${displayName(target)}には こうかが ないようだ…`);
+    }
     return;
   }
 
@@ -377,16 +386,25 @@ function* executeAction(ctx, act) {
 
 /** いかく。場に出た直後、相手のこうげきを1段階さげる。 */
 function* triggerSendOut(ctx, mon, isMine) {
-  if (mon.species.ability !== 'いかく') return;
-  const target = isMine ? ctx.foe : ctx.mine;
-  if (!target || isFainted(target)) return;
-  const cur = target.stages.atk ?? 0;
-  const next = Math.max(-6, Math.min(6, cur - 1));
-  if (next === cur) return;
-  target.stages.atk = next;
-  const monLabel = `${isMine ? '' : 'てきの '}${displayName(mon)}`;
-  const targetLabel = `${isMine ? 'てきの ' : ''}${displayName(target)}`;
-  yield msg(`${monLabel}の いかく！ ${targetLabel}の こうげきが さがった！`);
+  if (mon.species.ability === 'いかく') {
+    const target = isMine ? ctx.foe : ctx.mine;
+    if (target && !isFainted(target)) {
+      const cur = target.stages.atk ?? 0;
+      const next = Math.max(-6, Math.min(6, cur - 1));
+      if (next !== cur) {
+        target.stages.atk = next;
+        const monLabel = `${isMine ? '' : 'てきの '}${displayName(mon)}`;
+        const targetLabel = `${isMine ? 'てきの ' : ''}${displayName(target)}`;
+        yield msg(`${monLabel}の いかく！ ${targetLabel}の こうげきが さがった！`);
+      }
+    }
+  }
+  // すなおこし。場に出た直後、すなあらしを まきおこす。
+  if (mon.species.ability === 'すなおこし' && ctx.weather.kind !== 'sand') {
+    ctx.weather.kind = 'sand';
+    ctx.weather.turns = 5;
+    yield msg(WEATHER_START_MSG.sand);
+  }
 }
 
 /** がんじょう。HP満タンから一撃で倒される一撃を、必ず HP1 まで軽くする。 */
@@ -398,6 +416,9 @@ function* applySturdy(ctx, target, dmg) {
 }
 
 const CONTACT_ABILITY_STATUS = { 'せいでんき': 'まひ', 'ほのおのからだ': 'やけど' };
+
+// とくせい（B2）: ふみん=ねむり、めんえき=どく/もうどく を無効化する
+const STATUS_IMMUNE_ABILITY = { 'ふみん': ['ねむり'], 'めんえき': ['どく', 'もうどく'] };
 
 /** せいでんき/ほのおのからだ。物理接触を受けたとき、30%で こうげき側に状態異常を返す。 */
 function* triggerContactAbility(ctx, user, target, move) {
@@ -513,6 +534,10 @@ function* applyEffect(ctx, user, target, move, dealt) {
     case 'status': {
       if (!ctx.rng.chance((e.chance ?? 100) / 100)) return;
       const victim = target;
+      if (STATUS_IMMUNE_ABILITY[victim.species.ability]?.includes(e.status)) {
+        yield msg(`${foeLabel(victim)}は ${victim.species.ability}で ${e.status}を ふせいだ！`);
+        return;
+      }
       if (victim.status) {
         if (move.category === '変化') yield msg('しかし うまく きまらなかった！');
         return;
@@ -571,6 +596,10 @@ function* applyEffect(ctx, user, target, move, dealt) {
     case 'confuse': {
       if (!ctx.rng.chance((e.chance ?? 100) / 100)) return;
       const victim = e.target === 'self' ? user : target;
+      if (victim.species.ability === 'どんかん') {
+        yield msg(`${foeLabel(victim)}は どんかんで こんらんしなかった！`);
+        return;
+      }
       if (victim.volatile.confusion > 0) {
         if (move.category === '変化') yield msg(`${foeLabel(victim)}は すでに こんらんしている！`);
         return;

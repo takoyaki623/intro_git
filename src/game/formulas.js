@@ -97,6 +97,9 @@ const ABILITY_TYPE_BOOST = {
   'もうか': 'ほのお', 'げきりゅう': 'みず', 'しんりょく': 'くさ', 'むしのしらせ': 'むし',
 };
 
+// とくせい（B2）: 特定タイプの技を完全に無効化し、代わりに自分のHPを回復する
+const ABILITY_ABSORB_TYPE = { 'ちょすい': 'みず', 'ちくでん': 'でんき' };
+
 /**
  * ダメージ計算。rng は { chance(p), int(min,max) } を持つもの。
  * 戻り値 { dmg, eff, crit }
@@ -114,7 +117,13 @@ export function damage(attacker, defender, move, rng, weather = null) {
     eff = 0;
     levitated = true;
   }
-  if (eff === 0) return { dmg: 0, eff: 0, crit: false, levitated };
+  // ちょすい/ちくでん: 該当タイプの技を無効化し、あとで呼び出し側がHPを回復させる。
+  let absorbedBy = null;
+  if (ABILITY_ABSORB_TYPE[defender.species?.ability] === move.type && eff !== 0) {
+    eff = 0;
+    absorbedBy = defender.species.ability;
+  }
+  if (eff === 0) return { dmg: 0, eff: 0, crit: false, levitated, absorbedBy };
 
   const phys = move.category === '物理';
   const critRate = move.effect?.kind === 'highCrit' ? HIGH_CRIT_RATE : CRIT_RATE;
