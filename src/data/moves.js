@@ -246,6 +246,11 @@ export const MOVES = {
     effect: { kind: 'status', status: 'こおり', chance: 10 },
     desc: 'こおりのように つめたい こぶしで なぐる。こおらせる ことが ある。',
   },
+  'ふぶき': {
+    type: 'こおり', category: '特殊', power: 110, accuracy: 70, pp: 5,
+    effect: { kind: 'status', status: 'こおり', chance: 10 },
+    desc: 'はげしい ふぶきを ぶつける。こおらせる ことが ある。',
+  },
 
   // ---- かくとう ----
   'からてチョップ': {
@@ -371,6 +376,11 @@ export const MOVES = {
     effect: { kind: 'stat', target: 'foe', stat: 'spd', stages: -1, chance: 20 },
     desc: 'くろい かたまりを なげつける。とくぼうを さげる ことが ある。',
   },
+  'シャドークロー': {
+    type: 'ゴースト', category: '物理', power: 70, accuracy: 100, pp: 15,
+    effect: { kind: 'highCrit' },
+    desc: 'かげの つめで きりさく。きゅうしょに あたりやすい。',
+  },
 
   // ---- むし ----
   'むしくい': {
@@ -416,6 +426,16 @@ export const MOVES = {
     type: 'ドラゴン', category: '物理', power: 80, accuracy: 100, pp: 15,
     desc: 'するどい つめで きりさく。',
   },
+  'りゅうせいぐん': {
+    type: 'ドラゴン', category: '特殊', power: 130, accuracy: 90, pp: 5,
+    effect: { kind: 'stat', target: 'self', stat: 'spa', stages: -2, chance: 100 },
+    desc: 'りゅうせいを あいてに ふらせる。はんどうで じぶんの とくこうが さがる。',
+  },
+  'たつまき': {
+    type: 'ドラゴン', category: '特殊', power: 40, accuracy: 100, pp: 20,
+    effect: { kind: 'flinch', chance: 20 },
+    desc: 'はげしい たつまきを まきおこす。ひるませる ことが ある。',
+  },
 
   // ---- あく ----
   'かみつく': {
@@ -432,6 +452,11 @@ export const MOVES = {
     type: 'あく', category: '物理', power: 60, accuracy: null, pp: 5, priority: 1,
     desc: 'すきを ついて こうげきする。かならず さきに でる。',
   },
+  'かみくだく': {
+    type: 'あく', category: '物理', power: 80, accuracy: 100, pp: 15,
+    effect: { kind: 'stat', target: 'foe', stat: 'def', stages: -1, chance: 20 },
+    desc: 'つよい あごで かみくだく。あいての ぼうぎょを さげる ことが ある。',
+  },
 
   // ---- はがね ----
   'メタルクロー': {
@@ -447,6 +472,11 @@ export const MOVES = {
     type: 'はがね', category: '物理', power: 18, accuracy: 90, pp: 15,
     effect: { kind: 'multiHit' },
     desc: 'はがねの こぶしで 2〜5かい つづけて なぐる。',
+  },
+  'アイアンテール': {
+    type: 'はがね', category: '物理', power: 100, accuracy: 75, pp: 15,
+    effect: { kind: 'stat', target: 'foe', stat: 'def', stages: -1, chance: 30 },
+    desc: 'かたい しっぽで たたきつける。あいての ぼうぎょを さげる ことが ある。',
   },
 
   // ---- フェアリー ----
