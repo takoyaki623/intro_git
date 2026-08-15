@@ -637,7 +637,10 @@ export class BattleScene {
       });
     }
     if (!this.hidden.mine) {
-      const sprite = mine.shiny ? shinyVariant(mine.species.sprite) : mine.species.sprite;
+      // 背面スプライトがある種族(B4, 最終進化12種)はそちらを使う。
+      // 無い種族は今まで通り 正面+反転 でフォールバックする。
+      const base = mine.species.backSprite ?? mine.species.sprite;
+      const sprite = mine.shiny ? shinyVariant(base) : base;
       drawSprite(ctx, sprite, MINE_X, MINE_Y + this.spriteOffset.mine, {
         scale: MINE_SCALE,
         flip: true,

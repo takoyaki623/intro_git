@@ -43,7 +43,7 @@ import { RIVAL_BATTLES } from './src/data/rival.js';
 const getAnyTrainer = (id) => TRAINERS[id]
   ?? (RIVAL_BATTLES[id] && { ...RIVAL_BATTLES[id], party: RIVAL_BATTLES[id].party(4) });
 import { SONGS } from './src/core/music.js';
-import { SPR } from './src/data/sprites/monsters.js';
+import { SPR, SPR_BACK } from './src/data/sprites/monsters.js';
 import { mulberry32 } from './src/core/rng.js';
 import {
   calcHP, calcStat, calcAllStats, damage, accuracyCheck, expGain,
@@ -489,6 +489,23 @@ for (const [key, def] of Object.entries(SPR)) {
   const unknown = new Set();
   for (const r of def.pixels) for (const ch of r) if (!(ch in def.palette)) unknown.add(ch);
   check(`${key} のパレットが完備`, unknown.size === 0, [...unknown].join(''));
+}
+// 背面スプライト(B4, 最終進化12種のみ)。SPR とは別エクスポートなので同じ検証をもう一度かける。
+for (const [key, def] of Object.entries(SPR_BACK)) {
+  check(`${key}(背面) は 24 行`, def.pixels.length === 24, String(def.pixels.length));
+  const w = new Set(def.pixels.map((r) => r.length));
+  check(`${key}(背面) の行幅がすべて 24`, w.size === 1 && w.has(24), [...w].join('/'));
+  const unknown = new Set();
+  for (const r of def.pixels) for (const ch of r) if (!(ch in def.palette)) unknown.add(ch);
+  check(`${key}(背面) のパレットが完備`, unknown.size === 0, [...unknown].join(''));
+}
+check('背面スプライトは 12種ちょうど', Object.keys(SPR_BACK).length === 12, `${Object.keys(SPR_BACK).length}種`);
+{
+  const withBack = speciesList.filter((sp) => sp.backSprite);
+  check('backSprite を持つ種族は 12種', withBack.length === 12, `${withBack.length}種`);
+  for (const sp of withBack) {
+    check(`${sp.name} の backSprite は自分の正面と同じパレット`, sp.backSprite.palette === sp.sprite.palette);
+  }
 }
 for (const [key, def] of Object.entries(TILE_SPR)) {
   const w = new Set(def.pixels.map((r) => r.length));
