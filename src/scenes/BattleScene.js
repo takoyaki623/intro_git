@@ -264,7 +264,7 @@ export class BattleScene {
         render: mark ? (ctx, px, py) => drawText(ctx, mark.ch, px + 88, py, { color: mark.color }) : null,
       };
     });
-    this.moveMenu = new Menu(items, { cols: 2, x: 12, y: BOX_Y + 6, lineH: 15, colW: 108 });
+    this.moveMenu = new Menu(items, { cols: 2, x: 12, y: BOX_Y - 8, lineH: 15, colW: 108 });
   }
 
   // ---- サブ画面 ----
@@ -904,11 +904,13 @@ export class BattleScene {
     }
 
     if (this.mode === 'moveSelect') {
-      drawWindow(ctx, 4, BOX_Y, 248, 40);
+      drawWindow(ctx, 4, BOX_Y - 14, 248, 54);
       this.moveMenu.render(ctx);
       const cur = this.moveMenu.current;
       if (cur?.def) {
-        drawTypeTag(ctx, cur.def.type, TYPE_COLOR[cur.def.type], 138, BOX_Y + 26);
+        const w = drawTypeTag(ctx, cur.def.type, TYPE_COLOR[cur.def.type], 12, BOX_Y + 26);
+        const power = cur.def.power > 0 ? String(cur.def.power) : 'ー';
+        drawText(ctx, `いりょく ${power}`, 12 + w + 6, BOX_Y + 26, { color: COL.ink });
         drawTextRight(ctx, `PP ${cur.mv.pp}/${cur.mv.maxPp}`, 246, BOX_Y + 26, { color: COL.ink });
       }
       return;

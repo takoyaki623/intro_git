@@ -35,6 +35,7 @@ import { MAPS, mapWidth, tileKeyAt } from './src/data/maps/index.js';
 import { CHARS } from './src/data/sprites/chars.js';
 import { TRAINERS, BADGES, prizeMoney } from './src/data/trainers.js';
 import { RIVAL_BATTLES } from './src/data/rival.js';
+import { ABILITY_DESC, getAbilityDesc } from './src/data/abilities.js';
 
 // ライバルは TRAINERS ではなく RIVAL_BATTLES にいて、party が
 // 御三家(starterId)からその場で組み立てる関数になっている。
@@ -426,6 +427,10 @@ section('データ整合性 ― とくせい（Phase V / B1）');
     if (sp.ability) {
       check(`${sp.name} の ${sp.ability} は実装済み`, IMPLEMENTED_ABILITIES.includes(sp.ability), sp.ability);
     }
+  }
+  // A1: 実装済みとくせいには すべて せつめい文があること（つよさをみる で「？？？」にならない）
+  for (const name of IMPLEMENTED_ABILITIES) {
+    check(`とくせい ${name} に せつめいがある`, !!ABILITY_DESC[name] && getAbilityDesc(name) !== '？？？');
   }
 }
 
