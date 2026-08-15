@@ -25,6 +25,7 @@ export class MenuScene {
         { label: 'ポケモン', id: 'party', disabled: state.party.length === 0 },
         { label: 'バッグ', id: 'bag' },
         { label: 'ずかん', id: 'dex' },
+        { label: 'あいしょう', id: 'typechart' },
         { label: 'カード', id: 'card' },
         { label: 'じっせき', id: 'achievements' },
         { label: 'めもちょう', id: 'note' },
@@ -85,6 +86,11 @@ export class MenuScene {
     if (id === 'card') {
       const { TrainerCardScene } = await import('./TrainerCardScene.js');
       Scenes.push(new TrainerCardScene());
+      return;
+    }
+    if (id === 'typechart') {
+      const { TypeChartScene } = await import('./TypeChartScene.js');
+      Scenes.push(new TypeChartScene());
       return;
     }
     if (id === 'achievements') {
