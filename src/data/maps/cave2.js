@@ -53,8 +53,9 @@ export default {
     surf: {
       rate: 10,
       table: [
-        { id: 54, min: 14, max: 20, weight: 70 },   // コダック
+        { id: 54, min: 14, max: 20, weight: 50 },   // コダック
         { id: 129, min: 10, max: 15, weight: 30 },  // コイキング
+        { id: 120, min: 16, max: 20, weight: 20 },  // ヒトデマン。ハナダジムの手前で出会える
       ],
     },
     fish: {
@@ -62,8 +63,9 @@ export default {
       2: {
         chance: 75,
         table: [
-          { id: 54, min: 14, max: 20, weight: 60 },
-          { id: 129, min: 14, max: 18, weight: 40 },
+          { id: 54, min: 14, max: 20, weight: 45 },
+          { id: 129, min: 14, max: 18, weight: 25 },
+          { id: 120, min: 16, max: 20, weight: 30 },
         ],
       },
     },
@@ -71,8 +73,8 @@ export default {
   warps: [
     { x: 2, y: 1, to: 'cave1', tx: 17, ty: 10, dir: 'up' },
     { x: 17, y: 11, to: 'route3', tx: 1, ty: 6, dir: 'right' },
-    // 地底湖の南のはしに、さらに深い水路がある。なみのりで奥へ進むとハナカゴシティに出る。
-    { x: 9, y: 9, to: 'hanakago', tx: 10, ty: 10, dir: 'up' },
+    // 地底湖の南のはしに、さらに深い水路がある。なみのりで奥へ進むとハナダシティに出る。
+    { x: 9, y: 9, to: 'hanada', tx: 10, ty: 10, dir: 'up' },
   ],
   npcs: [
     {

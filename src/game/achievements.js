@@ -38,7 +38,7 @@ export const ACHIEVEMENTS = [
   { id: 'towerTry', name: 'れんせんタワー ちょうせん', desc: 'れんせんタワーに いちど いどむ。', test: (s) => (s.stats?.towerBest ?? 0) >= 1 },
   { id: 'towerClear', name: 'れんせんタワー せいは', desc: `れんせんタワーで ${TOWER_MAX}れんしょうする。`, test: (s) => (s.stats?.towerBest ?? 0) >= TOWER_MAX },
 
-  { id: 'allBadges', name: 'よんバッジ', desc: `${BADGES.length}つの バッジを あつめる。`, test: (s) => BADGES.every((b) => !!s.flags?.[badgeFlag(b.id)]) },
+  { id: 'allBadges', name: 'バッジコンプリート', desc: `${BADGES.length}つの バッジを あつめる。`, test: (s) => BADGES.every((b) => !!s.flags?.[badgeFlag(b.id)]) },
   { id: 'hof1', name: 'でんどうにゅうり', desc: 'チャンピオンに かつ。', test: (s) => (s.hallOfFameCount ?? 0) >= 1 },
   { id: 'hof5', name: 'なんども でんどう', desc: 'でんどうにゅうりを 5かい する。', test: (s) => (s.hallOfFameCount ?? 0) >= 5 },
   { id: 'traders', name: 'こうかんずき', desc: 'カントーの ごさんけを すべて こうかんする。',

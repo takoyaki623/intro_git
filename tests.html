@@ -410,7 +410,7 @@ section('データ整合性 ― タイプと世代のカバレッジ');
 
   const ids = speciesList.map((sp) => sp.id);
   check('種族idに 重複が無い', new Set(ids).size === ids.length);
-  eq('種族の総数', speciesList.length, 68);
+  eq('種族の総数', speciesList.length, 70);
 }
 
 section('データ整合性 ― とくせい（Phase V / B1）');
@@ -1325,19 +1325,24 @@ section('めもちょう ― objective(state) の全分岐');
     /でんきバッジ/.test(objective(mk({ gotStarter: true }))));
   check('いわバッジを持っていない',
     /いわバッジ/.test(objective(mk({ gotStarter: true, badge_denki: true }))));
+  check('みずバッジを持っていない',
+    /みずバッジ/.test(objective(mk({ gotStarter: true, badge_denki: true, badge_iwa: true }))));
   check('くさバッジを持っていない',
-    /くさバッジ/.test(objective(mk({ gotStarter: true, badge_denki: true, badge_iwa: true }))));
+    /くさバッジ/.test(objective(mk({
+      gotStarter: true, badge_denki: true, badge_iwa: true, badge_mizu: true,
+    }))));
   check('ゴーストバッジを持っていない',
     /ゴーストジム/.test(objective(mk({
-      gotStarter: true, badge_denki: true, badge_iwa: true, badge_kusa: true,
+      gotStarter: true, badge_denki: true, badge_iwa: true, badge_mizu: true, badge_kusa: true,
     }))));
-  check('4バッジ持ちだが 殿堂入りしていない',
+  check('5バッジ持ちだが 殿堂入りしていない',
     /ポケモンリーグ/.test(objective(mk({
-      gotStarter: true, badge_denki: true, badge_iwa: true, badge_kusa: true, badge_ghost: true,
+      gotStarter: true, badge_denki: true, badge_iwa: true, badge_mizu: true, badge_kusa: true,
+      badge_ghost: true,
     }))));
   const cleared = {
-    gotStarter: true, badge_denki: true, badge_iwa: true, badge_kusa: true, badge_ghost: true,
-    hallOfFame: true,
+    gotStarter: true, badge_denki: true, badge_iwa: true, badge_mizu: true, badge_kusa: true,
+    badge_ghost: true, hallOfFame: true,
   };
   const traded = {
     ...cleared,
@@ -1387,10 +1392,11 @@ section('じっせき（B3）― 境界値');
   }
   {
     const s = blank();
-    s.flags = { badge_denki: true, badge_iwa: true, badge_kusa: true };
-    check('バッジは3つでは未達成', !byId(achievementStatus(s)).allBadges);
-    s.flags.badge_ghost = true;
-    check('4つ揃うと達成', byId(achievementStatus(s)).allBadges);
+    s.flags = {};
+    for (const b of BADGES.slice(0, -1)) s.flags[`badge_${b.id}`] = true;
+    check(`バッジは${BADGES.length - 1}つでは未達成`, !byId(achievementStatus(s)).allBadges);
+    s.flags[`badge_${BADGES[BADGES.length - 1].id}`] = true;
+    check(`${BADGES.length}つ揃うと達成`, byId(achievementStatus(s)).allBadges);
   }
   {
     const s = blank(); s.stats.towerBest = TOWER_TRAINERS.length - 1;

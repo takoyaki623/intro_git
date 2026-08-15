@@ -3,6 +3,7 @@
 import { TILE } from '../data/tiles.js';
 import { state, getFlag } from './state.js';
 import { createMonster } from './monster.js';
+import { badgeFlag } from '../data/trainers.js';
 
 const MIN_STEPS = 3; // 遭遇直後の連続エンカウントを抑える
 
@@ -54,11 +55,13 @@ export function stepCheck(map, tileKey, rng) {
 /**
  * つり。かかれば { speciesId, level }、逃げられたら null。
  * power はつりざおの性能（大きいほど良いものが釣れる）。
+ * みずバッジがあると、かかる確率が1.2倍になる（ハナダジムの ごほうび）。
  */
 export function fishCheck(map, power, rng) {
   const spot = map.water?.fish?.[power];
   if (!spot) return null;
-  if (!rng.chance(spot.chance / 100)) return null;
+  const badgeMul = getFlag(badgeFlag('mizu')) ? 1.2 : 1;
+  if (!rng.chance(Math.min(1, (spot.chance / 100) * badgeMul))) return null;
   return pick(spot.table, rng);
 }
 

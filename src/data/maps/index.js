@@ -24,11 +24,16 @@ import gym4 from './gym4.js';
 import legendroom from './legendroom.js';
 import center4 from './center4.js';
 import mart3 from './mart3.js';
+import hanada from './hanada.js';
+import gym5 from './gym5.js';
+import center5 from './center5.js';
+import mart4 from './mart4.js';
 
 export const MAPS = {
   hajimari, myhouse, center, mart, gym, route1, forest,
   tokiwa, center3,
   route2, nibi, center2, mart2, gym2, cave1, cave2,
+  hanada, gym5, center5, mart4,
   hanakago, gym3, ghostcave, gym4, center4, mart3,
   route3, leaguecenter, league, legendroom,
 };

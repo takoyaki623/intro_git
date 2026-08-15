@@ -5,7 +5,7 @@ export default {
     '.': 'path', ',': 'grass', 'T': 'tree', 'F': 'flower', 'S': 'sign',
     'D': 'door', 'W': 'wall', 'R': 'roof', 'O': 'window',
   },
-  // 南が おつきみやま ちいてい こ（なみのりで来る）、北が ボレイどうくつ。
+  // 南が ハナダシティ、北が ボレイどうくつ。
   // 屋根の3棟は西から くさジム／ポケモンセンター／ショップ。
   tiles: [
     'TTTTTTTTTTTTTTTTTTTTTTT',
@@ -27,8 +27,8 @@ export default {
   fly: { label: 'ハナカゴシティ', x: 11, y: 9 },
   encounters: null,
   warps: [
-    { x: 10, y: 11, to: 'cave2', tx: 9, ty: 8, dir: 'down' },
-    { x: 11, y: 11, to: 'cave2', tx: 9, ty: 8, dir: 'down' },
+    { x: 10, y: 11, to: 'hanada', tx: 10, ty: 2, dir: 'down' },
+    { x: 11, y: 11, to: 'hanada', tx: 11, ty: 2, dir: 'down' },
     { x: 10, y: 1, to: 'ghostcave', tx: 5, ty: 8, dir: 'up' },
     { x: 11, y: 1, to: 'ghostcave', tx: 6, ty: 8, dir: 'up' },
     { x: 4, y: 4, to: 'gym3', tx: 5, ty: 9, dir: 'up' },

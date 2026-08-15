@@ -398,6 +398,44 @@ export const SPECIES = {
     dex: 'いつも ずつうに なやんでいる。あたまが いたむほど ふしぎな ちからが つよくなる。',
   },
 
+  // ---------- ヒトデマン系（みず／みず・エスパー・1世代） ----------
+  120: {
+    name: 'ヒトデマン', types: ['みず'], ability: 'すいすい',
+    base: { hp: 30, atk: 45, def: 55, spa: 70, spd: 55, spe: 85 },
+    learnset: [
+      { lv: 1, move: 'たいあたり' },
+      { lv: 1, move: 'みずでっぽう' },
+      { lv: 9, move: 'かたくなる' },
+      { lv: 16, move: 'あわ' },
+      { lv: 22, move: 'ねんりき' },
+      { lv: 40, move: 'ハイドロポンプ' },
+    ],
+    tm: ['のしかかり', 'なみのり', 'ねんりき'],
+    evolution: { method: 'stone', item: 'みずのいし', to: 121 },
+    catchRate: 225, baseExp: 68, expType: 'slow', sprite: SPR.hitodeman,
+    height: 0.8, weight: 34.5,
+    dex: 'からだの さいせいりょくが たかい。ちぎれても しばらくすれば もとの すがたに もどる。',
+  },
+  121: {
+    name: 'スターミー', types: ['みず', 'エスパー'], ability: 'すいすい',
+    base: { hp: 60, atk: 75, def: 85, spa: 100, spd: 85, spe: 115 },
+    learnset: [
+      { lv: 1, move: 'たいあたり' },
+      { lv: 1, move: 'みずでっぽう' },
+      { lv: 1, move: 'ねんりき' },
+      { lv: 26, move: 'サイコカッター' },
+      { lv: 32, move: 'なみのり' },
+      { lv: 38, move: 'サイコキネシス' },
+      { lv: 44, move: 'ハイドロポンプ' },
+      { lv: 48, move: 'めいそう' },
+    ],
+    tm: ['のしかかり', 'なみのり', 'ねんりき'],
+    evolution: null,
+    catchRate: 60, baseExp: 182, expType: 'slow', sprite: SPR.sutaamii,
+    height: 1.1, weight: 80.0,
+    dex: 'ちゅうしんの コアが なないろに かがやく。りゅうせいの ように うみを およぎまわる。',
+  },
+
   // ---------- いわ ----------
   74: {
     name: 'イシツブテ', types: ['いわ', 'じめん'], ability: 'すなおこし',

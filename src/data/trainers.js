@@ -157,6 +157,55 @@ export const TRAINERS = {
     ],
   },
 
+  // ---- ハナダシティ（みずジム） ----
+  hanadaGirl1: {
+    class: 'つりびと', name: 'なぎさ', skill: 2, sprite: 'lass', prize: 90, sight: 4,
+    party: [{ id: 129, lv: 22 }, { id: 54, lv: 23 }],
+    intro: ['つりが しゅみなの。いっしょに あそんでいく？'],
+    defeat: ['あーあ、にげられちゃった。'],
+    after: ['この まちは みずタイプの ジムが あるのよ。'],
+  },
+  hanadaBoy1: {
+    class: 'すいえいぶいん', name: 'たける', skill: 2, sprite: 'boy', prize: 95, sight: 4,
+    party: [{ id: 54, lv: 24 }],
+    intro: ['まいにち およいで きたえてるんだ！'],
+    defeat: ['うーん、まだまだ みずが たりないな。'],
+    after: ['カスミさんは みずタイプの エキスパートだよ。'],
+  },
+  hanadaswim1: {
+    class: 'すいえいぶいん', name: 'あかね', skill: 2, sprite: 'girl', prize: 100, sight: 4,
+    party: [{ id: 54, lv: 24 }, { id: 120, lv: 25 }],
+    intro: ['みずタイプは ながれるように たたかうのよ！'],
+    defeat: ['ながされちゃった…'],
+    after: ['カスミさんの ヒトデマンは かたいわよ。'],
+  },
+  hanadaswim2: {
+    class: 'つりびと', name: 'りょう', skill: 2, sprite: 'youngster', prize: 100, sight: 3,
+    party: [{ id: 120, lv: 24 }],
+    intro: ['カスミさんに あうまえに おれを たおしていって！'],
+    defeat: ['やられた…つりの わざも みがかないとな。'],
+    after: ['このさきに カスミさんが いるよ。'],
+  },
+  leaderMizu: {
+    class: 'ジムリーダー', name: 'カスミ', skill: 3, sprite: 'leader', prize: 200, sight: 0,
+    badge: 'mizu',
+    party: [{ id: 54, lv: 25 }, { id: 120, lv: 27 }, { id: 121, lv: 29, held: 'しんぴのしずく' }],
+    items: ['なんでもなおし'],
+    intro: [
+      'よく ここまで きたな。',
+      'わたしが ハナダジムリーダーの カスミよ。',
+      'みずの ながれるような つよさを みせてあげる！',
+    ],
+    defeat: [
+      'やられちゃった… でも いい しょうぶだったわ。',
+      'この みずバッジを うけとって。',
+    ],
+    after: [
+      'みずバッジが あれば、つりで さかなが かかりやすくなるわ。',
+      'つぎは このさきの ハナカゴシティに くさジムが あるわよ。',
+    ],
+  },
+
   // ---- ハナカゴシティ（くさジム） ----
   hanaboy1: {
     class: 'はなやさん', name: 'そういち', skill: 2, sprite: 'youngster', prize: 85, sight: 4,
@@ -338,6 +387,13 @@ export const BADGES = [
     color: '#a08050',
     from: 'ニビジム ／ イワオ',
     effect: 'メニューから そらを とべる（行ったことのある まちへ）',
+  },
+  {
+    id: 'mizu',
+    name: 'みずバッジ',
+    color: '#3878c8',
+    from: 'ハナダジム ／ カスミ',
+    effect: 'つりで さかなが かかりやすくなる（せいこうりつ ×1.2）',
   },
   {
     id: 'kusa',

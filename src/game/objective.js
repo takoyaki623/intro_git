@@ -13,7 +13,8 @@ export function objective(state) {
   if (!f.gotStarter) return 'はかせから さいしょの ポケモンを もらおう。';
   if (!f.badge_denki) return 'トキワジムに いどんで でんきバッジを めざそう。';
   if (!f.badge_iwa) return 'ニビジムに いどんで いわバッジを めざそう。';
-  if (!f.badge_kusa) return 'なみのりで おつきみやまの ちていこの さきへ すすみ、くさバッジを めざそう。';
+  if (!f.badge_mizu) return 'なみのりで おつきみやまの ちていこの さきへ すすみ、みずバッジを めざそう。';
+  if (!f.badge_kusa) return 'ハナカゴジムに いどんで くさバッジを めざそう。';
   if (!f.badge_ghost) return 'ボレイどうくつの おくの ゴーストジムで バッジを めざそう。';
   if (!f.hallOfFame) return 'ポケモンリーグに いどんで チャンピオンを たおそう。';
   // 殿堂入り後にだけ出る導線。towerBest が 0 のうちは「そんな場所がある」ことを知らせ、
