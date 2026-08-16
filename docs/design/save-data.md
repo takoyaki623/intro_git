@@ -69,13 +69,37 @@ type SaveData = {
       tournamentRecords: Record<CupId, { clearedTiers: TierId[] }>;
       defeatedNamed: Record<NamedId, TierId[]>;   // 「全トレーナー」の可視化用
     };
+    seenMatchups: Record<string, true>;           // 既知のタイプ相性（ui-flow.md §6）
   };
 
   // ── 地方ごと（独立・並行進行可能）──
   regions: Record<RegionId, RegionProgress>;
-  activeRegion: RegionId | null;
+
+  // ── 現在地。地方とエンドゲームは排他 ──
+  location:
+    | { kind: "home" }
+    | { kind: "region"; region: RegionId }
+    | { kind: "endgame"; run: ActiveRun };
 
   settings: Settings;
+};
+
+/** 施設・トーナメントの連戦は途中中断できる（§6）。その状態をここに持つ。 */
+type ActiveRun =
+  | ({ kind: "facility"; facility: FacilityId } & RunState)
+  | ({ kind: "tournament"; cup: CupId; tier: TierId } & RunState);
+
+type RunState = {
+  memberUids: string[];              // 持ち込んだ個体
+  rentalParty?: Party;               // レンタル制の場合は実体をここに持つ
+  streak: number;                    // 現在の連勝数
+  battleIndex: number;               // 連戦の何戦目か
+  carriedState?: {                   // carryOverDamage が true の施設用
+    hp: Record<string, number>;
+    pp: Record<string, number[]>;
+    status: Record<string, StatusId | null>;
+  };
+  rngSeed: number;                   // 相手生成の再現用
 };
 
 type RegionProgress = {

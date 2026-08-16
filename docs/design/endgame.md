@@ -235,8 +235,10 @@ type Facility = {
   ruleset: Ruleset;
   opponentPool: { trainerClasses: TrainerClassId[]; gradeByStreak: GradeTable };
   brains: { atStreak: number; character: NamedId }[];
-  rewards: { kind: "bp"; table: BpTable }
-         | { kind: "unlock"; atStreak: number; item: ItemId | SpeciesId }[];
+  rewards: {
+    bp: BpTable;                                                   // 連勝数 → BP単価
+    unlocks: { atStreak: number; grant: ItemId | SpeciesId }[];     // 幻ポケモン等
+  };
   unlockedBy?: { facility: FacilityId; streak: number };
 };
 
