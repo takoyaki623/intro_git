@@ -140,7 +140,7 @@ type EventCommand =
   | { kind: "choice"; prompt: string; options: { text: string; then: EventScript }[] }
   | { kind: "if"; cond: Condition; then: EventScript; else?: EventScript }
   | { kind: "setFlag"; flag: FlagId; value: boolean }
-  | { kind: "battle"; trainer: TrainerId; onWin?: EventScript; onLose?: EventScript }
+  | { kind: "battle"; trainer: TrainerId; onWin?: EventId; onLose?: EventId }  // 参照のみ
   | { kind: "giveItem"; item: ItemId; count: number }
   | { kind: "givePokemon"; species: SpeciesId; level: number }
   | { kind: "takeMoney" | "giveMoney"; amount: number }
@@ -168,6 +168,31 @@ type Condition =
   （[`ui-flow.md`](ui-flow.md) §4 のバトルと同じ考え方 ―― core は時間を持たない）
 - イベントは**原子的に完了する**ものとして扱い、実行の途中状態はセーブしない。
   中断が必要な長大イベントは、フラグで区切って複数イベントに分割する
+
+### `battle` コマンドだけは原子性を保てない
+
+バトルは数分かかる。**「イベントは原子的」という前提と正面から衝突する。**
+ブラウザを閉じられたら、イベントの途中でセーブが存在しない状態になる。
+
+**決定: `battle` コマンドはイベントを2つに分割する境界として扱う。**
+
+```
+イベント前半（会話 → battle 開始）
+      │  ここでフラグを立て、バトルを開始する。イベントはここで終了
+      ▼
+バトル（この間の中断は「バトルからの離脱」として扱う）
+      │
+      ▼
+イベント後半（フラグと勝敗を条件に、別イベントとして起動）
+```
+
+- `battle` コマンドは `EventScript` の**最後のコマンドでなければならない**（検証項目）
+- `onWin` / `onLose` は**別のイベントIDへの参照**にする。インラインのスクリプトにしない
+- バトル中に中断された場合は、次回起動時に**バトル直前の状態から再開**する
+  （トレーナー戦をやり直す。進行は巻き戻らない）
+
+インラインの `onWin` を許すと「バトルを含むイベントの途中状態」が発生し、
+セーブできない領域がゲーム内に生まれてしまう。**型のレベルで塞ぐ。**
 
 ### フラグIDは静的データ側で宣言する
 

@@ -235,6 +235,8 @@ type Evolution = {
 | 19 | **`setFlag` と `Condition` が使うフラグIDが `flags.json` に宣言済み** | [11](world.md) §6 |
 | 20 | マップ上の `trainer` / `item` / `encounters` の参照先が存在する | [11](world.md) §8 |
 | 21 | 全 `EventCommand.kind` にハンドラが登録されている | [11](world.md) §6 |
+| 25 | **`battle` コマンドが `EventScript` の最後にある**（途中に置かせない） | [11](world.md) §6 |
+| 26 | `onWin` / `onLose` の参照先イベントが存在する | [11](world.md) §6 |
 
 ### 経済の検証（12章由来）
 
@@ -243,6 +245,7 @@ type Evolution = {
 | 22 | **`training` カテゴリの道具に `price` がない**（＝お金で買えない） | [12](economy.md) §7 |
 | 23 | ショップの `stock` の全 `item` が存在し `price` を持つ | [12](economy.md) §5 |
 | 24 | 全 `ItemEffect.kind` にハンドラが登録されている | [12](economy.md) §6 |
+| 27 | カップの `entrantPool` が、解放条件と整合している | [06](endgame.md) §7 |
 
 **22 は [`economy.md`](economy.md) §7 の中心原則「お金では個体を強くできない」を
 CIで守るためのもの。** 運用ルールにせず、価格を付けた時点で検証が落ちる形にする。

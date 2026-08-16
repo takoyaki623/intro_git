@@ -14,7 +14,11 @@
 
 ```ts
 type BattleState = { /* 不変。毎ターン新しい状態を返す */ };
-type Action = { kind: "move"; moveIndex: number } | { kind: "switch"; partyIndex: number };
+type Action =
+  | { kind: "move"; moveIndex: number; target?: TargetRef }   // target はダブル対応用に先に用意
+  | { kind: "switch"; partyIndex: number }
+  | { kind: "item"; item: ItemId; targetPartyIndex?: number } // 回復薬・ボール（capture.md §2）
+  | { kind: "run" };                                          // 野生戦からの逃走
 type BattleEvent = { kind: "damage" | "faint" | "statusApplied" | "statChange" | ... };
 
 function step(state: BattleState, actions: [Action, Action]): {
@@ -36,11 +40,28 @@ function step(state: BattleState, actions: [Action, Action]): {
 8. ひんし判定 → 勝敗判定
 ```
 
-**交代は攻撃より常に先に処理される**（優先度の外側の扱い）。
+**交代・道具・逃走は攻撃より常に先に処理される**（優先度の外側の扱い）。
+
+### 道具と逃走（v0.1 の Action に含める）
+
+捕獲（[`capture.md`](capture.md) §2）も、戦闘中の回復薬も、**ターンの行動として実行される**。
+`Action` にこれらがないと、そもそも野生ポケモンを捕まえられない。
+
+| 行動 | 挙動 | 可否 |
+| --- | --- | --- |
+| ボールを投げる | 捕獲判定（[`capture.md`](capture.md) §2）。成功でバトル終了 | 野生戦のみ |
+| 回復薬などの道具 | `ItemEffect` を適用（[`economy.md`](economy.md) §6） | `Ruleset.itemsAllowed` に従う |
+| 逃げる | 素早さ比較で成否判定。成功でバトル終了 | 野生戦のみ |
+
+トレーナー戦・施設では、ボールと逃走は**選択肢に出さない**。
+道具の可否は [`endgame.md`](endgame.md) §4 の `Ruleset.itemsAllowed` が決める。
+
+**v0.1 では `Action` の形だけ用意し、`item` / `run` の中身は v0.3〜v0.4 で実装する。**
+型を後から広げると、行動順の処理を書き直すことになる。
 
 ## 3. 行動順の決定
 
-1. **交代 > 技**（交代は常に先）
+1. **道具・逃走・交代 > 技**（この3つは常に技より先に処理される）
 2. **技の優先度**（`priority`）の降順。でんこうせっか +1、まもる +4、など
 3. **実効素早さ**の降順。まひ時は ×0.5、ランク補正を適用
 4. **同速の場合は乱数**で決定
