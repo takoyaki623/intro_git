@@ -36,7 +36,7 @@
 | 05 | [`regions.md`](regions.md) | 地方チャレンジ詳細（解放条件・相棒枠・殿堂記録） | ✅ 済 |
 | 06 | [`endgame.md`](endgame.md) | バトル施設・ルールセット・BP経済・報酬 | ✅ 済 |
 | 07 | [`ai.md`](ai.md) | CPU AI 設計（思考の深さ × 一貫性の2軸） | ✅ 済 |
-| 08 | `data-schema.md` | 全データスキーマの統合定義 | 未 |
+| 08 | [`data-schema.md`](data-schema.md) | 全データスキーマの統合定義 | ✅ 済 |
 | 09 | `save-data.md` | セーブデータ構造・マイグレーション方針 | 未 |
 | 10 | `ui-flow.md` | 画面遷移・UI構成 | 未 |
 
