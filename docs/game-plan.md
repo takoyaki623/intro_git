@@ -270,11 +270,12 @@ v1.0 到達時点で、拡張が**コード変更なしで可能な状態**に�
 - [x] ネームドの強化方針 → **キャラらしさ優先**（[`design/named-characters.md`](design/named-characters.md)）
 - [x] 準拠世代 → **第9世代**（[`design/battle-system.md`](design/battle-system.md)）
 - [x] 特性・持ち物の導入時期 → **v0.3〜v0.5。ただしフックは v0.1 で用意する**（エンドゲームに必須のため）
+- [x] 孵化・遺伝システム → **実装しない。** アイテムによる直接編集で代替（[`design/progression.md`](design/progression.md)）
+- [x] 相棒枠 → **採用。** レベルを地方の進行度に同期させる（[`design/regions.md`](design/regions.md)）
+- [x] 地方の解放条件 → **ロックしない。全地方を最初から選択可能**（[`design/regions.md`](design/regions.md)）
 
 ### 未決
 
 - [ ] グラフィック素材をどうするか（自作 / フリー素材 / 図形で代替）
-- [ ] 相棒枠（次の地方に1体連れて行ける）を入れるか → `design/regions.md` で決める
 - [ ] ストーリー・主人公は原作準拠かオリジナルか
 - [ ] マップデータの作成方法（Tiled エディタの採用可否）
-- [ ] 地方の解放条件（最初から全開放か、段階解放か） → `design/regions.md` で決める
