@@ -95,13 +95,22 @@ packages/data/
   regions/
     kanto/                 ← 1地方 = 1ディレクトリ = 1リリース
       region.json
+      flags.json           宣言済みフラグID一覧（world.md §6）
       encounters/
       trainers/
       named/
-      maps/
+      maps/                変換済みマップ（world.md §2）
+      events/              イベントスクリプト（world.md §6）
+      shops/               ショップの品揃え（economy.md §5）
     johto/
     ...
+
+  ../../assets/            グラフィック・音声。コードからパス依存しない
+  ../../maps-src/          Tiled の原本（*.tmx）。ビルド対象外
 ```
+
+**Tiled の原本は `packages/data/` の外に置く。** 制作時の中間成果物であり、
+ゲームが読むのは変換後の JSON だけ（[`world.md`](world.md) §2）。
 
 **地方ごとにディレクトリを完全に分ける。** [`regions.md`](regions.md) §8 の
 「1地方 = 1リリース」を、ファイル構成のレベルでも成立させる。
@@ -118,7 +127,8 @@ packages/data/
 | `Species` | [01](battle-system.md) / [03](progression.md) | 種族値・タイプ・特性候補・learnset・捕獲率・経験値タイプ・進化 |
 | `Move` | [01](battle-system.md) §11 | 威力・命中・PP・優先度・`effect`（データ駆動） |
 | `Ability` | [03](progression.md) §6 | 効果ID（技と同じくレジストリ方式） |
-| `Item` / `Ball` | [04](capture.md) §3 | ボール補正は条件付きデータ |
+| `Item` | [12](economy.md) §6 | 分類・価格・`effect`（レジストリ方式） |
+| `Ball` | [04](capture.md) §3 | ボール補正は条件付きデータ |
 | `TypeChart` | [01](battle-system.md) §4 | 18×18 |
 | `Nature` / `ExpTable` | [03](progression.md) | 性格補正・成長曲線テーブル |
 
@@ -167,8 +177,19 @@ type Evolution = {
 | `EncounterTable` | [04](capture.md) §9 |
 | `Facility` / `Tournament` / `Ruleset` | [06](endgame.md) §4, §11 |
 | `HallOfFameEntry` | [05](regions.md) §7 |
+| `MapData` / `Warp` / `MapObject` | [11](world.md) §3, §4 |
+| `EventScript` / `EventCommand` | [11](world.md) §6 |
+| `Shop` | [12](economy.md) §5 |
 
 `Ruleset` は `Facility` と `Tournament` の**両方が持つ**。ここが施設量産の要。
+
+### `Condition` ― 章をまたぐため、ここで所在を明示する
+
+[`world.md`](world.md) §6 で定義した `Condition`（フラグ・バッジ数・所持品による分岐）を、
+**イベント分岐・NPCの出現条件・ショップの品揃え解禁**の3箇所が共有する。
+
+用途ごとに別の条件型を作らないこと。分岐の仕組みが3つに分かれると、
+検証も3回書くことになる。
 
 ## 6. 検証 ― 設計ルールを機械検証に落とす
 
@@ -205,6 +226,31 @@ type Evolution = {
 | 15 | **全 `uid` がちょうど1つの器に属する**（手持ち／地方ボックス／共通ボックスの二重所属を禁止） | [04](capture.md) §4 |
 | 16 | エンジン未対応の要素をデータが使っていない（例: `battleFormat: "double"`） | [01](battle-system.md) §12 |
 
+### マップ・イベントの検証（11章由来）
+
+| # | 項目 | 根拠 |
+| --- | --- | --- |
+| 17 | 全 `warp.to` の接続先マップが存在し、座標が範囲内かつ通行可能タイル | [11](world.md) §3 |
+| 18 | **到達不能な領域がない**（プレイヤーが入れない／出られない区画の検出） | [11](world.md) §8 |
+| 19 | **`setFlag` と `Condition` が使うフラグIDが `flags.json` に宣言済み** | [11](world.md) §6 |
+| 20 | マップ上の `trainer` / `item` / `encounters` の参照先が存在する | [11](world.md) §8 |
+| 21 | 全 `EventCommand.kind` にハンドラが登録されている | [11](world.md) §6 |
+
+### 経済の検証（12章由来）
+
+| # | 項目 | 根拠 |
+| --- | --- | --- |
+| 22 | **`training` カテゴリの道具に `price` がない**（＝お金で買えない） | [12](economy.md) §7 |
+| 23 | ショップの `stock` の全 `item` が存在し `price` を持つ | [12](economy.md) §5 |
+| 24 | 全 `ItemEffect.kind` にハンドラが登録されている | [12](economy.md) §6 |
+
+**22 は [`economy.md`](economy.md) §7 の中心原則「お金では個体を強くできない」を
+CIで守るためのもの。** 運用ルールにせず、価格を付けた時点で検証が落ちる形にする。
+
+19 も同種で、[`world.md`](world.md) §6 の「フラグID宣言必須」を機械化したもの。
+**タイプミスで永久に立たないフラグは、発生してから原因を追うのが極めて困難**なため、
+書いた時点で落とす。
+
 **9〜11 が本作の設計思想そのもの。**
 「全ポケモンが出る」「キャラらしさを保つ」という**願望が、CIの合否になる。**
 
@@ -221,7 +267,10 @@ type Evolution = {
 | ネームド | 約270人 × 3ティア = **810パーティ** |
 | `BattleSet` | 目標 数千（施設の多様性を支える） |
 | 出現テーブル | 地方あたり数十 × 9 |
-| マップ | 数百 |
+| **マップ** | 数百（[`world.md`](world.md)） |
+| **イベントスクリプト** | 地方あたり数百 × 9 |
+| **フラグID** | 地方あたり数百 |
+| 道具 | 数百 |
 
 **手入力が現実的な量ではない。** `tools/` に以下を用意する前提で設計する。
 

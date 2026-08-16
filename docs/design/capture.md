@@ -208,6 +208,7 @@ type EncounterTable = {
 type DexEntry = {
   species: SpeciesId;
   state: "unknown" | "seen" | "caught";
+  shinyCaught: boolean;        // 色違いを捕まえたか（progression.md §13）
   firstCaughtAt?: number;
   caughtRegions: RegionId[];   // どの地方で捕まえたか
 };

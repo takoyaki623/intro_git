@@ -120,7 +120,7 @@ UI:    イベントキューを1件ずつ取り出し、演出して次へ
 
 ### 捕獲地方の表示
 
-`PokemonInstance.meta.caughtRegion`（[`progression.md`](progression.md) §13）を
+`PokemonInstance.meta.caughtRegion`（[`progression.md`](progression.md) §14）を
 一覧に出す。9地方を周回する構造では、**これがプレイヤーの記録＝思い出**になる。
 ボックスを眺めること自体が、本作では collection の体験になる。
 
