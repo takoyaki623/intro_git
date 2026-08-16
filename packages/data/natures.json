@@ -1,0 +1,152 @@
+[
+  {
+    "id": "hardy",
+    "name": "がんばりや",
+    "increased": null,
+    "decreased": null
+  },
+  {
+    "id": "lonely",
+    "name": "さみしがり",
+    "increased": "atk",
+    "decreased": "def"
+  },
+  {
+    "id": "brave",
+    "name": "ゆうかん",
+    "increased": "atk",
+    "decreased": "spe"
+  },
+  {
+    "id": "adamant",
+    "name": "いじっぱり",
+    "increased": "atk",
+    "decreased": "spa"
+  },
+  {
+    "id": "naughty",
+    "name": "やんちゃ",
+    "increased": "atk",
+    "decreased": "spd"
+  },
+  {
+    "id": "bold",
+    "name": "ずぶとい",
+    "increased": "def",
+    "decreased": "atk"
+  },
+  {
+    "id": "docile",
+    "name": "すなお",
+    "increased": null,
+    "decreased": null
+  },
+  {
+    "id": "relaxed",
+    "name": "のんき",
+    "increased": "def",
+    "decreased": "spe"
+  },
+  {
+    "id": "impish",
+    "name": "わんぱく",
+    "increased": "def",
+    "decreased": "spa"
+  },
+  {
+    "id": "lax",
+    "name": "のうてんき",
+    "increased": "def",
+    "decreased": "spd"
+  },
+  {
+    "id": "timid",
+    "name": "おくびょう",
+    "increased": "spe",
+    "decreased": "atk"
+  },
+  {
+    "id": "hasty",
+    "name": "せっかち",
+    "increased": "spe",
+    "decreased": "def"
+  },
+  {
+    "id": "serious",
+    "name": "まじめ",
+    "increased": null,
+    "decreased": null
+  },
+  {
+    "id": "jolly",
+    "name": "ようき",
+    "increased": "spe",
+    "decreased": "spa"
+  },
+  {
+    "id": "naive",
+    "name": "むじゃき",
+    "increased": "spe",
+    "decreased": "spd"
+  },
+  {
+    "id": "modest",
+    "name": "ひかえめ",
+    "increased": "spa",
+    "decreased": "atk"
+  },
+  {
+    "id": "mild",
+    "name": "おっとり",
+    "increased": "spa",
+    "decreased": "def"
+  },
+  {
+    "id": "quiet",
+    "name": "れいせい",
+    "increased": "spa",
+    "decreased": "spe"
+  },
+  {
+    "id": "bashful",
+    "name": "てれや",
+    "increased": null,
+    "decreased": null
+  },
+  {
+    "id": "rash",
+    "name": "うっかりや",
+    "increased": "spa",
+    "decreased": "spd"
+  },
+  {
+    "id": "calm",
+    "name": "おだやか",
+    "increased": "spd",
+    "decreased": "atk"
+  },
+  {
+    "id": "gentle",
+    "name": "おとなしい",
+    "increased": "spd",
+    "decreased": "def"
+  },
+  {
+    "id": "sassy",
+    "name": "なまいき",
+    "increased": "spd",
+    "decreased": "spe"
+  },
+  {
+    "id": "careful",
+    "name": "しんちょう",
+    "increased": "spd",
+    "decreased": "spa"
+  },
+  {
+    "id": "quirky",
+    "name": "きまぐれ",
+    "increased": null,
+    "decreased": null
+  }
+]

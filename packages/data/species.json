@@ -1,0 +1,67 @@
+[
+  {
+    "id": "bulbasaur", "dexNo": 1, "name": "フシギダネ",
+    "types": ["grass", "poison"],
+    "baseStats": { "hp": 45, "atk": 49, "def": 49, "spa": 65, "spd": 65, "spe": 45 },
+    "abilities": ["overgrow"],
+    "learnset": [
+      { "level": 1, "move": "tackle" },
+      { "level": 3, "move": "vine-whip" },
+      { "level": 15, "move": "take-down" }
+    ],
+    "catchRate": 45, "expType": "medium-slow",
+    "evYield": { "spa": 1 }, "genderRatio": 0.875
+  },
+  {
+    "id": "charmander", "dexNo": 4, "name": "ヒトカゲ",
+    "types": ["fire"],
+    "baseStats": { "hp": 39, "atk": 52, "def": 43, "spa": 60, "spd": 50, "spe": 65 },
+    "abilities": ["blaze"],
+    "learnset": [
+      { "level": 1, "move": "tackle" },
+      { "level": 4, "move": "ember" },
+      { "level": 10, "move": "quick-attack" }
+    ],
+    "catchRate": 45, "expType": "medium-slow",
+    "evYield": { "spe": 1 }, "genderRatio": 0.875
+  },
+  {
+    "id": "squirtle", "dexNo": 7, "name": "ゼニガメ",
+    "types": ["water"],
+    "baseStats": { "hp": 44, "atk": 48, "def": 65, "spa": 50, "spd": 64, "spe": 43 },
+    "abilities": ["torrent"],
+    "learnset": [
+      { "level": 1, "move": "tackle" },
+      { "level": 3, "move": "water-gun" },
+      { "level": 15, "move": "take-down" }
+    ],
+    "catchRate": 45, "expType": "medium-slow",
+    "evYield": { "def": 1 }, "genderRatio": 0.875
+  },
+  {
+    "id": "pikachu", "dexNo": 25, "name": "ピカチュウ",
+    "types": ["electric"],
+    "baseStats": { "hp": 35, "atk": 55, "def": 40, "spa": 50, "spd": 50, "spe": 90 },
+    "abilities": ["static"],
+    "learnset": [
+      { "level": 1, "move": "thunder-shock" },
+      { "level": 5, "move": "quick-attack" },
+      { "level": 15, "move": "take-down" }
+    ],
+    "catchRate": 190, "expType": "medium-fast",
+    "evYield": { "spe": 2 }, "genderRatio": 0.5
+  },
+  {
+    "id": "geodude", "dexNo": 74, "name": "イシツブテ",
+    "types": ["rock", "ground"],
+    "baseStats": { "hp": 40, "atk": 80, "def": 100, "spa": 30, "spd": 30, "spe": 20 },
+    "abilities": ["rock-head"],
+    "learnset": [
+      { "level": 1, "move": "tackle" },
+      { "level": 6, "move": "rock-throw" },
+      { "level": 16, "move": "take-down" }
+    ],
+    "catchRate": 255, "expType": "medium-slow",
+    "evYield": { "def": 1 }, "genderRatio": 0.5
+  }
+]

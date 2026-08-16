@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022", "DOM"],
+    "types": ["node"],
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@pkmn/core": ["packages/core/src/index.ts"],
+      "@pkmn/core/*": ["packages/core/src/*"],
+      "@pkmn/data": ["packages/data/src/index.ts"]
+    }
+  },
+  "include": ["packages/**/*.ts", "packages/**/*.json", "tools/**/*.ts", "*.ts"]
+}

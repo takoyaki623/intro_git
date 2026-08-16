@@ -1,0 +1,19 @@
+{
+  "name": "pokemon-rpg",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "個人利用のポケモン風RPG。設計は docs/ を参照。",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "soak": "vitest run soak"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.1",
+    "typescript": "^5.6.3",
+    "vite-node": "^6.0.0",
+    "vitest": "^2.1.4"
+  }
+}
