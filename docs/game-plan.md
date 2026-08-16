@@ -273,9 +273,11 @@ v1.0 到達時点で、拡張が**コード変更なしで可能な状態**に�
 - [x] 孵化・遺伝システム → **実装しない。** アイテムによる直接編集で代替（[`design/progression.md`](design/progression.md)）
 - [x] 相棒枠 → **採用。** レベルを地方の進行度に同期させる（[`design/regions.md`](design/regions.md)）
 - [x] 地方の解放条件 → **ロックしない。全地方を最初から選択可能**（[`design/regions.md`](design/regions.md)）
+- [x] マップの作成方法 → **Tiled を採用。** ただし中間形式として扱い、ビルド時に自作スキーマへ変換する（[`design/world.md`](design/world.md)）
+- [x] 秘伝技 → **廃止。** 進行能力は道具・フラグで解放する（[`design/world.md`](design/world.md)）
+- [x] 全滅時のペナルティ → **既定でお金を失わない。** 設定で原作準拠を選べる（[`design/economy.md`](design/economy.md)）
 
 ### 未決
 
 - [ ] グラフィック素材をどうするか（自作 / フリー素材 / 図形で代替）
 - [ ] ストーリー・主人公は原作準拠かオリジナルか
-- [ ] マップデータの作成方法（Tiled エディタの採用可否）
