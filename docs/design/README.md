@@ -37,7 +37,7 @@
 | 06 | [`endgame.md`](endgame.md) | バトル施設・ルールセット・BP経済・報酬 | ✅ 済 |
 | 07 | [`ai.md`](ai.md) | CPU AI 設計（思考の深さ × 一貫性の2軸） | ✅ 済 |
 | 08 | [`data-schema.md`](data-schema.md) | 全データスキーマの統合定義 | ✅ 済 |
-| 09 | `save-data.md` | セーブデータ構造・マイグレーション方針 | 未 |
+| 09 | [`save-data.md`](save-data.md) | セーブデータ構造・マイグレーション方針 | ✅ 済 |
 | 10 | `ui-flow.md` | 画面遷移・UI構成 | 未 |
 
 ## 依存関係
