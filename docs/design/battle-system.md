@@ -36,7 +36,7 @@ function step(data: GameData, state: BattleState, actions: [Action, Action]): St
 
 - **v0.1 のテストは20種・40技だけの `GameData` を渡せる。** これが v0.1 成立の前提になる
 - `packages/data` は `GameData` の**実装を提供するだけ**。`core` は interface しか知らない
-- 遅延ロード（[`data-schema.md`](data-schema.md) §8）を後から入れても `core` は無変更
+- 遅延ロード（[`data-schema.md`](data-schema.md) §9）を後から入れても `core` は無変更
 
 依存の向き `game → core → data`（[`../game-plan.md`](../game-plan.md) §7）は、
 **型の依存であって実体の依存ではない**、という形にする。
