@@ -34,7 +34,7 @@
 | 03 | [`progression.md`](progression.md) | 育成（経験値・努力値/個体値・性格・特性・進化） | ✅ 済 |
 | 04 | [`capture.md`](capture.md) | 捕獲・ボール・共通ボックス・図鑑 | ✅ 済 |
 | 05 | [`regions.md`](regions.md) | 地方チャレンジ詳細（解放条件・相棒枠・殿堂記録） | ✅ 済 |
-| 06 | `endgame.md` | バトル施設・ルールセット・BP経済・報酬 | 未 |
+| 06 | [`endgame.md`](endgame.md) | バトル施設・ルールセット・BP経済・報酬 | ✅ 済 |
 | 07 | [`ai.md`](ai.md) | CPU AI 設計（思考の深さ × 一貫性の2軸） | ✅ 済 |
 | 08 | `data-schema.md` | 全データスキーマの統合定義 | 未 |
 | 09 | `save-data.md` | セーブデータ構造・マイグレーション方針 | 未 |
