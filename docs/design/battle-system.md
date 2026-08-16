@@ -12,6 +12,58 @@
   描画層はイベント列を受け取って演出するだけ。これにより**UIなしでバトルが完走できる**（= v0.1 が成立する）。
 - 乱数は**シード固定の疑似乱数**。同じシード・同じ入力なら必ず同じ結果になる。テストの前提。
 
+### マスタデータの受け渡し ― `core` はデータを「持たない」
+
+`core` は種族値や技の威力を知らなければ計算できない。
+だが**モジュールとして直接 import すると、`core` が全データに静的に依存してしまう。**
+テストで20種だけを使うこともできず、遅延ロードもできなくなる。
+
+**決定: マスタデータは引数で渡す（依存性注入）。`core` はグローバルなデータを一切参照しない。**
+
+```ts
+interface GameData {
+  species(id: SpeciesId): Species;
+  move(id: MoveId): Move;
+  ability(id: AbilityId): Ability;
+  item(id: ItemId): Item;
+  typeChart: TypeChart;
+  natures: Record<NatureId, NatureModifier>;
+}
+
+// core の関数はすべて GameData を第1引数に取る
+function step(data: GameData, state: BattleState, actions: [Action, Action]): StepResult;
+```
+
+- **v0.1 のテストは20種・40技だけの `GameData` を渡せる。** これが v0.1 成立の前提になる
+- `packages/data` は `GameData` の**実装を提供するだけ**。`core` は interface しか知らない
+- 遅延ロード（[`data-schema.md`](data-schema.md) §8）を後から入れても `core` は無変更
+
+依存の向き `game → core → data`（[`../game-plan.md`](../game-plan.md) §7）は、
+**型の依存であって実体の依存ではない**、という形にする。
+
+### バトル参加者の正規化
+
+バトルに出るポケモンの出どころは3つあり、**形がすべて違う**。
+
+| 出どころ | 型 | 性質 |
+| --- | --- | --- |
+| プレイヤーの個体 | `PokemonInstance` | 実在する個体。HP・PP・経験値を持つ |
+| ネームドのパーティ | `Party`（仕様） | 「Lv50のリザードン」という**設計図** |
+| 施設の相手 | `BattleSet` | 同上。`grade` から個体値を導出 |
+
+**`core` はこの3つを直接扱わない。** 入口で1つの型に正規化する。
+
+```ts
+function toBattlePokemon(data: GameData, source: PokemonInstance | Party[number] | BattleSet,
+                         levelOverride?: number): BattlePokemon;
+```
+
+- `levelOverride` が[`progression.md`](progression.md) §12 のレベル同期を担う
+- 実数値の計算（[`progression.md`](progression.md) §2）はここで1回だけ行い、
+  以降バトル中は計算済みの値を使う
+- **バトルエンジンは出自を区別しない**（[`data-schema.md`](data-schema.md) §5）を、
+  この関数が実際に成立させている
+
 ```ts
 type BattleState = { /* 不変。毎ターン新しい状態を返す */ };
 type Action =
@@ -196,6 +248,56 @@ interface Rng {
 
 **乱数を使う箇所を1箇所に集約する。** `Math.random()` を `core` 内で直接呼ぶことを禁止する
 （lint ルールで機械的に禁止する）。
+
+## 10.5 バトル終了後の処理（戦闘後シーケンス）
+
+**「バトル終了イベントに戦闘結果を含める」の一行しかなかった部分。**
+経験値・努力値・進化・図鑑・賞金は、それぞれ別の章で設計されているが、
+**誰がいつ実行するかが、どの章にも書かれていなかった。**
+
+`core` の別モジュールが、決まった順序で1回だけ実行する。
+
+```ts
+function applyBattleResult(data: GameData, save: SaveData, result: BattleResult): {
+  save: SaveData;
+  notifications: PostBattleEvent[];   // レベルアップ・進化・技習得の提案をUIへ
+};
+```
+
+### 実行順（この順序が重要）
+
+| 順 | 処理 | 定義章 |
+| --- | --- | --- |
+| 1 | 参加個体に**経験値を付与**（周回加速の倍率を適用） | [03](progression.md) §7 |
+| 2 | **レベルアップ判定** → 実数値の再計算 | [03](progression.md) §2 |
+| 3 | **技習得の提案**（レベル技。4つ埋まっていれば入れ替えを問う） | [03](progression.md) §8 |
+| 4 | **努力値を付与**（倒した種族の獲得努力値） | [03](progression.md) §4 |
+| 5 | **なつき度を更新** | [03](progression.md) §11 |
+| 6 | **進化判定**（§下記） | [03](progression.md) §11 |
+| 7 | **図鑑を更新**（対面した種を `seen`、捕獲した種を `caught`・色違いなら `shinyCaught`） | [04](capture.md) §6 |
+| 8 | **賞金を加算**（トレーナー戦のみ） | [12](economy.md) §4 |
+| 9 | **HP・PP・状態異常を個体へ書き戻す** | ― |
+| 10 | **オートセーブ** | [09](save-data.md) §6 |
+
+**2 の前に 4 を行わない。** 努力値はレベルアップ後の実数値計算に影響するため、
+順序が変わると計算結果が変わる。
+
+### 進化判定のタイミング（未定義だった）
+
+| 契機 | 判定する条件 |
+| --- | --- |
+| **バトル終了後（レベルアップした個体のみ）** | `level` / `friendship` / `knownMove` / `location` |
+| 道具を使ったとき | `item` / `link`（つながりのヒモ） |
+
+- 進化はプレイヤーがキャンセルできる（原作準拠）
+- 進化すると `learnset` が変わるため、**3（技習得）より後に置く**。
+  進化後の技は次のレベルアップから提案される
+
+### レンタル個体は対象外
+
+`teamSource: "rental"`（[`endgame.md`](endgame.md) §4）の個体は実体を持たないため、
+1〜6・9 をすべて飛ばす。図鑑（7）も更新しない ―― **レンタルで見た種で図鑑が埋まると、
+収集の意味が失われる。**
 
 ## 11. 技の効果のデータ表現
 

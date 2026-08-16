@@ -84,6 +84,17 @@ type SaveData = {
   settings: Settings;
 };
 
+/** 各章が「設定で選べる」と書いていた項目の集約。定義がどこにもなかったためここで確定する。 */
+type Settings = {
+  battleSpeed: "normal" | "fast" | "logOnly";   // ui-flow.md §4
+  skipCaptureAnimation: boolean;                // capture.md §8
+  disclosureLevel: "basic" | "advanced";        // ui-flow.md §6
+  lossPenalty: "none" | "classic";              // economy.md §2
+  autoSave: boolean;
+  textSpeed: "slow" | "normal" | "fast";
+  volume: { bgm: number; se: number };
+};
+
 /** 施設・トーナメントの連戦は途中中断できる（§6）。その状態をここに持つ。 */
 type ActiveRun =
   | ({ kind: "facility"; facility: FacilityId } & RunState)

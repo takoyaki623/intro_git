@@ -131,6 +131,9 @@ packages/data/
 | `Ball` | [04](capture.md) §3 | ボール補正は条件付きデータ |
 | `TypeChart` | [01](battle-system.md) §4 | 18×18 |
 | `Nature` / `ExpTable` | [03](progression.md) | 性格補正・成長曲線テーブル |
+| `GameData` | [01](battle-system.md) §1 | **マスタデータ参照の interface。`core` はこれしか知らない** |
+| `BattlePokemon` | [01](battle-system.md) §1 | 3つの出どころを正規化したバトル用の形 |
+| `Settings` | [09](save-data.md) §3 | 各章の「設定で選べる」の集約 |
 
 ### 進化 ― 章をまたぐため、ここで定義する
 
