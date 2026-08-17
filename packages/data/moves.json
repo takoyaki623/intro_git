@@ -8,7 +8,8 @@
     "accuracy": 100,
     "pp": 35,
     "priority": 0,
-    "target": "foe"
+    "target": "foe",
+    "contact": true
   },
   {
     "id": "scratch",
@@ -19,7 +20,8 @@
     "accuracy": 100,
     "pp": 35,
     "priority": 0,
-    "target": "foe"
+    "target": "foe",
+    "contact": true
   },
   {
     "id": "pound",
@@ -30,7 +32,8 @@
     "accuracy": 100,
     "pp": 35,
     "priority": 0,
-    "target": "foe"
+    "target": "foe",
+    "contact": true
   },
   {
     "id": "quick-attack",
@@ -41,7 +44,8 @@
     "accuracy": 100,
     "pp": 30,
     "priority": 1,
-    "target": "foe"
+    "target": "foe",
+    "contact": true
   },
   {
     "id": "fury-attack",
@@ -53,6 +57,7 @@
     "pp": 20,
     "priority": 0,
     "target": "foe",
+    "contact": true,
     "effect": {
       "kind": "multiHit",
       "min": 2,
@@ -69,6 +74,7 @@
     "pp": 15,
     "priority": 0,
     "target": "foe",
+    "contact": true,
     "effect": {
       "kind": "flinch",
       "chance": 0.3
@@ -84,6 +90,7 @@
     "pp": 15,
     "priority": 0,
     "target": "foe",
+    "contact": true,
     "effect": {
       "kind": "status",
       "status": "paralysis",
@@ -100,6 +107,7 @@
     "pp": 20,
     "priority": 0,
     "target": "foe",
+    "contact": true,
     "effect": {
       "kind": "recoil",
       "ratio": 0.25
@@ -115,6 +123,7 @@
     "pp": 15,
     "priority": 0,
     "target": "foe",
+    "contact": true,
     "effect": {
       "kind": "recoil",
       "ratio": 0.33
@@ -293,6 +302,7 @@
     "pp": 15,
     "priority": 0,
     "target": "foe",
+    "contact": true,
     "effect": {
       "kind": "status",
       "status": "burn",
@@ -426,6 +436,7 @@
     "pp": 15,
     "priority": 0,
     "target": "foe",
+    "contact": true,
     "effect": {
       "kind": "flinch",
       "chance": 0.2
@@ -457,6 +468,7 @@
     "pp": 20,
     "priority": 0,
     "target": "foe",
+    "contact": true,
     "effect": {
       "kind": "status",
       "status": "paralysis",
@@ -535,7 +547,8 @@
     "accuracy": 100,
     "pp": 25,
     "priority": 0,
-    "target": "foe"
+    "target": "foe",
+    "contact": true
   },
   {
     "id": "mega-drain",
@@ -588,7 +601,8 @@
     "accuracy": 100,
     "pp": 15,
     "priority": 0,
-    "target": "foe"
+    "target": "foe",
+    "contact": true
   },
   {
     "id": "sleep-powder",
@@ -682,6 +696,7 @@
     "pp": 15,
     "priority": 0,
     "target": "foe",
+    "contact": true,
     "effect": {
       "kind": "status",
       "status": "freeze",
@@ -730,7 +745,8 @@
     "pp": 25,
     "priority": 0,
     "target": "foe",
-    "critStage": 1
+    "critStage": 1,
+    "contact": true
   },
   {
     "id": "double-kick",
@@ -742,6 +758,7 @@
     "pp": 30,
     "priority": 0,
     "target": "foe",
+    "contact": true,
     "effect": {
       "kind": "multiHit",
       "min": 2,
@@ -757,7 +774,8 @@
     "accuracy": 100,
     "pp": 15,
     "priority": 0,
-    "target": "foe"
+    "target": "foe",
+    "contact": true
   },
   {
     "id": "submission",
@@ -769,6 +787,7 @@
     "pp": 20,
     "priority": 0,
     "target": "foe",
+    "contact": true,
     "effect": {
       "kind": "recoil",
       "ratio": 0.25
@@ -784,6 +803,7 @@
     "pp": 35,
     "priority": 0,
     "target": "foe",
+    "contact": true,
     "effect": {
       "kind": "status",
       "status": "poison",
@@ -834,6 +854,7 @@
     "pp": 20,
     "priority": 0,
     "target": "foe",
+    "contact": true,
     "effect": {
       "kind": "status",
       "status": "poison",
@@ -957,7 +978,8 @@
     "accuracy": 100,
     "pp": 35,
     "priority": 0,
-    "target": "foe"
+    "target": "foe",
+    "contact": true
   },
   {
     "id": "wing-attack",
@@ -968,7 +990,8 @@
     "accuracy": 100,
     "pp": 35,
     "priority": 0,
-    "target": "foe"
+    "target": "foe",
+    "contact": true
   },
   {
     "id": "aerial-ace",
@@ -979,7 +1002,8 @@
     "accuracy": null,
     "pp": 20,
     "priority": 0,
-    "target": "foe"
+    "target": "foe",
+    "contact": true
   },
   {
     "id": "drill-peck",
@@ -990,7 +1014,8 @@
     "accuracy": 100,
     "pp": 20,
     "priority": 0,
-    "target": "foe"
+    "target": "foe",
+    "contact": true
   },
   {
     "id": "brave-bird",
@@ -1002,6 +1027,7 @@
     "pp": 15,
     "priority": 0,
     "target": "foe",
+    "contact": true,
     "effect": {
       "kind": "recoil",
       "ratio": 0.33
@@ -1116,7 +1142,8 @@
     "accuracy": 100,
     "pp": 20,
     "priority": 0,
-    "target": "foe"
+    "target": "foe",
+    "contact": true
   },
   {
     "id": "silver-wind",
@@ -1145,7 +1172,8 @@
     "accuracy": 100,
     "pp": 15,
     "priority": 0,
-    "target": "foe"
+    "target": "foe",
+    "contact": true
   },
   {
     "id": "bug-buzz",
@@ -1249,6 +1277,7 @@
     "pp": 30,
     "priority": 0,
     "target": "foe",
+    "contact": true,
     "effect": {
       "kind": "status",
       "status": "paralysis",
@@ -1313,7 +1342,8 @@
     "accuracy": 100,
     "pp": 15,
     "priority": 0,
-    "target": "foe"
+    "target": "foe",
+    "contact": true
   },
   {
     "id": "bite",
@@ -1325,6 +1355,7 @@
     "pp": 25,
     "priority": 0,
     "target": "foe",
+    "contact": true,
     "effect": {
       "kind": "flinch",
       "chance": 0.3
@@ -1340,6 +1371,7 @@
     "pp": 15,
     "priority": 0,
     "target": "foe",
+    "contact": true,
     "effect": {
       "kind": "statChange",
       "target": "foe",
@@ -1373,6 +1405,7 @@
     "pp": 35,
     "priority": 0,
     "target": "foe",
+    "contact": true,
     "effect": {
       "kind": "statChange",
       "target": "self",
@@ -1391,6 +1424,7 @@
     "pp": 15,
     "priority": 0,
     "target": "foe",
+    "contact": true,
     "effect": {
       "kind": "flinch",
       "chance": 0.3
@@ -1453,6 +1487,7 @@
     "pp": 10,
     "priority": 0,
     "target": "foe",
+    "contact": true,
     "effect": {
       "kind": "drain",
       "ratio": 0.75
@@ -1479,6 +1514,7 @@
     "pp": 10,
     "priority": 0,
     "target": "foe",
+    "contact": true,
     "effect": {
       "kind": "statChange",
       "target": "foe",
@@ -1514,7 +1550,8 @@
     "accuracy": 75,
     "pp": 5,
     "priority": 0,
-    "target": "foe"
+    "target": "foe",
+    "contact": true
   },
   {
     "id": "cross-chop",
@@ -1526,7 +1563,8 @@
     "pp": 5,
     "priority": 0,
     "target": "foe",
-    "critStage": 1
+    "critStage": 1,
+    "contact": true
   },
   {
     "id": "dragon-pulse",
@@ -1548,7 +1586,8 @@
     "accuracy": null,
     "pp": 20,
     "priority": 0,
-    "target": "foe"
+    "target": "foe",
+    "contact": true
   },
   {
     "id": "magnitude",

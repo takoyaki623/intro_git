@@ -9,7 +9,11 @@ import {
   assertCompleteTypeChart,
   MissingDataError,
   TYPES,
+  type Ability,
+  type BattleSet,
+  type Facility,
   type GameData,
+  type Item,
   type Move,
   type NatureModifier,
   type Species,
@@ -17,6 +21,10 @@ import {
   type TypeChart,
 } from "@pkmn/core";
 
+import abilitiesJson from "../abilities.json" with { type: "json" };
+import battleSetsJson from "../battle-sets.json" with { type: "json" };
+import facilitiesJson from "../facilities.json" with { type: "json" };
+import itemsJson from "../items.json" with { type: "json" };
 import movesJson from "../moves.json" with { type: "json" };
 import naturesJson from "../natures.json" with { type: "json" };
 import speciesJson from "../species.json" with { type: "json" };
@@ -53,6 +61,8 @@ function indexById<T extends { id: string }>(items: readonly T[]): ReadonlyMap<s
 const speciesById = indexById(speciesJson as unknown as Species[]);
 const movesById = indexById(movesJson as unknown as Move[]);
 const naturesById = indexById(naturesJson as unknown as NatureModifier[]);
+const abilitiesById = indexById(abilitiesJson as unknown as Ability[]);
+const itemsById = indexById(itemsJson as unknown as Item[]);
 const typeChart = expandTypeChart(
   typeChartJson as unknown as Record<string, Record<string, number>>,
 );
@@ -77,6 +87,16 @@ export const gameData: GameData = {
     if (n === undefined) throw new MissingDataError("nature", id);
     return n;
   },
+  ability: (id) => {
+    const a = abilitiesById.get(id);
+    if (a === undefined) throw new MissingDataError("ability", id);
+    return a;
+  },
+  item: (id) => {
+    const i = itemsById.get(id);
+    if (i === undefined) throw new MissingDataError("item", id);
+    return i;
+  },
   typeChart,
 };
 
@@ -88,11 +108,15 @@ export function createGameData(options: {
   species?: readonly Species[];
   moves?: readonly Move[];
   natures?: readonly NatureModifier[];
+  abilities?: readonly Ability[];
+  items?: readonly Item[];
   typeChart?: TypeChart;
 }): GameData {
   const sp = indexById(options.species ?? (speciesJson as unknown as Species[]));
   const mv = indexById(options.moves ?? (movesJson as unknown as Move[]));
   const na = indexById(options.natures ?? (naturesJson as unknown as NatureModifier[]));
+  const ab = indexById(options.abilities ?? (abilitiesJson as unknown as Ability[]));
+  const it = indexById(options.items ?? (itemsJson as unknown as Item[]));
   const tc = options.typeChart ?? typeChart;
 
   return {
@@ -111,9 +135,29 @@ export function createGameData(options: {
       if (n === undefined) throw new MissingDataError("nature", id);
       return n;
     },
+    ability: (id) => {
+      const a = ab.get(id);
+      if (a === undefined) throw new MissingDataError("ability", id);
+      return a;
+    },
+    item: (id) => {
+      const i = it.get(id);
+      if (i === undefined) throw new MissingDataError("item", id);
+      return i;
+    },
     typeChart: tc,
   };
 }
 
 export const allSpecies = speciesJson as unknown as readonly Species[];
 export const allMoves = movesJson as unknown as readonly Move[];
+export const allAbilities = abilitiesJson as unknown as readonly Ability[];
+export const allItems = itemsJson as unknown as readonly Item[];
+export const allBattleSets = battleSetsJson as unknown as readonly BattleSet[];
+export const allFacilities = facilitiesJson as unknown as readonly Facility[];
+
+export function facilityById(id: string): Facility {
+  const f = allFacilities.find((x) => x.id === id);
+  if (f === undefined) throw new MissingDataError("facility", id);
+  return f;
+}

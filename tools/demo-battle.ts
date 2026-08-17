@@ -104,6 +104,20 @@ function render(event: BattleEvent): string | null {
       return event.winner === null
         ? `\n引き分け`
         : `\n${nameOf(event.winner)} の勝ち`;
+    case "ability":
+      return `  ${nameOf(event.side)} の ${gameData.ability(event.ability).name}!`;
+    case "item":
+      return `  ${nameOf(event.side)} の ${gameData.item(event.item).name}!`;
+    case "itemConsumed":
+      return `  ${nameOf(event.side)} の ${gameData.item(event.item).name} は なくなった`;
+    case "itemDamage":
+      return `  ${nameOf(event.side)} は ${event.amount} 受けた (残り ${event.remainingHp})`;
+    case "endured":
+      return `  ${nameOf(event.side)} は もちこたえた!`;
+    case "cured":
+      return `  ${nameOf(event.side)} の 状態が 元に戻った`;
+    case "abilityChanged":
+      return `  ${nameOf(event.side)} は ${gameData.ability(event.ability).name} になった`;
   }
 }
 
@@ -114,7 +128,7 @@ while (state.result === null) {
   const rng = createRng(state.rng);
   const actions: [Action | null, Action | null] = [null, null];
   for (const side of requiredSides(state)) {
-    actions[side] = chooseRandomAction(state, side, rng);
+    actions[side] = chooseRandomAction(gameData, state, side, rng);
   }
   state = { ...state, rng: rng.state() };
 

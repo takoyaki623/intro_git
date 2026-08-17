@@ -186,8 +186,10 @@ describe("バトル中の挙動", () => {
   });
 
   it("やけどは物理技の威力を半減させる", () => {
-    const a = mon("machop", ["karate-chop"]);
-    const burned = mon("machop", ["karate-chop"]);
+    // ワンリキーは こんじょう を持ち、やけどの威力減少を無視する（v0.5）。
+    // 半減そのものを見るテストなので、特性を持たない種を使う。
+    const a = mon("mankey", ["karate-chop"]);
+    const burned = mon("mankey", ["karate-chop"]);
     burned.status = "burn";
     const target = mon("rattata");
 

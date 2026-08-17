@@ -10,6 +10,10 @@
  */
 
 import type {
+  Ability,
+  AbilityId,
+  Item,
+  ItemId,
   Move,
   MoveId,
   NatureId,
@@ -23,9 +27,10 @@ export interface GameData {
   species(id: SpeciesId): Species;
   move(id: MoveId): Move;
   nature(id: NatureId): NatureModifier;
+  /** v0.5 で追加。特性・持ち物も他のマスタデータと同じく注入で受け取る。 */
+  ability(id: AbilityId): Ability;
+  item(id: ItemId): Item;
   readonly typeChart: TypeChart;
-
-  // v0.5 で ability() / item() が加わる
 }
 
 /** 参照先が存在しない場合に投げる。検証スクリプト(v0.4)が本来これを未然に防ぐ。 */

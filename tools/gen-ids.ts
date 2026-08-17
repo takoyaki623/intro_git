@@ -36,12 +36,18 @@ export function generate(): string {
   const species = idsOf("species.json");
   const moves = idsOf("moves.json");
   const natures = idsOf("natures.json");
+  const abilities = idsOf("abilities.json");
+  const items = idsOf("items.json");
+  const battleSets = idsOf("battle-sets.json");
+  const facilities = idsOf("facilities.json");
 
   return `/**
  * 自動生成ファイル。直接編集しないこと。
  *   再生成: npm run gen:ids
  *
- * 種族 ${species.length} / 技 ${moves.length} / 性格 ${natures.length}
+ * 種族 ${species.length} / 技 ${moves.length} / 性格 ${natures.length} /
+ * 特性 ${abilities.length} / 道具 ${items.length} /
+ * BattleSet ${battleSets.length} / 施設 ${facilities.length}
  */
 
 ${union("GeneratedSpeciesId", species)}
@@ -49,6 +55,14 @@ ${union("GeneratedSpeciesId", species)}
 ${union("GeneratedMoveId", moves)}
 
 ${union("GeneratedNatureId", natures)}
+
+${union("GeneratedAbilityId", abilities)}
+
+${union("GeneratedItemId", items)}
+
+${union("GeneratedBattleSetId", battleSets)}
+
+${union("GeneratedFacilityId", facilities)}
 `;
 }
 

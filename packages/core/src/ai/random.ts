@@ -7,13 +7,15 @@
  */
 
 import { legalActions } from "../battle.js";
+import type { GameData } from "../gamedata.js";
 import type { Rng } from "../rng.js";
 import type { Action, BattleState, SideIndex } from "../types.js";
 
 export function chooseRandomAction(
+  data: GameData,
   state: BattleState,
   side: SideIndex,
   rng: Rng,
 ): Action {
-  return rng.pick(legalActions(state, side));
+  return rng.pick(legalActions(data, state, side));
 }

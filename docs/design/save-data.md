@@ -256,6 +256,32 @@ function migrate(data: unknown): SaveData {
 zod検証は「不正の検出」ではなく「クラッシュの防止」のために入れる。
 検証に失敗した個体は、ゲーム全体を止めずにその個体だけ隔離する。
 
+## 9.5 v0.5 の最小セーブ（実装後に追記）
+
+[`../game-plan.md`](../game-plan.md) §8.3 論点1 の決定どおり、
+v0.5 では `localStorage` に記録だけを保存する。ただし**構造は最終形の部分集合にした。**
+
+```ts
+type SaveData = {
+  schemaVersion: 1;
+  global: { bp: number; endgame: { facilityRecords: Record<FacilityId, FacilityRecord> } };
+  settings: { battleSpeed: "normal" | "fast" | "logOnly" };
+};
+```
+
+§3 の入れ子（`global` / `endgame` / `settings`）をそのまま使っているので、
+v0.9 の移行は**項目の追加**で済み、構造の作り直しにならない。
+
+条件だった `SaveStore` の抽象化も入れた。実装は `packages/game/src/save.ts` の1ファイルで、
+v0.9 で IndexedDB に差し替えるとき、呼び出し側は一行も変わらない。
+
+マイグレーションの鎖（§5）は**まだ空のまま形だけ作った**。
+`migrations` が空の `Record` として存在し、`migrate()` が版を見て順に適用する。
+最初の版で作っておかないと、2つ目の版を足すときに必ず1つ飛ばす。
+
+`normalize()` は §9 の方針どおり、**不正の検出ではなくクラッシュの防止**のために置いている。
+壊れた値は既定値に落として読み込み、進行不能にしない。
+
 ## 10. 調整項目（実装後に決める）
 
 - セーブスロット数（複数の冒険を並行させるか、1つで十分か）

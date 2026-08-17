@@ -73,7 +73,7 @@ function parseEffect(src: string, where: string): unknown {
 type MoveOut = {
   id: string; name: string; type: string; category: string;
   power: number | null; accuracy: number | null; pp: number; priority: number;
-  target: string; critStage?: number; effect?: unknown;
+  target: string; critStage?: number; contact?: boolean; effect?: unknown;
 };
 
 function importMoves(): MoveOut[] {
@@ -93,9 +93,146 @@ function importMoves(): MoveOut[] {
     };
     const crit = Number(r["crit"] ?? 0);
     if (crit > 0) move.critStage = crit;
+    if (r["contact"] === "1") move.contact = true;
     const effect = parseEffect(r["effect"] ?? "", where);
     if (effect !== undefined) move.effect = effect;
     return move;
+  });
+}
+
+// ─────────────────────────────────────────────
+// 特性・持ち物（v0.5）
+// ─────────────────────────────────────────────
+
+/**
+ * 特性と持ち物は同じ効果の語彙（HeldEffect）を共有するため、パーサも1つ。
+ *
+ * 記法: kind:引数:引数
+ *   pinchBoost:fire:1.5           → HP1/3以下でほのお技 1.5倍
+ *   typeAbsorb:water:heal:1/4     → みず無効、最大HPの1/4回復
+ *   contactStatus:poison/sleep:0.3 → 接触時 30% でどく か ねむり
+ *   statDropImmunity:all          → 能力低下を全て無効
+ *   inert:理由                    → バトル中は何もしない（理由を必ず書く）
+ *
+ * 割合は 1/16 のような分数で書ける。0.0625 と書くより意図が読める。
+ */
+function parseRatio(src: string | undefined, where: string): number {
+  const text = (src ?? "").trim();
+  const m = /^(-?\d+(?:\.\d+)?)\/(\d+(?:\.\d+)?)$/.exec(text);
+  const value = m === null ? Number(text) : Number(m[1]) / Number(m[2]);
+  if (!Number.isFinite(value)) err(where, `数値として読めない: "${text}"`);
+  return value;
+}
+
+const list = (src: string | undefined): string[] =>
+  (src ?? "").split("/").filter((s) => s !== "");
+
+function parseHeldEffect(src: string, where: string): unknown {
+  if (src === "") return undefined;
+  const [kind, ...a] = src.split(":");
+  const ratio = (i: number) => parseRatio(a[i], where);
+
+  switch (kind) {
+    case "pinchBoost":
+    case "typeBoost":
+      return { kind, moveType: a[0], ratio: ratio(1) };
+    case "superEffectiveBoost":
+      return { kind, ratio: ratio(0) };
+    case "powerRecoil":
+      return { kind, ratio: ratio(0), recoil: ratio(1) };
+    case "typeResist":
+      return { kind, moveTypes: list(a[0]), ratio: ratio(1) };
+    case "statMultiplier": {
+      const out: Record<string, unknown> = { kind, stat: a[0], ratio: ratio(1) };
+      if (a[2] === "banStatus") out["banStatusMoves"] = true;
+      return out;
+    }
+    case "choice":
+      return { kind, stat: a[0], ratio: ratio(1) };
+    case "statusAtkBoost":
+    case "accuracyMultiplier":
+      return { kind, ratio: ratio(0) };
+    case "critStage":
+      return { kind, stages: Number(a[0]) };
+    case "noCrit":
+    case "confusionImmunity":
+    case "noFlinch":
+    case "noRecoil":
+    case "noSecondary":
+    case "endure":
+    case "berryCure":
+    case "switchOutCure":
+    case "synchronize":
+    case "trace":
+    case "pressure":
+    case "earlyBird":
+      return { kind };
+    case "typeAbsorb": {
+      const gain =
+        a[1] === "none" ? { kind: "none" }
+        : a[1] === "heal" ? { kind: "heal", ratio: parseRatio(a[2], where) }
+        : a[1] === "stat" ? { kind: "stat", stat: a[2], stages: Number(a[3]) }
+        : a[1] === "boostMoveType" ? { kind: "boostMoveType", ratio: parseRatio(a[2], where) }
+        : (err(where, `未知の typeAbsorb の効果 "${a[1]}"`), { kind: "none" });
+      return { kind, moveType: a[0], gain };
+    }
+    case "statusImmunity":
+      return { kind, statuses: list(a[0]) };
+    case "statDropImmunity":
+      return { kind, stats: a[0] === "all" ? "all" : list(a[0]) };
+    case "switchInStatChange":
+      return { kind, target: a[0], stat: a[1], stages: Number(a[2]) };
+    case "contactStatus":
+      return { kind, statuses: list(a[0]), chance: ratio(1) };
+    case "contactDamage":
+    case "endOfTurnHeal":
+      return { kind, ratio: ratio(0) };
+    case "addFlinch":
+    case "endOfTurnCure":
+      return { kind, chance: ratio(0) };
+    case "statusOnHolder":
+      return { kind, status: a[0] };
+    case "berryHeal":
+      return { kind, ratio: ratio(0), threshold: ratio(1) };
+    case "trapType":
+      return { kind, trapped: a[0] };
+    case "inert": {
+      // 理由なしの inert を許すと「実装したつもりで何もしない特性」が静かに増える
+      const reason = a.join(":");
+      if (reason === "") err(where, "inert には理由を書くこと");
+      return { kind, reason };
+    }
+    default:
+      err(where, `未知の効果 "${kind}"`);
+      return undefined;
+  }
+}
+
+type AbilityOut = { id: string; name: string; effect: unknown };
+
+function importAbilities(): AbilityOut[] {
+  return readTsv("abilities.tsv").map((r) => {
+    const where = `abilities.tsv/${r["id"]}`;
+    const effect = parseHeldEffect(r["effect"] ?? "", where);
+    if (effect === undefined) err(where, "効果が空（何もしないなら inert:理由 と書く）");
+    return { id: r["id"]!, name: r["name"]!, effect };
+  });
+}
+
+type ItemOut = {
+  id: string; name: string; category: string;
+  price?: number; held?: unknown; consumable?: boolean;
+};
+
+function importItems(): ItemOut[] {
+  return readTsv("items.tsv").map((r) => {
+    const where = `items.tsv/${r["id"]}`;
+    const item: ItemOut = { id: r["id"]!, name: r["name"]!, category: r["category"]! };
+    if ((r["price"] ?? "") !== "") item.price = Number(r["price"]);
+    const held = parseHeldEffect(r["effect"] ?? "", where);
+    if (held !== undefined) item.held = held;
+    if (r["consumable"] === "1") item.consumable = true;
+    return item;
   });
 }
 
@@ -229,9 +366,58 @@ function importSpecies(moves: MoveOut[]): SpeciesOut[] {
 }
 
 // ─────────────────────────────────────────────
+// 施設の相手プール
+// ─────────────────────────────────────────────
+
+type BattleSetOut = {
+  id: string; species: string; moves: string[]; item: string; ability: string;
+  nature: string; evs: Record<string, number>; grade: number; tags: string[];
+};
+
+function importBattleSets(): BattleSetOut[] {
+  return readTsv("battle-sets.tsv").map((r) => {
+    const where = `battle-sets.tsv/${r["id"]}`;
+    const evs: Record<string, number> = {};
+    let total = 0;
+    for (const part of (r["evs"] ?? "").split(",").filter(Boolean)) {
+      const [stat, n] = part.split(":");
+      const value = Number(n);
+      if (value > 252) err(where, `努力値 ${stat} が 252 を超えている (${value})`);
+      evs[stat!] = value;
+      total += value;
+    }
+    if (total > 510) err(where, `努力値の合計が 510 を超えている (${total})`);
+
+    const moves = (r["moves"] ?? "").split("/").filter(Boolean);
+    if (moves.length === 0 || moves.length > 4) {
+      err(where, `技が ${moves.length} 個（1〜4 個）`);
+    }
+    if (new Set(moves).size !== moves.length) err(where, "技が重複している");
+
+    const grade = Number(r["grade"]);
+    if (![1, 2, 3, 4].includes(grade)) err(where, `grade が 1〜4 の外 (${grade})`);
+
+    return {
+      id: r["id"]!,
+      species: r["species"]!,
+      moves,
+      item: r["item"]!,
+      ability: r["ability"]!,
+      nature: r["nature"]!,
+      evs,
+      grade,
+      tags: (r["tags"] ?? "").split("/").filter(Boolean),
+    };
+  });
+}
+
+// ─────────────────────────────────────────────
 function main(): void {
   const moves = importMoves();
   const species = importSpecies(moves);
+  const abilities = importAbilities();
+  const items = importItems();
+  const battleSets = importBattleSets();
 
   if (errors.length > 0) {
     console.error("投入を中止しました:");
@@ -239,12 +425,24 @@ function main(): void {
     process.exit(1);
   }
 
-  writeFileSync(resolve(OUT, "moves.json"), JSON.stringify(moves, null, 2) + "\n");
-  writeFileSync(resolve(OUT, "species.json"), JSON.stringify(species, null, 2) + "\n");
+  const write = (file: string, value: unknown) =>
+    writeFileSync(resolve(OUT, file), JSON.stringify(value, null, 2) + "\n");
+
+  write("moves.json", moves);
+  write("species.json", species);
+  write("abilities.json", abilities);
+  write("items.json", items);
+  write("battle-sets.json", battleSets);
+
+  const inert = abilities.filter(
+    (a) => (a.effect as { kind?: string } | undefined)?.kind === "inert",
+  ).length;
 
   console.log(`投入完了: 種族 ${species.length} / 技 ${moves.length}`);
   console.log(`  種族値のチェックサム ${species.length} 件すべて一致`);
   console.log(`  learnset は全件が暫定（原作の習得レベルではない）`);
+  console.log(`  特性 ${abilities.length}（うち ${inert} 件は機構未実装のため inert）`);
+  console.log(`  持ち物 ${items.length} / BattleSet ${battleSets.length}`);
 }
 
 main();

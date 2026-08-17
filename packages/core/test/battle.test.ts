@@ -22,8 +22,8 @@ function playOut(seed: number): { state: BattleState; events: BattleEvent[]; tur
   while (state.result === null) {
     const rng = createRng(state.rng);
     const actions = [
-      chooseRandomAction(state, 0, rng),
-      chooseRandomAction(state, 1, rng),
+      chooseRandomAction(gameData, state, 0, rng),
+      chooseRandomAction(gameData, state, 1, rng),
     ] as const;
     // AI が消費した乱数も状態に反映する（決定性のため）
     state = { ...state, rng: rng.state() };
@@ -121,7 +121,8 @@ describe("バトルの基本", () => {
 
 describe("効果レジストリ", () => {
   it("とっしんの反動で自分も減る", () => {
-    const attacker = { species: "geodude", level: 50, moves: ["take-down"] };
+    // イシツブテは いしあたま を持ち、反動を受けない（v0.5）。反動そのものを見る
+    const attacker = { species: "rattata", level: 50, moves: ["take-down"] };
     const state = createBattle(gameData, [[attacker], [bulba]], 3);
     const { events } = step(gameData, state, [
       { kind: "move", moveIndex: 0 },
@@ -157,7 +158,7 @@ describe("わるあがき（PP切れでも決着する）", () => {
   it("legalActions は PP 切れでも空にならない", () => {
     const state = createBattle(gameData, [[pika], [bulba]], 1);
     for (const m of state.sides[0].party[0]!.moves) m.pp = 0;
-    expect(legalActions(state, 0).length).toBeGreaterThan(0);
+    expect(legalActions(gameData, state, 0).length).toBeGreaterThan(0);
   });
 });
 

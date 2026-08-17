@@ -1,0 +1,433 @@
+[
+  {
+    "id": "overgrow",
+    "name": "しんりょく",
+    "effect": {
+      "kind": "pinchBoost",
+      "moveType": "grass",
+      "ratio": 1.5
+    }
+  },
+  {
+    "id": "blaze",
+    "name": "もうか",
+    "effect": {
+      "kind": "pinchBoost",
+      "moveType": "fire",
+      "ratio": 1.5
+    }
+  },
+  {
+    "id": "torrent",
+    "name": "げきりゅう",
+    "effect": {
+      "kind": "pinchBoost",
+      "moveType": "water",
+      "ratio": 1.5
+    }
+  },
+  {
+    "id": "swarm",
+    "name": "むしのしらせ",
+    "effect": {
+      "kind": "pinchBoost",
+      "moveType": "bug",
+      "ratio": 1.5
+    }
+  },
+  {
+    "id": "rock-head",
+    "name": "いしあたま",
+    "effect": {
+      "kind": "noRecoil"
+    }
+  },
+  {
+    "id": "poison-point",
+    "name": "どくのトゲ",
+    "effect": {
+      "kind": "contactStatus",
+      "statuses": [
+        "poison"
+      ],
+      "chance": 0.3
+    }
+  },
+  {
+    "id": "static",
+    "name": "せいでんき",
+    "effect": {
+      "kind": "contactStatus",
+      "statuses": [
+        "paralysis"
+      ],
+      "chance": 0.3
+    }
+  },
+  {
+    "id": "flame-body",
+    "name": "ほのおのからだ",
+    "effect": {
+      "kind": "contactStatus",
+      "statuses": [
+        "burn"
+      ],
+      "chance": 0.3
+    }
+  },
+  {
+    "id": "effect-spore",
+    "name": "ほうし",
+    "effect": {
+      "kind": "contactStatus",
+      "statuses": [
+        "poison",
+        "paralysis",
+        "sleep"
+      ],
+      "chance": 0.3
+    }
+  },
+  {
+    "id": "keen-eye",
+    "name": "するどいめ",
+    "effect": {
+      "kind": "statDropImmunity",
+      "stats": [
+        "accuracy"
+      ]
+    }
+  },
+  {
+    "id": "hyper-cutter",
+    "name": "かいりきバサミ",
+    "effect": {
+      "kind": "statDropImmunity",
+      "stats": [
+        "atk"
+      ]
+    }
+  },
+  {
+    "id": "clear-body",
+    "name": "クリアボディ",
+    "effect": {
+      "kind": "statDropImmunity",
+      "stats": "all"
+    }
+  },
+  {
+    "id": "intimidate",
+    "name": "いかく",
+    "effect": {
+      "kind": "switchInStatChange",
+      "target": "foe",
+      "stat": "atk",
+      "stages": -1
+    }
+  },
+  {
+    "id": "water-absorb",
+    "name": "ちょすい",
+    "effect": {
+      "kind": "typeAbsorb",
+      "moveType": "water",
+      "gain": {
+        "kind": "heal",
+        "ratio": 0.25
+      }
+    }
+  },
+  {
+    "id": "volt-absorb",
+    "name": "ちくでん",
+    "effect": {
+      "kind": "typeAbsorb",
+      "moveType": "electric",
+      "gain": {
+        "kind": "heal",
+        "ratio": 0.25
+      }
+    }
+  },
+  {
+    "id": "flash-fire",
+    "name": "もらいび",
+    "effect": {
+      "kind": "typeAbsorb",
+      "moveType": "fire",
+      "gain": {
+        "kind": "boostMoveType",
+        "ratio": 1.5
+      }
+    }
+  },
+  {
+    "id": "levitate",
+    "name": "ふゆう",
+    "effect": {
+      "kind": "typeAbsorb",
+      "moveType": "ground",
+      "gain": {
+        "kind": "none"
+      }
+    }
+  },
+  {
+    "id": "lightning-rod",
+    "name": "ひらいしん",
+    "effect": {
+      "kind": "typeAbsorb",
+      "moveType": "electric",
+      "gain": {
+        "kind": "stat",
+        "stat": "spa",
+        "stages": 1
+      }
+    }
+  },
+  {
+    "id": "synchronize",
+    "name": "シンクロ",
+    "effect": {
+      "kind": "synchronize"
+    }
+  },
+  {
+    "id": "shed-skin",
+    "name": "だっぴ",
+    "effect": {
+      "kind": "endOfTurnCure",
+      "chance": 0.3333333333333333
+    }
+  },
+  {
+    "id": "natural-cure",
+    "name": "しぜんかいふく",
+    "effect": {
+      "kind": "switchOutCure"
+    }
+  },
+  {
+    "id": "pressure",
+    "name": "プレッシャー",
+    "effect": {
+      "kind": "pressure"
+    }
+  },
+  {
+    "id": "guts",
+    "name": "こんじょう",
+    "effect": {
+      "kind": "statusAtkBoost",
+      "ratio": 1.5
+    }
+  },
+  {
+    "id": "limber",
+    "name": "じゅうなん",
+    "effect": {
+      "kind": "statusImmunity",
+      "statuses": [
+        "paralysis"
+      ]
+    }
+  },
+  {
+    "id": "immunity",
+    "name": "めんえき",
+    "effect": {
+      "kind": "statusImmunity",
+      "statuses": [
+        "poison",
+        "toxic"
+      ]
+    }
+  },
+  {
+    "id": "insomnia",
+    "name": "ふみん",
+    "effect": {
+      "kind": "statusImmunity",
+      "statuses": [
+        "sleep"
+      ]
+    }
+  },
+  {
+    "id": "vital-spirit",
+    "name": "やるき",
+    "effect": {
+      "kind": "statusImmunity",
+      "statuses": [
+        "sleep"
+      ]
+    }
+  },
+  {
+    "id": "own-tempo",
+    "name": "マイペース",
+    "effect": {
+      "kind": "confusionImmunity"
+    }
+  },
+  {
+    "id": "inner-focus",
+    "name": "せいしんりょく",
+    "effect": {
+      "kind": "noFlinch"
+    }
+  },
+  {
+    "id": "shield-dust",
+    "name": "りんぷん",
+    "effect": {
+      "kind": "noSecondary"
+    }
+  },
+  {
+    "id": "thick-fat",
+    "name": "あついしぼう",
+    "effect": {
+      "kind": "typeResist",
+      "moveTypes": [
+        "fire",
+        "ice"
+      ],
+      "ratio": 0.5
+    }
+  },
+  {
+    "id": "shell-armor",
+    "name": "シェルアーマー",
+    "effect": {
+      "kind": "noCrit"
+    }
+  },
+  {
+    "id": "magnet-pull",
+    "name": "じりょく",
+    "effect": {
+      "kind": "trapType",
+      "trapped": "steel"
+    }
+  },
+  {
+    "id": "compound-eyes",
+    "name": "ふくがん",
+    "effect": {
+      "kind": "accuracyMultiplier",
+      "ratio": 1.3
+    }
+  },
+  {
+    "id": "stench",
+    "name": "あくしゅう",
+    "effect": {
+      "kind": "addFlinch",
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "trace",
+    "name": "トレース",
+    "effect": {
+      "kind": "trace"
+    }
+  },
+  {
+    "id": "early-bird",
+    "name": "はやおき",
+    "effect": {
+      "kind": "earlyBird"
+    }
+  },
+  {
+    "id": "chlorophyll",
+    "name": "ようりょくそ",
+    "effect": {
+      "kind": "inert",
+      "reason": "天候（にほんばれ）が未実装（v1.1）"
+    }
+  },
+  {
+    "id": "swift-swim",
+    "name": "すいすい",
+    "effect": {
+      "kind": "inert",
+      "reason": "天候（あまごい）が未実装（v1.1）"
+    }
+  },
+  {
+    "id": "sand-veil",
+    "name": "すながくれ",
+    "effect": {
+      "kind": "inert",
+      "reason": "天候（すなあらし）が未実装（v1.1）"
+    }
+  },
+  {
+    "id": "run-away",
+    "name": "にげあし",
+    "effect": {
+      "kind": "inert",
+      "reason": "野生戦からの逃走が未実装（v0.7）"
+    }
+  },
+  {
+    "id": "pickup",
+    "name": "ものひろい",
+    "effect": {
+      "kind": "inert",
+      "reason": "戦闘後の道具取得が未実装（v0.8）"
+    }
+  },
+  {
+    "id": "illuminate",
+    "name": "はっこう",
+    "effect": {
+      "kind": "inert",
+      "reason": "野生の遭遇率に関わるため戦闘外（v0.7）"
+    }
+  },
+  {
+    "id": "cute-charm",
+    "name": "メロメロボディ",
+    "effect": {
+      "kind": "inert",
+      "reason": "メロメロが未実装"
+    }
+  },
+  {
+    "id": "oblivious",
+    "name": "どんかん",
+    "effect": {
+      "kind": "inert",
+      "reason": "メロメロ・ちょうはつが未実装"
+    }
+  },
+  {
+    "id": "soundproof",
+    "name": "ぼうおん",
+    "effect": {
+      "kind": "inert",
+      "reason": "音技のフラグが未実装"
+    }
+  },
+  {
+    "id": "damp",
+    "name": "しめりけ",
+    "effect": {
+      "kind": "inert",
+      "reason": "じばく・だいばくはつが未実装"
+    }
+  },
+  {
+    "id": "cursed-body",
+    "name": "のろわれボディ",
+    "effect": {
+      "kind": "inert",
+      "reason": "かなしばりが未実装"
+    }
+  }
+]

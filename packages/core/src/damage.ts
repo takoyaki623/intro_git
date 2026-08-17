@@ -4,6 +4,15 @@
  */
 
 import type { GameData } from "./gamedata.js";
+import {
+  accuracyMultiplier as heldAccuracyMultiplier,
+  attackMultiplier,
+  blocksCrit,
+  critStageBonus,
+  defendMultiplier,
+  ignoresBurnPenalty,
+  statMultiplier,
+} from "./held.js";
 import type { Rng } from "./rng.js";
 import { accuracyStageMultiplier, clampStage, effectiveStat } from "./stages.js";
 import { BURN_ATTACK_MULTIPLIER } from "./status.js";
@@ -25,6 +34,7 @@ export function critChance(stage: number): number {
  * 実効命中率 = 技の命中率 × 命中ランク補正(命中ランク − 回避ランク)
  */
 export function rollAccuracy(
+  data: GameData,
   attacker: BattlePokemon,
   defender: BattlePokemon,
   move: Move,
@@ -34,7 +44,10 @@ export function rollAccuracy(
   const combined = clampStage(
     attacker.statStages.accuracy - defender.statStages.evasion,
   );
-  const chance = (move.accuracy / 100) * accuracyStageMultiplier(combined);
+  const chance =
+    (move.accuracy / 100) *
+    accuracyStageMultiplier(combined) *
+    heldAccuracyMultiplier(data, attacker);
   return rng.chance(chance);
 }
 
@@ -76,18 +89,25 @@ export function calcDamage(
     return { damage: 0, effectiveness: 0, critical: false };
   }
 
-  const critical =
-    opts.forceCritical ?? rng.chance(critChance(move.critStage ?? 0));
+  // 特性・持ち物は急所ランクを上げることも、急所そのものを封じることもある。
+  // 封じられる場合も抽選は行う ―― 乱数の消費数を特性の有無で変えないため。
+  const critStage = (move.critStage ?? 0) + critStageBonus(data, attacker);
+  const rolledCrit = opts.forceCritical ?? rng.chance(critChance(critStage));
+  const critical = rolledCrit && !blocksCrit(data, defender);
 
   const physical = move.category === "physical";
 
   // 急所は「相手の防御上昇」と「自分の攻撃下降」を無視する
-  const a = effectiveStat(attacker, physical ? "atk" : "spa", {
-    ignoreDrop: critical,
-  });
-  const d = effectiveStat(defender, physical ? "def" : "spd", {
-    ignoreBoost: critical,
-  });
+  const aStat = physical ? "atk" : "spa";
+  const dStat = physical ? "def" : "spd";
+  const a = Math.floor(
+    effectiveStat(attacker, aStat, { ignoreDrop: critical }) *
+      statMultiplier(data, attacker, aStat),
+  );
+  const d = Math.floor(
+    effectiveStat(defender, dStat, { ignoreBoost: critical }) *
+      statMultiplier(data, defender, dStat),
+  );
 
   let dmg =
     Math.floor(
@@ -109,9 +129,15 @@ export function calcDamage(
   // 6. タイプ相性
   dmg = Math.floor(dmg * effectiveness);
 
-  // 7. やけど（物理技のみ）
-  if (attacker.status === "burn" && physical) {
+  // 7. やけど（物理技のみ。こんじょう等は無視する）
+  if (attacker.status === "burn" && physical && !ignoresBurnPenalty(data, attacker)) {
     dmg = Math.floor(dmg * BURN_ATTACK_MULTIPLIER);
+  }
+
+  // 8. その他（持ち物・特性）
+  if (!opts.typeless) {
+    dmg = Math.floor(dmg * attackMultiplier(data, attacker, move, effectiveness));
+    dmg = Math.floor(dmg * defendMultiplier(data, defender, move, effectiveness));
   }
 
   return { damage: Math.max(1, dmg), effectiveness, critical };

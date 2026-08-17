@@ -42,13 +42,19 @@ export function applyStatus(
   pokemon: BattlePokemon,
   status: StatusId,
   rng: Rng,
+  /** ねむりのターン数の倍率（はやおき = 0.5）。 */
+  sleepTurnsMultiplier = 1,
 ): boolean {
   if (pokemon.status !== null) return false;
   if (isImmuneToStatus(pokemon, status)) return false;
 
   pokemon.status = status;
   pokemon.statusCounter =
-    status === "sleep" ? rng.range(SLEEP_MIN_TURNS, SLEEP_MAX_TURNS) : status === "toxic" ? 1 : 0;
+    status === "sleep"
+      ? Math.max(1, Math.round(rng.range(SLEEP_MIN_TURNS, SLEEP_MAX_TURNS) * sleepTurnsMultiplier))
+      : status === "toxic"
+        ? 1
+        : 0;
   return true;
 }
 
@@ -81,6 +87,13 @@ export function residualDamage(pokemon: BattlePokemon): number {
  */
 export function onSwitchOut(pokemon: BattlePokemon): void {
   pokemon.statStages = { atk: 0, def: 0, spa: 0, spd: 0, spe: 0, accuracy: 0, evasion: 0 };
-  pokemon.volatile = { confusionTurns: 0, flinched: false };
+  pokemon.volatile = {
+    confusionTurns: 0,
+    flinched: false,
+    choiceLocked: null,
+    boostedMoveType: null,
+  };
+  // トレースで書き換わった特性は戻る。持ち物の消費は戻らない。
+  pokemon.ability = pokemon.innateAbility;
   if (pokemon.status === "toxic") pokemon.statusCounter = 1;
 }

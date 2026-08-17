@@ -7,9 +7,25 @@
  *   npx vite-node tools/validate.ts
  */
 
-import { TYPES, STATS, type Move, type Species } from "@pkmn/core";
-import { effectHandlers } from "@pkmn/core";
-import { allMoves, allSpecies, gameData } from "@pkmn/data";
+import {
+  DEFAULT_IVS_BY_GRADE,
+  STATS,
+  TYPES,
+  effectHandlers,
+  heldHandlers,
+  type HeldEffect,
+  type Move,
+  type Species,
+} from "@pkmn/core";
+import {
+  allAbilities,
+  allBattleSets,
+  allFacilities,
+  allItems,
+  allMoves,
+  allSpecies,
+  gameData,
+} from "@pkmn/data";
 
 type Level = "error" | "warn";
 type Finding = { level: Level; check: string; message: string };
@@ -24,20 +40,23 @@ const warn = (check: string, message: string) =>
 // #1 ID の重複と参照の存在
 // ─────────────────────────────────────────────
 function checkIds(): void {
-  const seen = new Set<string>();
-  for (const s of allSpecies) {
-    if (seen.has(s.id)) fail("id-unique", `種族IDが重複: ${s.id}`);
-    seen.add(s.id);
-  }
-  const mseen = new Set<string>();
-  for (const m of allMoves) {
-    if (mseen.has(m.id)) fail("id-unique", `技IDが重複: ${m.id}`);
-    mseen.add(m.id);
-  }
-  // ID の命名規則: 英小文字・数字・ハイフンのみ
-  for (const item of [...allSpecies, ...allMoves]) {
-    if (!/^[a-z0-9-]+$/.test(item.id)) {
-      fail("id-format", `ID にケバブケース以外の文字: ${item.id}`);
+  const groups: [string, readonly { id: string }[]][] = [
+    ["種族", allSpecies],
+    ["技", allMoves],
+    ["特性", allAbilities],
+    ["道具", allItems],
+    ["BattleSet", allBattleSets],
+    ["施設", allFacilities],
+  ];
+  for (const [label, items] of groups) {
+    const seen = new Set<string>();
+    for (const item of items) {
+      if (seen.has(item.id)) fail("id-unique", `${label}IDが重複: ${item.id}`);
+      seen.add(item.id);
+      // ID の命名規則: 英小文字・数字・ハイフンのみ
+      if (!/^[a-z0-9-]+$/.test(item.id)) {
+        fail("id-format", `ID にケバブケース以外の文字: ${item.id}`);
+      }
     }
   }
 }
@@ -263,6 +282,200 @@ function checkBattleReady(): void {
 }
 
 // ─────────────────────────────────────────────
+// 特性・持ち物（v0.5）
+// ─────────────────────────────────────────────
+function checkHeldEffects(): void {
+  // #24 全 HeldEffect.kind にハンドラが登録されている
+  const check = (label: string, id: string, effect: HeldEffect | undefined) => {
+    if (effect === undefined) return;
+    if (heldHandlers[effect.kind] === undefined) {
+      fail("held-handler", `${label} ${id}: 効果 "${effect.kind}" にハンドラが無い`);
+      return;
+    }
+    // タイプを引数に取る効果は、そのタイプが実在するか
+    for (const key of ["moveType", "trapped"] as const) {
+      const value = (effect as Record<string, unknown>)[key];
+      if (typeof value === "string" && !(TYPES as readonly string[]).includes(value)) {
+        fail("held-type", `${label} ${id}: 未知のタイプ ${value}`);
+      }
+    }
+    if (effect.kind === "typeResist") {
+      for (const t of effect.moveTypes) {
+        if (!(TYPES as readonly string[]).includes(t)) {
+          fail("held-type", `${label} ${id}: 未知のタイプ ${t}`);
+        }
+      }
+    }
+  };
+
+  for (const a of allAbilities) {
+    if (a.effect === undefined) {
+      fail("ability-effect", `${a.id}: 効果が無い（何もしないなら inert:理由）`);
+      continue;
+    }
+    check("特性", a.id, a.effect);
+  }
+  for (const i of allItems) {
+    check("道具", i.id, i.held);
+    // economy.md §7: お金で個体を強くできない。育成アイテムに価格を付けさせない
+    if (i.category === "training" && i.price !== undefined) {
+      fail("item-price", `${i.id}: training カテゴリなのに価格がある`);
+    }
+    if (i.price !== undefined && i.price <= 0) {
+      fail("item-price", `${i.id}: 価格が 0 以下 (${i.price})`);
+    }
+  }
+
+  // 全種族の特性が実在すること
+  for (const s of allSpecies) {
+    for (const id of s.abilities) {
+      if (!allAbilities.some((a) => a.id === id)) {
+        fail("ref-ability", `${s.id}: 存在しない特性を参照: ${id}`);
+      }
+    }
+  }
+
+  const inert = allAbilities.filter((a) => a.effect?.kind === "inert");
+  if (inert.length > 0) {
+    warn(
+      "held-inert",
+      `${inert.length}/${allAbilities.length} 種の特性は機構未実装のため戦闘中に働かない`,
+    );
+  }
+}
+
+// ─────────────────────────────────────────────
+// 施設と相手プール（v0.5）
+// ─────────────────────────────────────────────
+function checkEndgame(): void {
+  for (const set of allBattleSets) {
+    const where = `BattleSet ${set.id}`;
+    let species: Species | undefined;
+    try {
+      species = gameData.species(set.species);
+    } catch {
+      fail("ref-species", `${where}: 存在しない種族 ${set.species}`);
+      continue;
+    }
+
+    // #6 パーティの技は4つ以下・重複なし
+    if (set.moves.length === 0 || set.moves.length > 4) {
+      fail("set-moves", `${where}: 技が ${set.moves.length} 個`);
+    }
+    if (new Set(set.moves).size !== set.moves.length) {
+      fail("set-moves", `${where}: 技が重複`);
+    }
+    for (const id of set.moves) {
+      if (!allMoves.some((m) => m.id === id)) {
+        fail("ref-move", `${where}: 存在しない技 ${id}`);
+      }
+    }
+    // 特性はその種族が持てるものに限る
+    if (!species.abilities.includes(set.ability)) {
+      fail("set-ability", `${where}: ${species.name} は特性 ${set.ability} を持たない`);
+    }
+    const item = allItems.find((i) => i.id === set.item);
+    if (item === undefined) {
+      fail("ref-item", `${where}: 存在しない道具 ${set.item}`);
+    } else if (item.held?.kind === "statMultiplier" && item.held.banStatusMoves === true) {
+      // とつげきチョッキ等は変化技を封じる。持たせた上で変化技を入れると、
+      // その技は永久に選べない ―― 選べない技を持つデータは誤りとして落とす
+      const dead = set.moves.filter((id) => gameData.move(id).category === "status");
+      if (dead.length > 0) {
+        fail("set-unusable-move", `${where}: ${item.name} で使えない変化技 ${dead.join(",")}`);
+      }
+    }
+    try {
+      gameData.nature(set.nature);
+    } catch {
+      fail("ref-nature", `${where}: 存在しない性格 ${set.nature}`);
+    }
+    // #5 努力値合計 ≤ 510、各 ≤ 252
+    let total = 0;
+    for (const [stat, value] of Object.entries(set.evs)) {
+      if (!(STATS as readonly string[]).includes(stat)) {
+        fail("set-evs", `${where}: 未知の能力 ${stat}`);
+      }
+      if (value > 252) fail("set-evs", `${where}: ${stat} が 252 超`);
+      total += value;
+    }
+    if (total > 510) fail("set-evs", `${where}: 努力値の合計が ${total}`);
+  }
+
+  for (const facility of allFacilities) {
+    const where = `施設 ${facility.id}`;
+    const rules = facility.ruleset;
+
+    // #16 エンジン未対応の要素をデータが使っていない
+    if (rules.battleFormat !== "single") {
+      fail("unimplemented-mechanic", `${where}: ダブルバトルはエンジン未対応（v1.2）`);
+    }
+    if (rules.moveSelection !== "player") {
+      fail("unimplemented-mechanic", `${where}: パレス式の行動代行が未実装`);
+    }
+    if (rules.itemsAllowed) {
+      fail("unimplemented-mechanic", `${where}: 戦闘中の道具使用が未実装（v0.9）`);
+    }
+    if (rules.winCondition.kind !== "faint") {
+      fail("unimplemented-mechanic", `${where}: 採点による決着が未実装`);
+    }
+    if (rules.teamSource !== "rental") {
+      fail(
+        "unimplemented-mechanic",
+        `${where}: v0.5 では手持ちの個体が存在しないため rental 以外は成立しない（v0.8）`,
+      );
+    }
+
+    // レンタルは相手より強い grade でないと連勝が伸びない（0.5^n が効くため）
+    if (rules.teamSource === "rental") {
+      const first = facility.bands[0];
+      if (first !== undefined && facility.rentalGrade <= first.grade) {
+        fail(
+          "rental-grade",
+          `${where}: レンタル grade ${facility.rentalGrade} が最初の相手 grade ${first.grade} 以下（1戦の勝率が五分になり連勝が成立しない）`,
+        );
+      }
+      const rentals = allBattleSets.filter((s) => s.grade === facility.rentalGrade).length;
+      if (rentals < rules.teamSize * 2) {
+        fail("rental-count", `${where}: レンタル候補が ${rentals} 件（選ぶ意味が出ない）`);
+      }
+    }
+
+    // #13 BattleSet が各 grade に十分な件数ある
+    for (const band of facility.bands) {
+      const count = allBattleSets.filter((s) => s.grade === band.grade).length;
+      if (count < rules.teamSize) {
+        fail("set-count", `${where}: grade ${band.grade} が ${count} 件（${rules.teamSize} 件必要）`);
+      }
+      if (count < rules.teamSize * 2) {
+        warn("set-variety", `${where}: grade ${band.grade} が ${count} 件しかなく顔ぶれが偏る`);
+      }
+      if (band.policy === "smart") {
+        fail("unimplemented-mechanic", `${where}: AI smart は未実装（v1.1）`);
+      }
+      if (DEFAULT_IVS_BY_GRADE[band.grade] === undefined) {
+        fail("set-grade", `${where}: 未知の grade ${band.grade}`);
+      }
+    }
+    // 帯と BP の区切りが単調増加している（読み飛ばしが起きないこと）
+    const monotone = (rows: { upTo: number }[], name: string) => {
+      for (const [i, row] of rows.entries()) {
+        if (i > 0 && row.upTo <= rows[i - 1]!.upTo) {
+          fail("band-order", `${where}: ${name} の区切りが単調増加でない`);
+        }
+      }
+    };
+    monotone(facility.bands, "bands");
+    monotone(facility.bpByStreak, "bpByStreak");
+
+    const last = facility.bands[facility.bands.length - 1];
+    if (last === undefined || last.upTo < facility.streakCap) {
+      fail("band-coverage", `${where}: 連勝上限 ${facility.streakCap} を覆う帯が無い`);
+    }
+  }
+}
+
+// ─────────────────────────────────────────────
 // データの由来を報告する（誤りではないが可視化する）
 // ─────────────────────────────────────────────
 function reportProvenance(): void {
@@ -286,12 +499,18 @@ function main(): void {
   checkMoves();
   checkEngineSupport();
   checkBattleReady();
+  checkHeldEffects();
+  checkEndgame();
   reportProvenance();
 
   const errors = findings.filter((f) => f.level === "error");
   const warns = findings.filter((f) => f.level === "warn");
 
-  console.log(`検証対象: 種族 ${allSpecies.length} / 技 ${allMoves.length}`);
+  console.log(
+    `検証対象: 種族 ${allSpecies.length} / 技 ${allMoves.length} / ` +
+      `特性 ${allAbilities.length} / 道具 ${allItems.length} / ` +
+      `BattleSet ${allBattleSets.length} / 施設 ${allFacilities.length}`,
+  );
 
   for (const f of warns) console.log(`  警告 [${f.check}] ${f.message}`);
   for (const f of errors) console.error(`  エラー [${f.check}] ${f.message}`);

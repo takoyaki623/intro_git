@@ -1,0 +1,77 @@
+# 施設の相手プール（docs/design/endgame.md §6）。
+#
+# 施設の相手は手書きのパーティではなく、この1体単位のプールから抽選して組む。
+# 1件足す = コンテンツが増える。施設側のコードは触らない。
+#
+# grade は強さの段階。連勝数に応じて使うプールが切り替わる。
+# 個体値は grade から導出するため、ここには書かない（DEFAULT_IVS_BY_GRADE）。
+# tags は噛み合う組を選ぶための印。v0.5 では抽選の偏り防止にのみ使う。
+id	species	moves	item	ability	nature	evs	grade	tags
+# ── grade 1 ── 連勝 1〜10。持ち物は素直な強化アイテムだけ
+g1-butterfree	butterfree	confusion/sleep-powder/bug-buzz/gust	silver-powder	compound-eyes	modest	spa:252,spe:252	1	status
+g1-beedrill	beedrill	poison-jab/x-scissor/swords-dance/aerial-ace	poison-barb	swarm	adamant	atk:252,spe:252	1	setup
+g1-raticate	raticate	body-slam/crunch/quick-attack/swords-dance	silk-scarf	guts	jolly	atk:252,spe:252	1	
+g1-fearow	fearow	drill-peck/body-slam/aerial-ace/agility	sharp-beak	keen-eye	jolly	atk:252,spe:252	1	
+g1-arbok	arbok	poison-jab/crunch/earthquake/toxic	poison-barb	intimidate	adamant	atk:252,hp:252	1	
+g1-pikachu	pikachu	thunderbolt/thunder-wave/quick-attack/iron-head	magnet	static	jolly	atk:252,spe:252	1	status
+g1-sandslash	sandslash	earthquake/rock-slide/swords-dance/brick-break	soft-sand	sand-veil	adamant	atk:252,hp:252	1	setup
+g1-nidorina	nidorina	body-slam/poison-sting/double-kick/charm	poison-barb	poison-point	impish	hp:252,def:252	1	
+g1-clefable	clefable	dazzling-gleam/psychic/sing/recover	leftovers	cute-charm	calm	hp:252,spd:252	1	stall
+g1-ninetales	ninetales	flamethrower/will-o-wisp/dark-pulse/confuse-ray	charcoal	flash-fire	timid	spa:252,spe:252	1	status
+g1-golbat	golbat	wing-attack/bite/supersonic/toxic	sharp-beak	inner-focus	jolly	atk:252,spe:252	1	status
+g1-parasect	parasect	x-scissor/giga-drain/sleep-powder/stun-spore	miracle-seed	effect-spore	adamant	atk:252,hp:252	1	status
+g1-venomoth	venomoth	bug-buzz/sludge-bomb/sleep-powder/psybeam	silver-powder	shield-dust	modest	spa:252,spe:252	1	status
+g1-dugtrio	dugtrio	earthquake/rock-slide/aerial-ace/magnitude	soft-sand	sand-veil	jolly	atk:252,spe:252	1	
+g1-farfetchd	farfetchd	aerial-ace/brick-break/swords-dance/body-slam	scope-lens	keen-eye	adamant	atk:252,spe:252	1	setup
+g1-dewgong	dewgong	surf/ice-beam/toxic/body-slam	never-melt-ice	thick-fat	calm	hp:252,spd:252	1	stall
+# ── grade 2 ── 連勝 11〜20。役割の噛み合いを意識した構成
+g2-persian	persian	body-slam/crunch/quick-attack/swords-dance	silk-scarf	limber	jolly	atk:252,spe:252	2	
+g2-poliwrath	poliwrath	waterfall/brick-break/ice-punch/bulldoze	mystic-water	water-absorb	adamant	atk:252,hp:252	2	
+g2-kadabra	kadabra	psychic/dazzling-gleam/calm-mind/recover	twisted-spoon	synchronize	timid	spa:252,spe:252	2	setup
+g2-machoke	machoke	cross-chop/rock-slide/bulldoze/bite	black-belt	guts	adamant	atk:252,hp:252	2	
+g2-victreebel	victreebel	giga-drain/sludge-bomb/sleep-powder/swords-dance	miracle-seed	chlorophyll	modest	spa:252,spe:252	2	status
+g2-tentacruel	tentacruel	surf/sludge-bomb/toxic/acid	mystic-water	clear-body	timid	spa:252,spe:252	2	status
+g2-golem	golem	earthquake/stone-edge/brick-break/double-edge	hard-stone	rock-head	adamant	atk:252,hp:252	2	
+g2-rapidash	rapidash	fire-blast/flamethrower/will-o-wisp/agility	charcoal	flash-fire	timid	spa:252,spe:252	2	status
+g2-slowbro	slowbro	surf/psychic/calm-mind/recover	leftovers	oblivious	bold	hp:252,def:252	2	stall
+g2-magneton	magneton	thunderbolt/flash-cannon/thunder-wave/iron-defense	magnet	magnet-pull	modest	spa:252,hp:252	2	status
+g2-dodrio	dodrio	drill-peck/body-slam/quick-attack/agility	sharp-beak	run-away	jolly	atk:252,spe:252	2	
+g2-muk	muk	sludge-bomb/poison-jab/brick-break/toxic	poison-barb	stench	adamant	atk:252,hp:252	2	status
+g2-cloyster	cloyster	surf/ice-beam/iron-defense/harden	never-melt-ice	shell-armor	bold	hp:252,def:252	2	
+g2-hypno	hypno	psychic/hypnosis/shadow-ball/calm-mind	twisted-spoon	insomnia	modest	spa:252,hp:252	2	status
+g2-primeape	primeape	cross-chop/crunch/rock-slide/swords-dance	black-belt	vital-spirit	jolly	atk:252,spe:252	2	setup
+g2-electabuzz	electabuzz	thunderbolt/psychic/thunder-wave/ice-punch	magnet	static	timid	spa:252,spe:252	2	status
+# ── grade 3 ── 連勝 21〜30。持ち物が構成の中心になる
+g3-gengar	gengar	shadow-ball/sludge-bomb/dazzling-gleam/hypnosis	life-orb	cursed-body	timid	spa:252,spe:252	3	
+g3-onix	onix	earthquake/stone-edge/iron-head/double-edge	rocky-helmet	rock-head	impish	hp:252,def:252	3	
+g3-kingler	kingler	waterfall/x-scissor/brick-break/rock-slide	choice-band	hyper-cutter	adamant	atk:252,spe:252	3	
+g3-electrode	electrode	thunderbolt/dark-pulse/thunder/swift	choice-specs	soundproof	timid	spa:252,spe:252	3	
+g3-exeggutor	exeggutor	psychic/giga-drain/sleep-powder/dazzling-gleam	leftovers	chlorophyll	modest	spa:252,hp:252	3	status
+g3-marowak	marowak	earthquake/rock-slide/double-edge/iron-head	choice-band	rock-head	adamant	atk:252,spe:252	3	
+g3-hitmonlee	hitmonlee	cross-chop/mega-kick/rock-slide/double-kick	expert-belt	limber	jolly	atk:252,spe:252	3	
+g3-hitmonchan	hitmonchan	cross-chop/fire-punch/ice-punch/quick-attack	expert-belt	keen-eye	adamant	atk:252,spe:252	3	
+g3-weezing	weezing	sludge-bomb/will-o-wisp/flamethrower/toxic	rocky-helmet	levitate	bold	hp:252,def:252	3	status
+g3-rhydon	rhydon	earthquake/stone-edge/brick-break/iron-head	hard-stone	lightning-rod	adamant	atk:252,hp:252	3	
+g3-chansey	chansey	toxic/recover/dazzling-gleam/sing	leftovers	natural-cure	calm	hp:252,spd:252	3	stall
+g3-kangaskhan	kangaskhan	body-slam/crunch/brick-break/earthquake	silk-scarf	early-bird	adamant	atk:252,spe:252	3	
+g3-starmie	starmie	surf/psychic/dazzling-gleam/recover	life-orb	illuminate	timid	spa:252,spe:252	3	
+g3-magmar	magmar	fire-blast/psychic/thunderbolt/will-o-wisp	charcoal	flame-body	modest	spa:252,spe:252	3	status
+g3-pinsir	pinsir	x-scissor/brick-break/stone-edge/iron-head	choice-band	hyper-cutter	adamant	atk:252,spe:252	3	
+g3-kabutops	kabutops	stone-edge/waterfall/x-scissor/swords-dance	hard-stone	swift-swim	adamant	atk:252,spe:252	3	setup
+# ── grade 4 ── 連勝 31〜。個体値は全て31。持ち物と特性が噛み合う構成
+g4-venusaur	venusaur	giga-drain/sludge-bomb/sleep-powder/calm-mind	leftovers	overgrow	modest	spa:252,hp:252	4	setup
+g4-charizard	charizard	fire-blast/dragon-pulse/aerial-ace/dragon-claw	life-orb	blaze	timid	spa:252,spe:252	4	
+g4-blastoise	blastoise	hydro-pump/ice-beam/dark-pulse/toxic	leftovers	torrent	modest	spa:252,hp:252	4	stall
+g4-alakazam	alakazam	psychic/dazzling-gleam/dark-pulse/calm-mind	life-orb	synchronize	timid	spa:252,spe:252	4	setup
+g4-machamp	machamp	cross-chop/rock-slide/earthquake/ice-punch	flame-orb	guts	adamant	atk:252,hp:252	4	
+g4-arcanine	arcanine	fire-blast/crunch/dragon-pulse/agility	expert-belt	intimidate	timid	spa:252,spe:252	4	
+g4-gyarados	gyarados	waterfall/crunch/earthquake/double-edge	choice-band	intimidate	adamant	atk:252,spe:252	4	
+g4-lapras	lapras	surf/ice-beam/psychic/body-slam	assault-vest	water-absorb	modest	hp:252,spa:252	4	stall
+g4-snorlax	snorlax	body-slam/crunch/earthquake/toxic	leftovers	immunity	adamant	hp:252,atk:252	4	stall
+g4-dragonite	dragonite	dragon-claw/earthquake/brave-bird/fire-punch	choice-band	inner-focus	adamant	atk:252,spe:252	4	
+g4-aerodactyl	aerodactyl	stone-edge/aerial-ace/earthquake/double-edge	choice-scarf	rock-head	jolly	atk:252,spe:252	4	
+g4-jolteon	jolteon	thunderbolt/dark-pulse/thunder/swift	choice-specs	volt-absorb	timid	spa:252,spe:252	4	
+g4-flareon	flareon	fire-blast/body-slam/bite/double-edge	choice-band	flash-fire	adamant	atk:252,spe:252	4	
+g4-vaporeon	vaporeon	surf/ice-beam/toxic/recover	leftovers	water-absorb	bold	hp:252,def:252	4	stall
+g4-tauros	tauros	body-slam/earthquake/rock-slide/double-edge	choice-band	intimidate	jolly	atk:252,spe:252	4	
+g4-nidoking	nidoking	earthquake/sludge-bomb/ice-punch/thunderbolt	life-orb	poison-point	adamant	atk:252,spe:252	4	

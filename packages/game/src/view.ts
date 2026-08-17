@@ -7,7 +7,15 @@
  * 設計: docs/design/ui-flow.md §4
  */
 
-import type { BattleEvent, BattleState, SideIndex, StatusId, Type } from "@pkmn/core";
+import type {
+  AbilityId,
+  BattleEvent,
+  BattleState,
+  ItemId,
+  SideIndex,
+  StatusId,
+  Type,
+} from "@pkmn/core";
 import { activeOf } from "@pkmn/core";
 
 export type SideView = {
@@ -20,6 +28,9 @@ export type SideView = {
   status: StatusId | null;
   stages: Record<string, number>;
   remaining: number;
+  /** 発動して初めて見えるので、既定は null（相手の持ち物は伏せられている）。 */
+  ability: AbilityId | null;
+  item: ItemId | null;
 };
 
 export type BattleView = [SideView, SideView];
@@ -37,6 +48,9 @@ export function viewFromState(state: BattleState): BattleView {
       status: p.status,
       stages: { ...p.statStages },
       remaining: state.sides[side].party.filter((m) => m.currentHp > 0).length,
+      // 自分の特性・持ち物は最初から見える。相手のは発動して初めて見える
+      ability: side === 0 ? p.ability : null,
+      item: side === 0 && !p.itemConsumed ? p.item : null,
     };
   };
   return [build(0), build(1)];
@@ -59,6 +73,8 @@ export function applyEvent(view: BattleView, state: BattleState, event: BattleEv
       v.hp = p.currentHp;
       v.status = p.status;
       v.stages = { atk: 0, def: 0, spa: 0, spd: 0, spe: 0, accuracy: 0, evasion: 0 };
+      v.ability = event.side === 0 ? p.ability : null;
+      v.item = event.side === 0 && !p.itemConsumed ? p.item : null;
       break;
     }
     case "damage":
@@ -67,7 +83,22 @@ export function applyEvent(view: BattleView, state: BattleState, event: BattleEv
     case "heal":
     case "statusDamage":
     case "confusionHit":
+    case "itemDamage":
       view[event.side].hp = event.remainingHp;
+      break;
+    // 相手の特性・持ち物は、発動して初めて分かる
+    case "ability":
+    case "abilityChanged":
+      view[event.side].ability = event.ability;
+      break;
+    case "item":
+      view[event.side].item = event.item;
+      break;
+    case "itemConsumed":
+      view[event.side].item = null;
+      break;
+    case "cured":
+      view[event.side].status = null;
       break;
     case "statusApplied":
       view[event.side].status = event.status;

@@ -104,6 +104,22 @@ export function messageOf(event: BattleEvent, view: BattleView): string | null {
     case "battleEnd":
       if (event.winner === null) return `ひきわけ!`;
       return event.winner === 0 ? `しょうぶに かった!` : `めのまえが まっくらに なった...`;
+
+    // ── 特性・持ち物（v0.5）──
+    case "ability":
+      return `${label(event.side)} の ${gameData.ability(event.ability).name}!`;
+    case "item":
+      return `${label(event.side)} の ${gameData.item(event.item).name}!`;
+    case "itemConsumed":
+      return `${label(event.side)} の ${gameData.item(event.item).name} は なくなった!`;
+    case "itemDamage":
+      return `${label(event.side)} は ダメージを うけた!`;
+    case "endured":
+      return `${label(event.side)} は こうげきを もちこたえた!`;
+    case "cured":
+      return `${label(event.side)} の じょうたいが もとに もどった!`;
+    case "abilityChanged":
+      return `${label(event.side)} は ${gameData.ability(event.ability).name} に なった!`;
   }
 }
 

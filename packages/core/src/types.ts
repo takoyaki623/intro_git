@@ -1,7 +1,7 @@
 /**
  * 基本型。
  *
- * v0.2 の範囲では特性・持ち物・天候を含まない（v0.5 / v1.1）。
+ * v0.5 で特性・持ち物が入った。天候・フィールドは未実装（v1.1）。
  * 型の側だけ先に用意しておくものは、その旨をコメントで示す。
  * 設計: docs/design/battle-system.md
  */
@@ -51,7 +51,7 @@ export type Species = {
   name: string;
   types: [Type] | [Type, Type];
   baseStats: StatSpread;
-  /** v0.5 で特性を導入するまで参照されない。 */
+  /** 通常特性1〜2種。先頭が既定。隠れ特性は v0.8 以降。 */
   abilities: AbilityId[];
   learnset: { level: number; move: MoveId }[];
   catchRate: number;
@@ -74,6 +74,11 @@ export type Move = {
   target: MoveTarget;
   /** 急所ランクの加算。きりさく等。既定 0。 */
   critStage?: number;
+  /**
+   * 相手に触れる技か。せいでんき・ゴツゴツメット等が参照する（v0.5）。
+   * 分類からは導けない（じしんは物理だが非接触）ためデータとして持つ。
+   */
+  contact?: boolean;
   effect?: MoveEffect;
 };
 
@@ -97,6 +102,137 @@ export type MoveEffect =
       chance: number;
     }
   | { kind: "multiHit"; min: number; max: number };
+
+// ─────────────────────────────────────────────
+// 特性・持ち物（v0.5）
+// ─────────────────────────────────────────────
+
+/**
+ * 特性と持ち物は「バトル中に常時はたらく効果」という点で同じものなので、
+ * 効果の語彙を1つに統一する。
+ *
+ * これをしないと、あついしぼう（特性）とタイプ半減の実（持ち物）のように
+ * 中身が同じ効果を2回実装することになる。
+ * ハンドラは held.ts の1つのレジストリに集約される。
+ *
+ * 設計: docs/design/battle-system.md §12 / docs/design/progression.md §6
+ */
+export type HeldEffect =
+  // ── 与ダメージ ──
+  /** ピンチ時（HP 1/3以下）に特定タイプの技を強化。もうか・げきりゅう等。 */
+  | { kind: "pinchBoost"; moveType: Type; ratio: number }
+  /** 特定タイプの技を常時強化。もくたん等のタイプ強化アイテム。 */
+  | { kind: "typeBoost"; moveType: Type; ratio: number }
+  /** 効果抜群のときだけ強化。たつじんのおび。 */
+  | { kind: "superEffectiveBoost"; ratio: number }
+  /** 威力上昇と引き換えに反動を受ける。いのちのたま。 */
+  | { kind: "powerRecoil"; ratio: number; recoil: number }
+  // ── 被ダメージ ──
+  /** 特定タイプの技を半減。あついしぼう。 */
+  | { kind: "typeResist"; moveTypes: Type[]; ratio: number }
+  // ── 実数値・命中・急所 ──
+  /** 実数値の倍率。とつげきチョッキのように技を制限するものもある。 */
+  | { kind: "statMultiplier"; stat: StatId; ratio: number; banStatusMoves?: boolean }
+  /** こだわり系。実数値が上がる代わりに、最初に選んだ技しか使えなくなる。 */
+  | { kind: "choice"; stat: StatId; ratio: number }
+  /** 状態異常のとき こうげき上昇。こんじょう（やけどの威力減少も無視する）。 */
+  | { kind: "statusAtkBoost"; ratio: number }
+  /** 命中率の倍率。ふくがん。 */
+  | { kind: "accuracyMultiplier"; ratio: number }
+  /** 急所ランクの加算。ピントレンズ。 */
+  | { kind: "critStage"; stages: number }
+  /** 急所に当たらない。シェルアーマー・カブトアーマー。 */
+  | { kind: "noCrit" }
+  // ── 無効化 ──
+  /** 特定タイプを無効化し、代わりに何かを得る。ふゆう・ちょすい・もらいび等。 */
+  | { kind: "typeAbsorb"; moveType: Type; gain: AbsorbGain }
+  | { kind: "statusImmunity"; statuses: StatusId[] }
+  | { kind: "confusionImmunity" }
+  | { kind: "noFlinch" }
+  /** 反動を受けない。いしあたま。 */
+  | { kind: "noRecoil" }
+  /** 技の追加効果を受けない。りんぷん。 */
+  | { kind: "noSecondary" }
+  /** 能力低下を無効にする。クリアボディ（all）・かいりきバサミ（atk）等。 */
+  | { kind: "statDropImmunity"; stats: StagedStat[] | "all" }
+  // ── 発動するもの ──
+  /** 場に出たときのランク変化。いかく。 */
+  | { kind: "switchInStatChange"; target: "self" | "foe"; stat: StagedStat; stages: number }
+  /** 接触技を受けたとき、相手を状態異常にする。せいでんき等。複数なら抽選。 */
+  | { kind: "contactStatus"; statuses: StatusId[]; chance: number }
+  /** 接触技を受けたとき、相手にダメージ。ゴツゴツメット。 */
+  | { kind: "contactDamage"; ratio: number }
+  /** 攻撃技に一定確率でひるみを追加する。あくしゅう。 */
+  | { kind: "addFlinch"; chance: number }
+  /** HP満タンから一撃で倒される攻撃を1で耐える。がんじょう・きあいのタスキ。 */
+  | { kind: "endure" }
+  /** ターン終了時に回復。たべのこし。 */
+  | { kind: "endOfTurnHeal"; ratio: number }
+  /** ターン終了時に持ち主自身を状態異常にする。かえんだま・どくどくだま。 */
+  | { kind: "statusOnHolder"; status: StatusId }
+  /** HP が閾値を割ったら回復する木の実。オボンのみ。 */
+  | { kind: "berryHeal"; ratio: number; threshold: number }
+  /** 状態異常・混乱を治す木の実。ラムのみ。 */
+  | { kind: "berryCure" }
+  /** ターン終了時に一定確率で状態異常が治る。だっぴ。 */
+  | { kind: "endOfTurnCure"; chance: number }
+  /** 交代すると状態異常が治る。しぜんかいふく。 */
+  | { kind: "switchOutCure" }
+  /** 状態異常にされたら、相手にも同じものを返す。シンクロ。 */
+  | { kind: "synchronize" }
+  /** 場に出たとき相手の特性をコピーする。トレース。 */
+  | { kind: "trace" }
+  /** 自分に使われた技の PP を余分に減らす。プレッシャー。 */
+  | { kind: "pressure" }
+  /** 特定タイプの相手を交代できなくする。じりょく。 */
+  | { kind: "trapType"; trapped: Type }
+  /** ねむりが早く覚める。はやおき。 */
+  | { kind: "earlyBird" }
+  /**
+   * バトル中は何もしない特性・持ち物。
+   * 「未実装の機構を必要とする」ものを黙って無効にせず、理由を明示して持つ。
+   * 天候（v1.1）やメロメロのように、機構が入った時点でここから外れる。
+   */
+  | { kind: "inert"; reason: string };
+
+/** typeAbsorb で無効化したときに得るもの。 */
+export type AbsorbGain =
+  | { kind: "none" }
+  | { kind: "heal"; ratio: number }
+  | { kind: "stat"; stat: StagedStat; stages: number }
+  /** そのタイプの自分の技が強化される。もらいび。 */
+  | { kind: "boostMoveType"; ratio: number };
+
+export type Ability = {
+  id: AbilityId;
+  name: string;
+  effect: HeldEffect;
+};
+
+export type ItemCategory =
+  | "recovery"
+  | "ball"
+  | "held"
+  | "evolution"
+  | "training"
+  | "tm"
+  | "key"
+  | "treasure";
+
+export type Item = {
+  id: ItemId;
+  name: string;
+  category: ItemCategory;
+  /** お金で買えない道具（training 等）は price を持たない。economy.md §7 */
+  price?: number;
+  /**
+   * 持たせたときのバトル中の効果。
+   * バッグから「使う」効果（きずぐすり等）は別物で、v0.9 の ItemEffect が担う。
+   */
+  held?: HeldEffect;
+  /** 発動すると無くなる（きのみ・きあいのタスキ）。 */
+  consumable?: boolean;
+};
 
 export type NatureModifier = {
   id: NatureId;
@@ -124,6 +260,10 @@ export type BattleMove = {
 export type Volatile = {
   confusionTurns: number;
   flinched: boolean;
+  /** こだわり系で固定された技。null なら制限なし。 */
+  choiceLocked: MoveId | null;
+  /** もらいびで強化されたタイプ。 */
+  boostedMoveType: Type | null;
 };
 
 export type BattlePokemon = {
@@ -136,6 +276,14 @@ export type BattlePokemon = {
   maxHp: number;
   currentHp: number;
   moves: BattleMove[];
+
+  /** 現在の特性。トレースで書き換わるため innateAbility と分けて持つ。 */
+  ability: AbilityId | null;
+  /** 本来の特性。交代で ability をここへ戻す。 */
+  innateAbility: AbilityId | null;
+  item: ItemId | null;
+  /** 消費済みの持ち物は復活しない（交代しても戻らない）。 */
+  itemConsumed: boolean;
 
   status: StatusId | null;
   /** ねむりの残りターン / もうどくの経過ターン。 */
@@ -214,7 +362,19 @@ export type BattleEvent =
   | { kind: "statChange"; side: SideIndex; stat: StagedStat; delta: number; stage: number }
   | { kind: "statChangeFailed"; side: SideIndex; stat: StagedStat }
   | { kind: "faint"; side: SideIndex }
-  | { kind: "battleEnd"; winner: SideIndex | null };
+  | { kind: "battleEnd"; winner: SideIndex | null }
+  // ── 特性・持ち物（v0.5）──
+  /** 特性が発動した。UI は「〇〇の 〈特性名〉!」と出す。 */
+  | { kind: "ability"; side: SideIndex; ability: AbilityId }
+  | { kind: "item"; side: SideIndex; item: ItemId }
+  | { kind: "itemConsumed"; side: SideIndex; item: ItemId }
+  | { kind: "itemDamage"; side: SideIndex; item: ItemId; amount: number; remainingHp: number }
+  /** きあいのタスキ・がんじょうで持ちこたえた。 */
+  | { kind: "endured"; side: SideIndex }
+  /** 状態異常・混乱が治った。 */
+  | { kind: "cured"; side: SideIndex }
+  /** 特性が書き換わった（トレース）。 */
+  | { kind: "abilityChanged"; side: SideIndex; ability: AbilityId };
 
 export type StepResult = {
   state: BattleState;

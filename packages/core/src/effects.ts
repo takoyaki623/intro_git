@@ -8,10 +8,27 @@
  */
 
 import type { GameData } from "./gamedata.js";
+import {
+  blocksConfusion,
+  blocksFlinch,
+  blocksRecoil,
+  blocksSecondary,
+  blocksStatDrop,
+  blocksStatus,
+  onStatusReceived,
+  sleepTurnsMultiplier,
+} from "./held.js";
 import type { Rng } from "./rng.js";
 import { applyStageChange } from "./stages.js";
 import { applyConfusion, applyStatus } from "./status.js";
 import type { BattleEvent, BattlePokemon, BattleState, MoveEffect, SideIndex } from "./types.js";
+
+/** HP の増減は battle.ts が渡す。ひんし判定とイベント発行を1箇所に保つため。 */
+export type HpMutator = (
+  side: SideIndex,
+  amount: number,
+  make: (applied: number, remainingHp: number) => BattleEvent,
+) => number;
 
 export type EffectContext = {
   data: GameData;
@@ -25,6 +42,13 @@ export type EffectContext = {
   events: BattleEvent[];
   /** 効果が1つでも通ったか。変化技の「しかし うまく きまらなかった」判定に使う。 */
   landed: boolean;
+  /**
+   * 攻撃技の「追加効果」として適用しているか。
+   * りんぷんは追加効果だけを無効にし、変化技そのものは防げない。
+   */
+  isSecondary: boolean;
+  hurt: HpMutator;
+  heal: HpMutator;
 };
 
 export type EffectHandler<K extends MoveEffect["kind"] = MoveEffect["kind"]> = (
@@ -34,25 +58,26 @@ export type EffectHandler<K extends MoveEffect["kind"] = MoveEffect["kind"]> = (
 
 type Registry = { [K in MoveEffect["kind"]]: EffectHandler<K> };
 
-const clampHp = (hp: number, max: number) => Math.max(0, Math.min(max, hp));
-
 const activeOf = (ctx: EffectContext, side: SideIndex): BattlePokemon =>
   ctx.state.sides[side].party[ctx.state.sides[side].activeIndex]!;
+
+/** りんぷんが防ぐのは「攻撃技の追加効果」だけ。変化技は防げない。 */
+const secondaryBlocked = (ctx: EffectContext): boolean =>
+  ctx.isSecondary && blocksSecondary(ctx.data, activeOf(ctx, ctx.defender));
 
 export const effectHandlers: Registry = {
   /** 与ダメージの一定割合を自分が受ける。 */
   recoil: (effect, ctx) => {
     if (ctx.damageDealt <= 0) return;
     const self = activeOf(ctx, ctx.attacker);
+    if (blocksRecoil(ctx.data, self)) return; // いしあたま
     const amount = Math.max(1, Math.floor(ctx.damageDealt * effect.ratio));
-    const before = self.currentHp;
-    self.currentHp = clampHp(before - amount, self.maxHp);
-    ctx.events.push({
+    ctx.hurt(ctx.attacker, amount, (applied, remainingHp) => ({
       kind: "recoil",
       side: ctx.attacker,
-      amount: before - self.currentHp,
-      remainingHp: self.currentHp,
-    });
+      amount: applied,
+      remainingHp,
+    }));
     ctx.landed = true;
   },
 
@@ -60,15 +85,14 @@ export const effectHandlers: Registry = {
   drain: (effect, ctx) => {
     if (ctx.damageDealt <= 0) return;
     const self = activeOf(ctx, ctx.attacker);
+    if (self.currentHp <= 0) return;
     const amount = Math.max(1, Math.floor(ctx.damageDealt * effect.ratio));
-    const before = self.currentHp;
-    self.currentHp = clampHp(before + amount, self.maxHp);
-    ctx.events.push({
+    ctx.heal(ctx.attacker, amount, (applied, remainingHp) => ({
       kind: "drain",
       side: ctx.attacker,
-      amount: self.currentHp - before,
-      remainingHp: self.currentHp,
-    });
+      amount: applied,
+      remainingHp,
+    }));
     ctx.landed = true;
   },
 
@@ -76,24 +100,26 @@ export const effectHandlers: Registry = {
   heal: (effect, ctx) => {
     const self = activeOf(ctx, ctx.attacker);
     if (self.currentHp >= self.maxHp) return;
-    const before = self.currentHp;
-    self.currentHp = clampHp(before + Math.floor(self.maxHp * effect.ratio), self.maxHp);
-    ctx.events.push({
+    ctx.heal(ctx.attacker, Math.floor(self.maxHp * effect.ratio), (applied, remainingHp) => ({
       kind: "heal",
       side: ctx.attacker,
-      amount: self.currentHp - before,
-      remainingHp: self.currentHp,
-    });
+      amount: applied,
+      remainingHp,
+    }));
     ctx.landed = true;
   },
 
   /** 状態異常を付与する。 */
   status: (effect, ctx) => {
     if (!ctx.rng.chance(effect.chance)) return;
+    if (secondaryBlocked(ctx)) return;
     const target = activeOf(ctx, ctx.defender);
     if (target.currentHp <= 0) return;
-    if (applyStatus(target, effect.status, ctx.rng)) {
+    if (blocksStatus(ctx.data, target, effect.status)) return;
+    const turns = effect.status === "sleep" ? sleepTurnsMultiplier(ctx.data, target) : 1;
+    if (applyStatus(target, effect.status, ctx.rng, turns)) {
       ctx.events.push({ kind: "statusApplied", side: ctx.defender, status: effect.status });
+      onStatusReceived(ctx.data, ctx.state, ctx.defender, ctx.attacker, effect.status, ctx);
       ctx.landed = true;
     }
   },
@@ -101,8 +127,10 @@ export const effectHandlers: Registry = {
   /** 混乱させる。状態異常とは別枠で重複する。 */
   confuse: (effect, ctx) => {
     if (!ctx.rng.chance(effect.chance)) return;
+    if (secondaryBlocked(ctx)) return;
     const target = activeOf(ctx, ctx.defender);
     if (target.currentHp <= 0) return;
+    if (blocksConfusion(ctx.data, target)) return;
     if (applyConfusion(target, ctx.rng)) {
       ctx.events.push({ kind: "confused", side: ctx.defender });
       ctx.landed = true;
@@ -112,8 +140,10 @@ export const effectHandlers: Registry = {
   /** ひるませる。相手がまだ行動していない場合のみ効く（判定は battle 側）。 */
   flinch: (effect, ctx) => {
     if (!ctx.rng.chance(effect.chance)) return;
+    if (secondaryBlocked(ctx)) return;
     const target = activeOf(ctx, ctx.defender);
     if (target.currentHp <= 0) return;
+    if (blocksFlinch(ctx.data, target)) return;
     target.volatile.flinched = true;
     ctx.landed = true;
   },
@@ -124,6 +154,15 @@ export const effectHandlers: Registry = {
     const side = effect.target === "self" ? ctx.attacker : ctx.defender;
     const target = activeOf(ctx, side);
     if (target.currentHp <= 0) return;
+
+    // 相手の能力を下げる場合だけ、りんぷん・クリアボディ等が働く
+    if (effect.target === "foe" && effect.stages < 0) {
+      if (secondaryBlocked(ctx)) return;
+      if (blocksStatDrop(ctx.data, target, effect.stat)) {
+        ctx.events.push({ kind: "statChangeFailed", side, stat: effect.stat });
+        return;
+      }
+    }
 
     const { applied, stage } = applyStageChange(target, effect.stat, effect.stages);
     if (applied === 0) {

@@ -1,0 +1,334 @@
+[
+  {
+    "id": "leftovers",
+    "name": "たべのこし",
+    "category": "held",
+    "held": {
+      "kind": "endOfTurnHeal",
+      "ratio": 0.0625
+    }
+  },
+  {
+    "id": "life-orb",
+    "name": "いのちのたま",
+    "category": "held",
+    "held": {
+      "kind": "powerRecoil",
+      "ratio": 1.3,
+      "recoil": 0.1
+    }
+  },
+  {
+    "id": "choice-band",
+    "name": "こだわりハチマキ",
+    "category": "held",
+    "held": {
+      "kind": "choice",
+      "stat": "atk",
+      "ratio": 1.5
+    }
+  },
+  {
+    "id": "choice-specs",
+    "name": "こだわりメガネ",
+    "category": "held",
+    "held": {
+      "kind": "choice",
+      "stat": "spa",
+      "ratio": 1.5
+    }
+  },
+  {
+    "id": "choice-scarf",
+    "name": "こだわりスカーフ",
+    "category": "held",
+    "held": {
+      "kind": "choice",
+      "stat": "spe",
+      "ratio": 1.5
+    }
+  },
+  {
+    "id": "expert-belt",
+    "name": "たつじんのおび",
+    "category": "held",
+    "held": {
+      "kind": "superEffectiveBoost",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "focus-sash",
+    "name": "きあいのタスキ",
+    "category": "held",
+    "held": {
+      "kind": "endure"
+    },
+    "consumable": true
+  },
+  {
+    "id": "scope-lens",
+    "name": "ピントレンズ",
+    "category": "held",
+    "held": {
+      "kind": "critStage",
+      "stages": 1
+    }
+  },
+  {
+    "id": "assault-vest",
+    "name": "とつげきチョッキ",
+    "category": "held",
+    "held": {
+      "kind": "statMultiplier",
+      "stat": "spd",
+      "ratio": 1.5,
+      "banStatusMoves": true
+    }
+  },
+  {
+    "id": "rocky-helmet",
+    "name": "ゴツゴツメット",
+    "category": "held",
+    "held": {
+      "kind": "contactDamage",
+      "ratio": 0.16666666666666666
+    }
+  },
+  {
+    "id": "flame-orb",
+    "name": "かえんだま",
+    "category": "held",
+    "held": {
+      "kind": "statusOnHolder",
+      "status": "burn"
+    }
+  },
+  {
+    "id": "toxic-orb",
+    "name": "どくどくだま",
+    "category": "held",
+    "held": {
+      "kind": "statusOnHolder",
+      "status": "toxic"
+    }
+  },
+  {
+    "id": "sitrus-berry",
+    "name": "オボンのみ",
+    "category": "held",
+    "held": {
+      "kind": "berryHeal",
+      "ratio": 0.25,
+      "threshold": 0.5
+    },
+    "consumable": true
+  },
+  {
+    "id": "lum-berry",
+    "name": "ラムのみ",
+    "category": "held",
+    "held": {
+      "kind": "berryCure"
+    },
+    "consumable": true
+  },
+  {
+    "id": "silk-scarf",
+    "name": "シルクのスカーフ",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "normal",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "charcoal",
+    "name": "もくたん",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "fire",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "mystic-water",
+    "name": "しんぴのしずく",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "water",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "magnet",
+    "name": "じしゃく",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "electric",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "miracle-seed",
+    "name": "きせきのタネ",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "grass",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "never-melt-ice",
+    "name": "とけないこおり",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "ice",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "black-belt",
+    "name": "くろおび",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "fighting",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "poison-barb",
+    "name": "どくバリ",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "poison",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "soft-sand",
+    "name": "やわらかいすな",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "ground",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "sharp-beak",
+    "name": "するどいくちばし",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "flying",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "twisted-spoon",
+    "name": "まがったスプーン",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "psychic",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "silver-powder",
+    "name": "ぎんのこな",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "bug",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "hard-stone",
+    "name": "かたいいし",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "rock",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "spell-tag",
+    "name": "のろいのおふだ",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "ghost",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "dragon-fang",
+    "name": "りゅうのキバ",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "dragon",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "black-glasses",
+    "name": "くろいメガネ",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "dark",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "metal-coat",
+    "name": "メタルコート",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "steel",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "fairy-feather",
+    "name": "ようせいのハネ",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "fairy",
+      "ratio": 1.2
+    }
+  }
+]

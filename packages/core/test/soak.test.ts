@@ -45,7 +45,7 @@ function playOut(
     const rng = createRng(state.rng);
     const actions: [Action | null, Action | null] = [null, null];
     for (const side of requiredSides(state)) {
-      actions[side] = chooseRandomAction(state, side, rng);
+      actions[side] = chooseRandomAction(gameData, state, side, rng);
     }
     state = { ...state, rng: rng.state() };
 

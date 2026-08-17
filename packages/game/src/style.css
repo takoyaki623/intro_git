@@ -184,3 +184,46 @@ button:active { transform: translateY(1px); }
 .again { justify-self: start; background: var(--accent); border-color: var(--accent); color: #fff; }
 
 footer { margin-top: 16px; font-size: 11px; color: var(--muted); text-align: center; }
+
+/* ── v0.5: モード切り替え・メニュー・施設 ── */
+.hidden { display: none !important; }
+.dim { color: var(--muted); }
+
+#modes { display: flex; gap: 6px; margin-bottom: 12px; }
+#modes button { padding: 6px 12px; }
+#modes button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+#menu h2 { font-size: 15px; margin: 0 0 6px; }
+.lead { font-size: 12px; color: var(--muted); margin: 0 0 10px; }
+
+#run {
+  display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12px;
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: 10px; padding: 8px 12px; margin-bottom: 10px;
+  box-shadow: var(--shadow);
+}
+
+.facilities, .rentals { display: grid; gap: 8px; }
+.rentals { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.facility, .rental {
+  display: grid; gap: 3px; text-align: left; padding: 10px 12px; width: 100%;
+}
+.rental.on { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.gearline { opacity: .85; }
+
+.problems { min-height: 18px; margin: 8px 2px; font-size: 12px; color: #d0553f; }
+.menu-actions { display: flex; gap: 8px; margin-top: 4px; }
+.menu-actions button { background: var(--accent); border-color: var(--accent); color: #fff; }
+.menu-actions button:disabled { opacity: .45; cursor: not-allowed; }
+.menu-actions .ghost { background: var(--panel); border-color: var(--line); color: var(--ink); }
+
+.gears { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+.mon.foe .gears { justify-content: flex-end; }
+.gear {
+  font-size: 10px; padding: 0 6px; border-radius: 4px;
+  border: 1px solid var(--line); color: var(--muted);
+}
+
+.result { font-size: 13px; border-collapse: collapse; margin: 4px 0 10px; }
+.result th, .result td { padding: 3px 14px 3px 0; text-align: left; font-weight: 500; }
+.result th { color: var(--muted); font-size: 12px; }

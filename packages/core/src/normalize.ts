@@ -11,10 +11,19 @@
 
 import type { GameData } from "./gamedata.js";
 import { calcAllStats, MAX_IVS, ZERO_STATS } from "./stats.js";
-import type { BattlePokemon, MoveId, NatureId, SpeciesId, StatSpread, StatusId } from "./types.js";
+import type {
+  AbilityId,
+  BattlePokemon,
+  ItemId,
+  MoveId,
+  NatureId,
+  SpeciesId,
+  StatSpread,
+  StatusId,
+} from "./types.js";
 import { EMPTY_STAGES } from "./types.js";
 
-/** v0.2 で使える唯一の出どころ。他は後続の版で union に加える。 */
+/** 「Lv50のリザードン」という設計図。BattleSet もこの形に落としてから渡す。 */
 export type PartySpec = {
   species: SpeciesId;
   level: number;
@@ -24,6 +33,9 @@ export type PartySpec = {
   evs?: StatSpread;
   nature?: NatureId;
   status?: StatusId;
+  /** 省略時は種族の既定特性（abilities[0]）。 */
+  ability?: AbilityId;
+  item?: ItemId;
 };
 
 export type BattlePokemonSource = PartySpec;
@@ -49,6 +61,12 @@ export function toBattlePokemon(
     return { id: move.id, pp: move.pp, maxPp: move.pp };
   });
 
+  // 特性の既定値は種族の1つ目。BattleSet は明示するが、
+  // 野生や暫定パーティは指定なしで作られるため、ここで埋める。
+  const ability = source.ability ?? species.abilities[0] ?? null;
+  if (ability !== null) data.ability(ability); // 存在確認（検証漏れをここで捕まえる）
+  if (source.item !== undefined) data.item(source.item);
+
   return {
     species: species.id,
     name: source.nickname ?? species.name,
@@ -58,9 +76,13 @@ export function toBattlePokemon(
     maxHp: stats.hp,
     currentHp: stats.hp,
     moves,
+    ability,
+    innateAbility: ability,
+    item: source.item ?? null,
+    itemConsumed: false,
     status: source.status ?? null,
     statusCounter: 0,
     statStages: { ...EMPTY_STAGES },
-    volatile: { confusionTurns: 0, flinched: false },
+    volatile: { confusionTurns: 0, flinched: false, choiceLocked: null, boostedMoveType: null },
   };
 }

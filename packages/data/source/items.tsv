@@ -1,0 +1,36 @@
+# 持ち物。price が空欄の道具はお金で買えない（BP交換・報酬でのみ手に入る）。
+# タイプ強化アイテムは「基本的な持ち物」なのでお金で買える。
+# 経済の分離は docs/design/economy.md §7 を参照。
+id	name	category	price	effect	consumable
+leftovers	たべのこし	held		endOfTurnHeal:1/16	0
+life-orb	いのちのたま	held		powerRecoil:1.3:0.1	0
+choice-band	こだわりハチマキ	held		choice:atk:1.5	0
+choice-specs	こだわりメガネ	held		choice:spa:1.5	0
+choice-scarf	こだわりスカーフ	held		choice:spe:1.5	0
+expert-belt	たつじんのおび	held		superEffectiveBoost:1.2	0
+focus-sash	きあいのタスキ	held		endure	1
+scope-lens	ピントレンズ	held		critStage:1	0
+assault-vest	とつげきチョッキ	held		statMultiplier:spd:1.5:banStatus	0
+rocky-helmet	ゴツゴツメット	held		contactDamage:1/6	0
+flame-orb	かえんだま	held		statusOnHolder:burn	0
+toxic-orb	どくどくだま	held		statusOnHolder:toxic	0
+sitrus-berry	オボンのみ	held		berryHeal:1/4:1/2	1
+lum-berry	ラムのみ	held		berryCure	1
+silk-scarf	シルクのスカーフ	held	1000	typeBoost:normal:1.2	0
+charcoal	もくたん	held	1000	typeBoost:fire:1.2	0
+mystic-water	しんぴのしずく	held	1000	typeBoost:water:1.2	0
+magnet	じしゃく	held	1000	typeBoost:electric:1.2	0
+miracle-seed	きせきのタネ	held	1000	typeBoost:grass:1.2	0
+never-melt-ice	とけないこおり	held	1000	typeBoost:ice:1.2	0
+black-belt	くろおび	held	1000	typeBoost:fighting:1.2	0
+poison-barb	どくバリ	held	1000	typeBoost:poison:1.2	0
+soft-sand	やわらかいすな	held	1000	typeBoost:ground:1.2	0
+sharp-beak	するどいくちばし	held	1000	typeBoost:flying:1.2	0
+twisted-spoon	まがったスプーン	held	1000	typeBoost:psychic:1.2	0
+silver-powder	ぎんのこな	held	1000	typeBoost:bug:1.2	0
+hard-stone	かたいいし	held	1000	typeBoost:rock:1.2	0
+spell-tag	のろいのおふだ	held	1000	typeBoost:ghost:1.2	0
+dragon-fang	りゅうのキバ	held	1000	typeBoost:dragon:1.2	0
+black-glasses	くろいメガネ	held	1000	typeBoost:dark:1.2	0
+metal-coat	メタルコート	held	1000	typeBoost:steel:1.2	0
+fairy-feather	ようせいのハネ	held	1000	typeBoost:fairy:1.2	0

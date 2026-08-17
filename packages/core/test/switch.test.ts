@@ -68,9 +68,9 @@ describe("交代", () => {
     expect(requiredSides(next)).toEqual([0]);
 
     // 交代要求中は交代しか選べない
-    const actions = legalActions(next, 0);
+    const actions = legalActions(gameData, next, 0);
     expect(actions.every((a) => a.kind === "switch")).toBe(true);
-    expect(legalActions(next, 1)).toEqual([]);
+    expect(legalActions(gameData, next, 1)).toEqual([]);
 
     // 交代してもターンは進まない
     const turnBefore = next.turn;
@@ -133,7 +133,7 @@ describe("複数手持ちでの完走", () => {
         const rng = createRng(state.rng);
         const sides = requiredSides(state);
         const actions: [ReturnType<typeof chooseRandomAction> | null, ReturnType<typeof chooseRandomAction> | null] = [null, null];
-        for (const side of sides) actions[side] = chooseRandomAction(state, side, rng);
+        for (const side of sides) actions[side] = chooseRandomAction(gameData, state, side, rng);
         state = { ...state, rng: rng.state() };
         state = step(gameData, state, actions).state;
       }

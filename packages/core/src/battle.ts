@@ -7,8 +7,24 @@
  */
 
 import { calcDamage, rollAccuracy } from "./damage.js";
-import { applyEffect, resolveHitCount, type EffectContext } from "./effects.js";
+import { applyEffect, resolveHitCount, type EffectContext, type HpMutator } from "./effects.js";
 import type { GameData } from "./gamedata.js";
+import {
+  absorbOf,
+  afterOwnMove,
+  applyAbsorbGain,
+  bansStatusMoves,
+  blocksFlinch,
+  enduresOf,
+  extraPpCost,
+  onCheckHeld,
+  onContacted,
+  onEndOfTurnHeld,
+  onSwitchIn,
+  onSwitchOutHeld,
+  statMultiplier,
+  trapsFoe,
+} from "./held.js";
 import { toBattlePokemon, type BattlePokemonSource } from "./normalize.js";
 import { createRng, createRngState, type Rng } from "./rng.js";
 import { battleStageMultiplier } from "./stages.js";
@@ -77,30 +93,57 @@ export function activeOf(state: BattleState, side: SideIndex): BattlePokemon {
 
 const isAlive = (p: BattlePokemon) => p.currentHp > 0;
 
-/** その側が選べる行動。AI と UI はこれを使う。 */
-export function legalActions(state: BattleState, side: SideIndex): Action[] {
-  // 交代要求中は交代しか選べない
-  if (state.pendingSwitch.includes(side)) {
-    return state.sides[side].party
+/**
+ * その側が選べる行動。AI と UI はこれを使う。
+ *
+ * v0.5 で GameData を取るようになった。こだわり系の技固定・とつげきチョッキ・
+ * じりょくの交代封じは「どの技が使えるか」の問題なので、選択肢の側で解く。
+ * バトル本体で弾くと、UI が選べない行動を表示してしまう。
+ */
+export function legalActions(data: GameData, state: BattleState, side: SideIndex): Action[] {
+  const switchable = (): Action[] =>
+    state.sides[side].party
       .map((p, i) => ({ p, i }))
       .filter(({ p, i }) => isAlive(p) && i !== state.sides[side].activeIndex)
       .map(({ i }) => ({ kind: "switch", partyIndex: i }) satisfies Action);
-  }
+
+  // 交代要求中は交代しか選べない（ひんし後の交代は封じられない）
+  if (state.pendingSwitch.includes(side)) return switchable();
   if (state.pendingSwitch.length > 0) return []; // 相手の交代待ち
 
   const active = activeOf(state, side);
-  const moves = active.moves
-    .map((m, i) => ({ m, i }))
-    .filter(({ m }) => m.pp > 0)
-    .map(({ i }) => ({ kind: "move", moveIndex: i }) satisfies Action);
+  const foe = activeOf(state, other(side));
 
-  const switches = state.sides[side].party
-    .map((p, i) => ({ p, i }))
-    .filter(({ p, i }) => isAlive(p) && i !== state.sides[side].activeIndex)
-    .map(({ i }) => ({ kind: "switch", partyIndex: i }) satisfies Action);
+  const usable = usableMoveIndices(data, state, side).map(
+    (i) => ({ kind: "move", moveIndex: i }) satisfies Action,
+  );
+  const switches = trapsFoe(data, foe, active) ? [] : switchable();
 
-  // 全ての PP が尽きてもわるあがきがあるため、技の選択肢は必ず1つ残す
-  return [...(moves.length > 0 ? moves : [{ kind: "move", moveIndex: 0 } as Action]), ...switches];
+  // 使える技が1つも無くてもわるあがきがあるため、技の選択肢は必ず1つ残す
+  return [...(usable.length > 0 ? usable : [{ kind: "move", moveIndex: 0 } as Action]), ...switches];
+}
+
+/**
+ * 実際に選べる技のスロット番号。
+ * PP・こだわりの固定・とつげきチョッキの制限をすべて反映する。
+ * 空なら「わるあがき」になる。
+ */
+export function usableMoveIndices(
+  data: GameData,
+  state: BattleState,
+  side: SideIndex,
+): number[] {
+  const active = activeOf(state, side);
+  const banStatus = bansStatusMoves(data, active);
+  const locked = active.volatile.choiceLocked;
+  const out: number[] = [];
+  for (const [i, slot] of active.moves.entries()) {
+    if (slot.pp <= 0) continue;
+    if (locked !== null && slot.id !== locked) continue;
+    if (banStatus && data.move(slot.id).category === "status") continue;
+    out.push(i);
+  }
+  return out;
 }
 
 /** 行動を要求されている側。 */
@@ -114,33 +157,18 @@ export function requiredSides(state: BattleState): SideIndex[] {
 // 内部処理
 // ─────────────────────────────────────────────
 
-function effectiveSpeed(p: BattlePokemon): number {
-  const base = Math.floor(p.stats.spe * battleStageMultiplier(p.statStages.spe));
+function effectiveSpeed(data: GameData, p: BattlePokemon): number {
+  const base = Math.floor(
+    p.stats.spe * battleStageMultiplier(p.statStages.spe) * statMultiplier(data, p, "spe"),
+  );
   return p.status === "paralysis" ? Math.floor(base * PARALYSIS_SPEED_MULTIPLIER) : base;
 }
 
-function speedOrder(state: BattleState, rng: Rng): [SideIndex, SideIndex] {
-  const s0 = effectiveSpeed(activeOf(state, 0));
-  const s1 = effectiveSpeed(activeOf(state, 1));
+function speedOrder(data: GameData, state: BattleState, rng: Rng): [SideIndex, SideIndex] {
+  const s0 = effectiveSpeed(data, activeOf(state, 0));
+  const s1 = effectiveSpeed(data, activeOf(state, 1));
   if (s0 !== s1) return s0 > s1 ? [0, 1] : [1, 0];
   return rng.chance(0.5) ? [0, 1] : [1, 0];
-}
-
-function performSwitch(
-  state: BattleState,
-  side: SideIndex,
-  partyIndex: number,
-  events: BattleEvent[],
-): void {
-  const s = state.sides[side];
-  const target = s.party[partyIndex];
-  if (target === undefined) throw new RangeError(`invalid party index: ${partyIndex}`);
-  if (!isAlive(target)) throw new Error("cannot switch to a fainted pokemon");
-  if (partyIndex === s.activeIndex) throw new Error("cannot switch to the active pokemon");
-
-  onSwitchOut(activeOf(state, side));
-  s.activeIndex = partyIndex;
-  events.push({ kind: "switchIn", side, partyIndex });
 }
 
 /** ダメージを与え、ひんしなら faint を発行する。 */
@@ -158,6 +186,93 @@ function dealDamage(
   events.push(make(dealt, target.currentHp));
   if (target.currentHp === 0) events.push({ kind: "faint", side });
   return dealt;
+}
+
+function restoreHp(
+  state: BattleState,
+  side: SideIndex,
+  amount: number,
+  events: BattleEvent[],
+  make: (healed: number, remaining: number) => BattleEvent,
+): number {
+  const target = activeOf(state, side);
+  const before = target.currentHp;
+  target.currentHp = Math.min(target.maxHp, before + Math.max(0, amount));
+  const healed = target.currentHp - before;
+  events.push(make(healed, target.currentHp));
+  return healed;
+}
+
+/**
+ * HP を動かす手段を1組にまとめる。
+ * effects.ts と held.ts はこれを受け取り、自前で currentHp を触らない。
+ * faint イベントの発行箇所が1つに保たれる。
+ */
+type Hp = { hurt: HpMutator; heal: HpMutator };
+
+const hpMutators = (state: BattleState, events: BattleEvent[]): Hp => ({
+  hurt: (side, amount, make) => dealDamage(state, side, amount, events, make),
+  heal: (side, amount, make) => restoreHp(state, side, amount, events, make),
+});
+
+/** 特性・持ち物のフックに渡す共通部分。 */
+function heldBase(
+  data: GameData,
+  state: BattleState,
+  side: SideIndex,
+  rng: Rng,
+  events: BattleEvent[],
+) {
+  return { data, state, side, foeSide: other(side), rng, events, ...hpMutators(state, events) };
+}
+
+/** 場に出たときの特性（いかく・トレース等）。バトル開始時にも通る。 */
+function fireEntry(
+  data: GameData,
+  state: BattleState,
+  side: SideIndex,
+  rng: Rng,
+  events: BattleEvent[],
+): void {
+  if (activeOf(state, side).currentHp <= 0) return;
+  onSwitchIn(heldBase(data, state, side, rng, events));
+}
+
+/** HP・状態異常が動いたあとの発動確認（きのみ）。 */
+function checkHeld(
+  data: GameData,
+  state: BattleState,
+  rng: Rng,
+  events: BattleEvent[],
+): void {
+  for (const side of [0, 1] as const) {
+    if (activeOf(state, side).currentHp <= 0) continue;
+    onCheckHeld(heldBase(data, state, side, rng, events));
+  }
+}
+
+function performSwitch(
+  data: GameData,
+  state: BattleState,
+  side: SideIndex,
+  partyIndex: number,
+  rng: Rng,
+  events: BattleEvent[],
+): void {
+  const s = state.sides[side];
+  const target = s.party[partyIndex];
+  if (target === undefined) throw new RangeError(`invalid party index: ${partyIndex}`);
+  if (!isAlive(target)) throw new Error("cannot switch to a fainted pokemon");
+  if (partyIndex === s.activeIndex) throw new Error("cannot switch to the active pokemon");
+
+  // しぜんかいふくは「引っ込む個体」の特性なので、状態のリセットより先に見る
+  if (activeOf(state, side).currentHp > 0) {
+    onSwitchOutHeld(heldBase(data, state, side, rng, events));
+  }
+  onSwitchOut(activeOf(state, side));
+  s.activeIndex = partyIndex;
+  events.push({ kind: "switchIn", side, partyIndex });
+  fireEntry(data, state, side, rng, events);
 }
 
 /**
@@ -251,11 +366,7 @@ function performMove(
       : { kind: "moveUsed", side: attacker, move: move.id },
   );
 
-  if (!rollAccuracy(self, foe, move, rng)) {
-    events.push({ kind: "missed", side: attacker });
-    return;
-  }
-
+  const hp = hpMutators(state, events);
   const ctx: EffectContext = {
     data,
     state,
@@ -265,7 +376,25 @@ function performMove(
     rng,
     events,
     landed: false,
+    isSecondary: false,
+    ...hp,
   };
+
+  // ── 特性による無効化（ふゆう・ちょすい・もらいび等）──
+  // 命中判定より先に見る。当たる当たらない以前に「効かない」ため。
+  if (!isStruggle && move.category !== "status") {
+    const absorbed = absorbOf(data, foe, move.type);
+    if (absorbed !== null) {
+      events.push({ kind: "noEffect", side: defender });
+      applyAbsorbGain(heldBase(data, state, defender, rng, events), absorbed.ref, absorbed.gain);
+      return;
+    }
+  }
+
+  if (!rollAccuracy(data, self, foe, move, rng)) {
+    events.push({ kind: "missed", side: attacker });
+    return;
+  }
 
   // ── 変化技 ──
   if (move.category === "status") {
@@ -286,9 +415,8 @@ function performMove(
   for (let i = 0; i < hits; i++) {
     if (activeOf(state, defender).currentHp <= 0) break;
 
-    const result = calcDamage(data, self, activeOf(state, defender), move, rng, {
-      typeless: isStruggle,
-    });
+    const target = activeOf(state, defender);
+    const result = calcDamage(data, self, target, move, rng, { typeless: isStruggle });
     lastEffectiveness = result.effectiveness;
 
     if (result.effectiveness === 0) {
@@ -296,14 +424,33 @@ function performMove(
       return;
     }
 
-    totalDealt += dealDamage(state, defender, result.damage, events, (amount, remainingHp) => ({
+    // きあいのタスキ・がんじょう: HP満タンからの一撃を1で耐える
+    const endured = result.damage >= target.currentHp
+      ? enduresOf(data, target, result.damage)
+      : null;
+    const amount = endured === null ? result.damage : target.currentHp - 1;
+
+    totalDealt += dealDamage(state, defender, amount, events, (dealt, remainingHp) => ({
       kind: "damage",
       side: defender,
-      amount,
+      amount: dealt,
       remainingHp,
       effectiveness: result.effectiveness,
       critical: result.critical,
     }));
+
+    if (endured !== null) {
+      events.push(
+        endured.source === "ability"
+          ? { kind: "ability", side: defender, ability: endured.id }
+          : { kind: "item", side: defender, item: endured.id },
+      );
+      events.push({ kind: "endured", side: defender });
+      if (endured.source === "item") {
+        target.itemConsumed = true;
+        events.push({ kind: "itemConsumed", side: defender, item: endured.id });
+      }
+    }
   }
 
   if (hits > 1) events.push({ kind: "hitCount", side: defender, hits });
@@ -313,6 +460,11 @@ function performMove(
   if (target.status === "freeze" && move.type === "fire" && totalDealt > 0) {
     target.status = null;
     events.push({ kind: "thawed", side: defender });
+  }
+
+  // ── 接触技を受けた側の反応（せいでんき・ゴツゴツメット等）──
+  if (move.contact === true && totalDealt > 0 && activeOf(state, attacker).currentHp > 0) {
+    onContacted(heldBase(data, state, defender, rng, events));
   }
 
   if (isStruggle) {
@@ -328,16 +480,31 @@ function performMove(
 
   if (move.effect !== undefined && lastEffectiveness !== 0) {
     ctx.damageDealt = totalDealt;
+    ctx.isSecondary = true;
     applyEffect(move.effect, ctx);
+  }
+
+  // ── 技を撃ち終わったあと（いのちのたま・こだわりの固定・あくしゅう）──
+  if (activeOf(state, attacker).currentHp > 0) {
+    afterOwnMove(heldBase(data, state, attacker, rng, events), totalDealt, move);
   }
 }
 
-/** ターン終了時のスリップダメージ。 */
-function endOfTurn(state: BattleState, rng: Rng, events: BattleEvent[]): void {
-  for (const side of speedOrder(state, rng)) {
+/** ターン終了時のスリップダメージと、持ち物・特性のターン終了処理。 */
+function endOfTurn(
+  data: GameData,
+  state: BattleState,
+  rng: Rng,
+  events: BattleEvent[],
+): void {
+  for (const side of speedOrder(data, state, rng)) {
     const p = activeOf(state, side);
     if (p.currentHp <= 0) continue;
 
+    // たべのこし等はスリップダメージより先（原作の順序）
+    onEndOfTurnHeld(heldBase(data, state, side, rng, events));
+
+    if (p.currentHp <= 0) continue;
     const damage = residualDamage(p);
     if (damage > 0) {
       const status = p.status!;
@@ -351,6 +518,8 @@ function endOfTurn(state: BattleState, rng: Rng, events: BattleEvent[]): void {
       if (p.status === "toxic") p.statusCounter += 1;
     }
   }
+
+  checkHeld(data, state, rng, events);
 
   // ひるみは1ターン限り
   for (const side of [0, 1] as const) {
@@ -405,11 +574,20 @@ export function step(
       if (action?.kind !== "switch") {
         throw new Error(`side ${side} must switch after fainting`);
       }
-      performSwitch(draft, side, action.partyIndex, events);
+      performSwitch(data, draft, side, action.partyIndex, rng, events);
     }
     draft.pendingSwitch = [];
     draft.rng = rng.state();
     return { state: draft, events };
+  }
+
+  // ── バトル開始時の特性（いかく等）──
+  // createBattle はイベント列を返さないため、最初の step で発火させる。
+  if (draft.turn === 0) {
+    for (const side of speedOrder(data, draft, rng)) {
+      fireEntry(data, draft, side, rng, events);
+    }
+    checkHeld(data, draft, rng, events);
   }
 
   draft.turn += 1;
@@ -428,18 +606,18 @@ export function step(
   }) as [Exclude<Action, { kind: "item" } | { kind: "run" }>, ...Exclude<Action, { kind: "item" } | { kind: "run" }>[]];
 
   // ── 1. 交代（技より常に先）──
-  for (const side of speedOrder(draft, rng)) {
+  for (const side of speedOrder(data, draft, rng)) {
     const action = resolved[side]!;
-    if (action.kind === "switch") performSwitch(draft, side, action.partyIndex, events);
+    if (action.kind === "switch") performSwitch(data, draft, side, action.partyIndex, rng, events);
   }
 
-  // ── 2. 使用する技を確定（PP が全滅していればわるあがき）──
+  // ── 2. 使用する技を確定（使える技が無ければわるあがき）──
   const chosen = ([0, 1] as const).map((side) => {
     const action = resolved[side]!;
     if (action.kind !== "move") return null;
 
     const active = activeOf(draft, side);
-    if (!active.moves.some((m) => m.pp > 0)) {
+    if (usableMoveIndices(data, draft, side).length === 0) {
       return { move: STRUGGLE, isStruggle: true, slotIndex: -1 };
     }
     const slot = active.moves[action.moveIndex];
@@ -453,7 +631,7 @@ export function step(
     const p0 = chosen[0]?.move.priority ?? -Infinity;
     const p1 = chosen[1]?.move.priority ?? -Infinity;
     if (p0 !== p1) return p0 > p1 ? [0, 1] : [1, 0];
-    return speedOrder(draft, rng);
+    return speedOrder(data, draft, rng);
   })();
 
   for (const side of order) {
@@ -462,19 +640,28 @@ export function step(
     if (pick === null || pick === undefined) continue;
     if (activeOf(draft, side).currentHp <= 0) continue;
 
-    if (!canAct(data, draft, side, rng, events)) continue;
+    if (!canAct(data, draft, side, rng, events)) {
+      checkHeld(data, draft, rng, events);
+      updateBattleStatus(draft, events);
+      if (draft.result !== null) break;
+      continue;
+    }
 
     if (!pick.isStruggle) {
-      activeOf(draft, side).moves[pick.slotIndex]!.pp -= 1;
+      // プレッシャーは相手の PP を余分に減らす
+      const cost = 1 + extraPpCost(data, activeOf(draft, other(side)));
+      const slot = activeOf(draft, side).moves[pick.slotIndex]!;
+      slot.pp = Math.max(0, slot.pp - cost);
     }
     performMove(data, draft, side, pick.move, pick.isStruggle, rng, events);
+    checkHeld(data, draft, rng, events);
     updateBattleStatus(draft, events);
     if (draft.result !== null) break;
   }
 
   // ── 4. ターン終了処理 ──
   if (draft.result === null) {
-    endOfTurn(draft, rng, events);
+    endOfTurn(data, draft, rng, events);
     updateBattleStatus(draft, events);
   }
 
