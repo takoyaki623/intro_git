@@ -240,6 +240,25 @@ function checkBattleReady(): void {
         `${s.id}: 攻撃技が ${[...damagingTypes].join("/")} のみ（無効タイプに詰む）`,
       );
     }
+
+    // 得意な攻撃側と技の分類が噛み合っているか。
+    // とくこうが倍あるのに物理技だけ、のような構成を防ぐ。
+    const dmg = s.learnset
+      .map((l) => gameData.move(l.move))
+      .filter((m) => m.category !== "status");
+    if (dmg.length > 0 && s.baseStats.atk !== s.baseStats.spa) {
+      const wantsPhysical = s.baseStats.atk > s.baseStats.spa;
+      const hasPreferred = dmg.some((m) =>
+        m.category === (wantsPhysical ? "physical" : "special"),
+      );
+      if (!hasPreferred) {
+        warn(
+          "move-category-fit",
+          `${s.id}: ${wantsPhysical ? "こうげき" : "とくこう"}が高いのに` +
+            `${wantsPhysical ? "特殊" : "物理"}技しか覚えない`,
+        );
+      }
+    }
   }
 }
 

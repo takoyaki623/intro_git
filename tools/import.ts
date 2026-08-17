@@ -134,11 +134,18 @@ function provisionalLearnset(
   moves: MoveOut[],
   baseStats: Record<string, number>,
 ): { level: number; move: string }[] {
+  // 得意な攻撃側（こうげき or とくこう）に合う分類を優先する。
+  // これをしないと、とくこうが倍あるバタフリーが物理技だけ覚える、
+  // といった噛み合わない構成になる。
+  const preferred = (baseStats["atk"] ?? 0) >= (baseStats["spa"] ?? 0) ? "physical" : "special";
+
   const byType = (t: string, cat: "dmg" | "status", lo: number, hi: number) =>
-    moves.filter((m) =>
-      m.type === t &&
-      (cat === "status" ? m.category === "status" : m.power !== null) &&
-      (m.power === null || (m.power >= lo && m.power <= hi)));
+    moves
+      .filter((m) =>
+        m.type === t &&
+        (cat === "status" ? m.category === "status" : m.power !== null) &&
+        (m.power === null || (m.power >= lo && m.power <= hi)))
+      .sort((a, b) => Number(b.category === preferred) - Number(a.category === preferred));
 
   const pick = (list: MoveOut[]) => list[0]?.id;
   const out: { level: number; move: string }[] = [];

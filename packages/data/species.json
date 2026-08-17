@@ -181,7 +181,7 @@
       },
       {
         "level": 31,
-        "move": "fire-punch"
+        "move": "flamethrower"
       }
     ],
     "catchRate": 45,
@@ -225,7 +225,7 @@
       },
       {
         "level": 31,
-        "move": "fire-punch"
+        "move": "flamethrower"
       }
     ],
     "catchRate": 45,
@@ -271,7 +271,7 @@
       },
       {
         "level": 31,
-        "move": "fire-punch"
+        "move": "flamethrower"
       }
     ],
     "catchRate": 45,
@@ -488,11 +488,11 @@
       },
       {
         "level": 13,
-        "move": "bug-bite"
+        "move": "silver-wind"
       },
       {
         "level": 31,
-        "move": "x-scissor"
+        "move": "bug-buzz"
       }
     ],
     "catchRate": 120,
@@ -533,7 +533,7 @@
       },
       {
         "level": 13,
-        "move": "bug-bite"
+        "move": "silver-wind"
       },
       {
         "level": 22,
@@ -541,7 +541,7 @@
       },
       {
         "level": 31,
-        "move": "x-scissor"
+        "move": "bug-buzz"
       }
     ],
     "catchRate": 45,
@@ -1749,7 +1749,7 @@
       },
       {
         "level": 31,
-        "move": "fire-punch"
+        "move": "flamethrower"
       }
     ],
     "catchRate": 190,
@@ -1793,7 +1793,7 @@
       },
       {
         "level": 31,
-        "move": "fire-punch"
+        "move": "flamethrower"
       }
     ],
     "catchRate": 75,
@@ -1884,7 +1884,7 @@
       },
       {
         "level": 13,
-        "move": "headbutt"
+        "move": "swift"
       },
       {
         "level": 22,
@@ -2326,7 +2326,7 @@
       },
       {
         "level": 13,
-        "move": "bug-bite"
+        "move": "silver-wind"
       },
       {
         "level": 22,
@@ -2334,7 +2334,7 @@
       },
       {
         "level": 31,
-        "move": "x-scissor"
+        "move": "bug-buzz"
       }
     ],
     "catchRate": 75,
@@ -2836,7 +2836,7 @@
       },
       {
         "level": 31,
-        "move": "surf"
+        "move": "waterfall"
       }
     ],
     "catchRate": 255,
@@ -2880,7 +2880,7 @@
       },
       {
         "level": 31,
-        "move": "surf"
+        "move": "waterfall"
       }
     ],
     "catchRate": 120,
@@ -2925,7 +2925,7 @@
       },
       {
         "level": 31,
-        "move": "surf"
+        "move": "waterfall"
       }
     ],
     "catchRate": 45,
@@ -3222,7 +3222,7 @@
     "learnset": [
       {
         "level": 1,
-        "move": "absorb"
+        "move": "vine-whip"
       },
       {
         "level": 7,
@@ -3238,7 +3238,7 @@
       },
       {
         "level": 31,
-        "move": "giga-drain"
+        "move": "petal-blizzard"
       }
     ],
     "catchRate": 255,
@@ -3271,7 +3271,7 @@
     "learnset": [
       {
         "level": 1,
-        "move": "absorb"
+        "move": "vine-whip"
       },
       {
         "level": 7,
@@ -3287,7 +3287,7 @@
       },
       {
         "level": 31,
-        "move": "giga-drain"
+        "move": "petal-blizzard"
       }
     ],
     "catchRate": 120,
@@ -3320,7 +3320,7 @@
     "learnset": [
       {
         "level": 1,
-        "move": "absorb"
+        "move": "vine-whip"
       },
       {
         "level": 7,
@@ -3336,7 +3336,7 @@
       },
       {
         "level": 31,
-        "move": "giga-drain"
+        "move": "petal-blizzard"
       }
     ],
     "catchRate": 45,
@@ -3718,7 +3718,7 @@
       },
       {
         "level": 31,
-        "move": "surf"
+        "move": "waterfall"
       }
     ],
     "catchRate": 190,
@@ -4056,7 +4056,7 @@
       },
       {
         "level": 31,
-        "move": "surf"
+        "move": "waterfall"
       }
     ],
     "catchRate": 190,
@@ -4101,7 +4101,7 @@
       },
       {
         "level": 31,
-        "move": "surf"
+        "move": "waterfall"
       }
     ],
     "catchRate": 75,
@@ -4242,7 +4242,7 @@
       },
       {
         "level": 31,
-        "move": "surf"
+        "move": "waterfall"
       }
     ],
     "catchRate": 190,
@@ -4287,7 +4287,7 @@
       },
       {
         "level": 31,
-        "move": "surf"
+        "move": "waterfall"
       }
     ],
     "catchRate": 60,
@@ -4615,7 +4615,7 @@
       },
       {
         "level": 31,
-        "move": "surf"
+        "move": "waterfall"
       }
     ],
     "catchRate": 225,
@@ -4659,7 +4659,7 @@
       },
       {
         "level": 31,
-        "move": "surf"
+        "move": "waterfall"
       }
     ],
     "catchRate": 60,
@@ -5077,7 +5077,7 @@
       },
       {
         "level": 13,
-        "move": "headbutt"
+        "move": "swift"
       },
       {
         "level": 18,
@@ -5319,7 +5319,7 @@
       },
       {
         "level": 13,
-        "move": "headbutt"
+        "move": "swift"
       },
       {
         "level": 18,
@@ -5556,7 +5556,7 @@
       },
       {
         "level": 31,
-        "move": "surf"
+        "move": "waterfall"
       }
     ],
     "catchRate": 225,
@@ -5600,7 +5600,7 @@
       },
       {
         "level": 31,
-        "move": "surf"
+        "move": "waterfall"
       }
     ],
     "catchRate": 60,
@@ -5840,7 +5840,7 @@
       },
       {
         "level": 31,
-        "move": "ice-punch"
+        "move": "ice-beam"
       }
     ],
     "catchRate": 45,
@@ -5932,7 +5932,7 @@
       },
       {
         "level": 31,
-        "move": "fire-punch"
+        "move": "flamethrower"
       }
     ],
     "catchRate": 45,
@@ -6114,7 +6114,7 @@
       },
       {
         "level": 31,
-        "move": "surf"
+        "move": "waterfall"
       }
     ],
     "catchRate": 45,
@@ -6159,7 +6159,7 @@
       },
       {
         "level": 31,
-        "move": "surf"
+        "move": "waterfall"
       }
     ],
     "catchRate": 45,
@@ -6431,7 +6431,7 @@
       },
       {
         "level": 13,
-        "move": "headbutt"
+        "move": "swift"
       },
       {
         "level": 18,
@@ -6757,7 +6757,7 @@
       },
       {
         "level": 31,
-        "move": "ice-punch"
+        "move": "ice-beam"
       }
     ],
     "catchRate": 3,
@@ -6851,7 +6851,7 @@
       },
       {
         "level": 31,
-        "move": "fire-punch"
+        "move": "flamethrower"
       }
     ],
     "catchRate": 3,
