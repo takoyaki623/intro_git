@@ -1,7 +1,7 @@
 /**
  * 基本型。
  *
- * v0.1 の範囲では状態異常・ランク補正・特性・持ち物を含まない（v0.2 / v0.5）。
+ * v0.2 の範囲では特性・持ち物・天候を含まない（v0.5 / v1.1）。
  * 型の側だけ先に用意しておくものは、その旨をコメントで示す。
  * 設計: docs/design/battle-system.md
  */
@@ -17,15 +17,23 @@ export const STATS = ["hp", "atk", "def", "spa", "spd", "spe"] as const;
 export type StatId = (typeof STATS)[number];
 export type StatSpread = Record<StatId, number>;
 
+/** ランク補正を持つ能力。命中・回避は倍率表が異なる。 */
+export const STAGED_STATS = ["atk", "def", "spa", "spd", "spe", "accuracy", "evasion"] as const;
+export type StagedStat = (typeof STAGED_STATS)[number];
+export type StatStages = Record<StagedStat, number>;
+
 export type MoveCategory = "physical" | "special" | "status";
 
-/** v0.1 では単体対象のみ。ダブル対応の余地として値を分けてある。 */
+/** v0.2 では単体対象のみ。ダブル対応の余地として値を分けてある。 */
 export type MoveTarget = "foe" | "self";
+
+/** 状態異常。同時に1つのみ。混乱は別枠（volatile）。 */
+export const STATUSES = ["poison", "toxic", "paralysis", "burn", "sleep", "freeze"] as const;
+export type StatusId = (typeof STATUSES)[number];
 
 /**
  * ID 型。
  * 設計では tools/gen-ids.ts が JSON から実際のユニオン型を生成する（v0.4）。
- * v0.1 は件数が少ないため string 別名で運用し、v0.4 で生成型に差し替える。
  */
 export type SpeciesId = string;
 export type MoveId = string;
@@ -49,7 +57,7 @@ export type Species = {
   catchRate: number;
   expType: string;
   evYield: Partial<StatSpread>;
-  genderRatio: number | null; // オスの比率(0..1)。null は性別不明
+  genderRatio: number | null;
 };
 
 export type Move = {
@@ -57,13 +65,15 @@ export type Move = {
   name: string;
   type: Type;
   category: MoveCategory;
-  /** 変化技は null。v0.1 では変化技を持たない。 */
+  /** 変化技は null。 */
   power: number | null;
   /** null は必中。 */
   accuracy: number | null;
   pp: number;
   priority: number;
   target: MoveTarget;
+  /** 急所ランクの加算。きりさく等。既定 0。 */
+  critStage?: number;
   effect?: MoveEffect;
 };
 
@@ -74,8 +84,19 @@ export type Move = {
  */
 export type MoveEffect =
   | { kind: "recoil"; ratio: number }
-  | { kind: "drain"; ratio: number };
-// v0.2 で status / statChange / flinch / multiHit / heal を追加する
+  | { kind: "drain"; ratio: number }
+  | { kind: "heal"; ratio: number }
+  | { kind: "status"; status: StatusId; chance: number }
+  | { kind: "confuse"; chance: number }
+  | { kind: "flinch"; chance: number }
+  | {
+      kind: "statChange";
+      target: "self" | "foe";
+      stat: StagedStat;
+      stages: number;
+      chance: number;
+    }
+  | { kind: "multiHit"; min: number; max: number };
 
 export type NatureModifier = {
   id: NatureId;
@@ -99,29 +120,37 @@ export type BattleMove = {
   maxPp: number;
 };
 
+/** 交代で消える一時的な状態。 */
+export type Volatile = {
+  confusionTurns: number;
+  flinched: boolean;
+};
+
 export type BattlePokemon = {
   species: SpeciesId;
   name: string;
   level: number;
   types: readonly Type[];
-  /** 実数値。レベル・個体値・努力値・性格から算出済み。 */
+  /** 実数値。ランク補正はここに含めず、参照時に掛ける。 */
   stats: StatSpread;
   maxHp: number;
   currentHp: number;
   moves: BattleMove[];
+
+  status: StatusId | null;
+  /** ねむりの残りターン / もうどくの経過ターン。 */
+  statusCounter: number;
+  statStages: StatStages;
+  volatile: Volatile;
 };
 
-/**
- * v0.1 は手持ち1体のみ。交代は v0.2 で party を配列化して対応する。
- */
 export type Side = {
-  active: BattlePokemon;
+  party: BattlePokemon[];
+  activeIndex: number;
 };
 
 export type RngState = {
-  /** xorshift32 の内部状態。 */
   s: number;
-  /** 消費した乱数の回数。リプレイ・デバッグ用。 */
   calls: number;
 };
 
@@ -130,20 +159,28 @@ export type BattleState = {
   turn: number;
   rng: RngState;
   result: { winner: SideIndex | null } | null;
+  /**
+   * ひんしにより交代を要求されている側。
+   * 空でない間、次の step はその側の switch 行動のみを処理し、ターンを進めない。
+   */
+  pendingSwitch: SideIndex[];
 };
 
 /**
- * 行動。v0.1 で実装するのは move のみだが、4種すべてを定義しておく。
- * 型を後から広げると行動順の処理を書き直すことになるため。
+ * 行動。v0.2 で実装するのは move / switch。
+ * item / run は v0.7〜v0.8 だが、型は最初から4種すべて定義する。
  * 設計: docs/design/battle-system.md §2
  */
 export type Action =
   | { kind: "move"; moveIndex: number }
-  | { kind: "switch"; partyIndex: number } // v0.2
+  | { kind: "switch"; partyIndex: number }
   | { kind: "item"; item: ItemId } // v0.7〜v0.8
   | { kind: "run" }; // v0.7
 
 export type Effectiveness = 0 | 0.25 | 0.5 | 1 | 2 | 4;
+
+/** 行動できなかった理由。 */
+export type BlockedReason = "sleep" | "freeze" | "paralysis" | "confusion" | "flinch";
 
 /**
  * UI はこのイベント列を順に消費して演出する。
@@ -151,24 +188,39 @@ export type Effectiveness = 0 | 0.25 | 0.5 | 1 | 2 | 4;
  */
 export type BattleEvent =
   | { kind: "turnStart"; turn: number }
+  | { kind: "switchIn"; side: SideIndex; partyIndex: number }
   | { kind: "moveUsed"; side: SideIndex; move: MoveId }
   | { kind: "struggle"; side: SideIndex }
+  | { kind: "blocked"; side: SideIndex; reason: BlockedReason }
+  | { kind: "wokeUp" | "thawed" | "snappedOut"; side: SideIndex }
   | { kind: "missed"; side: SideIndex }
   | { kind: "noEffect"; side: SideIndex }
+  | { kind: "failed"; side: SideIndex }
   | {
       kind: "damage";
-      side: SideIndex; // ダメージを受けた側
+      side: SideIndex;
       amount: number;
       remainingHp: number;
       effectiveness: Effectiveness;
       critical: boolean;
     }
+  | { kind: "hitCount"; side: SideIndex; hits: number }
+  | { kind: "confusionHit"; side: SideIndex; amount: number; remainingHp: number }
   | { kind: "recoil"; side: SideIndex; amount: number; remainingHp: number }
-  | { kind: "drain"; side: SideIndex; amount: number; remainingHp: number }
+  | { kind: "drain" | "heal"; side: SideIndex; amount: number; remainingHp: number }
+  | { kind: "statusApplied"; side: SideIndex; status: StatusId }
+  | { kind: "confused"; side: SideIndex }
+  | { kind: "statusDamage"; side: SideIndex; status: StatusId; amount: number; remainingHp: number }
+  | { kind: "statChange"; side: SideIndex; stat: StagedStat; delta: number; stage: number }
+  | { kind: "statChangeFailed"; side: SideIndex; stat: StagedStat }
   | { kind: "faint"; side: SideIndex }
   | { kind: "battleEnd"; winner: SideIndex | null };
 
 export type StepResult = {
   state: BattleState;
   events: BattleEvent[];
+};
+
+export const EMPTY_STAGES: StatStages = {
+  atk: 0, def: 0, spa: 0, spd: 0, spe: 0, accuracy: 0, evasion: 0,
 };

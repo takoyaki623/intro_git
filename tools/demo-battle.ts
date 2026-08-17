@@ -8,10 +8,13 @@
  */
 
 import {
+  activeOf,
   chooseRandomAction,
   createBattle,
   createRng,
+  requiredSides,
   step,
+  type Action,
   type BattleEvent,
   type BattlePokemonSource,
   type SideIndex,
@@ -31,12 +34,49 @@ function specFor(id: string): BattlePokemonSource {
   return { species: id, level: LEVEL, moves };
 }
 
-let state = createBattle(gameData, [specFor(aId), specFor(bId)], seed);
+let state = createBattle(gameData, [[specFor(aId)], [specFor(bId)]], seed);
 
-const nameOf = (side: SideIndex) => state.sides[side].active.name;
+const nameOf = (side: SideIndex) => activeOf(state, side).name;
+
+const STATUS_LABEL: Record<string, string> = {
+  poison: "どく", toxic: "もうどく", paralysis: "まひ",
+  burn: "やけど", sleep: "ねむり", freeze: "こおり",
+};
+const BLOCK_LABEL: Record<string, string> = {
+  sleep: "眠っている", freeze: "こおっている", paralysis: "体が しびれて 動けない",
+  confusion: "わけも わからず 自分を 攻撃した", flinch: "ひるんで 動けない",
+};
 
 function render(event: BattleEvent): string | null {
   switch (event.kind) {
+    case "switchIn":
+      return `${nameOf(event.side)} を くりだした!`;
+    case "blocked":
+      return `  ${nameOf(event.side)} は ${BLOCK_LABEL[event.reason]}`;
+    case "wokeUp":
+      return `  ${nameOf(event.side)} は 目を覚ました`;
+    case "thawed":
+      return `  ${nameOf(event.side)} の こおりが とけた`;
+    case "snappedOut":
+      return `  ${nameOf(event.side)} の 混乱が とけた`;
+    case "failed":
+      return `  しかし うまく きまらなかった`;
+    case "hitCount":
+      return `  ${event.hits} 回 当たった!`;
+    case "confusionHit":
+      return `  自分を 攻撃して ${event.amount} (残り ${event.remainingHp})`;
+    case "statusApplied":
+      return `  ${nameOf(event.side)} は ${STATUS_LABEL[event.status]} になった`;
+    case "confused":
+      return `  ${nameOf(event.side)} は 混乱した`;
+    case "statusDamage":
+      return `  ${nameOf(event.side)} は ${STATUS_LABEL[event.status]} で ${event.amount} (残り ${event.remainingHp})`;
+    case "statChange":
+      return `  ${nameOf(event.side)} の ${event.stat} が ${event.delta > 0 ? "あがった" : "さがった"} (${event.stage})`;
+    case "statChangeFailed":
+      return `  ${nameOf(event.side)} の ${event.stat} は もう変わらない`;
+    case "heal":
+      return `  ${nameOf(event.side)} は ${event.amount} 回復した (残り ${event.remainingHp})`;
     case "turnStart":
       return `\n── ターン ${event.turn} ──`;
     case "moveUsed":
@@ -57,7 +97,7 @@ function render(event: BattleEvent): string | null {
     case "recoil":
       return `  ${nameOf(event.side)} は 反動で ${event.amount} 受けた (残り ${event.remainingHp})`;
     case "drain":
-      return `  ${nameOf(event.side)} は ${event.amount} 回復した`;
+      return `  ${nameOf(event.side)} は ${event.amount} 吸い取った`;
     case "faint":
       return `  ${nameOf(event.side)} は たおれた!`;
     case "battleEnd":
@@ -72,11 +112,13 @@ console.log(`${nameOf(0)} (Lv${LEVEL}) vs ${nameOf(1)} (Lv${LEVEL})   seed=${see
 let turns = 0;
 while (state.result === null) {
   const rng = createRng(state.rng);
-  const a0 = chooseRandomAction(state, 0, rng);
-  const a1 = chooseRandomAction(state, 1, rng);
+  const actions: [Action | null, Action | null] = [null, null];
+  for (const side of requiredSides(state)) {
+    actions[side] = chooseRandomAction(state, side, rng);
+  }
   state = { ...state, rng: rng.state() };
 
-  const result = step(gameData, state, [a0, a1]);
+  const result = step(gameData, state, actions);
   for (const event of result.events) {
     const line = render(event);
     if (line !== null) console.log(line);

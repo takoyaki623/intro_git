@@ -7,6 +7,8 @@ export * from "./types.js";
 export * from "./gamedata.js";
 export * from "./rng.js";
 export * from "./stats.js";
+export * from "./stages.js";
+export * from "./status.js";
 export * from "./typechart.js";
 export * from "./damage.js";
 export * from "./effects.js";

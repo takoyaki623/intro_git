@@ -15,7 +15,7 @@ const bulba = { species: "bulbasaur", level: 50, moves: ["tackle", "vine-whip"] 
 
 /** ランダムAI同士で1戦を最後まで進める。 */
 function playOut(seed: number): { state: BattleState; events: BattleEvent[]; turns: number } {
-  let state = createBattle(gameData, [pika, bulba], seed);
+  let state = createBattle(gameData, [[pika], [bulba]], seed);
   const events: BattleEvent[] = [];
   let turns = 0;
 
@@ -38,14 +38,14 @@ function playOut(seed: number): { state: BattleState; events: BattleEvent[]; tur
 
 describe("バトルの基本", () => {
   it("開始状態は満タンで結果が無い", () => {
-    const state = createBattle(gameData, [pika, bulba], 1);
+    const state = createBattle(gameData, [[pika], [bulba]], 1);
     expect(state.result).toBeNull();
     expect(state.turn).toBe(0);
-    expect(state.sides[0].active.currentHp).toBe(state.sides[0].active.maxHp);
+    expect(state.sides[0].party[0]!.currentHp).toBe(state.sides[0].party[0]!.maxHp);
   });
 
   it("step は呼び出し元の state を変更しない", () => {
-    const state = createBattle(gameData, [pika, bulba], 1);
+    const state = createBattle(gameData, [[pika], [bulba]], 1);
     const before = structuredClone(state);
     step(gameData, state, [
       { kind: "move", moveIndex: 0 },
@@ -55,13 +55,13 @@ describe("バトルの基本", () => {
   });
 
   it("技を使うと PP が減る", () => {
-    const state = createBattle(gameData, [pika, bulba], 1);
+    const state = createBattle(gameData, [[pika], [bulba]], 1);
     const { state: next } = step(gameData, state, [
       { kind: "move", moveIndex: 0 },
       { kind: "move", moveIndex: 0 },
     ]);
-    expect(next.sides[0].active.moves[0]!.pp).toBe(29);
-    expect(next.sides[1].active.moves[0]!.pp).toBe(34);
+    expect(next.sides[0].party[0]!.moves[0]!.pp).toBe(29);
+    expect(next.sides[1].party[0]!.moves[0]!.pp).toBe(34);
   });
 
   it("優先度の高い技が先に出る", () => {
@@ -69,7 +69,7 @@ describe("バトルの基本", () => {
     const slowWithPriority = {
       species: "geodude", level: 50, moves: ["quick-attack", "tackle"],
     };
-    const state = createBattle(gameData, [slowWithPriority, pika], 1);
+    const state = createBattle(gameData, [[slowWithPriority], [pika]], 1);
     const { events } = step(gameData, state, [
       { kind: "move", moveIndex: 0 }, // でんこうせっか（優先度+1）
       { kind: "move", moveIndex: 0 },
@@ -79,7 +79,7 @@ describe("バトルの基本", () => {
   });
 
   it("素早さ順に行動する（優先度が同じ場合）", () => {
-    const state = createBattle(gameData, [bulba, pika], 1);
+    const state = createBattle(gameData, [[bulba], [pika]], 1);
     const { events } = step(gameData, state, [
       { kind: "move", moveIndex: 0 },
       { kind: "move", moveIndex: 0 },
@@ -91,7 +91,7 @@ describe("バトルの基本", () => {
 
   it("相性0倍は noEffect になりダメージが出ない", () => {
     const geo = { species: "geodude", level: 50, moves: ["tackle"] };
-    const state = createBattle(gameData, [pika, geo], 1);
+    const state = createBattle(gameData, [[pika], [geo]], 1);
     const { events } = step(gameData, state, [
       { kind: "move", moveIndex: 0 }, // でんきショック → いわ/じめんに無効
       { kind: "move", moveIndex: 0 },
@@ -112,17 +112,17 @@ describe("バトルの基本", () => {
   });
 
   it("未実装の行動は明示的に投げる", () => {
-    const state = createBattle(gameData, [pika, bulba], 1);
+    const state = createBattle(gameData, [[pika], [bulba]], 1);
     expect(() =>
       step(gameData, state, [{ kind: "run" }, { kind: "move", moveIndex: 0 }]),
-    ).toThrow(/not implemented in v0.1/);
+    ).toThrow(/not implemented in v0.2/);
   });
 });
 
 describe("効果レジストリ", () => {
   it("とっしんの反動で自分も減る", () => {
     const attacker = { species: "geodude", level: 50, moves: ["take-down"] };
-    const state = createBattle(gameData, [attacker, bulba], 3);
+    const state = createBattle(gameData, [[attacker], [bulba]], 3);
     const { events } = step(gameData, state, [
       { kind: "move", moveIndex: 0 },
       { kind: "move", moveIndex: 0 },
@@ -141,10 +141,10 @@ describe("効果レジストリ", () => {
 describe("わるあがき（PP切れでも決着する）", () => {
   it("PP が尽きるとわるあがきになり、反動で自滅する", () => {
     // ピカチュウ(spe 110) が先に動くので、倒される前にわるあがきを撃てる
-    const state = createBattle(gameData, [pika, bulba], 11);
+    const state = createBattle(gameData, [[pika], [bulba]], 11);
 
     // ピカチュウの全ての技の PP を 0 にする
-    for (const m of state.sides[0].active.moves) m.pp = 0;
+    for (const m of state.sides[0].party[0]!.moves) m.pp = 0;
 
     const { events } = step(gameData, state, [
       { kind: "move", moveIndex: 0 },
@@ -155,15 +155,15 @@ describe("わるあがき（PP切れでも決着する）", () => {
   });
 
   it("legalActions は PP 切れでも空にならない", () => {
-    const state = createBattle(gameData, [pika, bulba], 1);
-    for (const m of state.sides[0].active.moves) m.pp = 0;
+    const state = createBattle(gameData, [[pika], [bulba]], 1);
+    for (const m of state.sides[0].party[0]!.moves) m.pp = 0;
     expect(legalActions(state, 0).length).toBeGreaterThan(0);
   });
 });
 
 describe("GameData の注入", () => {
   it("部分的なデータだけを渡してもバトルが成立する", () => {
-    // v0.1 の眼目。core はデータを静的に持たない。
+    // core はデータを静的に持たない。
     const minimal = createGameData({
       species: gameData ? [gameData.species("pikachu"), gameData.species("bulbasaur")] : [],
       moves: [gameData.move("thunder-shock"), gameData.move("tackle")],
@@ -171,8 +171,8 @@ describe("GameData の注入", () => {
     const state = createBattle(
       minimal,
       [
-        { species: "pikachu", level: 50, moves: ["thunder-shock"] },
-        { species: "bulbasaur", level: 50, moves: ["tackle"] },
+        [{ species: "pikachu", level: 50, moves: ["thunder-shock"] }],
+        [{ species: "bulbasaur", level: 50, moves: ["tackle"] }],
       ],
       1,
     );

@@ -12,7 +12,9 @@ import {
   chooseRandomAction,
   createBattle,
   createRng,
+  requiredSides,
   step,
+  type Action,
   type BattleEvent,
   type BattlePokemonSource,
 } from "@pkmn/core";
@@ -30,18 +32,24 @@ function specFor(speciesId: string, level: number): BattlePokemonSource {
 
 type Outcome = { winner: number | null; turns: number; events: BattleEvent[] };
 
-function playOut(a: BattlePokemonSource, b: BattlePokemonSource, seed: number): Outcome {
+function playOut(
+  a: readonly BattlePokemonSource[],
+  b: readonly BattlePokemonSource[],
+  seed: number,
+): Outcome {
   let state = createBattle(gameData, [a, b], seed);
   const events: BattleEvent[] = [];
   let turns = 0;
 
   while (state.result === null) {
     const rng = createRng(state.rng);
-    const a0 = chooseRandomAction(state, 0, rng);
-    const a1 = chooseRandomAction(state, 1, rng);
+    const actions: [Action | null, Action | null] = [null, null];
+    for (const side of requiredSides(state)) {
+      actions[side] = chooseRandomAction(state, side, rng);
+    }
     state = { ...state, rng: rng.state() };
 
-    const result = step(gameData, state, [a0, a1]);
+    const result = step(gameData, state, actions);
     state = result.state;
     events.push(...result.events);
     turns++;
@@ -60,7 +68,13 @@ describe("完走テスト", () => {
       const b = ids[(i * 7 + 3) % ids.length]!;
       const level = 20 + (i % 60);
 
-      const outcome = playOut(specFor(a, level), specFor(b, level), i + 1);
+      const c = ids[(i * 13 + 5) % ids.length]!;
+      const d = ids[(i * 11 + 9) % ids.length]!;
+      const outcome = playOut(
+        [specFor(a, level), specFor(c, level)],
+        [specFor(b, level), specFor(d, level)],
+        i + 1,
+      );
 
       // 決着していること（winner が null の相打ちも「決着」に含む）
       expect(outcome.events.at(-1)?.kind).toBe("battleEnd");
@@ -78,8 +92,8 @@ describe("完走テスト", () => {
 describe("決定性", () => {
   it("同じシードなら完全に同一の結果になる", () => {
     for (const seed of [1, 42, 999, 123456]) {
-      const a = specFor("pikachu", 50);
-      const b = specFor("geodude", 50);
+      const a = [specFor("pikachu", 50), specFor("lapras", 50)];
+      const b = [specFor("geodude", 50), specFor("gastly", 50)];
       const first = playOut(a, b, seed);
       const second = playOut(a, b, seed);
 
@@ -90,8 +104,8 @@ describe("決定性", () => {
   });
 
   it("シードが違えば結果も分岐する", () => {
-    const a = specFor("charmander", 50);
-    const b = specFor("squirtle", 50);
+    const a = [specFor("charmander", 50)];
+    const b = [specFor("squirtle", 50)];
     const outcomes = new Set<string>();
     for (let seed = 1; seed <= 50; seed++) {
       const o = playOut(a, b, seed);
