@@ -8,7 +8,6 @@ headbutt	ずつき	normal	physical	70	100	15	0	0	flinch:0.3	foe
 body-slam	のしかかり	normal	physical	85	100	15	0	0	status:paralysis:0.3	foe
 take-down	とっしん	normal	physical	90	85	20	0	0	recoil:0.25	foe
 double-edge	すてみタックル	normal	physical	120	100	15	0	0	recoil:0.33	foe
-hyper-beam	はかいこうせん	normal	special	150	90	5	0	0		foe
 swift	スピードスター	normal	special	60	-	20	0	0		foe
 growl	なきごえ	normal	status	-	100	40	0	0	statChange:foe:atk:-1:1	foe
 tail-whip	しっぽをふる	normal	status	-	100	30	0	0	statChange:foe:def:-1:1	foe
@@ -52,7 +51,6 @@ karate-chop	からてチョップ	fighting	physical	50	100	25	0	1		foe
 double-kick	にどげり	fighting	physical	30	100	30	0	0	multiHit:2:2	foe
 brick-break	かわらわり	fighting	physical	75	100	15	0	0		foe
 submission	じごくぐるま	fighting	physical	80	80	20	0	0	recoil:0.25	foe
-close-combat	インファイト	fighting	physical	120	100	5	0	0	statChange:self:def:-1:1	foe
 poison-sting	どくばり	poison	physical	15	100	35	0	0	status:poison:0.3	foe
 acid	ようかいえき	poison	special	40	100	30	0	0	statChange:foe:spd:-1:0.1	foe
 sludge	ヘドロこうげき	poison	special	65	100	20	0	0	status:poison:0.3	foe
@@ -61,7 +59,6 @@ sludge-bomb	ヘドロばくだん	poison	special	90	100	10	0	0	status:poison:0.3
 toxic	どくどく	poison	status	-	90	10	0	0	status:toxic:1	foe
 mud-slap	どろかけ	ground	special	20	100	10	0	0	statChange:foe:accuracy:-1:1	foe
 bulldoze	じならし	ground	physical	60	100	20	0	0	statChange:foe:spe:-1:1	foe
-dig	あなをほる	ground	physical	80	100	10	0	0		foe
 earthquake	じしん	ground	physical	100	100	10	0	0		foe
 sand-attack	すなかけ	ground	status	-	100	15	0	0	statChange:foe:accuracy:-1:1	foe
 gust	かぜおこし	flying	special	40	100	35	0	0		foe
@@ -86,12 +83,10 @@ rock-tomb	がんせきふうじ	rock	physical	60	95	15	0	0	statChange:foe:spe:-1
 rock-slide	いわなだれ	rock	physical	75	90	10	0	0	flinch:0.3	foe
 stone-edge	ストーンエッジ	rock	physical	100	80	5	0	1		foe
 lick	したでなめる	ghost	physical	30	100	30	0	0	status:paralysis:0.3	foe
-night-shade	ナイトヘッド	ghost	special	50	100	15	0	0		foe
 shadow-ball	シャドーボール	ghost	special	80	100	15	0	0	statChange:foe:spd:-1:0.2	foe
 confuse-ray	あやしいひかり	ghost	status	-	100	10	0	0	confuse:1	foe
 dragon-breath	りゅうのいぶき	dragon	special	60	100	20	0	0	status:paralysis:0.3	foe
 dragon-claw	ドラゴンクロー	dragon	physical	80	100	15	0	0		foe
-outrage	げきりん	dragon	physical	120	100	10	0	0		foe
 bite	かみつく	dark	physical	60	100	25	0	0	flinch:0.3	foe
 crunch	かみくだく	dark	physical	80	100	15	0	0	statChange:foe:def:-1:0.2	foe
 dark-pulse	あくのはどう	dark	special	80	100	15	0	0	flinch:0.2	foe
@@ -104,3 +99,8 @@ draining-kiss	ドレインキッス	fairy	special	50	100	10	0	0	drain:0.75	foe
 dazzling-gleam	マジカルシャイン	fairy	special	80	100	10	0	0		foe
 play-rough	じゃれつく	fairy	physical	90	90	10	0	0	statChange:foe:atk:-1:0.1	foe
 charm	あまえる	fairy	status	-	100	20	0	0	statChange:foe:atk:-2:1	foe
+mega-kick	メガトンキック	normal	physical	120	75	5	0	0		foe
+cross-chop	クロスチョップ	fighting	physical	100	80	5	0	1		foe
+dragon-pulse	りゅうのはどう	dragon	special	85	100	10	0	0		foe
+shadow-punch	シャドーパンチ	ghost	physical	60	-	20	0	0		foe
+magnitude	マグニチュード	ground	physical	70	100	30	0	0		foe

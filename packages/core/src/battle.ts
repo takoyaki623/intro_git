@@ -164,7 +164,13 @@ function dealDamage(
  * 行動前の判定。行動できるなら true。
  * ねむり・こおり・まひ・ひるみ・混乱を処理する。
  */
-function canAct(state: BattleState, side: SideIndex, rng: Rng, events: BattleEvent[]): boolean {
+function canAct(
+  data: GameData,
+  state: BattleState,
+  side: SideIndex,
+  rng: Rng,
+  events: BattleEvent[],
+): boolean {
   const p = activeOf(state, side);
 
   if (p.volatile.flinched) {
@@ -204,9 +210,12 @@ function canAct(state: BattleState, side: SideIndex, rng: Rng, events: BattleEve
       events.push({ kind: "snappedOut", side });
     } else if (rng.chance(CONFUSION_SELF_HIT_CHANCE)) {
       events.push({ kind: "blocked", side, reason: "confusion" });
-      // 混乱の自傷: 威力40・タイプなしの物理を自分に
-      const self = { ...STRUGGLE, power: CONFUSION_SELF_HIT_POWER };
-      const { damage } = calcDamage({} as GameData, p, p, self, rng, {
+      // 混乱の自傷は威力40・タイプなしの物理を自分に。急所は無し。
+      // 以前ここで {} as GameData という偽のデータを渡していた。
+      // typeless の経路が data を読まないから動いていただけで、
+      // calcDamage が将来データを参照した瞬間に壊れる。実物を渡す。
+      const selfHit = { ...STRUGGLE, power: CONFUSION_SELF_HIT_POWER };
+      const { damage } = calcDamage(data, p, p, selfHit, rng, {
         typeless: true,
         forceCritical: false,
       });
@@ -453,7 +462,7 @@ export function step(
     if (pick === null || pick === undefined) continue;
     if (activeOf(draft, side).currentHp <= 0) continue;
 
-    if (!canAct(draft, side, rng, events)) continue;
+    if (!canAct(data, draft, side, rng, events)) continue;
 
     if (!pick.isStruggle) {
       activeOf(draft, side).moves[pick.slotIndex]!.pp -= 1;

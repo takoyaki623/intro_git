@@ -1271,7 +1271,7 @@
       },
       {
         "level": 31,
-        "move": "dig"
+        "move": "earthquake"
       }
     ],
     "catchRate": 255,
@@ -1319,7 +1319,7 @@
       },
       {
         "level": 31,
-        "move": "dig"
+        "move": "earthquake"
       }
     ],
     "catchRate": 90,
@@ -2383,7 +2383,7 @@
       },
       {
         "level": 31,
-        "move": "dig"
+        "move": "earthquake"
       }
     ],
     "catchRate": 255,
@@ -2431,7 +2431,7 @@
       },
       {
         "level": 31,
-        "move": "dig"
+        "move": "earthquake"
       }
     ],
     "catchRate": 50,
@@ -4328,7 +4328,7 @@
       },
       {
         "level": 13,
-        "move": "night-shade"
+        "move": "shadow-punch"
       },
       {
         "level": 22,
@@ -4377,7 +4377,7 @@
       },
       {
         "level": 13,
-        "move": "night-shade"
+        "move": "shadow-punch"
       },
       {
         "level": 22,
@@ -4426,7 +4426,7 @@
       },
       {
         "level": 13,
-        "move": "night-shade"
+        "move": "shadow-punch"
       },
       {
         "level": 22,
@@ -4901,7 +4901,7 @@
       },
       {
         "level": 31,
-        "move": "dig"
+        "move": "earthquake"
       }
     ],
     "catchRate": 190,
@@ -4949,7 +4949,7 @@
       },
       {
         "level": 31,
-        "move": "dig"
+        "move": "earthquake"
       }
     ],
     "catchRate": 75,
@@ -5230,7 +5230,7 @@
       },
       {
         "level": 31,
-        "move": "dig"
+        "move": "earthquake"
       }
     ],
     "catchRate": 120,
@@ -5279,7 +5279,7 @@
       },
       {
         "level": 31,
-        "move": "dig"
+        "move": "earthquake"
       }
     ],
     "catchRate": 60,

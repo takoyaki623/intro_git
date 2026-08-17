@@ -168,7 +168,44 @@ function checkMoves(): void {
 // ─────────────────────────────────────────────
 const IMPLEMENTED_EFFECTS = new Set(Object.keys(effectHandlers));
 
+/**
+ * 原作では専用の機構を必要とする技。
+ *
+ * これらを「ただの威力技」として入れると、原作より強い別の技になってしまう。
+ * 例: はかいこうせんは次ターン反動で動けないから威力150が許されている。
+ * 反動を実装しないまま入れると、単に壊れた技になる。
+ *
+ * 機構を実装したらここから外す。
+ */
+const NEEDS_UNIMPLEMENTED_MECHANIC: Record<string, string> = {
+  "hyper-beam": "次ターンの反動",
+  "giga-impact": "次ターンの反動",
+  outrage: "複数ターンの連続行動と終了後の混乱",
+  thrash: "複数ターンの連続行動と終了後の混乱",
+  "petal-dance": "複数ターンの連続行動と終了後の混乱",
+  dig: "2ターン技（1ターン目は攻撃を受けない）",
+  fly: "2ターン技（1ターン目は攻撃を受けない）",
+  "solar-beam": "2ターン技（溜め）",
+  "night-shade": "レベルと同じ固定ダメージ",
+  "seismic-toss": "レベルと同じ固定ダメージ",
+  counter: "受けたダメージを倍返し",
+  "close-combat": "2つの能力が同時に下がる（効果は1つまで）",
+  superpower: "2つの能力が同時に下がる（効果は1つまで）",
+  protect: "その他の防御機構",
+  substitute: "みがわり",
+  rest: "自分を眠らせて全回復",
+};
+
 function checkEngineSupport(): void {
+  for (const m of allMoves) {
+    const mechanic = NEEDS_UNIMPLEMENTED_MECHANIC[m.id];
+    if (mechanic !== undefined) {
+      fail(
+        "unimplemented-mechanic",
+        `${m.id}: 「${mechanic}」が未実装のまま入っている（原作より強い別の技になる）`,
+      );
+    }
+  }
   for (const m of allMoves) {
     if (m.effect !== undefined && !IMPLEMENTED_EFFECTS.has(m.effect.kind)) {
       fail("engine-support", `${m.id}: エンジン未対応の効果 "${m.effect.kind}"`);

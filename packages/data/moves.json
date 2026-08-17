@@ -121,17 +121,6 @@
     }
   },
   {
-    "id": "hyper-beam",
-    "name": "はかいこうせん",
-    "type": "normal",
-    "category": "special",
-    "power": 150,
-    "accuracy": 90,
-    "pp": 5,
-    "priority": 0,
-    "target": "foe"
-  },
-  {
     "id": "swift",
     "name": "スピードスター",
     "type": "normal",
@@ -786,24 +775,6 @@
     }
   },
   {
-    "id": "close-combat",
-    "name": "インファイト",
-    "type": "fighting",
-    "category": "physical",
-    "power": 120,
-    "accuracy": 100,
-    "pp": 5,
-    "priority": 0,
-    "target": "foe",
-    "effect": {
-      "kind": "statChange",
-      "target": "self",
-      "stat": "def",
-      "stages": -1,
-      "chance": 1
-    }
-  },
-  {
     "id": "poison-sting",
     "name": "どくばり",
     "type": "poison",
@@ -936,17 +907,6 @@
       "stages": -1,
       "chance": 1
     }
-  },
-  {
-    "id": "dig",
-    "name": "あなをほる",
-    "type": "ground",
-    "category": "physical",
-    "power": 80,
-    "accuracy": 100,
-    "pp": 10,
-    "priority": 0,
-    "target": "foe"
   },
   {
     "id": "earthquake",
@@ -1296,17 +1256,6 @@
     }
   },
   {
-    "id": "night-shade",
-    "name": "ナイトヘッド",
-    "type": "ghost",
-    "category": "special",
-    "power": 50,
-    "accuracy": 100,
-    "pp": 15,
-    "priority": 0,
-    "target": "foe"
-  },
-  {
     "id": "shadow-ball",
     "name": "シャドーボール",
     "type": "ghost",
@@ -1363,17 +1312,6 @@
     "power": 80,
     "accuracy": 100,
     "pp": 15,
-    "priority": 0,
-    "target": "foe"
-  },
-  {
-    "id": "outrage",
-    "name": "げきりん",
-    "type": "dragon",
-    "category": "physical",
-    "power": 120,
-    "accuracy": 100,
-    "pp": 10,
     "priority": 0,
     "target": "foe"
   },
@@ -1566,5 +1504,61 @@
       "stages": -2,
       "chance": 1
     }
+  },
+  {
+    "id": "mega-kick",
+    "name": "メガトンキック",
+    "type": "normal",
+    "category": "physical",
+    "power": 120,
+    "accuracy": 75,
+    "pp": 5,
+    "priority": 0,
+    "target": "foe"
+  },
+  {
+    "id": "cross-chop",
+    "name": "クロスチョップ",
+    "type": "fighting",
+    "category": "physical",
+    "power": 100,
+    "accuracy": 80,
+    "pp": 5,
+    "priority": 0,
+    "target": "foe",
+    "critStage": 1
+  },
+  {
+    "id": "dragon-pulse",
+    "name": "りゅうのはどう",
+    "type": "dragon",
+    "category": "special",
+    "power": 85,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe"
+  },
+  {
+    "id": "shadow-punch",
+    "name": "シャドーパンチ",
+    "type": "ghost",
+    "category": "physical",
+    "power": 60,
+    "accuracy": null,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe"
+  },
+  {
+    "id": "magnitude",
+    "name": "マグニチュード",
+    "type": "ground",
+    "category": "physical",
+    "power": 70,
+    "accuracy": 100,
+    "pp": 30,
+    "priority": 0,
+    "target": "foe"
   }
 ]
