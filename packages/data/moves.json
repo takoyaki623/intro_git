@@ -610,7 +610,7 @@
     "category": "status",
     "power": null,
     "accuracy": null,
-    "pp": 10,
+    "pp": 5,
     "priority": 0,
     "target": "self",
     "effect": {
