@@ -8,8 +8,13 @@
   --logbg: #ffffff;
   --shadow: 0 1px 2px rgba(20, 30, 50, 0.06), 0 4px 14px rgba(20, 30, 50, 0.06);
 }
+/*
+ * テーマは3状態ある: 明示的に light / 明示的に dark / 未指定(OS依存)。
+ * 未指定のときだけ prefers-color-scheme が効くようガードし、
+ * 明示指定は両方向で勝つようにする。
+ */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #12151c;
     --panel: #1a1f29;
     --ink: #e8ecf3;
@@ -19,6 +24,16 @@
     --logbg: #151922;
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 14px rgba(0, 0, 0, 0.3);
   }
+}
+:root[data-theme="dark"] {
+  --bg: #12151c;
+  --panel: #1a1f29;
+  --ink: #e8ecf3;
+  --muted: #9aa5b5;
+  --line: #2a3140;
+  --accent: #6b8fff;
+  --logbg: #151922;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 14px rgba(0, 0, 0, 0.3);
 }
 
 * { box-sizing: border-box; }
@@ -53,6 +68,10 @@ button {
   background: var(--panel); border: 1px solid var(--line);
   border-radius: 8px; padding: 6px 10px; font-size: 13px;
   transition: transform .06s ease, border-color .15s ease;
+  /* スマホ: 長押しの選択とダブルタップ拡大を抑える */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
 }
 button:hover { border-color: var(--accent); }
 button:active { transform: translateY(1px); }
@@ -141,7 +160,15 @@ button:active { transform: translateY(1px); }
 /* ── 操作 ── */
 #controls { display: grid; gap: 8px; }
 .moves { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
-@media (max-width: 520px) { .moves { grid-template-columns: 1fr; } }
+
+/* スマホ: 1カラムにし、ログを縮めて操作ボタンを画面内に収める */
+@media (max-width: 520px) {
+  #app { padding: 12px; }
+  .moves { grid-template-columns: 1fr; }
+  #log { height: 116px; }
+  .switches { display: grid; grid-template-columns: 1fr; }
+  header { gap: 8px; }
+}
 
 .move {
   display: grid; gap: 2px; text-align: left; padding: 9px 12px;
