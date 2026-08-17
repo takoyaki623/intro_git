@@ -7,7 +7,7 @@
  */
 
 import { describe, expect, it } from "vitest";
-import { calcDamage, createRng, createRngState, toBattlePokemon } from "@pkmn/core";
+import { TYPES, calcDamage, createRng, createRngState, toBattlePokemon } from "@pkmn/core";
 import { allMoves, allSpecies, gameData } from "@pkmn/data";
 
 describe("種族値が原作と一致する", () => {
@@ -25,6 +25,19 @@ describe("種族値が原作と一致する", () => {
     machop: [70, 80, 50, 35, 35, 35],
     magnemite: [25, 35, 70, 95, 55, 45],
     clefairy: [70, 45, 48, 60, 65, 35],
+    // v0.4 で 151 種へ拡張した際に追加
+    venusaur: [80, 82, 83, 100, 100, 80],
+    charizard: [78, 84, 78, 109, 85, 100],
+    blastoise: [79, 83, 100, 85, 105, 78],
+    mewtwo: [106, 110, 90, 154, 90, 130],
+    mew: [100, 100, 100, 100, 100, 100],
+    snorlax: [160, 110, 65, 65, 110, 30],
+    chansey: [250, 5, 5, 35, 105, 50],
+    magikarp: [20, 10, 55, 15, 20, 80],
+    gengar: [60, 65, 60, 130, 75, 110],
+    dragonite: [91, 134, 95, 100, 100, 80],
+    cloyster: [50, 95, 180, 85, 45, 70],
+    alakazam: [55, 50, 45, 135, 95, 120],
   };
 
   for (const [id, [hp, atk, def, spa, spd, spe]] of Object.entries(EXPECTED)) {
@@ -101,6 +114,36 @@ describe("ダメージ計算が手計算と一致する", () => {
     });
     // 基礎26 → 急所 floor(39) → 乱数100 → 一致 floor(58.5)=58 → x2 = 116
     expect(crit.damage).toBe(116);
+  });
+});
+
+describe("データ全体の整合", () => {
+  it("カントー151種が図鑑番号1〜151で揃っている", () => {
+    expect(allSpecies).toHaveLength(151);
+    const nums = allSpecies.map((s) => s.dexNo).sort((a, b) => a - b);
+    expect(nums[0]).toBe(1);
+    expect(nums.at(-1)).toBe(151);
+    expect(new Set(nums).size).toBe(151); // 重複なし
+  });
+
+  it("種族値の合計が原作の値と一致する（打ち間違いの検出）", () => {
+    const BST: Record<string, number> = {
+      bulbasaur: 318, charizard: 534, blastoise: 530, pikachu: 320,
+      mewtwo: 680, mew: 600, snorlax: 540, dragonite: 600,
+      magikarp: 200, chansey: 450, gengar: 500, arcanine: 555,
+    };
+    for (const [id, total] of Object.entries(BST)) {
+      const s = gameData.species(id);
+      const sum = Object.values(s.baseStats).reduce((a, b) => a + b, 0);
+      expect(sum, `${id} の種族値合計`).toBe(total);
+    }
+  });
+
+  it("全18タイプに攻撃技が存在する", () => {
+    for (const type of TYPES) {
+      const has = allMoves.some((m) => m.type === type && m.category !== "status");
+      expect(has, `${type} の攻撃技`).toBe(true);
+    }
   });
 });
 

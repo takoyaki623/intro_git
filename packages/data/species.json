@@ -21,23 +21,23 @@
     "learnset": [
       {
         "level": 1,
-        "move": "tackle"
+        "move": "absorb"
       },
       {
-        "level": 3,
-        "move": "vine-whip"
+        "level": 7,
+        "move": "toxic"
       },
       {
-        "level": 9,
-        "move": "sleep-powder"
-      },
-      {
-        "level": 15,
+        "level": 13,
         "move": "razor-leaf"
       },
       {
-        "level": 21,
-        "move": "take-down"
+        "level": 22,
+        "move": "sludge"
+      },
+      {
+        "level": 31,
+        "move": "giga-drain"
       }
     ],
     "catchRate": 45,
@@ -45,7 +45,108 @@
     "evYield": {
       "spa": 1
     },
-    "genderRatio": 0.875
+    "genderRatio": 0.875,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "ivysaur",
+    "dexNo": 2,
+    "name": "フシギソウ",
+    "types": [
+      "grass",
+      "poison"
+    ],
+    "baseStats": {
+      "hp": 60,
+      "atk": 62,
+      "def": 63,
+      "spa": 80,
+      "spd": 80,
+      "spe": 60
+    },
+    "abilities": [
+      "overgrow"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "absorb"
+      },
+      {
+        "level": 7,
+        "move": "toxic"
+      },
+      {
+        "level": 13,
+        "move": "razor-leaf"
+      },
+      {
+        "level": 22,
+        "move": "sludge"
+      },
+      {
+        "level": 31,
+        "move": "giga-drain"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-slow",
+    "evYield": {
+      "spa": 1,
+      "spd": 1
+    },
+    "genderRatio": 0.875,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "venusaur",
+    "dexNo": 3,
+    "name": "フシギバナ",
+    "types": [
+      "grass",
+      "poison"
+    ],
+    "baseStats": {
+      "hp": 80,
+      "atk": 82,
+      "def": 83,
+      "spa": 100,
+      "spd": 100,
+      "spe": 80
+    },
+    "abilities": [
+      "overgrow"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "absorb"
+      },
+      {
+        "level": 7,
+        "move": "toxic"
+      },
+      {
+        "level": 13,
+        "move": "razor-leaf"
+      },
+      {
+        "level": 22,
+        "move": "sludge"
+      },
+      {
+        "level": 31,
+        "move": "giga-drain"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-slow",
+    "evYield": {
+      "spa": 2,
+      "spd": 1
+    },
+    "genderRatio": 0.875,
+    "learnsetSource": "provisional"
   },
   {
     "id": "charmander",
@@ -68,23 +169,19 @@
     "learnset": [
       {
         "level": 1,
-        "move": "tackle"
-      },
-      {
-        "level": 4,
         "move": "ember"
       },
       {
-        "level": 10,
-        "move": "quick-attack"
+        "level": 7,
+        "move": "will-o-wisp"
       },
       {
-        "level": 17,
-        "move": "bite"
+        "level": 22,
+        "move": "take-down"
       },
       {
-        "level": 24,
-        "move": "flamethrower"
+        "level": 31,
+        "move": "fire-punch"
       }
     ],
     "catchRate": 45,
@@ -92,7 +189,98 @@
     "evYield": {
       "spe": 1
     },
-    "genderRatio": 0.875
+    "genderRatio": 0.875,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "charmeleon",
+    "dexNo": 5,
+    "name": "リザード",
+    "types": [
+      "fire"
+    ],
+    "baseStats": {
+      "hp": 58,
+      "atk": 64,
+      "def": 58,
+      "spa": 80,
+      "spd": 65,
+      "spe": 80
+    },
+    "abilities": [
+      "blaze"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "ember"
+      },
+      {
+        "level": 7,
+        "move": "will-o-wisp"
+      },
+      {
+        "level": 22,
+        "move": "take-down"
+      },
+      {
+        "level": 31,
+        "move": "fire-punch"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-slow",
+    "evYield": {
+      "spa": 1,
+      "spe": 1
+    },
+    "genderRatio": 0.875,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "charizard",
+    "dexNo": 6,
+    "name": "リザードン",
+    "types": [
+      "fire",
+      "flying"
+    ],
+    "baseStats": {
+      "hp": 78,
+      "atk": 84,
+      "def": 78,
+      "spa": 109,
+      "spd": 85,
+      "spe": 100
+    },
+    "abilities": [
+      "blaze"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "ember"
+      },
+      {
+        "level": 7,
+        "move": "will-o-wisp"
+      },
+      {
+        "level": 22,
+        "move": "wing-attack"
+      },
+      {
+        "level": 31,
+        "move": "fire-punch"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-slow",
+    "evYield": {
+      "spa": 3
+    },
+    "genderRatio": 0.875,
+    "learnsetSource": "provisional"
   },
   {
     "id": "squirtle",
@@ -115,22 +303,18 @@
     "learnset": [
       {
         "level": 1,
-        "move": "tackle"
-      },
-      {
-        "level": 3,
         "move": "water-gun"
       },
       {
-        "level": 8,
-        "move": "bubble"
+        "level": 13,
+        "move": "bubble-beam"
       },
       {
-        "level": 15,
-        "move": "bite"
+        "level": 18,
+        "move": "body-slam"
       },
       {
-        "level": 22,
+        "level": 31,
         "move": "surf"
       }
     ],
@@ -139,73 +323,115 @@
     "evYield": {
       "def": 1
     },
-    "genderRatio": 0.875
+    "genderRatio": 0.875,
+    "learnsetSource": "provisional"
   },
   {
-    "id": "pikachu",
-    "dexNo": 25,
-    "name": "ピカチュウ",
+    "id": "wartortle",
+    "dexNo": 8,
+    "name": "カメール",
     "types": [
-      "electric"
+      "water"
     ],
     "baseStats": {
-      "hp": 35,
-      "atk": 55,
-      "def": 40,
-      "spa": 50,
-      "spd": 50,
-      "spe": 90
+      "hp": 59,
+      "atk": 63,
+      "def": 80,
+      "spa": 65,
+      "spd": 80,
+      "spe": 58
     },
     "abilities": [
-      "static"
+      "torrent"
     ],
     "learnset": [
       {
         "level": 1,
-        "move": "thunder-shock"
+        "move": "water-gun"
       },
       {
-        "level": 5,
-        "move": "quick-attack"
-      },
-      {
-        "level": 10,
-        "move": "thunder-wave"
+        "level": 13,
+        "move": "bubble-beam"
       },
       {
         "level": 18,
-        "move": "double-team"
+        "move": "body-slam"
       },
       {
-        "level": 26,
-        "move": "thunderbolt"
+        "level": 31,
+        "move": "surf"
       }
     ],
-    "catchRate": 190,
-    "expType": "medium-fast",
+    "catchRate": 45,
+    "expType": "medium-slow",
     "evYield": {
-      "spe": 2
+      "def": 1,
+      "spd": 1
     },
-    "genderRatio": 0.5
+    "genderRatio": 0.875,
+    "learnsetSource": "provisional"
   },
   {
-    "id": "geodude",
-    "dexNo": 74,
-    "name": "イシツブテ",
+    "id": "blastoise",
+    "dexNo": 9,
+    "name": "カメックス",
     "types": [
-      "rock",
-      "ground"
+      "water"
     ],
     "baseStats": {
-      "hp": 40,
-      "atk": 80,
+      "hp": 79,
+      "atk": 83,
       "def": 100,
-      "spa": 30,
-      "spd": 30,
-      "spe": 20
+      "spa": 85,
+      "spd": 105,
+      "spe": 78
     },
     "abilities": [
-      "rock-head"
+      "torrent"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 13,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "surf"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-slow",
+    "evYield": {
+      "spd": 3
+    },
+    "genderRatio": 0.875,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "caterpie",
+    "dexNo": 10,
+    "name": "キャタピー",
+    "types": [
+      "bug"
+    ],
+    "baseStats": {
+      "hp": 45,
+      "atk": 30,
+      "def": 35,
+      "spa": 20,
+      "spd": 20,
+      "spe": 45
+    },
+    "abilities": [
+      "shield-dust"
     ],
     "learnset": [
       {
@@ -213,24 +439,267 @@
         "move": "tackle"
       },
       {
-        "level": 6,
-        "move": "rock-throw"
+        "level": 7,
+        "move": "string-shot"
       },
       {
-        "level": 11,
-        "move": "sand-attack"
+        "level": 13,
+        "move": "bug-bite"
       },
       {
-        "level": 16,
-        "move": "take-down"
+        "level": 31,
+        "move": "x-scissor"
       }
     ],
     "catchRate": 255,
-    "expType": "medium-slow",
+    "expType": "medium-fast",
     "evYield": {
-      "def": 1
+      "hp": 1
     },
-    "genderRatio": 0.5
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "metapod",
+    "dexNo": 11,
+    "name": "トランセル",
+    "types": [
+      "bug"
+    ],
+    "baseStats": {
+      "hp": 50,
+      "atk": 20,
+      "def": 55,
+      "spa": 25,
+      "spd": 25,
+      "spe": 30
+    },
+    "abilities": [
+      "shed-skin"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "string-shot"
+      },
+      {
+        "level": 13,
+        "move": "bug-bite"
+      },
+      {
+        "level": 31,
+        "move": "x-scissor"
+      }
+    ],
+    "catchRate": 120,
+    "expType": "medium-fast",
+    "evYield": {
+      "def": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "butterfree",
+    "dexNo": 12,
+    "name": "バタフリー",
+    "types": [
+      "bug",
+      "flying"
+    ],
+    "baseStats": {
+      "hp": 60,
+      "atk": 45,
+      "def": 50,
+      "spa": 90,
+      "spd": 80,
+      "spe": 70
+    },
+    "abilities": [
+      "compound-eyes"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "string-shot"
+      },
+      {
+        "level": 13,
+        "move": "bug-bite"
+      },
+      {
+        "level": 22,
+        "move": "wing-attack"
+      },
+      {
+        "level": 31,
+        "move": "x-scissor"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-fast",
+    "evYield": {
+      "spa": 2,
+      "spd": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "weedle",
+    "dexNo": 13,
+    "name": "ビードル",
+    "types": [
+      "bug",
+      "poison"
+    ],
+    "baseStats": {
+      "hp": 40,
+      "atk": 35,
+      "def": 30,
+      "spa": 20,
+      "spd": 20,
+      "spe": 50
+    },
+    "abilities": [
+      "shield-dust"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "toxic"
+      },
+      {
+        "level": 13,
+        "move": "bug-bite"
+      },
+      {
+        "level": 22,
+        "move": "sludge"
+      },
+      {
+        "level": 31,
+        "move": "x-scissor"
+      }
+    ],
+    "catchRate": 255,
+    "expType": "medium-fast",
+    "evYield": {
+      "spe": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "kakuna",
+    "dexNo": 14,
+    "name": "コクーン",
+    "types": [
+      "bug",
+      "poison"
+    ],
+    "baseStats": {
+      "hp": 45,
+      "atk": 25,
+      "def": 50,
+      "spa": 25,
+      "spd": 25,
+      "spe": 35
+    },
+    "abilities": [
+      "shed-skin"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "toxic"
+      },
+      {
+        "level": 13,
+        "move": "bug-bite"
+      },
+      {
+        "level": 22,
+        "move": "sludge"
+      },
+      {
+        "level": 31,
+        "move": "x-scissor"
+      }
+    ],
+    "catchRate": 120,
+    "expType": "medium-fast",
+    "evYield": {
+      "def": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "beedrill",
+    "dexNo": 15,
+    "name": "スピアー",
+    "types": [
+      "bug",
+      "poison"
+    ],
+    "baseStats": {
+      "hp": 65,
+      "atk": 90,
+      "def": 40,
+      "spa": 45,
+      "spd": 80,
+      "spe": 75
+    },
+    "abilities": [
+      "swarm"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "toxic"
+      },
+      {
+        "level": 13,
+        "move": "bug-bite"
+      },
+      {
+        "level": 22,
+        "move": "sludge"
+      },
+      {
+        "level": 31,
+        "move": "x-scissor"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-fast",
+    "evYield": {
+      "atk": 2,
+      "spd": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
   },
   {
     "id": "pidgey",
@@ -257,20 +726,20 @@
         "move": "tackle"
       },
       {
-        "level": 5,
-        "move": "sand-attack"
+        "level": 7,
+        "move": "growl"
       },
       {
-        "level": 9,
-        "move": "gust"
+        "level": 13,
+        "move": "headbutt"
       },
       {
-        "level": 17,
+        "level": 22,
         "move": "wing-attack"
       },
       {
-        "level": 23,
-        "move": "double-team"
+        "level": 31,
+        "move": "body-slam"
       }
     ],
     "catchRate": 255,
@@ -278,7 +747,106 @@
     "evYield": {
       "spe": 1
     },
-    "genderRatio": 0.5
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "pidgeotto",
+    "dexNo": 17,
+    "name": "ピジョン",
+    "types": [
+      "normal",
+      "flying"
+    ],
+    "baseStats": {
+      "hp": 63,
+      "atk": 60,
+      "def": 55,
+      "spa": 50,
+      "spd": 50,
+      "spe": 71
+    },
+    "abilities": [
+      "keen-eye"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "growl"
+      },
+      {
+        "level": 13,
+        "move": "headbutt"
+      },
+      {
+        "level": 22,
+        "move": "wing-attack"
+      },
+      {
+        "level": 31,
+        "move": "body-slam"
+      }
+    ],
+    "catchRate": 120,
+    "expType": "medium-slow",
+    "evYield": {
+      "spe": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "pidgeot",
+    "dexNo": 18,
+    "name": "ピジョット",
+    "types": [
+      "normal",
+      "flying"
+    ],
+    "baseStats": {
+      "hp": 83,
+      "atk": 80,
+      "def": 75,
+      "spa": 70,
+      "spd": 70,
+      "spe": 101
+    },
+    "abilities": [
+      "keen-eye"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "growl"
+      },
+      {
+        "level": 13,
+        "move": "headbutt"
+      },
+      {
+        "level": 22,
+        "move": "wing-attack"
+      },
+      {
+        "level": 31,
+        "move": "body-slam"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-slow",
+    "evYield": {
+      "spe": 3
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
   },
   {
     "id": "rattata",
@@ -304,20 +872,20 @@
         "move": "tackle"
       },
       {
-        "level": 4,
-        "move": "tail-whip"
-      },
-      {
         "level": 7,
-        "move": "quick-attack"
+        "move": "growl"
       },
       {
         "level": 13,
-        "move": "bite"
+        "move": "headbutt"
       },
       {
-        "level": 20,
-        "move": "take-down"
+        "level": 18,
+        "move": "rock-throw"
+      },
+      {
+        "level": 31,
+        "move": "body-slam"
       }
     ],
     "catchRate": 255,
@@ -325,7 +893,1015 @@
     "evYield": {
       "spe": 1
     },
-    "genderRatio": 0.5
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "raticate",
+    "dexNo": 20,
+    "name": "ラッタ",
+    "types": [
+      "normal"
+    ],
+    "baseStats": {
+      "hp": 55,
+      "atk": 81,
+      "def": 60,
+      "spa": 50,
+      "spd": 70,
+      "spe": 97
+    },
+    "abilities": [
+      "guts"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "growl"
+      },
+      {
+        "level": 13,
+        "move": "headbutt"
+      },
+      {
+        "level": 18,
+        "move": "rock-throw"
+      },
+      {
+        "level": 31,
+        "move": "body-slam"
+      }
+    ],
+    "catchRate": 127,
+    "expType": "medium-fast",
+    "evYield": {
+      "spe": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "spearow",
+    "dexNo": 21,
+    "name": "オニスズメ",
+    "types": [
+      "normal",
+      "flying"
+    ],
+    "baseStats": {
+      "hp": 40,
+      "atk": 60,
+      "def": 30,
+      "spa": 31,
+      "spd": 31,
+      "spe": 70
+    },
+    "abilities": [
+      "keen-eye"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "growl"
+      },
+      {
+        "level": 13,
+        "move": "headbutt"
+      },
+      {
+        "level": 22,
+        "move": "wing-attack"
+      },
+      {
+        "level": 31,
+        "move": "body-slam"
+      }
+    ],
+    "catchRate": 255,
+    "expType": "medium-fast",
+    "evYield": {
+      "spe": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "fearow",
+    "dexNo": 22,
+    "name": "オニドリル",
+    "types": [
+      "normal",
+      "flying"
+    ],
+    "baseStats": {
+      "hp": 65,
+      "atk": 90,
+      "def": 65,
+      "spa": 61,
+      "spd": 61,
+      "spe": 100
+    },
+    "abilities": [
+      "keen-eye"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "growl"
+      },
+      {
+        "level": 13,
+        "move": "headbutt"
+      },
+      {
+        "level": 22,
+        "move": "wing-attack"
+      },
+      {
+        "level": 31,
+        "move": "body-slam"
+      }
+    ],
+    "catchRate": 90,
+    "expType": "medium-fast",
+    "evYield": {
+      "spe": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "ekans",
+    "dexNo": 23,
+    "name": "アーボ",
+    "types": [
+      "poison"
+    ],
+    "baseStats": {
+      "hp": 35,
+      "atk": 60,
+      "def": 44,
+      "spa": 40,
+      "spd": 54,
+      "spe": 55
+    },
+    "abilities": [
+      "intimidate"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "poison-sting"
+      },
+      {
+        "level": 7,
+        "move": "toxic"
+      },
+      {
+        "level": 13,
+        "move": "sludge"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "poison-jab"
+      }
+    ],
+    "catchRate": 255,
+    "expType": "medium-fast",
+    "evYield": {
+      "atk": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "arbok",
+    "dexNo": 24,
+    "name": "アーボック",
+    "types": [
+      "poison"
+    ],
+    "baseStats": {
+      "hp": 60,
+      "atk": 95,
+      "def": 69,
+      "spa": 65,
+      "spd": 79,
+      "spe": 80
+    },
+    "abilities": [
+      "intimidate"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "poison-sting"
+      },
+      {
+        "level": 7,
+        "move": "toxic"
+      },
+      {
+        "level": 13,
+        "move": "sludge"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "poison-jab"
+      }
+    ],
+    "catchRate": 90,
+    "expType": "medium-fast",
+    "evYield": {
+      "atk": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "pikachu",
+    "dexNo": 25,
+    "name": "ピカチュウ",
+    "types": [
+      "electric"
+    ],
+    "baseStats": {
+      "hp": 35,
+      "atk": 55,
+      "def": 40,
+      "spa": 50,
+      "spd": 50,
+      "spe": 90
+    },
+    "abilities": [
+      "static"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "thunder-shock"
+      },
+      {
+        "level": 7,
+        "move": "thunder-wave"
+      },
+      {
+        "level": 13,
+        "move": "spark"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "thunderbolt"
+      }
+    ],
+    "catchRate": 190,
+    "expType": "medium-fast",
+    "evYield": {
+      "spe": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "raichu",
+    "dexNo": 26,
+    "name": "ライチュウ",
+    "types": [
+      "electric"
+    ],
+    "baseStats": {
+      "hp": 60,
+      "atk": 90,
+      "def": 55,
+      "spa": 90,
+      "spd": 80,
+      "spe": 110
+    },
+    "abilities": [
+      "static"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "thunder-shock"
+      },
+      {
+        "level": 7,
+        "move": "thunder-wave"
+      },
+      {
+        "level": 13,
+        "move": "spark"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "thunderbolt"
+      }
+    ],
+    "catchRate": 75,
+    "expType": "medium-fast",
+    "evYield": {
+      "spe": 3
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "sandshrew",
+    "dexNo": 27,
+    "name": "サンド",
+    "types": [
+      "ground"
+    ],
+    "baseStats": {
+      "hp": 50,
+      "atk": 75,
+      "def": 85,
+      "spa": 20,
+      "spd": 30,
+      "spe": 40
+    },
+    "abilities": [
+      "sand-veil"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "mud-slap"
+      },
+      {
+        "level": 7,
+        "move": "sand-attack"
+      },
+      {
+        "level": 13,
+        "move": "bulldoze"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "dig"
+      }
+    ],
+    "catchRate": 255,
+    "expType": "medium-fast",
+    "evYield": {
+      "def": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "sandslash",
+    "dexNo": 28,
+    "name": "サンドパン",
+    "types": [
+      "ground"
+    ],
+    "baseStats": {
+      "hp": 75,
+      "atk": 100,
+      "def": 110,
+      "spa": 45,
+      "spd": 55,
+      "spe": 65
+    },
+    "abilities": [
+      "sand-veil"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "mud-slap"
+      },
+      {
+        "level": 7,
+        "move": "sand-attack"
+      },
+      {
+        "level": 13,
+        "move": "bulldoze"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "dig"
+      }
+    ],
+    "catchRate": 90,
+    "expType": "medium-fast",
+    "evYield": {
+      "def": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "nidoran-f",
+    "dexNo": 29,
+    "name": "ニドランメス",
+    "types": [
+      "poison"
+    ],
+    "baseStats": {
+      "hp": 55,
+      "atk": 47,
+      "def": 52,
+      "spa": 40,
+      "spd": 40,
+      "spe": 41
+    },
+    "abilities": [
+      "poison-point"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "poison-sting"
+      },
+      {
+        "level": 7,
+        "move": "toxic"
+      },
+      {
+        "level": 13,
+        "move": "sludge"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "poison-jab"
+      }
+    ],
+    "catchRate": 235,
+    "expType": "medium-slow",
+    "evYield": {
+      "hp": 1
+    },
+    "genderRatio": 0,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "nidorina",
+    "dexNo": 30,
+    "name": "ニドリーナ",
+    "types": [
+      "poison"
+    ],
+    "baseStats": {
+      "hp": 70,
+      "atk": 62,
+      "def": 67,
+      "spa": 55,
+      "spd": 55,
+      "spe": 56
+    },
+    "abilities": [
+      "poison-point"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "poison-sting"
+      },
+      {
+        "level": 7,
+        "move": "toxic"
+      },
+      {
+        "level": 13,
+        "move": "sludge"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "poison-jab"
+      }
+    ],
+    "catchRate": 120,
+    "expType": "medium-slow",
+    "evYield": {
+      "hp": 2
+    },
+    "genderRatio": 0,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "nidoqueen",
+    "dexNo": 31,
+    "name": "ニドクイン",
+    "types": [
+      "poison",
+      "ground"
+    ],
+    "baseStats": {
+      "hp": 90,
+      "atk": 92,
+      "def": 87,
+      "spa": 75,
+      "spd": 85,
+      "spe": 76
+    },
+    "abilities": [
+      "poison-point"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "poison-sting"
+      },
+      {
+        "level": 7,
+        "move": "sand-attack"
+      },
+      {
+        "level": 13,
+        "move": "sludge"
+      },
+      {
+        "level": 22,
+        "move": "bulldoze"
+      },
+      {
+        "level": 31,
+        "move": "poison-jab"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-slow",
+    "evYield": {
+      "hp": 3
+    },
+    "genderRatio": 0,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "nidoran-m",
+    "dexNo": 32,
+    "name": "ニドランオス",
+    "types": [
+      "poison"
+    ],
+    "baseStats": {
+      "hp": 46,
+      "atk": 57,
+      "def": 40,
+      "spa": 40,
+      "spd": 40,
+      "spe": 50
+    },
+    "abilities": [
+      "poison-point"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "poison-sting"
+      },
+      {
+        "level": 7,
+        "move": "toxic"
+      },
+      {
+        "level": 13,
+        "move": "sludge"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "poison-jab"
+      }
+    ],
+    "catchRate": 235,
+    "expType": "medium-slow",
+    "evYield": {
+      "atk": 1
+    },
+    "genderRatio": 1,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "nidorino",
+    "dexNo": 33,
+    "name": "ニドリーノ",
+    "types": [
+      "poison"
+    ],
+    "baseStats": {
+      "hp": 61,
+      "atk": 72,
+      "def": 57,
+      "spa": 55,
+      "spd": 55,
+      "spe": 65
+    },
+    "abilities": [
+      "poison-point"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "poison-sting"
+      },
+      {
+        "level": 7,
+        "move": "toxic"
+      },
+      {
+        "level": 13,
+        "move": "sludge"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "poison-jab"
+      }
+    ],
+    "catchRate": 120,
+    "expType": "medium-slow",
+    "evYield": {
+      "atk": 2
+    },
+    "genderRatio": 1,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "nidoking",
+    "dexNo": 34,
+    "name": "ニドキング",
+    "types": [
+      "poison",
+      "ground"
+    ],
+    "baseStats": {
+      "hp": 81,
+      "atk": 102,
+      "def": 77,
+      "spa": 85,
+      "spd": 75,
+      "spe": 85
+    },
+    "abilities": [
+      "poison-point"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "poison-sting"
+      },
+      {
+        "level": 7,
+        "move": "sand-attack"
+      },
+      {
+        "level": 13,
+        "move": "sludge"
+      },
+      {
+        "level": 22,
+        "move": "bulldoze"
+      },
+      {
+        "level": 31,
+        "move": "poison-jab"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-slow",
+    "evYield": {
+      "atk": 3
+    },
+    "genderRatio": 1,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "clefairy",
+    "dexNo": 35,
+    "name": "ピッピ",
+    "types": [
+      "fairy"
+    ],
+    "baseStats": {
+      "hp": 70,
+      "atk": 45,
+      "def": 48,
+      "spa": 60,
+      "spd": 65,
+      "spe": 35
+    },
+    "abilities": [
+      "cute-charm"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "fairy-wind"
+      },
+      {
+        "level": 7,
+        "move": "charm"
+      },
+      {
+        "level": 13,
+        "move": "draining-kiss"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "dazzling-gleam"
+      }
+    ],
+    "catchRate": 150,
+    "expType": "fast",
+    "evYield": {
+      "hp": 2
+    },
+    "genderRatio": 0.25,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "clefable",
+    "dexNo": 36,
+    "name": "ピクシー",
+    "types": [
+      "fairy"
+    ],
+    "baseStats": {
+      "hp": 95,
+      "atk": 70,
+      "def": 73,
+      "spa": 95,
+      "spd": 90,
+      "spe": 60
+    },
+    "abilities": [
+      "cute-charm"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "fairy-wind"
+      },
+      {
+        "level": 7,
+        "move": "charm"
+      },
+      {
+        "level": 13,
+        "move": "draining-kiss"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "dazzling-gleam"
+      }
+    ],
+    "catchRate": 25,
+    "expType": "fast",
+    "evYield": {
+      "hp": 3
+    },
+    "genderRatio": 0.25,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "vulpix",
+    "dexNo": 37,
+    "name": "ロコン",
+    "types": [
+      "fire"
+    ],
+    "baseStats": {
+      "hp": 38,
+      "atk": 41,
+      "def": 40,
+      "spa": 50,
+      "spd": 65,
+      "spe": 65
+    },
+    "abilities": [
+      "flash-fire"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "ember"
+      },
+      {
+        "level": 7,
+        "move": "will-o-wisp"
+      },
+      {
+        "level": 22,
+        "move": "take-down"
+      },
+      {
+        "level": 31,
+        "move": "fire-punch"
+      }
+    ],
+    "catchRate": 190,
+    "expType": "medium-fast",
+    "evYield": {
+      "spe": 1
+    },
+    "genderRatio": 0.25,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "ninetales",
+    "dexNo": 38,
+    "name": "キュウコン",
+    "types": [
+      "fire"
+    ],
+    "baseStats": {
+      "hp": 73,
+      "atk": 76,
+      "def": 75,
+      "spa": 81,
+      "spd": 100,
+      "spe": 100
+    },
+    "abilities": [
+      "flash-fire"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "ember"
+      },
+      {
+        "level": 7,
+        "move": "will-o-wisp"
+      },
+      {
+        "level": 22,
+        "move": "take-down"
+      },
+      {
+        "level": 31,
+        "move": "fire-punch"
+      }
+    ],
+    "catchRate": 75,
+    "expType": "medium-fast",
+    "evYield": {
+      "spd": 1,
+      "spe": 1
+    },
+    "genderRatio": 0.25,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "jigglypuff",
+    "dexNo": 39,
+    "name": "プリン",
+    "types": [
+      "normal",
+      "fairy"
+    ],
+    "baseStats": {
+      "hp": 115,
+      "atk": 45,
+      "def": 20,
+      "spa": 45,
+      "spd": 25,
+      "spe": 20
+    },
+    "abilities": [
+      "cute-charm"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "charm"
+      },
+      {
+        "level": 13,
+        "move": "headbutt"
+      },
+      {
+        "level": 22,
+        "move": "draining-kiss"
+      },
+      {
+        "level": 31,
+        "move": "body-slam"
+      }
+    ],
+    "catchRate": 170,
+    "expType": "fast",
+    "evYield": {
+      "hp": 2
+    },
+    "genderRatio": 0.25,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "wigglytuff",
+    "dexNo": 40,
+    "name": "プクリン",
+    "types": [
+      "normal",
+      "fairy"
+    ],
+    "baseStats": {
+      "hp": 140,
+      "atk": 70,
+      "def": 45,
+      "spa": 85,
+      "spd": 50,
+      "spe": 45
+    },
+    "abilities": [
+      "cute-charm"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "charm"
+      },
+      {
+        "level": 13,
+        "move": "headbutt"
+      },
+      {
+        "level": 22,
+        "move": "draining-kiss"
+      },
+      {
+        "level": 31,
+        "move": "body-slam"
+      }
+    ],
+    "catchRate": 50,
+    "expType": "fast",
+    "evYield": {
+      "hp": 3
+    },
+    "genderRatio": 0.25,
+    "learnsetSource": "provisional"
   },
   {
     "id": "zubat",
@@ -349,23 +1925,23 @@
     "learnset": [
       {
         "level": 1,
-        "move": "tackle"
+        "move": "poison-sting"
       },
       {
-        "level": 5,
-        "move": "confuse-ray"
+        "level": 7,
+        "move": "toxic"
       },
       {
-        "level": 11,
-        "move": "bite"
+        "level": 13,
+        "move": "sludge"
       },
       {
-        "level": 19,
+        "level": 22,
         "move": "wing-attack"
       },
       {
-        "level": 25,
-        "move": "toxic"
+        "level": 31,
+        "move": "poison-jab"
       }
     ],
     "catchRate": 255,
@@ -373,204 +1949,121 @@
     "evYield": {
       "spe": 1
     },
-    "genderRatio": 0.5
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
   },
   {
-    "id": "machop",
-    "dexNo": 66,
-    "name": "ワンリキー",
+    "id": "golbat",
+    "dexNo": 42,
+    "name": "ゴルバット",
     "types": [
-      "fighting"
+      "poison",
+      "flying"
     ],
     "baseStats": {
-      "hp": 70,
+      "hp": 75,
       "atk": 80,
-      "def": 50,
-      "spa": 35,
-      "spd": 35,
-      "spe": 35
+      "def": 70,
+      "spa": 65,
+      "spd": 75,
+      "spe": 90
     },
     "abilities": [
-      "guts"
+      "inner-focus"
     ],
     "learnset": [
       {
         "level": 1,
-        "move": "tackle"
+        "move": "poison-sting"
       },
       {
         "level": 7,
-        "move": "karate-chop"
-      },
-      {
-        "level": 13,
-        "move": "double-kick"
-      },
-      {
-        "level": 19,
-        "move": "swords-dance"
-      },
-      {
-        "level": 25,
-        "move": "take-down"
-      }
-    ],
-    "catchRate": 180,
-    "expType": "medium-slow",
-    "evYield": {
-      "atk": 1
-    },
-    "genderRatio": 0.75
-  },
-  {
-    "id": "gastly",
-    "dexNo": 92,
-    "name": "ゴース",
-    "types": [
-      "ghost",
-      "poison"
-    ],
-    "baseStats": {
-      "hp": 30,
-      "atk": 35,
-      "def": 30,
-      "spa": 100,
-      "spd": 35,
-      "spe": 80
-    },
-    "abilities": [
-      "levitate"
-    ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "lick"
-      },
-      {
-        "level": 8,
-        "move": "confuse-ray"
+        "move": "toxic"
       },
       {
         "level": 13,
         "move": "sludge"
       },
       {
-        "level": 21,
-        "move": "toxic"
+        "level": 22,
+        "move": "wing-attack"
+      },
+      {
+        "level": 31,
+        "move": "poison-jab"
       }
     ],
-    "catchRate": 190,
-    "expType": "medium-slow",
-    "evYield": {
-      "spa": 1
-    },
-    "genderRatio": 0.5
-  },
-  {
-    "id": "onix",
-    "dexNo": 95,
-    "name": "イワーク",
-    "types": [
-      "rock",
-      "ground"
-    ],
-    "baseStats": {
-      "hp": 35,
-      "atk": 45,
-      "def": 160,
-      "spa": 30,
-      "spd": 45,
-      "spe": 70
-    },
-    "abilities": [
-      "rock-head"
-    ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "tackle"
-      },
-      {
-        "level": 4,
-        "move": "rock-throw"
-      },
-      {
-        "level": 12,
-        "move": "sand-attack"
-      },
-      {
-        "level": 19,
-        "move": "take-down"
-      }
-    ],
-    "catchRate": 45,
+    "catchRate": 90,
     "expType": "medium-fast",
     "evYield": {
-      "def": 1
+      "spe": 2
     },
-    "genderRatio": 0.5
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
   },
   {
-    "id": "vulpix",
-    "dexNo": 37,
-    "name": "ロコン",
-    "types": [
-      "fire"
-    ],
-    "baseStats": {
-      "hp": 38,
-      "atk": 41,
-      "def": 40,
-      "spa": 50,
-      "spd": 65,
-      "spe": 65
-    },
-    "abilities": [
-      "flash-fire"
-    ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "tackle"
-      },
-      {
-        "level": 5,
-        "move": "ember"
-      },
-      {
-        "level": 11,
-        "move": "confuse-ray"
-      },
-      {
-        "level": 17,
-        "move": "will-o-wisp"
-      },
-      {
-        "level": 25,
-        "move": "flamethrower"
-      }
-    ],
-    "catchRate": 190,
-    "expType": "medium-fast",
-    "evYield": {
-      "spe": 1
-    },
-    "genderRatio": 0.25
-  },
-  {
-    "id": "bellsprout",
-    "dexNo": 69,
-    "name": "マダツボミ",
+    "id": "oddish",
+    "dexNo": 43,
+    "name": "ナゾノクサ",
     "types": [
       "grass",
       "poison"
     ],
     "baseStats": {
-      "hp": 50,
-      "atk": 75,
-      "def": 35,
-      "spa": 70,
-      "spd": 30,
+      "hp": 45,
+      "atk": 50,
+      "def": 55,
+      "spa": 75,
+      "spd": 65,
+      "spe": 30
+    },
+    "abilities": [
+      "chlorophyll"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "absorb"
+      },
+      {
+        "level": 7,
+        "move": "toxic"
+      },
+      {
+        "level": 13,
+        "move": "razor-leaf"
+      },
+      {
+        "level": 22,
+        "move": "sludge"
+      },
+      {
+        "level": 31,
+        "move": "giga-drain"
+      }
+    ],
+    "catchRate": 255,
+    "expType": "medium-slow",
+    "evYield": {
+      "spa": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "gloom",
+    "dexNo": 44,
+    "name": "クサイハナ",
+    "types": [
+      "grass",
+      "poison"
+    ],
+    "baseStats": {
+      "hp": 60,
+      "atk": 65,
+      "def": 70,
+      "spa": 85,
+      "spd": 75,
       "spe": 40
     },
     "abilities": [
@@ -579,7 +2072,105 @@
     "learnset": [
       {
         "level": 1,
-        "move": "vine-whip"
+        "move": "absorb"
+      },
+      {
+        "level": 7,
+        "move": "toxic"
+      },
+      {
+        "level": 13,
+        "move": "razor-leaf"
+      },
+      {
+        "level": 22,
+        "move": "sludge"
+      },
+      {
+        "level": 31,
+        "move": "giga-drain"
+      }
+    ],
+    "catchRate": 120,
+    "expType": "medium-slow",
+    "evYield": {
+      "spa": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "vileplume",
+    "dexNo": 45,
+    "name": "ラフレシア",
+    "types": [
+      "grass",
+      "poison"
+    ],
+    "baseStats": {
+      "hp": 75,
+      "atk": 80,
+      "def": 85,
+      "spa": 110,
+      "spd": 90,
+      "spe": 50
+    },
+    "abilities": [
+      "chlorophyll"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "absorb"
+      },
+      {
+        "level": 7,
+        "move": "toxic"
+      },
+      {
+        "level": 13,
+        "move": "razor-leaf"
+      },
+      {
+        "level": 22,
+        "move": "sludge"
+      },
+      {
+        "level": 31,
+        "move": "giga-drain"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-slow",
+    "evYield": {
+      "spa": 3
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "paras",
+    "dexNo": 46,
+    "name": "パラス",
+    "types": [
+      "bug",
+      "grass"
+    ],
+    "baseStats": {
+      "hp": 35,
+      "atk": 70,
+      "def": 55,
+      "spa": 45,
+      "spd": 55,
+      "spe": 25
+    },
+    "abilities": [
+      "effect-spore"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
       },
       {
         "level": 7,
@@ -587,227 +2178,43 @@
       },
       {
         "level": 13,
-        "move": "absorb"
+        "move": "bug-bite"
       },
       {
-        "level": 19,
+        "level": 22,
         "move": "razor-leaf"
       },
       {
-        "level": 25,
-        "move": "toxic"
+        "level": 31,
+        "move": "x-scissor"
       }
     ],
-    "catchRate": 255,
-    "expType": "medium-slow",
+    "catchRate": 190,
+    "expType": "medium-fast",
     "evYield": {
       "atk": 1
     },
-    "genderRatio": 0.5
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
   },
   {
-    "id": "lapras",
-    "dexNo": 131,
-    "name": "ラプラス",
+    "id": "parasect",
+    "dexNo": 47,
+    "name": "パラセクト",
     "types": [
-      "water",
-      "ice"
+      "bug",
+      "grass"
     ],
     "baseStats": {
-      "hp": 130,
-      "atk": 85,
+      "hp": 60,
+      "atk": 95,
       "def": 80,
-      "spa": 85,
-      "spd": 95,
-      "spe": 60
-    },
-    "abilities": [
-      "water-absorb"
-    ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "water-gun"
-      },
-      {
-        "level": 8,
-        "move": "aurora-beam"
-      },
-      {
-        "level": 15,
-        "move": "body-slam"
-      },
-      {
-        "level": 22,
-        "move": "ice-beam"
-      },
-      {
-        "level": 29,
-        "move": "surf"
-      }
-    ],
-    "catchRate": 45,
-    "expType": "slow",
-    "evYield": {
-      "hp": 2
-    },
-    "genderRatio": 0.5
-  },
-  {
-    "id": "magnemite",
-    "dexNo": 81,
-    "name": "コイル",
-    "types": [
-      "electric",
-      "steel"
-    ],
-    "baseStats": {
-      "hp": 25,
-      "atk": 35,
-      "def": 70,
-      "spa": 95,
-      "spd": 55,
-      "spe": 45
-    },
-    "abilities": [
-      "magnet-pull"
-    ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "tackle"
-      },
-      {
-        "level": 6,
-        "move": "thunder-shock"
-      },
-      {
-        "level": 12,
-        "move": "thunder-wave"
-      },
-      {
-        "level": 20,
-        "move": "thunderbolt"
-      }
-    ],
-    "catchRate": 190,
-    "expType": "medium-fast",
-    "evYield": {
-      "spa": 1
-    },
-    "genderRatio": null
-  },
-  {
-    "id": "growlithe",
-    "dexNo": 58,
-    "name": "ガーディ",
-    "types": [
-      "fire"
-    ],
-    "baseStats": {
-      "hp": 55,
-      "atk": 70,
-      "def": 45,
-      "spa": 70,
-      "spd": 50,
-      "spe": 60
-    },
-    "abilities": [
-      "intimidate"
-    ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "tackle"
-      },
-      {
-        "level": 6,
-        "move": "ember"
-      },
-      {
-        "level": 12,
-        "move": "bite"
-      },
-      {
-        "level": 20,
-        "move": "will-o-wisp"
-      },
-      {
-        "level": 28,
-        "move": "flamethrower"
-      }
-    ],
-    "catchRate": 190,
-    "expType": "slow",
-    "evYield": {
-      "atk": 1
-    },
-    "genderRatio": 0.75
-  },
-  {
-    "id": "sandshrew",
-    "dexNo": 27,
-    "name": "サンド",
-    "types": [
-      "ground"
-    ],
-    "baseStats": {
-      "hp": 50,
-      "atk": 75,
-      "def": 85,
-      "spa": 20,
-      "spd": 30,
-      "spe": 40
-    },
-    "abilities": [
-      "sand-veil"
-    ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "tackle"
-      },
-      {
-        "level": 5,
-        "move": "sand-attack"
-      },
-      {
-        "level": 11,
-        "move": "fury-attack"
-      },
-      {
-        "level": 17,
-        "move": "swords-dance"
-      },
-      {
-        "level": 24,
-        "move": "take-down"
-      }
-    ],
-    "catchRate": 255,
-    "expType": "medium-fast",
-    "evYield": {
-      "def": 1
-    },
-    "genderRatio": 0.5
-  },
-  {
-    "id": "clefairy",
-    "dexNo": 35,
-    "name": "ピッピ",
-    "types": [
-      "fairy"
-    ],
-    "baseStats": {
-      "hp": 70,
-      "atk": 45,
-      "def": 48,
       "spa": 60,
-      "spd": 65,
-      "spe": 35
+      "spd": 80,
+      "spe": 30
     },
     "abilities": [
-      "cute-charm"
+      "effect-spore"
     ],
     "learnset": [
       {
@@ -815,71 +2222,30 @@
         "move": "tackle"
       },
       {
-        "level": 6,
-        "move": "growl"
+        "level": 7,
+        "move": "sleep-powder"
       },
       {
-        "level": 12,
-        "move": "double-team"
-      },
-      {
-        "level": 18,
-        "move": "body-slam"
-      },
-      {
-        "level": 26,
-        "move": "recover"
-      }
-    ],
-    "catchRate": 150,
-    "expType": "fast",
-    "evYield": {
-      "hp": 2
-    },
-    "genderRatio": 0.25
-  },
-  {
-    "id": "abra",
-    "dexNo": 63,
-    "name": "ケーシィ",
-    "types": [
-      "psychic"
-    ],
-    "baseStats": {
-      "hp": 25,
-      "atk": 20,
-      "def": 15,
-      "spa": 105,
-      "spd": 55,
-      "spe": 90
-    },
-    "abilities": [
-      "synchronize"
-    ],
-    "learnset": [
-      {
-        "level": 1,
-        "move": "confusion"
-      },
-      {
-        "level": 9,
-        "move": "double-team"
-      },
-      {
-        "level": 15,
-        "move": "agility"
+        "level": 13,
+        "move": "bug-bite"
       },
       {
         "level": 22,
-        "move": "recover"
+        "move": "razor-leaf"
+      },
+      {
+        "level": 31,
+        "move": "x-scissor"
       }
     ],
-    "catchRate": 200,
-    "expType": "medium-slow",
+    "catchRate": 75,
+    "expType": "medium-fast",
     "evYield": {
-      "spa": 1
+      "atk": 2,
+      "hp": 1
     },
-    "genderRatio": 0.75
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
   },
   {
     "id": "venonat",
@@ -906,20 +2272,20 @@
         "move": "tackle"
       },
       {
-        "level": 5,
-        "move": "string-shot"
+        "level": 7,
+        "move": "toxic"
       },
       {
-        "level": 11,
-        "move": "confusion"
+        "level": 13,
+        "move": "bug-bite"
       },
       {
-        "level": 17,
-        "move": "sleep-powder"
+        "level": 22,
+        "move": "sludge"
       },
       {
-        "level": 24,
-        "move": "poison-sting"
+        "level": 31,
+        "move": "x-scissor"
       }
     ],
     "catchRate": 190,
@@ -927,6 +2293,4786 @@
     "evYield": {
       "spd": 1
     },
-    "genderRatio": 0.5
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "venomoth",
+    "dexNo": 49,
+    "name": "モルフォン",
+    "types": [
+      "bug",
+      "poison"
+    ],
+    "baseStats": {
+      "hp": 70,
+      "atk": 65,
+      "def": 60,
+      "spa": 90,
+      "spd": 75,
+      "spe": 90
+    },
+    "abilities": [
+      "shield-dust"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "toxic"
+      },
+      {
+        "level": 13,
+        "move": "bug-bite"
+      },
+      {
+        "level": 22,
+        "move": "sludge"
+      },
+      {
+        "level": 31,
+        "move": "x-scissor"
+      }
+    ],
+    "catchRate": 75,
+    "expType": "medium-fast",
+    "evYield": {
+      "spa": 1,
+      "spe": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "diglett",
+    "dexNo": 50,
+    "name": "ディグダ",
+    "types": [
+      "ground"
+    ],
+    "baseStats": {
+      "hp": 10,
+      "atk": 55,
+      "def": 25,
+      "spa": 35,
+      "spd": 45,
+      "spe": 95
+    },
+    "abilities": [
+      "sand-veil"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "mud-slap"
+      },
+      {
+        "level": 7,
+        "move": "sand-attack"
+      },
+      {
+        "level": 13,
+        "move": "bulldoze"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "dig"
+      }
+    ],
+    "catchRate": 255,
+    "expType": "medium-fast",
+    "evYield": {
+      "spe": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "dugtrio",
+    "dexNo": 51,
+    "name": "ダグトリオ",
+    "types": [
+      "ground"
+    ],
+    "baseStats": {
+      "hp": 35,
+      "atk": 100,
+      "def": 50,
+      "spa": 50,
+      "spd": 70,
+      "spe": 120
+    },
+    "abilities": [
+      "sand-veil"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "mud-slap"
+      },
+      {
+        "level": 7,
+        "move": "sand-attack"
+      },
+      {
+        "level": 13,
+        "move": "bulldoze"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "dig"
+      }
+    ],
+    "catchRate": 50,
+    "expType": "medium-fast",
+    "evYield": {
+      "atk": 1,
+      "spe": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "meowth",
+    "dexNo": 52,
+    "name": "ニャース",
+    "types": [
+      "normal"
+    ],
+    "baseStats": {
+      "hp": 40,
+      "atk": 45,
+      "def": 35,
+      "spa": 40,
+      "spd": 40,
+      "spe": 90
+    },
+    "abilities": [
+      "pickup"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "growl"
+      },
+      {
+        "level": 13,
+        "move": "headbutt"
+      },
+      {
+        "level": 18,
+        "move": "rock-throw"
+      },
+      {
+        "level": 31,
+        "move": "body-slam"
+      }
+    ],
+    "catchRate": 255,
+    "expType": "medium-fast",
+    "evYield": {
+      "spe": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "persian",
+    "dexNo": 53,
+    "name": "ペルシアン",
+    "types": [
+      "normal"
+    ],
+    "baseStats": {
+      "hp": 65,
+      "atk": 70,
+      "def": 60,
+      "spa": 65,
+      "spd": 65,
+      "spe": 115
+    },
+    "abilities": [
+      "limber"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "growl"
+      },
+      {
+        "level": 13,
+        "move": "headbutt"
+      },
+      {
+        "level": 18,
+        "move": "rock-throw"
+      },
+      {
+        "level": 31,
+        "move": "body-slam"
+      }
+    ],
+    "catchRate": 90,
+    "expType": "medium-fast",
+    "evYield": {
+      "spe": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "psyduck",
+    "dexNo": 54,
+    "name": "コダック",
+    "types": [
+      "water"
+    ],
+    "baseStats": {
+      "hp": 50,
+      "atk": 52,
+      "def": 48,
+      "spa": 65,
+      "spd": 50,
+      "spe": 55
+    },
+    "abilities": [
+      "damp"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 13,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "surf"
+      }
+    ],
+    "catchRate": 190,
+    "expType": "medium-fast",
+    "evYield": {
+      "spa": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "golduck",
+    "dexNo": 55,
+    "name": "ゴルダック",
+    "types": [
+      "water"
+    ],
+    "baseStats": {
+      "hp": 80,
+      "atk": 82,
+      "def": 78,
+      "spa": 95,
+      "spd": 80,
+      "spe": 85
+    },
+    "abilities": [
+      "damp"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 13,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "surf"
+      }
+    ],
+    "catchRate": 75,
+    "expType": "medium-fast",
+    "evYield": {
+      "spa": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "mankey",
+    "dexNo": 56,
+    "name": "マンキー",
+    "types": [
+      "fighting"
+    ],
+    "baseStats": {
+      "hp": 40,
+      "atk": 80,
+      "def": 35,
+      "spa": 35,
+      "spd": 45,
+      "spe": 70
+    },
+    "abilities": [
+      "vital-spirit"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "double-kick"
+      },
+      {
+        "level": 13,
+        "move": "karate-chop"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "brick-break"
+      }
+    ],
+    "catchRate": 190,
+    "expType": "medium-fast",
+    "evYield": {
+      "atk": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "primeape",
+    "dexNo": 57,
+    "name": "オコリザル",
+    "types": [
+      "fighting"
+    ],
+    "baseStats": {
+      "hp": 65,
+      "atk": 105,
+      "def": 60,
+      "spa": 60,
+      "spd": 70,
+      "spe": 95
+    },
+    "abilities": [
+      "vital-spirit"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "double-kick"
+      },
+      {
+        "level": 13,
+        "move": "karate-chop"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "brick-break"
+      }
+    ],
+    "catchRate": 75,
+    "expType": "medium-fast",
+    "evYield": {
+      "atk": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "growlithe",
+    "dexNo": 58,
+    "name": "ガーディ",
+    "types": [
+      "fire"
+    ],
+    "baseStats": {
+      "hp": 55,
+      "atk": 70,
+      "def": 45,
+      "spa": 70,
+      "spd": 50,
+      "spe": 60
+    },
+    "abilities": [
+      "intimidate"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "ember"
+      },
+      {
+        "level": 7,
+        "move": "will-o-wisp"
+      },
+      {
+        "level": 22,
+        "move": "take-down"
+      },
+      {
+        "level": 31,
+        "move": "fire-punch"
+      }
+    ],
+    "catchRate": 190,
+    "expType": "slow",
+    "evYield": {
+      "atk": 1
+    },
+    "genderRatio": 0.75,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "arcanine",
+    "dexNo": 59,
+    "name": "ウインディ",
+    "types": [
+      "fire"
+    ],
+    "baseStats": {
+      "hp": 90,
+      "atk": 110,
+      "def": 80,
+      "spa": 100,
+      "spd": 80,
+      "spe": 95
+    },
+    "abilities": [
+      "intimidate"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "ember"
+      },
+      {
+        "level": 7,
+        "move": "will-o-wisp"
+      },
+      {
+        "level": 22,
+        "move": "take-down"
+      },
+      {
+        "level": 31,
+        "move": "fire-punch"
+      }
+    ],
+    "catchRate": 75,
+    "expType": "slow",
+    "evYield": {
+      "atk": 2
+    },
+    "genderRatio": 0.75,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "poliwag",
+    "dexNo": 60,
+    "name": "ニョロモ",
+    "types": [
+      "water"
+    ],
+    "baseStats": {
+      "hp": 40,
+      "atk": 50,
+      "def": 40,
+      "spa": 40,
+      "spd": 40,
+      "spe": 90
+    },
+    "abilities": [
+      "water-absorb"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 13,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "surf"
+      }
+    ],
+    "catchRate": 255,
+    "expType": "medium-slow",
+    "evYield": {
+      "spe": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "poliwhirl",
+    "dexNo": 61,
+    "name": "ニョロゾ",
+    "types": [
+      "water"
+    ],
+    "baseStats": {
+      "hp": 65,
+      "atk": 65,
+      "def": 65,
+      "spa": 50,
+      "spd": 50,
+      "spe": 90
+    },
+    "abilities": [
+      "water-absorb"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 13,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "surf"
+      }
+    ],
+    "catchRate": 120,
+    "expType": "medium-slow",
+    "evYield": {
+      "spe": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "poliwrath",
+    "dexNo": 62,
+    "name": "ニョロボン",
+    "types": [
+      "water",
+      "fighting"
+    ],
+    "baseStats": {
+      "hp": 90,
+      "atk": 95,
+      "def": 95,
+      "spa": 70,
+      "spd": 90,
+      "spe": 70
+    },
+    "abilities": [
+      "water-absorb"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 13,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 22,
+        "move": "karate-chop"
+      },
+      {
+        "level": 31,
+        "move": "surf"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-slow",
+    "evYield": {
+      "atk": 3
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "abra",
+    "dexNo": 63,
+    "name": "ケーシィ",
+    "types": [
+      "psychic"
+    ],
+    "baseStats": {
+      "hp": 25,
+      "atk": 20,
+      "def": 15,
+      "spa": 105,
+      "spd": 55,
+      "spe": 90
+    },
+    "abilities": [
+      "synchronize"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "agility"
+      },
+      {
+        "level": 13,
+        "move": "confusion"
+      },
+      {
+        "level": 31,
+        "move": "psychic"
+      }
+    ],
+    "catchRate": 200,
+    "expType": "medium-slow",
+    "evYield": {
+      "spa": 1
+    },
+    "genderRatio": 0.75,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "kadabra",
+    "dexNo": 64,
+    "name": "ユンゲラー",
+    "types": [
+      "psychic"
+    ],
+    "baseStats": {
+      "hp": 40,
+      "atk": 35,
+      "def": 30,
+      "spa": 120,
+      "spd": 70,
+      "spe": 105
+    },
+    "abilities": [
+      "synchronize"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "agility"
+      },
+      {
+        "level": 13,
+        "move": "confusion"
+      },
+      {
+        "level": 31,
+        "move": "psychic"
+      }
+    ],
+    "catchRate": 100,
+    "expType": "medium-slow",
+    "evYield": {
+      "spa": 2
+    },
+    "genderRatio": 0.75,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "alakazam",
+    "dexNo": 65,
+    "name": "フーディン",
+    "types": [
+      "psychic"
+    ],
+    "baseStats": {
+      "hp": 55,
+      "atk": 50,
+      "def": 45,
+      "spa": 135,
+      "spd": 95,
+      "spe": 120
+    },
+    "abilities": [
+      "synchronize"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "agility"
+      },
+      {
+        "level": 13,
+        "move": "confusion"
+      },
+      {
+        "level": 31,
+        "move": "psychic"
+      }
+    ],
+    "catchRate": 50,
+    "expType": "medium-slow",
+    "evYield": {
+      "spa": 3
+    },
+    "genderRatio": 0.75,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "machop",
+    "dexNo": 66,
+    "name": "ワンリキー",
+    "types": [
+      "fighting"
+    ],
+    "baseStats": {
+      "hp": 70,
+      "atk": 80,
+      "def": 50,
+      "spa": 35,
+      "spd": 35,
+      "spe": 35
+    },
+    "abilities": [
+      "guts"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "double-kick"
+      },
+      {
+        "level": 13,
+        "move": "karate-chop"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "brick-break"
+      }
+    ],
+    "catchRate": 180,
+    "expType": "medium-slow",
+    "evYield": {
+      "atk": 1
+    },
+    "genderRatio": 0.75,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "machoke",
+    "dexNo": 67,
+    "name": "ゴーリキー",
+    "types": [
+      "fighting"
+    ],
+    "baseStats": {
+      "hp": 80,
+      "atk": 100,
+      "def": 70,
+      "spa": 50,
+      "spd": 60,
+      "spe": 45
+    },
+    "abilities": [
+      "guts"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "double-kick"
+      },
+      {
+        "level": 13,
+        "move": "karate-chop"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "brick-break"
+      }
+    ],
+    "catchRate": 90,
+    "expType": "medium-slow",
+    "evYield": {
+      "atk": 2
+    },
+    "genderRatio": 0.75,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "machamp",
+    "dexNo": 68,
+    "name": "カイリキー",
+    "types": [
+      "fighting"
+    ],
+    "baseStats": {
+      "hp": 90,
+      "atk": 130,
+      "def": 80,
+      "spa": 65,
+      "spd": 85,
+      "spe": 55
+    },
+    "abilities": [
+      "guts"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "double-kick"
+      },
+      {
+        "level": 13,
+        "move": "karate-chop"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "brick-break"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-slow",
+    "evYield": {
+      "atk": 3
+    },
+    "genderRatio": 0.75,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "bellsprout",
+    "dexNo": 69,
+    "name": "マダツボミ",
+    "types": [
+      "grass",
+      "poison"
+    ],
+    "baseStats": {
+      "hp": 50,
+      "atk": 75,
+      "def": 35,
+      "spa": 70,
+      "spd": 30,
+      "spe": 40
+    },
+    "abilities": [
+      "chlorophyll"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "absorb"
+      },
+      {
+        "level": 7,
+        "move": "toxic"
+      },
+      {
+        "level": 13,
+        "move": "razor-leaf"
+      },
+      {
+        "level": 22,
+        "move": "sludge"
+      },
+      {
+        "level": 31,
+        "move": "giga-drain"
+      }
+    ],
+    "catchRate": 255,
+    "expType": "medium-slow",
+    "evYield": {
+      "atk": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "weepinbell",
+    "dexNo": 70,
+    "name": "ウツドン",
+    "types": [
+      "grass",
+      "poison"
+    ],
+    "baseStats": {
+      "hp": 65,
+      "atk": 90,
+      "def": 50,
+      "spa": 85,
+      "spd": 45,
+      "spe": 55
+    },
+    "abilities": [
+      "chlorophyll"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "absorb"
+      },
+      {
+        "level": 7,
+        "move": "toxic"
+      },
+      {
+        "level": 13,
+        "move": "razor-leaf"
+      },
+      {
+        "level": 22,
+        "move": "sludge"
+      },
+      {
+        "level": 31,
+        "move": "giga-drain"
+      }
+    ],
+    "catchRate": 120,
+    "expType": "medium-slow",
+    "evYield": {
+      "atk": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "victreebel",
+    "dexNo": 71,
+    "name": "ウツボット",
+    "types": [
+      "grass",
+      "poison"
+    ],
+    "baseStats": {
+      "hp": 80,
+      "atk": 105,
+      "def": 65,
+      "spa": 100,
+      "spd": 70,
+      "spe": 70
+    },
+    "abilities": [
+      "chlorophyll"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "absorb"
+      },
+      {
+        "level": 7,
+        "move": "toxic"
+      },
+      {
+        "level": 13,
+        "move": "razor-leaf"
+      },
+      {
+        "level": 22,
+        "move": "sludge"
+      },
+      {
+        "level": 31,
+        "move": "giga-drain"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-slow",
+    "evYield": {
+      "atk": 3
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "tentacool",
+    "dexNo": 72,
+    "name": "メノクラゲ",
+    "types": [
+      "water",
+      "poison"
+    ],
+    "baseStats": {
+      "hp": 40,
+      "atk": 40,
+      "def": 35,
+      "spa": 50,
+      "spd": 100,
+      "spe": 70
+    },
+    "abilities": [
+      "clear-body"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 7,
+        "move": "toxic"
+      },
+      {
+        "level": 13,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 22,
+        "move": "sludge"
+      },
+      {
+        "level": 31,
+        "move": "surf"
+      }
+    ],
+    "catchRate": 190,
+    "expType": "slow",
+    "evYield": {
+      "spd": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "tentacruel",
+    "dexNo": 73,
+    "name": "ドククラゲ",
+    "types": [
+      "water",
+      "poison"
+    ],
+    "baseStats": {
+      "hp": 80,
+      "atk": 70,
+      "def": 65,
+      "spa": 80,
+      "spd": 120,
+      "spe": 100
+    },
+    "abilities": [
+      "clear-body"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 7,
+        "move": "toxic"
+      },
+      {
+        "level": 13,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 22,
+        "move": "sludge"
+      },
+      {
+        "level": 31,
+        "move": "surf"
+      }
+    ],
+    "catchRate": 60,
+    "expType": "slow",
+    "evYield": {
+      "spd": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "geodude",
+    "dexNo": 74,
+    "name": "イシツブテ",
+    "types": [
+      "rock",
+      "ground"
+    ],
+    "baseStats": {
+      "hp": 40,
+      "atk": 80,
+      "def": 100,
+      "spa": 30,
+      "spd": 30,
+      "spe": 20
+    },
+    "abilities": [
+      "rock-head"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "sand-attack"
+      },
+      {
+        "level": 13,
+        "move": "rock-throw"
+      },
+      {
+        "level": 22,
+        "move": "bulldoze"
+      },
+      {
+        "level": 31,
+        "move": "rock-slide"
+      }
+    ],
+    "catchRate": 255,
+    "expType": "medium-slow",
+    "evYield": {
+      "def": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "graveler",
+    "dexNo": 75,
+    "name": "ゴローン",
+    "types": [
+      "rock",
+      "ground"
+    ],
+    "baseStats": {
+      "hp": 55,
+      "atk": 95,
+      "def": 115,
+      "spa": 45,
+      "spd": 45,
+      "spe": 35
+    },
+    "abilities": [
+      "rock-head"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "sand-attack"
+      },
+      {
+        "level": 13,
+        "move": "rock-throw"
+      },
+      {
+        "level": 22,
+        "move": "bulldoze"
+      },
+      {
+        "level": 31,
+        "move": "rock-slide"
+      }
+    ],
+    "catchRate": 120,
+    "expType": "medium-slow",
+    "evYield": {
+      "def": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "golem",
+    "dexNo": 76,
+    "name": "ゴローニャ",
+    "types": [
+      "rock",
+      "ground"
+    ],
+    "baseStats": {
+      "hp": 80,
+      "atk": 120,
+      "def": 130,
+      "spa": 55,
+      "spd": 65,
+      "spe": 45
+    },
+    "abilities": [
+      "rock-head"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "sand-attack"
+      },
+      {
+        "level": 13,
+        "move": "rock-throw"
+      },
+      {
+        "level": 22,
+        "move": "bulldoze"
+      },
+      {
+        "level": 31,
+        "move": "rock-slide"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-slow",
+    "evYield": {
+      "def": 3
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "ponyta",
+    "dexNo": 77,
+    "name": "ポニータ",
+    "types": [
+      "fire"
+    ],
+    "baseStats": {
+      "hp": 50,
+      "atk": 85,
+      "def": 55,
+      "spa": 65,
+      "spd": 65,
+      "spe": 90
+    },
+    "abilities": [
+      "flash-fire"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "ember"
+      },
+      {
+        "level": 7,
+        "move": "will-o-wisp"
+      },
+      {
+        "level": 22,
+        "move": "take-down"
+      },
+      {
+        "level": 31,
+        "move": "fire-punch"
+      }
+    ],
+    "catchRate": 190,
+    "expType": "medium-fast",
+    "evYield": {
+      "spe": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "rapidash",
+    "dexNo": 78,
+    "name": "ギャロップ",
+    "types": [
+      "fire"
+    ],
+    "baseStats": {
+      "hp": 65,
+      "atk": 100,
+      "def": 70,
+      "spa": 80,
+      "spd": 80,
+      "spe": 105
+    },
+    "abilities": [
+      "flash-fire"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "ember"
+      },
+      {
+        "level": 7,
+        "move": "will-o-wisp"
+      },
+      {
+        "level": 22,
+        "move": "take-down"
+      },
+      {
+        "level": 31,
+        "move": "fire-punch"
+      }
+    ],
+    "catchRate": 60,
+    "expType": "medium-fast",
+    "evYield": {
+      "spe": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "slowpoke",
+    "dexNo": 79,
+    "name": "ヤドン",
+    "types": [
+      "water",
+      "psychic"
+    ],
+    "baseStats": {
+      "hp": 90,
+      "atk": 65,
+      "def": 65,
+      "spa": 40,
+      "spd": 40,
+      "spe": 15
+    },
+    "abilities": [
+      "oblivious"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 7,
+        "move": "agility"
+      },
+      {
+        "level": 13,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 22,
+        "move": "confusion"
+      },
+      {
+        "level": 31,
+        "move": "surf"
+      }
+    ],
+    "catchRate": 190,
+    "expType": "medium-fast",
+    "evYield": {
+      "hp": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "slowbro",
+    "dexNo": 80,
+    "name": "ヤドラン",
+    "types": [
+      "water",
+      "psychic"
+    ],
+    "baseStats": {
+      "hp": 95,
+      "atk": 75,
+      "def": 110,
+      "spa": 100,
+      "spd": 80,
+      "spe": 30
+    },
+    "abilities": [
+      "oblivious"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 7,
+        "move": "agility"
+      },
+      {
+        "level": 13,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 22,
+        "move": "confusion"
+      },
+      {
+        "level": 31,
+        "move": "surf"
+      }
+    ],
+    "catchRate": 75,
+    "expType": "medium-fast",
+    "evYield": {
+      "def": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "magnemite",
+    "dexNo": 81,
+    "name": "コイル",
+    "types": [
+      "electric",
+      "steel"
+    ],
+    "baseStats": {
+      "hp": 25,
+      "atk": 35,
+      "def": 70,
+      "spa": 95,
+      "spd": 55,
+      "spe": 45
+    },
+    "abilities": [
+      "magnet-pull"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "thunder-shock"
+      },
+      {
+        "level": 7,
+        "move": "iron-defense"
+      },
+      {
+        "level": 13,
+        "move": "spark"
+      },
+      {
+        "level": 22,
+        "move": "metal-claw"
+      },
+      {
+        "level": 31,
+        "move": "thunderbolt"
+      }
+    ],
+    "catchRate": 190,
+    "expType": "medium-fast",
+    "evYield": {
+      "spa": 1
+    },
+    "genderRatio": null,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "magneton",
+    "dexNo": 82,
+    "name": "レアコイル",
+    "types": [
+      "electric",
+      "steel"
+    ],
+    "baseStats": {
+      "hp": 50,
+      "atk": 60,
+      "def": 95,
+      "spa": 120,
+      "spd": 70,
+      "spe": 70
+    },
+    "abilities": [
+      "magnet-pull"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "thunder-shock"
+      },
+      {
+        "level": 7,
+        "move": "iron-defense"
+      },
+      {
+        "level": 13,
+        "move": "spark"
+      },
+      {
+        "level": 22,
+        "move": "metal-claw"
+      },
+      {
+        "level": 31,
+        "move": "thunderbolt"
+      }
+    ],
+    "catchRate": 60,
+    "expType": "medium-fast",
+    "evYield": {
+      "spa": 2
+    },
+    "genderRatio": null,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "farfetchd",
+    "dexNo": 83,
+    "name": "カモネギ",
+    "types": [
+      "normal",
+      "flying"
+    ],
+    "baseStats": {
+      "hp": 52,
+      "atk": 90,
+      "def": 55,
+      "spa": 58,
+      "spd": 62,
+      "spe": 60
+    },
+    "abilities": [
+      "keen-eye"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "growl"
+      },
+      {
+        "level": 13,
+        "move": "headbutt"
+      },
+      {
+        "level": 22,
+        "move": "wing-attack"
+      },
+      {
+        "level": 31,
+        "move": "body-slam"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-fast",
+    "evYield": {
+      "atk": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "doduo",
+    "dexNo": 84,
+    "name": "ドードー",
+    "types": [
+      "normal",
+      "flying"
+    ],
+    "baseStats": {
+      "hp": 35,
+      "atk": 85,
+      "def": 45,
+      "spa": 35,
+      "spd": 35,
+      "spe": 75
+    },
+    "abilities": [
+      "run-away"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "growl"
+      },
+      {
+        "level": 13,
+        "move": "headbutt"
+      },
+      {
+        "level": 22,
+        "move": "wing-attack"
+      },
+      {
+        "level": 31,
+        "move": "body-slam"
+      }
+    ],
+    "catchRate": 190,
+    "expType": "medium-fast",
+    "evYield": {
+      "atk": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "dodrio",
+    "dexNo": 85,
+    "name": "ドードリオ",
+    "types": [
+      "normal",
+      "flying"
+    ],
+    "baseStats": {
+      "hp": 60,
+      "atk": 110,
+      "def": 70,
+      "spa": 60,
+      "spd": 70,
+      "spe": 110
+    },
+    "abilities": [
+      "run-away"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "growl"
+      },
+      {
+        "level": 13,
+        "move": "headbutt"
+      },
+      {
+        "level": 22,
+        "move": "wing-attack"
+      },
+      {
+        "level": 31,
+        "move": "body-slam"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-fast",
+    "evYield": {
+      "atk": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "seel",
+    "dexNo": 86,
+    "name": "パウワウ",
+    "types": [
+      "water"
+    ],
+    "baseStats": {
+      "hp": 65,
+      "atk": 45,
+      "def": 55,
+      "spa": 45,
+      "spd": 70,
+      "spe": 45
+    },
+    "abilities": [
+      "thick-fat"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 13,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "surf"
+      }
+    ],
+    "catchRate": 190,
+    "expType": "medium-fast",
+    "evYield": {
+      "spd": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "dewgong",
+    "dexNo": 87,
+    "name": "ジュゴン",
+    "types": [
+      "water",
+      "ice"
+    ],
+    "baseStats": {
+      "hp": 90,
+      "atk": 70,
+      "def": 80,
+      "spa": 70,
+      "spd": 95,
+      "spe": 70
+    },
+    "abilities": [
+      "thick-fat"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 13,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 22,
+        "move": "aurora-beam"
+      },
+      {
+        "level": 31,
+        "move": "surf"
+      }
+    ],
+    "catchRate": 75,
+    "expType": "medium-fast",
+    "evYield": {
+      "spd": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "grimer",
+    "dexNo": 88,
+    "name": "ベトベター",
+    "types": [
+      "poison"
+    ],
+    "baseStats": {
+      "hp": 80,
+      "atk": 80,
+      "def": 50,
+      "spa": 40,
+      "spd": 50,
+      "spe": 25
+    },
+    "abilities": [
+      "stench"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "poison-sting"
+      },
+      {
+        "level": 7,
+        "move": "toxic"
+      },
+      {
+        "level": 13,
+        "move": "sludge"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "poison-jab"
+      }
+    ],
+    "catchRate": 190,
+    "expType": "medium-fast",
+    "evYield": {
+      "hp": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "muk",
+    "dexNo": 89,
+    "name": "ベトベトン",
+    "types": [
+      "poison"
+    ],
+    "baseStats": {
+      "hp": 105,
+      "atk": 105,
+      "def": 75,
+      "spa": 65,
+      "spd": 100,
+      "spe": 50
+    },
+    "abilities": [
+      "stench"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "poison-sting"
+      },
+      {
+        "level": 7,
+        "move": "toxic"
+      },
+      {
+        "level": 13,
+        "move": "sludge"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "poison-jab"
+      }
+    ],
+    "catchRate": 75,
+    "expType": "medium-fast",
+    "evYield": {
+      "atk": 1,
+      "hp": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "shellder",
+    "dexNo": 90,
+    "name": "シェルダー",
+    "types": [
+      "water"
+    ],
+    "baseStats": {
+      "hp": 30,
+      "atk": 65,
+      "def": 100,
+      "spa": 45,
+      "spd": 25,
+      "spe": 40
+    },
+    "abilities": [
+      "shell-armor"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 13,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "surf"
+      }
+    ],
+    "catchRate": 190,
+    "expType": "slow",
+    "evYield": {
+      "def": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "cloyster",
+    "dexNo": 91,
+    "name": "パルシェン",
+    "types": [
+      "water",
+      "ice"
+    ],
+    "baseStats": {
+      "hp": 50,
+      "atk": 95,
+      "def": 180,
+      "spa": 85,
+      "spd": 45,
+      "spe": 70
+    },
+    "abilities": [
+      "shell-armor"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 13,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 22,
+        "move": "aurora-beam"
+      },
+      {
+        "level": 31,
+        "move": "surf"
+      }
+    ],
+    "catchRate": 60,
+    "expType": "slow",
+    "evYield": {
+      "def": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "gastly",
+    "dexNo": 92,
+    "name": "ゴース",
+    "types": [
+      "ghost",
+      "poison"
+    ],
+    "baseStats": {
+      "hp": 30,
+      "atk": 35,
+      "def": 30,
+      "spa": 100,
+      "spd": 35,
+      "spe": 80
+    },
+    "abilities": [
+      "levitate"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "lick"
+      },
+      {
+        "level": 7,
+        "move": "toxic"
+      },
+      {
+        "level": 13,
+        "move": "night-shade"
+      },
+      {
+        "level": 22,
+        "move": "sludge"
+      },
+      {
+        "level": 31,
+        "move": "shadow-ball"
+      }
+    ],
+    "catchRate": 190,
+    "expType": "medium-slow",
+    "evYield": {
+      "spa": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "haunter",
+    "dexNo": 93,
+    "name": "ゴースト",
+    "types": [
+      "ghost",
+      "poison"
+    ],
+    "baseStats": {
+      "hp": 45,
+      "atk": 50,
+      "def": 45,
+      "spa": 115,
+      "spd": 55,
+      "spe": 95
+    },
+    "abilities": [
+      "levitate"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "lick"
+      },
+      {
+        "level": 7,
+        "move": "toxic"
+      },
+      {
+        "level": 13,
+        "move": "night-shade"
+      },
+      {
+        "level": 22,
+        "move": "sludge"
+      },
+      {
+        "level": 31,
+        "move": "shadow-ball"
+      }
+    ],
+    "catchRate": 90,
+    "expType": "medium-slow",
+    "evYield": {
+      "spa": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "gengar",
+    "dexNo": 94,
+    "name": "ゲンガー",
+    "types": [
+      "ghost",
+      "poison"
+    ],
+    "baseStats": {
+      "hp": 60,
+      "atk": 65,
+      "def": 60,
+      "spa": 130,
+      "spd": 75,
+      "spe": 110
+    },
+    "abilities": [
+      "cursed-body"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "lick"
+      },
+      {
+        "level": 7,
+        "move": "toxic"
+      },
+      {
+        "level": 13,
+        "move": "night-shade"
+      },
+      {
+        "level": 22,
+        "move": "sludge"
+      },
+      {
+        "level": 31,
+        "move": "shadow-ball"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-slow",
+    "evYield": {
+      "spa": 3
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "onix",
+    "dexNo": 95,
+    "name": "イワーク",
+    "types": [
+      "rock",
+      "ground"
+    ],
+    "baseStats": {
+      "hp": 35,
+      "atk": 45,
+      "def": 160,
+      "spa": 30,
+      "spd": 45,
+      "spe": 70
+    },
+    "abilities": [
+      "rock-head"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "sand-attack"
+      },
+      {
+        "level": 13,
+        "move": "rock-throw"
+      },
+      {
+        "level": 22,
+        "move": "bulldoze"
+      },
+      {
+        "level": 31,
+        "move": "rock-slide"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-fast",
+    "evYield": {
+      "def": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "drowzee",
+    "dexNo": 96,
+    "name": "スリープ",
+    "types": [
+      "psychic"
+    ],
+    "baseStats": {
+      "hp": 60,
+      "atk": 48,
+      "def": 45,
+      "spa": 43,
+      "spd": 90,
+      "spe": 42
+    },
+    "abilities": [
+      "insomnia"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "agility"
+      },
+      {
+        "level": 13,
+        "move": "confusion"
+      },
+      {
+        "level": 31,
+        "move": "psychic"
+      }
+    ],
+    "catchRate": 190,
+    "expType": "medium-fast",
+    "evYield": {
+      "spd": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "hypno",
+    "dexNo": 97,
+    "name": "スリーパー",
+    "types": [
+      "psychic"
+    ],
+    "baseStats": {
+      "hp": 85,
+      "atk": 73,
+      "def": 70,
+      "spa": 73,
+      "spd": 115,
+      "spe": 67
+    },
+    "abilities": [
+      "insomnia"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "agility"
+      },
+      {
+        "level": 13,
+        "move": "confusion"
+      },
+      {
+        "level": 31,
+        "move": "psychic"
+      }
+    ],
+    "catchRate": 75,
+    "expType": "medium-fast",
+    "evYield": {
+      "spd": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "krabby",
+    "dexNo": 98,
+    "name": "クラブ",
+    "types": [
+      "water"
+    ],
+    "baseStats": {
+      "hp": 30,
+      "atk": 105,
+      "def": 90,
+      "spa": 25,
+      "spd": 25,
+      "spe": 50
+    },
+    "abilities": [
+      "hyper-cutter"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 13,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "surf"
+      }
+    ],
+    "catchRate": 225,
+    "expType": "medium-fast",
+    "evYield": {
+      "atk": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "kingler",
+    "dexNo": 99,
+    "name": "キングラー",
+    "types": [
+      "water"
+    ],
+    "baseStats": {
+      "hp": 55,
+      "atk": 130,
+      "def": 115,
+      "spa": 50,
+      "spd": 50,
+      "spe": 75
+    },
+    "abilities": [
+      "hyper-cutter"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 13,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "surf"
+      }
+    ],
+    "catchRate": 60,
+    "expType": "medium-fast",
+    "evYield": {
+      "atk": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "voltorb",
+    "dexNo": 100,
+    "name": "ビリリダマ",
+    "types": [
+      "electric"
+    ],
+    "baseStats": {
+      "hp": 40,
+      "atk": 30,
+      "def": 50,
+      "spa": 55,
+      "spd": 55,
+      "spe": 100
+    },
+    "abilities": [
+      "soundproof"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "thunder-shock"
+      },
+      {
+        "level": 7,
+        "move": "thunder-wave"
+      },
+      {
+        "level": 13,
+        "move": "spark"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "thunderbolt"
+      }
+    ],
+    "catchRate": 190,
+    "expType": "medium-fast",
+    "evYield": {
+      "spe": 1
+    },
+    "genderRatio": null,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "electrode",
+    "dexNo": 101,
+    "name": "マルマイン",
+    "types": [
+      "electric"
+    ],
+    "baseStats": {
+      "hp": 60,
+      "atk": 50,
+      "def": 70,
+      "spa": 80,
+      "spd": 80,
+      "spe": 150
+    },
+    "abilities": [
+      "soundproof"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "thunder-shock"
+      },
+      {
+        "level": 7,
+        "move": "thunder-wave"
+      },
+      {
+        "level": 13,
+        "move": "spark"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "thunderbolt"
+      }
+    ],
+    "catchRate": 60,
+    "expType": "medium-fast",
+    "evYield": {
+      "spe": 2
+    },
+    "genderRatio": null,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "exeggcute",
+    "dexNo": 102,
+    "name": "タマタマ",
+    "types": [
+      "grass",
+      "psychic"
+    ],
+    "baseStats": {
+      "hp": 60,
+      "atk": 40,
+      "def": 80,
+      "spa": 60,
+      "spd": 45,
+      "spe": 40
+    },
+    "abilities": [
+      "chlorophyll"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "absorb"
+      },
+      {
+        "level": 7,
+        "move": "agility"
+      },
+      {
+        "level": 13,
+        "move": "razor-leaf"
+      },
+      {
+        "level": 22,
+        "move": "confusion"
+      },
+      {
+        "level": 31,
+        "move": "giga-drain"
+      }
+    ],
+    "catchRate": 90,
+    "expType": "slow",
+    "evYield": {
+      "def": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "exeggutor",
+    "dexNo": 103,
+    "name": "ナッシー",
+    "types": [
+      "grass",
+      "psychic"
+    ],
+    "baseStats": {
+      "hp": 95,
+      "atk": 95,
+      "def": 85,
+      "spa": 125,
+      "spd": 75,
+      "spe": 55
+    },
+    "abilities": [
+      "chlorophyll"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "absorb"
+      },
+      {
+        "level": 7,
+        "move": "agility"
+      },
+      {
+        "level": 13,
+        "move": "razor-leaf"
+      },
+      {
+        "level": 22,
+        "move": "confusion"
+      },
+      {
+        "level": 31,
+        "move": "giga-drain"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "slow",
+    "evYield": {
+      "spa": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "cubone",
+    "dexNo": 104,
+    "name": "カラカラ",
+    "types": [
+      "ground"
+    ],
+    "baseStats": {
+      "hp": 50,
+      "atk": 50,
+      "def": 95,
+      "spa": 40,
+      "spd": 50,
+      "spe": 35
+    },
+    "abilities": [
+      "rock-head"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "mud-slap"
+      },
+      {
+        "level": 7,
+        "move": "sand-attack"
+      },
+      {
+        "level": 13,
+        "move": "bulldoze"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "dig"
+      }
+    ],
+    "catchRate": 190,
+    "expType": "medium-fast",
+    "evYield": {
+      "def": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "marowak",
+    "dexNo": 105,
+    "name": "ガラガラ",
+    "types": [
+      "ground"
+    ],
+    "baseStats": {
+      "hp": 60,
+      "atk": 80,
+      "def": 110,
+      "spa": 50,
+      "spd": 80,
+      "spe": 45
+    },
+    "abilities": [
+      "rock-head"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "mud-slap"
+      },
+      {
+        "level": 7,
+        "move": "sand-attack"
+      },
+      {
+        "level": 13,
+        "move": "bulldoze"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "dig"
+      }
+    ],
+    "catchRate": 75,
+    "expType": "medium-fast",
+    "evYield": {
+      "def": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "hitmonlee",
+    "dexNo": 106,
+    "name": "サワムラー",
+    "types": [
+      "fighting"
+    ],
+    "baseStats": {
+      "hp": 50,
+      "atk": 120,
+      "def": 53,
+      "spa": 35,
+      "spd": 110,
+      "spe": 87
+    },
+    "abilities": [
+      "limber"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "double-kick"
+      },
+      {
+        "level": 13,
+        "move": "karate-chop"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "brick-break"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-fast",
+    "evYield": {
+      "atk": 2
+    },
+    "genderRatio": 1,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "hitmonchan",
+    "dexNo": 107,
+    "name": "エビワラー",
+    "types": [
+      "fighting"
+    ],
+    "baseStats": {
+      "hp": 50,
+      "atk": 105,
+      "def": 79,
+      "spa": 35,
+      "spd": 110,
+      "spe": 76
+    },
+    "abilities": [
+      "keen-eye"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "double-kick"
+      },
+      {
+        "level": 13,
+        "move": "karate-chop"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "brick-break"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-fast",
+    "evYield": {
+      "spd": 2
+    },
+    "genderRatio": 1,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "lickitung",
+    "dexNo": 108,
+    "name": "ベロリンガ",
+    "types": [
+      "normal"
+    ],
+    "baseStats": {
+      "hp": 90,
+      "atk": 55,
+      "def": 75,
+      "spa": 60,
+      "spd": 75,
+      "spe": 30
+    },
+    "abilities": [
+      "own-tempo"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "growl"
+      },
+      {
+        "level": 13,
+        "move": "headbutt"
+      },
+      {
+        "level": 18,
+        "move": "confusion"
+      },
+      {
+        "level": 31,
+        "move": "body-slam"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-fast",
+    "evYield": {
+      "hp": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "koffing",
+    "dexNo": 109,
+    "name": "ドガース",
+    "types": [
+      "poison"
+    ],
+    "baseStats": {
+      "hp": 40,
+      "atk": 65,
+      "def": 95,
+      "spa": 60,
+      "spd": 45,
+      "spe": 35
+    },
+    "abilities": [
+      "levitate"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "poison-sting"
+      },
+      {
+        "level": 7,
+        "move": "toxic"
+      },
+      {
+        "level": 13,
+        "move": "sludge"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "poison-jab"
+      }
+    ],
+    "catchRate": 190,
+    "expType": "medium-fast",
+    "evYield": {
+      "def": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "weezing",
+    "dexNo": 110,
+    "name": "マタドガス",
+    "types": [
+      "poison"
+    ],
+    "baseStats": {
+      "hp": 65,
+      "atk": 90,
+      "def": 120,
+      "spa": 85,
+      "spd": 70,
+      "spe": 60
+    },
+    "abilities": [
+      "levitate"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "poison-sting"
+      },
+      {
+        "level": 7,
+        "move": "toxic"
+      },
+      {
+        "level": 13,
+        "move": "sludge"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "poison-jab"
+      }
+    ],
+    "catchRate": 60,
+    "expType": "medium-fast",
+    "evYield": {
+      "def": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "rhyhorn",
+    "dexNo": 111,
+    "name": "サイホーン",
+    "types": [
+      "ground",
+      "rock"
+    ],
+    "baseStats": {
+      "hp": 80,
+      "atk": 85,
+      "def": 95,
+      "spa": 30,
+      "spd": 30,
+      "spe": 25
+    },
+    "abilities": [
+      "lightning-rod"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "mud-slap"
+      },
+      {
+        "level": 7,
+        "move": "sand-attack"
+      },
+      {
+        "level": 13,
+        "move": "bulldoze"
+      },
+      {
+        "level": 22,
+        "move": "rock-throw"
+      },
+      {
+        "level": 31,
+        "move": "dig"
+      }
+    ],
+    "catchRate": 120,
+    "expType": "slow",
+    "evYield": {
+      "def": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "rhydon",
+    "dexNo": 112,
+    "name": "サイドン",
+    "types": [
+      "ground",
+      "rock"
+    ],
+    "baseStats": {
+      "hp": 105,
+      "atk": 130,
+      "def": 120,
+      "spa": 45,
+      "spd": 45,
+      "spe": 40
+    },
+    "abilities": [
+      "lightning-rod"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "mud-slap"
+      },
+      {
+        "level": 7,
+        "move": "sand-attack"
+      },
+      {
+        "level": 13,
+        "move": "bulldoze"
+      },
+      {
+        "level": 22,
+        "move": "rock-throw"
+      },
+      {
+        "level": 31,
+        "move": "dig"
+      }
+    ],
+    "catchRate": 60,
+    "expType": "slow",
+    "evYield": {
+      "atk": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "chansey",
+    "dexNo": 113,
+    "name": "ラッキー",
+    "types": [
+      "normal"
+    ],
+    "baseStats": {
+      "hp": 250,
+      "atk": 5,
+      "def": 5,
+      "spa": 35,
+      "spd": 105,
+      "spe": 50
+    },
+    "abilities": [
+      "natural-cure"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "growl"
+      },
+      {
+        "level": 13,
+        "move": "headbutt"
+      },
+      {
+        "level": 18,
+        "move": "confusion"
+      },
+      {
+        "level": 31,
+        "move": "body-slam"
+      }
+    ],
+    "catchRate": 30,
+    "expType": "fast",
+    "evYield": {
+      "hp": 2
+    },
+    "genderRatio": 0,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "tangela",
+    "dexNo": 114,
+    "name": "モンジャラ",
+    "types": [
+      "grass"
+    ],
+    "baseStats": {
+      "hp": 65,
+      "atk": 55,
+      "def": 115,
+      "spa": 100,
+      "spd": 40,
+      "spe": 60
+    },
+    "abilities": [
+      "chlorophyll"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "absorb"
+      },
+      {
+        "level": 7,
+        "move": "sleep-powder"
+      },
+      {
+        "level": 13,
+        "move": "razor-leaf"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "giga-drain"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-fast",
+    "evYield": {
+      "def": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "kangaskhan",
+    "dexNo": 115,
+    "name": "ガルーラ",
+    "types": [
+      "normal"
+    ],
+    "baseStats": {
+      "hp": 105,
+      "atk": 95,
+      "def": 80,
+      "spa": 40,
+      "spd": 80,
+      "spe": 90
+    },
+    "abilities": [
+      "early-bird"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "growl"
+      },
+      {
+        "level": 13,
+        "move": "headbutt"
+      },
+      {
+        "level": 18,
+        "move": "rock-throw"
+      },
+      {
+        "level": 31,
+        "move": "body-slam"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-fast",
+    "evYield": {
+      "hp": 2
+    },
+    "genderRatio": 0,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "horsea",
+    "dexNo": 116,
+    "name": "タッツー",
+    "types": [
+      "water"
+    ],
+    "baseStats": {
+      "hp": 30,
+      "atk": 40,
+      "def": 70,
+      "spa": 70,
+      "spd": 25,
+      "spe": 60
+    },
+    "abilities": [
+      "swift-swim"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 13,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "surf"
+      }
+    ],
+    "catchRate": 225,
+    "expType": "medium-fast",
+    "evYield": {
+      "spa": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "seadra",
+    "dexNo": 117,
+    "name": "シードラ",
+    "types": [
+      "water"
+    ],
+    "baseStats": {
+      "hp": 55,
+      "atk": 65,
+      "def": 95,
+      "spa": 95,
+      "spd": 45,
+      "spe": 85
+    },
+    "abilities": [
+      "poison-point"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 13,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "surf"
+      }
+    ],
+    "catchRate": 75,
+    "expType": "medium-fast",
+    "evYield": {
+      "spa": 1,
+      "def": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "goldeen",
+    "dexNo": 118,
+    "name": "トサキント",
+    "types": [
+      "water"
+    ],
+    "baseStats": {
+      "hp": 45,
+      "atk": 67,
+      "def": 60,
+      "spa": 35,
+      "spd": 50,
+      "spe": 63
+    },
+    "abilities": [
+      "swift-swim"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 13,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "surf"
+      }
+    ],
+    "catchRate": 225,
+    "expType": "medium-fast",
+    "evYield": {
+      "atk": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "seaking",
+    "dexNo": 119,
+    "name": "アズマオウ",
+    "types": [
+      "water"
+    ],
+    "baseStats": {
+      "hp": 80,
+      "atk": 92,
+      "def": 65,
+      "spa": 65,
+      "spd": 80,
+      "spe": 68
+    },
+    "abilities": [
+      "swift-swim"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 13,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "surf"
+      }
+    ],
+    "catchRate": 60,
+    "expType": "medium-fast",
+    "evYield": {
+      "atk": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "staryu",
+    "dexNo": 120,
+    "name": "ヒトデマン",
+    "types": [
+      "water"
+    ],
+    "baseStats": {
+      "hp": 30,
+      "atk": 45,
+      "def": 55,
+      "spa": 70,
+      "spd": 55,
+      "spe": 85
+    },
+    "abilities": [
+      "illuminate"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 13,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "surf"
+      }
+    ],
+    "catchRate": 225,
+    "expType": "slow",
+    "evYield": {
+      "spe": 1
+    },
+    "genderRatio": null,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "starmie",
+    "dexNo": 121,
+    "name": "スターミー",
+    "types": [
+      "water",
+      "psychic"
+    ],
+    "baseStats": {
+      "hp": 60,
+      "atk": 75,
+      "def": 85,
+      "spa": 100,
+      "spd": 85,
+      "spe": 115
+    },
+    "abilities": [
+      "illuminate"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 7,
+        "move": "agility"
+      },
+      {
+        "level": 13,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 22,
+        "move": "confusion"
+      },
+      {
+        "level": 31,
+        "move": "surf"
+      }
+    ],
+    "catchRate": 60,
+    "expType": "slow",
+    "evYield": {
+      "spe": 2
+    },
+    "genderRatio": null,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "mr-mime",
+    "dexNo": 122,
+    "name": "バリヤード",
+    "types": [
+      "psychic",
+      "fairy"
+    ],
+    "baseStats": {
+      "hp": 40,
+      "atk": 45,
+      "def": 65,
+      "spa": 100,
+      "spd": 120,
+      "spe": 90
+    },
+    "abilities": [
+      "soundproof"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "charm"
+      },
+      {
+        "level": 13,
+        "move": "confusion"
+      },
+      {
+        "level": 22,
+        "move": "draining-kiss"
+      },
+      {
+        "level": 31,
+        "move": "psychic"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-fast",
+    "evYield": {
+      "spd": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "scyther",
+    "dexNo": 123,
+    "name": "ストライク",
+    "types": [
+      "bug",
+      "flying"
+    ],
+    "baseStats": {
+      "hp": 70,
+      "atk": 110,
+      "def": 80,
+      "spa": 55,
+      "spd": 80,
+      "spe": 105
+    },
+    "abilities": [
+      "swarm"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "string-shot"
+      },
+      {
+        "level": 13,
+        "move": "bug-bite"
+      },
+      {
+        "level": 22,
+        "move": "wing-attack"
+      },
+      {
+        "level": 31,
+        "move": "x-scissor"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-fast",
+    "evYield": {
+      "atk": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "jynx",
+    "dexNo": 124,
+    "name": "ルージュラ",
+    "types": [
+      "ice",
+      "psychic"
+    ],
+    "baseStats": {
+      "hp": 65,
+      "atk": 50,
+      "def": 35,
+      "spa": 115,
+      "spd": 95,
+      "spe": 95
+    },
+    "abilities": [
+      "oblivious"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "powder-snow"
+      },
+      {
+        "level": 7,
+        "move": "agility"
+      },
+      {
+        "level": 13,
+        "move": "aurora-beam"
+      },
+      {
+        "level": 22,
+        "move": "confusion"
+      },
+      {
+        "level": 31,
+        "move": "ice-punch"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-fast",
+    "evYield": {
+      "spa": 2
+    },
+    "genderRatio": 0,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "electabuzz",
+    "dexNo": 125,
+    "name": "エレブー",
+    "types": [
+      "electric"
+    ],
+    "baseStats": {
+      "hp": 65,
+      "atk": 83,
+      "def": 57,
+      "spa": 95,
+      "spd": 85,
+      "spe": 105
+    },
+    "abilities": [
+      "static"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "thunder-shock"
+      },
+      {
+        "level": 7,
+        "move": "thunder-wave"
+      },
+      {
+        "level": 13,
+        "move": "spark"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "thunderbolt"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-fast",
+    "evYield": {
+      "spe": 2
+    },
+    "genderRatio": 0.75,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "magmar",
+    "dexNo": 126,
+    "name": "ブーバー",
+    "types": [
+      "fire"
+    ],
+    "baseStats": {
+      "hp": 65,
+      "atk": 95,
+      "def": 57,
+      "spa": 100,
+      "spd": 85,
+      "spe": 93
+    },
+    "abilities": [
+      "flame-body"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "ember"
+      },
+      {
+        "level": 7,
+        "move": "will-o-wisp"
+      },
+      {
+        "level": 22,
+        "move": "take-down"
+      },
+      {
+        "level": 31,
+        "move": "fire-punch"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-fast",
+    "evYield": {
+      "spa": 2
+    },
+    "genderRatio": 0.75,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "pinsir",
+    "dexNo": 127,
+    "name": "カイロス",
+    "types": [
+      "bug"
+    ],
+    "baseStats": {
+      "hp": 65,
+      "atk": 125,
+      "def": 100,
+      "spa": 55,
+      "spd": 70,
+      "spe": 85
+    },
+    "abilities": [
+      "hyper-cutter"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "string-shot"
+      },
+      {
+        "level": 13,
+        "move": "bug-bite"
+      },
+      {
+        "level": 31,
+        "move": "x-scissor"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "slow",
+    "evYield": {
+      "atk": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "tauros",
+    "dexNo": 128,
+    "name": "ケンタロス",
+    "types": [
+      "normal"
+    ],
+    "baseStats": {
+      "hp": 75,
+      "atk": 100,
+      "def": 95,
+      "spa": 40,
+      "spd": 70,
+      "spe": 110
+    },
+    "abilities": [
+      "intimidate"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "growl"
+      },
+      {
+        "level": 13,
+        "move": "headbutt"
+      },
+      {
+        "level": 18,
+        "move": "rock-throw"
+      },
+      {
+        "level": 31,
+        "move": "body-slam"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "slow",
+    "evYield": {
+      "atk": 1,
+      "spe": 1
+    },
+    "genderRatio": 1,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "magikarp",
+    "dexNo": 129,
+    "name": "コイキング",
+    "types": [
+      "water"
+    ],
+    "baseStats": {
+      "hp": 20,
+      "atk": 10,
+      "def": 55,
+      "spa": 15,
+      "spd": 20,
+      "spe": 80
+    },
+    "abilities": [
+      "swift-swim"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 13,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "surf"
+      }
+    ],
+    "catchRate": 255,
+    "expType": "slow",
+    "evYield": {
+      "spe": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "gyarados",
+    "dexNo": 130,
+    "name": "ギャラドス",
+    "types": [
+      "water",
+      "flying"
+    ],
+    "baseStats": {
+      "hp": 95,
+      "atk": 125,
+      "def": 79,
+      "spa": 60,
+      "spd": 100,
+      "spe": 81
+    },
+    "abilities": [
+      "intimidate"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 13,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 22,
+        "move": "wing-attack"
+      },
+      {
+        "level": 31,
+        "move": "surf"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "slow",
+    "evYield": {
+      "atk": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "lapras",
+    "dexNo": 131,
+    "name": "ラプラス",
+    "types": [
+      "water",
+      "ice"
+    ],
+    "baseStats": {
+      "hp": 130,
+      "atk": 85,
+      "def": 80,
+      "spa": 85,
+      "spd": 95,
+      "spe": 60
+    },
+    "abilities": [
+      "water-absorb"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 13,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 22,
+        "move": "aurora-beam"
+      },
+      {
+        "level": 31,
+        "move": "surf"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "slow",
+    "evYield": {
+      "hp": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "ditto",
+    "dexNo": 132,
+    "name": "メタモン",
+    "types": [
+      "normal"
+    ],
+    "baseStats": {
+      "hp": 48,
+      "atk": 48,
+      "def": 48,
+      "spa": 48,
+      "spd": 48,
+      "spe": 48
+    },
+    "abilities": [
+      "limber"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "growl"
+      },
+      {
+        "level": 13,
+        "move": "headbutt"
+      },
+      {
+        "level": 18,
+        "move": "rock-throw"
+      },
+      {
+        "level": 31,
+        "move": "body-slam"
+      }
+    ],
+    "catchRate": 35,
+    "expType": "medium-fast",
+    "evYield": {
+      "hp": 1
+    },
+    "genderRatio": null,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "eevee",
+    "dexNo": 133,
+    "name": "イーブイ",
+    "types": [
+      "normal"
+    ],
+    "baseStats": {
+      "hp": 55,
+      "atk": 55,
+      "def": 50,
+      "spa": 45,
+      "spd": 65,
+      "spe": 55
+    },
+    "abilities": [
+      "run-away"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "growl"
+      },
+      {
+        "level": 13,
+        "move": "headbutt"
+      },
+      {
+        "level": 18,
+        "move": "rock-throw"
+      },
+      {
+        "level": 31,
+        "move": "body-slam"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-fast",
+    "evYield": {
+      "spd": 1
+    },
+    "genderRatio": 0.875,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "vaporeon",
+    "dexNo": 134,
+    "name": "シャワーズ",
+    "types": [
+      "water"
+    ],
+    "baseStats": {
+      "hp": 130,
+      "atk": 65,
+      "def": 60,
+      "spa": 110,
+      "spd": 95,
+      "spe": 65
+    },
+    "abilities": [
+      "water-absorb"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 13,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "surf"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-fast",
+    "evYield": {
+      "hp": 2
+    },
+    "genderRatio": 0.875,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "jolteon",
+    "dexNo": 135,
+    "name": "サンダース",
+    "types": [
+      "electric"
+    ],
+    "baseStats": {
+      "hp": 65,
+      "atk": 65,
+      "def": 60,
+      "spa": 110,
+      "spd": 95,
+      "spe": 130
+    },
+    "abilities": [
+      "volt-absorb"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "thunder-shock"
+      },
+      {
+        "level": 7,
+        "move": "thunder-wave"
+      },
+      {
+        "level": 13,
+        "move": "spark"
+      },
+      {
+        "level": 18,
+        "move": "body-slam"
+      },
+      {
+        "level": 31,
+        "move": "thunderbolt"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-fast",
+    "evYield": {
+      "spe": 2
+    },
+    "genderRatio": 0.875,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "flareon",
+    "dexNo": 136,
+    "name": "ブースター",
+    "types": [
+      "fire"
+    ],
+    "baseStats": {
+      "hp": 65,
+      "atk": 130,
+      "def": 60,
+      "spa": 95,
+      "spd": 110,
+      "spe": 65
+    },
+    "abilities": [
+      "flash-fire"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "ember"
+      },
+      {
+        "level": 7,
+        "move": "will-o-wisp"
+      },
+      {
+        "level": 22,
+        "move": "take-down"
+      },
+      {
+        "level": 31,
+        "move": "fire-punch"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-fast",
+    "evYield": {
+      "atk": 2
+    },
+    "genderRatio": 0.875,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "porygon",
+    "dexNo": 137,
+    "name": "ポリゴン",
+    "types": [
+      "normal"
+    ],
+    "baseStats": {
+      "hp": 65,
+      "atk": 60,
+      "def": 70,
+      "spa": 85,
+      "spd": 75,
+      "spe": 40
+    },
+    "abilities": [
+      "trace"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "growl"
+      },
+      {
+        "level": 13,
+        "move": "headbutt"
+      },
+      {
+        "level": 18,
+        "move": "confusion"
+      },
+      {
+        "level": 31,
+        "move": "body-slam"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-fast",
+    "evYield": {
+      "spa": 1
+    },
+    "genderRatio": null,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "omanyte",
+    "dexNo": 138,
+    "name": "オムナイト",
+    "types": [
+      "rock",
+      "water"
+    ],
+    "baseStats": {
+      "hp": 35,
+      "atk": 40,
+      "def": 100,
+      "spa": 90,
+      "spd": 55,
+      "spe": 35
+    },
+    "abilities": [
+      "swift-swim"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 13,
+        "move": "rock-throw"
+      },
+      {
+        "level": 22,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 31,
+        "move": "rock-slide"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-fast",
+    "evYield": {
+      "def": 1
+    },
+    "genderRatio": 0.875,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "omastar",
+    "dexNo": 139,
+    "name": "オムスター",
+    "types": [
+      "rock",
+      "water"
+    ],
+    "baseStats": {
+      "hp": 70,
+      "atk": 60,
+      "def": 125,
+      "spa": 115,
+      "spd": 70,
+      "spe": 55
+    },
+    "abilities": [
+      "swift-swim"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 13,
+        "move": "rock-throw"
+      },
+      {
+        "level": 22,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 31,
+        "move": "rock-slide"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-fast",
+    "evYield": {
+      "def": 2
+    },
+    "genderRatio": 0.875,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "kabuto",
+    "dexNo": 140,
+    "name": "カブト",
+    "types": [
+      "rock",
+      "water"
+    ],
+    "baseStats": {
+      "hp": 30,
+      "atk": 80,
+      "def": 90,
+      "spa": 55,
+      "spd": 45,
+      "spe": 55
+    },
+    "abilities": [
+      "swift-swim"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 13,
+        "move": "rock-throw"
+      },
+      {
+        "level": 22,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 31,
+        "move": "rock-slide"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-fast",
+    "evYield": {
+      "def": 1
+    },
+    "genderRatio": 0.875,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "kabutops",
+    "dexNo": 141,
+    "name": "カブトプス",
+    "types": [
+      "rock",
+      "water"
+    ],
+    "baseStats": {
+      "hp": 60,
+      "atk": 115,
+      "def": 105,
+      "spa": 65,
+      "spd": 70,
+      "spe": 80
+    },
+    "abilities": [
+      "swift-swim"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 13,
+        "move": "rock-throw"
+      },
+      {
+        "level": 22,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 31,
+        "move": "rock-slide"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-fast",
+    "evYield": {
+      "atk": 2
+    },
+    "genderRatio": 0.875,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "aerodactyl",
+    "dexNo": 142,
+    "name": "プテラ",
+    "types": [
+      "rock",
+      "flying"
+    ],
+    "baseStats": {
+      "hp": 80,
+      "atk": 105,
+      "def": 65,
+      "spa": 60,
+      "spd": 75,
+      "spe": 130
+    },
+    "abilities": [
+      "rock-head"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 13,
+        "move": "rock-throw"
+      },
+      {
+        "level": 22,
+        "move": "wing-attack"
+      },
+      {
+        "level": 31,
+        "move": "rock-slide"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "slow",
+    "evYield": {
+      "spe": 2
+    },
+    "genderRatio": 0.875,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "snorlax",
+    "dexNo": 143,
+    "name": "カビゴン",
+    "types": [
+      "normal"
+    ],
+    "baseStats": {
+      "hp": 160,
+      "atk": 110,
+      "def": 65,
+      "spa": 65,
+      "spd": 110,
+      "spe": 30
+    },
+    "abilities": [
+      "immunity"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "growl"
+      },
+      {
+        "level": 13,
+        "move": "headbutt"
+      },
+      {
+        "level": 18,
+        "move": "rock-throw"
+      },
+      {
+        "level": 31,
+        "move": "body-slam"
+      }
+    ],
+    "catchRate": 25,
+    "expType": "slow",
+    "evYield": {
+      "hp": 2
+    },
+    "genderRatio": 0.875,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "articuno",
+    "dexNo": 144,
+    "name": "フリーザー",
+    "types": [
+      "ice",
+      "flying"
+    ],
+    "baseStats": {
+      "hp": 90,
+      "atk": 85,
+      "def": 100,
+      "spa": 95,
+      "spd": 125,
+      "spe": 85
+    },
+    "abilities": [
+      "pressure"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "powder-snow"
+      },
+      {
+        "level": 13,
+        "move": "aurora-beam"
+      },
+      {
+        "level": 22,
+        "move": "wing-attack"
+      },
+      {
+        "level": 31,
+        "move": "ice-punch"
+      }
+    ],
+    "catchRate": 3,
+    "expType": "slow",
+    "evYield": {
+      "spd": 3
+    },
+    "genderRatio": null,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "zapdos",
+    "dexNo": 145,
+    "name": "サンダー",
+    "types": [
+      "electric",
+      "flying"
+    ],
+    "baseStats": {
+      "hp": 90,
+      "atk": 90,
+      "def": 85,
+      "spa": 125,
+      "spd": 90,
+      "spe": 100
+    },
+    "abilities": [
+      "pressure"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "thunder-shock"
+      },
+      {
+        "level": 7,
+        "move": "thunder-wave"
+      },
+      {
+        "level": 13,
+        "move": "spark"
+      },
+      {
+        "level": 22,
+        "move": "wing-attack"
+      },
+      {
+        "level": 31,
+        "move": "thunderbolt"
+      }
+    ],
+    "catchRate": 3,
+    "expType": "slow",
+    "evYield": {
+      "spa": 3
+    },
+    "genderRatio": null,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "moltres",
+    "dexNo": 146,
+    "name": "ファイヤー",
+    "types": [
+      "fire",
+      "flying"
+    ],
+    "baseStats": {
+      "hp": 90,
+      "atk": 100,
+      "def": 90,
+      "spa": 125,
+      "spd": 85,
+      "spe": 90
+    },
+    "abilities": [
+      "pressure"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "ember"
+      },
+      {
+        "level": 7,
+        "move": "will-o-wisp"
+      },
+      {
+        "level": 22,
+        "move": "wing-attack"
+      },
+      {
+        "level": 31,
+        "move": "fire-punch"
+      }
+    ],
+    "catchRate": 3,
+    "expType": "slow",
+    "evYield": {
+      "spa": 3
+    },
+    "genderRatio": null,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "dratini",
+    "dexNo": 147,
+    "name": "ミニリュウ",
+    "types": [
+      "dragon"
+    ],
+    "baseStats": {
+      "hp": 41,
+      "atk": 64,
+      "def": 45,
+      "spa": 50,
+      "spd": 50,
+      "spe": 50
+    },
+    "abilities": [
+      "shed-skin"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 13,
+        "move": "dragon-breath"
+      },
+      {
+        "level": 31,
+        "move": "dragon-claw"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "slow",
+    "evYield": {
+      "atk": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "dragonair",
+    "dexNo": 148,
+    "name": "ハクリュー",
+    "types": [
+      "dragon"
+    ],
+    "baseStats": {
+      "hp": 61,
+      "atk": 84,
+      "def": 65,
+      "spa": 70,
+      "spd": 70,
+      "spe": 70
+    },
+    "abilities": [
+      "shed-skin"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 13,
+        "move": "dragon-breath"
+      },
+      {
+        "level": 31,
+        "move": "dragon-claw"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "slow",
+    "evYield": {
+      "atk": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "dragonite",
+    "dexNo": 149,
+    "name": "カイリュー",
+    "types": [
+      "dragon",
+      "flying"
+    ],
+    "baseStats": {
+      "hp": 91,
+      "atk": 134,
+      "def": 95,
+      "spa": 100,
+      "spd": 100,
+      "spe": 80
+    },
+    "abilities": [
+      "inner-focus"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 13,
+        "move": "dragon-breath"
+      },
+      {
+        "level": 22,
+        "move": "wing-attack"
+      },
+      {
+        "level": 31,
+        "move": "dragon-claw"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "slow",
+    "evYield": {
+      "atk": 3
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "mewtwo",
+    "dexNo": 150,
+    "name": "ミュウツー",
+    "types": [
+      "psychic"
+    ],
+    "baseStats": {
+      "hp": 106,
+      "atk": 110,
+      "def": 90,
+      "spa": 154,
+      "spd": 90,
+      "spe": 130
+    },
+    "abilities": [
+      "pressure"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "agility"
+      },
+      {
+        "level": 13,
+        "move": "confusion"
+      },
+      {
+        "level": 31,
+        "move": "psychic"
+      }
+    ],
+    "catchRate": 3,
+    "expType": "slow",
+    "evYield": {
+      "spa": 3
+    },
+    "genderRatio": null,
+    "learnsetSource": "provisional"
+  },
+  {
+    "id": "mew",
+    "dexNo": 151,
+    "name": "ミュウ",
+    "types": [
+      "psychic"
+    ],
+    "baseStats": {
+      "hp": 100,
+      "atk": 100,
+      "def": 100,
+      "spa": 100,
+      "spd": 100,
+      "spe": 100
+    },
+    "abilities": [
+      "synchronize"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 7,
+        "move": "agility"
+      },
+      {
+        "level": 13,
+        "move": "confusion"
+      },
+      {
+        "level": 31,
+        "move": "psychic"
+      }
+    ],
+    "catchRate": 45,
+    "expType": "medium-slow",
+    "evYield": {
+      "hp": 3
+    },
+    "genderRatio": null,
+    "learnsetSource": "provisional"
   }
 ]

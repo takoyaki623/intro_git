@@ -10,7 +10,13 @@
     "typecheck": "tsc --noEmit",
     "soak": "vitest run soak",
     "dev": "vite packages/game",
-    "build": "vite build packages/game"
+    "build": "vite build packages/game",
+    "gen:ids": "vite-node tools/gen-ids.ts",
+    "import": "vite-node tools/import.ts",
+    "validate": "vite-node tools/validate.ts",
+    "scaffold": "vite-node tools/scaffold.ts",
+    "data": "npm run import && npm run gen:ids && npm run validate",
+    "check": "npm run validate && npm run typecheck && npm run test && vite-node tools/gen-ids.ts --check"
   },
   "devDependencies": {
     "@types/node": "^22.20.1",

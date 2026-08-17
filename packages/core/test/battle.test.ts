@@ -184,8 +184,10 @@ describe("GameData の注入", () => {
   });
 
   it("存在しない ID は MissingDataError になる", () => {
-    expect(() => gameData.species("missingno")).toThrow(/species not found/);
-    expect(() => gameData.move("hyper-beam")).toThrow(/move not found/);
+    // 実在しそうな名前を使うと、後でその技を実装したときにテストの前提が崩れる。
+    // （v0.4 で hyper-beam を追加したとき実際に起きた）
+    expect(() => gameData.species("__no-such-species__")).toThrow(/species not found/);
+    expect(() => gameData.move("__no-such-move__")).toThrow(/move not found/);
   });
 });
 

@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+
+      # データ検証。設計文書のルールをここで機械的に守る。
+      # docs/design/data-schema.md §6
+      - name: データ検証
+        run: npm run validate
+
+      # 生成物が古くないか（ID のユニオン型）
+      - name: ID型が最新か
+        run: npx vite-node tools/gen-ids.ts --check
+
+      - name: 型チェック
+        run: npm run typecheck
+
+      - name: テスト
+        run: npm test
