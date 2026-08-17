@@ -18,7 +18,7 @@ import {
   type BattlePokemonSource,
   type SideIndex,
 } from "@pkmn/core";
-import { allSpecies, gameData } from "@pkmn/data";
+import { allMoves, allSpecies, gameData } from "@pkmn/data";
 import { baseDelayOf, extraMessagesOf, messageOf } from "./messages.js";
 import {
   applyEvent,
@@ -279,7 +279,7 @@ async function run(seed: number): Promise<void> {
 
 $("#app").innerHTML = `
   <header>
-    <h1>ポケモン風RPG <span class="ver">v0.3</span></h1>
+    <h1>ポケモン風RPG <span class="ver">v0.4</span></h1>
     <div class="tools">
       <label>seed <input id="seed" type="number" value="1" /></label>
       <button id="restart">はじめから</button>
@@ -297,8 +297,13 @@ $("#app").innerHTML = `
     <section id="controls"></section>
   </main>
   <footer>
+    <span id="scale"></span><br />
     同じ seed なら まったく おなじ しょうぶに なります（設計: シード固定の疑似乱数）
   </footer>`;
+
+// 投入済みデータの規模を出す（v0.4 で 20種41技 → 151種105技）
+$("#scale").textContent =
+  `カントー ${allSpecies.length} 種 ・ 技 ${allMoves.length} 種類から 3体ずつ抽選`;
 
 $("#speed").addEventListener("click", (e) => {
   const target = e.target as HTMLElement;
