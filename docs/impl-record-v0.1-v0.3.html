@@ -1,0 +1,612 @@
+<title>バトルエンジン実装記録</title>
+<style>
+/* ─────────────────────────────────────────────
+   トークン。プロジェクト本体 (packages/game/src/style.css) の
+   配色をそのまま引き継ぎ、資料と実物が同じ色で揃うようにする。
+   ───────────────────────────────────────────── */
+:root {
+  --bg: #f4f6f9;
+  --panel: #ffffff;
+  --sunken: #eef1f6;
+  --ink: #1c2230;
+  --muted: #6b7684;
+  --line: #dfe4ec;
+  --accent: #3d6bff;
+  --accent-soft: #e7edff;
+  --done: #2f9e5b;
+  --done-soft: #e4f5eb;
+  --pending: #8791a0;
+  --pending-soft: #eceff4;
+  --warn: #b07d10;
+  --warn-soft: #fbf1d9;
+  --shadow: 0 1px 2px rgba(20, 30, 50, .05), 0 6px 20px rgba(20, 30, 50, .05);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12151c;
+    --panel: #1a1f29;
+    --sunken: #151922;
+    --ink: #e8ecf3;
+    --muted: #9aa5b5;
+    --line: #2a3140;
+    --accent: #7c9bff;
+    --accent-soft: #1e2740;
+    --done: #56c983;
+    --done-soft: #17301f;
+    --pending: #7d8798;
+    --pending-soft: #20252f;
+    --warn: #e0b445;
+    --warn-soft: #2c2716;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 6px 20px rgba(0, 0, 0, .28);
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12151c;
+  --panel: #1a1f29;
+  --sunken: #151922;
+  --ink: #e8ecf3;
+  --muted: #9aa5b5;
+  --line: #2a3140;
+  --accent: #7c9bff;
+  --accent-soft: #1e2740;
+  --done: #56c983;
+  --done-soft: #17301f;
+  --pending: #7d8798;
+  --pending-soft: #20252f;
+  --warn: #e0b445;
+  --warn-soft: #2c2716;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 6px 20px rgba(0, 0, 0, .28);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Hiragino Sans", "Noto Sans JP", system-ui, -apple-system, sans-serif;
+  font-size: 15px;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+.mono, code, .ver, .num {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.wrap { max-width: 940px; margin: 0 auto; padding: 40px 20px 96px; }
+
+/* ── 見出し ── */
+h1 {
+  font-size: 30px; line-height: 1.3; margin: 0 0 8px;
+  letter-spacing: -.01em; text-wrap: balance;
+}
+h2 {
+  font-size: 20px; margin: 0; letter-spacing: -.005em;
+  text-wrap: balance;
+}
+h3 { font-size: 15px; margin: 0 0 10px; letter-spacing: .01em; }
+
+.eyebrow {
+  font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--muted); font-weight: 600;
+}
+
+.lede { color: var(--muted); margin: 0; max-width: 62ch; }
+
+header.doc { display: flex; flex-direction: column; gap: 6px; margin-bottom: 28px; }
+.meta { font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+/* ── 数値ストリップ ── */
+.figures {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(112px, 1fr)); gap: 1px;
+  background: var(--line); border: 1px solid var(--line); border-radius: 10px;
+  overflow: hidden; margin-bottom: 40px;
+}
+.fig { background: var(--panel); padding: 14px 16px; display: flex; flex-direction: column; gap: 2px; }
+.fig b { font-size: 22px; font-weight: 650; letter-spacing: -.02em; }
+.fig span { font-size: 11px; color: var(--muted); letter-spacing: .03em; }
+
+/* ── セクション ── */
+section { margin-bottom: 44px; }
+.sec-head {
+  display: flex; align-items: baseline; gap: 12px;
+  padding-bottom: 10px; border-bottom: 1px solid var(--line); margin-bottom: 20px;
+}
+.sec-head .eyebrow { flex: none; }
+
+/* ── バージョン ── */
+.release {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+  padding: 20px 22px; margin-bottom: 16px; box-shadow: var(--shadow);
+}
+.release > header {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 4px;
+}
+.ver {
+  font-size: 13px; font-weight: 700; color: var(--accent);
+  background: var(--accent-soft); padding: 2px 9px; border-radius: 6px;
+}
+.release h2 { font-size: 17px; }
+.goal {
+  color: var(--muted); font-size: 13px; margin: 0 0 16px;
+}
+.release h3 { margin-top: 18px; color: var(--muted); font-size: 12px;
+  letter-spacing: .08em; text-transform: uppercase; font-weight: 600; }
+.release h3:first-of-type { margin-top: 0; }
+
+ul { margin: 0; padding-left: 1.15em; }
+li { margin: 3px 0; }
+li::marker { color: var(--muted); }
+
+/* ── 判定バッジ ── */
+.pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 650; padding: 2px 9px; border-radius: 999px;
+  white-space: nowrap; letter-spacing: .02em;
+}
+.pill.done { color: var(--done); background: var(--done-soft); }
+.pill.pending { color: var(--pending); background: var(--pending-soft); }
+.pill.warn { color: var(--warn); background: var(--warn-soft); }
+
+/* ── 表 ── */
+.scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+table { border-collapse: collapse; width: 100%; font-size: 13px; min-width: 460px; }
+th, td { text-align: left; padding: 9px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th {
+  font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--muted); font-weight: 600; background: var(--sunken); white-space: nowrap;
+}
+tbody tr:last-child td { border-bottom: 0; }
+td.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.mono, th.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; }
+
+/* ── コード ── */
+pre {
+  background: var(--sunken); border: 1px solid var(--line); border-radius: 10px;
+  padding: 14px 16px; overflow-x: auto; margin: 0;
+  font-size: 12.5px; line-height: 1.7;
+}
+pre code { font-size: inherit; }
+code {
+  background: var(--sunken); padding: 1px 5px; border-radius: 4px;
+  font-size: .88em; border: 1px solid var(--line);
+}
+pre code { background: none; border: 0; padding: 0; }
+
+/* ── 補足 ── */
+.note {
+  border-left: 3px solid var(--accent); background: var(--panel);
+  padding: 12px 16px; border-radius: 0 8px 8px 0; font-size: 13.5px;
+  margin: 16px 0;
+}
+.note.warn { border-left-color: var(--warn); }
+.note strong { font-weight: 650; }
+
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 700px) { .grid2 { grid-template-columns: 1fr; } }
+
+.card {
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: 10px; padding: 16px 18px; box-shadow: var(--shadow);
+}
+.card h3 { margin-bottom: 6px; }
+.card p { margin: 0; font-size: 13px; color: var(--muted); }
+
+hr { border: 0; border-top: 1px solid var(--line); margin: 40px 0; }
+
+footer {
+  color: var(--muted); font-size: 12px; text-align: center;
+  border-top: 1px solid var(--line); padding-top: 20px;
+}
+
+a { color: var(--accent); }
+a:focus-visible, summary:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px;
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+
+<div class="wrap">
+
+<header class="doc">
+  <span class="eyebrow">実装記録 · v0.1 → v0.3</span>
+  <h1>バトルエンジン実装記録</h1>
+  <p class="lede">
+    ポケモン風RPG の v0.1〜v0.3 で何を実装し、何を意図的に残したかの技術リファレンス。
+    設計文書は <code>docs/design/</code>、上位方針は <code>docs/game-plan.md</code>。
+  </p>
+  <p class="meta">対象コミット: <span class="mono">36cf0e3 … c9f77bb</span> ／ 全テスト緑・型チェック通過</p>
+</header>
+
+<div class="figures">
+  <div class="fig"><b class="num">98</b><span>テスト</span></div>
+  <div class="fig"><b class="num">20</b><span>種族</span></div>
+  <div class="fig"><b class="num">41</b><span>技</span></div>
+  <div class="fig"><b class="num">8</b><span>効果の種類</span></div>
+  <div class="fig"><b class="num">2,252</b><span>実装行 (TS)</span></div>
+  <div class="fig"><b class="num">1,092</b><span>テスト行</span></div>
+</div>
+
+<!-- ───────────── 全体像 ───────────── -->
+<section>
+  <div class="sec-head"><span class="eyebrow">01</span><h2>全体像</h2></div>
+
+  <p>依存は一方向のみ。<strong><code>core</code> はデータを静的に持たず、<code>GameData</code> という interface だけを知る。</strong>
+  これにより v0.1 のテストは「2種2技だけの <code>GameData</code>」を渡してバトルを成立させられる。</p>
+
+  <pre><code>packages/
+  core/   ルールエンジン。Phaser にも DOM にも依存しない純粋な TypeScript
+  data/   マスタデータ (JSON) と GameData の実装
+  game/   バトル画面。BattleEvent を演出として消費する
+tools/    CLI デモ
+
+         game ──→ core ──→ data
+                    ↑         ↑
+              interface   実装を提供
+              しか知らない</code></pre>
+
+  <div class="scroll" style="margin-top:16px">
+    <table>
+      <thead><tr><th>モジュール</th><th>役割</th><th class="n">行</th><th>導入</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">core/battle.ts</td><td>ターン処理・交代・行動阻害・ターン終了処理</td><td class="n">476</td><td><span class="pill done">v0.1</span></td></tr>
+        <tr><td class="mono">core/types.ts</td><td>全型定義。<code>Action</code> / <code>BattleEvent</code> / <code>BattleState</code></td><td class="n">226</td><td><span class="pill done">v0.1</span></td></tr>
+        <tr><td class="mono">core/effects.ts</td><td>技効果のレジストリ (8種のハンドラ)</td><td class="n">173</td><td><span class="pill done">v0.1</span></td></tr>
+        <tr><td class="mono">core/damage.ts</td><td>ダメージ計算・命中判定・急所</td><td class="n">118</td><td><span class="pill done">v0.1</span></td></tr>
+        <tr><td class="mono">core/status.ts</td><td>状態異常6種＋混乱・スリップダメージ</td><td class="n">86</td><td><span class="pill done">v0.2</span></td></tr>
+        <tr><td class="mono">core/normalize.ts</td><td><code>toBattlePokemon</code> — 参加者の正規化</td><td class="n">66</td><td><span class="pill done">v0.1</span></td></tr>
+        <tr><td class="mono">core/rng.ts</td><td>シード固定の疑似乱数 (xorshift32)</td><td class="n">63</td><td><span class="pill done">v0.1</span></td></tr>
+        <tr><td class="mono">core/stages.ts</td><td>能力ランク補正 (−6〜+6)</td><td class="n">62</td><td><span class="pill done">v0.2</span></td></tr>
+        <tr><td class="mono">core/stats.ts</td><td>実数値の計算</td><td class="n">59</td><td><span class="pill done">v0.1</span></td></tr>
+        <tr><td class="mono">core/typechart.ts</td><td>タイプ相性の参照と完全性検証</td><td class="n">38</td><td><span class="pill done">v0.1</span></td></tr>
+        <tr><td class="mono">core/gamedata.ts</td><td><code>GameData</code> interface (依存性注入)</td><td class="n">37</td><td><span class="pill done">v0.1</span></td></tr>
+        <tr><td class="mono">core/ai/random.ts</td><td>AI <code>random</code></td><td class="n">19</td><td><span class="pill done">v0.1</span></td></tr>
+        <tr><td class="mono">data/src/index.ts</td><td>JSON 読み込みと <code>GameData</code> 実装</td><td class="n">119</td><td><span class="pill done">v0.1</span></td></tr>
+        <tr><td class="mono">game/src/main.ts</td><td>バトル画面・入力・ゲームループ</td><td class="n">316</td><td><span class="pill done">v0.3</span></td></tr>
+        <tr><td class="mono">game/src/view.ts</td><td>イベントから表示状態を組み立てる</td><td class="n">133</td><td><span class="pill done">v0.3</span></td></tr>
+        <tr><td class="mono">game/src/messages.ts</td><td>文言と演出時間</td><td class="n">114</td><td><span class="pill done">v0.3</span></td></tr>
+        <tr><td class="mono">tools/demo-battle.ts</td><td>CLI デモ</td><td class="n">130</td><td><span class="pill done">v0.1</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ───────────── バージョン別 ───────────── -->
+<section>
+  <div class="sec-head"><span class="eyebrow">02</span><h2>バージョン別の実装</h2></div>
+  <p class="lede" style="margin-bottom:20px">各版は前の版の上に積む。番号は実際の依存順序を表す。</p>
+
+  <article class="release">
+    <header><span class="ver">v0.1</span><h2>バトルの骨格</h2></header>
+    <p class="goal">目的は機能の完成ではなく <strong>アーキテクチャの証明</strong>。設計が間違っていた場合に最小の傷で分かる形にする。データは5種・8技・攻撃技のみ。</p>
+
+    <h3>実装</h3>
+    <ul>
+      <li><code>GameData</code> interface による依存性注入 — <code>core</code> はデータを静的 import しない</li>
+      <li><code>toBattlePokemon</code> — 3つの出どころ (実個体 / 設計図 / <code>BattleSet</code>) を入口で1つに正規化。<code>levelOverride</code> が後のレベル同期の入口</li>
+      <li><code>step(data, state, actions)</code> — 「状態＋入力 → 新状態＋イベント列」の純関数。呼び出し元の state は不変</li>
+      <li>シード固定の疑似乱数 (xorshift32)。消費回数も状態に保持</li>
+      <li>ダメージ計算・18×18 タイプ相性・命中判定・急所・PP消費・優先度・素早さ順</li>
+      <li><code>Action</code> 型は4種すべて定義し、<code>move</code> のみ実装</li>
+    </ul>
+
+    <h3>完了条件の達成</h3>
+    <ul>
+      <li><span class="pill done">達成</span> ランダムAI同士が1,000戦して例外なく決着 (無限ループ検出つき)</li>
+      <li><span class="pill done">達成</span> 同一シードで2回流して結果が完全一致</li>
+    </ul>
+
+    <h3>実装して判明したこと</h3>
+    <div class="note warn">
+      <strong>設計文書に「わるあがき」の記述が無かった。</strong>
+      PP が尽きると両者が行動不能になり、バトルが永久に終わらない。
+      完了条件が「1,000戦が例外なく決着する」なので、ここで必ず引っかかる。
+      文書レビューを5回やっても出てこなかった種類の穴で、実装したから見つかった。
+    </div>
+  </article>
+
+  <article class="release">
+    <header><span class="ver">v0.2</span><h2>バトルの完成</h2></header>
+    <p class="goal">骨格の上に、バトルとして成立するための要素を積む。データを20種41技へ拡張。</p>
+
+    <h3>実装</h3>
+    <ul>
+      <li><strong>状態異常6種＋混乱</strong> — タイプ無効・スリップダメージ・行動阻害・解除条件</li>
+      <li><strong>能力ランク補正 (−6〜+6)</strong> — 攻撃系と命中/回避で別の倍率表。急所は相手の防御上昇と自分の攻撃下降を無視</li>
+      <li><strong>交代</strong> — 手持ちを配列化。ひんし後は <code>pendingSwitch</code> で交代を要求し、その間ターンを進めない</li>
+      <li><strong>変化技</strong>と効果レジストリの本格運用 — <code>status</code> / <code>confuse</code> / <code>flinch</code> / <code>statChange</code> / <code>heal</code> / <code>multiHit</code> を追加</li>
+      <li>命中判定に命中/回避ランクを反映</li>
+    </ul>
+
+    <h3>完了条件の達成</h3>
+    <ul>
+      <li><span class="pill done">達成</span> 全状態異常・全ランク補正・タイプ相性18×18 をテストで検証</li>
+      <li><span class="pill done">達成</span> 1,000戦の完走テストを「手持ち2体・状態異常あり」に強化しても緑</li>
+    </ul>
+
+    <h3>設計原則の実証</h3>
+    <div class="note">
+      <strong>41技すべてが JSON のデータだけで表現できた。</strong>
+      技を1件追加するのに書いたコードは <strong>0行</strong>。
+      新規に書いたのは「効果の種類」6つぶんのハンドラだけ。
+      「コンテンツを1件足すコストをゼロに近づける」という設計方針の実測値になる。
+    </div>
+
+    <h3>設計文書の誤りを1件修正</h3>
+    <ul>
+      <li>もうどくは交代でカウンタが1に戻るだけで、<strong>通常のどくには戻らない</strong>。文書は「通常のどく扱いに戻る」としていたが原作の挙動と違っていた</li>
+    </ul>
+  </article>
+
+  <article class="release">
+    <header><span class="ver">v0.3</span><h2>バトル画面</h2></header>
+    <p class="goal">ブラウザで1戦を通しで遊べる状態にする。プレイヤー vs ランダムAI の 3対3。</p>
+
+    <h3>実装</h3>
+    <ul>
+      <li>技選択 (タイプ色・威力・PP)・交代・強制交代・HPバー・状態異常バッジ・能力ランク表示・手持ち残数・バトルログ</li>
+      <li><strong>高速モード3段階</strong> (通常 / 高速 / ログのみ) — 周回に耐える操作の軽さ</li>
+      <li><code>seed</code> 入力で同一バトルを再現 — 決定性が画面上の機能になる</li>
+      <li>アセット不在時のフォールバック (タイプ色の図形) — 通常動作の1つとして実装</li>
+      <li>ライト/ダーク両対応、520px 以下で1カラム</li>
+    </ul>
+
+    <h3>設計判断の変更</h3>
+    <div class="note">
+      <strong>Phaser の導入を v0.7 (マップ探索) まで遅らせた。</strong>
+      v0.3 には絵が1枚も無く、設計上 Phaser が担当する「世界の描画」が存在しない。
+      「世界」が無い段階でゲームエンジンを入れる理由がないため、DOM だけで完結させた。
+    </div>
+
+    <h3>実機検証で見つけた不具合</h3>
+    <ul>
+      <li><span class="pill warn">修正済</span> テーマが <code>prefers-color-scheme</code> だけで判定され、閲覧側の明示的なテーマ指定に追随しなかった</li>
+      <li><span class="pill warn">修正済</span> スマホの長押し選択・ダブルタップ拡大が抑制されていなかった</li>
+      <li><span class="pill warn">修正済</span> じこさいせいの PP が10 (第8世代の値)。第9世代では5</li>
+    </ul>
+  </article>
+</section>
+
+<!-- ───────────── バトル仕様 ───────────── -->
+<section>
+  <div class="sec-head"><span class="eyebrow">03</span><h2>バトル仕様の詳細</h2></div>
+
+  <h3 style="margin-bottom:8px">ダメージ計算 (第9世代準拠)</h3>
+  <pre><code>基礎 = floor(floor(floor(2 × Lv / 5 + 2) × 威力 × A / D) / 50) + 2
+
+補正の適用順:
+  3. 急所 ×1.5      (相手の防御上昇と自分の攻撃下降を無視)
+  4. 乱数 85〜100%   (16段階の整数から抽選)
+  5. タイプ一致 ×1.5
+  6. タイプ相性 ×0 / 0.25 / 0.5 / 1 / 2 / 4
+  7. やけど ×0.5     (物理技のみ)
+最低ダメージ 1 (相性0倍を除く)</code></pre>
+
+  <div class="note">
+    <strong>手計算との一致を検証済み。</strong>
+    Lv50 ピカチュウ (とくこう70) の10まんボルト → ラプラス (とくぼう115・HP205) は
+    基礎26 → タイプ一致39 → 相性2倍 で <span class="mono">78</span>。実装の出力と1の位まで一致する。
+    この値は <code>reference-data.test.ts</code> で固定してある。
+  </div>
+
+  <h3 style="margin:24px 0 8px">状態異常</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>状態</th><th>効果</th><th>無効タイプ</th></tr></thead>
+      <tbody>
+        <tr><td>どく</td><td>ターン終了時に最大HPの 1/8</td><td>どく・はがね</td></tr>
+        <tr><td>もうどく</td><td>最大HP × n/16 (n は経過ターン、毎ターン増加)</td><td>どく・はがね</td></tr>
+        <tr><td>まひ</td><td>素早さ ×0.5、行動時 25% で行動不能</td><td>でんき</td></tr>
+        <tr><td>やけど</td><td>ターン終了時に 1/16、物理技の威力が半減</td><td>ほのお</td></tr>
+        <tr><td>ねむり</td><td>1〜3ターン行動不能</td><td>—</td></tr>
+        <tr><td>こおり</td><td>行動不能。20% で自然解凍、ほのお技で即解凍</td><td>こおり</td></tr>
+        <tr><td>混乱 <span class="pill pending">別枠</span></td><td>1〜4ターン、1/3 で威力40の自傷。状態異常と重複する</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="margin:24px 0 8px">能力ランク補正</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>ランク</th><th class="n">攻撃・防御・特攻・特防・素早さ</th><th class="n">命中・回避</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">+6</td><td class="n">4.00</td><td class="n">3.00</td></tr>
+        <tr><td class="mono">+2</td><td class="n">2.00</td><td class="n">1.67</td></tr>
+        <tr><td class="mono">+1</td><td class="n">1.50</td><td class="n">1.33</td></tr>
+        <tr><td class="mono">0</td><td class="n">1.00</td><td class="n">1.00</td></tr>
+        <tr><td class="mono">−1</td><td class="n">0.67</td><td class="n">0.75</td></tr>
+        <tr><td class="mono">−2</td><td class="n">0.50</td><td class="n">0.60</td></tr>
+        <tr><td class="mono">−6</td><td class="n">0.25</td><td class="n">0.33</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="margin:24px 0 8px">ターンの流れ</h3>
+  <pre><code>1. 交代        （技より常に先。素早さ順）
+2. 使用技を確定 （PP が全滅していればわるあがき）
+3. 技          （優先度 → 実効素早さ → 同速は乱数）
+     行動前判定: ひるみ → ねむり → こおり → まひ → 混乱
+4. ターン終了処理（どく・もうどく・やけどのスリップ）
+5. ひんし判定   → 交代要求 または 決着</code></pre>
+</section>
+
+<!-- ───────────── 効果レジストリ ───────────── -->
+<section>
+  <div class="sec-head"><span class="eyebrow">04</span><h2>技効果のレジストリ</h2></div>
+
+  <p>技を追加するたびにコードを書き換えない仕組み。<strong>41技のうち31件が効果を持ち、その全てが JSON の宣言だけで動く。</strong></p>
+
+  <div class="scroll" style="margin:16px 0">
+    <table>
+      <thead><tr><th>効果の種類</th><th class="n">使用技数</th><th>例</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">status</td><td class="n">13</td><td>ねむりごな・でんじは・どくどく・おにび</td></tr>
+        <tr><td class="mono">statChange</td><td class="n">9</td><td>つるぎのまい・なきごえ・いとをはく</td></tr>
+        <tr><td class="mono">drain</td><td class="n">2</td><td>すいとる・メガドレイン</td></tr>
+        <tr><td class="mono">confuse</td><td class="n">2</td><td>あやしいひかり・ねんりき</td></tr>
+        <tr><td class="mono">multiHit</td><td class="n">2</td><td>にどげり・みだれづき</td></tr>
+        <tr><td class="mono">recoil</td><td class="n">1</td><td>とっしん</td></tr>
+        <tr><td class="mono">flinch</td><td class="n">1</td><td>かみつく</td></tr>
+        <tr><td class="mono">heal</td><td class="n">1</td><td>じこさいせい</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <pre><code>// 技を1件足す = JSON を1件書くだけ。コードは触らない
+{
+  "id": "thunderbolt", "name": "10まんボルト", "type": "electric",
+  "category": "special", "power": 90, "accuracy": 100, "pp": 15,
+  "effect": { "kind": "status", "status": "paralysis", "chance": 0.1 }
+}</code></pre>
+</section>
+
+<!-- ───────────── データ ───────────── -->
+<section>
+  <div class="sec-head"><span class="eyebrow">05</span><h2>データの現状</h2></div>
+
+  <div class="grid2" style="margin-bottom:16px">
+    <div class="card">
+      <h3><span class="pill done">検証済</span> 正確なもの</h3>
+      <p>種族値20種はすべて原作の値と一致。技41件の威力・命中・PP も原作どおり。ダメージ計算は手計算と完全一致。</p>
+    </div>
+    <div class="card">
+      <h3><span class="pill warn">概算</span> 未確定のもの</h3>
+      <p>learnset (何レベルで何を覚えるか) は概算。例: フシギダネのねむりごなを Lv9 としているが原作は Lv13。v0.4 で正式データに置き換える。</p>
+    </div>
+  </div>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th>フィールド</th><th class="n">設定</th><th>状態</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">baseStats</td><td class="n">20/20</td><td><span class="pill done">実数値計算で使用中</span></td></tr>
+        <tr><td class="mono">types</td><td class="n">20/20</td><td><span class="pill done">相性・タイプ一致で使用中</span></td></tr>
+        <tr><td class="mono">learnset</td><td class="n">20/20</td><td><span class="pill done">手持ち生成で使用中</span></td></tr>
+        <tr><td class="mono">abilities</td><td class="n">20/20</td><td><span class="pill pending">v0.5 (特性) まで未使用</span></td></tr>
+        <tr><td class="mono">catchRate</td><td class="n">20/20</td><td><span class="pill pending">v0.8 (捕獲) まで未使用</span></td></tr>
+        <tr><td class="mono">expType</td><td class="n">20/20</td><td><span class="pill pending">v0.8 (経験値) まで未使用</span></td></tr>
+        <tr><td class="mono">evYield</td><td class="n">20/20</td><td><span class="pill pending">v0.8 (努力値) まで未使用</span></td></tr>
+        <tr><td class="mono">genderRatio</td><td class="n">20/20</td><td><span class="pill pending">v0.8 まで未使用</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note" style="margin-top:16px">
+    タイプ相性は <strong>1倍を省略した疎な JSON</strong> で持ち、読み込み時に 18×18 へ展開してから完全性を検証する。
+    324セルを手書きすると必ず書き間違えるため。
+  </div>
+</section>
+
+<!-- ───────────── テスト ───────────── -->
+<section>
+  <div class="sec-head"><span class="eyebrow">06</span><h2>テスト構成</h2></div>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th>ファイル</th><th class="n">件数</th><th>守っているもの</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">reference-data.test.ts</td><td class="n">33</td><td>種族値・技データ・ダメージの手計算値を固定</td></tr>
+        <tr><td class="mono">status.test.ts</td><td class="n">16</td><td>状態異常6種＋混乱・タイプ無効・交代時のリセット</td></tr>
+        <tr><td class="mono">battle.test.ts</td><td class="n">13</td><td>ターン処理・不変性・PP・優先度・わるあがき</td></tr>
+        <tr><td class="mono">stages.test.ts</td><td class="n">10</td><td>ランク補正の倍率表・クランプ・変化技</td></tr>
+        <tr><td class="mono">switch.test.ts</td><td class="n">7</td><td>交代・強制交代・3対3の完走</td></tr>
+        <tr><td class="mono">damage.test.ts</td><td class="n">6</td><td>ダメージ計算の各補正</td></tr>
+        <tr><td class="mono">stats.test.ts</td><td class="n">6</td><td>実数値の計算式・レベル同期</td></tr>
+        <tr><td class="mono">typechart.test.ts</td><td class="n">4</td><td>18×18 の完全性・第6世代の変更</td></tr>
+        <tr><td class="mono">soak.test.ts</td><td class="n">3</td><td><strong>1,000戦の完走</strong>・決定性</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note" style="margin-top:16px">
+    <strong><code>soak.test.ts</code> が全体の番人になっている。</strong>
+    ランダムAI同士を1,000戦させ、例外なく決着することを確認する。
+    決着しないバトルはバグなので、1,000ターンを超えたら黙って引き分けにせず例外を投げる。
+  </div>
+</section>
+
+<!-- ───────────── 設計原則 ───────────── -->
+<section>
+  <div class="sec-head"><span class="eyebrow">07</span><h2>設計原則が実装にどう現れたか</h2></div>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th>設計上の主張</th><th>実装での現れ方</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>コンテンツ追加のコストをゼロに近づける</td>
+          <td>41技のうち31件が効果つき。技追加で書いたコードは <strong>0行</strong></td>
+        </tr>
+        <tr>
+          <td><code>core</code> はデータを持たない</td>
+          <td><code>GameData</code> interface。テストで2種2技だけを渡してもバトルが成立する</td>
+        </tr>
+        <tr>
+          <td>演出を飛ばしても結果が変わらない</td>
+          <td><code>core</code> は時間を持たず、UI は <code>BattleEvent</code> を消費するだけ。高速モードで実証</td>
+        </tr>
+        <tr>
+          <td>規律を人間の注意力に預けない</td>
+          <td>タイプ相性の完全性・learnset の参照先・効果ハンドラの登録漏れをテストで検出</td>
+        </tr>
+        <tr>
+          <td>型を先に広げる</td>
+          <td><code>Action</code> を4種すべて定義。行動順処理が「道具・逃走・交代は技より先」の構造になっている</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ───────────── 未実装 ───────────── -->
+<section>
+  <div class="sec-head"><span class="eyebrow">08</span><h2>意図的に実装していないもの</h2></div>
+
+  <p class="lede" style="margin-bottom:16px">すべて拡張フックだけは用意済み。後から差し込む形にすると書き直しになる箇所を避けてある。</p>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th>要素</th><th>予定</th><th>用意してあるフック</th></tr></thead>
+      <tbody>
+        <tr><td>特性・持ち物</td><td><span class="pill pending">v0.5</span></td><td>ダメージ計算・状態異常付与・行動順にフック機構</td></tr>
+        <tr><td>AI <code>basic</code></td><td><span class="pill pending">v0.5</span></td><td>候補列挙 → スコアリング → 選択の枠組み</td></tr>
+        <tr><td>道具・逃走の実装</td><td><span class="pill pending">v0.7〜v0.8</span></td><td><code>Action</code> に <code>item</code> / <code>run</code> を定義済み</td></tr>
+        <tr><td>経験値・レベルアップ・進化</td><td><span class="pill pending">v0.8</span></td><td>戦闘後シーケンスを設計済み (実行順つき)</td></tr>
+        <tr><td>捕獲・ボックス・図鑑</td><td><span class="pill pending">v0.8</span></td><td><code>catchRate</code> ほかデータは設定済み</td></tr>
+        <tr><td>天候・フィールド</td><td><span class="pill pending">v1.1</span></td><td><code>BattleState</code> に <code>field</code> スロット</td></tr>
+        <tr><td>AI <code>smart</code></td><td><span class="pill pending">v1.1</span></td><td><code>AiView</code> で情報の可視性を型で制限する設計</td></tr>
+        <tr><td>ダブルバトル</td><td><span class="pill pending">v1.2〜</span></td><td><code>Action</code> の対象指定を配列前提で設計</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ───────────── 次 ───────────── -->
+<section>
+  <div class="sec-head"><span class="eyebrow">09</span><h2>次にやること</h2></div>
+  <article class="release">
+    <header><span class="ver">v0.4</span><h2>データ基盤</h2></header>
+    <p class="goal">計画見直しで新設した回。以降の全ての版がこの基盤に乗る。</p>
+    <ul>
+      <li><code>tools/import.ts</code> — 一括入力形式 → JSON</li>
+      <li><code>tools/scaffold.ts</code> — 1件追加時の雛形生成</li>
+      <li><code>tools/gen-ids.ts</code> — ID のユニオン型を生成し、数千箇所の参照を型で守る</li>
+      <li><code>tools/validate.ts</code> — 全検証項目を CI で実行</li>
+      <li>カントー151種と主要技の投入</li>
+    </ul>
+    <div class="note" style="margin-bottom:0">
+      完了条件は <strong>手入力から解放されること</strong>。
+      移行の正しさは <code>reference-data.test.ts</code> が保証する ——
+      種族値・技データ・ダメージの手計算値を固定してあるので、
+      一括投入に切り替えても数値が壊れていないことを機械的に確認できる。
+    </div>
+  </article>
+</section>
+
+<footer>
+  ポケモン風RPG ／ 個人利用・非配布 ／ 設計文書は <span class="mono">docs/</span> を参照
+</footer>
+
+</div>
