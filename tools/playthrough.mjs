@@ -39,7 +39,7 @@ await page.waitForTimeout(600);
 const at = () => page.getAttribute("#field-canvas", "data-at");
 const talking = () => page.isVisible("#field-text");
 
-async function key(k, n = 1, wait = 170) {
+async function key(k, n = 1, wait = 200) {
   for (let i = 0; i < n; i += 1) {
     await page.keyboard.press(k);
     await page.waitForTimeout(wait);
@@ -49,6 +49,24 @@ async function clear(limit = 14) {
   for (let i = 0; i < limit && (await talking()); i += 1) {
     await page.keyboard.press("z");
     await page.waitForTimeout(240);
+  }
+}
+
+/**
+ * 会話を最後まで流す。選択肢が出たら**最後の選択肢**を押す。
+ * 「おぼえない」「やめる」が最後に来るようにしてあるので、
+ * 台本が勝手に手持ちを変えてしまうことがない。
+ */
+async function drain(limit = 40) {
+  for (let i = 0; i < limit; i += 1) {
+    if (!(await talking())) return;
+    if (await page.isVisible("#field-text .choices")) {
+      const buttons = await page.$$("#field-text .choices button");
+      await buttons[buttons.length - 1].click();
+    } else {
+      await page.keyboard.press("z");
+    }
+    await page.waitForTimeout(230);
   }
 }
 const shot = (name) => page.screenshot({ path: join(SHOTS, `${name}.png`) });
@@ -90,7 +108,7 @@ await shot("3-choice");
 await page.click("#field-text .choices button:nth-child(2)");
 await page.waitForTimeout(300);
 await clear();
-expect("てもち", (await page.textContent("#field-party")).trim(), "てもち: ヒトカゲ");
+expect("てもち", (await page.textContent("#field-party")).trim(), (v) => v.startsWith("てもち: ヒトカゲ Lv"));
 await shot("4-starter");
 
 // ── 4. ライバル戦（battle コマンドの境界）──
@@ -104,10 +122,20 @@ await page.waitForSelector("#battle:not(.hidden)", { timeout: 5000 });
 note("バトル開始", (await page.textContent("#log")).trim().split("\n")[0]);
 await shot("5-rival");
 
+/** 攻撃技を優先して押す（最初のボタンが変化技のことがある）。 */
+async function pickMove() {
+  const buttons = await page.$$("#controls .move");
+  for (const b of buttons) {
+    const meta = (await b.textContent()) ?? "";
+    if (!meta.includes("— ・")) return b;
+  }
+  return buttons[0];
+}
+
 async function fight(limit = 80) {
   for (let i = 0; i < limit; i += 1) {
     if (await page.isHidden("#battle")) return "決着してマップに戻った";
-    const move = await page.$("#controls .move");
+    const move = await pickMove();
     const swap = await page.$("#controls .switch");
     if (move) await move.click();
     else if (swap) await swap.click();
@@ -116,30 +144,43 @@ async function fight(limit = 80) {
   return "終わらなかった";
 }
 expect("ライバル戦", await fight(), "決着してマップに戻った");
-await page.waitForTimeout(600);
-await clear();
+await page.waitForTimeout(700);
+await drain();
+note("戦闘後のてもち", (await page.textContent("#field-party")).trim());
 
 // ── 5. 1番道路へ出て、草むらで野生に会って逃げる ──
-await key("ArrowDown", 3);
-await key("ArrowLeft", 4);
-await key("ArrowDown", 2);
-expect("研究所を出た", await at(), (v) => v.startsWith("kanto-pallet-town"));
-await key("ArrowRight", 7, 150);
-await key("ArrowUp", 10, 150);
-await key("ArrowLeft", 6, 150);
-await key("ArrowUp", 2, 150);
+// **ライバル戦は3択のうち1つが不利**（ヒトカゲ 36%）。
+// 負けると家に戻されるので、今どこに居るかを見てから町へ出る
+const where = (await at()) ?? "";
+if (where.startsWith("kanto-oak-lab")) {
+  await key("ArrowDown", 3);
+  await key("ArrowLeft", 4);
+  await key("ArrowDown", 2);
+} else if (where.startsWith("kanto-players-house-1f")) {
+  note("ライバル戦の結果", "負けて家に戻された（再挑戦できる）");
+  await key("ArrowDown", 2, 250);
+  await page.waitForTimeout(400);
+}
+expect("町に出た", await at(), (v) => v.startsWith("kanto-pallet-town"));
+// 町の東端（x=10）まで寄ってから北上する。
+// 途中に看板とNPCが立っているので、素朴に右→上では引っかかる
+await key("ArrowRight", 10, 200);
+await key("ArrowUp", 12, 200);
+await key("ArrowLeft", 6, 200);
+await key("ArrowUp", 2, 200);
 expect("1番道路へ", await at(), (v) => v.startsWith("kanto-route-1"));
 await shot("6-route");
 
-await key("ArrowRight", 3, 150);
-await key("ArrowUp", 5, 150);
-await key("ArrowLeft", 3, 150);
+await key("ArrowRight", 3, 200);
+await key("ArrowUp", 5, 200);
+await key("ArrowLeft", 3, 200);
 
 let met = null;
 for (let i = 0; i < 30 && met === null; i += 1) {
-  await key(i % 2 === 0 ? "ArrowLeft" : "ArrowRight", 3, 130);
+  await key(i % 2 === 0 ? "ArrowLeft" : "ArrowRight", 3, 200);
   if (await page.isVisible("#battle")) met = (await page.textContent("#log")).trim().split("\n")[0];
 }
+const hpBefore = (await page.textContent("#field-party")).trim();
 expect("野生", met ?? "でなかった", (v) => v.includes("とびだしてきた"));
 await shot("7-wild");
 
@@ -148,8 +189,33 @@ expect("にげるボタン", run ? "ある" : "ない", "ある");
 if (run) {
   await run.click();
   await page.waitForTimeout(1500);
+  await drain();
   expect("にげたあと", (await page.isHidden("#battle")) ? "マップに戻った" : "まだバトル中", "マップに戻った");
 }
+
+// ── 6. 野生戦で消耗するか（v0.8 の眼目）──
+note("遭遇前のてもち", hpBefore);
+// 1戦では無傷で終わることもある（コラッタが しっぽをふる だけで倒れる等）。
+// **戦った跡が手持ちに残るか**を見たいので、変わるまで何戦かする
+let battles = 0;
+let hpAfter = hpBefore;
+for (let i = 0; i < 40 && hpAfter === hpBefore; i += 1) {
+  await key(i % 2 === 0 ? "ArrowLeft" : "ArrowRight", 3, 200);
+  if (await page.isVisible("#battle")) {
+    battles += 1;
+    await fight();
+    await page.waitForTimeout(700);
+    await drain();
+    hpAfter = (await page.textContent("#field-party")).trim();
+  }
+}
+note("野生と戦った回数", String(battles));
+note("たたかった後のてもち", hpAfter);
+expect(
+  "戦った跡が手持ちに残る（HPか経験値）",
+  hpAfter === hpBefore ? "残っていない" : "残った",
+  "残った",
+);
 await shot("8-end");
 
 console.log(`\nスクリーンショット: ${SHOTS}`);

@@ -242,6 +242,15 @@ function importItems(): ItemOut[] {
 
 const STAT_KEYS = ["hp", "atk", "def", "spa", "spd", "spe"] as const;
 
+/** 進化の枝。`kind` が未実装のものは進行側が無視する（v0.9 で道具が入る）。 */
+type EvolutionOut = {
+  to: string;
+  kind: "level" | "levelFriendship" | "useItem" | "trade" | "other";
+  level?: number;
+  item?: string;
+  note?: string;
+};
+
 type SpeciesOut = {
   id: string; dexNo: number; name: string; types: string[];
   baseStats: Record<string, number>;
@@ -250,7 +259,11 @@ type SpeciesOut = {
   catchRate: number; expType: string;
   evYield: Record<string, number>;
   genderRatio: number | null;
+  evolutions: EvolutionOut[];
+  baseExp: number;
   learnsetSource: "provisional" | "official";
+  /** baseExp の出どころ。BST からの推定である限り "provisional"。 */
+  baseExpSource: "provisional" | "official";
   /** 公式 learnset を採った世代。SV に居ない種は第8・第7世代から採る。 */
   learnsetGen?: number;
 };
@@ -355,9 +368,66 @@ function provisionalLearnset(
   return out.sort((a, b) => a.level - b.level);
 }
 
+/** 進化表の読み込み。無ければ空（v0.7 以前のデータでも通る）。 */
+function evolutionsBySpecies(): Map<string, EvolutionOut[]> {
+  const out = new Map<string, EvolutionOut[]>();
+  let rows: Record<string, string>[];
+  try {
+    rows = readTsv("evolutions.tsv");
+  } catch {
+    return out;
+  }
+  for (const r of rows) {
+    const evo: EvolutionOut = { to: r["to"]!, kind: (r["kind"] || "level") as EvolutionOut["kind"] };
+    if (r["level"]) evo.level = Number(r["level"]);
+    if (r["item"]) evo.item = r["item"];
+    if (r["condition"]) evo.note = r["condition"];
+    const list = out.get(r["from"]!) ?? [];
+    list.push(evo);
+    out.set(r["from"]!, list);
+  }
+  return out;
+}
+
+/**
+ * 与える経験値の基礎値。
+ *
+ * **暫定値。** 原作の値（フシギダネ64・ピカチュウ112 …）は151種ぶんの
+ * 正確なデータが手元に無く、記憶で書くと learnset と同じ轍を踏む。
+ * 進化段階ごとの係数を種族値合計に掛けて推定する。
+ *
+ * 未進化 0.20 は実測とよく合う（フシギダネ 318×0.2=64、キャタピー 195×0.2=39、
+ * コイキング 200×0.2=40 はいずれも原作の値と一致する）。
+ * 最終進化は誤差が大きい（リザードン等で ±15%）。
+ *
+ * **これが効くのはレベルの上がる速さだけ**で、バトルの正しさには影響しない。
+ * 正確なデータが手に入ったら差し替える。
+ */
+function provisionalBaseExp(bst: number, stage: "basic" | "middle" | "final"): number {
+  const ratio = { basic: 0.2, middle: 0.32, final: 0.45 }[stage];
+  return Math.round(bst * ratio);
+}
+
 function importSpecies(moves: MoveOut[]): SpeciesOut[] {
+  const all = buildSpecies(moves);
+
+  // ── 第2周: 進化段階が決まってから baseExp を埋める ──
+  // 「誰が誰に進化するか」を全件見ないと段階が決まらないため、2周に分ける
+  const evolvesInto = new Set(all.flatMap((s) => s.evolutions.map((e) => e.to)));
+  const evolvesFrom = new Set(all.filter((s) => s.evolutions.length > 0).map((s) => s.id));
+  for (const s of all) {
+    const isMiddle = evolvesInto.has(s.id) && evolvesFrom.has(s.id);
+    const isFinal = evolvesInto.has(s.id) && !evolvesFrom.has(s.id);
+    const bst = STAT_KEYS.reduce((n, k) => n + s.baseStats[k]!, 0);
+    s.baseExp = provisionalBaseExp(bst, isMiddle ? "middle" : isFinal ? "final" : "basic");
+  }
+  return all;
+}
+
+function buildSpecies(moves: MoveOut[]): SpeciesOut[] {
   const rows = readTsv("species.tsv");
   const official = officialLearnsets();
+  const evolutions = evolutionsBySpecies();
   const known = new Set(moves.map((m) => m.id));
 
   return rows.map((r) => {
@@ -399,11 +469,14 @@ function importSpecies(moves: MoveOut[]): SpeciesOut[] {
       baseStats,
       abilities: (r["abilities"] ?? "").split(",").filter(Boolean),
       learnset,
+      evolutions: evolutions.get(r["id"]!) ?? [],
+      baseExp: 0, // 進化段階が分かってから埋める（下の第2周）
       catchRate: Number(r["catch"]),
       expType: r["exp"]!,
       evYield,
       genderRatio: genderRaw === "-" ? null : Number(genderRaw),
       learnsetSource: found === undefined ? "provisional" : "official",
+      baseExpSource: "provisional",
       ...(found === undefined ? {} : { learnsetGen: found.gen }),
     };
   });
@@ -596,6 +669,13 @@ function main(): void {
     console.log(`  learnset: 公式 ${official.length} 種 / 暫定 ${species.length - official.length} 種`);
   }
   console.log(`  特性 ${abilities.length}（うち ${inert} 件は機構未実装のため inert）`);
+  const evoCount = species.reduce((n, s) => n + s.evolutions.length, 0);
+  const evoNow = species.reduce(
+    (n, s) => n + s.evolutions.filter((e) => e.kind === "level" || e.kind === "levelFriendship").length,
+    0,
+  );
+  console.log(`  進化 ${evoCount} 件（うち今の機構で起きるもの ${evoNow} 件）`);
+  console.log(`  与える経験値は全件が暫定（種族値合計からの推定）`);
   console.log(`  持ち物 ${items.length} / BattleSet ${battleSets.length}`);
   const parties = named.reduce((n, c) => n + Object.keys(c.tiers).length, 0);
   console.log(`  ネームド ${named.length} 人 / パーティ ${parties} 件`);

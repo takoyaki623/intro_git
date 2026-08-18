@@ -12,22 +12,34 @@
  */
 
 import {
+  applyBattleResult,
   chooseOption,
+  createInstance,
   emptyEncounterState,
   emptyWorldState,
+  evolutionFor,
+  evolve,
+  healParty,
+  instanceToSpec,
   interact,
+  levelOf,
+  maxHpOf,
+  replaceMove,
   startEvent,
   stepEvent,
   stepPlayer,
   createRng,
   visibleObjects,
+  writeBack,
   type Direction,
   type EncounterState,
   type EventEffect,
   type EventId,
+  type DexState,
   type MapData,
   type MapObject,
-  type PartySpec,
+  type PokemonInstance,
+  type PostBattleEvent,
   type PlayerPosition,
   type Rng,
   type TerrainId,
@@ -35,12 +47,13 @@ import {
 } from "@pkmn/core";
 import {
   allEncounterTables,
+  allNatures,
   eventById,
   gameData,
   mapById,
   trainerById,
 } from "@pkmn/data";
-import { $, runBattle } from "./battle-screen.js";
+import { $, runBattle, type BattleOutcome } from "./battle-screen.js";
 import { escape } from "./team-select.js";
 
 const TILE = 28;
@@ -102,8 +115,13 @@ export function playField(): FieldHandle {
   const world: WorldState = emptyWorldState();
   let position: PlayerPosition = { ...START };
   let encounter: EncounterState = emptyEncounterState();
-  /** v0.8 まで「手持ち」は設計図のまま。実個体とHPの持ち越しは v0.8。 */
-  const party: PartySpec[] = [];
+  /**
+   * 手持ち。**v0.8 から実個体**になり、HP・PP・状態異常が歩いても残る。
+   * これが入るまで、野生戦には消耗が無かった。
+   */
+  let party: PokemonInstance[] = [];
+  /** 図鑑。v0.9 でセーブに繋ぐ。 */
+  let dex: Record<string, DexState> = {};
   let stopped = false;
   let busy = false;
   /** 歩行アニメの進み具合（0→1）。描画にしか使わない。 */
@@ -231,7 +249,12 @@ export function playField(): FieldHandle {
     $("#field-party").textContent =
       party.length === 0
         ? "てもち なし"
-        : `てもち: ${party.map((p) => gameData.species(p.species).name).join("・")}`;
+        : "てもち: " + party
+            .map((p) => {
+              const name = p.nickname ?? gameData.species(p.species).name;
+              return `${name} Lv${levelOf(gameData, p)} ${p.currentHp}/${maxHpOf(gameData, p)}`;
+            })
+            .join(" ・ ");
   }
 
   function animateWalk(from: PlayerPosition, to: PlayerPosition): Promise<void> {
@@ -320,14 +343,27 @@ export function playField(): FieldHandle {
       }
       case "gotPokemon": {
         const species = gameData.species(effect.species);
-        party.push({ species: effect.species, level: effect.level, moves: [...effect.moves] });
+        party.push(
+          createInstance(
+            gameData,
+            {
+              species: effect.species,
+              level: effect.level,
+              region: currentMap().region,
+              ...(effect.moves.length > 0 ? { moves: [...effect.moves] } : {}),
+            },
+            rng,
+            allNatures.map((n) => n.id),
+          ),
+        );
+        dex[effect.species] = "caught";
         draw();
         await say(`${species.name} を てもちに くわえた!`);
         return;
       }
       case "healed":
-        // v0.7 では HP をマップに持ち越さない（v0.8 の戦闘後シーケンス）。
-        // 演出だけ出して、回復そのものは実装しない
+        party = healParty(gameData, party);
+        draw();
         await say("ポケモンたちは げんきに なった!");
         return;
       case "moneyChanged":
@@ -377,17 +413,13 @@ export function playField(): FieldHandle {
 
   // ── バトル ──
 
-  function movesFor(species: string, level: number, given: readonly string[]): string[] {
-    if (given.length > 0) return [...given];
-    return gameData
-      .species(species)
-      .learnset.filter((l) => l.level <= level)
-      .map((l) => l.move)
-      .slice(-4);
-  }
+  /** 戦える個体だけを、倒れていない順に並べて出す。 */
+  const playable = () =>
+    [...party]
+      .sort((a, b) => Number(a.currentHp <= 0) - Number(b.currentHp <= 0))
+      .map((p) => instanceToSpec(gameData, p));
 
-  const playable = (): PartySpec[] =>
-    party.map((p) => ({ ...p, moves: movesFor(p.species, p.level, p.moves) }));
+  const alive = () => party.filter((p) => p.currentHp > 0);
 
   function enterBattle(): void {
     $("#run").classList.add("hidden");
@@ -400,37 +432,160 @@ export function playField(): FieldHandle {
     draw();
   }
 
+  /**
+   * バトルの結果を手持ちへ書き戻し、戦闘後シーケンスを回す。
+   *
+   * **core は「何が起きたか」を返すだけで、演出も回復も UI の仕事。**
+   * バトル中の演出と同じ形にしてある。
+   */
+  async function afterBattle(outcome: BattleOutcome, isWild: boolean): Promise<void> {
+    const mine = outcome.state.sides[0].party;
+    const foes = outcome.state.sides[1].party;
+
+    // ── 1. HP・PP・状態異常を書き戻す ──
+    // 並べ替えて出しているので、uid で突き合わせる（位置は当てにならない）
+    const brought = playable();
+    party = party.map((p) => {
+      const index = brought.findIndex((b) => b.uid === p.uid);
+      const after = index < 0 ? undefined : mine[index];
+      return after === undefined ? p : writeBack(gameData, p, after);
+    });
+
+    // ── 2. 戦闘後シーケンス ──
+    const result = applyBattleResult(gameData, {
+      party,
+      participants: party.filter((p) => p.currentHp > 0).map((p) => p.uid),
+      defeated: outcome.winner === 0 ? foes.filter((f) => f.currentHp <= 0) : [],
+      encountered: foes.map((f) => f.species),
+      isWild,
+      dex,
+    });
+    party = result.party;
+    dex = result.dex;
+    draw();
+
+    await showPostBattle(result.events);
+  }
+
+  /** 戦闘後の出来事を1つずつ見せる。技の入れ替えと進化はここで選ばせる。 */
+  async function showPostBattle(events: readonly PostBattleEvent[]): Promise<void> {
+    const nameOf = (uid: string) => {
+      const p = party.find((x) => x.uid === uid);
+      return p === undefined ? "" : (p.nickname ?? gameData.species(p.species).name);
+    };
+
+    for (const event of events) {
+      switch (event.kind) {
+        case "expGained":
+          await say(`${nameOf(event.uid)} は ${event.amount} けいけんちを もらった!`);
+          break;
+        case "levelUp":
+          await say(`${nameOf(event.uid)} は レベル ${event.to} に あがった!`);
+          break;
+        case "learned":
+          await say(`${nameOf(event.uid)} は ${gameData.move(event.move).name} を おぼえた!`);
+          break;
+        case "canLearn":
+          await offerMove(event.uid, event.move);
+          break;
+        case "canEvolve":
+          await offerEvolution(event.uid, event.to);
+          break;
+        case "dexUpdated":
+          break;
+      }
+    }
+    hideText();
+    draw();
+  }
+
+  /** 技が4つ埋まっているときの入れ替え。**選ぶのはプレイヤー。** */
+  async function offerMove(uid: string, move: string): Promise<void> {
+    const target = party.find((p) => p.uid === uid);
+    if (target === undefined) return;
+    const name = target.nickname ?? gameData.species(target.species).name;
+    const learn = gameData.move(move).name;
+
+    await say(`${name} は ${learn} を おぼえたい!\nしかし わざは 4つまで。`);
+    const options = [...target.moves.map((m) => gameData.move(m.id).name), "おぼえない"];
+    const choice = await ask(`どの わざを わすれさせる?`, options);
+    if (choice >= target.moves.length) {
+      await say(`${name} は ${learn} を おぼえなかった。`);
+      return;
+    }
+    const forgotten = gameData.move(target.moves[choice]!.id).name;
+    party = party.map((p) => (p.uid === uid ? replaceMove(gameData, p, choice, move) : p));
+    await say(`${name} は ${forgotten} を わすれて\n${learn} を おぼえた!`);
+  }
+
+  /** 進化。**中断できる**（原作どおり）。 */
+  async function offerEvolution(uid: string, to: string): Promise<void> {
+    const target = party.find((p) => p.uid === uid);
+    if (target === undefined) return;
+    const before = target.nickname ?? gameData.species(target.species).name;
+    const after = gameData.species(to).name;
+
+    const choice = await ask(`おや? ${before} の ようすが...!`, ["しんかさせる", "やめる"]);
+    if (choice !== 0) {
+      await say(`${before} の しんかが とまった!`);
+      return;
+    }
+    party = party.map((p) => (p.uid === uid ? evolve(gameData, p, to) : p));
+    dex[to] = "caught";
+    draw();
+    await say(`おめでとう! ${before} は\n${after} に しんかした!`);
+  }
+
+  /** 全滅。手持ちを回復して家に戻す（本編の敗北処理は v0.9）。 */
+  async function blackOut(): Promise<void> {
+    party = healParty(gameData, party);
+    position = { ...START };
+    encounter = emptyEncounterState();
+    draw();
+    await say("いそいで じぶんの いえに もどった。\nポケモンたちは げんきに なった!");
+    hideText();
+    draw();
+  }
+
   async function wildBattle(species: string, level: number): Promise<void> {
     const name = gameData.species(species).name;
-    if (party.length === 0) {
-      // 手持ち0でエンカウントすると戦闘が成立しない。
-      // データ上は起きないはず（草むらの手前にオーキドが立っている）だが、
-      // マップを足したときに真っ先に壊れるのがここなので気づける形にしておく
-      await say(`やせいの ${name} が とびだしてきた!\nしかし てもちが いない ―― いそいで にげだした。`);
+    if (alive().length === 0) {
+      // 手持ち0（または全員ひんし）でエンカウントすると戦闘が成立しない。
+      // データ上は起きないはずだが、マップを足したときに真っ先に壊れるのがここ
+      await say(`やせいの ${name} が とびだしてきた!\nしかし たたかえる ポケモンが いない ―― いそいで にげだした。`);
       hideText();
       return;
     }
     enterBattle();
     const outcome = await runBattle({
-      parties: [playable(), [{ species, level, moves: movesFor(species, level, []) }]],
+      parties: [playable(), [instanceToSpec(gameData, wildInstance(species, level))]],
       seed: rng.int(1_000_000),
       ai: { policy: "basic", mistakeRate: 0.35, knowledge: "fair" },
       headline: `あっ! やせいの ${name} が とびだしてきた!`,
       isWild: true,
     });
     leaveBattle();
-    if (outcome.reason === "escaped") return;
-    if (outcome.winner === 1) {
-      await say("めのまえが まっくらに なった...\nいそいで じぶんの いえに もどった。");
-      position = { ...START };
-      encounter = emptyEncounterState();
-      hideText();
-      draw();
-    }
+
+    await afterBattle(outcome, true);
+    if (outcome.winner === 1) await blackOut();
   }
+
+  /** 野生の1体。個体値も性格も個体ごとに決まる（捕まえられるのは v0.8 の後半）。 */
+  const wildInstance = (species: string, level: number) =>
+    createInstance(
+      gameData,
+      { species, level, region: currentMap().region },
+      rng,
+      allNatures.map((n) => n.id),
+    );
 
   async function trainerBattle(id: string, onWin?: EventId, onLose?: EventId): Promise<void> {
     const trainer = trainerById(id);
+    if (alive().length === 0) {
+      await say("たたかえる ポケモンが いない...");
+      hideText();
+      return;
+    }
     enterBattle();
     const outcome = await runBattle({
       parties: [playable(), trainer.party],
@@ -440,8 +595,10 @@ export function playField(): FieldHandle {
     });
     leaveBattle();
 
+    await afterBattle(outcome, false);
     const next = outcome.winner === 0 ? onWin : onLose;
     if (next !== undefined) await runEvent(next);
+    if (outcome.winner === 1) await blackOut();
   }
 
   // ── 入力 ──

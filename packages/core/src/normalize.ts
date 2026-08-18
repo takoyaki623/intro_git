@@ -37,6 +37,19 @@ export type PartySpec = {
   /** 省略時は種族の既定特性（abilities[0]）。 */
   ability?: AbilityId;
   item?: ItemId;
+
+  // ── 実個体から持ち込む生きた状態（v0.8）──
+  //
+  // 出どころを union にせず、**設計図の側に「持ち込む値」を足す**形にした。
+  // 「入口で1つの形に揃える」というこのファイルの役目を、型の数でも守るため。
+  // どれも省略可で、省略すれば従来どおり満タンで生まれる。
+
+  /** 誰の個体か。バトル後に書き戻す相手を特定する。 */
+  uid?: string;
+  /** 現在HPの割合（0〜1）。**レベル同期で最大HPが変わるので割合で持つ。** */
+  hpRatio?: number;
+  /** 技ごとの残りPP。`moves` と同じ並び。 */
+  ppLeft?: number[];
 };
 
 export type BattlePokemonSource = PartySpec;
@@ -85,9 +98,10 @@ export function toBattlePokemon(
   // わるあがき しかできない個体として成立させる（battle.ts が既にその道を持っている）。
   if (source.moves.length > 4) throw new Error(`${source.species} has more than 4 moves`);
 
-  const moves = source.moves.map((id) => {
+  const moves = source.moves.map((id, i) => {
     const move = data.move(id);
-    return { id: move.id, pp: move.pp, maxPp: move.pp };
+    const left = source.ppLeft?.[i];
+    return { id: move.id, pp: left === undefined ? move.pp : Math.max(0, Math.min(move.pp, left)), maxPp: move.pp };
   });
 
   // 特性の既定値は種族の1つ目。BattleSet は明示するが、
@@ -103,7 +117,14 @@ export function toBattlePokemon(
     types: species.types,
     stats,
     maxHp: stats.hp,
-    currentHp: stats.hp,
+    // 実個体から持ち込むときだけ減った状態で始まる。
+    // ひんし（0）は 0 のまま ―― 1 に丸めると「倒れている」が消える
+    currentHp:
+      source.hpRatio === undefined
+        ? stats.hp
+        : source.hpRatio <= 0
+          ? 0
+          : Math.max(1, Math.min(stats.hp, Math.round(stats.hp * source.hpRatio))),
     moves,
     ability,
     innateAbility: ability,

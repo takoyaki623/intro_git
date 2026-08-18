@@ -6,7 +6,13 @@
     "reward": 175,
     "defeatedFlag": "kanto.pallet.rival-battled",
     "party": [
-      { "species": "bulbasaur", "level": 5, "moves": ["tackle", "absorb"] }
+      {
+        "species": "bulbasaur",
+        "level": 5,
+        "moves": [
+          "tackle"
+        ]
+      }
     ]
   },
   {
@@ -16,7 +22,13 @@
     "reward": 175,
     "defeatedFlag": "kanto.pallet.rival-battled",
     "party": [
-      { "species": "charmander", "level": 5, "moves": ["scratch", "ember"] }
+      {
+        "species": "charmander",
+        "level": 5,
+        "moves": [
+          "scratch"
+        ]
+      }
     ]
   },
   {
@@ -26,7 +38,13 @@
     "reward": 175,
     "defeatedFlag": "kanto.pallet.rival-battled",
     "party": [
-      { "species": "squirtle", "level": 5, "moves": ["tackle", "water-gun"] }
+      {
+        "species": "squirtle",
+        "level": 5,
+        "moves": [
+          "tackle"
+        ]
+      }
     ]
   }
 ]

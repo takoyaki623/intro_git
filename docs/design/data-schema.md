@@ -101,7 +101,7 @@ packages/data/
   abilities/
   items/
   type-chart.json
-  exp-tables.json
+  exp-tables.json        成長曲線6種 × Lv100。tools/gen-exp-tables.ts が生成
   natures.json
   battle-sets/             施設の相手プール（grade別）
   facilities/

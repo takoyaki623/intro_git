@@ -63,8 +63,11 @@ export type BattleOptions = {
   isWild?: boolean;
 };
 
-/** 勝敗と、どう終わったか。逃走で終わった場合は winner が null になる。 */
-export type BattleOutcome = NonNullable<BattleState["result"]>;
+/**
+ * 勝敗と、どう終わったか。逃走で終わった場合は winner が null になる。
+ * `state` を返すのは、**戦った個体に結果を書き戻すため**（v0.8）。
+ */
+export type BattleOutcome = NonNullable<BattleState["result"]> & { state: BattleState };
 
 export async function runBattle(options: BattleOptions): Promise<BattleOutcome> {
   let state: BattleState = createBattle(gameData, options.parties, options.seed, {
@@ -269,7 +272,7 @@ export async function runBattle(options: BattleOptions): Promise<BattleOutcome> 
 
   $("#prompt").textContent = "";
   $("#controls").innerHTML = "";
-  return state.result;
+  return { ...state.result, state };
 }
 
 /** 画面下部にボタンを1つ出して、押されるまで待つ。 */

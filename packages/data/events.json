@@ -247,11 +247,6 @@
             "speaker": "グリーン"
           },
           {
-            "kind": "setFlag",
-            "flag": "kanto.pallet.rival-battled",
-            "value": true
-          },
-          {
             "kind": "if",
             "cond": {
               "kind": "hasSpecies",
@@ -314,6 +309,11 @@
         "kind": "message",
         "text": "つぎは まけないからな!",
         "speaker": "グリーン"
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.pallet.rival-battled",
+        "value": true
       }
     ]
   },

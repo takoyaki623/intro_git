@@ -14,6 +14,8 @@
     "gen:ids": "vite-node tools/gen-ids.ts",
     "import": "vite-node tools/import.ts",
     "maps": "vite-node tools/convert-map.ts",
+    "exp": "vite-node tools/gen-exp-tables.ts",
+    "fetch:official": "vite-node tools/fetch-official.ts",
     "validate": "vite-node tools/validate.ts",
     "scaffold": "vite-node tools/scaffold.ts",
     "playthrough": "node tools/playthrough.mjs",

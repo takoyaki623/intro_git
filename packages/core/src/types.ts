@@ -59,10 +59,67 @@ export type Species = {
   /** 通常特性1〜2種。先頭が既定。隠れ特性は v0.8 以降。 */
   abilities: AbilityId[];
   learnset: { level: number; move: MoveId }[];
+  /** 進化の枝（v0.8）。条件が未実装の枝も、無視される形で残す。 */
+  evolutions: Evolution[];
   catchRate: number;
-  expType: string;
+  expType: ExpType;
+  /** 倒したときに与える経験値の基礎値。v0.8 時点では BST からの推定（暫定）。 */
+  baseExp: number;
   evYield: Partial<StatSpread>;
   genderRatio: number | null;
+};
+
+/**
+ * 手持ち・ボックスに入る1体（v0.8）。**セーブされるのはこの形。**
+ *
+ * 操作する関数は `pokemon.ts` にある。型だけをここに置くのは、
+ * `normalize.ts` が「バトルに出る3つの出どころ」の1つとしてこれを受け取るため
+ * （型が下、関数が上、という向きを保つ）。
+ */
+export type PokemonInstance = {
+  /** 個体の同一性。器を移っても変わらない（capture.md §4）。 */
+  uid: string;
+  species: SpeciesId;
+  nickname?: string;
+  /** 累計経験値が正。レベルはここから導く（二重に持つと必ずずれる）。 */
+  exp: number;
+  ivs: StatSpread;
+  evs: StatSpread;
+  nature: NatureId;
+  ability: AbilityId;
+  moves: { id: MoveId; pp: number }[];
+  currentHp: number;
+  status: StatusId | null;
+  /** もうどくの経過ターン。バトル外では 0。 */
+  statusCounter: number;
+  item: ItemId | null;
+  friendship: number;
+  shiny: boolean;
+  gender: "male" | "female" | null;
+  /** 捕まえた地方・レベル。図鑑と表示に使う。 */
+  met: { region: string; level: number };
+};
+
+/** 成長曲線。progression.md §7。 */
+export const EXP_TYPES = [
+  "erratic", "fast", "medium-fast", "medium-slow", "slow", "fluctuating",
+] as const;
+export type ExpType = (typeof EXP_TYPES)[number];
+
+/**
+ * 進化の枝。
+ *
+ * `kind` は原作の条件をそのまま写す。**未実装の条件も落とさずに持つ** ――
+ * 落とすと「実装したときに何を繋げばよいか」がデータから消える。
+ * 通信交換は道具に置き換える（progression.md §11）。
+ */
+export type Evolution = {
+  to: SpeciesId;
+  kind: "level" | "levelFriendship" | "useItem" | "trade" | "other";
+  level?: number;
+  item?: ItemId;
+  /** 原作の条件文（「なつき度が高い状態でレベルアップ」等）。表示と実装の手掛かり。 */
+  note?: string;
 };
 
 export type Move = {

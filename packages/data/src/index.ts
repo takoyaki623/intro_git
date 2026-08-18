@@ -12,6 +12,7 @@ import {
   type Ability,
   type BattleSet,
   type EncounterTable,
+  type ExpType,
   type EventScript,
   type FlagId,
   type MapData,
@@ -30,6 +31,7 @@ import {
 
 import abilitiesJson from "../abilities.json" with { type: "json" };
 import battleSetsJson from "../battle-sets.json" with { type: "json" };
+import expTablesJson from "../exp-tables.json" with { type: "json" };
 import encountersJson from "../encounters.json" with { type: "json" };
 import eventsJson from "../events.json" with { type: "json" };
 import flagsJson from "../flags.json" with { type: "json" };
@@ -81,6 +83,15 @@ const typeChart = expandTypeChart(
   typeChartJson as unknown as Record<string, Record<string, number>>,
 );
 
+const expTables = expTablesJson as unknown as Record<string, readonly number[]>;
+
+/** 成長曲線。テーブルなので参照するだけ（progression.md §7）。 */
+function expTable(type: ExpType): readonly number[] {
+  const table = expTables[type];
+  if (table === undefined) throw new MissingDataError("exp-table", type);
+  return table;
+}
+
 /**
  * 完全なマスタデータ。
  * テストでは代わりに部分的な GameData を渡せる（createGameData を参照）。
@@ -111,6 +122,7 @@ export const gameData: GameData = {
     if (i === undefined) throw new MissingDataError("item", id);
     return i;
   },
+  expTable,
   typeChart,
 };
 
@@ -159,11 +171,13 @@ export function createGameData(options: {
       if (i === undefined) throw new MissingDataError("item", id);
       return i;
     },
+    expTable,
     typeChart: tc,
   };
 }
 
 export const allSpecies = speciesJson as unknown as readonly Species[];
+export const allNatures = naturesJson as unknown as readonly NatureModifier[];
 export const allMoves = movesJson as unknown as readonly Move[];
 export const allAbilities = abilitiesJson as unknown as readonly Ability[];
 export const allItems = itemsJson as unknown as readonly Item[];

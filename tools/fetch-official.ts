@@ -21,6 +21,7 @@ import { Dex } from "@pkmn/dex";
 const DATA = "packages/data";
 const OUT = `${DATA}/source/learnsets.tsv`;
 const TODO = `${DATA}/source/moves-todo.tsv`;
+const EVOLUTIONS = `${DATA}/source/evolutions.tsv`;
 
 /**
  * 新しい世代から順に降りる。
@@ -120,6 +121,48 @@ async function main(): Promise<void> {
   console.log(`  レベル技 のべ ${total} 件 / 当プロジェクトに存在 ${kept} 件 (${((kept / total) * 100).toFixed(0)}%)`);
 
   writeCandidates(dex, missing);
+  writeEvolutions(dex, new Set(species.map((s) => s.id)));
+}
+
+/**
+ * 進化の条件（v0.8）。
+ *
+ * カントーの外へ進化する枝（クロバット・ハッサム等）は落とす ――
+ * 地方ごとにデータを閉じる方針（regions.md §8）に従い、
+ * その地方を実装したときに繋がる。
+ *
+ * 通信交換進化は原作のままでは成立しないので、
+ * `trade` として書き出しておき、進行側で「つながりのヒモ」に置き換える
+ * （progression.md §11）。
+ */
+function writeEvolutions(dex: ReturnType<typeof Dex.forGen>, inRegion: ReadonlySet<string>): void {
+  const rows: string[] = [];
+  const kinds = new Map<string, number>();
+
+  for (const id of inRegion) {
+    for (const evoId of dex.species.get(id)?.evos ?? []) {
+      const evo = dex.species.get(evoId);
+      if (evo === undefined || !inRegion.has(evo.id)) continue;
+
+      const kind = evo.evoType ?? "level";
+      kinds.set(kind, (kinds.get(kind) ?? 0) + 1);
+      rows.push(
+        [
+          id,
+          evo.id,
+          kind,
+          String(evo.evoLevel ?? ""),
+          evo.evoItem === undefined ? "" : kebab(evo.evoItem),
+          evo.evoCondition ?? "",
+        ].join("\t"),
+      );
+    }
+  }
+
+  rows.sort();
+  writeFileSync(EVOLUTIONS, `from\tto\tkind\tlevel\titem\tcondition\n${rows.join("\n")}\n`, "utf8");
+  console.log(`${EVOLUTIONS} … ${rows.length} 件`);
+  console.log(`  条件: ${[...kinds].sort((a, b) => b[1] - a[1]).map(([k, n]) => `${k} ${n}`).join(" / ")}`);
 }
 
 /**
