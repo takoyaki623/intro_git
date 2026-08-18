@@ -131,7 +131,10 @@ export function playField(): FieldHandle {
         </div>
         <button data-d="down">↓</button>
       </div>
-      <p class="dim field-help">やじるしキー / WASD で いどう、Z か Enter で しらべる</p>
+      <p class="dim field-help">
+        ボタンで いどう、「けってい」で しらべる<br />
+        キーボードなら やじるしキー / WASD と Z
+      </p>
     </div>`;
 
   const canvas = $<HTMLCanvasElement>("#field-canvas");

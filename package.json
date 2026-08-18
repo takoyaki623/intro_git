@@ -17,6 +17,7 @@
     "validate": "vite-node tools/validate.ts",
     "scaffold": "vite-node tools/scaffold.ts",
     "playthrough": "node tools/playthrough.mjs",
+    "bundle": "npm run build && node tools/bundle-artifact.mjs",
     "data": "npm run import && npm run maps && npm run gen:ids && npm run validate",
     "check": "npm run validate && npm run typecheck && npm run test && vite-node tools/convert-map.ts --check && vite-node tools/gen-ids.ts --check"
   },
