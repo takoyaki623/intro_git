@@ -91,7 +91,7 @@ describe("交代", () => {
         { kind: "move", moveIndex: 0 },
       ]).state;
     }
-    expect(next.result).toEqual({ winner: 1 });
+    expect(next.result).toEqual({ winner: 1, reason: "faint" });
   });
 
   it("ひんししたポケモンには交代できない", () => {

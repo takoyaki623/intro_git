@@ -5,7 +5,9 @@
  * 種族 151 / 技 105 / 性格 25 /
  * 特性 48 / 道具 32 /
  * BattleSet 64 / 施設 2 /
- * ネームド 13 / カップ 3
+ * ネームド 13 / カップ 3 /
+ * マップ 4 / イベント 15 / トレーナー 3 /
+ * 出現テーブル 1 / フラグ 5
  */
 
 export type GeneratedSpeciesId =
@@ -468,3 +470,41 @@ export type GeneratedCupId =
   | "kanto-cup"
   | "kanto-elite-cup"
   | "kanto-gym-leader-cup";
+
+export type GeneratedMapId =
+  | "kanto-oak-lab"
+  | "kanto-pallet-town"
+  | "kanto-players-house-1f"
+  | "kanto-route-1";
+
+export type GeneratedEventId =
+  | "kanto.pallet.aide"
+  | "kanto.pallet.bookshelf"
+  | "kanto.pallet.kid"
+  | "kanto.pallet.mom"
+  | "kanto.pallet.oak-block"
+  | "kanto.pallet.oak-lab"
+  | "kanto.pallet.rival"
+  | "kanto.pallet.rival-lose"
+  | "kanto.pallet.rival-win"
+  | "kanto.pallet.sign-lab"
+  | "kanto.pallet.sign-town"
+  | "kanto.pallet.tv"
+  | "kanto.route1.boy"
+  | "kanto.route1.potion"
+  | "kanto.route1.sign-north";
+
+export type GeneratedTrainerId =
+  | "kanto-rival-bulbasaur"
+  | "kanto-rival-charmander"
+  | "kanto-rival-squirtle";
+
+export type GeneratedEncounterTableId =
+  | "kanto-route-1-grass";
+
+export type GeneratedFlagId =
+  | "kanto.pallet.got-starter"
+  | "kanto.pallet.rival-battled"
+  | "kanto.pallet.talked-mom"
+  | "kanto.route1.potion-taken"
+  | "kanto.route1.talked-boy";

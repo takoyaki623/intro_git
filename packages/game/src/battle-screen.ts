@@ -59,10 +59,17 @@ export type BattleOptions = {
   ai: AiConfig | "random";
   /** ログの先頭に出す行。複数行なら1行ずつ出す。 */
   headline: string | readonly string[];
+  /** 野生戦。逃げるが選べるようになる（v0.7）。 */
+  isWild?: boolean;
 };
 
-export async function runBattle(options: BattleOptions): Promise<SideIndex | null> {
-  let state: BattleState = createBattle(gameData, options.parties, options.seed);
+/** 勝敗と、どう終わったか。逃走で終わった場合は winner が null になる。 */
+export type BattleOutcome = NonNullable<BattleState["result"]>;
+
+export async function runBattle(options: BattleOptions): Promise<BattleOutcome> {
+  let state: BattleState = createBattle(gameData, options.parties, options.seed, {
+    isWild: options.isWild ?? false,
+  });
   let view: BattleView = viewFromState(state);
   const knowledge = createKnowledge();
   let resolvePlayerAction: ((action: Action) => void) | null = null;
@@ -165,6 +172,14 @@ export async function runBattle(options: BattleOptions): Promise<SideIndex | nul
       box.appendChild(moveWrap);
     }
 
+    if (actions.some((a) => a.kind === "run")) {
+      const btn = document.createElement("button");
+      btn.className = "run";
+      btn.textContent = "にげる";
+      btn.onclick = () => submit({ kind: "run" });
+      box.appendChild(btn);
+    }
+
     const switches = actions.filter((a) => a.kind === "switch");
     if (switches.length > 0) {
       const wrap = document.createElement("div");
@@ -244,7 +259,7 @@ export async function runBattle(options: BattleOptions): Promise<SideIndex | nul
 
   $("#prompt").textContent = "";
   $("#controls").innerHTML = "";
-  return state.result.winner;
+  return state.result;
 }
 
 /** 画面下部にボタンを1つ出して、押されるまで待つ。 */

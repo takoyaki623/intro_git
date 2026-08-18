@@ -1,0 +1,32 @@
+[
+  {
+    "id": "kanto-rival-bulbasaur",
+    "name": "グリーン",
+    "class": "ライバル",
+    "reward": 175,
+    "defeatedFlag": "kanto.pallet.rival-battled",
+    "party": [
+      { "species": "bulbasaur", "level": 5, "moves": ["tackle", "absorb"] }
+    ]
+  },
+  {
+    "id": "kanto-rival-charmander",
+    "name": "グリーン",
+    "class": "ライバル",
+    "reward": 175,
+    "defeatedFlag": "kanto.pallet.rival-battled",
+    "party": [
+      { "species": "charmander", "level": 5, "moves": ["scratch", "ember"] }
+    ]
+  },
+  {
+    "id": "kanto-rival-squirtle",
+    "name": "グリーン",
+    "class": "ライバル",
+    "reward": 175,
+    "defeatedFlag": "kanto.pallet.rival-battled",
+    "party": [
+      { "species": "squirtle", "level": 5, "moves": ["tackle", "water-gun"] }
+    ]
+  }
+]

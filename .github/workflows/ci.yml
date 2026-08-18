@@ -21,7 +21,10 @@ jobs:
       - name: データ検証
         run: npm run validate
 
-      # 生成物が古くないか（ID のユニオン型）
+      # 生成物が古くないか（マップ・ID のユニオン型）
+      - name: マップが最新か
+        run: npx vite-node tools/convert-map.ts --check
+
       - name: ID型が最新か
         run: npx vite-node tools/gen-ids.ts --check
 

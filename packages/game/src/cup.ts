@@ -113,7 +113,7 @@ export async function playCup(
     showBracket(cup, run);
     const character = currentOpponent(run, allNamed);
 
-    const winner = await runBattle({
+    const { winner } = await runBattle({
       parties: [cupPlayerParty(cup, run), opponentParty(cup, run, character)],
       seed: seed + run.round * 7919,
       ai: aiFor(character, tier),

@@ -114,8 +114,16 @@ describe("バトルの基本", () => {
   it("未実装の行動は明示的に投げる", () => {
     const state = createBattle(gameData, [[pika], [bulba]], 1);
     expect(() =>
+      step(gameData, state, [{ kind: "item", item: "potion" }, { kind: "move", moveIndex: 0 }]),
+    ).toThrow(/v0.8/);
+  });
+
+  it("トレーナー戦では逃げられない（v0.7）", () => {
+    const state = createBattle(gameData, [[pika], [bulba]], 1);
+    expect(state.isWild).toBe(false);
+    expect(() =>
       step(gameData, state, [{ kind: "run" }, { kind: "move", moveIndex: 0 }]),
-    ).toThrow(/not implemented in v0.2/);
+    ).toThrow(/野生戦/);
   });
 });
 

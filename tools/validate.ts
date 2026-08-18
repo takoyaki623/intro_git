@@ -14,8 +14,14 @@ import {
   TYPES,
   effectHandlers,
   heldHandlers,
+  assertAllEventCommandsHandled,
+  flagsUsedBy,
   selectParty,
+  walkCommands,
+  type Condition,
+  type EventCommand,
   type HeldEffect,
+  type MapData,
   type Move,
   type Species,
   type TierId,
@@ -29,6 +35,11 @@ import {
   allNamed,
   allSpecies,
   allTournaments,
+  allEncounterTables,
+  allEvents,
+  allFlags,
+  allMaps,
+  allTrainers,
   gameData,
 } from "@pkmn/data";
 
@@ -701,6 +712,371 @@ function reportProvenance(): void {
   }
 }
 
+
+// ─────────────────────────────────────────────
+// #46〜#57 世界（マップ・イベント・フラグ）
+//
+// 数百マップを手で繋ぐ以上、接続ミスは必ず起きる。
+// 特にフラグのタイプミスは「永久に立たないフラグ」になり、
+// 発生してから原因を突き止めるのが極めて難しい。ここで潰す。
+// 設計: docs/design/world.md §3・§6・§8
+// ─────────────────────────────────────────────
+function checkWorld(): void {
+  const mapById = new Map(allMaps.map((m) => [m.id, m]));
+  const eventIds = new Set(allEvents.map((e) => e.id));
+  const trainerIds = new Set(allTrainers.map((t) => t.id));
+  const tableIds = new Set(allEncounterTables.map((t) => t.id));
+  const declaredFlags = new Set<string>(allFlags);
+  const speciesIds = new Set(allSpecies.map((s) => s.id));
+  const itemIds = new Set(allItems.map((i) => i.id));
+  const moveIds = new Set(allMoves.map((m) => m.id));
+
+  const usedFlags = new Set<string>();
+  const usedEvents = new Set<string>();
+
+  const at = (map: MapData, x: number, y: number) => y * map.size.width + x;
+  const inside = (map: MapData, x: number, y: number) =>
+    x >= 0 && y >= 0 && x < map.size.width && y < map.size.height;
+
+  // ── #46 マップの整合 ──
+  for (const map of allMaps) {
+    const cells = map.size.width * map.size.height;
+    for (const [label, length] of [
+      ["collision", map.collision.length],
+      ["terrain", map.terrain.length],
+      ["layers.ground", map.layers.ground.length],
+    ] as const) {
+      if (length !== cells) {
+        fail("map-size", `${map.id}: ${label} の長さが ${length}（${cells} のはず）`);
+      }
+    }
+    if (map.encounters !== undefined && !tableIds.has(map.encounters)) {
+      fail("map-encounters", `${map.id}: 出現テーブル "${map.encounters}" が無い`);
+    }
+  }
+
+  // ── #47 warp の接続 ──
+  for (const map of allMaps) {
+    for (const warp of map.warps) {
+      const where = `${map.id} (${warp.at.x},${warp.at.y})`;
+      if (!inside(map, warp.at.x, warp.at.y)) {
+        fail("warp", `${where}: warp がマップの外`);
+        continue;
+      }
+      if (map.collision[at(map, warp.at.x, warp.at.y)] === true && warp.trigger === "step") {
+        fail("warp", `${where}: 踏む warp が通行不可タイルの上にある`);
+      }
+      const dest = mapById.get(warp.to.map);
+      if (dest === undefined) {
+        fail("warp", `${where}: 接続先マップ "${warp.to.map}" が無い`);
+        continue;
+      }
+      if (!inside(dest, warp.to.x, warp.to.y)) {
+        fail("warp", `${where}: 接続先 ${warp.to.map} (${warp.to.x},${warp.to.y}) が範囲外`);
+        continue;
+      }
+      if (dest.collision[at(dest, warp.to.x, warp.to.y)] === true) {
+        fail("warp", `${where}: 接続先 ${warp.to.map} (${warp.to.x},${warp.to.y}) が通行不可`);
+      }
+      // 出た先に「その場で踏む warp」があると、無限に往復して操作不能になる
+      const trap = dest.warps.find(
+        (w) => w.trigger === "step" && w.at.x === warp.to.x && w.at.y === warp.to.y,
+      );
+      if (trap !== undefined) {
+        fail("warp", `${where}: 接続先が踏む warp の上。無限往復になる`);
+      }
+    }
+  }
+
+  // ── #48 オブジェクト ──
+  for (const map of allMaps) {
+    const seen = new Map<string, string>();
+    for (const object of map.objects) {
+      const where = `${map.id}/${object.id}`;
+      if (!inside(map, object.at.x, object.at.y)) {
+        fail("map-object", `${where}: マップの外`);
+        continue;
+      }
+      if (map.collision[at(map, object.at.x, object.at.y)] === true) {
+        fail("map-object", `${where}: 通行不可タイルの上。話しかけられない`);
+      }
+      const key = `${object.at.x},${object.at.y}`;
+      const other = seen.get(key);
+      if (other !== undefined) {
+        // 条件付きで入れ替わるものは重なってよい
+        if (object.condition === undefined) {
+          fail("map-object", `${where}: ${other} と同じマスに無条件で重なっている`);
+        }
+      } else {
+        seen.set(key, object.id);
+      }
+
+      if (object.event !== undefined) {
+        usedEvents.add(object.event);
+        if (!eventIds.has(object.event)) {
+          fail("map-object", `${where}: イベント "${object.event}" が無い`);
+        }
+      }
+      if (object.kind.type === "trainer" && !trainerIds.has(object.kind.trainer)) {
+        fail("map-object", `${where}: トレーナー "${object.kind.trainer}" が無い`);
+      }
+      if (object.kind.type === "item" && !itemIds.has(object.kind.item)) {
+        fail("map-object", `${where}: 道具 "${object.kind.item}" が無い`);
+      }
+      if (object.condition !== undefined) {
+        for (const flag of flagsUsedBy(object.condition)) usedFlags.add(flag);
+        checkCondition(object.condition, where);
+      }
+      // 看板・NPCは調べるだけの存在。イベントが無いと置いた意味が無い
+      if (object.event === undefined && object.kind.type !== "obstacle") {
+        warn("map-object", `${where}: イベントが無い`);
+      }
+    }
+  }
+
+  function checkCondition(cond: Condition, where: string): void {
+    for (const flag of flagsUsedBy(cond)) {
+      usedFlags.add(flag);
+      if (!declaredFlags.has(flag)) {
+        fail("flag-declared", `${where}: フラグ "${flag}" が flags.json に無い`);
+      }
+    }
+    if (cond.kind === "hasSpecies" && !speciesIds.has(cond.species)) {
+      fail("event-ref", `${where}: 種族 "${cond.species}" が無い`);
+    }
+    if (cond.kind === "hasItem" && !itemIds.has(cond.item)) {
+      fail("event-ref", `${where}: 道具 "${cond.item}" が無い`);
+    }
+    if (cond.kind === "and" || cond.kind === "or") {
+      for (const c of cond.of) checkCondition(c, where);
+    }
+  }
+
+  // ── #49〜#52 イベント ──
+  for (const event of allEvents) {
+    const where = event.id;
+    const commands = walkCommands(event.commands);
+    assertAllEventCommandsHandled(commands.map((c) => c.kind));
+
+    for (const command of commands) {
+      switch (command.kind) {
+        case "setFlag":
+          usedFlags.add(command.flag);
+          if (!declaredFlags.has(command.flag)) {
+            fail("flag-declared", `${where}: フラグ "${command.flag}" が flags.json に無い`);
+          }
+          break;
+        case "if":
+          checkCondition(command.cond, where);
+          break;
+        case "battle":
+          if (!trainerIds.has(command.trainer)) {
+            fail("event-ref", `${where}: トレーナー "${command.trainer}" が無い`);
+          }
+          for (const next of [command.onWin, command.onLose]) {
+            if (next === undefined) continue;
+            usedEvents.add(next);
+            if (!eventIds.has(next)) fail("event-ref", `${where}: イベント "${next}" が無い`);
+          }
+          break;
+        case "giveItem":
+          if (!itemIds.has(command.item)) {
+            fail("event-ref", `${where}: 道具 "${command.item}" が無い`);
+          }
+          break;
+        case "givePokemon":
+          if (!speciesIds.has(command.species)) {
+            fail("event-ref", `${where}: 種族 "${command.species}" が無い`);
+          }
+          for (const move of command.moves ?? []) {
+            if (!moveIds.has(move)) fail("event-ref", `${where}: 技 "${move}" が無い`);
+          }
+          break;
+        case "warp":
+          if (!mapById.has(command.to)) {
+            fail("event-ref", `${where}: マップ "${command.to}" が無い`);
+          }
+          break;
+        default:
+          break;
+      }
+    }
+
+    // ── #51 battle は末尾にしか書けない（world.md §6）──
+    // インラインの続きを許すと「バトルを含むイベントの途中状態」が生まれ、
+    // セーブできない領域がゲーム内にできてしまう
+    checkBattleIsTail(event.commands, true, where);
+  }
+
+  function checkBattleIsTail(list: readonly EventCommand[], tail: boolean, where: string): void {
+    list.forEach((command, i) => {
+      const last = i === list.length - 1;
+      if (command.kind === "battle" && !(tail && last)) {
+        fail("event-battle-tail", `${where}: battle の後ろにコマンドが続いている`);
+      }
+      if (command.kind === "if") {
+        checkBattleIsTail(command.then, tail && last, where);
+        checkBattleIsTail(command.else ?? [], tail && last, where);
+      }
+      if (command.kind === "choice") {
+        for (const option of command.options) {
+          checkBattleIsTail(option.then, tail && last, where);
+        }
+      }
+    });
+  }
+
+  // ── #53 トレーナー ──
+  for (const trainer of allTrainers) {
+    if (!declaredFlags.has(trainer.defeatedFlag)) {
+      fail("flag-declared", `${trainer.id}: フラグ "${trainer.defeatedFlag}" が flags.json に無い`);
+    }
+    usedFlags.add(trainer.defeatedFlag);
+    if (trainer.party.length === 0) fail("trainer", `${trainer.id}: 手持ちが空`);
+    for (const member of trainer.party) {
+      if (!speciesIds.has(member.species)) {
+        fail("trainer", `${trainer.id}: 種族 "${member.species}" が無い`);
+        continue;
+      }
+      if (member.moves.length === 0) {
+        fail("trainer", `${trainer.id}: ${member.species} の技が空。わるあがきしかできない`);
+      }
+      for (const move of member.moves) {
+        if (!moveIds.has(move)) fail("trainer", `${trainer.id}: 技 "${move}" が無い`);
+      }
+    }
+  }
+
+  // ── #54 出現テーブル ──
+  for (const table of allEncounterTables) {
+    if (table.entries.length === 0) {
+      fail("encounter", `${table.id}: 中身が空。エンカウントが成立しても何も出ない`);
+    }
+    const total = table.entries.reduce((n, e) => n + e.rate, 0);
+    if (total <= 0) fail("encounter", `${table.id}: rate の合計が 0`);
+    for (const entry of table.entries) {
+      if (!speciesIds.has(entry.species)) {
+        fail("encounter", `${table.id}: 種族 "${entry.species}" が無い`);
+      }
+      const [lo, hi] = entry.levelRange;
+      if (lo > hi) fail("encounter", `${table.id}: ${entry.species} の levelRange が逆`);
+      if (lo < 1) fail("encounter", `${table.id}: ${entry.species} の下限が ${lo}`);
+    }
+  }
+
+  // ── #55・#56 到達不能な区画と、話しかけられないオブジェクト ──
+  for (const map of allMaps) checkReachability(map, mapById);
+
+  // ── #57・#58 使われていない宣言（警告）──
+  for (const flag of declaredFlags) {
+    if (!usedFlags.has(flag)) warn("flag-unused", `フラグ "${flag}" を誰も使っていない`);
+  }
+  for (const event of allEvents) {
+    if (!usedEvents.has(event.id)) warn("event-unused", `イベント "${event.id}" を誰も呼ばない`);
+  }
+}
+
+/**
+ * 塗りつぶしでマップ内の到達不能な区画を探す。
+ *
+ * 段差は一方通行なので、辺を張るときに向きを見る。
+ * 「入れるが出られない区画」は、この向きを無視すると見逃す。
+ */
+function checkReachability(map: MapData, mapById: ReadonlyMap<string, MapData>): void {
+  const { width, height } = map.size;
+  const at = (x: number, y: number) => y * width + x;
+  const inside = (x: number, y: number) => x >= 0 && y >= 0 && x < width && y < height;
+
+  // 条件付きオブジェクトは消えうるので、塞いでいるとは見なさない
+  const blockedByObject = new Set(
+    map.objects
+      .filter((o) => o.condition === undefined && o.kind.type !== "item")
+      .map((o) => at(o.at.x, o.at.y)),
+  );
+  const standable = (x: number, y: number) =>
+    inside(x, y) &&
+    map.collision[at(x, y)] !== true &&
+    map.terrain[at(x, y)] !== "ledge" &&
+    !blockedByObject.has(at(x, y));
+
+  const seeds: number[] = [];
+  for (const source of mapById.values()) {
+    for (const warp of source.warps) {
+      if (warp.to.map === map.id && standable(warp.to.x, warp.to.y)) {
+        seeds.push(at(warp.to.x, warp.to.y));
+      }
+    }
+  }
+  if (seeds.length === 0) {
+    warn("map-reachability", `${map.id}: どこからも入ってこられない`);
+    return;
+  }
+
+  const seen = new Set(seeds);
+  const stack = [...seeds];
+  const steps = [
+    { dx: 0, dy: -1 },
+    { dx: 0, dy: 1 },
+    { dx: -1, dy: 0 },
+    { dx: 1, dy: 0 },
+  ];
+  while (stack.length > 0) {
+    const index = stack.pop()!;
+    const x = index % width;
+    const y = Math.floor(index / width);
+    for (const { dx, dy } of steps) {
+      let nx = x + dx;
+      let ny = y + dy;
+      // 段差は下向きにだけ飛び降りられる。着地は2マス先
+      if (inside(nx, ny) && map.terrain[at(nx, ny)] === "ledge") {
+        if (dy !== 1) continue;
+        nx += dx;
+        ny += dy;
+      }
+      if (!standable(nx, ny) || seen.has(at(nx, ny))) continue;
+      seen.add(at(nx, ny));
+      stack.push(at(nx, ny));
+    }
+  }
+
+  const orphans: string[] = [];
+  for (let y = 0; y < height; y += 1) {
+    for (let x = 0; x < width; x += 1) {
+      if (standable(x, y) && !seen.has(at(x, y))) orphans.push(`(${x},${y})`);
+    }
+  }
+  if (orphans.length > 0) {
+    fail(
+      "map-reachability",
+      `${map.id}: 到達できないマスが ${orphans.length} 個 ${orphans.slice(0, 8).join(" ")}` +
+        (orphans.length > 8 ? " …" : ""),
+    );
+  }
+
+  // ── #56 話しかけられないオブジェクト ──
+  //
+  // 「マスは全部歩ける」だけでは足りない。
+  // 家具に囲まれたNPCは、置いてあるのに一生喋らない ―― 到達不能な床より気づきにくい。
+  for (const object of map.objects) {
+    if (object.event === undefined) continue;
+    const sides = [
+      { x: object.at.x, y: object.at.y - 1 },
+      { x: object.at.x, y: object.at.y + 1 },
+      { x: object.at.x - 1, y: object.at.y },
+      { x: object.at.x + 1, y: object.at.y },
+    ];
+    // 落ちている道具は踏んで起動するので、そのマス自体に立てればよい
+    const spots =
+      object.kind.type === "item" ? [object.at, ...sides] : sides;
+    if (!spots.some((s) => inside(s.x, s.y) && seen.has(at(s.x, s.y)))) {
+      fail(
+        "map-object-reach",
+        `${map.id}/${object.id}: 隣に立てるマスが無い。置いてあるが起動できない`,
+      );
+    }
+  }
+}
+
 // ─────────────────────────────────────────────
 function main(): void {
   checkIds();
@@ -714,6 +1090,7 @@ function main(): void {
   checkEndgame();
   checkNamed();
   checkTournaments();
+  checkWorld();
   reportProvenance();
 
   const errors = findings.filter((f) => f.level === "error");
@@ -723,7 +1100,9 @@ function main(): void {
     `検証対象: 種族 ${allSpecies.length} / 技 ${allMoves.length} / ` +
       `特性 ${allAbilities.length} / 道具 ${allItems.length} / ` +
       `BattleSet ${allBattleSets.length} / 施設 ${allFacilities.length} / ` +
-      `ネームド ${allNamed.length} / カップ ${allTournaments.length}`,
+      `ネームド ${allNamed.length} / カップ ${allTournaments.length} / ` +
+      `マップ ${allMaps.length} / イベント ${allEvents.length} / ` +
+      `トレーナー ${allTrainers.length} / フラグ ${allFlags.length}`,
   );
 
   for (const f of warns) console.log(`  警告 [${f.check}] ${f.message}`);

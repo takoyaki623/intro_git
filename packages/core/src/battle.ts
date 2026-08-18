@@ -71,6 +71,8 @@ export function createBattle(
   data: GameData,
   parties: [readonly BattlePokemonSource[], readonly BattlePokemonSource[]],
   seed: number,
+  /** 野生戦なら逃走が選べる（v0.7）。省略時はトレーナー戦。 */
+  options: { isWild?: boolean } = {},
 ): BattleState {
   const build = (sources: readonly BattlePokemonSource[]): Side => {
     if (sources.length === 0) throw new Error("party must not be empty");
@@ -80,6 +82,8 @@ export function createBattle(
     sides: [build(parties[0]), build(parties[1])],
     turn: 0,
     rng: createRngState(seed),
+    isWild: options.isWild ?? false,
+    runAttempts: 0,
     result: null,
     pendingSwitch: [],
   };
@@ -118,9 +122,15 @@ export function legalActions(data: GameData, state: BattleState, side: SideIndex
     (i) => ({ kind: "move", moveIndex: i }) satisfies Action,
   );
   const switches = trapsFoe(data, foe, active) ? [] : switchable();
+  // 逃走は野生戦のみ。トレーナー戦では選択肢に出さない（battle-system.md §2）
+  const escape: Action[] = state.isWild && side === 0 ? [{ kind: "run" }] : [];
 
   // 使える技が1つも無くてもわるあがきがあるため、技の選択肢は必ず1つ残す
-  return [...(usable.length > 0 ? usable : [{ kind: "move", moveIndex: 0 } as Action]), ...switches];
+  return [
+    ...(usable.length > 0 ? usable : [{ kind: "move", moveIndex: 0 } as Action]),
+    ...switches,
+    ...escape,
+  ];
 }
 
 /**
@@ -527,6 +537,28 @@ function endOfTurn(
   }
 }
 
+/**
+ * 逃走の成否（第3世代以降の式）。
+ *
+ *   odds = (自分の素早さ × 128 / 相手の素早さ + 30 × 試行回数) % 256
+ *   0〜255 の乱数が odds 未満なら成功
+ *
+ * 素早さが上回っていれば必ず成功する。試すほど成功しやすくなる。
+ */
+function rollEscape(
+  data: GameData,
+  state: BattleState,
+  side: SideIndex,
+  rng: Rng,
+): boolean {
+  const own = effectiveSpeed(data, activeOf(state, side));
+  const foe = effectiveSpeed(data, activeOf(state, other(side)));
+  if (own > foe) return true;
+  if (foe === 0) return true;
+  const odds = (Math.floor((own * 128) / foe) + 30 * state.runAttempts) % 256;
+  return rng.int(256) < odds;
+}
+
 /** ひんしを見て、交代要求または決着を確定する。 */
 function updateBattleStatus(state: BattleState, events: BattleEvent[]): void {
   const lost: SideIndex[] = [];
@@ -539,13 +571,13 @@ function updateBattleStatus(state: BattleState, events: BattleEvent[]): void {
   }
 
   if (lost.length === 2) {
-    state.result = { winner: null };
+    state.result = { winner: null, reason: "faint" };
     events.push({ kind: "battleEnd", winner: null });
     return;
   }
   if (lost.length === 1) {
     const winner = other(lost[0]!);
-    state.result = { winner };
+    state.result = { winner, reason: "faint" };
     events.push({ kind: "battleEnd", winner });
     return;
   }
@@ -596,19 +628,39 @@ export function step(
   }
   events.push({ kind: "turnStart", turn: draft.turn });
 
+  // ── 0. 逃走（技より先。成功すればその場でバトルが終わる）──
+  for (const side of [0, 1] as const) {
+    if (actions[side]?.kind !== "run") continue;
+    if (!draft.isWild) throw new Error("逃走は野生戦でしか選べない");
+    draft.runAttempts += 1;
+    if (rollEscape(data, draft, side, rng)) {
+      draft.result = { winner: null, reason: "escaped" };
+      events.push({ kind: "escaped", side });
+      events.push({ kind: "battleEnd", winner: null });
+      draft.rng = rng.state();
+      return { state: draft, events };
+    }
+    events.push({ kind: "runFailed", side });
+  }
+
   const resolved = ([0, 1] as const).map((side) => {
     const action = actions[side];
     if (action === null) throw new Error(`side ${side} must act`);
-    if (action.kind === "item" || action.kind === "run") {
-      throw new Error(`action "${action.kind}" is not implemented in v0.2`);
+    if (action.kind === "item") {
+      throw new Error("道具の使用は v0.8 で実装する");
     }
+    // 逃走に失敗した側はそのターン何もできない
+    if (action.kind === "run") return { kind: "switch", partyIndex: -1 } as const;
     return action;
   }) as [Exclude<Action, { kind: "item" } | { kind: "run" }>, ...Exclude<Action, { kind: "item" } | { kind: "run" }>[]];
 
   // ── 1. 交代（技より常に先）──
+  // partyIndex -1 は「逃走に失敗して何もできない」を表す番兵
   for (const side of speedOrder(data, draft, rng)) {
     const action = resolved[side]!;
-    if (action.kind === "switch") performSwitch(data, draft, side, action.partyIndex, rng, events);
+    if (action.kind === "switch" && action.partyIndex >= 0) {
+      performSwitch(data, draft, side, action.partyIndex, rng, events);
+    }
   }
 
   // ── 2. 使用する技を確定（使える技が無ければわるあがき）──

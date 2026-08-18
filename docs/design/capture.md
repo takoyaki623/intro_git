@@ -200,7 +200,7 @@ type BallCondition =
 
 ```ts
 type EncounterTable = {
-  location: LocationId;
+  id: EncounterTableId;        // v0.7 で location → id に変更（マップ側から参照する向きに揃えた）
   method: "grass" | "surf" | "fishing" | "cave" | "static" | "gift";
   entries: { species: SpeciesId; levelRange: [number, number]; rate: number }[];
 };

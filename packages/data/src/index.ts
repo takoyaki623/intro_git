@@ -11,6 +11,11 @@ import {
   TYPES,
   type Ability,
   type BattleSet,
+  type EncounterTable,
+  type EventScript,
+  type FlagId,
+  type MapData,
+  type Trainer,
   type Facility,
   type GameData,
   type NamedCharacter,
@@ -25,6 +30,11 @@ import {
 
 import abilitiesJson from "../abilities.json" with { type: "json" };
 import battleSetsJson from "../battle-sets.json" with { type: "json" };
+import encountersJson from "../encounters.json" with { type: "json" };
+import eventsJson from "../events.json" with { type: "json" };
+import flagsJson from "../flags.json" with { type: "json" };
+import mapsJson from "../maps.json" with { type: "json" };
+import trainersJson from "../trainers.json" with { type: "json" };
 import facilitiesJson from "../facilities.json" with { type: "json" };
 import itemsJson from "../items.json" with { type: "json" };
 import namedJson from "../named.json" with { type: "json" };
@@ -178,5 +188,37 @@ export function namedById(id: string): NamedCharacter {
 export function tournamentById(id: string): Tournament {
   const t = allTournaments.find((x) => x.id === id);
   if (t === undefined) throw new MissingDataError("tournament", id);
+  return t;
+}
+
+// ─────────────────────────────────────────────
+// 世界（v0.7）
+//
+// マップ・イベント・トレーナーも「core は型としてしか知らない」を守る。
+// core 側の関数は必ず引数で受け取り、ここを import しない。
+// ─────────────────────────────────────────────
+
+export const allMaps = mapsJson as unknown as readonly MapData[];
+export const allEvents = eventsJson as unknown as readonly EventScript[];
+export const allEncounterTables = encountersJson as unknown as readonly EncounterTable[];
+export const allTrainers = trainersJson as unknown as readonly Trainer[];
+/** 宣言済みフラグ。ここに無いフラグを使うと検証エラーになる（world.md §6）。 */
+export const allFlags = flagsJson as unknown as readonly FlagId[];
+
+export function mapById(id: string): MapData {
+  const m = allMaps.find((x) => x.id === id);
+  if (m === undefined) throw new MissingDataError("map", id);
+  return m;
+}
+
+export function eventById(id: string): EventScript {
+  const e = allEvents.find((x) => x.id === id);
+  if (e === undefined) throw new MissingDataError("event", id);
+  return e;
+}
+
+export function trainerById(id: string): Trainer {
+  const t = allTrainers.find((x) => x.id === id);
+  if (t === undefined) throw new MissingDataError("trainer", id);
   return t;
 }

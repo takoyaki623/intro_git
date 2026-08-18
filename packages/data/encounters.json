@@ -1,0 +1,10 @@
+[
+  {
+    "id": "kanto-route-1-grass",
+    "method": "grass",
+    "entries": [
+      { "species": "pidgey", "levelRange": [2, 5], "rate": 50 },
+      { "species": "rattata", "levelRange": [2, 4], "rate": 50 }
+    ]
+  }
+]

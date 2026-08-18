@@ -118,6 +118,10 @@ function render(event: BattleEvent): string | null {
       return `  ${nameOf(event.side)} の 状態が 元に戻った`;
     case "abilityChanged":
       return `  ${nameOf(event.side)} は ${gameData.ability(event.ability).name} になった`;
+    case "runFailed":
+      return `  ${nameOf(event.side)} は 逃げられなかった`;
+    case "escaped":
+      return `  ${nameOf(event.side)} は 逃げ出した`;
   }
 }
 

@@ -267,3 +267,90 @@ footer { margin-top: 16px; font-size: 11px; color: var(--muted); text-align: cen
   background: var(--panel); border: 1px solid var(--line);
   border-radius: 10px; padding: 9px 12px; display: grid; gap: 2px;
 }
+
+/* ─────────────────────────────────────────────
+   v0.7 マップ探索
+
+   絵が1枚も無い前提で成立させる（game-plan.md §10）。
+   タイルの色は canvas 側で地形から決めているので、ここでは枠だけ整える。
+   ───────────────────────────────────────────── */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.field-head {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+#field-canvas {
+  image-rendering: pixelated;
+  border: 3px solid #222;
+  border-radius: 6px;
+  max-width: 100%;
+  background: #111;
+}
+
+#field-text {
+  width: min(100%, 420px);
+  min-height: 76px;
+  padding: 10px 12px;
+  border: 3px solid #222;
+  border-radius: 8px;
+  background: #fbf8ee;
+  color: #1c1c1c;
+  line-height: 1.7;
+  cursor: pointer;
+  position: relative;
+}
+
+#field-text.hidden { display: none; }
+#field-text .speaker { font-weight: 700; margin-bottom: 2px; }
+#field-text .next { position: absolute; right: 10px; bottom: 6px; opacity: .55; }
+
+#field-text .choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+#field-text .choices button {
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.field-pad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.field-pad .pad-row { display: flex; gap: 6px; align-items: center; }
+
+.field-pad button {
+  min-width: 54px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.field-help { font-size: 12px; }
+
+/* 野生戦でだけ出る「にげる」 */
+#controls .run {
+  margin-top: 8px;
+  padding: 8px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+}

@@ -1,0 +1,393 @@
+[
+  {
+    "id": "kanto.pallet.sign-town",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "マサラタウン\nま新しい 旅立ちの 舞台"
+      }
+    ]
+  },
+  {
+    "id": "kanto.pallet.sign-lab",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "オーキド ポケモンけんきゅうじょ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.pallet.tv",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "テレビでは 4人の 少年が 線路を 歩いている...\nいつもの 映画だ。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.pallet.mom",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.pallet.got-starter",
+          "value": true
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "いってらっしゃい! ポケモンを だいじにね。",
+            "speaker": "ママ"
+          },
+          {
+            "kind": "message",
+            "text": "ポケモンたちは げんきに なった!"
+          },
+          {
+            "kind": "healParty"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "オーキドはかせが あなたを さがしていたわよ。",
+            "speaker": "ママ"
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.pallet.talked-mom",
+            "value": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.pallet.kid",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.pallet.got-starter",
+          "value": true
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "きみ ポケモンを もらったんだって!\nいいなあ ぼくも ほしいよ。"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "はかせの けんきゅうじょ、みなみに あるよ。\nさっき きみを さがしてたみたい。"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.pallet.oak-block",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "まちなさい! くさむらに はいっては いかん。",
+        "speaker": "オーキド"
+      },
+      {
+        "kind": "message",
+        "text": "ポケモンを もたずに いくのは あぶない。\nけんきゅうじょへ きなさい。",
+        "speaker": "オーキド"
+      }
+    ]
+  },
+  {
+    "id": "kanto.pallet.bookshelf",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ポケモンの ずかんが ぎっしり ならんでいる。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.pallet.aide",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "はかせは いつも ポケモンの ことばかり ですよ。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.pallet.oak-lab",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.pallet.got-starter",
+          "value": true
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "その ポケモンを だいじに するんじゃぞ。",
+            "speaker": "オーキド"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "おお きたか! まっておったぞ。",
+            "speaker": "オーキド"
+          },
+          {
+            "kind": "message",
+            "text": "この 3びきの なかから\n1ぴき えらんで よいぞ。",
+            "speaker": "オーキド"
+          },
+          {
+            "kind": "choice",
+            "prompt": "どの ポケモンに する?",
+            "options": [
+              {
+                "text": "フシギダネ",
+                "then": [
+                  {
+                    "kind": "message",
+                    "text": "フシギダネ を うけとった!"
+                  },
+                  {
+                    "kind": "givePokemon",
+                    "species": "bulbasaur",
+                    "level": 5,
+                    "moves": [
+                      "tackle",
+                      "absorb"
+                    ]
+                  }
+                ]
+              },
+              {
+                "text": "ヒトカゲ",
+                "then": [
+                  {
+                    "kind": "message",
+                    "text": "ヒトカゲ を うけとった!"
+                  },
+                  {
+                    "kind": "givePokemon",
+                    "species": "charmander",
+                    "level": 5,
+                    "moves": [
+                      "scratch",
+                      "ember"
+                    ]
+                  }
+                ]
+              },
+              {
+                "text": "ゼニガメ",
+                "then": [
+                  {
+                    "kind": "message",
+                    "text": "ゼニガメ を うけとった!"
+                  },
+                  {
+                    "kind": "givePokemon",
+                    "species": "squirtle",
+                    "level": 5,
+                    "moves": [
+                      "tackle",
+                      "water-gun"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.pallet.got-starter",
+            "value": true
+          },
+          {
+            "kind": "message",
+            "text": "よい えらびかたじゃ。\nいってらっしゃい!",
+            "speaker": "オーキド"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.pallet.rival",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.pallet.got-starter",
+          "value": true
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "まてよ! おれにも 1ぴき くれよ。",
+            "speaker": "グリーン"
+          },
+          {
+            "kind": "message",
+            "text": "じゃあ さっそく しょうぶだ!",
+            "speaker": "グリーン"
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.pallet.rival-battled",
+            "value": true
+          },
+          {
+            "kind": "if",
+            "cond": {
+              "kind": "hasSpecies",
+              "species": "bulbasaur"
+            },
+            "then": [
+              {
+                "kind": "battle",
+                "trainer": "kanto-rival-charmander",
+                "onWin": "kanto.pallet.rival-win",
+                "onLose": "kanto.pallet.rival-lose"
+              }
+            ],
+            "else": [
+              {
+                "kind": "if",
+                "cond": {
+                  "kind": "hasSpecies",
+                  "species": "charmander"
+                },
+                "then": [
+                  {
+                    "kind": "battle",
+                    "trainer": "kanto-rival-squirtle",
+                    "onWin": "kanto.pallet.rival-win",
+                    "onLose": "kanto.pallet.rival-lose"
+                  }
+                ],
+                "else": [
+                  {
+                    "kind": "battle",
+                    "trainer": "kanto-rival-bulbasaur",
+                    "onWin": "kanto.pallet.rival-win",
+                    "onLose": "kanto.pallet.rival-lose"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "おまえも ポケモンを もらいに きたのか?",
+            "speaker": "グリーン"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.pallet.rival-win",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "なんだよ! まぐれだろ。",
+        "speaker": "グリーン"
+      },
+      {
+        "kind": "message",
+        "text": "つぎは まけないからな!",
+        "speaker": "グリーン"
+      }
+    ]
+  },
+  {
+    "id": "kanto.pallet.rival-lose",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "へっ よわいな。",
+        "speaker": "グリーン"
+      },
+      {
+        "kind": "message",
+        "text": "もっと きたえてから こいよ。",
+        "speaker": "グリーン"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route1.sign-north",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "↑ トキワシティ\n\nこの さきは まだ 道が つながっていない。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route1.potion",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "sitrus-berry",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route1.potion-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route1.boy",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route1.talked-boy",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "くさむらを あるくと\nやせいの ポケモンが とびだしてくるよ。"
+          },
+          {
+            "kind": "message",
+            "text": "だんさは とびおりる ことしか できない。\nきを つけてね。"
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.route1.talked-boy",
+            "value": true
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "また あったね!"
+          }
+        ]
+      }
+    ]
+  }
+]

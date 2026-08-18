@@ -26,6 +26,12 @@ function idsOf(file: string): string[] {
   return items.map((i) => i.id).sort();
 }
 
+/** flags.json は文字列の配列。id を持つ形ではない。 */
+function plainIdsOf(file: string): string[] {
+  const items = JSON.parse(readFileSync(resolve(DATA, file), "utf8")) as string[];
+  return [...items].sort();
+}
+
 function union(name: string, ids: readonly string[]): string {
   if (ids.length === 0) return `export type ${name} = never;`;
   const body = ids.map((id) => `  | ${JSON.stringify(id)}`).join("\n");
@@ -42,6 +48,11 @@ export function generate(): string {
   const facilities = idsOf("facilities.json");
   const named = idsOf("named.json");
   const cups = idsOf("tournaments.json");
+  const maps = idsOf("maps.json");
+  const events = idsOf("events.json");
+  const trainers = idsOf("trainers.json");
+  const encounterTables = idsOf("encounters.json");
+  const flags = plainIdsOf("flags.json");
 
   return `/**
  * 自動生成ファイル。直接編集しないこと。
@@ -50,7 +61,9 @@ export function generate(): string {
  * 種族 ${species.length} / 技 ${moves.length} / 性格 ${natures.length} /
  * 特性 ${abilities.length} / 道具 ${items.length} /
  * BattleSet ${battleSets.length} / 施設 ${facilities.length} /
- * ネームド ${named.length} / カップ ${cups.length}
+ * ネームド ${named.length} / カップ ${cups.length} /
+ * マップ ${maps.length} / イベント ${events.length} / トレーナー ${trainers.length} /
+ * 出現テーブル ${encounterTables.length} / フラグ ${flags.length}
  */
 
 ${union("GeneratedSpeciesId", species)}
@@ -70,6 +83,16 @@ ${union("GeneratedFacilityId", facilities)}
 ${union("GeneratedNamedId", named)}
 
 ${union("GeneratedCupId", cups)}
+
+${union("GeneratedMapId", maps)}
+
+${union("GeneratedEventId", events)}
+
+${union("GeneratedTrainerId", trainers)}
+
+${union("GeneratedEncounterTableId", encounterTables)}
+
+${union("GeneratedFlagId", flags)}
 `;
 }
 

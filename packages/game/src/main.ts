@@ -1,7 +1,8 @@
 /**
- * v0.6 の入口。
+ * v0.7 の入口。
  *
  * 遊び方を切り替えるだけの薄い層。
+ *   ぼうけん     … v0.7。マップを歩く。原作の遊び方の入口
  *   トーナメント … v0.6。歴代ネームドと戦う勝ち抜き。「誰と戦うか」が主役
  *   バトル施設   … v0.5 の連戦。「どう戦うか」が主役
  *   ネームド     … 収録済みのキャラ一覧
@@ -14,6 +15,7 @@ import { createRng, emptySave, type BattlePokemonSource, type SaveData } from "@
 import { allFacilities, allMoves, allNamed, allSpecies, allTournaments } from "@pkmn/data";
 import { $, runBattle, setSpeed, waitForButton, type Speed } from "./battle-screen.js";
 import { cupMenu, namedList, playCup } from "./cup.js";
+import { playField, type FieldHandle } from "./field.js";
 import { createLocalSaveStore } from "./save.js";
 import { facilityMenu, playFacility } from "./tower.js";
 
@@ -29,7 +31,7 @@ let save: SaveData = emptySave();
 
 $("#app").innerHTML = `
   <header>
-    <h1>ポケモン風RPG <span class="ver">v0.6</span></h1>
+    <h1>ポケモン風RPG <span class="ver">v0.7</span></h1>
     <div class="tools">
       <div class="speed" id="speed">
         <button data-s="normal" class="on">つうじょう</button>
@@ -39,7 +41,8 @@ $("#app").innerHTML = `
     </div>
   </header>
   <nav id="modes">
-    <button data-m="cup" class="on">トーナメント</button>
+    <button data-m="field" class="on">ぼうけん</button>
+    <button data-m="cup">トーナメント</button>
     <button data-m="facility">バトル しせつ</button>
     <button data-m="named">ネームド</button>
     <button data-m="free">フリーバトル</button>
@@ -109,8 +112,11 @@ async function freeBattle(): Promise<void> {
 // モード切り替え
 // ─────────────────────────────────────────────
 
-type Mode = "cup" | "facility" | "named" | "free";
-let mode: Mode = "cup";
+type Mode = "field" | "cup" | "facility" | "named" | "free";
+let mode: Mode = "field";
+
+/** マップ探索はキーボードを掴むので、モードを離れるときに必ず解放する。 */
+let field: FieldHandle | null = null;
 
 const context = () => ({
   save,
@@ -141,8 +147,13 @@ function showCupMenu(): void {
 }
 
 function show(next: Mode): void {
+  field?.stop();
+  field = null;
   mode = next;
-  if (next === "cup") showCupMenu();
+  if (next === "field") {
+    $("#menu").classList.add("hidden");
+    field = playField();
+  } else if (next === "cup") showCupMenu();
   else if (next === "facility") showFacilityMenu();
   else if (next === "named") {
     $("#run").classList.add("hidden");
@@ -165,5 +176,5 @@ $("#modes").addEventListener("click", (e) => {
 void (async () => {
   const loaded = await store.load(0);
   if (loaded !== null) save = loaded;
-  show("cup");
+  show("field");
 })();

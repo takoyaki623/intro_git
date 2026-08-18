@@ -96,7 +96,7 @@ export async function playFacility(
       knowledge: "fair",
     };
 
-    const winner = await runBattle({
+    const { winner } = await runBattle({
       parties: [playerParty(facility, run), next.party],
       seed: seed + run.battleIndex * 7919,
       ai,

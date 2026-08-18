@@ -1,0 +1,158 @@
+/**
+ * ブラウザで v0.7 の完了条件をひと続きに通す煙テスト。
+ *
+ *   npm run dev            （別のターミナルで）
+ *   node tools/playthrough.mjs [URL]
+ *
+ * 単体テスト（packages/core/test/world.test.ts）は同じ道行きを core だけで通す。
+ * こちらが見るのは **描画と入力が繋がっているか** ―― 型検査では絶対に落ちない層。
+ * 実際、この台本を書いたことで次の2つが見つかった:
+ *   - givePokemon の技指定が UI まで届いておらず、覚えていない技で戦っていた
+ *   - 家具に囲まれて一生話しかけられない NPC（検証項目 #56 になった）
+ */
+
+import { chromium } from "playwright";
+import { mkdtempSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+
+const URL = process.argv[2] ?? "http://localhost:5173/";
+const SHOTS = mkdtempSync(join(tmpdir(), "playthrough-"));
+const CHROME = process.env["CHROMIUM_PATH"] ?? "/opt/pw-browsers/chromium";
+
+const browser = await chromium.launch({ executablePath: CHROME });
+const page = await browser.newPage({ viewport: { width: 900, height: 1000 } });
+const errors = [];
+page.on("pageerror", (e) => errors.push(String(e)));
+
+const log = [];
+const note = (label, value) => {
+  log.push(`${label}: ${value}`);
+  console.log(`  ${label}: ${value}`);
+};
+
+await page.goto(URL);
+await page.waitForSelector("#field-canvas");
+await page.waitForTimeout(600);
+
+/** 現在地。field.ts が data-at に書いている（画面には出ない）。 */
+const at = () => page.getAttribute("#field-canvas", "data-at");
+const talking = () => page.isVisible("#field-text");
+
+async function key(k, n = 1, wait = 170) {
+  for (let i = 0; i < n; i += 1) {
+    await page.keyboard.press(k);
+    await page.waitForTimeout(wait);
+  }
+}
+async function clear(limit = 14) {
+  for (let i = 0; i < limit && (await talking()); i += 1) {
+    await page.keyboard.press("z");
+    await page.waitForTimeout(240);
+  }
+}
+const shot = (name) => page.screenshot({ path: join(SHOTS, `${name}.png`) });
+
+function expect(label, actual, wanted) {
+  const ok = typeof wanted === "function" ? wanted(actual) : actual === wanted;
+  note(label, `${actual}${ok ? "" : `  ← 期待と違う (${wanted})`}`);
+  if (!ok) process.exitCode = 1;
+}
+
+// ── 1. 家から町へ ──
+note("開始", await at());
+await clear();
+await shot("1-house");
+await key("ArrowDown", 2, 250);
+await page.waitForTimeout(400);
+expect("家を出た", await at(), (v) => v.startsWith("kanto-pallet-town"));
+await shot("2-town");
+
+// ── 2. 研究所へ。(3,5) → (9,5) → (9,10) → (4,10) でドアを調べる ──
+await page.click('#speed button[data-s="logOnly"]');
+await key("ArrowRight", 7);
+await key("ArrowDown", 6);
+await key("ArrowLeft", 6);
+await key("ArrowUp", 1);
+await key("z", 1, 400);
+expect("研究所に入った", await at(), (v) => v.startsWith("kanto-oak-lab"));
+
+// ── 3. オーキドに話しかけて最初の1匹をもらう ──
+await key("ArrowUp", 1);
+await key("ArrowLeft", 4);
+await key("ArrowUp", 3);
+await key("ArrowRight", 3);
+await key("z", 1, 400);
+await clear();
+const options = await page.$$eval("#field-text .choices button", (b) => b.map((x) => x.textContent));
+expect("選択肢", options.join("・"), "フシギダネ・ヒトカゲ・ゼニガメ");
+await shot("3-choice");
+await page.click("#field-text .choices button:nth-child(2)");
+await page.waitForTimeout(300);
+await clear();
+expect("てもち", (await page.textContent("#field-party")).trim(), "てもち: ヒトカゲ");
+await shot("4-starter");
+
+// ── 4. ライバル戦（battle コマンドの境界）──
+await key("ArrowLeft", 3);
+await key("ArrowDown", 4);
+await key("ArrowRight", 7);
+await key("ArrowUp", 3);
+await key("z", 1, 400);
+await clear();
+await page.waitForSelector("#battle:not(.hidden)", { timeout: 5000 });
+note("バトル開始", (await page.textContent("#log")).trim().split("\n")[0]);
+await shot("5-rival");
+
+async function fight(limit = 80) {
+  for (let i = 0; i < limit; i += 1) {
+    if (await page.isHidden("#battle")) return "決着してマップに戻った";
+    const move = await page.$("#controls .move");
+    const swap = await page.$("#controls .switch");
+    if (move) await move.click();
+    else if (swap) await swap.click();
+    await page.waitForTimeout(200);
+  }
+  return "終わらなかった";
+}
+expect("ライバル戦", await fight(), "決着してマップに戻った");
+await page.waitForTimeout(600);
+await clear();
+
+// ── 5. 1番道路へ出て、草むらで野生に会って逃げる ──
+await key("ArrowDown", 3);
+await key("ArrowLeft", 4);
+await key("ArrowDown", 2);
+expect("研究所を出た", await at(), (v) => v.startsWith("kanto-pallet-town"));
+await key("ArrowRight", 7, 150);
+await key("ArrowUp", 10, 150);
+await key("ArrowLeft", 6, 150);
+await key("ArrowUp", 2, 150);
+expect("1番道路へ", await at(), (v) => v.startsWith("kanto-route-1"));
+await shot("6-route");
+
+await key("ArrowRight", 3, 150);
+await key("ArrowUp", 5, 150);
+await key("ArrowLeft", 3, 150);
+
+let met = null;
+for (let i = 0; i < 30 && met === null; i += 1) {
+  await key(i % 2 === 0 ? "ArrowLeft" : "ArrowRight", 3, 130);
+  if (await page.isVisible("#battle")) met = (await page.textContent("#log")).trim().split("\n")[0];
+}
+expect("野生", met ?? "でなかった", (v) => v.includes("とびだしてきた"));
+await shot("7-wild");
+
+const run = await page.$("#controls .run");
+expect("にげるボタン", run ? "ある" : "ない", "ある");
+if (run) {
+  await run.click();
+  await page.waitForTimeout(1500);
+  expect("にげたあと", (await page.isHidden("#battle")) ? "マップに戻った" : "まだバトル中", "マップに戻った");
+}
+await shot("8-end");
+
+console.log(`\nスクリーンショット: ${SHOTS}`);
+console.log(errors.length === 0 ? "JS エラーなし" : `JS エラー ${errors.length} 件:\n${errors.join("\n")}`);
+if (errors.length > 0) process.exitCode = 1;
+await browser.close();

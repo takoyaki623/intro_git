@@ -120,6 +120,12 @@ export function messageOf(event: BattleEvent, view: BattleView): string | null {
       return `${label(event.side)} の じょうたいが もとに もどった!`;
     case "abilityChanged":
       return `${label(event.side)} は ${gameData.ability(event.ability).name} に なった!`;
+
+    // ── 逃走（v0.7）──
+    case "runFailed":
+      return `にげられない!`;
+    case "escaped":
+      return `うまく にげきれた!`;
   }
 }
 

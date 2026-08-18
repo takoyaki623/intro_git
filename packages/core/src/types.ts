@@ -311,7 +311,14 @@ export type BattleState = {
   sides: [Side, Side];
   turn: number;
   rng: RngState;
-  result: { winner: SideIndex | null } | null;
+  /**
+   * 野生戦か。逃走が選べるのは野生戦だけ（トレーナー戦では選択肢に出さない）。
+   * v0.7 で追加。
+   */
+  isWild: boolean;
+  /** 逃走を試みた回数。試すほど成功しやすくなる（原作準拠）。 */
+  runAttempts: number;
+  result: { winner: SideIndex | null; reason: "faint" | "escaped" } | null;
   /**
    * ひんしにより交代を要求されている側。
    * 空でない間、次の step はその側の switch 行動のみを処理し、ターンを進めない。
@@ -320,15 +327,15 @@ export type BattleState = {
 };
 
 /**
- * 行動。v0.2 で実装するのは move / switch。
- * item / run は v0.7〜v0.8 だが、型は最初から4種すべて定義する。
+ * 行動。v0.7 時点で実装済みなのは move / switch / run。
+ * item（ボール・回復薬）は v0.8。型は v0.1 から4種すべて定義してある。
  * 設計: docs/design/battle-system.md §2
  */
 export type Action =
   | { kind: "move"; moveIndex: number }
   | { kind: "switch"; partyIndex: number }
-  | { kind: "item"; item: ItemId } // v0.7〜v0.8
-  | { kind: "run" }; // v0.7
+  | { kind: "item"; item: ItemId } // v0.8
+  | { kind: "run" };
 
 export type Effectiveness = 0 | 0.25 | 0.5 | 1 | 2 | 4;
 
@@ -379,7 +386,10 @@ export type BattleEvent =
   /** 状態異常・混乱が治った。 */
   | { kind: "cured"; side: SideIndex }
   /** 特性が書き換わった（トレース）。 */
-  | { kind: "abilityChanged"; side: SideIndex; ability: AbilityId };
+  | { kind: "abilityChanged"; side: SideIndex; ability: AbilityId }
+  // ── 逃走（v0.7）──
+  | { kind: "runFailed"; side: SideIndex }
+  | { kind: "escaped"; side: SideIndex };
 
 export type StepResult = {
   state: BattleState;
