@@ -251,7 +251,38 @@ type SpeciesOut = {
   evYield: Record<string, number>;
   genderRatio: number | null;
   learnsetSource: "provisional" | "official";
+  /** 公式 learnset を採った世代。SV に居ない種は第8・第7世代から採る。 */
+  learnsetGen?: number;
 };
+
+/**
+ * 公式 learnset の読み込み（v0.8）。
+ *
+ * `tools/fetch-official.ts` が書き出した TSV を読む。
+ * **ここでは外部データを取りに行かない** ―― ビルドを外部に依存させないため。
+ * ファイルが無ければ v0.4 の暫定生成に落ちる（生成物に `provisional` が立つ）。
+ */
+function officialLearnsets(): Map<string, { gen: number; learnset: { level: number; move: string }[] }> {
+  const out = new Map<string, { gen: number; learnset: { level: number; move: string }[] }>();
+  let rows: Record<string, string>[];
+  try {
+    rows = readTsv("learnsets.tsv");
+  } catch {
+    return out;
+  }
+  for (const r of rows) {
+    const learnset = (r["learnset"] ?? "")
+      .split(",")
+      .filter(Boolean)
+      .map((pair) => {
+        const [level, move] = pair.split(":");
+        return { level: Number(level), move: move! };
+      })
+      .sort((a, b) => a.level - b.level || a.move.localeCompare(b.move));
+    out.set(r["species"]!, { gen: Number(r["gen"]), learnset });
+  }
+  return out;
+}
 
 /**
  * 暫定 learnset の生成。
@@ -326,6 +357,9 @@ function provisionalLearnset(
 
 function importSpecies(moves: MoveOut[]): SpeciesOut[] {
   const rows = readTsv("species.tsv");
+  const official = officialLearnsets();
+  const known = new Set(moves.map((m) => m.id));
+
   return rows.map((r) => {
     const where = `species.tsv/${r["id"]}`;
 
@@ -347,6 +381,15 @@ function importSpecies(moves: MoveOut[]): SpeciesOut[] {
       evYield[stat!] = Number(n);
     }
 
+    // ── learnset ──
+    // 公式データがあればそれを使う。技の追加待ちで薄くなる種は暫定で埋めない
+    // （「原作ではその技しか覚えない」という事実を潰さないため）
+    const found = official.get(r["id"]!);
+    for (const entry of found?.learnset ?? []) {
+      if (!known.has(entry.move)) err(where, `learnsets.tsv の技 "${entry.move}" が moves.tsv に無い`);
+    }
+    const learnset = found?.learnset ?? provisionalLearnset(types, moves, baseStats);
+
     const genderRaw = r["gender"] ?? "";
     return {
       id: r["id"]!,
@@ -355,12 +398,13 @@ function importSpecies(moves: MoveOut[]): SpeciesOut[] {
       types,
       baseStats,
       abilities: (r["abilities"] ?? "").split(",").filter(Boolean),
-      learnset: provisionalLearnset(types, moves, baseStats),
+      learnset,
       catchRate: Number(r["catch"]),
       expType: r["exp"]!,
       evYield,
       genderRatio: genderRaw === "-" ? null : Number(genderRaw),
-      learnsetSource: "provisional",
+      learnsetSource: found === undefined ? "provisional" : "official",
+      ...(found === undefined ? {} : { learnsetGen: found.gen }),
     };
   });
 }
@@ -541,7 +585,16 @@ function main(): void {
 
   console.log(`投入完了: 種族 ${species.length} / 技 ${moves.length}`);
   console.log(`  種族値のチェックサム ${species.length} 件すべて一致`);
-  console.log(`  learnset は全件が暫定（原作の習得レベルではない）`);
+  const official = species.filter((s) => s.learnsetSource === "official");
+  if (official.length === species.length) {
+    const byGen = new Map<number, number>();
+    for (const s of official) byGen.set(s.learnsetGen!, (byGen.get(s.learnsetGen!) ?? 0) + 1);
+    console.log(
+      `  learnset は全件が公式データ（${[...byGen].sort((a, b) => b[0] - a[0]).map(([g, n]) => `第${g}世代 ${n}種`).join(" / ")}）`,
+    );
+  } else {
+    console.log(`  learnset: 公式 ${official.length} 種 / 暫定 ${species.length - official.length} 種`);
+  }
   console.log(`  特性 ${abilities.length}（うち ${inert} 件は機構未実装のため inert）`);
   console.log(`  持ち物 ${items.length} / BattleSet ${battleSets.length}`);
   const parties = named.reduce((n, c) => n + Object.keys(c.tiers).length, 0);

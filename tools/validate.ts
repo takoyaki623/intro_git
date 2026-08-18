@@ -127,7 +127,10 @@ function checkSpecies(): void {
     if (Object.keys(s.evYield).length === 0) {
       fail("species-ev", `${s.id}: 獲得努力値が空`);
     }
-    if (s.learnset.length === 0) fail("species-learnset", `${s.id}: learnset が空`);
+    // learnset が空でも誤りではない（v0.8）。
+    // アブラは テレポート、メタモンは へんしん しかレベルで覚えず、
+    // どちらも当プロジェクトにまだ無い機構を要する技。原作の事実をそのまま残す
+    if (s.learnset.length === 0) warn("species-learnset", `${s.id}: レベルで覚える技が無い`);
 
     // learnset はレベル昇順であること（表示順がそのまま覚える順になる）
     const levels = s.learnset.map((l) => l.level);
@@ -257,26 +260,31 @@ function checkEngineSupport(): void {
 // 全種族が「戦える」こと（暫定 learnset の品質確認）
 // ─────────────────────────────────────────────
 function checkBattleReady(): void {
+  // ── v0.8 で意味が変わった検証 ──
+  //
+  // v0.4〜v0.7 の learnset は**規則生成の暫定値**だった。
+  // 「Lv5 までに攻撃技を覚える」「攻撃技のタイプが2種類以上」は、
+  // その生成規則が守るべき品質条件として書いたもので、エラーにしていた。
+  //
+  // 公式データを入れた今、これらは**原作の事実**になった ――
+  // メタモンは へんしん しか覚えないし、アブラは テレポート だけ。
+  // データの誤りではないので、**エラーではなく一覧の報告**にする。
+  const cantFight: string[] = [];
+  const oneType: string[] = [];
+
   for (const s of allSpecies) {
     const lv1 = s.learnset.filter((l) => l.level <= 5).map((l) => gameData.move(l.move));
-    if (!lv1.some((m) => m.category !== "status")) {
-      fail("battle-ready", `${s.id}: Lv5 までに攻撃技を覚えない（初手で戦えない）`);
-    }
+    if (!lv1.some((m) => m.category !== "status")) cantFight.push(s.id);
 
     // 攻撃技が1タイプしかないと、そのタイプを無効化する相手に手も足も出ない。
-    // 例: ノーマル単はゴーストに何もできず、決着しない対面が生まれる。
+    // 例: ノーマル単はゴーストに何もできず、わるあがきでしか進まない対面になる。
     const damagingTypes = new Set(
       s.learnset
         .map((l) => gameData.move(l.move))
         .filter((m) => m.category !== "status")
         .map((m) => m.type),
     );
-    if (damagingTypes.size < 2) {
-      fail(
-        "move-coverage",
-        `${s.id}: 攻撃技が ${[...damagingTypes].join("/")} のみ（無効タイプに詰む）`,
-      );
-    }
+    if (damagingTypes.size < 2) oneType.push(s.id);
 
     // 得意な攻撃側と技の分類が噛み合っているか。
     // とくこうが倍あるのに物理技だけ、のような構成を防ぐ。
@@ -295,6 +303,31 @@ function checkBattleReady(): void {
             `${wantsPhysical ? "特殊" : "物理"}技しか覚えない`,
         );
       }
+    }
+  }
+
+  if (cantFight.length > 0) {
+    warn(
+      "battle-ready",
+      `Lv5 までに攻撃技を覚えない ${cantFight.length} 種（原作どおり）: ${cantFight.join(" ")}`,
+    );
+  }
+  if (oneType.length > 0) {
+    warn(
+      "move-coverage",
+      `レベル技の攻撃タイプが1種類だけ ${oneType.length} 種: ${oneType.join(" ")}`,
+    );
+  }
+
+  // ── 実際に戦えるか ──
+  // 上の2つと違い、これは**遊べるかどうか**に直結する。
+  // 野生で出てくる種が わるあがき しかできないと、戦闘が成立しない
+  const wildSpecies = new Set(allEncounterTables.flatMap((t) => t.entries.map((e) => e.species)));
+  for (const id of wildSpecies) {
+    const s = allSpecies.find((x) => x.id === id)!;
+    const early = s.learnset.filter((l) => l.level <= 5);
+    if (early.length === 0) {
+      fail("wild-usable", `${id}: 野生で出るのに Lv5 までに技を1つも覚えない`);
     }
   }
 }

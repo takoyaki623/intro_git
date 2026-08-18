@@ -7,7 +7,10 @@
  */
 
 import { describe, expect, it } from "vitest";
-import { TYPES, calcDamage, createRng, createRngState, toBattlePokemon } from "@pkmn/core";
+import {
+  TYPES, calcDamage, createBattle, createRng, createRngState, legalActions, step,
+  toBattlePokemon,
+} from "@pkmn/core";
 import { allMoves, allSpecies, gameData } from "@pkmn/data";
 
 describe("種族値が原作と一致する", () => {
@@ -151,11 +154,36 @@ describe("データの網羅性", () => {
   it("全種族に必須フィールドが揃っている", () => {
     for (const s of allSpecies) {
       expect(s.types.length, s.id).toBeGreaterThanOrEqual(1);
-      expect(s.learnset.length, s.id).toBeGreaterThan(0);
+      // learnset は空でありうる（v0.8）。
+      // アブラは テレポート、メタモンは へんしん しかレベルで覚えない
       expect(s.catchRate, s.id).toBeGreaterThan(0);
       expect(s.abilities.length, s.id).toBeGreaterThan(0);
       expect(Object.keys(s.evYield).length, s.id).toBeGreaterThan(0);
     }
+  });
+
+  it("レベル技を持たない種は、機構が未実装の技しか覚えない種に限る", () => {
+    // 空の learnset を野放しにすると「投入し忘れ」と区別が付かなくなる。
+    // 原作の事実として空になる種だけを、名指しで許す
+    const allowed = ["abra", "ditto"];
+    const empty = allSpecies.filter((s) => s.learnset.length === 0).map((s) => s.id);
+    expect(empty.sort()).toEqual(allowed.sort());
+  });
+
+  it("技を持たない個体でもバトルが成立する（わるあがき）", () => {
+    const state = createBattle(
+      gameData,
+      [[{ species: "abra", level: 10, moves: [] }],
+       [{ species: "rattata", level: 10, moves: ["tackle"] }]],
+      1,
+    );
+    // 技が無くても行動の選択肢は空にならない
+    expect(legalActions(gameData, state, 0).length).toBeGreaterThan(0);
+    const { events } = step(gameData, state, [
+      { kind: "move", moveIndex: 0 },
+      { kind: "move", moveIndex: 0 },
+    ]);
+    expect(events.some((e) => e.kind === "struggle" && e.side === 0)).toBe(true);
   });
 
   it("learnset が参照する技が全て存在する", () => {

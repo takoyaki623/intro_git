@@ -78,7 +78,11 @@ export function toBattlePokemon(
     }
   }
 
-  if (source.moves.length === 0) throw new Error(`${source.species} has no moves`);
+  // 技0を許す（v0.8）。
+  // 原作の learnset を入れたら、レベル技を1つも持たない種が実在した
+  // ―― アブラは テレポート だけ、メタモンは へんしん だけを覚える。
+  // ここで弾くと「原作どおりのデータ」が入れられなくなるので、
+  // わるあがき しかできない個体として成立させる（battle.ts が既にその道を持っている）。
   if (source.moves.length > 4) throw new Error(`${source.species} has more than 4 moves`);
 
   const moves = source.moves.map((id) => {

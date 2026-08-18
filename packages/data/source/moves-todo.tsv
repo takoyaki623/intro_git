@@ -1,0 +1,156 @@
+id	english	reason	neededBy
+focus-energy	Focus Energy	未実装の状態	22
+disable	Disable	未実装の状態	18
+rain-dance	Rain Dance	天候	16
+helping-hand	Helping Hand	未実装の状態	15
+defense-curl	Defense Curl	未実装の状態	12
+growth	Growth	能力変化が複数	12
+light-screen	Light Screen	場の効果	12
+protect	Protect	未実装の状態	12
+ancient-power	Ancient Power	能力変化が複数	11
+copycat	Copycat	効果を表せない	11
+safeguard	Safeguard	場の効果	11
+sucker-punch	Sucker Punch	相手が攻撃技を選んだときしか成功しない	10
+wrap	Wrap	未実装の状態	10
+rollout	Rollout	個別処理	9
+roost	Roost	自分への継続効果	9
+gyro-ball	Gyro Ball	威力が可変	8
+haze	Haze	効果を表せない	8
+low-kick	Low Kick	威力が可変	8
+thrash	Thrash	自分への継続効果	8
+toxic-spikes	Toxic Spikes	場の効果	8
+belch	Belch	きのみを食べてからでないと出せない	7
+endeavor	Endeavor	威力が可変	7
+explosion	Explosion	個別処理	7
+fire-fang	Fire Fang	追加効果が複数	7
+fire-spin	Fire Spin	未実装の状態	7
+flail	Flail	威力が可変	7
+last-resort	Last Resort	他の技を全て使ってからでないと出せない	7
+self-destruct	Self-Destruct	個別処理	7
+shell-smash	Shell Smash	能力変化が複数	7
+baton-pass	Baton Pass	交代を伴う技	6
+curse	Curse	未実装の状態	6
+dragon-dance	Dragon Dance	能力変化が複数	6
+electro-ball	Electro Ball	威力が可変	6
+flatter	Flatter	相手のとくこうを上げる代償がある	6
+fury-cutter	Fury Cutter	個別処理	6
+future-sight	Future Sight	2ターン後に当たる	6
+hyper-beam	Hyper Beam	自分への継続効果	6
+mean-look	Mean Look	効果を表せない	6
+outrage	Outrage	自分への継続効果	6
+psych-up	Psych Up	効果を表せない	6
+reflect	Reflect	場の効果	6
+rest	Rest	効果を表せない	6
+seismic-toss	Seismic Toss	威力が可変	6
+smack-down	Smack Down	未実装の状態	6
+stockpile	Stockpile	未実装の状態	6
+swallow	Swallow	効果を表せない	6
+aqua-ring	Aqua Ring	未実装の状態	5
+belly-drum	Belly Drum	効果を表せない	5
+bind	Bind	未実装の状態	5
+destiny-bond	Destiny Bond	未実装の状態	5
+dig	Dig	溜め・反動休み	5
+encore	Encore	未実装の状態	5
+fake-out	Fake Out	出た直後の1回しか使えない	5
+fling	Fling	個別処理	5
+gastro-acid	Gastro Acid	未実装の状態	5
+leech-seed	Leech Seed	未実装の状態	5
+magnet-rise	Magnet Rise	未実装の状態	5
+mirror-move	Mirror Move	効果を表せない	5
+moonlight	Moonlight	効果を表せない	5
+pursuit	Pursuit	個別処理	5
+sandstorm	Sandstorm	天候	5
+solar-beam	Solar Beam	溜め・反動休み	5
+spit-up	Spit Up	威力が可変	5
+spite	Spite	効果を表せない	5
+swagger	Swagger	相手の攻撃を2段階上げる代償がある	5
+synthesis	Synthesis	効果を表せない	5
+tailwind	Tailwind	場の効果	5
+worry-seed	Worry Seed	効果を表せない	5
+charge	Charge	未実装の状態	4
+close-combat	Close Combat	能力変化が複数	4
+cosmic-power	Cosmic Power	能力変化が複数	4
+giga-impact	Giga Impact	自分への継続効果	4
+grassy-terrain	Grassy Terrain	フィールド	4
+horn-drill	Horn Drill	特殊な命中判定	4
+memento	Memento	個別処理	4
+metronome	Metronome	効果を表せない	4
+minimize	Minimize	未実装の状態	4
+petal-dance	Petal Dance	自分への継続効果	4
+quick-guard	Quick Guard	場の効果	4
+reversal	Reversal	威力が可変	4
+soak	Soak	効果を表せない	4
+splash	Splash	効果を表せない	4
+stealth-rock	Stealth Rock	場の効果	4
+uproar	Uproar	自分への継続効果	4
+whirlwind	Whirlwind	交代を伴う技	4
+wide-guard	Wide Guard	場の効果	4
+bulk-up	Bulk Up	能力変化が複数	3
+dragon-tail	Dragon Tail	交代を伴う技	3
+dream-eater	Dream Eater	相手が眠っていないと当たらない	3
+echoed-voice	Echoed Voice	個別処理	3
+endure	Endure	未実装の状態	3
+guillotine	Guillotine	特殊な命中判定	3
+heal-pulse	Heal Pulse	効果を表せない	3
+healing-wish	Healing Wish	場の効果	3
+imprison	Imprison	未実装の状態	3
+lock-on	Lock-On	個別処理	3
+mimic	Mimic	効果を表せない	3
+mist	Mist	場の効果	3
+night-shade	Night Shade	威力が可変	3
+perish-song	Perish Song	個別処理	3
+rage-powder	Rage Powder	未実装の状態	3
+recycle	Recycle	効果を表せない	3
+reflect-type	Reflect Type	効果を表せない	3
+roar	Roar	交代を伴う技	3
+role-play	Role Play	効果を表せない	3
+sand-tomb	Sand Tomb	未実装の状態	3
+sheer-cold	Sheer Cold	特殊な命中判定	3
+snowscape	Snowscape	天候	3
+teleport	Teleport	交代を伴う技	3
+whirlpool	Whirlpool	未実装の状態	3
+yawn	Yawn	未実装の状態	3
+acupressure	Acupressure	効果を表せない	2
+after-you	After You	効果を表せない	2
+ally-switch	Ally Switch	個別処理	2
+aromatherapy	Aromatherapy	効果を表せない	2
+coil	Coil	能力変化が複数	2
+detect	Detect	未実装の状態	2
+dive	Dive	溜め・反動休み	2
+final-gambit	Final Gambit	個別処理	2
+fissure	Fissure	特殊な命中判定	2
+follow-me	Follow Me	未実装の状態	2
+gravity	Gravity	場の効果	2
+guard-swap	Guard Swap	効果を表せない	2
+heavy-slam	Heavy Slam	威力が可変	2
+ice-fang	Ice Fang	追加効果が複数	2
+magnetic-flux	Magnetic Flux	効果を表せない	2
+mirror-coat	Mirror Coat	個別処理	2
+power-swap	Power Swap	効果を表せない	2
+quiver-dance	Quiver Dance	能力変化が複数	2
+sunny-day	Sunny Day	天候	2
+super-fang	Super Fang	威力が可変	2
+superpower	Superpower	能力変化が複数	2
+switcheroo	Switcheroo	効果を表せない	2
+taunt	Taunt	未実装の状態	2
+thunder-fang	Thunder Fang	追加効果が複数	2
+transform	Transform	効果を表せない	2
+wonder-room	Wonder Room	場の効果	2
+axe-kick	Axe Kick	外すと自分がダメージを受ける	1
+block	Block	効果を表せない	1
+circle-throw	Circle Throw	交代を伴う技	1
+conversion	Conversion	効果を表せない	1
+conversion-2	Conversion 2	効果を表せない	1
+counter	Counter	個別処理	1
+crush-claw	crush-claw	追加できる（日本語名が要る）	1
+electric-terrain	Electric Terrain	フィールド	1
+focus-punch	Focus Punch	個別処理	1
+high-jump-kick	High Jump Kick	外すと自分がダメージを受ける	1
+ingrain	Ingrain	未実装の状態	1
+rage	Rage	自分への継続効果	1
+sky-attack	Sky Attack	溜め・反動休み	1
+sleep-talk	Sleep Talk	効果を表せない	1
+snore	Snore	自分が眠っていないと出せない	1
+spikes	Spikes	場の効果	1
+tickle	Tickle	能力変化が複数	1
+work-up	Work Up	能力変化が複数	1
