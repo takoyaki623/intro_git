@@ -52,6 +52,7 @@ export function generate(): string {
   const events = idsOf("events.json");
   const trainers = idsOf("trainers.json");
   const encounterTables = idsOf("encounters.json");
+  const shops = idsOf("shops.json");
   const flags = plainIdsOf("flags.json");
 
   return `/**
@@ -63,7 +64,8 @@ export function generate(): string {
  * BattleSet ${battleSets.length} / 施設 ${facilities.length} /
  * ネームド ${named.length} / カップ ${cups.length} /
  * マップ ${maps.length} / イベント ${events.length} / トレーナー ${trainers.length} /
- * 出現テーブル ${encounterTables.length} / フラグ ${flags.length}
+ * 出現テーブル ${encounterTables.length} / ショップ ${shops.length} /
+ * フラグ ${flags.length}
  */
 
 ${union("GeneratedSpeciesId", species)}
@@ -91,6 +93,8 @@ ${union("GeneratedEventId", events)}
 ${union("GeneratedTrainerId", trainers)}
 
 ${union("GeneratedEncounterTableId", encounterTables)}
+
+${union("GeneratedShopId", shops)}
 
 ${union("GeneratedFlagId", flags)}
 `;

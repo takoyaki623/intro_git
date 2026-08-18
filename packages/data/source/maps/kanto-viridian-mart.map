@@ -1,0 +1,30 @@
+# トキワシティ フレンドリィショップ。
+id: kanto-viridian-mart
+name: フレンドリィショップ
+region: kanto
+bgm: pokemon-center
+
+legend:
+. normal
+W !normal
+S !normal
+M !normal
+D normal
+
+grid:
+WWWWWWWWW
+WSSSSSSSW
+W.......W
+W.......W
+W..MM...W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,7 step kanto-viridian-city 10,8 down
+
+objects:
+mart-clerk 2,2 npc:clerk:static kanto.viridian.clerk
+mart-shelf 5,4 sign kanto.viridian.shelf
+mart-customer 6,5 npc:boy:static kanto.viridian.customer

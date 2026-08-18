@@ -3,5 +3,8 @@
   "kanto.pallet.rival-battled",
   "kanto.pallet.talked-mom",
   "kanto.route1.potion-taken",
-  "kanto.route1.talked-boy"
+  "kanto.route1.talked-boy",
+  "kanto.viridian.got-sample-potion",
+  "kanto.viridian.talked-guard",
+  "kanto.viridian.talked-oldman"
 ]

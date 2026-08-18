@@ -3,11 +3,12 @@
  *   再生成: npm run gen:ids
  *
  * 種族 151 / 技 247 / 性格 25 /
- * 特性 48 / 道具 41 /
+ * 特性 48 / 道具 58 /
  * BattleSet 64 / 施設 2 /
  * ネームド 13 / カップ 3 /
- * マップ 4 / イベント 15 / トレーナー 3 /
- * 出現テーブル 1 / フラグ 5
+ * マップ 8 / イベント 26 / トレーナー 3 /
+ * 出現テーブル 1 / ショップ 1 /
+ * フラグ 8
  */
 
 export type GeneratedSpeciesId =
@@ -490,35 +491,51 @@ export type GeneratedAbilityId =
   | "water-absorb";
 
 export type GeneratedItemId =
+  | "antidote"
   | "assault-vest"
+  | "awakening"
   | "black-belt"
   | "black-glasses"
+  | "burn-heal"
   | "charcoal"
   | "choice-band"
   | "choice-scarf"
   | "choice-specs"
   | "dragon-fang"
   | "dusk-ball"
+  | "elixir"
+  | "ether"
   | "expert-belt"
   | "fairy-feather"
   | "flame-orb"
   | "focus-sash"
+  | "full-heal"
+  | "full-restore"
   | "great-ball"
   | "hard-stone"
+  | "hyper-potion"
+  | "ice-heal"
   | "leftovers"
   | "life-orb"
   | "lum-berry"
   | "magnet"
   | "master-ball"
+  | "max-elixir"
+  | "max-ether"
+  | "max-potion"
+  | "max-revive"
   | "metal-coat"
   | "miracle-seed"
   | "mystic-water"
   | "net-ball"
   | "never-melt-ice"
+  | "paralyze-heal"
   | "poison-barb"
   | "poke-ball"
+  | "potion"
   | "quick-ball"
   | "repeat-ball"
+  | "revive"
   | "rocky-helmet"
   | "scope-lens"
   | "sharp-beak"
@@ -527,6 +544,7 @@ export type GeneratedItemId =
   | "sitrus-berry"
   | "soft-sand"
   | "spell-tag"
+  | "super-potion"
   | "timer-ball"
   | "toxic-orb"
   | "twisted-spoon"
@@ -626,7 +644,11 @@ export type GeneratedMapId =
   | "kanto-oak-lab"
   | "kanto-pallet-town"
   | "kanto-players-house-1f"
-  | "kanto-route-1";
+  | "kanto-route-1"
+  | "kanto-viridian-city"
+  | "kanto-viridian-house"
+  | "kanto-viridian-mart"
+  | "kanto-viridian-pokecenter";
 
 export type GeneratedEventId =
   | "kanto.pallet.aide"
@@ -643,7 +665,18 @@ export type GeneratedEventId =
   | "kanto.pallet.tv"
   | "kanto.route1.boy"
   | "kanto.route1.potion"
-  | "kanto.route1.sign-north";
+  | "kanto.route1.sign-north"
+  | "kanto.viridian.center-chat"
+  | "kanto.viridian.clerk"
+  | "kanto.viridian.customer"
+  | "kanto.viridian.house-man"
+  | "kanto.viridian.north-guard"
+  | "kanto.viridian.nurse"
+  | "kanto.viridian.oldman"
+  | "kanto.viridian.pc"
+  | "kanto.viridian.shelf"
+  | "kanto.viridian.sign-center"
+  | "kanto.viridian.sign-mart";
 
 export type GeneratedTrainerId =
   | "kanto-rival-bulbasaur"
@@ -653,9 +686,15 @@ export type GeneratedTrainerId =
 export type GeneratedEncounterTableId =
   | "kanto-route-1-grass";
 
+export type GeneratedShopId =
+  | "kanto-viridian-mart";
+
 export type GeneratedFlagId =
   | "kanto.pallet.got-starter"
   | "kanto.pallet.rival-battled"
   | "kanto.pallet.talked-mom"
   | "kanto.route1.potion-taken"
-  | "kanto.route1.talked-boy";
+  | "kanto.route1.talked-boy"
+  | "kanto.viridian.got-sample-potion"
+  | "kanto.viridian.talked-guard"
+  | "kanto.viridian.talked-oldman";

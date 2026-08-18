@@ -158,6 +158,10 @@ export function writeBack(
     status: after.status,
     statusCounter: after.status === "toxic" ? after.statusCounter : 0,
     moves: instance.moves.map((m, i) => ({ ...m, pp: after.moves[i]?.pp ?? m.pp })),
+    // 使い切りの持ち物（きのみ・きあいのタスキ）は戻ってこない。
+    // **v0.9 で本編に持ち物が来るまで、ここは誰も踏んでいなかった** ――
+    // 施設は貸しポケモンなので、消費しても次の戦いで作り直されていた
+    item: after.itemConsumed ? null : instance.item,
   };
 }
 

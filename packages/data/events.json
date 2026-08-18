@@ -399,5 +399,202 @@
         ]
       }
     ]
+  },
+  {
+    "id": "kanto.viridian.sign-center",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ポケモンセンター\n\nポケモンの きずを なおします"
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridian.sign-mart",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "フレンドリィショップ\n\nどうぐを うっています"
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridian.nurse",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ポケモンセンターへ ようこそ!\nポケモンを げんきに しますか?",
+        "speaker": "ジョーイ"
+      },
+      {
+        "kind": "healParty"
+      },
+      {
+        "kind": "message",
+        "text": "おまたせしました!\nまた よろしく おねがいします。",
+        "speaker": "ジョーイ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridian.pc",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "パソコン。\nボックスは「てもち」から ひらけます。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridian.center-chat",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ここで やすめば、まけても\nこの まちに もどって これるわ。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridian.clerk",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "いらっしゃいませ!\nなにを おさがしですか?",
+        "speaker": "てんいん"
+      },
+      {
+        "kind": "shop",
+        "inventory": "kanto-viridian-mart"
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridian.shelf",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "たなに どうぐが ならんでいる。\nおかねが ないと なにも かえない。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridian.customer",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "キズぐすりは やすいけど、\nおおきな きずには たりないよ。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridian.north-guard",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.viridian.talked-guard",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "この さきは 2ばんどうろ。\nいまは とおれないよ。",
+            "speaker": "けいび"
+          },
+          {
+            "kind": "message",
+            "text": "トキワの もりを ぬけると\nニビシティに つくんだ。",
+            "speaker": "けいび"
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.viridian.talked-guard",
+            "value": true
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "この さきは まだ とおれないよ。",
+            "speaker": "けいび"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridian.oldman",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.viridian.talked-oldman",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ふぁ〜あ...\nねむいのう。",
+            "speaker": "おじいさん"
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.viridian.talked-oldman",
+            "value": true
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ぐう... ぐう...",
+            "speaker": "おじいさん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridian.house-man",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.viridian.got-sample-potion",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ポケモンが きずついたら どうぐで なおす。\nこれ、みほんに もっていきなさい。",
+            "speaker": "おじさん"
+          },
+          {
+            "kind": "giveItem",
+            "item": "potion",
+            "count": 2
+          },
+          {
+            "kind": "message",
+            "text": "「てもち」から えらんで つかうんじゃ。\nバトルちゅうでも つかえるぞ。",
+            "speaker": "おじさん"
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.viridian.got-sample-potion",
+            "value": true
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "どうぐは バトルちゅうにも つかえる。\nただし その ターンは たたかえんぞ。",
+            "speaker": "おじさん"
+          }
+        ]
+      }
+    ]
   }
 ]

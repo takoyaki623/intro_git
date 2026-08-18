@@ -29,6 +29,7 @@ import {
 import { toBattlePokemon, type BattlePokemonSource } from "./normalize.js";
 import { createRng, createRngState, type Rng } from "./rng.js";
 import { battleStageMultiplier } from "./stages.js";
+import { refused, useOnBattle } from "./use-item.js";
 import {
   CONFUSION_SELF_HIT_CHANCE,
   CONFUSION_SELF_HIT_POWER,
@@ -633,16 +634,31 @@ export function step(
   }
   events.push({ kind: "turnStart", turn: draft.turn });
 
-  // ── 0. ボール（技より先。捕まえたらその場でバトルが終わる）──
+  // ── 0. 道具（技より先。ボールで捕まえたらその場でバトルが終わる）──
   //
   // 失敗しても**そのターンは何もできない**（原作どおり。相手は動く）。
   // 「投げる」と「戦う」が同じ1ターンを取り合うから、削るか捕るかの選択になる。
+  // 回復薬も同じ扱い ―― 1ターンを使うからこそ、使うかどうかが判断になる。
   for (const side of [0, 1] as const) {
     const action = actions[side];
     if (action?.kind !== "item") continue;
+    if (side !== 0) throw new Error("道具を使うのはプレイヤー側だけ");
+
+    if (!isBall(data, action.item)) {
+      // 回復薬など。倒れている手持ちにも使えるので、場に出ている1体に限らない
+      const mon = draft.sides[side].party[action.target ?? draft.sides[side].activeIndex];
+      if (mon === undefined) throw new Error("道具の対象が手持ちに居ない");
+      const result = useOnBattle(data, action.item, mon);
+      events.push({
+        kind: "itemUsed",
+        side,
+        item: action.item,
+        text: refused(result) ? result.reason : result.message,
+      });
+      continue;
+    }
+
     if (!draft.isWild) throw new Error("ボールは野生戦でしか投げられない");
-    if (side !== 0) throw new Error("ボールを投げるのはプレイヤー側だけ");
-    if (!isBall(data, action.item)) throw new Error("道具の使用は v0.9 で実装する");
 
     const target = activeOf(draft, other(side));
     const result = attemptCapture(data, target, data.ball(action.item), captureContext(draft), rng);

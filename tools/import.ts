@@ -221,7 +221,7 @@ function importAbilities(): AbilityOut[] {
 
 type ItemOut = {
   id: string; name: string; category: string;
-  price?: number; held?: unknown; consumable?: boolean;
+  price?: number; bpPrice?: number; held?: unknown; use?: unknown; useScope?: string; consumable?: boolean;
 };
 
 function importItems(): ItemOut[] {
@@ -229,11 +229,49 @@ function importItems(): ItemOut[] {
     const where = `items.tsv/${r["id"]}`;
     const item: ItemOut = { id: r["id"]!, name: r["name"]!, category: r["category"]! };
     if ((r["price"] ?? "") !== "") item.price = Number(r["price"]);
+    if ((r["bp"] ?? "") !== "") item.bpPrice = Number(r["bp"]);
     const held = parseHeldEffect(r["effect"] ?? "", where);
     if (held !== undefined) item.held = held;
+    const use = parseUseEffect(r["use"] ?? "", where);
+    if (use !== undefined) {
+      item.use = use;
+      if ((r["scope"] ?? "") !== "") item.useScope = r["scope"]!;
+    }
     if (r["consumable"] === "1") item.consumable = true;
     return item;
   });
+}
+
+/**
+ * バッグから「つかう」効果（v0.9）。
+ *
+ * `held` と同じ書き方だが**別の欄**にする。同じ欄に混ぜると、
+ * 「持たせると回復し続けるきずぐすり」のような無意味な組み合わせが書けてしまう。
+ */
+function parseUseEffect(src: string, where: string): unknown {
+  if (src === "") return undefined;
+  // `|` で区切ると合成（かいふくのくすり = 全回復 + 状態異常）
+  if (src.includes("|")) {
+    return { kind: "multi", of: src.split("|").map((each) => parseUseEffect(each, where)) };
+  }
+  const [kind, ...a] = src.split(":");
+
+  switch (kind) {
+    case "heal":
+      return { kind, amount: Number(a[0]) };
+    case "healRatio":
+      return { kind, ratio: parseRatio(a[0], where) };
+    case "cure":
+      // 空欄は「全ての状態異常」
+      return { kind, status: (a[0] ?? "") === "" ? [] : list(a[0]) };
+    case "revive":
+      return { kind, ratio: parseRatio(a[0], where) };
+    case "pp":
+      return { kind, amount: Number(a[0]), all: a[1] === "all" };
+    default:
+      errors.push(`${where}: 未知の use 効果 ${kind}`);
+      return undefined;
+  }
 }
 
 /**

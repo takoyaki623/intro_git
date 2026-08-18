@@ -3,6 +3,7 @@
     "id": "leftovers",
     "name": "たべのこし",
     "category": "held",
+    "bpPrice": 24,
     "held": {
       "kind": "endOfTurnHeal",
       "ratio": 0.0625
@@ -12,6 +13,7 @@
     "id": "life-orb",
     "name": "いのちのたま",
     "category": "held",
+    "bpPrice": 24,
     "held": {
       "kind": "powerRecoil",
       "ratio": 1.3,
@@ -22,6 +24,7 @@
     "id": "choice-band",
     "name": "こだわりハチマキ",
     "category": "held",
+    "bpPrice": 24,
     "held": {
       "kind": "choice",
       "stat": "atk",
@@ -32,6 +35,7 @@
     "id": "choice-specs",
     "name": "こだわりメガネ",
     "category": "held",
+    "bpPrice": 24,
     "held": {
       "kind": "choice",
       "stat": "spa",
@@ -42,6 +46,7 @@
     "id": "choice-scarf",
     "name": "こだわりスカーフ",
     "category": "held",
+    "bpPrice": 24,
     "held": {
       "kind": "choice",
       "stat": "spe",
@@ -52,6 +57,7 @@
     "id": "expert-belt",
     "name": "たつじんのおび",
     "category": "held",
+    "bpPrice": 16,
     "held": {
       "kind": "superEffectiveBoost",
       "ratio": 1.2
@@ -61,6 +67,7 @@
     "id": "focus-sash",
     "name": "きあいのタスキ",
     "category": "held",
+    "bpPrice": 16,
     "held": {
       "kind": "endure"
     },
@@ -70,6 +77,7 @@
     "id": "scope-lens",
     "name": "ピントレンズ",
     "category": "held",
+    "bpPrice": 16,
     "held": {
       "kind": "critStage",
       "stages": 1
@@ -79,6 +87,7 @@
     "id": "assault-vest",
     "name": "とつげきチョッキ",
     "category": "held",
+    "bpPrice": 24,
     "held": {
       "kind": "statMultiplier",
       "stat": "spd",
@@ -90,6 +99,7 @@
     "id": "rocky-helmet",
     "name": "ゴツゴツメット",
     "category": "held",
+    "bpPrice": 16,
     "held": {
       "kind": "contactDamage",
       "ratio": 0.16666666666666666
@@ -99,6 +109,7 @@
     "id": "flame-orb",
     "name": "かえんだま",
     "category": "held",
+    "bpPrice": 16,
     "held": {
       "kind": "statusOnHolder",
       "status": "burn"
@@ -108,6 +119,7 @@
     "id": "toxic-orb",
     "name": "どくどくだま",
     "category": "held",
+    "bpPrice": 16,
     "held": {
       "kind": "statusOnHolder",
       "status": "toxic"
@@ -117,6 +129,7 @@
     "id": "sitrus-berry",
     "name": "オボンのみ",
     "category": "held",
+    "bpPrice": 8,
     "held": {
       "kind": "berryHeal",
       "ratio": 0.25,
@@ -128,6 +141,7 @@
     "id": "lum-berry",
     "name": "ラムのみ",
     "category": "held",
+    "bpPrice": 8,
     "held": {
       "kind": "berryCure"
     },
@@ -356,6 +370,7 @@
     "id": "master-ball",
     "name": "マスターボール",
     "category": "ball",
+    "bpPrice": 96,
     "consumable": true
   },
   {
@@ -391,6 +406,234 @@
     "name": "リピートボール",
     "category": "ball",
     "price": 1000,
+    "consumable": true
+  },
+  {
+    "id": "potion",
+    "name": "キズぐすり",
+    "category": "recovery",
+    "price": 200,
+    "use": {
+      "kind": "heal",
+      "amount": 20
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "super-potion",
+    "name": "いいキズぐすり",
+    "category": "recovery",
+    "price": 700,
+    "use": {
+      "kind": "heal",
+      "amount": 60
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "hyper-potion",
+    "name": "すごいキズぐすり",
+    "category": "recovery",
+    "price": 1500,
+    "use": {
+      "kind": "heal",
+      "amount": 120
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "max-potion",
+    "name": "まんたんのくすり",
+    "category": "recovery",
+    "price": 2500,
+    "use": {
+      "kind": "healRatio",
+      "ratio": 1
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "full-restore",
+    "name": "かいふくのくすり",
+    "category": "recovery",
+    "price": 3000,
+    "use": {
+      "kind": "multi",
+      "of": [
+        {
+          "kind": "healRatio",
+          "ratio": 1
+        },
+        {
+          "kind": "cure",
+          "status": []
+        }
+      ]
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "antidote",
+    "name": "どくけし",
+    "category": "recovery",
+    "price": 100,
+    "use": {
+      "kind": "cure",
+      "status": [
+        "poison",
+        "toxic"
+      ]
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "paralyze-heal",
+    "name": "まひなおし",
+    "category": "recovery",
+    "price": 200,
+    "use": {
+      "kind": "cure",
+      "status": [
+        "paralysis"
+      ]
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "burn-heal",
+    "name": "やけどなおし",
+    "category": "recovery",
+    "price": 250,
+    "use": {
+      "kind": "cure",
+      "status": [
+        "burn"
+      ]
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "ice-heal",
+    "name": "こおりなおし",
+    "category": "recovery",
+    "price": 250,
+    "use": {
+      "kind": "cure",
+      "status": [
+        "freeze"
+      ]
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "awakening",
+    "name": "ねむけざまし",
+    "category": "recovery",
+    "price": 200,
+    "use": {
+      "kind": "cure",
+      "status": [
+        "sleep"
+      ]
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "full-heal",
+    "name": "なんでもなおし",
+    "category": "recovery",
+    "price": 400,
+    "use": {
+      "kind": "cure",
+      "status": []
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "revive",
+    "name": "げんきのかけら",
+    "category": "recovery",
+    "price": 2000,
+    "use": {
+      "kind": "revive",
+      "ratio": 0.5
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "max-revive",
+    "name": "げんきのかたまり",
+    "category": "recovery",
+    "bpPrice": 20,
+    "use": {
+      "kind": "revive",
+      "ratio": 1
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "ether",
+    "name": "ピーピーエイド",
+    "category": "recovery",
+    "price": 1200,
+    "use": {
+      "kind": "pp",
+      "amount": 10,
+      "all": false
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "max-ether",
+    "name": "ピーピーリカバー",
+    "category": "recovery",
+    "price": 2000,
+    "use": {
+      "kind": "pp",
+      "amount": 99,
+      "all": false
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "elixir",
+    "name": "ピーピーエイダー",
+    "category": "recovery",
+    "bpPrice": 12,
+    "use": {
+      "kind": "pp",
+      "amount": 10,
+      "all": true
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "max-elixir",
+    "name": "ピーピーマックス",
+    "category": "recovery",
+    "bpPrice": 24,
+    "use": {
+      "kind": "pp",
+      "amount": 99,
+      "all": true
+    },
+    "useScope": "both",
     "consumable": true
   }
 ]

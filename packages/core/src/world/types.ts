@@ -143,6 +143,19 @@ export type EventCommand =
   | { kind: "openBox" }
   | { kind: "openDex" };
 
+/**
+ * ショップの品揃え（v0.9）。
+ *
+ * **値段は道具側が持つ。** 店ごとに値段を持たせると、
+ * 同じキズぐすりが町ごとに違う値段になり、直す場所が地方の数だけ増える。
+ * 店が持つのは「何を置くか」だけ（economy.md §7）。
+ */
+export type Shop = {
+  id: ShopId;
+  name: string;
+  items: ItemId[];
+};
+
 export type EventScript = {
   id: EventId;
   commands: EventCommand[];

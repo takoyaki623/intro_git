@@ -19,6 +19,7 @@ export * from "./pokemon.js";
 export * from "./postbattle.js";
 export * from "./capture.js";
 export * from "./storage.js";
+export * from "./use-item.js";
 export * from "./battle.js";
 export * from "./endgame/ruleset.js";
 export * from "./endgame/facility.js";

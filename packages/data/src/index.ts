@@ -17,6 +17,7 @@ import {
   type EventScript,
   type FlagId,
   type MapData,
+  type Shop,
   type Trainer,
   type Facility,
   type GameData,
@@ -37,6 +38,7 @@ import expTablesJson from "../exp-tables.json" with { type: "json" };
 import encountersJson from "../encounters.json" with { type: "json" };
 import eventsJson from "../events.json" with { type: "json" };
 import flagsJson from "../flags.json" with { type: "json" };
+import shopsJson from "../shops.json" with { type: "json" };
 import mapsJson from "../maps.json" with { type: "json" };
 import trainersJson from "../trainers.json" with { type: "json" };
 import facilitiesJson from "../facilities.json" with { type: "json" };
@@ -232,6 +234,13 @@ export const allEncounterTables = encountersJson as unknown as readonly Encounte
 export const allTrainers = trainersJson as unknown as readonly Trainer[];
 /** 宣言済みフラグ。ここに無いフラグを使うと検証エラーになる（world.md §6）。 */
 export const allFlags = flagsJson as unknown as readonly FlagId[];
+export const allShops = shopsJson as unknown as readonly Shop[];
+
+export function shopById(id: string): Shop {
+  const s = allShops.find((x) => x.id === id);
+  if (s === undefined) throw new MissingDataError("shop", id);
+  return s;
+}
 
 export function mapById(id: string): MapData {
   const m = allMaps.find((x) => x.id === id);

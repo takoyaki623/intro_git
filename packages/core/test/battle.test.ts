@@ -111,11 +111,39 @@ describe("バトルの基本", () => {
     ).toThrow(/already over/);
   });
 
-  it("ボール以外の道具はまだ使えない（v0.9）", () => {
+  it("回復薬をバトル中に使える。効かない道具は断られるが例外は投げない（v0.9）", () => {
     const state = createBattle(gameData, [[pika], [bulba]], 1, { isWild: true });
-    expect(() =>
-      step(gameData, state, [{ kind: "item", item: "leftovers" }, { kind: "move", moveIndex: 0 }]),
-    ).toThrow(/v0.9/);
+    state.sides[0].party[0]!.currentHp = 5;
+
+    const { events } = step(gameData, state, [
+      { kind: "item", item: "potion" },
+      { kind: "move", moveIndex: 0 },
+    ]);
+    // 回復した結果の HP はターン終了時点では相手の攻撃を受けた後なので、
+    // ここで見るのは**道具が働いたこと**。回復量そのものは use-item.test.ts
+    const used = events.find((e) => e.kind === "itemUsed");
+    expect(used?.kind === "itemUsed" && used.text).toContain("かいふく");
+
+    // 持ち物としての効果しか無い道具は「使えない」と返るだけ。進行は止めない
+    const fresh = createBattle(gameData, [[pika], [bulba]], 1, { isWild: true });
+    const refusedRun = step(gameData, fresh, [
+      { kind: "item", item: "leftovers" },
+      { kind: "move", moveIndex: 0 },
+    ]);
+    const refusedEvent = refusedRun.events.find((e) => e.kind === "itemUsed");
+    expect(refusedEvent?.kind === "itemUsed" && refusedEvent.text).toContain("つかえない");
+  });
+
+  it("道具を使ったターンは技を出せない（1ターンを取り合う）", () => {
+    const state = createBattle(gameData, [[pika], [bulba]], 1, { isWild: true });
+    state.sides[0].party[0]!.currentHp = 5;
+    const { events } = step(gameData, state, [
+      { kind: "item", item: "potion" },
+      { kind: "move", moveIndex: 0 },
+    ]);
+    // 自分の技は出ていない（相手だけが動く）
+    expect(events.some((e) => e.kind === "moveUsed" && e.side === 0)).toBe(false);
+    expect(events.some((e) => e.kind === "moveUsed" && e.side === 1)).toBe(true);
   });
 
   it("トレーナー戦では逃げられず、ボールも投げられない（v0.7 / v0.8）", () => {

@@ -10,6 +10,7 @@
 import {
   DEFAULT_IVS_BY_GRADE,
   STATS,
+  STATUSES,
   TIERS,
   TYPES,
   effectHandlers,
@@ -25,6 +26,7 @@ import {
   type Move,
   type Species,
   type TierId,
+  type UseEffect,
 } from "@pkmn/core";
 import {
   allAbilities,
@@ -39,6 +41,7 @@ import {
   allEvents,
   allFlags,
   allMaps,
+  allShops,
   allTrainers,
   gameData,
 } from "@pkmn/data";
@@ -375,6 +378,17 @@ function checkHeldEffects(): void {
     if (i.price !== undefined && i.price <= 0) {
       fail("item-price", `${i.id}: 価格が 0 以下 (${i.price})`);
     }
+    // #66 お金と BP は別の経済（economy.md §7）。両方で買えるものを作らない
+    if (i.price !== undefined && i.bpPrice !== undefined) {
+      fail("item-price", `${i.id}: お金でも BP でも買える（経済が混ざる）`);
+    }
+    if (i.bpPrice !== undefined && i.bpPrice <= 0) {
+      fail("item-price", `${i.id}: BP価格が 0 以下 (${i.bpPrice})`);
+    }
+    // #67 持ち物は必ずどこかで手に入る。**置いたのに買えない持ち物を作らない**
+    if (i.category === "held" && i.price === undefined && i.bpPrice === undefined) {
+      fail("item-source", `${i.id}: お金でも BP でも手に入らない持ち物`);
+    }
   }
 
   // 全種族の特性が実在すること
@@ -394,6 +408,73 @@ function checkHeldEffects(): void {
     );
   }
 }
+
+/**
+ * 道具の「つかう」効果とショップ（v0.9）。
+ *
+ * 検証項目 #61〜#65。
+ */
+function checkUseEffects(): void {
+  const walk = (id: string, effect: UseEffect): void => {
+    // #61 全 UseEffect.kind に処理がある
+    if (!USE_KINDS.includes(effect.kind)) {
+      fail("use-handler", `${id}: 効果 "${effect.kind}" に処理が無い`);
+      return;
+    }
+    if (effect.kind === "cure") {
+      // #62 治せる状態異常が実在する
+      for (const st of effect.status) {
+        if (!(STATUSES as readonly string[]).includes(st)) {
+          fail("use-status", `${id}: 未知の状態異常 ${st}`);
+        }
+      }
+    }
+    if (effect.kind === "multi") {
+      if (effect.of.length < 2) fail("use-multi", `${id}: multi なのに効果が1つ以下`);
+      for (const each of effect.of) walk(id, each);
+    }
+  };
+
+  for (const item of allItems) {
+    if (item.use === undefined) {
+      // #63 recovery カテゴリの道具は必ず使える（置いても使えない道具を作らない）
+      if (item.category === "recovery") {
+        fail("use-missing", `${item.id}: recovery なのに use 効果が無い`);
+      }
+      if (item.useScope !== undefined) {
+        fail("use-scope", `${item.id}: use が無いのに useScope がある`);
+      }
+      continue;
+    }
+    walk(item.id, item.use);
+    // #64 使える道具は使うと無くなる（持ち物と違い、使い切りでないと在庫が意味を失う）
+    if (item.consumable !== true) {
+      fail("use-consumable", `${item.id}: 使える道具なのに consumable でない`);
+    }
+  }
+
+  // #65 ショップの品揃えが実在し、値段が付いている
+  for (const shop of allShops) {
+    if (shop.items.length === 0) fail("shop-empty", `${shop.id}: 品揃えが空`);
+    for (const id of shop.items) {
+      const item = allItems.find((i) => i.id === id);
+      if (item === undefined) {
+        fail("shop-ref", `${shop.id}: 存在しない道具を売っている: ${id}`);
+        continue;
+      }
+      // 値段が無い道具を店に置くと、買えないものが棚に並ぶ
+      if (item.price === undefined) {
+        fail("shop-price", `${shop.id}: 値段の無い道具を売っている: ${id}`);
+      }
+    }
+    if (new Set(shop.items).size !== shop.items.length) {
+      fail("shop-dup", `${shop.id}: 同じ道具が2度並んでいる`);
+    }
+  }
+}
+
+/** `UseEffect` の全種類。型から漏れると型検査が落ちる。 */
+const USE_KINDS: UseEffect["kind"][] = ["heal", "healRatio", "cure", "revive", "pp", "multi"];
 
 // ─────────────────────────────────────────────
 // 施設と相手プール（v0.5）
@@ -1125,6 +1206,7 @@ function main(): void {
   checkEngineSupport();
   checkBattleReady();
   checkHeldEffects();
+  checkUseEffects();
   checkEndgame();
   checkNamed();
   checkTournaments();

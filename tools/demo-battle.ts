@@ -110,6 +110,8 @@ function render(event: BattleEvent): string | null {
       return `  ${nameOf(event.side)} の ${gameData.item(event.item).name}!`;
     case "itemConsumed":
       return `  ${nameOf(event.side)} の ${gameData.item(event.item).name} は なくなった`;
+    case "itemUsed":
+      return `  ${gameData.item(event.item).name} を つかった: ${event.text}`;
     case "itemDamage":
       return `  ${nameOf(event.side)} は ${event.amount} 受けた (残り ${event.remainingHp})`;
     case "endured":

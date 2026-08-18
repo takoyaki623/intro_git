@@ -25,10 +25,12 @@ import {
   type SaveData,
   type SaveStore,
 } from "@pkmn/core";
-import { allBattleSets, gameData } from "@pkmn/data";
+import { allBattleSets, allItems, gameData } from "@pkmn/data";
 import { $, runBattle, waitForButton } from "./battle-screen.js";
 import { chooseOwnTeam, chooseRentalTeam, escape, setScreen } from "./team-select.js";
-import { player } from "./player.js";
+// セーブ本体は `player.ts` が1つだけ持つ。BP を減らすので、
+// 引数で渡された写しではなく**生きている方**を見る（写しは1回押すと古くなる）
+import { autosave, player, save as liveSave, setSave } from "./player.js";
 
 /** レンタルの候補数。多すぎると選ぶのが作業になる。 */
 const RENTAL_CHOICES = 6;
@@ -203,12 +205,61 @@ export function facilityMenu(
     <p class="lead">もっている BP: <strong>${save.global.bp}</strong></p>
     <div class="facilities">${rows}</div>
     <p class="lead dim">しせつは ルールセットと あいてプールと ほうしゅう の3つの データで できています。
-      1つ ふやしても コードは かわりません。</p>`);
+      1つ ふやしても コードは かわりません。</p>
+    <h3>BP こうかんじょ</h3>
+    <p class="lead dim">
+      たいせんで つよい もちものは <strong>おかねでは かえません</strong>。
+      しせつで かせいだ BP とだけ こうかんできます（economy.md §7）。
+    </p>
+    <div class="facilities" id="bp-shop">${exchangeRows()}</div>`);
 
   for (const el of $("#menu").querySelectorAll<HTMLElement>(".facility")) {
     el.onclick = () => {
       const facility = facilities.find((f) => f.id === el.dataset["id"]);
       if (facility !== undefined) onPick(facility);
+    };
+  }
+  bindExchange(() => facilityMenu(facilities, liveSave, onPick));
+}
+
+/**
+ * BP交換所（v0.9）。
+ *
+ * **お金と BP は別の経済**（economy.md §7）。
+ * 「施設を遊ぶ → BP を稼ぐ → 個体を強くする → 上位に挑む」という循環が主動線で、
+ * お金でも同じものが買えると、この動線が二重になって薄まる。
+ * 品揃えは道具データの `bpPrice` がそのまま決める ―― ここに一覧は無い。
+ */
+const exchangeStock = () => allItems.filter((i) => i.bpPrice !== undefined);
+
+function exchangeRows(): string {
+  return exchangeStock()
+    .map((item) => {
+      const owned = player.bag[item.id] ?? 0;
+      const enough = liveSave.global.bp >= (item.bpPrice ?? 0);
+      return `
+        <button class="facility${enough ? "" : " dim"}" data-bp="${item.id}"${enough ? "" : " disabled"}>
+          <div class="row">
+            <strong>${escape(item.name)}</strong>
+            <span class="meta">${item.bpPrice} BP${owned > 0 ? ` ・ ${owned}こ` : ""}</span>
+          </div>
+        </button>`;
+    })
+    .join("");
+}
+
+function bindExchange(redraw: () => void): void {
+  for (const el of $("#menu").querySelectorAll<HTMLElement>("[data-bp]")) {
+    el.onclick = () => {
+      const item = exchangeStock().find((i) => i.id === el.dataset["bp"]);
+      if (item === undefined) return;
+      const cost = item.bpPrice ?? 0;
+      if (liveSave.global.bp < cost) return;
+
+      // BP はセーブが持ち、道具はプレイヤーが持つ。**両方を1回の操作で動かす**
+      setSave({ ...liveSave, global: { ...liveSave.global, bp: liveSave.global.bp - cost } });
+      player.bag[item.id] = (player.bag[item.id] ?? 0) + 1;
+      void autosave().then(redraw);
     };
   }
 }

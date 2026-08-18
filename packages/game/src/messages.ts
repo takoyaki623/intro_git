@@ -113,6 +113,9 @@ export function messageOf(event: BattleEvent, view: BattleView): string | null {
       return `${label(event.side)} の ${gameData.item(event.item).name}!`;
     case "itemConsumed":
       return `${label(event.side)} の ${gameData.item(event.item).name} は なくなった!`;
+    case "itemUsed":
+      // 何が起きたかの文は core が組み立てている（回復量の計算がそこにあるため）
+      return `${gameData.item(event.item).name} を つかった!\n${event.text}`;
     case "itemDamage":
       return `${label(event.side)} は ダメージを うけた!`;
     case "endured":

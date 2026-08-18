@@ -13,6 +13,9 @@
 
 import {
   addCaught,
+  isUsable,
+  refused,
+  useOnInstance,
   applyBattleResult,
   chooseOption,
   createInstance,
@@ -55,16 +58,18 @@ import {
 import {
   allBalls,
   allEncounterTables,
+  allItems,
   allNatures,
   allSpecies,
   eventById,
   gameData,
   mapById,
+  shopById,
   trainerById,
 } from "@pkmn/data";
 import { $, runBattle, type BattleOutcome } from "./battle-screen.js";
 import { escape } from "./team-select.js";
-import { autosave, player } from "./player.js";
+import { autosave, player, save } from "./player.js";
 import { STATUS_LABEL, TYPE_COLOR, TYPE_LABEL } from "./view.js";
 
 const TILE = 28;
@@ -90,7 +95,10 @@ const TILE_HINT: Record<string, string> = {
   W: "#8e8578", // 屋内の壁
   B: "#7a6ba8", // ベッド
   C: "#5d6a7a", // パソコン
-  M: "#5a6f7d", // 機械
+  M: "#5a6f7d", // 機械・棚
+  P: "#c0504a", // ポケモンセンターの屋根（原作の赤）
+  F: "#3f6fa8", // フレンドリィショップの屋根（原作の青）
+  S: "#a98b5f", // カウンター
   D: "#7a5230", // ドア
 };
 
@@ -184,6 +192,7 @@ export function playField(): FieldHandle {
         <div class="pad-side">
           <button data-d="ok" class="pad-ok">けってい</button>
           <button id="open-box" class="pad-menu">てもち</button>
+          <button id="open-bag" class="pad-menu">どうぐ</button>
           <button id="open-dex" class="pad-menu">ずかん</button>
         </div>
       </div>
@@ -416,9 +425,13 @@ export function playField(): FieldHandle {
         await trainerBattle(effect.trainer, effect.onWin, effect.onLose);
         return;
       case "shop":
+        await openShop(effect.inventory);
+        return;
       case "openBox":
+        showStorage();
+        return;
       case "openDex":
-        await say("まだ つかえない。");
+        showDex();
         return;
       case "wait":
       case "playSe":
@@ -588,17 +601,32 @@ export function playField(): FieldHandle {
   }
 
   /**
-   * 全滅。手持ちを回復して復活地点へ戻す。
+   * 全滅（economy.md §2）。
    *
-   * 戻り先は固定の家ではなく `player.respawn` ―― 最後に使ったポケモンセンター。
-   * 手持ちの没収は既定では行わない（`settings.lossPenalty`・economy.md §2）。
+   * 戻り先は固定の家ではなく `player.respawn` ―― 最後に回復した場所。
+   * **お金は既定では失わない。** ペナルティは時間を奪うだけで何も教えないため、
+   * 9地方ぶん積み重なる摩擦として落とした。原作の緊張感が要る人は設定で選ぶ。
    */
+  const CLASSIC_LOSS_RATIO = 0.5;
+
   async function blackOut(): Promise<void> {
     setParty(healParty(gameData, party()));
     player.position = { ...player.respawn };
     encounter = emptyEncounterState();
+
+    const lost =
+      save.settings.lossPenalty === "classic"
+        ? Math.floor(player.money * CLASSIC_LOSS_RATIO)
+        : 0;
+    player.money -= lost;
+    syncWorld();
     draw();
-    await say("めのまえが まっくらに なった...\n\nいそいで もどった。ポケモンたちは げんきに なった!");
+
+    await say("めのまえが まっくらに なった...");
+    if (lost > 0) await say(`${lost}円を おとしてしまった...`);
+    await say(
+      `${mapById(player.respawn.map).name} まで もどった。\nポケモンたちは げんきに なった!`,
+    );
     hideText();
     draw();
     await autosave();
@@ -624,12 +652,15 @@ export function playField(): FieldHandle {
       ai: { policy: "basic", mistakeRate: 0.35, knowledge: "fair" },
       headline: `あっ! やせいの ${name} が とびだしてきた!`,
       isWild: true,
-      balls: allBalls
-        .map((b) => ({ id: b.id, count: player.bag[b.id] ?? 0 }))
-        .filter((b) => b.count > 0),
+      balls: () =>
+        allBalls
+          .map((b) => ({ id: b.id, count: player.bag[b.id] ?? 0 }))
+          .filter((b) => b.count > 0),
       onBallUsed: (item) => {
         player.bag[item] = Math.max(0, (player.bag[item] ?? 0) - 1);
       },
+      items: () => usableItems("battle"),
+      onItemUsed: spendItem,
     });
     leaveBattle();
 
@@ -692,6 +723,8 @@ export function playField(): FieldHandle {
       seed: rng.int(1_000_000),
       ai: { policy: "basic", mistakeRate: trainer.mistakeRate ?? 0.25, knowledge: "fair" },
       headline: `${trainer.class} ${trainer.name} が しょうぶを しかけてきた!`,
+      items: () => usableItems("battle"),
+      onItemUsed: spendItem,
     });
     leaveBattle();
 
@@ -911,6 +944,9 @@ export function playField(): FieldHandle {
               ${lineOf(p)}
               <span class="row-actions">
                 ${i > 0 ? `<button data-up="${p.uid}">▲</button>` : ""}
+                <button data-hold="${p.uid}">${
+                  p.item === null ? "もたせる" : escape(gameData.item(p.item).name)
+                }</button>
                 ${player.storage.party.length > 1 ? `<button data-deposit="${p.uid}">あずける</button>` : ""}
               </span>
             </li>`,
@@ -939,6 +975,9 @@ export function playField(): FieldHandle {
       const i = player.storage.party.findIndex((p) => p.uid === uid);
       player.storage = reorder(player.storage, i, i - 1);
     });
+    bind("data-hold", async (uid) => {
+      await chooseHeldItem(uid);
+    });
     bind("data-deposit", (uid) => {
       player.storage = deposit(player.storage, uid);
     });
@@ -966,11 +1005,60 @@ export function playField(): FieldHandle {
     });
   }
 
+  /**
+   * 持ち物を持たせる／外す（v0.9）。
+   *
+   * バトル側の持ち物効果は v0.5 から動いていたが、**本編で持たせる手段が無かった。**
+   * 35種のハンドラが施設の貸しポケモンでしか働いていなかったことになる。
+   */
+  async function chooseHeldItem(uid: string): Promise<void> {
+    const target = findInPanel(uid);
+    if (target === null) return;
+
+    const held = allItems.filter((i) => i.category === "held" && (player.bag[i.id] ?? 0) > 0);
+    const options = [
+      ...(target.item === null ? [] : ["はずす"]),
+      ...held.map((i) => `${i.name}（${player.bag[i.id] ?? 0}こ）`),
+      "やめる",
+    ];
+    if (options.length === 1) {
+      await say("もたせられる どうぐが ない。");
+      hideText();
+      return;
+    }
+
+    const choice = await ask("なにを もたせる?", options);
+    hideText();
+    if (choice === options.length - 1) return;
+
+    // 外す。持っていたものはバッグへ戻す（消えると取り返しがつかない）
+    if (target.item !== null && choice === 0) {
+      player.bag[target.item] = (player.bag[target.item] ?? 0) + 1;
+      player.storage = replaceInstance(player.storage, { ...target, item: null });
+      await say(`${gameData.item(target.item).name} を はずした。`);
+      hideText();
+      return;
+    }
+
+    const item = held[choice - (target.item === null ? 0 : 1)];
+    if (item === undefined) return;
+    // 既に持っているものは入れ替え。**元の持ち物を落とさない**
+    if (target.item !== null) player.bag[target.item] = (player.bag[target.item] ?? 0) + 1;
+    spendItem(item.id);
+    player.storage = replaceInstance(player.storage, { ...target, item: item.id });
+    await say(`${target.nickname ?? gameData.species(target.species).name} に\n${item.name} を もたせた。`);
+    hideText();
+  }
+
   const findInPanel = (uid: string): PokemonInstance | null =>
     [...player.storage.party, ...player.storage.box].find((p) => p.uid === uid) ?? null;
 
   /** ボタンに操作を結び、終わったら画面を作り直す。 */
-  function bind(attr: string, run: (uid: string) => void | Promise<void>): void {
+  function bindPanel(
+    attr: string,
+    run: (value: string) => void | Promise<void>,
+    redraw: () => void,
+  ): void {
     for (const el of panel.querySelectorAll<HTMLElement>(`[${attr}]`)) {
       el.onclick = () => {
         void (async () => {
@@ -981,13 +1069,16 @@ export function playField(): FieldHandle {
             hideText();
           }
           draw();
-          showStorage();
-          // 預ける・逃がすは取り返しがつかない。**その場で保存する**
+          redraw();
+          // 預ける・逃がす・道具を使うは取り返しがつかない。**その場で保存する**
           await autosave();
         })();
       };
     }
   }
+
+  const bind = (attr: string, run: (uid: string) => void | Promise<void>) =>
+    bindPanel(attr, run, showStorage);
 
   /** 図鑑。見つけた種は姿と名前、捕まえた種は数値まで（capture.md §6）。 */
   function showDex(): void {
@@ -1020,6 +1111,123 @@ export function playField(): FieldHandle {
       }`;
     $("#panel-close").onclick = closePanel;
   }
+
+  // ── どうぐ（v0.9）──
+
+  /** バッグの中で、今この場面で使える道具だけ。 */
+  const usableItems = (where: "battle" | "field") =>
+    allItems
+      .filter((i) => isUsable(i, where) && (player.bag[i.id] ?? 0) > 0)
+      .map((i) => ({ id: i.id, count: player.bag[i.id] ?? 0 }));
+
+  const spendItem = (item: string) => {
+    player.bag[item] = Math.max(0, (player.bag[item] ?? 0) - 1);
+    if (player.bag[item] === 0) delete player.bag[item];
+  };
+
+  /**
+   * バッグ。
+   *
+   * **使えなかったら減らさない。** `core` が理由を返してくるので、
+   * 「HP は まんたんだ」と言いながら道具だけ消える、という事故が起きない。
+   */
+  function showBag(): void {
+    const rows = allItems
+      .filter((i) => (player.bag[i.id] ?? 0) > 0)
+      .map((i) => ({ item: i, count: player.bag[i.id] ?? 0 }));
+
+    panel.classList.remove("hidden");
+    panel.innerHTML = `
+      <div class="panel-head">
+        <strong>どうぐ</strong>
+        <span class="dim">おかね ${player.money}円</span>
+        <button class="ghost" id="panel-close">とじる</button>
+      </div>
+      ${
+        rows.length === 0
+          ? `<p class="dim">なにも もっていません。</p>`
+          : `<ul class="mon-list">${rows
+              .map(
+                ({ item, count }) => `<li>
+                  <strong>${escape(item.name)}</strong>
+                  <span class="meta">${count}こ</span>
+                  <span class="row-actions">
+                    ${isUsable(item, "field") ? `<button data-use="${item.id}">つかう</button>` : ""}
+                  </span>
+                </li>`,
+              )
+              .join("")}</ul>`
+      }`;
+
+    $("#panel-close").onclick = closePanel;
+    bindPanel("data-use", async (id) => {
+      const target = await chooseMember(gameData.item(id).name);
+      if (target === null) return;
+      const result = useOnInstance(gameData, id, target);
+      if (refused(result)) {
+        await say(result.reason);
+        hideText();
+        return;
+      }
+      player.storage = replaceInstance(player.storage, result.instance);
+      spendItem(id);
+      await say(`${gameData.item(id).name} を つかった!\n${result.message}`);
+      hideText();
+      await autosave();
+    }, showBag);
+  }
+
+  /** 誰に使うか選ぶ。倒れている個体も選べる（げんきのかけら）。 */
+  async function chooseMember(itemName: string): Promise<PokemonInstance | null> {
+    const members = party();
+    const choice = await ask(
+      `${itemName} を だれに つかう?`,
+      [...members.map((p) => p.nickname ?? gameData.species(p.species).name), "やめる"],
+    );
+    hideText();
+    return members[choice] ?? null;
+  }
+
+  /**
+   * ショップ（v0.9）。
+   *
+   * **値段は道具が持っていて、店は品揃えしか持たない**（world.md `Shop`）。
+   * 売値は買値の半額 ―― 原作と同じで、この比率だけがここにある数字。
+   */
+  const SELL_RATIO = 0.5;
+
+  async function openShop(id: string): Promise<void> {
+    const shop = shopById(id);
+    hideText();
+
+    for (;;) {
+      const stock = shop.items.map((itemId) => gameData.item(itemId));
+      const labels = stock.map((i) => `${i.name}  ${i.price ?? 0}円`);
+      const choice = await ask(`なにを かいますか?（しょじきん ${player.money}円）`, [
+        ...labels,
+        "やめる",
+      ]);
+      const item = stock[choice];
+      if (item === undefined) break;
+
+      const price = item.price ?? 0;
+      if (player.money < price) {
+        await say("おかねが たりません。");
+        continue;
+      }
+      player.money -= price;
+      player.bag[item.id] = (player.bag[item.id] ?? 0) + 1;
+      await say(`${item.name} を かった!\nのこり ${player.money}円`);
+    }
+    hideText();
+    draw();
+    await autosave();
+  }
+
+  $("#open-bag").onclick = () => {
+    if (panel.classList.contains("hidden")) showBag();
+    else closePanel();
+  };
 
   $("#open-box").onclick = () => {
     if (panel.classList.contains("hidden")) showStorage();

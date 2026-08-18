@@ -64,10 +64,21 @@ export type BattleOptions = {
   /**
    * 投げられるボール（v0.8）。`core` はバッグの在庫を知らないので、
    * 何を何個持っているかは呼び出し側が渡す。
+   *
+   * **配列ではなく関数で受け取る。** 配列だと投げたあとも最初の在庫を表示し、
+   * 0個になったボールのボタンが残る（v0.9 で気づいた）。
    */
-  balls?: { id: string; count: number }[];
+  balls?: () => { id: string; count: number }[];
   /** ボールを1つ消費した。バッグを減らすのは呼び出し側。 */
   onBallUsed?: (item: string) => void;
+  /**
+   * バッグから使える道具（v0.9）。ボールと同じく在庫は呼び出し側が持つ。
+   * ボールと分けてあるのは、**投げる相手が違う**から ――
+   * ボールは相手に、回復薬は自分の手持ちに向かう。
+   */
+  items?: () => { id: string; count: number }[];
+  /** 道具を1つ消費した。 */
+  onItemUsed?: (item: string) => void;
 };
 
 /**
@@ -194,7 +205,7 @@ export async function runBattle(options: BattleOptions): Promise<BattleOutcome> 
 
     // ── ボール（v0.8）──
     // 「投げる」も1ターンを使う。削るか捕るかがここで選択になる
-    const balls = (options.balls ?? []).filter((b) => b.count > 0);
+    const balls = (options.balls?.() ?? []).filter((b) => b.count > 0);
     if (!forced && (options.isWild ?? false) && balls.length > 0) {
       const wrap = document.createElement("div");
       wrap.className = "balls";
@@ -207,6 +218,23 @@ export async function runBattle(options: BattleOptions): Promise<BattleOutcome> 
           options.onBallUsed?.(ball.id);
           submit({ kind: "item", item: ball.id });
         };
+        wrap.appendChild(btn);
+      }
+      box.appendChild(wrap);
+    }
+
+    // ── どうぐ（v0.9）──
+    // 使うとその1ターンは戦えない。**回復するかどうかが判断になる**のはそのため
+    const usable = (options.items?.() ?? []).filter((i) => i.count > 0);
+    if (!forced && usable.length > 0) {
+      const wrap = document.createElement("div");
+      wrap.className = "items";
+      for (const item of usable) {
+        const btn = document.createElement("button");
+        btn.className = "item";
+        btn.innerHTML = `<span class="mname">${gameData.item(item.id).name}</span>
+          <span class="meta">のこり ${item.count}こ</span>`;
+        btn.onclick = () => chooseItemTarget(item.id);
         wrap.appendChild(btn);
       }
       box.appendChild(wrap);
@@ -235,6 +263,41 @@ export async function runBattle(options: BattleOptions): Promise<BattleOutcome> 
       }
       box.appendChild(wrap);
     }
+  }
+
+  /**
+   * 道具を誰に使うか選ぶ。
+   *
+   * **倒れている手持ちにも使える**（げんきのかけら）ので、
+   * 交代の選択肢とは別に、手持ち全員を出す。
+   */
+  function chooseItemTarget(item: string): void {
+    const box = $("#controls");
+    box.innerHTML = "";
+    $("#prompt").textContent = `${gameData.item(item).name} を だれに つかう?`;
+
+    const wrap = document.createElement("div");
+    wrap.className = "switches";
+    for (const [index, mon] of state.sides[0].party.entries()) {
+      const btn = document.createElement("button");
+      btn.className = "switch";
+      btn.innerHTML = `<strong>${mon.name}</strong> <span class="meta">${mon.currentHp}/${mon.maxHp}</span>`;
+      btn.onclick = () => {
+        options.onItemUsed?.(item);
+        submit({ kind: "item", item, target: index });
+      };
+      wrap.appendChild(btn);
+    }
+    box.appendChild(wrap);
+
+    const back = document.createElement("button");
+    back.className = "run";
+    back.textContent = "やめる";
+    back.onclick = () => {
+      $("#prompt").textContent = "";
+      showActions(false);
+    };
+    box.appendChild(back);
   }
 
   const waitForPlayerAction = (): Promise<Action> =>

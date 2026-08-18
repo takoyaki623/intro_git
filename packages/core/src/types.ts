@@ -281,6 +281,36 @@ export type ItemCategory =
   | "key"
   | "treasure";
 
+/**
+ * バッグから「つかう」効果（v0.9）。
+ *
+ * 持たせる効果（`HeldEffect`）とは**別物**として持つ。同じ「道具の効果」でも、
+ * 発動条件も対象も違う ―― 混ぜると「持たせると回復し続けるきずぐすり」のような
+ * 意味の無い組み合わせが型として通ってしまう。
+ *
+ * 技効果・持ち物効果・イベントコマンドと同じで、**種類は増やさずデータを増やす。**
+ * きずぐすり・すごいきずぐすり・かいふくのくすりは全部 `heal` の数値違い。
+ */
+export type UseEffect =
+  /** HP を固定値だけ回復する。 */
+  | { kind: "heal"; amount: number }
+  /** HP を最大値の割合で回復する（1 なら全回復）。 */
+  | { kind: "healRatio"; ratio: number }
+  /** 状態異常を治す。空配列なら全ての状態異常。 */
+  | { kind: "cure"; status: StatusId[] }
+  /** ひんしから復活させる。`ratio` は戻る HP の割合。 */
+  | { kind: "revive"; ratio: number }
+  /** PP を回復する。`all` なら全ての技。 */
+  | { kind: "pp"; amount: number; all: boolean }
+  /**
+   * まとめて効かせる（かいふくのくすり = 全回復 + 状態異常）。
+   * 1つでも効けば成功。条件（`Condition`）の `and` / `or` と同じ合成。
+   */
+  | { kind: "multi"; of: UseEffect[] };
+
+/** その道具をどこで使えるか。 */
+export type UseScope = "battle" | "field" | "both";
+
 export type Item = {
   id: ItemId;
   name: string;
@@ -288,10 +318,21 @@ export type Item = {
   /** お金で買えない道具（training 等）は price を持たない。economy.md §7 */
   price?: number;
   /**
+   * BP交換所での値段（v0.9）。
+   *
+   * **お金と BP は別の経済**（economy.md §7）。対戦で強い持ち物は
+   * お金では買えず、施設を遊んで得た BP でしか手に入らない。
+   */
+  bpPrice?: number;
+  /**
    * 持たせたときのバトル中の効果。
-   * バッグから「使う」効果（きずぐすり等）は別物で、v0.9 の ItemEffect が担う。
+   * バッグから「つかう」効果は `use` が担う（v0.9）。
    */
   held?: HeldEffect;
+  /** バッグから「つかう」効果（v0.9）。 */
+  use?: UseEffect;
+  /** どこで使えるか。`use` がある道具だけが持つ。既定は `both`。 */
+  useScope?: UseScope;
   /** 発動すると無くなる（きのみ・きあいのタスキ）。 */
   consumable?: boolean;
 };
@@ -419,7 +460,11 @@ export type BattleState = {
 export type Action =
   | { kind: "move"; moveIndex: number }
   | { kind: "switch"; partyIndex: number }
-  | { kind: "item"; item: ItemId } // v0.8
+  /**
+   * バッグの道具を使う（ボールは v0.8、回復薬は v0.9）。
+   * `target` は自分の手持ちの位置。省略すると場に出ている1体。
+   */
+  | { kind: "item"; item: ItemId; target?: number }
   | { kind: "run" };
 
 export type Effectiveness = 0 | 0.25 | 0.5 | 1 | 2 | 4;
@@ -467,6 +512,8 @@ export type BattleEvent =
   /** ボールを投げた（v0.8）。`shakes` がそのまま演出の回数になる。 */
   | { kind: "ballThrown"; item: ItemId; shakes: number; caught: boolean }
   | { kind: "itemConsumed"; side: SideIndex; item: ItemId }
+  /** バッグから道具を使った（v0.9）。`text` は core が組み立てた結果。 */
+  | { kind: "itemUsed"; side: SideIndex; item: ItemId; text: string }
   | { kind: "itemDamage"; side: SideIndex; item: ItemId; amount: number; remainingHp: number }
   /** きあいのタスキ・がんじょうで持ちこたえた。 */
   | { kind: "endured"; side: SideIndex }

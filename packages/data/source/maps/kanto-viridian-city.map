@@ -1,0 +1,44 @@
+# トキワシティ。ポケモンセンターとフレンドリィショップが初めて出る町。
+# 北（2番道路）は原作どおり、この時点では警備員が通してくれない。
+id: kanto-viridian-city
+name: トキワシティ
+region: kanto
+bgm: viridian-city
+
+legend:
+. normal
+T !normal
+H !normal
+P !normal
+F !normal
+D normal
+~ !water
+
+grid:
+TTTTTTTTTTTTTT
+T............T
+T..PPPP......T
+T..PPDP......T
+T............T
+T............T
+T.......FFFF.T
+T.......FFDF.T
+T............T
+T..HHH.......T
+T..HDH.......T
+T............T
+T..~~~.......T
+T............T
+TTTTT.TTTTTTTT
+
+warps:
+5,3 step kanto-viridian-pokecenter 4,6 up
+10,7 step kanto-viridian-mart 4,6 up
+4,10 step kanto-viridian-house 3,5 up
+5,14 step kanto-route-1 5,1 down
+
+objects:
+viridian-sign-center 4,4 sign kanto.viridian.sign-center
+viridian-sign-mart 9,8 sign kanto.viridian.sign-mart
+viridian-north-guard 6,1 npc:guard:static kanto.viridian.north-guard
+viridian-oldman 3,8 npc:oldman:static kanto.viridian.oldman

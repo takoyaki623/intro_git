@@ -12,7 +12,7 @@
  */
 
 import { chromium } from "playwright";
-import { mkdtempSync } from "node:fs";
+import { mkdtempSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
@@ -77,6 +77,140 @@ function expect(label, actual, wanted) {
   if (!ok) process.exitCode = 1;
 }
 
+const spot = async () => {
+  const [map, pos, facing] = (await at()).split(" ");
+  const [x, y] = pos.split(",").map(Number);
+  return { map, x, y, facing, raw: `${map} ${pos} ${facing}` };
+};
+
+// ── 経路探索 ──
+//
+// **押した回数を数える台本は、この規模のマップでは必ず壊れる。**
+// 草むらでエンカウントし、木や池で止まり、段差は南にしか降りられない。
+// 実際、v0.9 で町を1つ足しただけで、手書きの手順は全部通らなくなった。
+// マップデータそのものを読んで経路を出す。
+const MAPS = new Map(
+  JSON.parse(readFileSync("packages/data/maps.json", "utf8")).map((m) => [m.id, m]),
+);
+const STEPS = {
+  ArrowUp: [0, -1], ArrowDown: [0, 1], ArrowLeft: [-1, 0], ArrowRight: [1, 0],
+};
+
+function blocked(map, x, y) {
+  if (x < 0 || y < 0 || x >= map.size.width || y >= map.size.height) return true;
+  const i = y * map.size.width + x;
+  if (map.collision[i] === true) return true;
+  // **条件つきのオブジェクトは通れる扱いにする。**
+  // 消える前提のもの（進行を塞ぐオーキドなど）を壁として扱うと、
+  // 本来の道が丸ごと消える ―― 実際、これで1番道路へ一生行けなかった。
+  // 条件が残っていれば実際に進めず、goToMap が経路を引き直す。
+  return map.objects.some(
+    (o) => o.at.x === x && o.at.y === y && o.kind.type !== "item" && o.condition === undefined,
+  );
+}
+
+const terrainAt = (map, x, y) => map.terrain[y * map.size.width + x];
+
+const warpAt = (map, x, y) =>
+  map.warps.find((w) => w.at.x === x && w.at.y === y && w.trigger === "step") ?? null;
+
+/**
+ * 1歩で行ける先。マップをまたぐ。
+ *
+ *   - 段差は南向きの飛び降りとしてだけ繋がる（原作どおりの一方通行）
+ *   - 踏む warp のマスに入ると、その場で接続先へ移る。**同じ1歩の中で起きる**
+ */
+function neighbors(mapId, x, y) {
+  const map = MAPS.get(mapId);
+  const out = [];
+  for (const [key, [dx, dy]] of Object.entries(STEPS)) {
+    let nx = x + dx;
+    let ny = y + dy;
+    if (nx < 0 || ny < 0 || nx >= map.size.width || ny >= map.size.height) continue;
+
+    if (terrainAt(map, nx, ny) === "ledge") {
+      if (key !== "ArrowDown") continue;
+      nx += dx;
+      ny += dy;
+    }
+    if (blocked(map, nx, ny)) continue;
+
+    const warp = warpAt(map, nx, ny);
+    out.push(
+      warp === null
+        ? { key, map: mapId, x: nx, y: ny }
+        : { key, map: warp.to.map, x: warp.to.x, y: warp.to.y },
+    );
+  }
+  return out;
+}
+
+/** 目的地までの手順。マップをまたいで探す。 */
+function route(from, to) {
+  const id = (n) => `${n.map}|${n.x},${n.y}`;
+  const prev = new Map([[id(from), null]]);
+  const queue = [from];
+  while (queue.length > 0) {
+    const here = queue.shift();
+    if (here.map === to.map && here.x === to.x && here.y === to.y) {
+      const path = [];
+      for (let cur = id(here); ; ) {
+        const step = prev.get(cur);
+        if (step === null || step === undefined) break;
+        path.unshift({ key: step.key, node: step.node });
+        cur = id(step.from);
+      }
+      return path;
+    }
+    for (const next of neighbors(here.map, here.x, here.y)) {
+      if (prev.has(id(next))) continue;
+      prev.set(id(next), { key: next.key, node: next, from: here });
+      queue.push(next);
+    }
+  }
+  return null;
+}
+
+/**
+ * 目的地まで歩く。マップをまたいでもよい。
+ * 途中で野生に会ったら戦い、位置がずれたら経路を引き直す。
+ */
+async function goToMap(map, x, y, tries = 8) {
+  for (let attempt = 0; attempt < tries; attempt += 1) {
+    const from = await spot();
+    if (from.map === map && from.x === x && from.y === y) return from;
+
+    const path = route(from, { map, x, y });
+    if (path === null) {
+      note("経路なし", `${from.raw} → ${map} ${x},${y}`);
+      return from;
+    }
+    let drifted = false;
+    for (const step of path) {
+      await key(step.key, 1, 175);
+      if (await page.isVisible("#battle")) {
+        await fight();
+        await page.waitForTimeout(800);
+        await drain();
+        drifted = true;
+        break;
+      }
+      const now = await spot();
+      // 全滅で飛ばされた・向き直りで進まなかった等。引き直す
+      if (now.map !== step.node.map || now.x !== step.node.x || now.y !== step.node.y) {
+        drifted = true;
+        break;
+      }
+    }
+    if (!drifted) return spot();
+  }
+  return spot();
+}
+
+/** 同じマップの中で歩く。 */
+const goTo = async (x, y) => goToMap((await spot()).map, x, y);
+
+
 // ── 1. 家から町へ ──
 note("開始", await at());
 await clear();
@@ -88,19 +222,14 @@ await shot("2-town");
 
 // ── 2. 研究所へ。ドアは踏んで入る（v0.8 で interact から step に直した）──
 await page.click('#speed button[data-s="logOnly"]');
-await key("ArrowRight", 7);
-await key("ArrowDown", 6);
-await key("ArrowLeft", 6);
-await key("ArrowUp", 2, 400);
-expect("研究所に入った", await at(), (v) => v.startsWith("kanto-oak-lab"));
+await goToMap("kanto-oak-lab", 4, 6);
+expect("研究所に入った", (await spot()).map, "kanto-oak-lab");
 
 // ── 3. オーキドに話しかけて最初の1匹をもらう ──
-// (4,6) → (4,5) → (1,5) → (1,3) → (3,3) で右を向いてオーキドに話しかける
-await key("ArrowUp", 1);
-await key("ArrowLeft", 3);
-await key("ArrowUp", 2);
-await key("ArrowRight", 2);
+await goTo(3, 3);
 note("オーキドの前", await at());
+// ここは drain（最後の選択肢を押す）を使わない。**選択肢そのものを見る**ため
+await key("ArrowRight", 2, 200);
 await key("z", 1, 400);
 await clear();
 const options = await page.$$eval("#field-text .choices button", (b) => b.map((x) => x.textContent));
@@ -113,12 +242,9 @@ expect("てもち", (await page.textContent("#field-party")).trim(), (v) => v.st
 await shot("4-starter");
 
 // ── 4. ライバル戦（battle コマンドの境界）──
-// (3,3) → (1,3) → (1,6) → (7,6) → (7,4) で上を向いてライバルに話しかける
-await key("ArrowLeft", 2);
-await key("ArrowDown", 3);
-await key("ArrowRight", 6);
-await key("ArrowUp", 2);
+await goTo(7, 4);
 note("ライバルの前", await at());
+await key("ArrowUp", 2, 200);
 await key("z", 1, 400);
 await clear();
 await page.waitForSelector("#battle:not(.hidden)", { timeout: 5000 });
@@ -154,31 +280,14 @@ note("戦闘後のてもち", (await page.textContent("#field-party")).trim());
 // ── 5. 1番道路へ出て、草むらで野生に会って逃げる ──
 // **ライバル戦は3択のうち1つが不利**（ヒトカゲ 36%）。
 // 負けると家に戻されるので、今どこに居るかを見てから町へ出る
-const where = (await at()) ?? "";
-if (where.startsWith("kanto-oak-lab")) {
-  await key("ArrowDown", 2);
-  await key("ArrowLeft", 3);
-  await key("ArrowDown", 2, 400);
-} else if (where.startsWith("kanto-players-house-1f")) {
+if ((await spot()).map === "kanto-players-house-1f") {
   note("ライバル戦の結果", "負けて家に戻された（再挑戦できる）");
-  await key("ArrowDown", 2, 250);
-  await page.waitForTimeout(400);
 }
-expect("町に出た", await at(), (v) => v.startsWith("kanto-pallet-town"));
-// 町の東端（x=10）まで寄ってから北上する。
-// 途中に看板とNPCが立っているので、素朴に右→上では引っかかる
-await key("ArrowRight", 10, 200);
-await key("ArrowUp", 12, 200);
-await key("ArrowLeft", 5, 200);
-await key("ArrowUp", 2, 250);
-expect("1番道路へ", await at(), (v) => v.startsWith("kanto-route-1"));
-await shot("6-route");
-
-// 段差を避けて東側から北上し、草むら (3〜5, 12〜13) に入る
-await key("ArrowRight", 2, 200);
-await key("ArrowUp", 3, 200);
-await key("ArrowLeft", 2, 200);
+// 1番道路の草むら (3〜5, 12〜13) へ。経路はマップデータから引く
+await goToMap("kanto-route-1", 4, 12);
+expect("1番道路の くさむらに ついた", (await spot()).map, "kanto-route-1");
 note("草むら", await at());
+await shot("6-route");
 
 let met = null;
 for (let i = 0; i < 30 && met === null; i += 1) {
@@ -222,6 +331,63 @@ expect(
   "残った",
 );
 await shot("8-end");
+
+// ── 6.5 トキワシティ。ショップで買い、道具を使う（v0.9-b の眼目）──
+
+/** その場で向きだけ変えて話しかける。 */
+async function talk(direction) {
+  await key(direction, 2, 200);
+  await key("z", 1, 400);
+  await drain();
+}
+
+await drain();
+await goToMap("kanto-viridian-city", 5, 4);
+expect("トキワシティに ついた", (await spot()).map, "kanto-viridian-city");
+await shot("9-viridian");
+
+// ポケモンセンター。入口は (5,3)、中の到着地点は (4,6)
+await goToMap("kanto-viridian-pokecenter", 4, 3);
+expect("ポケモンセンターに 入った", (await spot()).map, "kanto-viridian-pokecenter");
+await talk("ArrowUp");
+expect(
+  "ジョーイさんが 回復してくれた",
+  (await page.textContent("#field-party")).trim(),
+  (v) => /(\d+)\/\1$/.test(v),
+);
+await shot("10-center");
+
+// ショップ。カウンターごしに店員 (2,2) へ話しかける
+await goToMap("kanto-viridian-mart", 3, 2);
+expect("ショップに 入った", (await spot()).map, "kanto-viridian-mart");
+await key("ArrowLeft", 2, 200);
+await key("z", 1, 400);
+await clear();
+
+const shelf = await page.$$eval("#field-text .choices button", (b) => b.map((x) => x.textContent));
+note("しなぞろえ", shelf.join(" / "));
+expect("値段つきで 並んだ", shelf[0] ?? "（出ていない）", (v) => v.includes("円"));
+await shot("11-shop");
+
+// キズぐすりを買って「やめる」
+const potionIndex = shelf.findIndex((t) => t.includes("キズぐすり"));
+expect("キズぐすりが 売っている", potionIndex >= 0 ? "ある" : "ない", "ある");
+await page.click(`#field-text .choices button:nth-child(${potionIndex + 1})`);
+await page.waitForTimeout(400);
+await clear(4);
+const remaining = await page.$$("#field-text .choices button");
+if (remaining.length > 0) await remaining[remaining.length - 1].click();
+await drain();
+
+// バッグに入り、お金が減ったか
+await page.click("#open-bag");
+await page.waitForTimeout(300);
+const bag = (await page.textContent("#field-panel")) ?? "";
+expect("バッグに キズぐすり が ある", bag.includes("キズぐすり") ? "ある" : "ない", "ある");
+expect("おかねが 減った", bag.includes("3000円") ? "減っていない" : "減った", "減った");
+await shot("12-bag");
+await page.click("#panel-close");
+await page.waitForTimeout(200);
 
 // ── 7. リロードしても続きから遊べるか（v0.9 の眼目）──
 // **セーブが効いているかは、型検査でもユニットテストでも絶対に落ちない。**
@@ -275,6 +441,98 @@ await page.waitForTimeout(400);
 note("読み戻す前に歩いた先", moved);
 expect("読み戻すと元の場所に戻る", await at(), beforeReload.at);
 await shot("11-imported");
+
+// ── 9. BP交換所と持ち物（v0.9-c の眼目）──
+//
+// BP は施設を遊んで貯めるものなので、台本では**セーブを書き換えて**用意する。
+// エクスポート／インポートが本当に往復していることの確認にもなっている。
+await page.click('#modes button[data-m="save"]');
+await page.waitForSelector("#save-export");
+await page.click("#save-export");
+const cheat = JSON.parse(await page.inputValue("#save-text"));
+cheat.global.bp = 100;
+await page.fill("#save-text", JSON.stringify(cheat));
+await page.click("#save-import");
+await page.waitForTimeout(900);
+
+await page.click('#modes button[data-m="facility"]');
+await page.waitForSelector("#bp-shop");
+const shopText = (await page.textContent("#bp-shop")) ?? "";
+expect("BP交換所に たべのこし が ある", shopText.includes("たべのこし") ? "ある" : "ない", "ある");
+expect(
+  "おかねで 買える どうぐは 並ばない",
+  shopText.includes("キズぐすり") ? "並んでいる" : "並ばない",
+  "並ばない",
+);
+await page.click('[data-bp="leftovers"]');
+await page.waitForTimeout(900);
+const bpAfter = (await page.textContent("#menu")) ?? "";
+expect("BP が 減った", bpAfter.includes("BP: 100") ? "減っていない" : "減った", "減った");
+await shot("13-bp");
+
+// 持ち物を持たせる（v0.5 から動いていた機構が、本編で初めて届く）
+await page.click('#modes button[data-m="field"]');
+await page.waitForSelector("#field-canvas");
+await page.waitForTimeout(300);
+await page.click("#open-box");
+await page.waitForTimeout(300);
+await page.click("[data-hold]");
+await page.waitForTimeout(400);
+const holdOptions = await page.$$eval("#field-text .choices button", (b) => b.map((x) => x.textContent));
+note("もたせられる どうぐ", holdOptions.join(" / "));
+const leftoversIndex = holdOptions.findIndex((t) => t.includes("たべのこし"));
+expect("たべのこしを もたせられる", leftoversIndex >= 0 ? "できる" : "できない", "できる");
+await page.click(`#field-text .choices button:nth-child(${leftoversIndex + 1})`);
+await page.waitForTimeout(400);
+await drain();
+await page.waitForTimeout(400);
+const partyPanel = (await page.textContent("#field-panel")) ?? "";
+expect("てもちに もちものが 出る", partyPanel.includes("たべのこし") ? "出る" : "出ない", "出る");
+await shot("14-hold");
+await page.click("#panel-close");
+await page.waitForTimeout(200);
+
+// ── 10. 全滅したら復活地点へ戻る（v0.9-c）──
+//
+// **どこへ戻るかはセーブに入っている。** 家ではなく、最後に回復した場所。
+await page.click('#modes button[data-m="save"]');
+await page.waitForSelector("#save-export");
+await page.click("#save-export");
+const weak = JSON.parse(await page.inputValue("#save-text"));
+for (const mon of Object.values(weak.pokemon)) mon.currentHp = 1;
+const respawn = weak.regions.kanto.respawn;
+note("セーブに入っている 復活地点", `${respawn.map} ${respawn.x},${respawn.y}`);
+expect("復活地点は ポケモンセンター", respawn.map, "kanto-viridian-pokecenter");
+await page.fill("#save-text", JSON.stringify(weak));
+await page.click("#save-import");
+await page.waitForTimeout(900);
+
+await page.click('#modes button[data-m="field"]');
+await page.waitForSelector("#field-canvas");
+await page.waitForTimeout(300);
+// 1番道路の草むらへ戻り、負けるまで戦う
+await goToMap("kanto-route-1", 4, 3);
+let lost = false;
+for (let i = 0; i < 30 && !lost; i += 1) {
+  await key(i % 2 === 0 ? "ArrowLeft" : "ArrowRight", 1, 190);
+  if (await page.isVisible("#battle")) {
+    await fight();
+    await page.waitForTimeout(800);
+    await drain();
+    lost = (await spot()).map === respawn.map;
+  }
+}
+expect("全滅したら 復活地点に 戻る", lost ? "戻った" : "負けなかった", "戻った");
+if (lost) {
+  const at2 = await spot();
+  expect("戻った ざひょう", `${at2.x},${at2.y}`, `${respawn.x},${respawn.y}`);
+  expect(
+    "ポケモンは 全回復している",
+    (await page.textContent("#field-party")).trim(),
+    (v) => /(\d+)\/\1$/.test(v),
+  );
+}
+await shot("15-blackout");
 
 console.log(`\nスクリーンショット: ${SHOTS}`);
 console.log(errors.length === 0 ? "JS エラーなし" : `JS エラー ${errors.length} 件:\n${errors.join("\n")}`);

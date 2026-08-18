@@ -1,0 +1,27 @@
+# トキワシティの民家。回復道具の使い方を教えてくれる。
+id: kanto-viridian-house
+name: みんか
+region: kanto
+bgm: pallet-town
+
+legend:
+. normal
+W !normal
+B !normal
+T !normal
+D normal
+
+grid:
+WWWWWWW
+WBB...W
+W.....W
+W..T..W
+W.....W
+W.....W
+WWWDWWW
+
+warps:
+3,6 step kanto-viridian-city 4,11 down
+
+objects:
+viridian-house-man 4,3 npc:man:static kanto.viridian.house-man
