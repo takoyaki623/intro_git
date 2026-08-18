@@ -169,12 +169,17 @@ describe("warp", () => {
     if (out.outcome.kind !== "warp") throw new Error("warp のはず");
     expect(out.outcome.warp.to.map).toBe(TOWN);
 
-    // 町側からドアを調べると家に戻る
+    // 町側からドアを踏むと家に戻る。
+    // **ドアは「調べる」ではなく「踏む」**（v0.8 で直した）――
+    // ドアのマスは歩けるので、調べる前に上に乗ってしまい、家に入れなかった
     const town = mapById(TOWN);
-    const back = interact(town, world, { map: TOWN, x: 3, y: 5, facing: "up" });
-    expect(back?.kind).toBe("warp");
-    if (back?.kind !== "warp") throw new Error("warp のはず");
-    expect(back.warp.to.map).toBe(HOUSE);
+    const back = stepPlayer(
+      town, world, { map: TOWN, x: 3, y: 5, facing: "up" },
+      emptyEncounterState(), "up", rng(), allEncounterTables,
+    );
+    expect(back.outcome.kind).toBe("warp");
+    if (back.outcome.kind !== "warp") throw new Error("warp のはず");
+    expect(back.outcome.warp.to.map).toBe(HOUSE);
   });
 });
 
@@ -506,15 +511,10 @@ describe("v0.7 の完了条件をひと続きで通す", () => {
     expect(isWalkable(mapById(TOWN), world, 5, 1)).toBe(false);
     expect(objectAt(mapById(TOWN), world, 5, 1)?.id).toBe("pallet-oak-blocker");
 
-    // 3. 研究所のドアを調べて入る
-    goTo({ x: 4, y: 10 });
-    face("up");
-    const door = interact(mapById(TOWN), world, position);
-    expect(door?.kind).toBe("warp");
-    if (door?.kind !== "warp") throw new Error("ドアのはず");
-    position = { ...door.warp.to };
-    visited.add(position.map);
+    // 3. 研究所のドアを踏んで入る
+    goTo({ x: 4, y: 9 });
     expect(position.map).toBe(LAB);
+    visited.add(position.map);
 
     // 4. 最初の1匹を受け取る
     runEvent(world, "kanto.pallet.oak-lab", () => 1);

@@ -811,6 +811,15 @@ function checkWorld(): void {
       if (dest.collision[at(dest, warp.to.x, warp.to.y)] === true) {
         fail("warp", `${where}: 接続先 ${warp.to.map} (${warp.to.x},${warp.to.y}) が通行不可`);
       }
+      // 「調べる」warp が歩けるマスにあると、**調べる前に踏んで通り過ぎる。**
+      // 実際に v0.8 でドアがこれになっていて、家に入れなかった
+      if (warp.trigger === "interact" && map.collision[at(map, warp.at.x, warp.at.y)] !== true) {
+        fail(
+          "warp",
+          `${where}: 調べる warp が歩けるマスにある（調べる前に上に乗ってしまう）`,
+        );
+      }
+
       // 出た先に「その場で踏む warp」があると、無限に往復して操作不能になる
       const trap = dest.warps.find(
         (w) => w.trigger === "step" && w.at.x === warp.to.x && w.at.y === warp.to.y,

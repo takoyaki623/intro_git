@@ -872,7 +872,7 @@
           "x": 3,
           "y": 4
         },
-        "trigger": "interact",
+        "trigger": "step",
         "to": {
           "map": "kanto-players-house-1f",
           "x": 3,
@@ -885,7 +885,7 @@
           "x": 4,
           "y": 9
         },
-        "trigger": "interact",
+        "trigger": "step",
         "to": {
           "map": "kanto-oak-lab",
           "x": 4,

@@ -1,5 +1,5 @@
 /**
- * v0.7 の入口。
+ * v0.8 の入口。
  *
  * 遊び方を切り替えるだけの薄い層。
  *   ぼうけん     … v0.7。マップを歩く。原作の遊び方の入口
@@ -31,7 +31,7 @@ let save: SaveData = emptySave();
 
 $("#app").innerHTML = `
   <header>
-    <h1>ポケモン風RPG <span class="ver">v0.7</span></h1>
+    <h1>ポケモン風RPG <span class="ver">v0.8</span></h1>
     <div class="tools">
       <div class="speed" id="speed">
         <button data-s="normal" class="on">つうじょう</button>

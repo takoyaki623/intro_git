@@ -86,20 +86,21 @@ await page.waitForTimeout(400);
 expect("家を出た", await at(), (v) => v.startsWith("kanto-pallet-town"));
 await shot("2-town");
 
-// ── 2. 研究所へ。(3,5) → (9,5) → (9,10) → (4,10) でドアを調べる ──
+// ── 2. 研究所へ。ドアは踏んで入る（v0.8 で interact から step に直した）──
 await page.click('#speed button[data-s="logOnly"]');
 await key("ArrowRight", 7);
 await key("ArrowDown", 6);
 await key("ArrowLeft", 6);
-await key("ArrowUp", 1);
-await key("z", 1, 400);
+await key("ArrowUp", 2, 400);
 expect("研究所に入った", await at(), (v) => v.startsWith("kanto-oak-lab"));
 
 // ── 3. オーキドに話しかけて最初の1匹をもらう ──
+// (4,6) → (4,5) → (1,5) → (1,3) → (3,3) で右を向いてオーキドに話しかける
 await key("ArrowUp", 1);
-await key("ArrowLeft", 4);
-await key("ArrowUp", 3);
-await key("ArrowRight", 3);
+await key("ArrowLeft", 3);
+await key("ArrowUp", 2);
+await key("ArrowRight", 2);
+note("オーキドの前", await at());
 await key("z", 1, 400);
 await clear();
 const options = await page.$$eval("#field-text .choices button", (b) => b.map((x) => x.textContent));
@@ -112,10 +113,12 @@ expect("てもち", (await page.textContent("#field-party")).trim(), (v) => v.st
 await shot("4-starter");
 
 // ── 4. ライバル戦（battle コマンドの境界）──
-await key("ArrowLeft", 3);
-await key("ArrowDown", 4);
-await key("ArrowRight", 7);
-await key("ArrowUp", 3);
+// (3,3) → (1,3) → (1,6) → (7,6) → (7,4) で上を向いてライバルに話しかける
+await key("ArrowLeft", 2);
+await key("ArrowDown", 3);
+await key("ArrowRight", 6);
+await key("ArrowUp", 2);
+note("ライバルの前", await at());
 await key("z", 1, 400);
 await clear();
 await page.waitForSelector("#battle:not(.hidden)", { timeout: 5000 });
@@ -153,9 +156,9 @@ note("戦闘後のてもち", (await page.textContent("#field-party")).trim());
 // 負けると家に戻されるので、今どこに居るかを見てから町へ出る
 const where = (await at()) ?? "";
 if (where.startsWith("kanto-oak-lab")) {
-  await key("ArrowDown", 3);
-  await key("ArrowLeft", 4);
   await key("ArrowDown", 2);
+  await key("ArrowLeft", 3);
+  await key("ArrowDown", 2, 400);
 } else if (where.startsWith("kanto-players-house-1f")) {
   note("ライバル戦の結果", "負けて家に戻された（再挑戦できる）");
   await key("ArrowDown", 2, 250);
@@ -166,18 +169,20 @@ expect("町に出た", await at(), (v) => v.startsWith("kanto-pallet-town"));
 // 途中に看板とNPCが立っているので、素朴に右→上では引っかかる
 await key("ArrowRight", 10, 200);
 await key("ArrowUp", 12, 200);
-await key("ArrowLeft", 6, 200);
-await key("ArrowUp", 2, 200);
+await key("ArrowLeft", 5, 200);
+await key("ArrowUp", 2, 250);
 expect("1番道路へ", await at(), (v) => v.startsWith("kanto-route-1"));
 await shot("6-route");
 
-await key("ArrowRight", 3, 200);
-await key("ArrowUp", 5, 200);
-await key("ArrowLeft", 3, 200);
+// 段差を避けて東側から北上し、草むら (3〜5, 12〜13) に入る
+await key("ArrowRight", 2, 200);
+await key("ArrowUp", 3, 200);
+await key("ArrowLeft", 2, 200);
+note("草むら", await at());
 
 let met = null;
 for (let i = 0; i < 30 && met === null; i += 1) {
-  await key(i % 2 === 0 ? "ArrowLeft" : "ArrowRight", 3, 200);
+  await key(i % 2 === 0 ? "ArrowLeft" : "ArrowRight", 2, 200);
   if (await page.isVisible("#battle")) met = (await page.textContent("#log")).trim().split("\n")[0];
 }
 const hpBefore = (await page.textContent("#field-party")).trim();
@@ -200,7 +205,7 @@ note("遭遇前のてもち", hpBefore);
 let battles = 0;
 let hpAfter = hpBefore;
 for (let i = 0; i < 40 && hpAfter === hpBefore; i += 1) {
-  await key(i % 2 === 0 ? "ArrowLeft" : "ArrowRight", 3, 200);
+  await key(i % 2 === 0 ? "ArrowLeft" : "ArrowRight", 2, 200);
   if (await page.isVisible("#battle")) {
     battles += 1;
     await fight();

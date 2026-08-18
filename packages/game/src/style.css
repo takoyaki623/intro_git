@@ -333,24 +333,51 @@ footer { margin-top: 16px; font-size: 11px; color: var(--muted); text-align: cen
   cursor: pointer;
 }
 
+/* 十字と「けってい」を分ける。
+   十字の真ん中に決定を置くと、歩いているつもりで話しかけてしまう */
 .field-pad {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  gap: 18px;
+  /* 押しっぱなしで歩くので、指のドラッグでページが動かないようにする */
+  touch-action: none;
 }
 
-.field-pad .pad-row { display: flex; gap: 6px; align-items: center; }
+.pad-cross {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 6px;
+  justify-items: center;
+}
+.pad-cross button:nth-child(1) { grid-column: 2; grid-row: 1; }
+.pad-cross button:nth-child(2) { grid-column: 1; grid-row: 2; }
+.pad-cross button:nth-child(3) { grid-column: 3; grid-row: 2; }
+.pad-cross button:nth-child(4) { grid-column: 2; grid-row: 3; }
+
+.pad-ok { min-height: 72px !important; }
 
 .field-pad button {
   /* 指で押せる大きさ。スマホが主な遊び場になる */
-  min-width: 64px;
-  min-height: 44px;
+  min-width: 72px;
+  min-height: 56px;
   padding: 8px 14px;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 18px;
+  font-weight: 600;
+  touch-action: none;
 }
+
+/* 押している間ずっと分かるようにする（1回ごとの点滅では読み取れない） */
+.field-pad button:active {
+  transform: none;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.field-pad .pad-ok { font-size: 15px; }
 
 .field-help { font-size: 12px; }
 

@@ -126,6 +126,8 @@ export function playField(): FieldHandle {
   let busy = false;
   /** 歩行アニメの進み具合（0→1）。描画にしか使わない。 */
   let walk: { from: PlayerPosition; to: PlayerPosition; start: number } | null = null;
+  /** 今どちらを押しているか。離すまで歩き続ける（v0.8）。 */
+  let heldDirection: Direction | null = null;
 
   const rng: Rng = createRng({ s: (Date.now() & 0x7fffffff) || 1, calls: 0 });
 
@@ -141,13 +143,13 @@ export function playField(): FieldHandle {
       <canvas id="field-canvas"></canvas>
       <div id="field-text" class="hidden"></div>
       <div class="field-pad">
-        <button data-d="up">↑</button>
-        <div class="pad-row">
+        <div class="pad-cross">
+          <button data-d="up">↑</button>
           <button data-d="left">←</button>
-          <button data-d="ok">けってい</button>
           <button data-d="right">→</button>
+          <button data-d="down">↓</button>
         </div>
-        <button data-d="down">↓</button>
+        <button data-d="ok" class="pad-ok">けってい</button>
       </div>
       <p class="dim field-help">
         ボタンで いどう、「けってい」で しらべる<br />
@@ -422,6 +424,8 @@ export function playField(): FieldHandle {
   const alive = () => party.filter((p) => p.currentHp > 0);
 
   function enterBattle(): void {
+    // 押しっぱなしのままバトルに入ると、戻ってきた瞬間に歩き出してしまう
+    heldDirection = null;
     $("#run").classList.add("hidden");
     hideText();
   }
@@ -603,7 +607,21 @@ export function playField(): FieldHandle {
 
   // ── 入力 ──
 
-  async function tryStep(direction: Direction): Promise<void> {
+  /** 向き直り・壁にぶつかったときの間。**0 にすると押しっぱなしが暴走する。** */
+  const BUMP_MS = 110;
+  const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+  /**
+   * 1入力ぶんの移動。
+   *
+   * `core` は原作どおり「違う方向を向いた最初の入力は向き直りだけ」を返す。
+   * **ボタンを1回叩く操作では、これが「反応しなかった」に見える。**
+   * そこで UI 側で、向き直ったあとに同じ方向へもう一度試す。
+   *   - 進める先なら → 向き直り + 1歩（1タップで動く）
+   *   - 壁や看板なら → 向き直りだけ（調べられる。原作の意図はこちら）
+   * 向き直りの意味は「壁際で向きを変えられる」ことなので、これで損なわれない。
+   */
+  async function tryStep(direction: Direction, turned = false): Promise<void> {
     const map = currentMap();
     const before = position;
     const result = stepPlayer(map, world, position, encounter, direction, rng, allEncounterTables);
@@ -628,7 +646,16 @@ export function playField(): FieldHandle {
         await animateWalk(before, position);
         await runEvent(result.outcome.event);
         return;
+      case "turned":
+        // 向き直った直後に1回だけ続ける（無限に再帰しないよう turned で止める）
+        if (!turned) await tryStep(direction, true);
+        else await sleep(BUMP_MS);
+        return;
       default:
+        // 壁。**歩いていないので待ち時間が無い。**
+        // ここで待たないと、押しっぱなしの繰り返しが await を挟まず回り続け、
+        // 画面が固まって指を離すことすらできなくなる
+        await sleep(BUMP_MS);
         return;
     }
   }
@@ -653,12 +680,50 @@ export function playField(): FieldHandle {
     W: "up", S: "down", A: "left", D: "right",
   };
 
-  async function handle(action: Direction | "ok"): Promise<void> {
-    if (busy || stopped) return;
+  /**
+   * 押しっぱなしで歩き続ける。
+   *
+   * 1歩ごとに入力を要求すると、**スマホでは指を何度も叩くことになる。**
+   * しかも歩行アニメ中の入力を捨てていたので、連打しても進まなかった。
+   * 「今どちらを押しているか」を状態として持ち、離すまで歩き続ける形にする。
+   */
+  function press(action: Direction | "ok"): void {
+    if (stopped) return;
+    // 会話中は十字キーを効かせない（メッセージ側が入力を取っている）
+    if (!textBox.classList.contains("hidden")) return;
+    if (action === "ok") {
+      void once(tryInteract);
+      return;
+    }
+    heldDirection = action;
+    void walkWhileHeld();
+  }
+
+  function release(action: Direction | "ok"): void {
+    if (action !== "ok" && heldDirection === action) heldDirection = null;
+  }
+
+  /** 押している間だけ歩く。二重に走らないよう busy で入口を1つに絞る。 */
+  async function walkWhileHeld(): Promise<void> {
+    if (busy) return;
     busy = true;
     try {
-      if (action === "ok") await tryInteract();
-      else await tryStep(action);
+      // 1回は必ず歩く（軽いタップでも反応する）
+      do {
+        const direction = heldDirection;
+        if (direction === null) break;
+        await tryStep(direction);
+      } while (heldDirection !== null && !stopped);
+    } finally {
+      busy = false;
+    }
+  }
+
+  async function once(action: () => Promise<void>): Promise<void> {
+    if (busy) return;
+    busy = true;
+    try {
+      await action();
     } finally {
       busy = false;
     }
@@ -670,21 +735,45 @@ export function playField(): FieldHandle {
     const direction = KEYS[e.key];
     if (direction !== undefined) {
       e.preventDefault();
-      void handle(direction);
+      if (!e.repeat) press(direction);
       return;
     }
     if (["z", "Z", "Enter", " "].includes(e.key)) {
       e.preventDefault();
-      void handle("ok");
+      press("ok");
     }
   };
+  const onKeyUp = (e: KeyboardEvent) => {
+    const direction = KEYS[e.key];
+    if (direction !== undefined) release(direction);
+  };
   window.addEventListener("keydown", onKeyDown);
+  window.addEventListener("keyup", onKeyUp);
 
-  $("#run").querySelector(".field-pad")!.addEventListener("click", (e) => {
-    const value = (e.target as HTMLElement).dataset["d"];
-    if (value === undefined) return;
-    void handle(value as Direction | "ok");
+  // ── 十字キー ──
+  // click ではなく pointer で取る。押した瞬間に歩き出し、離すまで続ける
+  const pad = $("#run").querySelector<HTMLElement>(".field-pad")!;
+  const actionOf = (target: EventTarget | null): Direction | "ok" | null => {
+    const value = (target as HTMLElement | null)?.dataset?.["d"];
+    return value === undefined ? null : (value as Direction | "ok");
+  };
+
+  pad.addEventListener("pointerdown", (e) => {
+    const action = actionOf(e.target);
+    if (action === null) return;
+    e.preventDefault();
+    // 指が動いてもボタンから外れないように捕まえておく
+    (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+    press(action);
   });
+  for (const type of ["pointerup", "pointercancel", "pointerleave"] as const) {
+    pad.addEventListener(type, (e) => {
+      const action = actionOf(e.target);
+      if (action !== null) release(action);
+    });
+  }
+  // 押しっぱなしで文脈メニューが出るのを止める
+  pad.addEventListener("contextmenu", (e) => e.preventDefault());
 
   draw();
   void (async () => {
@@ -696,7 +785,9 @@ export function playField(): FieldHandle {
   return {
     stop: () => {
       stopped = true;
+      heldDirection = null;
       window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("keyup", onKeyUp);
     },
   };
 }

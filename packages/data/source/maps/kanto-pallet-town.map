@@ -30,8 +30,8 @@ TTTTTTTTTTTT
 
 warps:
 5,0 step kanto-route-1 5,16 up
-3,4 interact kanto-players-house-1f 3,6 up
-4,9 interact kanto-oak-lab 4,6 up
+3,4 step kanto-players-house-1f 3,6 up
+4,9 step kanto-oak-lab 4,6 up
 
 objects:
 pallet-sign-town 8,7 sign kanto.pallet.sign-town
