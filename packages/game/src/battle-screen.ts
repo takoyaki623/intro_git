@@ -61,6 +61,13 @@ export type BattleOptions = {
   headline: string | readonly string[];
   /** 野生戦。逃げるが選べるようになる（v0.7）。 */
   isWild?: boolean;
+  /**
+   * 投げられるボール（v0.8）。`core` はバッグの在庫を知らないので、
+   * 何を何個持っているかは呼び出し側が渡す。
+   */
+  balls?: { id: string; count: number }[];
+  /** ボールを1つ消費した。バッグを減らすのは呼び出し側。 */
+  onBallUsed?: (item: string) => void;
 };
 
 /**
@@ -185,6 +192,26 @@ export async function runBattle(options: BattleOptions): Promise<BattleOutcome> 
       box.appendChild(moveWrap);
     }
 
+    // ── ボール（v0.8）──
+    // 「投げる」も1ターンを使う。削るか捕るかがここで選択になる
+    const balls = (options.balls ?? []).filter((b) => b.count > 0);
+    if (!forced && (options.isWild ?? false) && balls.length > 0) {
+      const wrap = document.createElement("div");
+      wrap.className = "balls";
+      for (const ball of balls) {
+        const btn = document.createElement("button");
+        btn.className = "ball";
+        btn.innerHTML = `<span class="mname">${gameData.item(ball.id).name}</span>
+          <span class="meta">のこり ${ball.count}こ</span>`;
+        btn.onclick = () => {
+          options.onBallUsed?.(ball.id);
+          submit({ kind: "item", item: ball.id });
+        };
+        wrap.appendChild(btn);
+      }
+      box.appendChild(wrap);
+    }
+
     if (actions.some((a) => a.kind === "run")) {
       const btn = document.createElement("button");
       btn.className = "run";
@@ -223,6 +250,20 @@ export async function runBattle(options: BattleOptions): Promise<BattleOutcome> 
       const message = messageOf(event, view);
       if (message !== null) log(message);
       for (const extra of extraMessagesOf(event)) log(extra);
+
+      // 揺れはイベント1つの中の演出。core が返した回数をそのまま出す
+      if (event.kind === "ballThrown") {
+        for (let i = 0; i < event.shakes; i += 1) {
+          await sleep(420 * SPEED_FACTOR[speed]);
+          log("…");
+        }
+        await sleep(300 * SPEED_FACTOR[speed]);
+        log(
+          event.caught
+            ? `やった! ${view[1].name} を つかまえた!`
+            : `ああっ! ポケモンが とびだしてきた!`,
+        );
+      }
 
       await sleep(baseDelayOf(event) * SPEED_FACTOR[speed]);
     }

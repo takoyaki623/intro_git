@@ -6,6 +6,7 @@
  * 設計: docs/design/battle-system.md §1〜§9
  */
 
+import { attemptCapture, isBall, type CaptureContext } from "./capture.js";
 import { calcDamage, rollAccuracy } from "./damage.js";
 import { applyEffect, resolveHitCount, type EffectContext, type HpMutator } from "./effects.js";
 import type { GameData } from "./gamedata.js";
@@ -124,6 +125,7 @@ export function legalActions(data: GameData, state: BattleState, side: SideIndex
   const switches = trapsFoe(data, foe, active) ? [] : switchable();
   // 逃走は野生戦のみ。トレーナー戦では選択肢に出さない（battle-system.md §2）
   const escape: Action[] = state.isWild && side === 0 ? [{ kind: "run" }] : [];
+  // ボールは呼び出し側がバッグを見て足す。core は持ち物の在庫を知らない
 
   // 使える技が1つも無くてもわるあがきがあるため、技の選択肢は必ず1つ残す
   return [
@@ -545,6 +547,9 @@ function endOfTurn(
  *
  * 素早さが上回っていれば必ず成功する。試すほど成功しやすくなる。
  */
+/** ボールの条件付き補正が読む「今の状況」。地形と図鑑は呼び出し側が足す。 */
+const captureContext = (state: BattleState): CaptureContext => ({ turn: state.turn });
+
 function rollEscape(
   data: GameData,
   state: BattleState,
@@ -628,6 +633,34 @@ export function step(
   }
   events.push({ kind: "turnStart", turn: draft.turn });
 
+  // ── 0. ボール（技より先。捕まえたらその場でバトルが終わる）──
+  //
+  // 失敗しても**そのターンは何もできない**（原作どおり。相手は動く）。
+  // 「投げる」と「戦う」が同じ1ターンを取り合うから、削るか捕るかの選択になる。
+  for (const side of [0, 1] as const) {
+    const action = actions[side];
+    if (action?.kind !== "item") continue;
+    if (!draft.isWild) throw new Error("ボールは野生戦でしか投げられない");
+    if (side !== 0) throw new Error("ボールを投げるのはプレイヤー側だけ");
+    if (!isBall(data, action.item)) throw new Error("道具の使用は v0.9 で実装する");
+
+    const target = activeOf(draft, other(side));
+    const result = attemptCapture(data, target, data.ball(action.item), captureContext(draft), rng);
+    events.push({
+      kind: "ballThrown",
+      item: action.item,
+      shakes: result.shakes,
+      caught: result.caught,
+    });
+    if (result.caught) {
+      draft.result = { winner: side, reason: "caught" };
+      draft.caughtWith = action.item;
+      events.push({ kind: "battleEnd", winner: side });
+      draft.rng = rng.state();
+      return { state: draft, events };
+    }
+  }
+
   // ── 0. 逃走（技より先。成功すればその場でバトルが終わる）──
   for (const side of [0, 1] as const) {
     if (actions[side]?.kind !== "run") continue;
@@ -646,11 +679,10 @@ export function step(
   const resolved = ([0, 1] as const).map((side) => {
     const action = actions[side];
     if (action === null) throw new Error(`side ${side} must act`);
-    if (action.kind === "item") {
-      throw new Error("道具の使用は v0.8 で実装する");
+    // ボールを投げた／逃走に失敗した側は、そのターン何もできない
+    if (action.kind === "item" || action.kind === "run") {
+      return { kind: "switch", partyIndex: -1 } as const;
     }
-    // 逃走に失敗した側はそのターン何もできない
-    if (action.kind === "run") return { kind: "switch", partyIndex: -1 } as const;
     return action;
   }) as [Exclude<Action, { kind: "item" } | { kind: "run" }>, ...Exclude<Action, { kind: "item" } | { kind: "run" }>[]];
 

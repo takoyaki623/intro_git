@@ -330,5 +330,67 @@
       "moveType": "fairy",
       "ratio": 1.2
     }
+  },
+  {
+    "id": "poke-ball",
+    "name": "モンスターボール",
+    "category": "ball",
+    "price": 200,
+    "consumable": true
+  },
+  {
+    "id": "great-ball",
+    "name": "スーパーボール",
+    "category": "ball",
+    "price": 600,
+    "consumable": true
+  },
+  {
+    "id": "ultra-ball",
+    "name": "ハイパーボール",
+    "category": "ball",
+    "price": 800,
+    "consumable": true
+  },
+  {
+    "id": "master-ball",
+    "name": "マスターボール",
+    "category": "ball",
+    "consumable": true
+  },
+  {
+    "id": "net-ball",
+    "name": "ネットボール",
+    "category": "ball",
+    "price": 1000,
+    "consumable": true
+  },
+  {
+    "id": "quick-ball",
+    "name": "クイックボール",
+    "category": "ball",
+    "price": 1000,
+    "consumable": true
+  },
+  {
+    "id": "timer-ball",
+    "name": "タイマーボール",
+    "category": "ball",
+    "price": 1000,
+    "consumable": true
+  },
+  {
+    "id": "dusk-ball",
+    "name": "ダークボール",
+    "category": "ball",
+    "price": 1000,
+    "consumable": true
+  },
+  {
+    "id": "repeat-ball",
+    "name": "リピートボール",
+    "category": "ball",
+    "price": 1000,
+    "consumable": true
   }
 ]

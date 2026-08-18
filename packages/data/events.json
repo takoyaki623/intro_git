@@ -218,6 +218,16 @@
           },
           {
             "kind": "message",
+            "speaker": "オーキド",
+            "text": "そうそう。これも もっていきなさい。"
+          },
+          {
+            "kind": "giveItem",
+            "item": "poke-ball",
+            "count": 10
+          },
+          {
+            "kind": "message",
             "text": "よい えらびかたじゃ。\nいってらっしゃい!",
             "speaker": "オーキド"
           }

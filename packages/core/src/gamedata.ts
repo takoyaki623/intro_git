@@ -12,6 +12,7 @@
 import type {
   Ability,
   AbilityId,
+  Ball,
   Item,
   ItemId,
   ExpType,
@@ -31,6 +32,8 @@ export interface GameData {
   /** v0.5 で追加。特性・持ち物も他のマスタデータと同じく注入で受け取る。 */
   ability(id: AbilityId): Ability;
   item(id: ItemId): Item;
+  /** ボールの捕獲補正（v0.8）。ボールでない道具を渡すと投げる。 */
+  ball(id: ItemId): Ball;
   /** 成長曲線。添字がレベル（1〜100）で、値は到達に必要な累計経験値（v0.8）。 */
   expTable(type: ExpType): readonly number[];
   readonly typeChart: TypeChart;

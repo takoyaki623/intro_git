@@ -111,18 +111,21 @@ describe("バトルの基本", () => {
     ).toThrow(/already over/);
   });
 
-  it("未実装の行動は明示的に投げる", () => {
-    const state = createBattle(gameData, [[pika], [bulba]], 1);
+  it("ボール以外の道具はまだ使えない（v0.9）", () => {
+    const state = createBattle(gameData, [[pika], [bulba]], 1, { isWild: true });
     expect(() =>
-      step(gameData, state, [{ kind: "item", item: "potion" }, { kind: "move", moveIndex: 0 }]),
-    ).toThrow(/v0.8/);
+      step(gameData, state, [{ kind: "item", item: "leftovers" }, { kind: "move", moveIndex: 0 }]),
+    ).toThrow(/v0.9/);
   });
 
-  it("トレーナー戦では逃げられない（v0.7）", () => {
+  it("トレーナー戦では逃げられず、ボールも投げられない（v0.7 / v0.8）", () => {
     const state = createBattle(gameData, [[pika], [bulba]], 1);
     expect(state.isWild).toBe(false);
     expect(() =>
       step(gameData, state, [{ kind: "run" }, { kind: "move", moveIndex: 0 }]),
+    ).toThrow(/野生戦/);
+    expect(() =>
+      step(gameData, state, [{ kind: "item", item: "poke-ball" }, { kind: "move", moveIndex: 0 }]),
     ).toThrow(/野生戦/);
   });
 });

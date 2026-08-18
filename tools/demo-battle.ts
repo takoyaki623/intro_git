@@ -122,6 +122,8 @@ function render(event: BattleEvent): string | null {
       return `  ${nameOf(event.side)} は 逃げられなかった`;
     case "escaped":
       return `  ${nameOf(event.side)} は 逃げ出した`;
+    case "ballThrown":
+      return `  ${event.item} を投げた（${event.shakes}回ゆれた・${event.caught ? "捕獲" : "失敗"}）`;
   }
 }
 

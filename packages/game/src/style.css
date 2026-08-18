@@ -388,3 +388,84 @@ footer { margin-top: 16px; font-size: 11px; color: var(--muted); text-align: cen
   border-radius: 6px;
   cursor: pointer;
 }
+
+/* ─────────────────────────────────────────────
+   v0.8 手持ち・ボックス・図鑑
+   ───────────────────────────────────────────── */
+
+.pad-side { display: flex; flex-direction: column; gap: 6px; }
+.pad-menu {
+  min-height: 34px;
+  font-size: 13px;
+  padding: 4px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#field-panel {
+  width: min(100%, 460px);
+  max-height: 46vh;
+  overflow-y: auto;
+  border: 2px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+  padding: 10px 12px;
+}
+#field-panel.hidden { display: none; }
+
+.panel-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 4px 0 8px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 8px;
+}
+.panel-head .ghost { margin-left: auto; }
+
+.mon-list, .dex-list { list-style: none; margin: 0; padding: 0; }
+.mon-list li, .dex-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 7px 2px;
+  border-bottom: 1px solid var(--line);
+}
+.mon-list li:last-child, .dex-list li:last-child { border-bottom: 0; }
+.mon-list .meta, .dex-list .meta { font-size: 12px; color: var(--muted); }
+.mon-list .st { color: var(--warn); }
+.row-actions { margin-left: auto; display: flex; gap: 6px; }
+.row-actions button { font-size: 12px; padding: 5px 10px; min-height: 32px; }
+.row-actions .danger { color: #b5432f; }
+
+.dex-list .no {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  color: var(--muted);
+  min-width: 30px;
+}
+/* まだ捕まえていない種は、姿だけ分かる程度に落とす（capture.md §6） */
+.dex-list li.seen strong { opacity: .55; }
+.dex-list li.seen .type { opacity: .4; }
+
+#controls .balls { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+#controls .ball {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.note-box {
+  border-left: 3px solid var(--accent);
+  background: var(--panel);
+  padding: 10px 14px;
+  border-radius: 0 8px 8px 0;
+  margin: 14px 0;
+}
+.note-box p { margin: 4px 0; }
+.rentals .st { color: var(--warn); }

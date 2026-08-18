@@ -12,10 +12,14 @@
  */
 
 import {
+  addCaught,
   applyBattleResult,
   chooseOption,
   createInstance,
+  deposit,
   emptyEncounterState,
+  PARTY_SIZE,
+  reorder,
   emptyWorldState,
   evolutionFor,
   evolve,
@@ -24,6 +28,9 @@ import {
   interact,
   levelOf,
   maxHpOf,
+  withdraw,
+  release,
+  replaceInstance,
   replaceMove,
   startEvent,
   stepEvent,
@@ -35,9 +42,9 @@ import {
   type EncounterState,
   type EventEffect,
   type EventId,
-  type DexState,
   type MapData,
   type MapObject,
+  type BattlePokemon,
   type PokemonInstance,
   type PostBattleEvent,
   type PlayerPosition,
@@ -46,8 +53,10 @@ import {
   type WorldState,
 } from "@pkmn/core";
 import {
+  allBalls,
   allEncounterTables,
   allNatures,
+  allSpecies,
   eventById,
   gameData,
   mapById,
@@ -55,6 +64,8 @@ import {
 } from "@pkmn/data";
 import { $, runBattle, type BattleOutcome } from "./battle-screen.js";
 import { escape } from "./team-select.js";
+import { player } from "./player.js";
+import { STATUS_LABEL, TYPE_COLOR, TYPE_LABEL } from "./view.js";
 
 const TILE = 28;
 /** 表示するマス数。マップが小さいときは切り詰める。 */
@@ -115,13 +126,13 @@ export function playField(): FieldHandle {
   const world: WorldState = emptyWorldState();
   let position: PlayerPosition = { ...START };
   let encounter: EncounterState = emptyEncounterState();
-  /**
-   * 手持ち。**v0.8 から実個体**になり、HP・PP・状態異常が歩いても残る。
-   * これが入るまで、野生戦には消耗が無かった。
-   */
-  let party: PokemonInstance[] = [];
-  /** 図鑑。v0.9 でセーブに繋ぐ。 */
-  let dex: Record<string, DexState> = {};
+  // 手持ち・ボックス・図鑑・バッグは `player` に置く。
+  // マップ画面の中に閉じ込めると、施設に持ち込めなくなるため（player.ts）
+  const bag = player.bag;
+  const party = () => player.storage.party;
+  const setParty = (next: PokemonInstance[]) => {
+    player.storage = { ...player.storage, party: next };
+  };
   let stopped = false;
   let busy = false;
   /** 歩行アニメの進み具合（0→1）。描画にしか使わない。 */
@@ -142,6 +153,7 @@ export function playField(): FieldHandle {
       </div>
       <canvas id="field-canvas"></canvas>
       <div id="field-text" class="hidden"></div>
+      <div id="field-panel" class="hidden"></div>
       <div class="field-pad">
         <div class="pad-cross">
           <button data-d="up">↑</button>
@@ -149,7 +161,11 @@ export function playField(): FieldHandle {
           <button data-d="right">→</button>
           <button data-d="down">↓</button>
         </div>
-        <button data-d="ok" class="pad-ok">けってい</button>
+        <div class="pad-side">
+          <button data-d="ok" class="pad-ok">けってい</button>
+          <button id="open-box" class="pad-menu">てもち</button>
+          <button id="open-dex" class="pad-menu">ずかん</button>
+        </div>
       </div>
       <p class="dim field-help">
         ボタンで いどう、「けってい」で しらべる<br />
@@ -249,9 +265,9 @@ export function playField(): FieldHandle {
     canvas.dataset["at"] = `${position.map} ${position.x},${position.y} ${position.facing}`;
     $("#field-place").textContent = map.name;
     $("#field-party").textContent =
-      party.length === 0
+      party().length === 0
         ? "てもち なし"
-        : "てもち: " + party
+        : "てもち: " + party()
             .map((p) => {
               const name = p.nickname ?? gameData.species(p.species).name;
               return `${name} Lv${levelOf(gameData, p)} ${p.currentHp}/${maxHpOf(gameData, p)}`;
@@ -339,14 +355,16 @@ export function playField(): FieldHandle {
         draw();
         return;
       case "gotItem": {
+        // `core` の WorldState 側にも入っているが、
+        // 実際に使うのはこちらのバッグ。v0.9 でどちらか一方に寄せる
         const item = gameData.item(effect.item);
+        bag[effect.item] = (bag[effect.item] ?? 0) + effect.count;
         await say(`${item.name} を ${effect.count}こ てにいれた!`);
         return;
       }
       case "gotPokemon": {
         const species = gameData.species(effect.species);
-        party.push(
-          createInstance(
+        const got = createInstance(
             gameData,
             {
               species: effect.species,
@@ -356,15 +374,15 @@ export function playField(): FieldHandle {
             },
             rng,
             allNatures.map((n) => n.id),
-          ),
-        );
-        dex[effect.species] = "caught";
+          );
+        player.storage = addCaught(player.storage, got).storage;
+        player.dex[effect.species] = "caught";
         draw();
         await say(`${species.name} を てもちに くわえた!`);
         return;
       }
       case "healed":
-        party = healParty(gameData, party);
+        setParty(healParty(gameData, party()));
         draw();
         await say("ポケモンたちは げんきに なった!");
         return;
@@ -417,11 +435,11 @@ export function playField(): FieldHandle {
 
   /** 戦える個体だけを、倒れていない順に並べて出す。 */
   const playable = () =>
-    [...party]
+    [...party()]
       .sort((a, b) => Number(a.currentHp <= 0) - Number(b.currentHp <= 0))
       .map((p) => instanceToSpec(gameData, p));
 
-  const alive = () => party.filter((p) => p.currentHp > 0);
+  const alive = () => party().filter((p) => p.currentHp > 0);
 
   function enterBattle(): void {
     // 押しっぱなしのままバトルに入ると、戻ってきた瞬間に歩き出してしまう
@@ -449,23 +467,25 @@ export function playField(): FieldHandle {
     // ── 1. HP・PP・状態異常を書き戻す ──
     // 並べ替えて出しているので、uid で突き合わせる（位置は当てにならない）
     const brought = playable();
-    party = party.map((p) => {
-      const index = brought.findIndex((b) => b.uid === p.uid);
-      const after = index < 0 ? undefined : mine[index];
-      return after === undefined ? p : writeBack(gameData, p, after);
-    });
+    setParty(
+      party().map((p) => {
+        const index = brought.findIndex((b) => b.uid === p.uid);
+        const after = index < 0 ? undefined : mine[index];
+        return after === undefined ? p : writeBack(gameData, p, after);
+      }),
+    );
 
     // ── 2. 戦闘後シーケンス ──
     const result = applyBattleResult(gameData, {
-      party,
-      participants: party.filter((p) => p.currentHp > 0).map((p) => p.uid),
+      party: party(),
+      participants: party().filter((p) => p.currentHp > 0).map((p) => p.uid),
       defeated: outcome.winner === 0 ? foes.filter((f) => f.currentHp <= 0) : [],
       encountered: foes.map((f) => f.species),
       isWild,
-      dex,
+      dex: player.dex,
     });
-    party = result.party;
-    dex = result.dex;
+    setParty(result.party);
+    player.dex = result.dex;
     draw();
 
     await showPostBattle(result.events);
@@ -474,7 +494,7 @@ export function playField(): FieldHandle {
   /** 戦闘後の出来事を1つずつ見せる。技の入れ替えと進化はここで選ばせる。 */
   async function showPostBattle(events: readonly PostBattleEvent[]): Promise<void> {
     const nameOf = (uid: string) => {
-      const p = party.find((x) => x.uid === uid);
+      const p = party().find((x) => x.uid === uid);
       return p === undefined ? "" : (p.nickname ?? gameData.species(p.species).name);
     };
 
@@ -505,7 +525,7 @@ export function playField(): FieldHandle {
 
   /** 技が4つ埋まっているときの入れ替え。**選ぶのはプレイヤー。** */
   async function offerMove(uid: string, move: string): Promise<void> {
-    const target = party.find((p) => p.uid === uid);
+    const target = party().find((p) => p.uid === uid);
     if (target === undefined) return;
     const name = target.nickname ?? gameData.species(target.species).name;
     const learn = gameData.move(move).name;
@@ -518,13 +538,13 @@ export function playField(): FieldHandle {
       return;
     }
     const forgotten = gameData.move(target.moves[choice]!.id).name;
-    party = party.map((p) => (p.uid === uid ? replaceMove(gameData, p, choice, move) : p));
+    player.storage = replaceInstance(player.storage, replaceMove(gameData, target, choice, move));
     await say(`${name} は ${forgotten} を わすれて\n${learn} を おぼえた!`);
   }
 
   /** 進化。**中断できる**（原作どおり）。 */
   async function offerEvolution(uid: string, to: string): Promise<void> {
-    const target = party.find((p) => p.uid === uid);
+    const target = party().find((p) => p.uid === uid);
     if (target === undefined) return;
     const before = target.nickname ?? gameData.species(target.species).name;
     const after = gameData.species(to).name;
@@ -534,15 +554,15 @@ export function playField(): FieldHandle {
       await say(`${before} の しんかが とまった!`);
       return;
     }
-    party = party.map((p) => (p.uid === uid ? evolve(gameData, p, to) : p));
-    dex[to] = "caught";
+    player.storage = replaceInstance(player.storage, evolve(gameData, target, to));
+    player.dex[to] = "caught";
     draw();
     await say(`おめでとう! ${before} は\n${after} に しんかした!`);
   }
 
   /** 全滅。手持ちを回復して家に戻す（本編の敗北処理は v0.9）。 */
   async function blackOut(): Promise<void> {
-    party = healParty(gameData, party);
+    setParty(healParty(gameData, party()));
     position = { ...START };
     encounter = emptyEncounterState();
     draw();
@@ -560,18 +580,60 @@ export function playField(): FieldHandle {
       hideText();
       return;
     }
+    // 捕まえたときに手持ちへ入るのは**この個体そのもの**。
+    // 見た目だけ同じ別個体を作ると、削ったHPも個体値も引き継がれない
+    const target = wildInstance(species, level);
+
     enterBattle();
     const outcome = await runBattle({
-      parties: [playable(), [instanceToSpec(gameData, wildInstance(species, level))]],
+      parties: [playable(), [instanceToSpec(gameData, target)]],
       seed: rng.int(1_000_000),
       ai: { policy: "basic", mistakeRate: 0.35, knowledge: "fair" },
       headline: `あっ! やせいの ${name} が とびだしてきた!`,
       isWild: true,
+      balls: allBalls
+        .map((b) => ({ id: b.id, count: bag[b.id] ?? 0 }))
+        .filter((b) => b.count > 0),
+      onBallUsed: (item) => {
+        bag[item] = Math.max(0, (bag[item] ?? 0) - 1);
+      },
     });
     leaveBattle();
 
+    if (outcome.reason === "caught") {
+      await onCaught(target, outcome.state.sides[1].party[0]!, species);
+      return;
+    }
+
     await afterBattle(outcome, true);
     if (outcome.winner === 1) await blackOut();
+  }
+
+  /** 捕まえた1体を器へ入れ、図鑑を埋める。 */
+  async function onCaught(
+    target: PokemonInstance,
+    after: BattlePokemon,
+    species: string,
+  ): Promise<void> {
+    const name = gameData.species(species).name;
+    // 弱らせた状態のまま手持ちに入る（満タンで入ると、削った意味が消える）
+    const caught = writeBack(gameData, target, after);
+
+    const first = (player.dex[species] ?? "unknown") !== "caught";
+    player.dex[species] = "caught";
+
+    const result = addCaught(player.storage, caught);
+    player.storage = result.storage;
+    draw();
+
+    await say(
+      result.to === "party"
+        ? `${name} を てもちに くわえた!`
+        : `${name} は ボックスに おくられた。`,
+    );
+    if (first) await say(`${name} の データが ずかんに とうろくされた!`);
+    hideText();
+    draw();
   }
 
   /** 野生の1体。個体値も性格も個体ごとに決まる（捕まえられるのは v0.8 の後半）。 */
@@ -699,7 +761,8 @@ export function playField(): FieldHandle {
     void walkWhileHeld();
   }
 
-  function release(action: Direction | "ok"): void {
+  /** 十字キーを離した。core の `release`（ポケモンを逃がす）とは別物。 */
+  function releaseInput(action: Direction | "ok"): void {
     if (action !== "ok" && heldDirection === action) heldDirection = null;
   }
 
@@ -745,7 +808,7 @@ export function playField(): FieldHandle {
   };
   const onKeyUp = (e: KeyboardEvent) => {
     const direction = KEYS[e.key];
-    if (direction !== undefined) release(direction);
+    if (direction !== undefined) releaseInput(direction);
   };
   window.addEventListener("keydown", onKeyDown);
   window.addEventListener("keyup", onKeyUp);
@@ -769,11 +832,163 @@ export function playField(): FieldHandle {
   for (const type of ["pointerup", "pointercancel", "pointerleave"] as const) {
     pad.addEventListener(type, (e) => {
       const action = actionOf(e.target);
-      if (action !== null) release(action);
+      if (action !== null) releaseInput(action);
     });
   }
   // 押しっぱなしで文脈メニューが出るのを止める
   pad.addEventListener("contextmenu", (e) => e.preventDefault());
+
+  // ── 手持ち・ボックス・図鑑 ──
+  const panel = $("#field-panel");
+  const closePanel = () => {
+    panel.classList.add("hidden");
+    panel.innerHTML = "";
+  };
+
+  const lineOf = (p: PokemonInstance) => {
+    const species = gameData.species(p.species);
+    const hp = `${p.currentHp}/${maxHpOf(gameData, p)}`;
+    const status = p.status === null ? "" : ` <span class="st">${STATUS_LABEL[p.status]}</span>`;
+    return `<strong>${escape(p.nickname ?? species.name)}</strong>
+      <span class="meta">Lv${levelOf(gameData, p)} ・ ${hp}${status}</span>`;
+  };
+
+  /**
+   * 手持ちとボックス。
+   * 設計（capture.md §5）は検索・ソート・チーム保存まで求めているが、
+   * **数千個体になるまで要らない。** v0.9（セーブ完成）で足す。
+   */
+  function showStorage(): void {
+    const full = player.storage.party.length >= PARTY_SIZE;
+    panel.classList.remove("hidden");
+    panel.innerHTML = `
+      <div class="panel-head">
+        <strong>てもち（${player.storage.party.length}/${PARTY_SIZE}）</strong>
+        <button class="ghost" id="panel-close">とじる</button>
+      </div>
+      <ul class="mon-list">
+        ${player.storage.party
+          .map(
+            (p, i) => `<li>
+              ${lineOf(p)}
+              <span class="row-actions">
+                ${i > 0 ? `<button data-up="${p.uid}">▲</button>` : ""}
+                ${player.storage.party.length > 1 ? `<button data-deposit="${p.uid}">あずける</button>` : ""}
+              </span>
+            </li>`,
+          )
+          .join("")}
+      </ul>
+      <div class="panel-head"><strong>ボックス（${player.storage.box.length}）</strong></div>
+      ${
+        player.storage.box.length === 0
+          ? `<p class="dim">まだ だれも いません。</p>`
+          : `<ul class="mon-list">${player.storage.box
+              .map(
+                (p) => `<li>
+                  ${lineOf(p)}
+                  <span class="row-actions">
+                    <button data-withdraw="${p.uid}">${full ? "いれかえ" : "つれていく"}</button>
+                    <button data-release="${p.uid}" class="danger">にがす</button>
+                  </span>
+                </li>`,
+              )
+              .join("")}</ul>`
+      }`;
+
+    $("#panel-close").onclick = closePanel;
+    bind("data-up", (uid) => {
+      const i = player.storage.party.findIndex((p) => p.uid === uid);
+      player.storage = reorder(player.storage, i, i - 1);
+    });
+    bind("data-deposit", (uid) => {
+      player.storage = deposit(player.storage, uid);
+    });
+    bind("data-withdraw", async (uid) => {
+      if (player.storage.party.length < PARTY_SIZE) {
+        player.storage = withdraw(player.storage, uid);
+        return;
+      }
+      const choice = await ask(
+        "だれと いれかえる?",
+        [...player.storage.party.map((p) => p.nickname ?? gameData.species(p.species).name), "やめる"],
+      );
+      hideText();
+      if (choice >= player.storage.party.length) return;
+      player.storage = withdraw(player.storage, uid, player.storage.party[choice]!.uid);
+    });
+    bind("data-release", async (uid) => {
+      const target = findInPanel(uid);
+      if (target === null) return;
+      const name = target.nickname ?? gameData.species(target.species).name;
+      const choice = await ask(`${name} を にがしますか?`, ["やめる", "にがす"]);
+      hideText();
+      if (choice !== 1) return;
+      player.storage = release(player.storage, uid);
+    });
+  }
+
+  const findInPanel = (uid: string): PokemonInstance | null =>
+    [...player.storage.party, ...player.storage.box].find((p) => p.uid === uid) ?? null;
+
+  /** ボタンに操作を結び、終わったら画面を作り直す。 */
+  function bind(attr: string, run: (uid: string) => void | Promise<void>): void {
+    for (const el of panel.querySelectorAll<HTMLElement>(`[${attr}]`)) {
+      el.onclick = () => {
+        void (async () => {
+          try {
+            await run(el.getAttribute(attr)!);
+          } catch (error) {
+            await say(error instanceof Error ? error.message : String(error));
+            hideText();
+          }
+          draw();
+          showStorage();
+        })();
+      };
+    }
+  }
+
+  /** 図鑑。見つけた種は姿と名前、捕まえた種は数値まで（capture.md §6）。 */
+  function showDex(): void {
+    const seen = allSpecies.filter((s) => (player.dex[s.id] ?? "unknown") !== "unknown");
+    const caught = allSpecies.filter((s) => player.dex[s.id] === "caught");
+    panel.classList.remove("hidden");
+    panel.innerHTML = `
+      <div class="panel-head">
+        <strong>ずかん</strong>
+        <span class="dim">みつけた ${seen.length} ・ つかまえた ${caught.length} / ${allSpecies.length}</span>
+        <button class="ghost" id="panel-close">とじる</button>
+      </div>
+      ${
+        seen.length === 0
+          ? `<p class="dim">まだ 1ぴきも みつけていません。</p>`
+          : `<ul class="dex-list">${seen
+              .map((s) => {
+                const got = player.dex[s.id] === "caught";
+                const types = s.types
+                  .map((t) => `<span class="type" style="background:${TYPE_COLOR[t]}">${TYPE_LABEL[t]}</span>`)
+                  .join("");
+                return `<li class="${got ? "caught" : "seen"}">
+                  <span class="no">${String(s.dexNo).padStart(3, "0")}</span>
+                  <strong>${escape(s.name)}</strong>
+                  ${types}
+                  <span class="meta">${got ? `HP${s.baseStats.hp} こう${s.baseStats.atk} すば${s.baseStats.spe}` : "みつけた"}</span>
+                </li>`;
+              })
+              .join("")}</ul>`
+      }`;
+    $("#panel-close").onclick = closePanel;
+  }
+
+  $("#open-box").onclick = () => {
+    if (panel.classList.contains("hidden")) showStorage();
+    else closePanel();
+  };
+  $("#open-dex").onclick = () => {
+    if (panel.classList.contains("hidden")) showDex();
+    else closePanel();
+  };
 
   draw();
   void (async () => {

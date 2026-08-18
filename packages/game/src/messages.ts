@@ -105,6 +105,7 @@ export function messageOf(event: BattleEvent, view: BattleView): string | null {
       if (event.winner === null) return `ひきわけ!`;
       return event.winner === 0 ? `しょうぶに かった!` : `めのまえが まっくらに なった...`;
 
+
     // ── 特性・持ち物（v0.5）──
     case "ability":
       return `${label(event.side)} の ${gameData.ability(event.ability).name}!`;
@@ -126,6 +127,11 @@ export function messageOf(event: BattleEvent, view: BattleView): string | null {
       return `にげられない!`;
     case "escaped":
       return `うまく にげきれた!`;
+
+    // ── 捕獲（v0.8）──
+    // 揺れる演出そのものは battle-screen が出す。ここは投げた瞬間の一行だけ
+    case "ballThrown":
+      return `${gameData.item(event.item).name} を なげた!`;
   }
 }
 

@@ -10,6 +10,7 @@ import {
   MissingDataError,
   TYPES,
   type Ability,
+  type Ball,
   type BattleSet,
   type EncounterTable,
   type ExpType,
@@ -30,6 +31,7 @@ import {
 } from "@pkmn/core";
 
 import abilitiesJson from "../abilities.json" with { type: "json" };
+import ballsJson from "../balls.json" with { type: "json" };
 import battleSetsJson from "../battle-sets.json" with { type: "json" };
 import expTablesJson from "../exp-tables.json" with { type: "json" };
 import encountersJson from "../encounters.json" with { type: "json" };
@@ -83,6 +85,7 @@ const typeChart = expandTypeChart(
   typeChartJson as unknown as Record<string, Record<string, number>>,
 );
 
+const ballsById = indexById(ballsJson as unknown as Ball[]);
 const expTables = expTablesJson as unknown as Record<string, readonly number[]>;
 
 /** 成長曲線。テーブルなので参照するだけ（progression.md §7）。 */
@@ -121,6 +124,11 @@ export const gameData: GameData = {
     const i = itemsById.get(id);
     if (i === undefined) throw new MissingDataError("item", id);
     return i;
+  },
+  ball: (id) => {
+    const b = ballsById.get(id);
+    if (b === undefined) throw new MissingDataError("ball", id);
+    return b;
   },
   expTable,
   typeChart,
@@ -171,6 +179,11 @@ export function createGameData(options: {
       if (i === undefined) throw new MissingDataError("item", id);
       return i;
     },
+    ball: (id) => {
+      const b = ballsById.get(id);
+      if (b === undefined) throw new MissingDataError("ball", id);
+      return b;
+    },
     expTable,
     typeChart: tc,
   };
@@ -178,6 +191,7 @@ export function createGameData(options: {
 
 export const allSpecies = speciesJson as unknown as readonly Species[];
 export const allNatures = naturesJson as unknown as readonly NatureModifier[];
+export const allBalls = ballsJson as unknown as readonly Ball[];
 export const allMoves = movesJson as unknown as readonly Move[];
 export const allAbilities = abilitiesJson as unknown as readonly Ability[];
 export const allItems = itemsJson as unknown as readonly Item[];

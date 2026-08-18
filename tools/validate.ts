@@ -470,11 +470,10 @@ function checkEndgame(): void {
     if (rules.winCondition.kind !== "faint") {
       fail("unimplemented-mechanic", `${where}: 採点による決着が未実装`);
     }
-    if (rules.teamSource !== "rental") {
-      fail(
-        "unimplemented-mechanic",
-        `${where}: v0.5 では手持ちの個体が存在しないため rental 以外は成立しない（v0.8）`,
-      );
+    // v0.8 で実個体が入ったので "own" が成立するようになった。
+    // "hallOfFame"（殿堂入りの記録から相手を作る）は v1.0
+    if (rules.teamSource === "hallOfFame") {
+      fail("unimplemented-mechanic", `${where}: 殿堂入りの記録からの編成は未実装（v1.0）`);
     }
 
     // レンタルは相手より強い grade でないと連勝が伸びない（0.5^n が効くため）
@@ -663,11 +662,8 @@ function checkTournaments(): void {
     if (rules.moveSelection !== "player") {
       fail("unimplemented-mechanic", `${where}: パレス式の行動代行が未実装`);
     }
-    if (rules.teamSource !== "rental") {
-      fail(
-        "unimplemented-mechanic",
-        `${where}: v0.6 では手持ちの個体が存在しないため rental 以外は成立しない（v0.8）`,
-      );
+    if (rules.teamSource === "hallOfFame") {
+      fail("unimplemented-mechanic", `${where}: 殿堂入りの記録からの編成は未実装（v1.0）`);
     }
     if (cup.rounds < 1) fail("cup-rounds", `${where}: rounds が ${cup.rounds}`);
 

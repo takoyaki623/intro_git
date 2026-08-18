@@ -1,0 +1,12 @@
+# ボールの捕獲補正。原作のボールを全種入れても実装は増えない形にする（capture.md §3）。
+# bonus は「条件を満たせば value、外れれば fallback」。条件が空なら常に value。
+id	bonus	value	fallback	arg
+poke-ball	flat	1		
+great-ball	flat	1.5		
+ultra-ball	flat	2		
+master-ball	guaranteed			
+net-ball	type	3.5	1	bug,water
+quick-ball	turnAtMost	5	1	1
+timer-ball	turnAtLeast	4	1	10
+dusk-ball	terrain	3	1	cave
+repeat-ball	alreadyCaught	3.5	1	

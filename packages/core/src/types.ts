@@ -296,6 +296,32 @@ export type Item = {
   consumable?: boolean;
 };
 
+/**
+ * ボールの捕獲補正（v0.8）。
+ *
+ * **条件付きの補正を `if` の羅列にしない。** 技効果・持ち物効果と同じデータ駆動で、
+ * ボールを1種足すのは JSON を1行足すこと（capture.md §3）。
+ */
+export type Ball = {
+  id: ItemId;
+  bonus: BallBonus;
+};
+
+export type BallBonus =
+  /** 常に一定の倍率。モンスターボール・スーパーボール・ハイパーボール。 */
+  | { kind: "flat"; value: number }
+  /** 必ず捕まる。マスターボール。 */
+  | { kind: "guaranteed" }
+  /** 相手のタイプが一致すれば。ネットボール。 */
+  | { kind: "type"; types: Type[]; value: number; fallback: number }
+  /** 早い / 長引いたターンで。クイック・タイマーボール。 */
+  | { kind: "turnAtMost"; turns: number; value: number; fallback: number }
+  | { kind: "turnAtLeast"; turns: number; value: number; fallback: number }
+  /** 場所で。ダークボール（洞窟）。 */
+  | { kind: "terrain"; terrain: string; value: number; fallback: number }
+  /** 図鑑で捕獲済みなら。リピートボール。 */
+  | { kind: "alreadyCaught"; value: number; fallback: number };
+
 export type NatureModifier = {
   id: NatureId;
   name: string;
@@ -375,7 +401,9 @@ export type BattleState = {
   isWild: boolean;
   /** 逃走を試みた回数。試すほど成功しやすくなる（原作準拠）。 */
   runAttempts: number;
-  result: { winner: SideIndex | null; reason: "faint" | "escaped" } | null;
+  result: { winner: SideIndex | null; reason: "faint" | "escaped" | "caught" } | null;
+  /** 野生戦で使ったボール（v0.8）。捕獲後の処理で誰が捕まえたかを見る。 */
+  caughtWith?: ItemId;
   /**
    * ひんしにより交代を要求されている側。
    * 空でない間、次の step はその側の switch 行動のみを処理し、ターンを進めない。
@@ -436,6 +464,8 @@ export type BattleEvent =
   /** 特性が発動した。UI は「〇〇の 〈特性名〉!」と出す。 */
   | { kind: "ability"; side: SideIndex; ability: AbilityId }
   | { kind: "item"; side: SideIndex; item: ItemId }
+  /** ボールを投げた（v0.8）。`shakes` がそのまま演出の回数になる。 */
+  | { kind: "ballThrown"; item: ItemId; shakes: number; caught: boolean }
   | { kind: "itemConsumed"; side: SideIndex; item: ItemId }
   | { kind: "itemDamage"; side: SideIndex; item: ItemId; amount: number; remainingHp: number }
   /** きあいのタスキ・がんじょうで持ちこたえた。 */

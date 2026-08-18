@@ -34,3 +34,12 @@ dragon-fang	りゅうのキバ	held	1000	typeBoost:dragon:1.2	0
 black-glasses	くろいメガネ	held	1000	typeBoost:dark:1.2	0
 metal-coat	メタルコート	held	1000	typeBoost:steel:1.2	0
 fairy-feather	ようせいのハネ	held	1000	typeBoost:fairy:1.2	0
+poke-ball	モンスターボール	ball	200		1
+great-ball	スーパーボール	ball	600		1
+ultra-ball	ハイパーボール	ball	800		1
+master-ball	マスターボール	ball			1
+net-ball	ネットボール	ball	1000		1
+quick-ball	クイックボール	ball	1000		1
+timer-ball	タイマーボール	ball	1000		1
+dusk-ball	ダークボール	ball	1000		1
+repeat-ball	リピートボール	ball	1000		1

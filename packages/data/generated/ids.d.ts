@@ -3,7 +3,7 @@
  *   再生成: npm run gen:ids
  *
  * 種族 151 / 技 247 / 性格 25 /
- * 特性 48 / 道具 32 /
+ * 特性 48 / 道具 41 /
  * BattleSet 64 / 施設 2 /
  * ネームド 13 / カップ 3 /
  * マップ 4 / イベント 15 / トレーナー 3 /
@@ -498,20 +498,27 @@ export type GeneratedItemId =
   | "choice-scarf"
   | "choice-specs"
   | "dragon-fang"
+  | "dusk-ball"
   | "expert-belt"
   | "fairy-feather"
   | "flame-orb"
   | "focus-sash"
+  | "great-ball"
   | "hard-stone"
   | "leftovers"
   | "life-orb"
   | "lum-berry"
   | "magnet"
+  | "master-ball"
   | "metal-coat"
   | "miracle-seed"
   | "mystic-water"
+  | "net-ball"
   | "never-melt-ice"
   | "poison-barb"
+  | "poke-ball"
+  | "quick-ball"
+  | "repeat-ball"
   | "rocky-helmet"
   | "scope-lens"
   | "sharp-beak"
@@ -520,8 +527,10 @@ export type GeneratedItemId =
   | "sitrus-berry"
   | "soft-sand"
   | "spell-tag"
+  | "timer-ball"
   | "toxic-orb"
-  | "twisted-spoon";
+  | "twisted-spoon"
+  | "ultra-ball";
 
 export type GeneratedBattleSetId =
   | "g1-arbok"

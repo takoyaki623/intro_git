@@ -61,11 +61,11 @@
   {
     "id": "battle-tower-super",
     "name": "バトルタワー・スーパー",
-    "description": "同じルールで相手だけが強い。ルールセットを1つ流用しているだけで、コードは1行も増えていない。",
+    "description": "じぶんで つかまえた ポケモンで 挑む。相手も強い。ルールセットの差し替えだけで、コードは1行も増えていない。",
     "ruleset": {
       "teamSize": 3,
       "battleSize": 3,
-      "teamSource": "rental",
+      "teamSource": "own",
       "levelMode": {
         "kind": "sync",
         "level": 50

@@ -236,6 +236,41 @@ function importItems(): ItemOut[] {
   });
 }
 
+/**
+ * ボールの捕獲補正。
+ * `bonus` の種類だけがコードで、ボールそのものは行を足すだけで増える。
+ */
+type BallOut = { id: string; bonus: Record<string, unknown> };
+
+function importBalls(): BallOut[] {
+  return readTsv("balls.tsv").map((r) => {
+    const where = `balls.tsv/${r["id"]}`;
+    const kind = r["bonus"]!;
+    const value = Number(r["value"]);
+    const fallback = Number(r["fallback"]);
+    const arg = r["arg"] ?? "";
+
+    switch (kind) {
+      case "flat":
+        return { id: r["id"]!, bonus: { kind, value } };
+      case "guaranteed":
+        return { id: r["id"]!, bonus: { kind } };
+      case "type":
+        return { id: r["id"]!, bonus: { kind, types: arg.split(",").filter(Boolean), value, fallback } };
+      case "turnAtMost":
+      case "turnAtLeast":
+        return { id: r["id"]!, bonus: { kind, turns: Number(arg), value, fallback } };
+      case "terrain":
+        return { id: r["id"]!, bonus: { kind, terrain: arg, value, fallback } };
+      case "alreadyCaught":
+        return { id: r["id"]!, bonus: { kind, value, fallback } };
+      default:
+        err(where, `未知のボール補正 "${kind}"`);
+        return { id: r["id"]!, bonus: { kind: "flat", value: 1 } };
+    }
+  });
+}
+
 // ─────────────────────────────────────────────
 // 種族
 // ─────────────────────────────────────────────
@@ -633,6 +668,7 @@ function main(): void {
   const species = importSpecies(moves);
   const abilities = importAbilities();
   const items = importItems();
+  const balls = importBalls();
   const battleSets = importBattleSets();
   const named = importNamed();
 
@@ -649,6 +685,7 @@ function main(): void {
   write("species.json", species);
   write("abilities.json", abilities);
   write("items.json", items);
+  write("balls.json", balls);
   write("battle-sets.json", battleSets);
   write("named.json", named);
 
@@ -676,7 +713,7 @@ function main(): void {
   );
   console.log(`  進化 ${evoCount} 件（うち今の機構で起きるもの ${evoNow} 件）`);
   console.log(`  与える経験値は全件が暫定（種族値合計からの推定）`);
-  console.log(`  持ち物 ${items.length} / BattleSet ${battleSets.length}`);
+  console.log(`  持ち物 ${items.length}（うちボール ${balls.length}）/ BattleSet ${battleSets.length}`);
   const parties = named.reduce((n, c) => n + Object.keys(c.tiers).length, 0);
   console.log(`  ネームド ${named.length} 人 / パーティ ${parties} 件`);
 }

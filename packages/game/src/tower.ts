@@ -15,6 +15,7 @@ import {
   createRngState,
   nextOpponent,
   playerParty,
+  syncedLevel,
   recordRun,
   startRun,
   type AiConfig,
@@ -26,7 +27,8 @@ import {
 } from "@pkmn/core";
 import { allBattleSets, gameData } from "@pkmn/data";
 import { $, runBattle, waitForButton } from "./battle-screen.js";
-import { chooseRentalTeam, escape, setScreen } from "./team-select.js";
+import { chooseOwnTeam, chooseRentalTeam, escape, setScreen } from "./team-select.js";
+import { player } from "./player.js";
 
 /** レンタルの候補数。多すぎると選ぶのが作業になる。 */
 const RENTAL_CHOICES = 6;
@@ -48,6 +50,22 @@ type Context = {
  * 連勝の確率が 0.5^n に落ちて施設として成立しない（endgame.md §11.5）。
  */
 function chooseTeam(facility: Facility, seed: number): Promise<PartySpec[] | null> {
+  // 施設が「自分の手持ちで挑む」ものなら、候補の出どころが変わるだけ。
+  // 選ぶ画面も編成の検証も同じものを使う（v0.8）
+  if (facility.ruleset.teamSource === "own") {
+    const candidates = [...player.storage.party, ...player.storage.box];
+    if (candidates.length < facility.ruleset.teamSize) {
+      return notEnough(facility, candidates.length);
+    }
+    return chooseOwnTeam({
+      title: facility.name,
+      lead: facility.description,
+      candidates,
+      ruleset: facility.ruleset,
+      syncedLevel: facility.ruleset.levelMode.kind === "sync" ? syncedLevel(facility.ruleset, 50) : null,
+    });
+  }
+
   const rng = createRng(createRngState(seed));
   const offer = buildOpponentParty(allBattleSets, facility.rentalGrade, RENTAL_CHOICES, rng);
   return chooseRentalTeam({
@@ -56,6 +74,22 @@ function chooseTeam(facility: Facility, seed: number): Promise<PartySpec[] | nul
     offer,
     ruleset: facility.ruleset,
     note: `レンタルは あいてより つよい しあがり（grade ${facility.rentalGrade}）です`,
+  });
+}
+
+/** 手持ちが足りないことを、黙って戻らずに伝える。 */
+function notEnough(facility: Facility, have: number): Promise<null> {
+  return new Promise((resolve) => {
+    setScreen(`
+      <h2>${escape(facility.name)}</h2>
+      <p class="lead">${escape(facility.description)}</p>
+      <div class="note-box">
+        <p>ここは <strong>じぶんで つかまえた ポケモン</strong> で ちょうせん する しせつです。</p>
+        <p>${facility.ruleset.teamSize}体 ひつようですが、いま ${have}体 しか いません。</p>
+        <p class="dim">「ぼうけん」で つかまえてから もういちど きてください。</p>
+      </div>
+      <div class="menu-actions"><button id="back" class="ghost">もどる</button></div>`);
+    $("#back").onclick = () => resolve(null);
   });
 }
 
