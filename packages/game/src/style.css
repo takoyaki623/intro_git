@@ -450,14 +450,58 @@ footer { margin-top: 16px; font-size: 11px; color: var(--muted); text-align: cen
 .dex-list li.seen strong { opacity: .55; }
 .dex-list li.seen .type { opacity: .4; }
 
-#controls .balls { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
-#controls .ball {
+#controls .balls, #controls .items { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+#controls .ball, #controls .item {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding: 8px 14px;
   border-radius: 8px;
   cursor: pointer;
+}
+/* どうぐは「投げる」ではなく「自分に使う」ので、ボールと色を分ける */
+#controls .item { border-color: var(--accent); }
+
+/* セーブ画面のバックアップ欄。**指で選んでコピーできる大きさが要る** */
+#save-text {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 12px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--ink);
+  resize: vertical;
+}
+select {
+  font: inherit;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--ink);
+  min-height: 36px;
+}
+/* BP が足りない交換品。押せないことを色と枠の両方で示す */
+.facility[disabled] { opacity: .45; cursor: default; }
+/* セーブ画面の表。**スマホでは th を上に積む**（横並びだと値が潰れる） */
+.record { width: 100%; border-collapse: collapse; margin: 6px 0 14px; font-size: 13px; }
+.record th, .record td {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+.record th { width: 38%; color: var(--muted); font-weight: 600; }
+.record hr { border: 0; border-top: 1px solid var(--line); margin: 6px 0; }
+.save-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+#menu .danger { color: #b5432f; }
+
+@media (max-width: 520px) {
+  .record th, .record td { display: block; width: auto; }
+  .record th { border-bottom: 0; padding-bottom: 0; }
 }
 
 .note-box {

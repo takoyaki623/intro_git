@@ -15,7 +15,7 @@
 import { exportSave, importSave, summarize, type SlotInfo } from "@pkmn/core";
 import { $ } from "./battle-screen.js";
 import { setSpeed, type Speed } from "./battle-screen.js";
-import { escape } from "./team-select.js";
+import { escape, setScreen } from "./team-select.js";
 import {
   autosave,
   loadPlayer,
@@ -31,13 +31,13 @@ import { saveAvailable } from "./save.js";
 const when = (at: number): string => new Date(at).toLocaleString("ja-JP");
 
 export function settingsScreen(): void {
-  $("#menu").classList.add("hidden");
-  $("#battle").classList.add("hidden");
-  const root = $("#run");
-  root.classList.remove("hidden");
+  // 施設・トーナメントと同じ `#menu` に描く。
+  // `#run` は連戦の進行表示（flex の1行）で、**文書を入れる場所ではない** ――
+  // 一度そこへ描いて、見出しが段落の横に並ぶ画面になった
+  $("#run").classList.add("hidden");
 
   function render(slots: readonly SlotInfo[], available: boolean, note = ""): void {
-    root.innerHTML = `
+    setScreen(`
       <h2>セーブと せってい</h2>
       <p class="lead">${
         available
@@ -71,7 +71,7 @@ export function settingsScreen(): void {
             <option value="none">おかねを うしなわない</option>
             <option value="classic">げんさくどおり おかねを はらう</option>
           </select>
-          <br /><span class="dim">「げんさくどおり」は v0.9 の しはらい しょりが 入ってから きき ます。</span>
+          <br /><span class="dim">「げんさくどおり」に すると、まけたとき もちきんの はんぶんを うしないます。</span>
         </td></tr>
       </table>
 
@@ -81,11 +81,11 @@ export function settingsScreen(): void {
         （ファイルの ほぞんは、まいこみで みているときに つかえない ことが あります）
       </p>
       <textarea id="save-text" rows="6" spellcheck="false"></textarea>
-      <p>
+      <p class="save-actions">
         <button id="save-export">かきだす</button>
         <button id="save-import">よみこむ</button>
         <button id="save-reset" class="danger">さいしょから</button>
-      </p>`;
+      </p>`);
 
     $<HTMLSelectElement>("#set-speed").value = save.settings.battleSpeed;
     $<HTMLSelectElement>("#set-loss").value = save.settings.lossPenalty;
