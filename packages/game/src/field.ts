@@ -64,15 +64,13 @@ import {
 } from "@pkmn/data";
 import { $, runBattle, type BattleOutcome } from "./battle-screen.js";
 import { escape } from "./team-select.js";
-import { player } from "./player.js";
+import { autosave, player } from "./player.js";
 import { STATUS_LABEL, TYPE_COLOR, TYPE_LABEL } from "./view.js";
 
 const TILE = 28;
 /** 表示するマス数。マップが小さいときは切り詰める。 */
 const VIEW = { w: 15, h: 11 };
 const WALK_MS = 130;
-
-const START = { map: "kanto-players-house-1f", x: 3, y: 5, facing: "down" as Direction };
 
 // ─────────────────────────────────────────────
 // 見た目（アセット無しのフォールバック）
@@ -123,12 +121,30 @@ const OBJECT_COLOR: Record<string, string> = {
 export type FieldHandle = { stop: () => void };
 
 export function playField(): FieldHandle {
+  /**
+   * `core` に渡す世界の状態。
+   *
+   * v0.8 まではここが独立した入れ物で、バッグだけ `player` 側と二重に持っていた。
+   * v0.9 で **`player` を唯一の持ち主にした** ―― フラグ・バッグは同じオブジェクトを
+   * 指すので、`core` が書き換えればそのまま保存される。数値（お金・バッジ）は
+   * 参照を共有できないので、イベントの前後で写す。
+   */
   const world: WorldState = emptyWorldState();
-  let position: PlayerPosition = { ...START };
+  const syncWorld = () => {
+    world.flags = player.flags;
+    world.bag = player.bag;
+    world.badges = player.badges;
+    world.money = player.money;
+    world.partySpecies = party().map((p) => p.species);
+  };
+  const syncPlayer = () => {
+    player.badges = world.badges;
+    player.money = world.money;
+  };
+
   let encounter: EncounterState = emptyEncounterState();
-  // 手持ち・ボックス・図鑑・バッグは `player` に置く。
-  // マップ画面の中に閉じ込めると、施設に持ち込めなくなるため（player.ts）
-  const bag = player.bag;
+  // 手持ち・ボックス・図鑑・バッグ・現在地は `player` に置く。
+  // マップ画面の中に閉じ込めると、施設に持ち込めず、セーブにも載らない（player.ts）
   const party = () => player.storage.party;
   const setParty = (next: PokemonInstance[]) => {
     player.storage = { ...player.storage, party: next };
@@ -141,6 +157,10 @@ export function playField(): FieldHandle {
   let heldDirection: Direction | null = null;
 
   const rng: Rng = createRng({ s: (Date.now() & 0x7fffffff) || 1, calls: 0 });
+
+  // `world` を `player` に繋ぐ。これを忘れると、
+  // **セーブから読んだフラグが効かず、開いたはずの道がまた閉じる**
+  syncWorld();
 
   $("#menu").classList.add("hidden");
   $("#battle").classList.add("hidden");
@@ -176,10 +196,11 @@ export function playField(): FieldHandle {
   const canvas = $<HTMLCanvasElement>("#field-canvas");
   const ctx = canvas.getContext("2d")!;
 
-  const currentMap = (): MapData => mapById(position.map);
+  const currentMap = (): MapData => mapById(player.position.map);
 
   // ── 描画 ──
   function draw(): void {
+    syncWorld();
     const map = currentMap();
     const cols = Math.min(VIEW.w, map.size.width);
     const rows = Math.min(VIEW.h, map.size.height);
@@ -188,8 +209,8 @@ export function playField(): FieldHandle {
 
     // 追従カメラ。マップの端では止める
     const clamp = (v: number, max: number) => Math.max(0, Math.min(v, max));
-    const camX = clamp(position.x - (cols >> 1), map.size.width - cols);
-    const camY = clamp(position.y - (rows >> 1), map.size.height - rows);
+    const camX = clamp(player.position.x - (cols >> 1), map.size.width - cols);
+    const camY = clamp(player.position.y - (rows >> 1), map.size.height - rows);
 
     ctx.fillStyle = "#111";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -246,8 +267,8 @@ export function playField(): FieldHandle {
     }
 
     // ── プレイヤー ──
-    let px = position.x;
-    let py = position.y;
+    let px = player.position.x;
+    let py = player.position.y;
     if (walk !== null) {
       const t = Math.min(1, (performance.now() - walk.start) / WALK_MS);
       px = walk.from.x + (walk.to.x - walk.from.x) * t;
@@ -258,11 +279,11 @@ export function playField(): FieldHandle {
     ctx.fillStyle = "#f2f2f2";
     ctx.fillRect(sx + 6, sy + 4, TILE - 12, TILE - 8);
     ctx.fillStyle = "#222";
-    const eye = { up: [0, -1], down: [0, 4], left: [-4, 1], right: [4, 1] }[position.facing]!;
+    const eye = { up: [0, -1], down: [0, 4], left: [-4, 1], right: [4, 1] }[player.position.facing]!;
     ctx.fillRect(sx + TILE / 2 - 3 + eye[0]!, sy + TILE / 2 - 2 + eye[1]!, 6, 3);
 
     // 自動テストから現在地を読むための印（画面には出ない）
-    canvas.dataset["at"] = `${position.map} ${position.x},${position.y} ${position.facing}`;
+    canvas.dataset["at"] = `${player.position.map} ${player.position.x},${player.position.y} ${player.position.facing}`;
     $("#field-place").textContent = map.name;
     $("#field-party").textContent =
       party().length === 0
@@ -345,20 +366,19 @@ export function playField(): FieldHandle {
         await say(effect.text, effect.speaker);
         return;
       case "warp":
-        position = {
+        player.position = {
           map: effect.to,
           x: effect.x,
           y: effect.y,
-          facing: effect.facing ?? position.facing,
+          facing: effect.facing ?? player.position.facing,
         };
         encounter = emptyEncounterState();
         draw();
         return;
       case "gotItem": {
-        // `core` の WorldState 側にも入っているが、
-        // 実際に使うのはこちらのバッグ。v0.9 でどちらか一方に寄せる
+        // 在庫を増やすのは `core` の仕事（`world.bag` は `player.bag` そのもの）。
+        // v0.8 まではここでも足していて、**同じ道具を2回もらっていた**
         const item = gameData.item(effect.item);
-        bag[effect.item] = (bag[effect.item] ?? 0) + effect.count;
         await say(`${item.name} を ${effect.count}こ てにいれた!`);
         return;
       }
@@ -383,6 +403,9 @@ export function playField(): FieldHandle {
       }
       case "healed":
         setParty(healParty(gameData, party()));
+        // **回復してもらった場所が、全滅したときに戻る場所になる。**
+        // 原作のポケモンセンターと同じ規則を、回復イベント側に持たせる
+        player.respawn = { ...player.position };
         draw();
         await say("ポケモンたちは げんきに なった!");
         return;
@@ -410,6 +433,7 @@ export function playField(): FieldHandle {
    * core は中断点を返してくるだけなので、待つのはこちら側の仕事。
    */
   async function runEvent(id: EventId): Promise<void> {
+    syncWorld();
     let runner = startEvent(eventById(id).commands);
     // 壊れたデータで無限ループしないよう上限を置く
     for (let guard = 0; guard < 500; guard += 1) {
@@ -427,8 +451,10 @@ export function playField(): FieldHandle {
       }
       if (runner.done || !result.waiting) break;
     }
+    syncPlayer();
     hideText();
     draw();
+    await autosave();
   }
 
   // ── バトル ──
@@ -489,6 +515,7 @@ export function playField(): FieldHandle {
     draw();
 
     await showPostBattle(result.events);
+    await autosave();
   }
 
   /** 戦闘後の出来事を1つずつ見せる。技の入れ替えと進化はここで選ばせる。 */
@@ -560,15 +587,21 @@ export function playField(): FieldHandle {
     await say(`おめでとう! ${before} は\n${after} に しんかした!`);
   }
 
-  /** 全滅。手持ちを回復して家に戻す（本編の敗北処理は v0.9）。 */
+  /**
+   * 全滅。手持ちを回復して復活地点へ戻す。
+   *
+   * 戻り先は固定の家ではなく `player.respawn` ―― 最後に使ったポケモンセンター。
+   * 手持ちの没収は既定では行わない（`settings.lossPenalty`・economy.md §2）。
+   */
   async function blackOut(): Promise<void> {
     setParty(healParty(gameData, party()));
-    position = { ...START };
+    player.position = { ...player.respawn };
     encounter = emptyEncounterState();
     draw();
-    await say("いそいで じぶんの いえに もどった。\nポケモンたちは げんきに なった!");
+    await say("めのまえが まっくらに なった...\n\nいそいで もどった。ポケモンたちは げんきに なった!");
     hideText();
     draw();
+    await autosave();
   }
 
   async function wildBattle(species: string, level: number): Promise<void> {
@@ -592,10 +625,10 @@ export function playField(): FieldHandle {
       headline: `あっ! やせいの ${name} が とびだしてきた!`,
       isWild: true,
       balls: allBalls
-        .map((b) => ({ id: b.id, count: bag[b.id] ?? 0 }))
+        .map((b) => ({ id: b.id, count: player.bag[b.id] ?? 0 }))
         .filter((b) => b.count > 0),
       onBallUsed: (item) => {
-        bag[item] = Math.max(0, (bag[item] ?? 0) - 1);
+        player.bag[item] = Math.max(0, (player.bag[item] ?? 0) - 1);
       },
     });
     leaveBattle();
@@ -634,6 +667,7 @@ export function playField(): FieldHandle {
     if (first) await say(`${name} の データが ずかんに とうろくされた!`);
     hideText();
     draw();
+    await autosave();
   }
 
   /** 野生の1体。個体値も性格も個体ごとに決まる（捕まえられるのは v0.8 の後半）。 */
@@ -685,13 +719,14 @@ export function playField(): FieldHandle {
    */
   async function tryStep(direction: Direction, turned = false): Promise<void> {
     const map = currentMap();
-    const before = position;
-    const result = stepPlayer(map, world, position, encounter, direction, rng, allEncounterTables);
-    position = result.position;
+    syncWorld();
+    const before = player.position;
+    const result = stepPlayer(map, world, player.position, encounter, direction, rng, allEncounterTables);
+    player.position = result.position;
     encounter = result.encounter;
 
     if (result.outcome.kind === "moved" || result.outcome.kind === "jumped") {
-      await animateWalk(before, position);
+      await animateWalk(before, player.position);
       return;
     }
     draw();
@@ -701,11 +736,11 @@ export function playField(): FieldHandle {
         await doWarp(result.outcome.warp);
         return;
       case "encounter":
-        await animateWalk(before, position);
+        await animateWalk(before, player.position);
         await wildBattle(result.outcome.species, result.outcome.level);
         return;
       case "event":
-        await animateWalk(before, position);
+        await animateWalk(before, player.position);
         await runEvent(result.outcome.event);
         return;
       case "turned":
@@ -723,14 +758,17 @@ export function playField(): FieldHandle {
   }
 
   async function doWarp(warp: { to: { map: string; x: number; y: number; facing: Direction } }) {
-    position = { map: warp.to.map, x: warp.to.x, y: warp.to.y, facing: warp.to.facing };
+    player.position = { map: warp.to.map, x: warp.to.x, y: warp.to.y, facing: warp.to.facing };
     encounter = emptyEncounterState();
     draw();
     await new Promise((r) => setTimeout(r, 80));
+    // マップ遷移はセーブ点（save-data.md §6）。落ちても直前の建物には戻れる
+    await autosave();
   }
 
   async function tryInteract(): Promise<void> {
-    const found = interact(currentMap(), world, position);
+    syncWorld();
+    const found = interact(currentMap(), world, player.position);
     if (found === null) return;
     if (found.kind === "warp") await doWarp(found.warp);
     else await runEvent(found.event);
@@ -944,6 +982,8 @@ export function playField(): FieldHandle {
           }
           draw();
           showStorage();
+          // 預ける・逃がすは取り返しがつかない。**その場で保存する**
+          await autosave();
         })();
       };
     }
@@ -992,9 +1032,14 @@ export function playField(): FieldHandle {
 
   draw();
   void (async () => {
-    // 家の中から始める。母との会話が最初の案内になる
+    // 家の中から始める。母との会話が最初の案内になる。
+    // **続きから遊ぶときには出さない** ―― セーブが入ったので、
+    // ここは「マップ画面を開くたび」ではなく「冒険を始めたとき」1回きり
+    if (player.started) return;
+    player.started = true;
     await say("いえの そとに でて、オーキドはかせを たずねよう。");
     hideText();
+    await autosave();
   })();
 
   return {

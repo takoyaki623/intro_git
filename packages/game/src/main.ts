@@ -1,5 +1,5 @@
 /**
- * v0.8 の入口。
+ * v0.9 の入口。
  *
  * 遊び方を切り替えるだけの薄い層。
  *   ぼうけん     … v0.7。マップを歩く。原作の遊び方の入口
@@ -7,23 +7,30 @@
  *   バトル施設   … v0.5 の連戦。「どう戦うか」が主役
  *   ネームド     … 収録済みのキャラ一覧
  *   フリーバトル … v0.3 からある、ランダムな3体どうしの1戦
+ *   セーブ       … v0.9。保存の状態・設定・バックアップ
+ *
+ * セーブの実体は `player.ts` が1つだけ持つ。ここは起動時に読み込み、
+ * 施設とトーナメントに渡すだけ ―― **同じセーブを2箇所が別々に持つと、
+ * 後から書いた方が相手の記録を消す。**
  *
  * 設計: docs/design/ui-flow.md / docs/design/endgame.md
  */
 
-import { createRng, emptySave, type BattlePokemonSource, type SaveData } from "@pkmn/core";
+import { createRng, type BattlePokemonSource, type SaveData } from "@pkmn/core";
 import { allFacilities, allMoves, allNamed, allSpecies, allTournaments } from "@pkmn/data";
 import { $, runBattle, setSpeed, waitForButton, type Speed } from "./battle-screen.js";
 import { cupMenu, namedList, playCup } from "./cup.js";
 import { playField, type FieldHandle } from "./field.js";
+import { loadPlayer, save, setSave, useStore, SLOT } from "./player.js";
 import { createLocalSaveStore } from "./save.js";
+import { settingsScreen } from "./settings.js";
 import { facilityMenu, playFacility } from "./tower.js";
 
 const LEVEL = 50;
 const TEAM_SIZE = 3;
 
 const store = createLocalSaveStore();
-let save: SaveData = emptySave();
+useStore(store);
 
 // ─────────────────────────────────────────────
 // 画面の骨組み
@@ -31,7 +38,7 @@ let save: SaveData = emptySave();
 
 $("#app").innerHTML = `
   <header>
-    <h1>ポケモン風RPG <span class="ver">v0.8</span></h1>
+    <h1>ポケモン風RPG <span class="ver">v0.9</span></h1>
     <div class="tools">
       <div class="speed" id="speed">
         <button data-s="normal" class="on">つうじょう</button>
@@ -46,6 +53,7 @@ $("#app").innerHTML = `
     <button data-m="facility">バトル しせつ</button>
     <button data-m="named">ネームド</button>
     <button data-m="free">フリーバトル</button>
+    <button data-m="save">セーブ</button>
   </nav>
   <main>
     <section id="run" class="hidden"></section>
@@ -70,6 +78,8 @@ $("#speed").addEventListener("click", (e) => {
   const value = target.dataset["s"] as Speed | undefined;
   if (value === undefined) return;
   setSpeed(value);
+  // 設定はセーブに載る。ここで書かないと、設定画面と表示が食い違う
+  setSave({ ...save, settings: { ...save.settings, battleSpeed: value } });
   for (const b of $("#speed").querySelectorAll("button")) b.classList.toggle("on", b === target);
 });
 
@@ -112,19 +122,13 @@ async function freeBattle(): Promise<void> {
 // モード切り替え
 // ─────────────────────────────────────────────
 
-type Mode = "field" | "cup" | "facility" | "named" | "free";
+type Mode = "field" | "cup" | "facility" | "named" | "free" | "save";
 let mode: Mode = "field";
 
 /** マップ探索はキーボードを掴むので、モードを離れるときに必ず解放する。 */
 let field: FieldHandle | null = null;
 
-const context = () => ({
-  save,
-  store,
-  onSaveChanged: (next: SaveData) => {
-    save = next;
-  },
-});
+const context = () => ({ save, store, onSaveChanged: (next: SaveData) => setSave(next) });
 
 const seed = () => Math.floor(Math.random() * 1_000_000);
 
@@ -158,6 +162,10 @@ function show(next: Mode): void {
   else if (next === "named") {
     $("#run").classList.add("hidden");
     namedList();
+  } else if (next === "save") {
+    // マップ画面はモードを離れるたびに捨てている（`field = null`）ので、
+    // ここでセーブを読み込み直しても、「ぼうけん」に戻った時点で作り直される
+    settingsScreen();
   } else void freeBattle();
 }
 
@@ -174,7 +182,12 @@ $("#modes").addEventListener("click", (e) => {
 // ─────────────────────────────────────────────
 
 void (async () => {
-  const loaded = await store.load(0);
-  if (loaded !== null) save = loaded;
+  const loaded = await store.load(SLOT);
+  // 読めなくても遊べる。**黙って新規データを作る**のはここだけ（他は null を返す）
+  if (loaded !== null) loadPlayer(loaded);
+  setSpeed(save.settings.battleSpeed);
+  for (const b of $("#speed").querySelectorAll("button")) {
+    b.classList.toggle("on", b.dataset["s"] === save.settings.battleSpeed);
+  }
   show("field");
 })();

@@ -1,5 +1,5 @@
 /**
- * ブラウザで v0.7 の完了条件をひと続きに通す煙テスト。
+ * ブラウザで v0.7〜v0.9 の完了条件をひと続きに通す煙テスト。
  *
  *   npm run dev            （別のターミナルで）
  *   node tools/playthrough.mjs [URL]
@@ -222,6 +222,59 @@ expect(
   "残った",
 );
 await shot("8-end");
+
+// ── 7. リロードしても続きから遊べるか（v0.9 の眼目）──
+// **セーブが効いているかは、型検査でもユニットテストでも絶対に落ちない。**
+// 実際にタブを開き直して、同じ場所・同じ手持ちで始まることを確かめる
+const beforeReload = { at: await at(), party: (await page.textContent("#field-party")).trim() };
+await page.reload();
+await page.waitForSelector("#field-canvas");
+await page.waitForTimeout(900);
+expect("リロードしても同じ場所", await at(), beforeReload.at);
+expect("リロードしても同じ手持ち", (await page.textContent("#field-party")).trim(), beforeReload.party);
+await shot("9-reloaded");
+
+// ── 8. セーブ画面。書き出したものが読み戻せるか ──
+await page.click('#modes button[data-m="save"]');
+await page.waitForSelector("#save-export");
+await page.click("#save-export");
+const exported = await page.inputValue("#save-text");
+expect("書き出せた", exported.length > 200 ? "JSON が出た" : `短すぎる (${exported.length})`, "JSON が出た");
+expect(
+  "書き出しに手持ちが入っている",
+  /"partyUids":\s*\[\s*"/.test(exported) ? "入っている" : "入っていない",
+  "入っている",
+);
+await shot("10-save");
+
+// 別の場所へ歩いてから、書き出したものを読み戻して元に戻るか
+await page.click('#modes button[data-m="field"]');
+await page.waitForSelector("#field-canvas");
+await page.waitForTimeout(300);
+// **動いていなければ、読み戻しの検査は何も確かめていない。**
+// 草むらの中を左右に振って、必ず違う場所に立ってから読み戻す
+let moved = await at();
+for (let i = 0; i < 6 && moved === beforeReload.at; i += 1) {
+  await key(i % 2 === 0 ? "ArrowLeft" : "ArrowRight", 2, 200);
+  if (await page.isVisible("#battle")) {
+    await fight();
+    await page.waitForTimeout(700);
+    await drain();
+  }
+  moved = await at();
+}
+expect("読み戻す前に、ちゃんと べつの ばしょに いる", moved === beforeReload.at ? "同じ" : "ちがう", "ちがう");
+await page.click('#modes button[data-m="save"]');
+await page.waitForSelector("#save-text");
+await page.fill("#save-text", exported);
+await page.click("#save-import");
+await page.waitForTimeout(900);
+await page.click('#modes button[data-m="field"]');
+await page.waitForSelector("#field-canvas");
+await page.waitForTimeout(400);
+note("読み戻す前に歩いた先", moved);
+expect("読み戻すと元の場所に戻る", await at(), beforeReload.at);
+await shot("11-imported");
 
 console.log(`\nスクリーンショット: ${SHOTS}`);
 console.log(errors.length === 0 ? "JS エラーなし" : `JS エラー ${errors.length} 件:\n${errors.join("\n")}`);
