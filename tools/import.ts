@@ -412,12 +412,112 @@ function importBattleSets(): BattleSetOut[] {
 }
 
 // ─────────────────────────────────────────────
+// ネームドキャラ（v0.6）
+// ─────────────────────────────────────────────
+
+type NamedOut = {
+  id: string; name: string; role: string; region: string;
+  concept: { type?: string; theme: string; tactic?: string };
+  signature: string;
+  tiers: Record<string, unknown[]>;
+  dialogue: Record<string, unknown>;
+};
+
+/** 1体ぶんのパーティ行。ネストした JSON を人が書くのは現実的でないので行に開く。 */
+function importNamedParties(): Map<string, Map<string, unknown[]>> {
+  const out = new Map<string, Map<string, unknown[]>>();
+  for (const r of readTsv("named-parties.tsv")) {
+    const where = `named-parties.tsv/${r["character"]}/${r["species"]}`;
+    const moves = (r["moves"] ?? "").split("/").filter(Boolean);
+    if (moves.length === 0 || moves.length > 4) {
+      err(where, `技が ${moves.length} 個（1〜4 個）`);
+    }
+    if (new Set(moves).size !== moves.length) err(where, "技が重複している");
+
+    const member: Record<string, unknown> = {
+      species: r["species"],
+      level: Number(r["level"]),
+      moves,
+    };
+    const optional = (key: string, field: string) => {
+      const value = r[key] ?? "";
+      if (value !== "" && value !== "-") member[field] = value;
+    };
+    optional("item", "item");
+    optional("ability", "ability");
+    optional("nature", "nature");
+
+    const evsRaw = r["evs"] ?? "";
+    if (evsRaw !== "" && evsRaw !== "-") {
+      const evs: Record<string, number> = {};
+      let total = 0;
+      for (const part of evsRaw.split(",").filter(Boolean)) {
+        const [stat, n] = part.split(":");
+        const value = Number(n);
+        if (value > 252) err(where, `努力値 ${stat} が 252 を超えている (${value})`);
+        evs[stat!] = value;
+        total += value;
+      }
+      if (total > 510) err(where, `努力値の合計が 510 を超えている (${total})`);
+      member["evs"] = evs;
+    }
+
+    const character = r["character"]!;
+    const tier = r["tier"]!;
+    if (!out.has(character)) out.set(character, new Map());
+    const tiers = out.get(character)!;
+    if (!tiers.has(tier)) tiers.set(tier, []);
+    tiers.get(tier)!.push(member);
+  }
+  return out;
+}
+
+function importNamed(): NamedOut[] {
+  const parties = importNamedParties();
+  return readTsv("named.tsv").map((r) => {
+    const id = r["id"]!;
+    const where = `named.tsv/${id}`;
+    const tiers = parties.get(id);
+    if (tiers === undefined) err(where, "パーティが1つも無い");
+
+    const concept: NamedOut["concept"] = { theme: r["theme"]! };
+    const type = r["type"] ?? "";
+    if (type !== "" && type !== "-") concept.type = type;
+    const tactic = r["tactic"] ?? "";
+    if (tactic !== "" && tactic !== "-") concept.tactic = tactic;
+    if (concept.theme === "") err(where, "theme が空（パーティより先に書く）");
+
+    return {
+      id,
+      name: r["name"]!,
+      role: r["role"]!,
+      region: r["region"]!,
+      concept,
+      signature: r["signature"]!,
+      tiers: Object.fromEntries(tiers ?? []),
+      // 台詞は theme から機械的に組む。原作の文言は使わない（v0.10 で書き下ろす）
+      dialogue: Object.fromEntries(
+        [...(tiers?.keys() ?? [])].map((tier) => [
+          tier,
+          {
+            before: `${r["name"]} 「${r["theme"]}」`,
+            win: `${r["name"]} 「まだ こんなものでは ないぞ」`,
+            lose: `${r["name"]} 「いい しょうぶ だった」`,
+          },
+        ]),
+      ),
+    };
+  });
+}
+
+// ─────────────────────────────────────────────
 function main(): void {
   const moves = importMoves();
   const species = importSpecies(moves);
   const abilities = importAbilities();
   const items = importItems();
   const battleSets = importBattleSets();
+  const named = importNamed();
 
   if (errors.length > 0) {
     console.error("投入を中止しました:");
@@ -433,6 +533,7 @@ function main(): void {
   write("abilities.json", abilities);
   write("items.json", items);
   write("battle-sets.json", battleSets);
+  write("named.json", named);
 
   const inert = abilities.filter(
     (a) => (a.effect as { kind?: string } | undefined)?.kind === "inert",
@@ -443,6 +544,8 @@ function main(): void {
   console.log(`  learnset は全件が暫定（原作の習得レベルではない）`);
   console.log(`  特性 ${abilities.length}（うち ${inert} 件は機構未実装のため inert）`);
   console.log(`  持ち物 ${items.length} / BattleSet ${battleSets.length}`);
+  const parties = named.reduce((n, c) => n + Object.keys(c.tiers).length, 0);
+  console.log(`  ネームド ${named.length} 人 / パーティ ${parties} 件`);
 }
 
 main();

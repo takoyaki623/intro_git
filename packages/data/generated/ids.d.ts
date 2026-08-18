@@ -4,7 +4,8 @@
  *
  * 種族 151 / 技 105 / 性格 25 /
  * 特性 48 / 道具 32 /
- * BattleSet 64 / 施設 2
+ * BattleSet 64 / 施設 2 /
+ * ネームド 13 / カップ 3
  */
 
 export type GeneratedSpeciesId =
@@ -447,3 +448,23 @@ export type GeneratedBattleSetId =
 export type GeneratedFacilityId =
   | "battle-tower"
   | "battle-tower-super";
+
+export type GeneratedNamedId =
+  | "agatha"
+  | "blaine"
+  | "blue"
+  | "brock"
+  | "bruno"
+  | "erika"
+  | "giovanni"
+  | "koga"
+  | "lance"
+  | "lorelei"
+  | "lt-surge"
+  | "misty"
+  | "sabrina";
+
+export type GeneratedCupId =
+  | "kanto-cup"
+  | "kanto-elite-cup"
+  | "kanto-gym-leader-cup";

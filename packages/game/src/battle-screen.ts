@@ -57,8 +57,8 @@ export type BattleOptions = {
   seed: number;
   /** 相手の思考。"random" は v0.1 以来のフリーバトル用。 */
   ai: AiConfig | "random";
-  /** ログの1行目。 */
-  headline: string;
+  /** ログの先頭に出す行。複数行なら1行ずつ出す。 */
+  headline: string | readonly string[];
 };
 
 export async function runBattle(options: BattleOptions): Promise<SideIndex | null> {
@@ -204,7 +204,9 @@ export async function runBattle(options: BattleOptions): Promise<SideIndex | nul
   $("#log").innerHTML = "";
   $("#battle").classList.remove("hidden");
   renderField();
-  log(options.headline);
+  for (const line of typeof options.headline === "string" ? [options.headline] : options.headline) {
+    log(line);
+  }
 
   while (state.result === null) {
     const sides = requiredSides(state);

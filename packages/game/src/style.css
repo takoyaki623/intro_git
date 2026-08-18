@@ -189,8 +189,13 @@ footer { margin-top: 16px; font-size: 11px; color: var(--muted); text-align: cen
 .hidden { display: none !important; }
 .dim { color: var(--muted); }
 
-#modes { display: flex; gap: 6px; margin-bottom: 12px; }
-#modes button { padding: 6px 12px; }
+/* 4つ並ぶと 390px では折り返して読みにくいので、横スクロールにする */
+#modes {
+  display: flex; gap: 6px; margin-bottom: 12px;
+  overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+}
+#modes::-webkit-scrollbar { display: none; }
+#modes button { padding: 6px 12px; white-space: nowrap; flex: none; }
 #modes button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
 
 #menu h2 { font-size: 15px; margin: 0 0 6px; }
@@ -227,3 +232,38 @@ footer { margin-top: 16px; font-size: 11px; color: var(--muted); text-align: cen
 .result { font-size: 13px; border-collapse: collapse; margin: 4px 0 10px; }
 .result th, .result td { padding: 3px 14px 3px 0; text-align: left; font-weight: 500; }
 .result th { color: var(--muted); font-size: 12px; }
+
+/* ── v0.6: トーナメント ── */
+.cups { display: grid; gap: 8px; }
+.cup {
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: 10px; padding: 10px 12px; display: grid; gap: 3px;
+}
+.entrants { opacity: .8; }
+.tiers { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+.tier-pick { padding: 4px 12px; font-size: 12px; }
+.tier-pick.done { border-color: var(--accent); color: var(--accent); }
+.tier-locked {
+  font-size: 12px; color: var(--muted); padding: 4px 12px;
+  border: 1px dashed var(--line); border-radius: 8px;
+}
+
+#run .tier {
+  font-size: 11px; padding: 0 7px; border-radius: 999px;
+  background: var(--accent); color: #fff;
+}
+#run .bracket { display: inline-flex; gap: 5px; align-items: center; flex-wrap: wrap; }
+.step { color: var(--muted); }
+.step.done { text-decoration: line-through; opacity: .55; }
+.step.now { color: var(--ink); font-weight: 650; }
+.arrow { color: var(--line); }
+
+#menu h3 {
+  font-size: 12px; color: var(--muted); margin: 16px 0 6px;
+  letter-spacing: .06em;
+}
+.nameds { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; }
+.named {
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: 10px; padding: 9px 12px; display: grid; gap: 2px;
+}

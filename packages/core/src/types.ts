@@ -40,6 +40,11 @@ export type MoveId = string;
 export type NatureId = string;
 export type AbilityId = string;
 export type ItemId = string;
+export type NamedId = string;
+export type CupId = string;
+export type RegionId = string;
+/** キャラの戦術。AI が読んで遂行する（v1.1）。今は重複検出のための札。 */
+export type TacticId = string;
 
 // ─────────────────────────────────────────────
 // マスタデータ

@@ -10,12 +10,15 @@
 import {
   DEFAULT_IVS_BY_GRADE,
   STATS,
+  TIERS,
   TYPES,
   effectHandlers,
   heldHandlers,
+  selectParty,
   type HeldEffect,
   type Move,
   type Species,
+  type TierId,
 } from "@pkmn/core";
 import {
   allAbilities,
@@ -23,7 +26,9 @@ import {
   allFacilities,
   allItems,
   allMoves,
+  allNamed,
   allSpecies,
+  allTournaments,
   gameData,
 } from "@pkmn/data";
 
@@ -47,6 +52,8 @@ function checkIds(): void {
     ["道具", allItems],
     ["BattleSet", allBattleSets],
     ["施設", allFacilities],
+    ["ネームド", allNamed],
+    ["カップ", allTournaments],
   ];
   for (const [label, items] of groups) {
     const seen = new Set<string>();
@@ -476,6 +483,210 @@ function checkEndgame(): void {
 }
 
 // ─────────────────────────────────────────────
+// ネームドとトーナメント（v0.6）
+// ─────────────────────────────────────────────
+function checkNamed(): void {
+  const tacticUsers = new Map<string, string[]>();
+
+  for (const character of allNamed) {
+    const where = `ネームド ${character.id}`;
+
+    // #10 concept を先に書く。theme が無いキャラは構築を組んでも「らしさ」が出ない
+    if ((character.concept?.theme ?? "") === "") {
+      fail("named-theme", `${where}: theme が空`);
+    }
+    if (character.concept?.type !== undefined
+        && !(TYPES as readonly string[]).includes(character.concept.type)) {
+      fail("named-type", `${where}: 未知の専門タイプ ${character.concept.type}`);
+    }
+    // チャンピオンだけがタイプ縛りを持たない（だから最も強くなる）
+    if (character.role !== "champion" && character.concept?.type === undefined) {
+      warn("named-type", `${where}: 専門タイプが無い（チャンピオン以外は珍しい）`);
+    }
+    if (character.concept?.tactic !== undefined) {
+      const users = tacticUsers.get(character.concept.tactic) ?? [];
+      users.push(character.id);
+      tacticUsers.set(character.concept.tactic, users);
+    }
+
+    let signatureOk = true;
+    try {
+      gameData.species(character.signature);
+    } catch {
+      fail("ref-species", `${where}: signature が存在しない種族 ${character.signature}`);
+      signatureOk = false;
+    }
+
+    const tiers = Object.keys(character.tiers ?? {});
+    if (tiers.length === 0) fail("named-tiers", `${where}: パーティが1つも無い`);
+    for (const tier of tiers) {
+      if (!(TIERS as readonly string[]).includes(tier)) {
+        fail("named-tiers", `${where}: 未知のティア ${tier}`);
+        continue;
+      }
+      const party = character.tiers[tier as TierId]!;
+      const label = `${where}/${tier}`;
+
+      if (party.length === 0 || party.length > 6) {
+        fail("named-party", `${label}: ${party.length}体`);
+      }
+      // #10 signature が全ティアに含まれる ―― 「同じキャラだ」と認識できる最低条件
+      if (signatureOk && !party.some((m) => m.species === character.signature)) {
+        fail("named-signature", `${label}: エース ${character.signature} が居ない`);
+      }
+
+      const items = new Set<string>();
+      for (const m of party) {
+        let species: Species;
+        try {
+          species = gameData.species(m.species);
+        } catch {
+          fail("ref-species", `${label}: 存在しない種族 ${m.species}`);
+          continue;
+        }
+        if (m.level < 1 || m.level > 100) fail("named-level", `${label}: Lv${m.level} が範囲外`);
+        if (m.moves.length === 0 || m.moves.length > 4) {
+          fail("named-party", `${label}/${m.species}: 技が ${m.moves.length} 個`);
+        }
+        if (new Set(m.moves).size !== m.moves.length) {
+          fail("named-party", `${label}/${m.species}: 技が重複`);
+        }
+        for (const id of m.moves) {
+          if (!allMoves.some((x) => x.id === id)) {
+            fail("ref-move", `${label}/${m.species}: 存在しない技 ${id}`);
+          }
+        }
+        if (m.ability !== undefined && !species.abilities.includes(m.ability)) {
+          fail("named-ability", `${label}: ${species.name} は特性 ${m.ability} を持たない`);
+        }
+        if (m.nature !== undefined) {
+          try {
+            gameData.nature(m.nature);
+          } catch {
+            fail("ref-nature", `${label}/${m.species}: 存在しない性格 ${m.nature}`);
+          }
+        }
+        if (m.item !== undefined) {
+          const item = allItems.find((x) => x.id === m.item);
+          if (item === undefined) {
+            fail("ref-item", `${label}/${m.species}: 存在しない道具 ${m.item}`);
+          } else {
+            if (item.held?.kind === "statMultiplier" && item.held.banStatusMoves === true) {
+              const dead = m.moves.filter((id) => gameData.move(id).category === "status");
+              if (dead.length > 0) {
+                fail("named-unusable-move", `${label}/${m.species}: ${item.name} で使えない ${dead.join(",")}`);
+              }
+            }
+            // 原作ティアは持ち物なしなので、重複を見るのは構築したティアだけ
+            if (tier !== "original") {
+              if (items.has(m.item)) {
+                fail("named-item-dup", `${label}: 持ち物 ${item.name} が重複`);
+              }
+              items.add(m.item);
+            }
+          }
+        }
+        // #5 努力値合計 ≤ 510、各 ≤ 252
+        let total = 0;
+        for (const [stat, value] of Object.entries(m.evs ?? {})) {
+          if (!(STATS as readonly string[]).includes(stat)) {
+            fail("named-evs", `${label}/${m.species}: 未知の能力 ${stat}`);
+          }
+          if (value > 252) fail("named-evs", `${label}/${m.species}: ${stat} が 252 超`);
+          total += value;
+        }
+        if (total > 510) fail("named-evs", `${label}/${m.species}: 努力値の合計が ${total}`);
+      }
+    }
+  }
+
+  // #11 同一戦術が3人以上なら警告（全キャラが同じ戦術に収束していないか）
+  for (const [tactic, users] of tacticUsers) {
+    if (users.length >= 3) {
+      warn("named-tactic", `戦術 "${tactic}" が ${users.length} 人で重複: ${users.join(",")}`);
+    }
+  }
+}
+
+function checkTournaments(): void {
+  for (const cup of allTournaments) {
+    const where = `カップ ${cup.id}`;
+    const rules = cup.ruleset;
+
+    if (rules.battleFormat !== "single") {
+      fail("unimplemented-mechanic", `${where}: ダブルバトルはエンジン未対応（v1.2）`);
+    }
+    if (rules.moveSelection !== "player") {
+      fail("unimplemented-mechanic", `${where}: パレス式の行動代行が未実装`);
+    }
+    if (rules.teamSource !== "rental") {
+      fail(
+        "unimplemented-mechanic",
+        `${where}: v0.6 では手持ちの個体が存在しないため rental 以外は成立しない（v0.8）`,
+      );
+    }
+    if (cup.rounds < 1) fail("cup-rounds", `${where}: rounds が ${cup.rounds}`);
+
+    // #27 出場者プールが解放条件と整合している（今はカントーのみ）
+    for (const id of cup.entrantPool) {
+      if (!allNamed.some((c) => c.id === id)) {
+        fail("ref-named", `${where}: 出場者 ${id} が存在しない`);
+      }
+    }
+    if (new Set(cup.entrantPool).size !== cup.entrantPool.length) {
+      fail("cup-pool", `${where}: 出場者が重複`);
+    }
+
+    for (const tier of cup.tierProgression) {
+      if (!(TIERS as readonly string[]).includes(tier)) {
+        fail("cup-tier", `${where}: 未知のティア ${tier}`);
+        continue;
+      }
+      if (tier === "ultimate") {
+        fail("unimplemented-mechanic", `${where}: 極ティアは AI smart と同時（v1.1）`);
+      }
+      const eligible = allNamed.filter(
+        (c) => cup.entrantPool.includes(c.id) && c.tiers[tier] !== undefined,
+      );
+      if (eligible.length < cup.rounds) {
+        fail("cup-pool", `${where}/${tier}: 出場者 ${eligible.length} 人（${cup.rounds} 人必要）`);
+      } else if (eligible.length === cup.rounds) {
+        warn("cup-variety", `${where}/${tier}: 出場者がちょうど ${cup.rounds} 人で毎回同じ顔ぶれになる`);
+      }
+
+      // 3対3のカップで、エースが選から漏れないこと（selectParty の妥当性）
+      for (const character of eligible) {
+        const party = character.tiers[tier]!;
+        const picked = selectParty(character, party, rules.teamSize);
+        if (picked.length !== Math.min(rules.teamSize, party.length)) {
+          fail("cup-select", `${where}/${tier}/${character.id}: 選出が ${picked.length}体`);
+        }
+        if (!picked.some((m) => m.species === character.signature)) {
+          fail("cup-select", `${where}/${tier}/${character.id}: 選出でエースが落ちる`);
+        }
+      }
+    }
+
+    for (const tier of cup.tierProgression) {
+      const grade = cup.rentalGradeByTier[tier];
+      if (grade === undefined) {
+        fail("rental-grade", `${where}/${tier}: レンタルの grade が未指定`);
+        continue;
+      }
+      const count = allBattleSets.filter((s) => s.grade === grade).length;
+      if (count < rules.teamSize * 2) {
+        fail("rental-count", `${where}/${tier}: レンタル候補が ${count} 件（選ぶ意味が出ない）`);
+      }
+    }
+    // ティアが上がるほどレンタルも上がる（相手と同じ投資水準を貸す）
+    const grades = cup.tierProgression.map((t) => cup.rentalGradeByTier[t] ?? 0);
+    if (grades.some((g, i) => i > 0 && g < grades[i - 1]!)) {
+      fail("rental-grade", `${where}: 上のティアでレンタルが弱くなっている`);
+    }
+  }
+}
+
+// ─────────────────────────────────────────────
 // データの由来を報告する（誤りではないが可視化する）
 // ─────────────────────────────────────────────
 function reportProvenance(): void {
@@ -501,6 +712,8 @@ function main(): void {
   checkBattleReady();
   checkHeldEffects();
   checkEndgame();
+  checkNamed();
+  checkTournaments();
   reportProvenance();
 
   const errors = findings.filter((f) => f.level === "error");
@@ -509,7 +722,8 @@ function main(): void {
   console.log(
     `検証対象: 種族 ${allSpecies.length} / 技 ${allMoves.length} / ` +
       `特性 ${allAbilities.length} / 道具 ${allItems.length} / ` +
-      `BattleSet ${allBattleSets.length} / 施設 ${allFacilities.length}`,
+      `BattleSet ${allBattleSets.length} / 施設 ${allFacilities.length} / ` +
+      `ネームド ${allNamed.length} / カップ ${allTournaments.length}`,
   );
 
   for (const f of warns) console.log(`  警告 [${f.check}] ${f.message}`);

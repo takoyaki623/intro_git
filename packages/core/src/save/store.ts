@@ -1,7 +1,7 @@
 /**
- * セーブの抽象化（v0.5）。
+ * セーブの抽象化（v0.5 で導入、v0.6 で拡張）。
  *
- * v0.5 で保存するのは BP と施設の記録だけ。だが **保存先を抽象化するのは今**。
+ * 保存するのは BP と、施設・トーナメントの記録だけ。だが **保存先を抽象化するのは今**。
  * IndexedDB を直接叩くコードがゲーム側に散ってからでは剥がせなくなる。
  * v0.9 で IndexedDB へ移すときに差し替えるのは、この interface の実装1つだけになる。
  *
@@ -13,14 +13,25 @@
  */
 
 import type { FacilityId } from "../endgame/facility.js";
+import { TIERS, type TierId } from "../endgame/named.js";
+import type { CupId } from "../types.js";
 
-export const CURRENT_SCHEMA_VERSION = 1;
+/**
+ * v1 → v2: トーナメントの記録を足した（v0.6）。
+ * **最初のマイグレーションが実際に走る版。** 鎖が動くことをここで確かめる。
+ */
+export const CURRENT_SCHEMA_VERSION = 2;
 
 export type FacilityRecord = {
   bestStreak: number;
   totalWins: number;
   /** その施設で通算いくつ BP を得たか。 */
   earnedBp: number;
+};
+
+/** カップごとの記録。優勝したティアが次のティアを開ける。 */
+export type TournamentRecord = {
+  clearedTiers: TierId[];
 };
 
 export type Settings = {
@@ -34,6 +45,7 @@ export type SaveData = {
     bp: number;
     endgame: {
       facilityRecords: Record<FacilityId, FacilityRecord>;
+      tournamentRecords: Record<CupId, TournamentRecord>;
     };
   };
   settings: Settings;
@@ -48,16 +60,28 @@ export interface SaveStore {
 export function emptySave(): SaveData {
   return {
     schemaVersion: CURRENT_SCHEMA_VERSION,
-    global: { bp: 0, endgame: { facilityRecords: {} } },
+    global: { bp: 0, endgame: { facilityRecords: {}, tournamentRecords: {} } },
     settings: { battleSpeed: "normal" },
   };
 }
 
 /**
- * 版ごとのマイグレーション。v1 が最初なのでまだ空。
- * **鎖の形だけ先に置く。** 後から足すと、必ず1つ飛ばす。
+ * 版ごとのマイグレーション。順に適用する。
+ *
+ * v0.5 で「空のまま形だけ」作っておいたものが、v0.6 で初めて実際に走った。
+ * 先に鎖を作っておかないと、2つ目の版で必ず1つ飛ばす ―― の実例になっている。
  */
-const migrations: Record<number, (data: SaveData) => SaveData> = {};
+const migrations: Record<number, (data: SaveData) => SaveData> = {
+  // v0.6: トーナメントの記録を追加。既存のセーブには空の記録を足すだけ
+  2: (v1) => ({
+    ...v1,
+    schemaVersion: 2,
+    global: {
+      ...v1.global,
+      endgame: { ...v1.global.endgame, tournamentRecords: {} },
+    },
+  }),
+};
 
 /**
  * 読み込んだデータを現在の版まで引き上げる。
@@ -96,10 +120,47 @@ function normalize(data: SaveData): SaveData {
       earnedBp: Number(rec.earnedBp) || 0,
     };
   }
+
+  const cups = data.global?.endgame?.tournamentRecords ?? {};
+  const cleanCups: Record<CupId, TournamentRecord> = {};
+  for (const [id, rec] of Object.entries(cups)) {
+    if (typeof rec !== "object" || rec === null) continue;
+    const tiers = Array.isArray(rec.clearedTiers) ? rec.clearedTiers : [];
+    // 知らないティア名が入っていても落とさない。読めるものだけ拾う
+    cleanCups[id] = { clearedTiers: tiers.filter((t): t is TierId => TIERS.includes(t)) };
+  }
+
   return {
     schemaVersion: CURRENT_SCHEMA_VERSION,
-    global: { bp: Number(data.global?.bp) || 0, endgame: { facilityRecords: clean } },
+    global: {
+      bp: Number(data.global?.bp) || 0,
+      endgame: { facilityRecords: clean, tournamentRecords: cleanCups },
+    },
     settings: { battleSpeed: data.settings?.battleSpeed ?? base.settings.battleSpeed },
+  };
+}
+
+/** カップの優勝を記録する。同じティアを2回優勝しても重複しない。 */
+export function recordCupWin(
+  data: SaveData,
+  cup: CupId,
+  tier: TierId,
+  bp: number,
+): SaveData {
+  const prev = data.global.endgame.tournamentRecords[cup] ?? { clearedTiers: [] };
+  const clearedTiers = prev.clearedTiers.includes(tier)
+    ? prev.clearedTiers
+    : [...prev.clearedTiers, tier];
+  return {
+    ...data,
+    global: {
+      ...data.global,
+      bp: data.global.bp + bp,
+      endgame: {
+        ...data.global.endgame,
+        tournamentRecords: { ...data.global.endgame.tournamentRecords, [cup]: { clearedTiers } },
+      },
+    },
   };
 }
 
@@ -120,6 +181,7 @@ export function recordRun(
       ...data.global,
       bp: data.global.bp + result.bp,
       endgame: {
+        ...data.global.endgame,
         facilityRecords: {
           ...data.global.endgame.facilityRecords,
           [facility]: {

@@ -1,0 +1,148 @@
+[
+  {
+    "id": "kanto-cup",
+    "name": "カントーカップ",
+    "description": "カントーのジムリーダー・四天王・チャンピオンから抽選。4人抜きで優勝。",
+    "ruleset": {
+      "teamSize": 3,
+      "battleSize": 3,
+      "teamSource": "rental",
+      "levelMode": {
+        "kind": "sync",
+        "level": 50
+      },
+      "duplicateSpecies": false,
+      "duplicateItems": false,
+      "battleFormat": "single",
+      "itemsAllowed": false,
+      "winCondition": {
+        "kind": "faint"
+      },
+      "moveSelection": "player",
+      "streakLength": 4,
+      "healBetweenBattles": true,
+      "carryOverDamage": false
+    },
+    "entrantPool": [
+      "brock",
+      "misty",
+      "lt-surge",
+      "erika",
+      "koga",
+      "sabrina",
+      "blaine",
+      "giovanni",
+      "lorelei",
+      "bruno",
+      "agatha",
+      "lance",
+      "blue"
+    ],
+    "rounds": 4,
+    "tierProgression": [
+      "original",
+      "serious"
+    ],
+    "bpByTier": {
+      "original": 15,
+      "serious": 40
+    },
+    "rentalGradeByTier": {
+      "original": 2,
+      "serious": 4
+    }
+  },
+  {
+    "id": "kanto-gym-leader-cup",
+    "name": "ジムリーダーカップ",
+    "description": "カントーのジムリーダー8人から抽選。3人抜き。トーナメントの入口。",
+    "ruleset": {
+      "teamSize": 3,
+      "battleSize": 3,
+      "teamSource": "rental",
+      "levelMode": {
+        "kind": "sync",
+        "level": 50
+      },
+      "duplicateSpecies": false,
+      "duplicateItems": false,
+      "battleFormat": "single",
+      "itemsAllowed": false,
+      "winCondition": {
+        "kind": "faint"
+      },
+      "moveSelection": "player",
+      "streakLength": 3,
+      "healBetweenBattles": true,
+      "carryOverDamage": false
+    },
+    "entrantPool": [
+      "brock",
+      "misty",
+      "lt-surge",
+      "erika",
+      "koga",
+      "sabrina",
+      "blaine",
+      "giovanni"
+    ],
+    "rounds": 3,
+    "tierProgression": [
+      "original",
+      "serious"
+    ],
+    "bpByTier": {
+      "original": 8,
+      "serious": 25
+    },
+    "rentalGradeByTier": {
+      "original": 2,
+      "serious": 4
+    }
+  },
+  {
+    "id": "kanto-elite-cup",
+    "name": "四天王カップ",
+    "description": "四天王とチャンピオンのみ。同じルールで、出場者プールだけが違う。",
+    "ruleset": {
+      "teamSize": 3,
+      "battleSize": 3,
+      "teamSource": "rental",
+      "levelMode": {
+        "kind": "sync",
+        "level": 50
+      },
+      "duplicateSpecies": false,
+      "duplicateItems": false,
+      "battleFormat": "single",
+      "itemsAllowed": false,
+      "winCondition": {
+        "kind": "faint"
+      },
+      "moveSelection": "player",
+      "streakLength": 3,
+      "healBetweenBattles": true,
+      "carryOverDamage": false
+    },
+    "entrantPool": [
+      "lorelei",
+      "bruno",
+      "agatha",
+      "lance",
+      "blue"
+    ],
+    "rounds": 3,
+    "tierProgression": [
+      "original",
+      "serious"
+    ],
+    "bpByTier": {
+      "original": 20,
+      "serious": 50
+    },
+    "rentalGradeByTier": {
+      "original": 2,
+      "serious": 4
+    }
+  }
+]

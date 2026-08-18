@@ -12,6 +12,7 @@ import {
   createMemorySaveStore,
   emptySave,
   migrate,
+  recordCupWin,
   recordRun,
 } from "@pkmn/core";
 
@@ -42,6 +43,30 @@ describe("セーブの読み書き", () => {
 });
 
 describe("マイグレーション", () => {
+  it("v1 のセーブが v2 へ引き上がる（鎖が実際に動く）", () => {
+    // v0.5 で「空のまま形だけ」作っておいたマイグレーションが、v0.6 で初めて走る。
+    const v1 = {
+      schemaVersion: 1,
+      global: { bp: 12, endgame: { facilityRecords: { "battle-tower": { bestStreak: 5, totalWins: 5, earnedBp: 12 } } } },
+      settings: { battleSpeed: "fast" },
+    };
+    const migrated = migrate(v1);
+    expect(migrated?.schemaVersion).toBe(CURRENT_SCHEMA_VERSION);
+    // 既存の記録は失われない
+    expect(migrated?.global.bp).toBe(12);
+    expect(migrated?.global.endgame.facilityRecords["battle-tower"]?.bestStreak).toBe(5);
+    expect(migrated?.settings.battleSpeed).toBe("fast");
+    // 新しい入れ物が空で足される
+    expect(migrated?.global.endgame.tournamentRecords).toEqual({});
+  });
+
+  it("施設の記録を書いてもトーナメントの記録が消えない", () => {
+    let data = recordCupWin(emptySave(), "kanto-cup", "original", 15);
+    data = recordRun(data, "battle-tower", { streak: 3, wins: 3, bp: 6 });
+    expect(data.global.endgame.tournamentRecords["kanto-cup"]?.clearedTiers).toEqual(["original"]);
+    expect(data.global.bp).toBe(21);
+  });
+
   it("現在の版はそのまま通る", () => {
     const data = emptySave();
     expect(migrate(JSON.parse(JSON.stringify(data)))?.schemaVersion).toBe(CURRENT_SCHEMA_VERSION);

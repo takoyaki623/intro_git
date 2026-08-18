@@ -13,6 +13,8 @@ import {
   type BattleSet,
   type Facility,
   type GameData,
+  type NamedCharacter,
+  type Tournament,
   type Item,
   type Move,
   type NatureModifier,
@@ -25,9 +27,11 @@ import abilitiesJson from "../abilities.json" with { type: "json" };
 import battleSetsJson from "../battle-sets.json" with { type: "json" };
 import facilitiesJson from "../facilities.json" with { type: "json" };
 import itemsJson from "../items.json" with { type: "json" };
+import namedJson from "../named.json" with { type: "json" };
 import movesJson from "../moves.json" with { type: "json" };
 import naturesJson from "../natures.json" with { type: "json" };
 import speciesJson from "../species.json" with { type: "json" };
+import tournamentsJson from "../tournaments.json" with { type: "json" };
 import typeChartJson from "../type-chart.json" with { type: "json" };
 
 /**
@@ -160,4 +164,19 @@ export function facilityById(id: string): Facility {
   const f = allFacilities.find((x) => x.id === id);
   if (f === undefined) throw new MissingDataError("facility", id);
   return f;
+}
+
+export const allNamed = namedJson as unknown as readonly NamedCharacter[];
+export const allTournaments = tournamentsJson as unknown as readonly Tournament[];
+
+export function namedById(id: string): NamedCharacter {
+  const c = allNamed.find((x) => x.id === id);
+  if (c === undefined) throw new MissingDataError("named", id);
+  return c;
+}
+
+export function tournamentById(id: string): Tournament {
+  const t = allTournaments.find((x) => x.id === id);
+  if (t === undefined) throw new MissingDataError("tournament", id);
+  return t;
 }

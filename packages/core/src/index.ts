@@ -17,6 +17,8 @@ export * from "./normalize.js";
 export * from "./battle.js";
 export * from "./endgame/ruleset.js";
 export * from "./endgame/facility.js";
+export * from "./endgame/named.js";
+export * from "./endgame/tournament.js";
 export * from "./save/store.js";
 export { chooseRandomAction } from "./ai/random.js";
 export * from "./ai/view.js";

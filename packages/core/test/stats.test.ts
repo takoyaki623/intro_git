@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { calcHp, calcStat, toBattlePokemon } from "@pkmn/core";
+import { calcHp, calcStat, STATS, toBattlePokemon } from "@pkmn/core";
 import { gameData } from "@pkmn/data";
 
 describe("実数値の計算", () => {
@@ -48,5 +48,40 @@ describe("実数値の計算", () => {
     expect(low.level).toBe(5);
     expect(synced.level).toBe(50);
     expect(synced.maxHp).toBeGreaterThan(low.maxHp);
+  });
+});
+
+describe("能力の並びが一部しか無いとき（v0.6 の回帰）", () => {
+  it("努力値を一部だけ指定しても実数値が数値になる", () => {
+    // ネームドのデータは「努力値は atk と spe だけ」のように部分的に書く。
+    // 埋めずに計算式へ渡すと undefined が混ざり、実数値が NaN になっていた。
+    // NaN は HP 比較を静かに素通りするため、
+    // 「相手が最初から全員ひんし」という形でしか表に出てこない。
+    const mon = toBattlePokemon(gameData, {
+      species: "gyarados",
+      level: 50,
+      moves: ["waterfall"],
+      evs: { atk: 252, spe: 252 },
+    });
+    for (const stat of STATS) {
+      expect(Number.isFinite(mon.stats[stat]), stat).toBe(true);
+    }
+    expect(mon.maxHp).toBeGreaterThan(0);
+  });
+
+  it("個体値を一部だけ指定しても、残りは31で埋まる", () => {
+    const partial = toBattlePokemon(gameData, {
+      species: "gyarados",
+      level: 50,
+      moves: ["waterfall"],
+      ivs: { atk: 0 },
+    });
+    const full = toBattlePokemon(gameData, {
+      species: "gyarados",
+      level: 50,
+      moves: ["waterfall"],
+    });
+    expect(partial.stats.atk).toBeLessThan(full.stats.atk);
+    expect(partial.stats.spe).toBe(full.stats.spe);
   });
 });

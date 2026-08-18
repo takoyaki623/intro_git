@@ -40,6 +40,8 @@ export function generate(): string {
   const items = idsOf("items.json");
   const battleSets = idsOf("battle-sets.json");
   const facilities = idsOf("facilities.json");
+  const named = idsOf("named.json");
+  const cups = idsOf("tournaments.json");
 
   return `/**
  * 自動生成ファイル。直接編集しないこと。
@@ -47,7 +49,8 @@ export function generate(): string {
  *
  * 種族 ${species.length} / 技 ${moves.length} / 性格 ${natures.length} /
  * 特性 ${abilities.length} / 道具 ${items.length} /
- * BattleSet ${battleSets.length} / 施設 ${facilities.length}
+ * BattleSet ${battleSets.length} / 施設 ${facilities.length} /
+ * ネームド ${named.length} / カップ ${cups.length}
  */
 
 ${union("GeneratedSpeciesId", species)}
@@ -63,6 +66,10 @@ ${union("GeneratedItemId", items)}
 ${union("GeneratedBattleSetId", battleSets)}
 
 ${union("GeneratedFacilityId", facilities)}
+
+${union("GeneratedNamedId", named)}
+
+${union("GeneratedCupId", cups)}
 `;
 }
 

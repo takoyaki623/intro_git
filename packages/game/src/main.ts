@@ -1,16 +1,19 @@
 /**
- * v0.5 の入口。
+ * v0.6 の入口。
  *
- * 2つの遊び方を切り替えるだけの薄い層。
- *   バトル施設   … v0.5 で入った連戦。ここがエンドゲームの最初の形
+ * 遊び方を切り替えるだけの薄い層。
+ *   トーナメント … v0.6。歴代ネームドと戦う勝ち抜き。「誰と戦うか」が主役
+ *   バトル施設   … v0.5 の連戦。「どう戦うか」が主役
+ *   ネームド     … 収録済みのキャラ一覧
  *   フリーバトル … v0.3 からある、ランダムな3体どうしの1戦
  *
  * 設計: docs/design/ui-flow.md / docs/design/endgame.md
  */
 
 import { createRng, emptySave, type BattlePokemonSource, type SaveData } from "@pkmn/core";
-import { allFacilities, allMoves, allSpecies } from "@pkmn/data";
+import { allFacilities, allMoves, allNamed, allSpecies, allTournaments } from "@pkmn/data";
 import { $, runBattle, setSpeed, waitForButton, type Speed } from "./battle-screen.js";
+import { cupMenu, namedList, playCup } from "./cup.js";
 import { createLocalSaveStore } from "./save.js";
 import { facilityMenu, playFacility } from "./tower.js";
 
@@ -26,7 +29,7 @@ let save: SaveData = emptySave();
 
 $("#app").innerHTML = `
   <header>
-    <h1>ポケモン風RPG <span class="ver">v0.5</span></h1>
+    <h1>ポケモン風RPG <span class="ver">v0.6</span></h1>
     <div class="tools">
       <div class="speed" id="speed">
         <button data-s="normal" class="on">つうじょう</button>
@@ -36,7 +39,9 @@ $("#app").innerHTML = `
     </div>
   </header>
   <nav id="modes">
-    <button data-m="facility" class="on">バトル しせつ</button>
+    <button data-m="cup" class="on">トーナメント</button>
+    <button data-m="facility">バトル しせつ</button>
+    <button data-m="named">ネームド</button>
     <button data-m="free">フリーバトル</button>
   </nav>
   <main>
@@ -55,7 +60,7 @@ $("#app").innerHTML = `
   </footer>`;
 
 $("#scale").textContent =
-  `カントー ${allSpecies.length} 種 ・ 技 ${allMoves.length} 種 ・ 特性と持ち物が はたらきます`;
+  `カントー ${allSpecies.length} 種 ・ 技 ${allMoves.length} 種 ・ ネームド ${allNamed.length} 人`;
 
 $("#speed").addEventListener("click", (e) => {
   const target = e.target as HTMLElement;
@@ -104,35 +109,53 @@ async function freeBattle(): Promise<void> {
 // モード切り替え
 // ─────────────────────────────────────────────
 
-let mode: "facility" | "free" = "facility";
+type Mode = "cup" | "facility" | "named" | "free";
+let mode: Mode = "cup";
+
+const context = () => ({
+  save,
+  store,
+  onSaveChanged: (next: SaveData) => {
+    save = next;
+  },
+});
+
+const seed = () => Math.floor(Math.random() * 1_000_000);
 
 function showFacilityMenu(): void {
   $("#run").classList.add("hidden");
   facilityMenu(allFacilities, save, (facility) => {
-    void playFacility(
-      facility,
-      {
-        save,
-        store,
-        onSaveChanged: (next) => {
-          save = next;
-        },
-      },
-      Math.floor(Math.random() * 1_000_000),
-    ).then(() => {
+    void playFacility(facility, context(), seed()).then(() => {
       if (mode === "facility") showFacilityMenu();
     });
   });
 }
 
+function showCupMenu(): void {
+  $("#run").classList.add("hidden");
+  cupMenu(allTournaments, save, (cup, tier) => {
+    void playCup(cup, tier, context(), seed()).then(() => {
+      if (mode === "cup") showCupMenu();
+    });
+  });
+}
+
+function show(next: Mode): void {
+  mode = next;
+  if (next === "cup") showCupMenu();
+  else if (next === "facility") showFacilityMenu();
+  else if (next === "named") {
+    $("#run").classList.add("hidden");
+    namedList();
+  } else void freeBattle();
+}
+
 $("#modes").addEventListener("click", (e) => {
   const target = e.target as HTMLElement;
-  const value = target.dataset["m"] as typeof mode | undefined;
+  const value = target.dataset["m"] as Mode | undefined;
   if (value === undefined || value === mode) return;
-  mode = value;
   for (const b of $("#modes").querySelectorAll("button")) b.classList.toggle("on", b === target);
-  if (mode === "facility") showFacilityMenu();
-  else void freeBattle();
+  show(value);
 });
 
 // ─────────────────────────────────────────────
@@ -142,5 +165,5 @@ $("#modes").addEventListener("click", (e) => {
 void (async () => {
   const loaded = await store.load(0);
   if (loaded !== null) save = loaded;
-  showFacilityMenu();
+  show("cup");
 })();

@@ -17,9 +17,7 @@ import {
   playerParty,
   recordRun,
   startRun,
-  validateTeam,
   type AiConfig,
-  type BattleSet,
   type Facility,
   type FacilityRun,
   type PartySpec,
@@ -28,7 +26,7 @@ import {
 } from "@pkmn/core";
 import { allBattleSets, gameData } from "@pkmn/data";
 import { $, runBattle, waitForButton } from "./battle-screen.js";
-import { TYPE_COLOR, TYPE_LABEL } from "./view.js";
+import { chooseRentalTeam, escape, setScreen } from "./team-select.js";
 
 /** レンタルの候補数。多すぎると選ぶのが作業になる。 */
 const RENTAL_CHOICES = 6;
@@ -39,84 +37,25 @@ type Context = {
   onSaveChanged: (save: SaveData) => void;
 };
 
-const escape = (text: string) =>
-  text.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c] ?? c);
-
-function setScreen(html: string): void {
-  $("#menu").innerHTML = html;
-  $("#menu").classList.remove("hidden");
-  $("#battle").classList.add("hidden");
-}
-
 // ─────────────────────────────────────────────
 // 編成
 // ─────────────────────────────────────────────
 
-function cardFor(set: BattleSet, index: number, selected: boolean): string {
-  const species = gameData.species(set.species);
-  const types = species.types
-    .map((t) => `<span class="type" style="background:${TYPE_COLOR[t]}">${TYPE_LABEL[t]}</span>`)
-    .join("");
-  const moves = set.moves.map((m) => escape(gameData.move(m).name)).join("・");
-  return `
-    <button class="rental ${selected ? "on" : ""}" data-i="${index}">
-      <div class="row">
-        <strong>${escape(species.name)}</strong>
-        <span class="types">${types}</span>
-      </div>
-      <div class="meta">${moves}</div>
-      <div class="meta gearline">
-        ${escape(gameData.ability(set.ability).name)} ・ ${escape(gameData.item(set.item).name)}
-      </div>
-    </button>`;
-}
-
 /**
  * レンタル候補から編成を選ばせる。
  *
- * v0.5 では捕まえた個体がまだ存在しない（v0.8）ので、全ての施設がレンタル制になる。
- * 同じ BattleSet を相手プールとレンタルの両方に使う ―― 1つのデータが2用途、
- * というのが endgame.md §6 の狙いそのもの。
+ * レンタルは相手より強い grade から貸す ―― 同格だと1戦が五分になり、
+ * 連勝の確率が 0.5^n に落ちて施設として成立しない（endgame.md §11.5）。
  */
 function chooseTeam(facility: Facility, seed: number): Promise<PartySpec[] | null> {
-  // レンタルは相手より強い grade から貸す（連勝が伸びる余地を作るための差）
   const rng = createRng(createRngState(seed));
   const offer = buildOpponentParty(allBattleSets, facility.rentalGrade, RENTAL_CHOICES, rng);
-  const selected = new Set<number>();
-
-  return new Promise((resolve) => {
-    const render = () => {
-      const team = [...selected].map((i) => battleSetToSource(offer[i]!, 50));
-      const problems = validateTeam(gameData, facility.ruleset, team);
-      const ready = problems.length === 0;
-
-      setScreen(`
-        <h2>${escape(facility.name)}</h2>
-        <p class="lead">${escape(facility.description)}</p>
-        <p class="lead">レンタルから ${facility.ruleset.teamSize}体 えらんでください
-          （${selected.size}/${facility.ruleset.teamSize}）</p>
-        <div class="rentals">${offer.map((s, i) => cardFor(s, i, selected.has(i))).join("")}</div>
-        <p class="problems">${problems.map(escape).join(" / ")}</p>
-        <div class="menu-actions">
-          <button id="go" ${ready ? "" : "disabled"}>ちょうせん する</button>
-          <button id="back" class="ghost">やめる</button>
-        </div>`);
-
-      for (const el of $("#menu").querySelectorAll<HTMLElement>(".rental")) {
-        el.onclick = () => {
-          const i = Number(el.dataset["i"]);
-          if (selected.has(i)) selected.delete(i);
-          else if (selected.size < facility.ruleset.teamSize) selected.add(i);
-          render();
-        };
-      }
-      $("#go").onclick = () => {
-        if (!ready) return;
-        resolve([...selected].map((i) => battleSetToSource(offer[i]!, 50)));
-      };
-      $("#back").onclick = () => resolve(null);
-    };
-    render();
+  return chooseRentalTeam({
+    title: facility.name,
+    lead: facility.description,
+    offer,
+    ruleset: facility.ruleset,
+    note: `レンタルは あいてより つよい しあがり（grade ${facility.rentalGrade}）です`,
   });
 }
 

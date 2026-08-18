@@ -10,7 +10,7 @@
  */
 
 import type { GameData } from "./gamedata.js";
-import { calcAllStats, MAX_IVS, ZERO_STATS } from "./stats.js";
+import { calcAllStats, MAX_IVS } from "./stats.js";
 import type {
   AbilityId,
   BattlePokemon,
@@ -21,7 +21,7 @@ import type {
   StatSpread,
   StatusId,
 } from "./types.js";
-import { EMPTY_STAGES } from "./types.js";
+import { EMPTY_STAGES, STATS } from "./types.js";
 
 /** 「Lv50のリザードン」という設計図。BattleSet もこの形に落としてから渡す。 */
 export type PartySpec = {
@@ -29,8 +29,9 @@ export type PartySpec = {
   level: number;
   moves: MoveId[];
   nickname?: string;
-  ivs?: StatSpread;
-  evs?: StatSpread;
+  /** 一部だけ指定できる。欠けた能力は既定値で埋める（fillSpread）。 */
+  ivs?: Partial<StatSpread>;
+  evs?: Partial<StatSpread>;
   nature?: NatureId;
   status?: StatusId;
   /** 省略時は種族の既定特性（abilities[0]）。 */
@@ -39,6 +40,22 @@ export type PartySpec = {
 };
 
 export type BattlePokemonSource = PartySpec;
+
+/**
+ * 一部しか書かれていない能力の並びを、6つ揃った形に埋める。
+ *
+ * データ側は「努力値は atk と spe だけ」のように部分的に書く。
+ * 埋めずに計算式へ渡すと `undefined` が混ざり、**実数値が NaN になる**。
+ * NaN は HP 比較を静かに素通りするため、
+ * 「相手が最初から全員ひんし扱い」という形でしか表に出てこない。
+ *
+ * 入口で1つの形に揃えるのがこのファイルの役目なので、ここで埋める。
+ */
+function fillSpread(partial: Partial<StatSpread> | undefined, fallback: number): StatSpread {
+  const out = {} as StatSpread;
+  for (const stat of STATS) out[stat] = partial?.[stat] ?? fallback;
+  return out;
+}
 
 export function toBattlePokemon(
   data: GameData,
@@ -49,9 +66,17 @@ export function toBattlePokemon(
   const species = data.species(source.species);
   const level = levelOverride ?? source.level;
 
-  const ivs = source.ivs ?? MAX_IVS;
-  const evs = source.evs ?? ZERO_STATS;
+  const ivs = fillSpread(source.ivs, MAX_IVS.hp);
+  const evs = fillSpread(source.evs, 0);
   const stats = calcAllStats(data, species, level, ivs, evs, source.nature);
+
+  // 計算結果が数値であることを保証する。ここを抜けた NaN は
+  // 「最初から全員ひんし」という分かりにくい形でしか現れない
+  for (const stat of STATS) {
+    if (!Number.isFinite(stats[stat])) {
+      throw new Error(`${source.species}: 実数値 ${stat} が数値にならない`);
+    }
+  }
 
   if (source.moves.length === 0) throw new Error(`${source.species} has no moves`);
   if (source.moves.length > 4) throw new Error(`${source.species} has more than 4 moves`);
