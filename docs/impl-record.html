@@ -1,4 +1,4 @@
-<title>バトルエンジン実装記録</title>
+<title>ポケモン風RPG 実装記録</title>
 <style>
 /* ─────────────────────────────────────────────
    トークン。プロジェクト本体 (packages/game/src/style.css) の
@@ -212,24 +212,26 @@ a:focus-visible, summary:focus-visible {
 <div class="wrap">
 
 <header class="doc">
-  <span class="eyebrow">実装記録 · v0.1 → v0.5</span>
-  <h1>バトルエンジン実装記録</h1>
+  <span class="eyebrow">実装記録 · v0.1 → v0.7</span>
+  <h1>ポケモン風RPG 実装記録</h1>
   <p class="lede">
-    ポケモン風RPG の v0.1〜v0.5 で何を実装し、何を意図的に残したかの技術リファレンス。
+    v0.1〜v0.7 で何を実装し、何を意図的に残したかの技術リファレンス。
+    バトルエンジンから始まり、歴代ネームドとのトーナメントを経て、
+    <strong>マップを歩いて野生と戦えるところまで</strong>来ている。
     設計文書は <code>docs/design/</code>、上位方針は <code>docs/game-plan.md</code>。
   </p>
-  <p class="meta">対象コミット: <span class="mono">36cf0e3 … 3d46885</span> ／ 全テスト緑・型チェック通過・検証スクリプト通過</p>
+  <p class="meta">対象コミット: <span class="mono">36cf0e3 … 2396ff7</span> ／ 全テスト緑・型チェック通過・検証スクリプト通過</p>
 </header>
 
 <div class="figures">
-  <div class="fig"><b class="num">176</b><span>テスト</span></div>
+  <div class="fig"><b class="num">228</b><span>テスト</span></div>
   <div class="fig"><b class="num">151</b><span>種族</span></div>
   <div class="fig"><b class="num">105</b><span>技</span></div>
-  <div class="fig"><b class="num">48</b><span>特性</span></div>
-  <div class="fig"><b class="num">32</b><span>持ち物</span></div>
-  <div class="fig"><b class="num">64</b><span>BattleSet</span></div>
-  <div class="fig"><b class="num">5,883</b><span>実装行 (TS)</span></div>
-  <div class="fig"><b class="num">2,115</b><span>テスト行</span></div>
+  <div class="fig"><b class="num">13</b><span>ネームド</span></div>
+  <div class="fig"><b class="num">4</b><span>マップ</span></div>
+  <div class="fig"><b class="num">58</b><span>検証項目</span></div>
+  <div class="fig"><b class="num">9,076</b><span>実装行 (TS)</span></div>
+  <div class="fig"><b class="num">3,041</b><span>テスト行</span></div>
 </div>
 
 <!-- ───────────── 全体像 ───────────── -->
@@ -238,16 +240,18 @@ a:focus-visible, summary:focus-visible {
 
   <p>依存は一方向のみ。<strong><code>core</code> はデータを静的に持たず、<code>GameData</code> という interface だけを知る。</strong>
   これにより v0.1 のテストは「2種2技だけの <code>GameData</code>」を渡してバトルを成立させられる。
-  v0.5 で <code>ability()</code> / <code>item()</code> が加わったが、注入の形は変わっていない。</p>
+  v0.5 で <code>ability()</code> / <code>item()</code> が加わり、v0.7 でマップ・イベント・トレーナーが増えたが、
+  <strong>注入の形は一度も変わっていない</strong> ―― 世界のデータも <code>core</code> の関数に引数で渡す。</p>
 
   <pre><code>packages/
   core/   ルールエンジン。Phaser にも DOM にも依存しない純粋な TypeScript
     ai/       AI (random / basic) と AiView
-    endgame/  ルールセット・相手プール・連戦の進行
+    endgame/  ルールセット・相手プール・連戦・ネームド・トーナメント
+    world/    マップ・移動・イベントのインタプリタ
     save/     SaveStore interface とマイグレーション
   data/   マスタデータ (JSON) と GameData の実装
   game/   画面。BattleEvent を演出として消費する
-tools/    一括投入・ID生成・検証・CLIデモ
+tools/    一括投入・マップ変換・ID生成・検証・CLIデモ・ブラウザ台本
 
          game ──→ core ──→ data
                     ↑         ↑
@@ -258,31 +262,33 @@ tools/    一括投入・ID生成・検証・CLIデモ
     <table>
       <thead><tr><th>モジュール</th><th>役割</th><th class="n">行</th><th>導入</th></tr></thead>
       <tbody>
+        <tr><td class="mono">tools/validate.ts</td><td>全58項目の検証。CI で回す</td><td class="n">1,120</td><td><span class="pill done">v0.4</span></td></tr>
+        <tr><td class="mono">core/battle.ts</td><td>ターン処理・交代・行動阻害・逃走・ターン終了処理</td><td class="n">724</td><td><span class="pill done">v0.1</span></td></tr>
         <tr><td class="mono">core/held.ts</td><td><strong>特性・持ち物のレジストリ</strong>（35種の効果 × 25のフック）</td><td class="n">720</td><td><span class="pill done">v0.5</span></td></tr>
-        <tr><td class="mono">core/battle.ts</td><td>ターン処理・交代・行動阻害・ターン終了処理</td><td class="n">672</td><td><span class="pill done">v0.1</span></td></tr>
-        <tr><td class="mono">core/types.ts</td><td>全型定義。<code>Action</code> / <code>BattleEvent</code> / <code>HeldEffect</code></td><td class="n">386</td><td><span class="pill done">v0.1</span></td></tr>
+        <tr><td class="mono">tools/import.ts</td><td>TSV → JSON の一括投入</td><td class="n">551</td><td><span class="pill done">v0.4</span></td></tr>
+        <tr><td class="mono">game/src/field.ts</td><td>マップ探索画面（描画・入力・会話・バトルへの遷移）</td><td class="n">542</td><td><span class="pill done">v0.7</span></td></tr>
+        <tr><td class="mono">core/types.ts</td><td>全型定義。<code>Action</code> / <code>BattleEvent</code> / <code>HeldEffect</code></td><td class="n">401</td><td><span class="pill done">v0.1</span></td></tr>
+        <tr><td class="mono">core/world/event.ts</td><td><strong>イベントのインタプリタ</strong>（18種のコマンド）</td><td class="n">314</td><td><span class="pill done">v0.7</span></td></tr>
+        <tr><td class="mono">core/world/movement.ts</td><td>移動・向き直り・段差・warp・エンカウント判定</td><td class="n">279</td><td><span class="pill done">v0.7</span></td></tr>
+        <tr><td class="mono">game/src/battle-screen.ts</td><td>1戦を進める画面（フリーバトル・施設・カップ・野生が共用）</td><td class="n">275</td><td><span class="pill done">v0.5</span></td></tr>
+        <tr><td class="mono">game/src/cup.ts</td><td>カップ・ネームド一覧・トーナメント進行の画面</td><td class="n">257</td><td><span class="pill done">v0.6</span></td></tr>
+        <tr><td class="mono">tools/convert-map.ts</td><td>マップ原本（テキスト）→ <code>MapData</code> JSON</td><td class="n">254</td><td><span class="pill done">v0.7</span></td></tr>
+        <tr><td class="mono">data/src/index.ts</td><td>JSON 読み込みと <code>GameData</code> 実装</td><td class="n">224</td><td><span class="pill done">v0.1</span></td></tr>
+        <tr><td class="mono">core/save/store.ts</td><td><code>SaveStore</code> interface・マイグレーション・記録の更新</td><td class="n">213</td><td><span class="pill done">v0.5</span></td></tr>
         <tr><td class="mono">core/effects.ts</td><td>技効果のレジストリ (8種のハンドラ)</td><td class="n">212</td><td><span class="pill done">v0.1</span></td></tr>
+        <tr><td class="mono">core/endgame/tournament.ts</td><td>カップ・組み合わせ抽選・ティア解放</td><td class="n">203</td><td><span class="pill done">v0.6</span></td></tr>
         <tr><td class="mono">core/endgame/ruleset.ts</td><td><code>Ruleset</code> / <code>BattleSet</code> / 相手の抽選・編成の検証</td><td class="n">199</td><td><span class="pill done">v0.5</span></td></tr>
         <tr><td class="mono">core/ai/basic.ts</td><td>AI <code>basic</code> — 期待ダメージと相性のスコアリング</td><td class="n">187</td><td><span class="pill done">v0.5</span></td></tr>
         <tr><td class="mono">core/endgame/facility.ts</td><td>連戦の進行・連勝・BP・施設の敗北処理</td><td class="n">182</td><td><span class="pill done">v0.5</span></td></tr>
-        <tr><td class="mono">core/save/store.ts</td><td><code>SaveStore</code> interface・マイグレーション・記録の更新</td><td class="n">151</td><td><span class="pill done">v0.5</span></td></tr>
+        <tr><td class="mono">game/src/main.ts</td><td>モード切り替えとフリーバトル</td><td class="n">180</td><td><span class="pill done">v0.3</span></td></tr>
+        <tr><td class="mono">core/world/types.ts</td><td>マップ・オブジェクト・トレーナー・条件・コマンドの型</td><td class="n">149</td><td><span class="pill done">v0.7</span></td></tr>
+        <tr><td class="mono">core/endgame/named.ts</td><td>ネームド・ティア・選出・キャラごとの AI 設定</td><td class="n">146</td><td><span class="pill done">v0.6</span></td></tr>
         <tr><td class="mono">core/damage.ts</td><td>ダメージ計算・命中判定・急所</td><td class="n">144</td><td><span class="pill done">v0.1</span></td></tr>
         <tr><td class="mono">core/ai/view.ts</td><td><code>AiView</code> — AIに見える情報を型で制限する</td><td class="n">130</td><td><span class="pill done">v0.5</span></td></tr>
+        <tr><td class="mono">core/normalize.ts</td><td><code>toBattlePokemon</code> — 参加者の正規化</td><td class="n">113</td><td><span class="pill done">v0.1</span></td></tr>
         <tr><td class="mono">core/status.ts</td><td>状態異常6種＋混乱・スリップダメージ</td><td class="n">99</td><td><span class="pill done">v0.2</span></td></tr>
-        <tr><td class="mono">core/normalize.ts</td><td><code>toBattlePokemon</code> — 参加者の正規化</td><td class="n">88</td><td><span class="pill done">v0.1</span></td></tr>
         <tr><td class="mono">core/rng.ts</td><td>シード固定の疑似乱数 (xorshift32)</td><td class="n">63</td><td><span class="pill done">v0.1</span></td></tr>
-        <tr><td class="mono">core/stages.ts</td><td>能力ランク補正 (−6〜+6)</td><td class="n">62</td><td><span class="pill done">v0.2</span></td></tr>
-        <tr><td class="mono">core/stats.ts</td><td>実数値の計算</td><td class="n">59</td><td><span class="pill done">v0.1</span></td></tr>
         <tr><td class="mono">core/gamedata.ts</td><td><code>GameData</code> interface (依存性注入)</td><td class="n">42</td><td><span class="pill done">v0.1</span></td></tr>
-        <tr><td class="mono">tools/validate.ts</td><td>全検証項目。CI で回す</td><td class="n">527</td><td><span class="pill done">v0.4</span></td></tr>
-        <tr><td class="mono">tools/import.ts</td><td>TSV → JSON の一括投入</td><td class="n">448</td><td><span class="pill done">v0.4</span></td></tr>
-        <tr><td class="mono">game/src/battle-screen.ts</td><td>1戦を進める画面（フリーバトルと施設が共用）</td><td class="n">258</td><td><span class="pill done">v0.5</span></td></tr>
-        <tr><td class="mono">game/src/tower.ts</td><td>編成・連戦・結果の画面</td><td class="n">242</td><td><span class="pill done">v0.5</span></td></tr>
-        <tr><td class="mono">game/src/view.ts</td><td>イベントから表示状態を組み立てる</td><td class="n">164</td><td><span class="pill done">v0.3</span></td></tr>
-        <tr><td class="mono">data/src/index.ts</td><td>JSON 読み込みと <code>GameData</code> 実装</td><td class="n">163</td><td><span class="pill done">v0.1</span></td></tr>
-        <tr><td class="mono">game/src/main.ts</td><td>モード切り替えとフリーバトル</td><td class="n">146</td><td><span class="pill done">v0.3</span></td></tr>
-        <tr><td class="mono">game/src/messages.ts</td><td>文言と演出時間</td><td class="n">130</td><td><span class="pill done">v0.3</span></td></tr>
-        <tr><td class="mono">game/src/save.ts</td><td>localStorage 実装（v0.9 で IndexedDB に差し替え）</td><td class="n">37</td><td><span class="pill done">v0.5</span></td></tr>
       </tbody>
     </table>
   </div>
@@ -440,6 +446,98 @@ tools/    一括投入・ID生成・検証・CLIデモ
       <li><span class="pill done">確認</span> ランダムに押すだけの自動操作で13連勝・40BPまで到達し、リロード後も記録が残る</li>
     </ul>
   </article>
+
+  <article class="release">
+    <header><span class="ver">v0.6</span><h2>PWT型トーナメント</h2></header>
+    <p class="goal"><strong>作りたかったゲームがここで動く。</strong> マップも捕獲も無いまま、歴代のジムリーダー・四天王・ライバルと戦えるようになる。</p>
+
+    <h3>実装</h3>
+    <ul>
+      <li><strong>ネームド13人 × 2ティア</strong> — カントーのジムリーダー8人・四天王4人・ライバル。原作ティアと本気ティア</li>
+      <li><strong>カップ3種</strong> — 勝ち抜き。ティアはカップごとに解放される</li>
+      <li><code>selectParty</code> — 原作の6体パーティから3体を選ぶ。<strong>署名ポケモンを必ず残す</strong></li>
+      <li>キャラ1人を足すと<strong>ティアぶんのコンテンツが増える</strong>構造（TSV に行を足すだけ）</li>
+    </ul>
+
+    <h3>ここで見つかった最大の欠陥</h3>
+    <div class="note warn">
+      <strong>本気ティアの相手が、全員 NaN の実数値で戦っていた。</strong>
+      <code>PartySpec.evs</code> の型は6項目そろった <code>StatSpread</code> だったが、
+      データ側は「攻撃と素早さだけ」のように部分的に書いていた。
+      <code>Math.floor(undefined / 4)</code> が <code>NaN</code> になり、実数値が全部 <code>NaN</code> になる。<br>
+      <strong><code>NaN</code> は <code>&gt; 0</code> の比較を静かに素通りする。</strong>
+      そのため症状は「相手が最初から全員ひんし扱い」という形でしか表に出ず、
+      <strong>ワタルが60戦60敗した</strong>のを見て初めて分かった。
+      入口で欠けた値を埋め、<strong>実数値が有限でなければ例外を投げる</strong>ようにした。
+    </div>
+
+    <h3>難易度の実測</h3>
+    <p>レンタルの強さを「連戦」と同じ考えで決めたら、原作ティアが1戦あたり勝率98%になった。<strong>正解が構造によって逆になる。</strong></p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>構造</th><th>レンタルの強さ</th><th class="n">1戦の勝率</th><th>結果</th></tr></thead>
+        <tbody>
+          <tr><td>連戦（バトルタワー）</td><td>相手より<strong>強く</strong></td><td class="n">—</td><td>0.5<sup>n</sup> の罠を避けるために必要</td></tr>
+          <tr><td>勝ち抜き・原作ティア（当初）</td><td>相手より強く（grade 4）</td><td class="n">98%</td><td>ムービーになる</td></tr>
+          <tr><td>勝ち抜き・原作ティア（修正後）</td><td>相手相当（grade 2）</td><td class="n">78%</td><td>勝負になる</td></tr>
+          <tr><td>勝ち抜き・本気ティア（修正後）</td><td>相手相当（grade 4）</td><td class="n">48%</td><td>歯ごたえが出る</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </article>
+
+  <article class="release">
+    <header><span class="ver">v0.7</span><h2>マップ探索・野生エンカウント</h2></header>
+    <p class="goal">3つの希望の最後のひとつ「原作のマップを再現」に最初の1歩を入れる。目標は<strong>良いマップを作ることではなく、マップを大量に流し込める仕組みを用意すること</strong>。</p>
+
+    <h3>実装</h3>
+    <ul>
+      <li><strong>イベントのインタプリタ</strong> — 18種のコマンドをレジストリで解決する。バトルと同じく <code>core</code> は時間を持たず、演出に当たったら中断して UI に返す</li>
+      <li><strong>移動・衝突・向き直り・段差・warp・エンカウント</strong> — すべて純関数。描画も時間も持たない</li>
+      <li><strong>マップ4枚</strong> — マサラタウン / 主人公の家 / オーキド研究所 / 1番道路。テキストの原本から変換する</li>
+      <li><code>Action.run</code>（逃走）— 野生戦でだけ選べる。原作の逃走判定式（試行回数で成功率が上がる）</li>
+      <li>フラグによる分岐。<strong>NPC が消える</strong>形と、<strong>台詞が変わる</strong>形の2つ</li>
+    </ul>
+
+    <h3>設計判断</h3>
+    <div class="note">
+      <strong>Tiled も Phaser も、予定していたが入れなかった。</strong>
+      どちらも「タイル画像を扱う」ための道具で、本作には<strong>まだ絵が1枚もない</strong>
+      （公式素材はリポジトリに入れられないため／game-plan.md §10）。
+      Tiled の価値は塗ることにあり、塗るタイルが無い。
+      Phaser が担当するはずだった描画は、実装したら<strong>60行ほどで足りた</strong>のに対し、
+      バンドルは約1MB増える。<br>
+      どちらも<strong>「入れない」ではなく「入れる条件」を書いて先に進めた</strong> ――
+      公式素材を実際に描き始めたとき、描画対象が数百に増えたとき。
+    </div>
+
+    <h3>検証で捕まえたもの</h3>
+    <p>マップを1枚足してもコードは増えなかった（狙いどおり）。増えるのは<strong>手で書いた座標</strong>で、これは必ず間違える。検証を書いた初回実行で実データを4件捕まえた。</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>捕まえたもの</th><th>症状</th></tr></thead>
+        <tbody>
+          <tr><td>四方を家具に塞がれた1マス</td><td>入れないだけ。気づきにくい</td></tr>
+          <tr><td><strong>机に囲まれて一生話しかけられない NPC</strong></td><td>置いてあるのに起動しない。<strong>歩けば分かる不具合より深い</strong></td></tr>
+          <tr><td>通行不可タイルの上に置いた看板</td><td>同上</td></tr>
+          <tr><td>存在しない道具の参照</td><td>回復道具がまだ1つも無かった（v0.9）</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>実機検証</h3>
+    <ul>
+      <li><span class="pill done">確認</span> <code>core</code> だけで「家 → 町 → 研究所 → 1番道路 → 遭遇」を1本のテストで通す</li>
+      <li><span class="pill done">確認</span> ブラウザを実際に操作する台本（<code>tools/playthrough.mjs</code>）で同じ道行き＋ライバル戦＋逃走まで</li>
+    </ul>
+    <div class="note warn" style="margin-bottom:0">
+      <strong>台本を書いた理由。</strong> <code>givePokemon</code> の技指定が UI まで届いておらず、
+      <strong>ヒトカゲが「ひのこ」1つだけで戦っていた。</strong>
+      コマンドは <code>moves</code> を持っていたのに、UI へ渡す側の型に載せ忘れていた ――
+      <strong>型検査もテストも素通りする。</strong> 画面を見るまで分からない層があると分かったので、
+      検証の3本目としてブラウザ操作を常設した。
+    </div>
+  </article>
 </section>
 
 <!-- ───────────── 訂正記録 ───────────── -->
@@ -464,6 +562,15 @@ tools/    一括投入・ID生成・検証・CLIデモ
         <tr><td><span class="ver">v0.5</span></td><td><code>grade</code> は個体値だけでなく努力値も割り引く</td><td>数値の効き方</td></tr>
         <tr><td><span class="ver">v0.5</span></td><td><strong>相手と同じ強さの個体を貸すと連勝施設が成立しない</strong></td><td>確率の構造</td></tr>
         <tr><td><span class="ver">v0.5</span></td><td><code>mistakeRate</code> は「弱くする」ではなく「詰めを甘くする」つまみ</td><td>測って分かった</td></tr>
+        <tr><td><span class="ver">v0.6</span></td><td><strong>努力値を一部だけ書くと実数値が <code>NaN</code> になる</strong>（相手が全員ひんし扱い）</td><td>型の穴</td></tr>
+        <tr><td><span class="ver">v0.6</span></td><td>レンタルの強さの正解が、連戦と勝ち抜きで<strong>逆になる</strong></td><td>構造で反転</td></tr>
+        <tr><td><span class="ver">v0.6</span></td><td>原作パーティを3体に絞るとエースが落ちる</td><td>遊ぶと分かる</td></tr>
+        <tr><td><span class="ver">v0.6</span></td><td><code>basic</code> はキャラを演じられない ― 難易度と「らしさ」は別の軸</td><td>設計の取り違え</td></tr>
+        <tr><td><span class="ver">v0.7</span></td><td><strong>設定した遭遇率は実効遭遇率ではない</strong>（猶予歩数が総量を4割削る）</td><td>測って分かった</td></tr>
+        <tr><td><span class="ver">v0.7</span></td><td>「歩けるマスが全部繋がっている」と「置いたものが起動できる」は別</td><td>検証の穴</td></tr>
+        <tr><td><span class="ver">v0.7</span></td><td><code>battle</code> の「末尾のみ」規定が、分岐の中の <code>battle</code> を縛れていなかった</td><td>規定の甘さ</td></tr>
+        <tr><td><span class="ver">v0.7</span></td><td>色を規則から導出しきると、<strong>家の壁と木が同じ色になる</strong></td><td>やりすぎた抽象</td></tr>
+        <tr><td><span class="ver">v0.7</span></td><td><strong>生成した ID 型を4バージョン誰も import していなかった</strong></td><td>未解決</td></tr>
       </tbody>
     </table>
   </div>
@@ -486,6 +593,27 @@ tools/    一括投入・ID生成・検証・CLIデモ
     </table>
   </div>
 
+  <div class="note warn" style="margin-top:20px">
+    <strong>v0.7 の実測 ―― 「救済」はひとつのものではなかった。</strong><br>
+    草むらだけを15万歩ぶん歩かせて測った。基本遭遇率の設定は 12%。
+  </div>
+
+  <div class="scroll" style="margin-top:14px">
+    <table>
+      <thead><tr><th>設定</th><th class="n">平均歩数</th><th class="n">最小</th><th class="n">最大</th><th class="n">実効遭遇率</th></tr></thead>
+      <tbody>
+        <tr><td><strong>採用した設定</strong>（猶予5歩＋pity）</td><td class="n">13.2</td><td class="n">6</td><td class="n">37</td><td class="n"><strong>7.6%</strong></td></tr>
+        <tr><td>猶予なし（pity のみ）</td><td class="n">8.3</td><td class="n">1</td><td class="n">36</td><td class="n">12.1%</td></tr>
+        <tr><td>救済ぜんぶ無し（原作風）</td><td class="n">8.5</td><td class="n">1</td><td class="n">79</td><td class="n">11.8%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p style="margin-top:16px"><strong>猶予歩数は「連続で出続ける」を止めるつもりの仕掛けだったが、実際には遭遇の総量を4割削っていた</strong>（12% → 7.6%）。
+  一方 pity は平均をほとんど動かさず（8.5 → 8.3）、効くのは分布の裾で、最悪ケースを 79歩 → 37歩 に半減させる。
+  <strong>同じ「救済」でも効く場所が違うので、まとめて増減させてはいけない。</strong>
+  実効率は現在テストで固定してあり、猶予歩数を触ると検出される。</p>
+
   <p style="margin-top:16px">原作の施設ではプレイヤーが自分で育てた個体を持ち込むため、この差が自然にあった。
   レンタル制ではそれが無いので、<strong>差をデータとして明示する</strong>必要がある。
   <code>Facility.rentalGrade</code> を足し、<strong>「レンタルが最初の相手 grade 以下」を検証がエラーで弾く</strong>ようにした。</p>
@@ -497,6 +625,18 @@ tools/    一括投入・ID生成・検証・CLIデモ
     連勝の確率が 0.5<sup>n</sup> になる話も、努力値と個体値の効き方の差も、
     文書をいくら読み直しても出てこない。<br>
     前者は見直しで、後者は実装でしか見つからない。<strong>両方いる。</strong>
+  </div>
+
+  <div class="note warn" style="margin-top:16px">
+    <strong>v0.7 でもう1段あった ―― 検証が通ることと、目的が達成されていることは別。</strong><br>
+    <code>tools/gen-ids.ts</code> は v0.4 から ID のユニオン型を生成し、
+    CI は「生成物が古くないか」を毎回確かめている。<strong>その検証はずっと通っていた。</strong>
+    だが <code>SpeciesId</code> は今も <code>string</code> のままで、
+    <strong>生成した型を参照している箇所が1つも無い。</strong>
+    「補完が効く」「タイプミスがコンパイルエラーになる」という当初の目的は、
+    4バージョンにわたって1つも達成されていなかった ――
+    <strong>検証が通っているせいで、動いているように見え続けた。</strong>
+    <code>givePokemon</code> の技が届いていなかった件も同じ形をしている。
   </div>
 </section>
 
@@ -829,9 +969,92 @@ g4-gyarados    gyarados   waterfall/crunch/earthquake/double-edge          choic
   </ul>
 </section>
 
+<!-- ───────────── 世界 ───────────── -->
+<section>
+  <div class="sec-head"><span class="eyebrow">10</span><h2>世界 ― マップとイベントのデータ駆動</h2></div>
+
+  <p class="lede" style="margin-bottom:16px">
+    9地方で数百マップになる。だから設計の目標は「良いマップを作る」ことではなく、
+    <strong>マップを大量に流し込める仕組みを用意すること</strong>に置いてある。
+  </p>
+
+  <h3>レジストリは4つ目になった</h3>
+  <p>同じ形が4回目になった ―― <strong>種類ごとにハンドラを1つ書き、残りはデータで足す</strong>。
+  イベントのコマンドもこの形にした。地方を追加してもコマンドの種類は増えず、増えるのは JSON だけになる。</p>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th>レジストリ</th><th class="n">種類</th><th>データ側で増えるもの</th><th>導入</th></tr></thead>
+      <tbody>
+        <tr><td>技効果 <code>effectHandlers</code></td><td class="n">8</td><td>技 105件</td><td><span class="pill done">v0.1</span></td></tr>
+        <tr><td>特性・持ち物 <code>heldHandlers</code></td><td class="n">35</td><td>特性48・持ち物32</td><td><span class="pill done">v0.5</span></td></tr>
+        <tr><td>検証項目</td><td class="n">58</td><td>―（規律そのもの）</td><td><span class="pill done">v0.4</span></td></tr>
+        <tr><td>イベントコマンド <code>handlers</code></td><td class="n">18</td><td>イベント15件（マップを足すほど増える）</td><td><span class="pill done">v0.7</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="margin:24px 0 8px">バトルと同じ構造にした</h3>
+  <p><code>core</code> は時間を持たない。<strong>演出を伴うコマンドに当たったら実行を止めて UI に返し、読み終わったら続きを実行する。</strong>
+  バトルが <code>BattleEvent[]</code> を返すのと同じ考え方で、イベントは <code>EventEffect[]</code> を返す。</p>
+
+  <pre><code>stepEvent(runner, world)
+      │
+      ├─ setFlag / if / giveItem …   中断しない。まとめて処理する
+      └─ message / choice / battle   ここで止めて UI に返す
+                                     UI が読み終わったら、また stepEvent を呼ぶ</code></pre>
+
+  <div class="note">
+    <strong><code>battle</code> だけは原子性を保てない。</strong>
+    バトルは数分かかるので、途中でブラウザを閉じられるとイベントの途中状態が残ってしまう。
+    設計では <strong><code>battle</code> はスクリプトの最後にしか書けない</strong>と決めていたが、
+    <code>if</code> や <code>choice</code> の枝の中にある場合を規定していなかった。<br>
+    実装では <strong>「自分の列の末尾であり、かつ祖先も全て末尾」</strong>まで縛った。
+    ライバル戦は「選んだ1匹に応じて相手が変わる」ため <code>if</code> の3分岐の底に <code>battle</code> があり、
+    <strong>最初の実データでこの規定が破れていた。</strong>
+  </div>
+
+  <h3 style="margin:24px 0 8px">マップの原本 ― Tiled を使わずに始めた</h3>
+  <p>設計では Tiled（タイルマップエディタ）を採用と決めていたが、v0.7 では<strong>テキストの原本</strong>にした。
+  ゲームが読むのは自作スキーマの JSON だけ、という構えのおかげで、この差し替えは変換スクリプトの中に閉じている。</p>
+
+  <pre><code>packages/data/source/maps/*.map      （人が編集する正・コミットできる）
+        │  npm run maps               … tools/convert-map.ts
+        ▼
+packages/data/maps.json               （ゲームが読むのはこちらだけ）
+
+legend:                  grid:                warps:
+. normal                 TTTTT.TTTTTT         5,0 step kanto-route-1 5,16 up
+, grass                  T..........T         3,4 interact kanto-players-house-1f 3,6 up
+T !normal   ← 通行不可    T.HHH..HHH.T
+= ledge                  T.HDH..HHH.T        objects:
+                         ...                  pallet-kid 8,6 npc:boy:static kanto.pallet.kid</code></pre>
+
+  <p><strong><code>maps-src/</code>（Tiled の原本）はリポジトリに入れられない</strong> ―― 原作マップの写しになるため。
+  一方この形式は数値と構造だけなのでコミットできる。原本と生成物が同じ場所に置ける方が、差分も読める。</p>
+
+  <h3 style="margin:24px 0 8px">フラグは2つの形で効く</h3>
+  <div class="grid2">
+    <div class="card">
+      <h3>存在ごと消す</h3>
+      <p>オブジェクトが <code>condition</code> を持つ。最初の1匹を受け取るまで、町の北口は<strong>オーキド本人が塞いでいる</strong>。フラグが立つと居なくなり、道が通る。</p>
+    </div>
+    <div class="card">
+      <h3>台詞を変える</h3>
+      <p>イベントの中の <code>if</code>。同じ NPC が、フラグの前後で違うことを言う。<strong>条件の型は分岐・出現条件・ショップ解禁で共有</strong>していて、用途ごとに作っていない。</p>
+    </div>
+  </div>
+
+  <div class="note" style="margin-top:16px">
+    <strong>フラグ名は静的データ側で宣言必須にした。</strong>
+    タイプミスで永久に立たないフラグは、症状が出てから原因に辿り着くのが極めて難しい。
+    設計では「調整項目」だったが、<strong>v0.7 で必須に確定</strong>し、検証がエラーで弾くようにした。
+  </div>
+</section>
+
 <!-- ───────────── データ ───────────── -->
 <section>
-  <div class="sec-head"><span class="eyebrow">10</span><h2>データの現状</h2></div>
+  <div class="sec-head"><span class="eyebrow">11</span><h2>データの現状</h2></div>
 
   <div class="grid2" style="margin-bottom:16px">
     <div class="card">
@@ -854,6 +1077,12 @@ g4-gyarados    gyarados   waterfall/crunch/earthquake/double-edge          choic
         <tr><td>持ち物</td><td class="n">32</td><td><span class="pill done">全件が戦闘中に働く</span></td></tr>
         <tr><td>BattleSet</td><td class="n">64</td><td><span class="pill done">grade 1〜4 に16件ずつ</span></td></tr>
         <tr><td>施設</td><td class="n">2</td><td><span class="pill done">ルールセット駆動</span></td></tr>
+        <tr><td>ネームド（カントー）</td><td class="n">13</td><td><span class="pill done">原作・本気の2ティア</span> <span class="pill pending">極は v1.1</span></td></tr>
+        <tr><td>カップ</td><td class="n">3</td><td><span class="pill done">ティア解放つき</span></td></tr>
+        <tr><td>マップ</td><td class="n">4</td><td><span class="pill done">マサラタウン・家・研究所・1番道路</span></td></tr>
+        <tr><td>イベント</td><td class="n">15</td><td><span class="pill done">18種のコマンドで記述</span></td></tr>
+        <tr><td>トレーナー</td><td class="n">3</td><td><span class="pill done">ライバル（選んだ1匹で相手が変わる）</span></td></tr>
+        <tr><td>出現テーブル</td><td class="n">1</td><td><span class="pill done">1番道路の草むら</span></td></tr>
         <tr><td>性格</td><td class="n">25</td><td><span class="pill done">実数値の補正で使用中</span></td></tr>
         <tr><td>タイプ相性</td><td class="n">18×18</td><td><span class="pill done">疎な JSON から展開し完全性を検証</span></td></tr>
       </tbody>
@@ -869,26 +1098,31 @@ g4-gyarados    gyarados   waterfall/crunch/earthquake/double-edge          choic
         <tr><td class="mono">expType</td><td><span class="pill pending">v0.8 (経験値) まで未使用</span></td></tr>
         <tr><td class="mono">evYield</td><td><span class="pill pending">v0.8 (努力値) まで未使用</span></td></tr>
         <tr><td class="mono">genderRatio</td><td><span class="pill pending">v0.8 まで未使用</span></td></tr>
+        <tr><td class="mono">MapObject.sight</td><td><span class="pill pending">v0.10 (トレーナーの視線) まで未使用</span></td></tr>
+        <tr><td class="mono">MapObject.movement</td><td><span class="pill pending">v0.10 (NPCの移動) まで未使用</span></td></tr>
+        <tr><td class="mono">layers.decoration / overhead</td><td><span class="pill pending">タイル画像が入るまで空</span></td></tr>
       </tbody>
     </table>
   </div>
 
   <h3 style="margin:24px 0 8px">投入の流れ</h3>
-  <pre><code>packages/data/source/*.tsv   （人が編集する正）
-        │  npm run import      … TSV → JSON。種族値の合計を照合
+  <pre><code>packages/data/source/*.tsv        （人が編集する正）
+packages/data/source/maps/*.map
+        │  npm run import           … TSV → JSON。種族値の合計を照合
+        │  npm run maps             … マップ原本 → MapData JSON
         ▼
 packages/data/*.json
-        │  npm run gen:ids     … ID のユニオン型を生成（差分があれば CI が落ちる）
+        │  npm run gen:ids          … ID のユニオン型を生成
         ▼
 packages/data/generated/ids.d.ts
-        │  npm run validate    … 36項目の検証（下記）
+        │  npm run validate         … 58項目の検証（下記）
         ▼
-                              CI</code></pre>
+                                   CI ―― 生成物が古ければ落ちる</code></pre>
 </section>
 
 <!-- ───────────── 検証 ───────────── -->
 <section>
-  <div class="sec-head"><span class="eyebrow">11</span><h2>検証 ― 設計ルールを CI に預ける</h2></div>
+  <div class="sec-head"><span class="eyebrow">12</span><h2>検証 ― 設計ルールを CI に預ける</h2></div>
 
   <p class="lede" style="margin-bottom:16px">
     <strong>文書はいずれ読まれなくなるが、CI は必ず実行される。</strong>
@@ -913,6 +1147,17 @@ packages/data/generated/ids.d.ts
         <tr><td>施設が未実装機構を使っていない（ダブル・パレス式・採点・道具・<code>teamSource: own</code>）</td><td><span class="pill done">v0.5</span></td></tr>
         <tr><td>努力値の合計 ≤ 510・各 ≤ 252</td><td><span class="pill done">v0.5</span></td></tr>
         <tr><td><code>training</code> カテゴリの道具に価格がない（お金では個体を強くできない）</td><td><span class="pill done">v0.5</span></td></tr>
+        <tr><td><strong>ネームドの署名ポケモンが全ティアに含まれる</strong></td><td><span class="pill done">v0.6</span></td></tr>
+        <tr><td><strong>3体に絞る選出でエースが落ちない</strong></td><td><span class="pill done">v0.6</span></td></tr>
+        <tr><td>上のティアでレンタルが弱くならない</td><td><span class="pill done">v0.6</span></td></tr>
+        <tr><td>同じ戦術のキャラが3人以上なら警告（キャラが被っていないか）</td><td><span class="pill done">v0.6</span></td></tr>
+        <tr><td><strong>warp の接続先が存在し、通行可能なマス</strong>／出た先が踏む warp でない（無限往復）</td><td><span class="pill done">v0.7</span></td></tr>
+        <tr><td><strong><code>setFlag</code> と条件が使うフラグが宣言済み</strong>（永久に立たないフラグを作らない）</td><td><span class="pill done">v0.7</span></td></tr>
+        <tr><td><strong><code>battle</code> は自分の列の末尾かつ祖先も全て末尾</strong>（セーブできない領域を作らない）</td><td><span class="pill done">v0.7</span></td></tr>
+        <tr><td><strong>到達不能な区画が無い</strong>（段差の一方通行を考慮した塗りつぶし）</td><td><span class="pill done">v0.7</span></td></tr>
+        <tr><td><strong>置いてあるが起動できないオブジェクトが無い</strong>（隣に立てるマスがあるか）</td><td><span class="pill done">v0.7</span></td></tr>
+        <tr><td>トレーナーの手持ちに技がある（わるあがきしかできない相手を作らない）</td><td><span class="pill done">v0.7</span></td></tr>
+        <tr><td>全 <code>EventCommand.kind</code> にハンドラが登録されている</td><td><span class="pill done">v0.7</span></td></tr>
       </tbody>
     </table>
   </div>
@@ -922,27 +1167,37 @@ packages/data/generated/ids.d.ts
     どちらも <strong>データとしては正しいが、遊ぶと成立しない</strong> 種類の誤りで、型検査では絶対に捕まらない。
     実際に動かして初めて分かるため、<strong>分かった時点で検証に落として二度と踏まない</strong>ようにしている。
   </div>
+
+  <div class="note" style="margin-top:14px">
+    <strong>「到達不能な区画」と「起動できないオブジェクト」が v0.7 の収穫。</strong>
+    どちらも書いた初回実行でいきなり実データを捕まえた。
+    <strong>「歩けるマスが全部繋がっている」ことと「置いたものが起動できる」ことは別物</strong>で、
+    後者の方が気づきにくい ―― 前者は歩けば分かるが、
+    後者は<strong>「その NPC に用がある」と知っている人にしか気づけない。</strong>
+  </div>
 </section>
 
 <!-- ───────────── テスト ───────────── -->
 <section>
-  <div class="sec-head"><span class="eyebrow">12</span><h2>テスト構成</h2></div>
+  <div class="sec-head"><span class="eyebrow">13</span><h2>テスト構成</h2></div>
 
   <div class="scroll">
     <table>
       <thead><tr><th>ファイル</th><th class="n">件数</th><th>守っているもの</th><th>導入</th></tr></thead>
       <tbody>
         <tr><td class="mono">reference-data.test.ts</td><td class="n">48</td><td>種族値・技データ・ダメージの手計算値を固定</td><td><span class="pill done">v0.1</span></td></tr>
+        <tr><td class="mono">world.test.ts</td><td class="n">26</td><td>移動・段差・warp・イベント・<strong>遭遇率の実測</strong>・<strong>完了条件の道行き</strong></td><td><span class="pill done">v0.7</span></td></tr>
         <tr><td class="mono">held.test.ts</td><td class="n">24</td><td>特性・持ち物の各フック・行動の制限</td><td><span class="pill done">v0.5</span></td></tr>
         <tr><td class="mono">endgame.test.ts</td><td class="n">20</td><td>相手プール・ルールセット・連戦・<strong>制覇率</strong></td><td><span class="pill done">v0.5</span></td></tr>
+        <tr><td class="mono">tournament.test.ts</td><td class="n">18</td><td>ネームド・ティア・選出・組み合わせ・<strong>実数値が有限であること</strong></td><td><span class="pill done">v0.6</span></td></tr>
         <tr><td class="mono">status.test.ts</td><td class="n">16</td><td>状態異常6種＋混乱・タイプ無効・交代時のリセット</td><td><span class="pill done">v0.2</span></td></tr>
+        <tr><td class="mono">battle.test.ts</td><td class="n">14</td><td>ターン処理・不変性・PP・優先度・わるあがき・逃走の制限</td><td><span class="pill done">v0.1</span></td></tr>
         <tr><td class="mono">ai-basic.test.ts</td><td class="n">13</td><td><strong>相対勝率</strong>・悪手の回帰・<code>AiView</code> の可視性</td><td><span class="pill done">v0.5</span></td></tr>
-        <tr><td class="mono">battle.test.ts</td><td class="n">13</td><td>ターン処理・不変性・PP・優先度・わるあがき</td><td><span class="pill done">v0.1</span></td></tr>
         <tr><td class="mono">stages.test.ts</td><td class="n">10</td><td>ランク補正の倍率表・クランプ・変化技</td><td><span class="pill done">v0.2</span></td></tr>
+        <tr><td class="mono">save.test.ts</td><td class="n">8</td><td>読み書き・マイグレーション・壊れたデータの扱い</td><td><span class="pill done">v0.5</span></td></tr>
+        <tr><td class="mono">stats.test.ts</td><td class="n">8</td><td>実数値の計算式・レベル同期</td><td><span class="pill done">v0.1</span></td></tr>
         <tr><td class="mono">switch.test.ts</td><td class="n">7</td><td>交代・強制交代・3対3の完走</td><td><span class="pill done">v0.2</span></td></tr>
         <tr><td class="mono">damage.test.ts</td><td class="n">6</td><td>ダメージ計算の各補正</td><td><span class="pill done">v0.1</span></td></tr>
-        <tr><td class="mono">save.test.ts</td><td class="n">6</td><td>読み書き・マイグレーション・壊れたデータの扱い</td><td><span class="pill done">v0.5</span></td></tr>
-        <tr><td class="mono">stats.test.ts</td><td class="n">6</td><td>実数値の計算式・レベル同期</td><td><span class="pill done">v0.1</span></td></tr>
         <tr><td class="mono">typechart.test.ts</td><td class="n">4</td><td>18×18 の完全性・第6世代の変更</td><td><span class="pill done">v0.1</span></td></tr>
         <tr><td class="mono">soak.test.ts</td><td class="n">3</td><td><strong>1,000戦の完走</strong>・決定性</td><td><span class="pill done">v0.1</span></td></tr>
       </tbody>
@@ -958,12 +1213,20 @@ packages/data/generated/ids.d.ts
       <h3><code>endgame.test.ts</code> — 難易度の番人</h3>
       <p><strong>実際に施設を最後まで走らせて制覇率を測る。</strong> 最初の施設が40%以上、2つ目が40%未満であることを固定してある。0.5<sup>n</sup> の罠に戻らないための歯止め。</p>
     </div>
+    <div class="card">
+      <h3><code>world.test.ts</code> — 完了条件の番人</h3>
+      <p><strong>「家 → 町 → 研究所 → 1番道路 → 遭遇」を1本のテストで通す。</strong> 経路は <code>isWalkable</code> と段差の規則だけを使った探索で求めるので、マップを直すと道も自動で追従する。</p>
+    </div>
+    <div class="card">
+      <h3><code>tools/playthrough.mjs</code> — 画面の番人</h3>
+      <p>ブラウザを実際に操作して同じ道行きを通す。<strong>型検査もテストも素通りする層</strong>（渡し忘れた技指定、描き分けられていないタイル）がここでしか見つからないと分かって常設した。</p>
+    </div>
   </div>
 </section>
 
 <!-- ───────────── 設計原則 ───────────── -->
 <section>
-  <div class="sec-head"><span class="eyebrow">13</span><h2>設計原則が実装にどう現れたか</h2></div>
+  <div class="sec-head"><span class="eyebrow">14</span><h2>設計原則が実装にどう現れたか</h2></div>
 
   <div class="scroll">
     <table>
@@ -975,7 +1238,7 @@ packages/data/generated/ids.d.ts
         </tr>
         <tr>
           <td>効果の種類は増えにくい</td>
-          <td>技効果は v0.2 の8種から <strong>105技へ拡張しても1つも増えなかった</strong></td>
+          <td>技効果は v0.2 の8種から <strong>105技へ拡張しても1つも増えなかった</strong>。イベントコマンドも同じ形にした（18種）</td>
         </tr>
         <tr>
           <td><code>core</code> はデータを持たない</td>
@@ -987,7 +1250,7 @@ packages/data/generated/ids.d.ts
         </tr>
         <tr>
           <td>規律を人間の注意力に預けない</td>
-          <td>42種類の判定を CI で回す。<strong>「遊ぶと成立しない」種類の誤りも検証項目に落とす</strong></td>
+          <td>58種類の判定を CI で回す。<strong>「遊ぶと成立しない」種類の誤りも検証項目に落とす</strong></td>
         </tr>
         <tr>
           <td>強さは情報量ではなく思考の深さで作る</td>
@@ -1001,6 +1264,18 @@ packages/data/generated/ids.d.ts
           <td>施設は量産できる</td>
           <td>2つ目の施設で増えたコードは <strong>0行</strong>。JSON を1件足しただけ</td>
         </tr>
+        <tr>
+          <td>ネームドは1人足すとティアぶん増える</td>
+          <td>TSV に行を足すだけで13人 × 2ティア。<strong>署名ポケモンが落ちないことを検証が守る</strong></td>
+        </tr>
+        <tr>
+          <td>マップは「作る」ものではなく「流し込む」もの</td>
+          <td>4枚を足してもコードは1行も増えていない。増えるのは<strong>座標</strong>なので、そこを検証が見る</td>
+        </tr>
+        <tr>
+          <td>アセットが無くても動くのは通常動作</td>
+          <td>絵は1枚も無い。マップも図形で描く。<strong>素材の調達が実装の律速にならない</strong></td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -1008,7 +1283,7 @@ packages/data/generated/ids.d.ts
 
 <!-- ───────────── 未実装 ───────────── -->
 <section>
-  <div class="sec-head"><span class="eyebrow">14</span><h2>意図的に実装していないもの</h2></div>
+  <div class="sec-head"><span class="eyebrow">15</span><h2>意図的に実装していないもの</h2></div>
 
   <p class="lede" style="margin-bottom:16px">すべて拡張フックだけは用意済み。後から差し込む形にすると書き直しになる箇所を避けてある。</p>
 
@@ -1016,15 +1291,18 @@ packages/data/generated/ids.d.ts
     <table>
       <thead><tr><th>要素</th><th>予定</th><th>用意してあるフック</th></tr></thead>
       <tbody>
-        <tr><td>ネームド・トーナメント</td><td><span class="pill pending">v0.6</span></td><td><code>Ruleset</code> をカップと共有。<code>Party</code> 型は <code>BattleSet</code> と同じ形に落ちる</td></tr>
-        <tr><td>道具・逃走の実装</td><td><span class="pill pending">v0.7〜v0.8</span></td><td><code>Action</code> に <code>item</code> / <code>run</code> を定義済み</td></tr>
-        <tr><td>マップ探索（Phaser 導入）</td><td><span class="pill pending">v0.7</span></td><td>アセットをパスから分離。図形フォールバックが通常動作</td></tr>
+        <tr><td><strong>HP をマップに持ち越す</strong></td><td><span class="pill pending">v0.8</span></td><td>手持ちはまだ設計図（<code>PartySpec</code>）。<strong>v0.8 の最優先はここ</strong>（下記）</td></tr>
+        <tr><td>道具の使用（<code>Action.item</code>）</td><td><span class="pill pending">v0.8</span></td><td><code>Action</code> に定義済み。<strong>回復道具そのものがまだ無い</strong></td></tr>
+        <tr><td>世界の状態のセーブ</td><td><span class="pill pending">v0.9</span></td><td><code>WorldState</code> は実装済み。<code>SaveData</code> に繋いでいないだけ</td></tr>
+        <tr><td>生成した ID 型の接続</td><td><span class="pill warn">v0.8</span></td><td>生成は v0.4 から動いている。<strong>参照している箇所が無い</strong></td></tr>
+        <tr><td>トレーナーの視線・NPC の移動</td><td><span class="pill pending">v0.10</span></td><td><code>sight</code> / <code>movement</code> は型にある</td></tr>
         <tr><td>経験値・レベルアップ・進化</td><td><span class="pill pending">v0.8</span></td><td>戦闘後シーケンスを設計済み（実行順つき）。<code>expType</code> / <code>evYield</code> は投入済み</td></tr>
         <tr><td>learnset の正式データ化</td><td><span class="pill pending">v0.8</span></td><td>TSV に列を足すだけ。<code>learnsetSource</code> が暫定を宣言している</td></tr>
         <tr><td>捕獲・ボックス・図鑑</td><td><span class="pill pending">v0.8</span></td><td><code>catchRate</code> ほかデータは設定済み</td></tr>
         <tr><td>IndexedDB・エクスポート</td><td><span class="pill pending">v0.9</span></td><td><code>SaveStore</code> interface とマイグレーションの鎖</td></tr>
         <tr><td>天候・フィールド</td><td><span class="pill pending">v1.1</span></td><td>該当特性は <code>inert</code> で理由つきに待機中（ようりょくそ等11種）</td></tr>
         <tr><td>AI <code>smart</code>・連勝上限の解除</td><td><span class="pill pending">v1.1</span></td><td><code>AiConfig.policy</code> と <code>AiView</code>。検証が <code>smart</code> をまだ弾いている</td></tr>
+        <tr><td>キャラごとの戦い方（<code>tactic</code>）</td><td><span class="pill pending">v1.1</span></td><td>データには入っているが AI が読んでいない。<code>basic</code> では演じられない</td></tr>
         <tr><td>ダブルバトル</td><td><span class="pill pending">v1.2〜</span></td><td><code>Ruleset.battleFormat</code> は型として存在し、検証が弾く</td></tr>
       </tbody>
     </table>
@@ -1033,25 +1311,37 @@ packages/data/generated/ids.d.ts
 
 <!-- ───────────── 次 ───────────── -->
 <section>
-  <div class="sec-head"><span class="eyebrow">15</span><h2>次にやること</h2></div>
+  <div class="sec-head"><span class="eyebrow">16</span><h2>次にやること</h2></div>
+  <div class="scroll" style="margin-bottom:20px">
+    <table>
+      <thead><tr><th>最初の3つの希望</th><th>現在地</th></tr></thead>
+      <tbody>
+        <tr><td>全てのポケモンが出る</td><td>カントー151種（v0.4）。<strong>残り8地方はデータの追加</strong></td></tr>
+        <tr><td>今までの全てのトレーナーが出る</td><td>カントー13人 × 2ティア（v0.6）。極ティアは v1.1</td></tr>
+        <tr><td>原作のマップを再現</td><td>マサラタウンほか4枚（v0.7）。カントー全域は v0.10</td></tr>
+      </tbody>
+    </table>
+  </div>
+
   <article class="release">
-    <header><span class="ver">v0.6</span><h2>PWT型トーナメント</h2></header>
-    <p class="goal">カントーのネームドが原作／本気ティアで登場する。<strong>作りたかったゲームがここで動く。</strong></p>
+    <header><span class="ver">v0.8</span><h2>捕獲・育成・戦闘後シーケンス</h2></header>
+    <p class="goal">v0.7 で分かった<strong>「HP がマップに持ち越されないので、野生戦に消耗が無い」</strong>を、経験値より先に解く。</p>
     <ul>
-      <li>カントーのジムリーダー・四天王・ライバルを <code>NamedCharacter</code> として投入</li>
-      <li><code>concept</code> と3ティア（原作 / 本気 / 極）の構造が初めてデータになる</li>
-      <li>カップ・ティア解放・トーナメント画面</li>
+      <li><strong>手持ちを設計図から実個体へ</strong> — HP・PP・状態異常がマップをまたいで残る。ここが入ると <code>healParty</code> にも回復する対象ができる</li>
+      <li>捕獲（<code>Action.item</code> とボール）・共通ボックス・図鑑</li>
+      <li>戦闘後シーケンス — 経験値・努力値・進化</li>
+      <li><strong>learnset を原作の正式データへ差し替える</strong>。今は規則生成の暫定値で、検証が毎回それを報告している</li>
+      <li>生成した ID 型を実際に <code>core</code> へ接続する（<code>SpeciesId</code> を <code>string</code> でなくする）</li>
     </ul>
     <div class="note" style="margin-bottom:0">
-      マップも捕獲も無い状態で<strong>歴代ネームドと戦える</strong>ところまで来る。
-      3つの希望のうち「今までの全てのトレーナーが出る」の最初の1歩になる。
-      施設側が <code>Ruleset</code> を持っているので、カップは<strong>その差し替えとして書ける</strong>。
+      ここが入ると <strong>捕まえた個体をバトルタワーとトーナメントに持ち込める</strong>。
+      v0.5・v0.6 で作ったエンドゲームと、v0.7 で作った世界が、初めて1本に繋がる。
     </div>
   </article>
 </section>
 
 <footer>
-  ポケモン風RPG ／ 個人利用・非配布 ／ 設計文書は <span class="mono">docs/</span> を参照
+  ポケモン風RPG ／ v0.1 → v0.7 ／ 個人利用・非配布 ／ 設計文書は <span class="mono">docs/</span> を参照
 </footer>
 
 </div>
