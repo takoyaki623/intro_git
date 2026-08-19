@@ -212,26 +212,26 @@ a:focus-visible, summary:focus-visible {
 <div class="wrap">
 
 <header class="doc">
-  <span class="eyebrow">実装記録 · v0.1 → v0.7</span>
+  <span class="eyebrow">実装記録 · v0.1 → v0.9</span>
   <h1>ポケモン風RPG 実装記録</h1>
   <p class="lede">
-    v0.1〜v0.7 で何を実装し、何を意図的に残したかの技術リファレンス。
+    v0.1〜v0.9 で何を実装し、何を意図的に残したかの技術リファレンス。
     バトルエンジンから始まり、歴代ネームドとのトーナメントを経て、
-    <strong>マップを歩いて野生と戦えるところまで</strong>来ている。
+    <strong>マップを歩き、捕まえて育て、道具を買い、セーブして続きから遊べるところまで</strong>来ている。
     設計文書は <code>docs/design/</code>、上位方針は <code>docs/game-plan.md</code>。
   </p>
-  <p class="meta">対象コミット: <span class="mono">36cf0e3 … 2396ff7</span> ／ 全テスト緑・型チェック通過・検証スクリプト通過</p>
+  <p class="meta">対象コミット: <span class="mono">36cf0e3 … 4ac2867</span> ／ 全テスト緑・型チェック通過・検証スクリプト通過</p>
 </header>
 
 <div class="figures">
-  <div class="fig"><b class="num">228</b><span>テスト</span></div>
+  <div class="fig"><b class="num">315</b><span>テスト</span></div>
   <div class="fig"><b class="num">151</b><span>種族</span></div>
-  <div class="fig"><b class="num">105</b><span>技</span></div>
+  <div class="fig"><b class="num">247</b><span>技</span></div>
   <div class="fig"><b class="num">13</b><span>ネームド</span></div>
-  <div class="fig"><b class="num">4</b><span>マップ</span></div>
-  <div class="fig"><b class="num">58</b><span>検証項目</span></div>
-  <div class="fig"><b class="num">9,076</b><span>実装行 (TS)</span></div>
-  <div class="fig"><b class="num">3,041</b><span>テスト行</span></div>
+  <div class="fig"><b class="num">8</b><span>マップ</span></div>
+  <div class="fig"><b class="num">67</b><span>検証項目</span></div>
+  <div class="fig"><b class="num">9,800</b><span>実装行 (TS)</span></div>
+  <div class="fig"><b class="num">4,233</b><span>テスト行</span></div>
 </div>
 
 <!-- ───────────── 全体像 ───────────── -->
@@ -240,7 +240,8 @@ a:focus-visible, summary:focus-visible {
 
   <p>依存は一方向のみ。<strong><code>core</code> はデータを静的に持たず、<code>GameData</code> という interface だけを知る。</strong>
   これにより v0.1 のテストは「2種2技だけの <code>GameData</code>」を渡してバトルを成立させられる。
-  v0.5 で <code>ability()</code> / <code>item()</code> が加わり、v0.7 でマップ・イベント・トレーナーが増えたが、
+  v0.5 で <code>ability()</code> / <code>item()</code> が加わり、v0.7 でマップ・イベント・トレーナー、
+  v0.8 で経験値テーブル・ボール、v0.9 でショップが増えたが、
   <strong>注入の形は一度も変わっていない</strong> ―― 世界のデータも <code>core</code> の関数に引数で渡す。</p>
 
   <pre><code>packages/
@@ -251,7 +252,7 @@ a:focus-visible, summary:focus-visible {
     save/     SaveStore interface とマイグレーション
   data/   マスタデータ (JSON) と GameData の実装
   game/   画面。BattleEvent を演出として消費する
-tools/    一括投入・マップ変換・ID生成・検証・CLIデモ・ブラウザ台本
+tools/    一括投入・公式データ取得・マップ変換・ID生成・検証・CLIデモ・ブラウザ台本
 
          game ──→ core ──→ data
                     ↑         ↑
@@ -262,31 +263,43 @@ tools/    一括投入・マップ変換・ID生成・検証・CLIデモ・ブ�
     <table>
       <thead><tr><th>モジュール</th><th>役割</th><th class="n">行</th><th>導入</th></tr></thead>
       <tbody>
-        <tr><td class="mono">tools/validate.ts</td><td>全58項目の検証。CI で回す</td><td class="n">1,120</td><td><span class="pill done">v0.4</span></td></tr>
-        <tr><td class="mono">core/battle.ts</td><td>ターン処理・交代・行動阻害・逃走・ターン終了処理</td><td class="n">724</td><td><span class="pill done">v0.1</span></td></tr>
+        <tr><td class="mono">game/src/field.ts</td><td>マップ探索画面（描画・入力・会話・捕獲・バッグ・ボックス・図鑑・ショップ）</td><td class="n">1,261</td><td><span class="pill done">v0.7</span></td></tr>
+        <tr><td class="mono">tools/validate.ts</td><td>全67項目の検証。CI で回す</td><td class="n">1,240</td><td><span class="pill done">v0.4</span></td></tr>
+        <tr><td class="mono">core/battle.ts</td><td>ターン処理・交代・行動阻害・逃走・道具・ターン終了処理</td><td class="n">772</td><td><span class="pill done">v0.1</span></td></tr>
+        <tr><td class="mono">tools/import.ts</td><td>TSV → JSON の一括投入</td><td class="n">759</td><td><span class="pill done">v0.4</span></td></tr>
         <tr><td class="mono">core/held.ts</td><td><strong>特性・持ち物のレジストリ</strong>（35種の効果 × 25のフック）</td><td class="n">720</td><td><span class="pill done">v0.5</span></td></tr>
-        <tr><td class="mono">tools/import.ts</td><td>TSV → JSON の一括投入</td><td class="n">551</td><td><span class="pill done">v0.4</span></td></tr>
-        <tr><td class="mono">game/src/field.ts</td><td>マップ探索画面（描画・入力・会話・バトルへの遷移）</td><td class="n">542</td><td><span class="pill done">v0.7</span></td></tr>
-        <tr><td class="mono">core/types.ts</td><td>全型定義。<code>Action</code> / <code>BattleEvent</code> / <code>HeldEffect</code></td><td class="n">401</td><td><span class="pill done">v0.1</span></td></tr>
+        <tr><td class="mono">tools/playthrough.mjs</td><td><strong>ブラウザ操作の台本</strong>。マップデータを読んで経路探索する</td><td class="n">540</td><td><span class="pill done">v0.7</span></td></tr>
+        <tr><td class="mono">core/types.ts</td><td>全型定義。<code>Action</code> / <code>BattleEvent</code> / <code>HeldEffect</code> / <code>UseEffect</code></td><td class="n">535</td><td><span class="pill done">v0.1</span></td></tr>
+        <tr><td class="mono">core/save/store.ts</td><td><code>SaveStore</code>・スキーマ v3・マイグレーションの鎖・器と個体の突き合わせ</td><td class="n">415</td><td><span class="pill done">v0.5</span></td></tr>
+        <tr><td class="mono">tools/fetch-official.ts</td><td><strong>公式 learnset / 進化の取り込み</strong>（<code>@pkmn/dex</code>・生成時のみ）</td><td class="n">397</td><td><span class="pill done">v0.8</span></td></tr>
+        <tr><td class="mono">game/src/battle-screen.ts</td><td>1戦を進める画面（フリーバトル・施設・カップ・野生が共用）</td><td class="n">392</td><td><span class="pill done">v0.5</span></td></tr>
+        <tr><td class="mono">game/src/tower.ts</td><td>施設の連戦画面と <strong>BP交換所</strong></td><td class="n">266</td><td><span class="pill done">v0.5</span></td></tr>
+        <tr><td class="mono">core/use-item.ts</td><td><strong>道具を「つかう」レジストリ</strong>。バトル中とマップ上で同じ実装</td><td class="n">240</td><td><span class="pill done">v0.9</span></td></tr>
+        <tr><td class="mono">core/postbattle.ts</td><td>戦闘後シーケンス（経験値・レベル・技習得・努力値・進化・図鑑）</td><td class="n">232</td><td><span class="pill done">v0.8</span></td></tr>
+        <tr><td class="mono">core/pokemon.ts</td><td><strong><code>PokemonInstance</code></strong> ―― 実在する1体。バトルとの往復</td><td class="n">209</td><td><span class="pill done">v0.8</span></td></tr>
         <tr><td class="mono">core/world/event.ts</td><td><strong>イベントのインタプリタ</strong>（18種のコマンド）</td><td class="n">314</td><td><span class="pill done">v0.7</span></td></tr>
         <tr><td class="mono">core/world/movement.ts</td><td>移動・向き直り・段差・warp・エンカウント判定</td><td class="n">279</td><td><span class="pill done">v0.7</span></td></tr>
-        <tr><td class="mono">game/src/battle-screen.ts</td><td>1戦を進める画面（フリーバトル・施設・カップ・野生が共用）</td><td class="n">275</td><td><span class="pill done">v0.5</span></td></tr>
         <tr><td class="mono">game/src/cup.ts</td><td>カップ・ネームド一覧・トーナメント進行の画面</td><td class="n">257</td><td><span class="pill done">v0.6</span></td></tr>
         <tr><td class="mono">tools/convert-map.ts</td><td>マップ原本（テキスト）→ <code>MapData</code> JSON</td><td class="n">254</td><td><span class="pill done">v0.7</span></td></tr>
         <tr><td class="mono">data/src/index.ts</td><td>JSON 読み込みと <code>GameData</code> 実装</td><td class="n">224</td><td><span class="pill done">v0.1</span></td></tr>
-        <tr><td class="mono">core/save/store.ts</td><td><code>SaveStore</code> interface・マイグレーション・記録の更新</td><td class="n">213</td><td><span class="pill done">v0.5</span></td></tr>
         <tr><td class="mono">core/effects.ts</td><td>技効果のレジストリ (8種のハンドラ)</td><td class="n">212</td><td><span class="pill done">v0.1</span></td></tr>
         <tr><td class="mono">core/endgame/tournament.ts</td><td>カップ・組み合わせ抽選・ティア解放</td><td class="n">203</td><td><span class="pill done">v0.6</span></td></tr>
         <tr><td class="mono">core/endgame/ruleset.ts</td><td><code>Ruleset</code> / <code>BattleSet</code> / 相手の抽選・編成の検証</td><td class="n">199</td><td><span class="pill done">v0.5</span></td></tr>
         <tr><td class="mono">core/ai/basic.ts</td><td>AI <code>basic</code> — 期待ダメージと相性のスコアリング</td><td class="n">187</td><td><span class="pill done">v0.5</span></td></tr>
         <tr><td class="mono">core/endgame/facility.ts</td><td>連戦の進行・連勝・BP・施設の敗北処理</td><td class="n">182</td><td><span class="pill done">v0.5</span></td></tr>
-        <tr><td class="mono">game/src/main.ts</td><td>モード切り替えとフリーバトル</td><td class="n">180</td><td><span class="pill done">v0.3</span></td></tr>
+        <tr><td class="mono">game/src/main.ts</td><td>モード切り替えとフリーバトル</td><td class="n">193</td><td><span class="pill done">v0.3</span></td></tr>
+        <tr><td class="mono">game/src/save.ts</td><td><strong>IndexedDB</strong>（個体は別ストア）</td><td class="n">169</td><td><span class="pill done">v0.5</span></td></tr>
+        <tr><td class="mono">game/src/player.ts</td><td>手持ち・ボックス・図鑑・バッグ・現在地。<code>SaveData</code> との唯一の出入口</td><td class="n">162</td><td><span class="pill done">v0.8</span></td></tr>
+        <tr><td class="mono">game/src/settings.ts</td><td>セーブ画面・設定・エクスポート／インポート</td><td class="n">152</td><td><span class="pill done">v0.9</span></td></tr>
+        <tr><td class="mono">core/storage.ts</td><td>手持ちとボックス。<strong>二重所属を型と関数で禁じる</strong></td><td class="n">139</td><td><span class="pill done">v0.8</span></td></tr>
+        <tr><td class="mono">core/capture.ts</td><td>捕獲判定とボールの補正（データ駆動）</td><td class="n">128</td><td><span class="pill done">v0.8</span></td></tr>
         <tr><td class="mono">core/world/types.ts</td><td>マップ・オブジェクト・トレーナー・条件・コマンドの型</td><td class="n">149</td><td><span class="pill done">v0.7</span></td></tr>
         <tr><td class="mono">core/endgame/named.ts</td><td>ネームド・ティア・選出・キャラごとの AI 設定</td><td class="n">146</td><td><span class="pill done">v0.6</span></td></tr>
         <tr><td class="mono">core/damage.ts</td><td>ダメージ計算・命中判定・急所</td><td class="n">144</td><td><span class="pill done">v0.1</span></td></tr>
         <tr><td class="mono">core/ai/view.ts</td><td><code>AiView</code> — AIに見える情報を型で制限する</td><td class="n">130</td><td><span class="pill done">v0.5</span></td></tr>
         <tr><td class="mono">core/normalize.ts</td><td><code>toBattlePokemon</code> — 参加者の正規化</td><td class="n">113</td><td><span class="pill done">v0.1</span></td></tr>
         <tr><td class="mono">core/status.ts</td><td>状態異常6種＋混乱・スリップダメージ</td><td class="n">99</td><td><span class="pill done">v0.2</span></td></tr>
+        <tr><td class="mono">core/exp.ts</td><td>経験値と成長曲線6種（レベルは経験値から導く）</td><td class="n">72</td><td><span class="pill done">v0.8</span></td></tr>
         <tr><td class="mono">core/rng.ts</td><td>シード固定の疑似乱数 (xorshift32)</td><td class="n">63</td><td><span class="pill done">v0.1</span></td></tr>
         <tr><td class="mono">core/gamedata.ts</td><td><code>GameData</code> interface (依存性注入)</td><td class="n">42</td><td><span class="pill done">v0.1</span></td></tr>
       </tbody>
@@ -538,6 +551,136 @@ tools/    一括投入・マップ変換・ID生成・検証・CLIデモ・ブ�
       検証の3本目としてブラウザ操作を常設した。
     </div>
   </article>
+
+  <article class="release">
+    <header><span class="ver">v0.8</span><h2>捕獲・育成・戦闘後シーケンス</h2></header>
+    <p class="goal">v0.7 のマップと v0.5〜v0.6 のエンドゲームを1本に繋ぐ。完了条件は<strong>「自分で捕まえた個体を施設に持ち込める」</strong>―― この1文が満たされるとき、途中の全部が動いている。</p>
+
+    <h3>実装</h3>
+    <ul>
+      <li><strong><code>PokemonInstance</code>（実在する1体）</strong> — HP・PP・状態異常・経験値・努力値・なつき度・個体値・性格が<strong>バトルをまたいで残る</strong></li>
+      <li><strong>戦闘後シーケンス</strong> — 経験値 → レベル → 技習得 → 努力値 → なつき度 → 進化 → 図鑑の7段。<code>core</code> は「何が起きたか」を返すだけで、演出は UI</li>
+      <li><strong>捕獲</strong> — ボール9種。補正は <code>BallBonus</code> のデータで、ボールを1種足すのは JSON を1行足すこと</li>
+      <li><strong>手持ち6匹とボックス</strong> — 二重所属を <code>Storage</code> の関数でしか触れない形にして禁じる</li>
+      <li><strong>図鑑</strong>・<strong>公式 learnset</strong>（技 105 → 247）・<strong>進化 72件</strong>・経験値テーブル6種</li>
+    </ul>
+
+    <h3>レベルを個体に持たせない</h3>
+    <p><code>PokemonInstance</code> が持つのは<strong>累計経験値だけ</strong>で、レベルはそこから導く。
+    二重に持つと必ずずれる ―― 「レベルアップしたのに経験値が足りない個体」は、
+    保存と読み込みを挟んだ瞬間に生まれる。</p>
+
+    <h3>公式データをどう入れたか</h3>
+    <p>v0.4 の learnset は<strong>規則生成の暫定データ</strong>で、原作の習得レベルではなかった。
+    v0.8 で <code>@pkmn/dex</code>（Pokémon Showdown のデータ）を<strong>生成時のみの devDependency</strong> として使い、
+    第9世代 → 第8世代 → 第7世代の順に落として取り込んだ。</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>世代</th><th class="n">種</th><th>備考</th></tr></thead>
+        <tbody>
+          <tr><td>第9世代</td><td class="n">99</td><td>そのまま採用</td></tr>
+          <tr><td>第8世代</td><td class="n">40</td><td>剣盾に居ない種のフォールバック</td></tr>
+          <tr><td>第7世代</td><td class="n">12</td><td>さらに古い種</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <strong>律速は learnset ではなく技の数だった。</strong>
+      公式 learnset を入れた直後の技の充足率は <strong>39%</strong> ―― 半分以上の技が
+      「まだ実装していない効果」だった。技を 105 → 247 に増やしてようやく形になる。
+      入れなかった 155 件は <code>source/moves-todo.tsv</code> に<strong>理由つきで</strong>残している
+      （効果を表せない／場の効果／制約が強さを釣り合わせている 等）――
+      <strong>入れていないことと入れ忘れを区別できるようにする</strong>ため。
+    </div>
+
+    <h3>実測が設計を書き換えた</h3>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>測ったもの</th><th>結果</th><th>したこと</th></tr></thead>
+        <tbody>
+          <tr><td>最初のライバル戦の勝率</td><td><strong>1.5%</strong>（ヒトカゲ）</td><td>原因は<strong>しっぽをふる1つ</strong>。Lv5 では −1 Def が一撃ぶん増える。攻撃技だけにして 36〜50% へ</td></tr>
+          <tr><td>レベル技を1つも覚えない種</td><td><strong>実在する</strong>（アブラ・メタモン）</td><td>「技0は例外」を外し、わるあがきしかできない個体として成立させた</td></tr>
+          <tr><td>撃破フラグを立てる位置</td><td>バトル<strong>前</strong>だった</td><td>負けた瞬間にその相手が消える。勝利イベント側へ移動</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>ユーザ報告で直したもの</h3>
+    <ul>
+      <li><strong>建物に入れない</strong> — ドアが「歩けるマスの上の<em>調べる</em> warp」だった。踏むと乗ってしまい、調べる対象にならない。<code>step</code> に直し、<strong>検証項目 #60</strong> にした（わざと戻して落ちることを確認済み）</li>
+      <li><strong>スマホの移動がやりにくい</strong> — 1入力1歩は指で遊ぶと<strong>叩き続ける操作</strong>になる。押しっぱなしで歩き続ける形へ。<br>
+      直後に画面が固まった ―― 壁にぶつかったときだけ <code>await</code> が無く、<strong>繰り返しが同期的に回って指を離すことすらできなかった</strong></li>
+    </ul>
+  </article>
+
+  <article class="release">
+    <header><span class="ver">v0.9</span><h2>セーブ・道具・ショップ・敗北処理</h2></header>
+    <p class="goal">長期プレイを成立させる。完了条件は<strong>「タブを閉じても続きから遊べる」</strong>。数百時間を前提にする以上、ここは後回しにできない。</p>
+
+    <h3>実装</h3>
+    <ul>
+      <li><strong>セーブ完成</strong> — IndexedDB・スキーマ v3・v2→v3 マイグレーション・エクスポート／インポート。手持ち・ボックス・図鑑・バッグ・フラグ・現在地・お金がリロードを越える</li>
+      <li><strong>道具</strong> — 回復道具17種。<code>UseEffect</code> は5種類（<code>heal</code> / <code>healRatio</code> / <code>cure</code> / <code>revive</code> / <code>pp</code>）＋合成の <code>multi</code></li>
+      <li><strong>ショップと BP交換所</strong> — お金と BP は別の経済。混ざらないことを検証が守る</li>
+      <li><strong>敗北処理</strong> — 最後に回復した場所へ戻る。お金は既定では失わない（設定で原作準拠も選べる）</li>
+      <li><strong>持ち物を持たせられる</strong>・<strong>トキワシティ4枚</strong></li>
+    </ul>
+
+    <h3>個体はセーブの別ストアに置く</h3>
+    <pre><code>saves   … スロット本体（pokemon を抜いた SaveData ＋ uid の一覧）
+pokemon … 個体の実体。uid が主キー</code></pre>
+    <p>共通ボックスは<strong>数千体まで育つ</strong>。1体入れ替えるたびに全体を書き直す形だと、
+    後半になるほどセーブが重くなる。読むときに uid で突き合わせて戻す。</p>
+    <p><strong>器（誰がどこに居るか）と個体（実体）を分けたことで、壊れ方も分けて扱えるようになった。</strong>
+    読み込みでは個体を減らさない（施設の連戦中のように、手持ちにもボックスにも居ないまま参照される場面がある）。
+    捨てるのは書き込み側の仕事にしてある。</p>
+
+    <h3>バトル中とマップ上で、同じ実装を通す</h3>
+    <p>回復量の計算を2箇所に書くと、いつか片方だけずれる。
+    対象を <code>UseTarget</code>（HP・状態異常・PP の3つだけ）に揃えてから渡す形にした。
+    バトル中は <code>BattlePokemon</code>、マップ上は <code>PokemonInstance</code> ―― 型は違うが、
+    <strong>道具が触るのはこの3つだけ</strong>なので1つにできる。テストは「回復量が同じであること」を直接見ている。</p>
+
+    <h3>繋いで初めて見えたもの</h3>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>見つかったもの</th><th>なぜ今まで見えなかったか</th></tr></thead>
+        <tbody>
+          <tr><td><strong>同じ道具を2回もらっていた</strong></td><td>バッグを <code>core</code> と UI が別々に持ち、<strong>両方が足していた</strong>。入れ物が別なので合計だけが静かに倍になる</td></tr>
+          <tr><td><strong>持ち物効果が v0.5 から本編に届いていなかった</strong></td><td>35種のハンドラが<strong>施設の貸しポケモンにしか付かない</strong>。型も67項目の検証も315件のテストも、4版にわたって一度も咎めなかった</td></tr>
+          <tr><td><code>writeBack</code> が消費された持ち物を戻していなかった</td><td>施設は毎回作り直すので露見しない。本編に持ち物が来た瞬間に露見した</td></tr>
+          <tr><td>図鑑の「まだ見ていない」をセーブに書こうとしていた</td><td><strong>記録が無いことが未発見を表す</strong>ので、書くと意味が二重になる。<strong>これは型が先に気づいた</strong></td></tr>
+          <tr><td>マップ画面を開くたび冒頭の案内が出る／復活地点が定数</td><td>セーブが無かった頃は「開いた」と「始めた」を区別する必要が無かった</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>町を1つ足すのに、コードは1行も要らなかった</h3>
+    <p>トキワシティ（町・ポケモンセンター・ショップ・民家の4枚）を追加した。
+    触ったのは <code>.map</code> 4枚・<code>events.json</code>・<code>flags.json</code>・<code>shops.json</code> だけで、
+    <strong><code>packages/core</code> も <code>packages/game</code> も 0行</strong>（タイル色のヒントに3文字足しただけ）。
+    v0.7 の「エンジンとデータを分ける」判断が効いた最初の証拠になる。</p>
+    <div class="note warn">
+      <strong>ただし無条件ではない。検証が9件のエラーで止めた。</strong>
+      建物の入口3件が「入った瞬間に押し戻される」形（接続先が warp マスの上）、
+      NPC 5件がカウンターや机の上、誰も立てないマスが1件。
+      どれも v0.7 の収穫（#55・#56）と同じ形の誤りで、
+      <strong>人はマップを置くたびに同じ間違いをする。</strong>
+    </div>
+
+    <h3>台本が座標を数えるのをやめた</h3>
+    <p><code>tools/playthrough.mjs</code> は v0.7 から「押した回数」でマップを歩いていたが、
+    <strong>町を1枚足しただけで全部通らなくなった。</strong>
+    今は <code>maps.json</code> を読んで経路探索する ―― 段差の一方通行・踏む warp・
+    オブジェクトの通行判定まで含み、目的地はマップをまたいで指定できる。</p>
+    <p>副産物として、<strong>負けて家に飛ばされても台本が続く</strong>ようになった。
+    座標を数える台本は、想定していない場所に飛んだ時点で意味を失っていた。</p>
+
+    <h3>実機検証</h3>
+    <p>ブラウザで44項目。ショップで買う → バッグに入る → リロードしても残る →
+    エクスポートして書き戻すと元の場所に戻る → BP交換所で持ち物を買って持たせる →
+    全滅してポケモンセンターに戻る、まで一続きで確認している。</p>
+  </article>
 </section>
 
 <!-- ───────────── 訂正記録 ───────────── -->
@@ -571,6 +714,21 @@ tools/    一括投入・マップ変換・ID生成・検証・CLIデモ・ブ�
         <tr><td><span class="ver">v0.7</span></td><td><code>battle</code> の「末尾のみ」規定が、分岐の中の <code>battle</code> を縛れていなかった</td><td>規定の甘さ</td></tr>
         <tr><td><span class="ver">v0.7</span></td><td>色を規則から導出しきると、<strong>家の壁と木が同じ色になる</strong></td><td>やりすぎた抽象</td></tr>
         <tr><td><span class="ver">v0.7</span></td><td><strong>生成した ID 型を4バージョン誰も import していなかった</strong></td><td>未解決</td></tr>
+        <tr><td><span class="ver">v0.8</span></td><td>暫定データ用に書いた検証が、<strong>公式データを入れると落ちる</strong></td><td>規則と事実の混同</td></tr>
+        <tr><td><span class="ver">v0.8</span></td><td>律速は learnset ではなく<strong>技の数</strong>だった（充足率39%）</td><td>入れて分かった</td></tr>
+        <tr><td><span class="ver">v0.8</span></td><td><strong>レベル技を1つも覚えない種が実在する</strong>（アブラ・メタモン）</td><td>原作の事実</td></tr>
+        <tr><td><span class="ver">v0.8</span></td><td>最序盤では<strong>変化技1つが勝率を 36% → 1.5% に落とす</strong></td><td>測って分かった</td></tr>
+        <tr><td><span class="ver">v0.8</span></td><td>撃破フラグをバトル前に立てると、<strong>負けた瞬間にその相手が消える</strong></td><td>順序の罠</td></tr>
+        <tr><td><span class="ver">v0.8</span></td><td><strong>歩けるマスの「調べる」warp は起動できない</strong>（建物に入れなかった）</td><td>ユーザ報告</td></tr>
+        <tr><td><span class="ver">v0.8</span></td><td>1入力1歩は、指で遊ぶと<strong>叩き続ける操作</strong>になる</td><td>ユーザ報告</td></tr>
+        <tr><td><span class="ver">v0.8</span></td><td>器を跨ぐ操作は、<strong>関数を通してしか触れない形</strong>にしないと二重所属が入る</td><td>構造で防ぐ</td></tr>
+        <tr><td><span class="ver">v0.9</span></td><td>同じものを2箇所が持つと、<strong>気づかないまま両方が足す</strong>（道具が2倍もらえた）</td><td>繋いで分かった</td></tr>
+        <tr><td><span class="ver">v0.9</span></td><td><strong>持ち物効果が v0.5 から本編に届いていなかった</strong></td><td>検証の穴</td></tr>
+        <tr><td><span class="ver">v0.9</span></td><td><code>writeBack</code> が<strong>消費された持ち物を戻していなかった</strong></td><td>繋いで分かった</td></tr>
+        <tr><td><span class="ver">v0.9</span></td><td>「まだ見ていない」をセーブに書こうとしていた ― <strong>記録が無いことが未発見</strong></td><td><strong>型が捕まえた</strong></td></tr>
+        <tr><td><span class="ver">v0.9</span></td><td>エクスポートは<strong>ファイル保存ではなくテキスト</strong>（埋め込みでは保存が封じられる）</td><td>配布形態</td></tr>
+        <tr><td><span class="ver">v0.9</span></td><td>「持たせる効果」と「使う効果」を同じ欄にすると、無意味な組み合わせが通る</td><td>型の設計</td></tr>
+        <tr><td><span class="ver">v0.9</span></td><td>座標を数える台本は、<strong>町を1枚足すと全部通らなくなる</strong></td><td>検証の維持費</td></tr>
       </tbody>
     </table>
   </div>
@@ -637,6 +795,19 @@ tools/    一括投入・マップ変換・ID生成・検証・CLIデモ・ブ�
     4バージョンにわたって1つも達成されていなかった ――
     <strong>検証が通っているせいで、動いているように見え続けた。</strong>
     <code>givePokemon</code> の技が届いていなかった件も同じ形をしている。
+  </div>
+
+  <div class="note warn" style="margin-top:16px">
+    <strong>v0.9 で3例目が出た ―― 持ち物の効果が、4バージョンぶん誰にも届いていなかった。</strong><br>
+    <code>core/held.ts</code> は v0.5 から <strong>35種の効果 × 25のフック</strong>を実装していて、
+    テストも検証も通っていた。だが<strong>本編で持ち物を持たせる手段が無く</strong>、
+    実際に働いていたのは施設の貸しポケモン（データで <code>item</code> が指定されている個体）だけだった。<br>
+    見つかったのは、BP交換所を作るために
+    <strong>「お金でも BP でも手に入らない持ち物が無い」を検証項目（#67）に書いた瞬間</strong>で、
+    対戦用の持ち物14種がまとめて引っかかった。
+    <strong>型・テスト・検証のどれもが「無い機能」を咎めることはできない。</strong>
+    咎められるのは「書いたものが間違っている」ことだけで、
+    <strong>「書いたものが誰にも使われていない」は別の目で見るしかない。</strong>
   </div>
 </section>
 
@@ -936,37 +1107,91 @@ g4-gyarados    gyarados   waterfall/crunch/earthquake/double-edge          choic
 
 <!-- ───────────── セーブ ───────────── -->
 <section>
-  <div class="sec-head"><span class="eyebrow">09</span><h2>セーブ ― 最小実装、ただし抽象化は今</h2></div>
+  <div class="sec-head"><span class="eyebrow">09</span><h2>セーブ ― 抽象化を先に、実装を後に</h2></div>
 
-  <p>v0.5 で保存するのは BP と施設の記録だけ。
-  だが <strong>保存先の抽象化とマイグレーションの鎖は今のうちに作る</strong> ―― 後から挟めないため。</p>
+  <p>v0.5 で保存したのは BP と施設の記録だけだった。
+  だが <strong>保存先の抽象化とマイグレーションの鎖はそのときに作った</strong> ―― 後から挟めないため。
+  v0.9 で世界の状態が入り、鎖は2本目になった。</p>
 
   <div class="grid2">
     <div class="card">
-      <h3><span class="pill done">v0.5</span> localStorage</h3>
+      <h3><span class="pill done">v0.5</span> localStorage・v1</h3>
       <p>記録だけを保存する暫定実装。<code>packages/game/src/save.ts</code> の1ファイル、37行。</p>
     </div>
     <div class="card">
-      <h3><span class="pill pending">v0.9</span> IndexedDB</h3>
-      <p>共通ボックス数千体で 5MB を超えるため移行する。<strong>差し替えるのは上の1ファイルだけ</strong>で、呼び出し側は一行も変わらない。</p>
+      <h3><span class="pill done">v0.9</span> IndexedDB・v3</h3>
+      <p>共通ボックス数千体で 5MB を超えるため移行した。
+      <strong>差し替えたのは上の1ファイルだけで、呼び出し側は1行も変わっていない。</strong></p>
     </div>
   </div>
 
+  <div class="note" style="margin-top:16px">
+    <strong>4バージョン先に効いた抽象化。</strong>
+    v0.5 の時点では <code>SaveStore</code> は「localStorage を呼ぶだけの interface」で、
+    抽象化する意味がほとんど無いように見えた。
+    v0.9 で <strong>localStorage → IndexedDB という非同期・別ストア構成への差し替え</strong>が
+    1ファイルで済んだのは、そのとき書いた4行の interface のおかげだった。
+  </div>
+
   <pre style="margin-top:16px"><code>type SaveData = {
-  schemaVersion: 1;                     // 必ず最初のフィールド
+  schemaVersion: 3;                     // 必ず最初のフィールド
   global: {                             // 地方をまたぐ（恒久）
     bp: number;
-    endgame: { facilityRecords: Record&lt;FacilityId, FacilityRecord&gt; };
+    dex: Record&lt;SpeciesId, "seen" | "caught"&gt;;
+    bag: Record&lt;ItemId, number&gt;;
+    endgame: { facilityRecords; tournamentRecords };
   };
-  settings: { battleSpeed: ... };
+  pokemon: Record&lt;uid, PokemonInstance&gt;;  // 個体の実体
+  regions: Record&lt;RegionId, {             // 地方ごとの進行
+    flags; money; badges;
+    partyUids: string[]; boxUids: string[];   // 器（誰がどこに居るか）
+    position; respawn;
+  }&gt;;
+  settings: { battleSpeed; lossPenalty };
 };</code></pre>
 
+  <h3 style="margin:24px 0 8px">器と個体を分ける</h3>
+  <p><strong>「誰がどこに居るか」（uid の配列）と「その個体そのもの」を別に持つ。</strong>
+  IndexedDB でも別のオブジェクトストアに分けてあり、
+  ボックスに数千体入ったときに<strong>1体入れ替えるたび全体を書き直さない</strong>。</p>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th>壊れ方</th><th>どう扱うか</th><th>理由</th></tr></thead>
+      <tbody>
+        <tr><td>器に居ない個体がある</td><td><strong>消さない</strong></td><td>施設の連戦中のように、手持ちにもボックスにも居ないまま参照される場面がある</td></tr>
+        <tr><td>uid が食い違う個体</td><td>捨てる</td><td>参照しようがない</td></tr>
+        <tr><td>手持ちとボックスの二重所属</td><td>読み込みで直す（手持ち優先）</td><td>外から編集されたセーブを読むときに起きうる</td></tr>
+        <tr><td>器から外れた個体</td><td><strong>書き込み側</strong>で捨てる</td><td>捨てる判断は「今の状態を保存する」ときにだけ確実に下せる</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="margin:24px 0 8px">過去の版を CI が読み続ける</h3>
+  <p><strong>マイグレーションが壊れていることに気づくのは、常に手遅れになってから。</strong>
+  版を上げたら <code>fixtures/saves/vN.json</code> を1件足す規則にして、
+  CI が<strong>全ての過去版を最新版まで引き上げられること</strong>を毎回確かめている。</p>
+
   <ul style="margin-top:14px">
-    <li><strong>最終形の部分集合にしてある。</strong> 入れ子（<code>global</code> / <code>endgame</code> / <code>settings</code>）をそのまま使っているので、v0.9 の移行は<strong>項目の追加</strong>で済む</li>
-    <li>マイグレーションは<strong>空のまま形だけ作った</strong>。最初の版で作っておかないと、2つ目の版で必ず1つ飛ばす</li>
     <li>現在より新しいセーブは<strong>読まずに拒否する</strong>（壊すより読めない方がよい）</li>
     <li>壊れた値は既定値に落として読み込む ―― <strong>不正の検出ではなくクラッシュの防止</strong>のため</li>
+    <li>読めなかったときに<strong>黙って新規データを作らない</strong></li>
   </ul>
+
+  <div class="note warn" style="margin-top:16px">
+    <strong>エクスポートはファイル保存ではなくテキストにした。</strong>
+    設計では「JSONファイルとしてのエクスポート」と書いていたが、
+    この遊べる版は単一 HTML として埋め込んで見ることがあり、
+    その中では <code>&lt;a download&gt;</code> もスクリプトからの保存も封じられている。<br>
+    <strong>押しても何も起きないボタンは、バックアップ機能として最悪の形をしている。</strong>
+    テキストエリアに出してコピーさせる形なら必ず動く。
+  </div>
+
+  <h3 style="margin:24px 0 8px">まだやっていないこと</h3>
+  <p>設計の破損対策4つのうち、実装したのは「黙って新規データを作らない」だけ。
+  アトミックな書き込み・1世代前の保持・スキーマ検証は入れていない。
+  進行不能にはならないが、<strong>「壊れたセーブから復旧する」機能はまだ無く、
+  エクスポートが唯一の保険になっている。</strong></p>
 </section>
 
 <!-- ───────────── 世界 ───────────── -->
@@ -978,20 +1203,31 @@ g4-gyarados    gyarados   waterfall/crunch/earthquake/double-edge          choic
     <strong>マップを大量に流し込める仕組みを用意すること</strong>に置いてある。
   </p>
 
-  <h3>レジストリは4つ目になった</h3>
-  <p>同じ形が4回目になった ―― <strong>種類ごとにハンドラを1つ書き、残りはデータで足す</strong>。
-  イベントのコマンドもこの形にした。地方を追加してもコマンドの種類は増えず、増えるのは JSON だけになる。</p>
+  <h3>レジストリは6つ目になった</h3>
+  <p>同じ形が6回目になった ―― <strong>種類ごとにハンドラを1つ書き、残りはデータで足す</strong>。
+  イベントのコマンドも、ボールの補正も、道具の効果もこの形にした。
+  地方を追加しても種類は増えず、増えるのは JSON だけになる。</p>
 
   <div class="scroll">
     <table>
       <thead><tr><th>レジストリ</th><th class="n">種類</th><th>データ側で増えるもの</th><th>導入</th></tr></thead>
       <tbody>
-        <tr><td>技効果 <code>effectHandlers</code></td><td class="n">8</td><td>技 105件</td><td><span class="pill done">v0.1</span></td></tr>
+        <tr><td>技効果 <code>effectHandlers</code></td><td class="n">8</td><td>技 247件</td><td><span class="pill done">v0.1</span></td></tr>
         <tr><td>特性・持ち物 <code>heldHandlers</code></td><td class="n">35</td><td>特性48・持ち物32</td><td><span class="pill done">v0.5</span></td></tr>
-        <tr><td>検証項目</td><td class="n">58</td><td>―（規律そのもの）</td><td><span class="pill done">v0.4</span></td></tr>
-        <tr><td>イベントコマンド <code>handlers</code></td><td class="n">18</td><td>イベント15件（マップを足すほど増える）</td><td><span class="pill done">v0.7</span></td></tr>
+        <tr><td>検証項目</td><td class="n">67</td><td>―（規律そのもの）</td><td><span class="pill done">v0.4</span></td></tr>
+        <tr><td>イベントコマンド <code>handlers</code></td><td class="n">18</td><td>イベント26件（マップを足すほど増える）</td><td><span class="pill done">v0.7</span></td></tr>
+        <tr><td>ボールの補正 <code>BallBonus</code></td><td class="n">6</td><td>ボール9種</td><td><span class="pill done">v0.8</span></td></tr>
+        <tr><td>道具の使用 <code>UseEffect</code></td><td class="n">6</td><td>回復道具17種</td><td><span class="pill done">v0.9</span></td></tr>
       </tbody>
     </table>
+  </div>
+
+  <div class="note">
+    <strong>6回とも同じ判断をしている。</strong>
+    きずぐすり・いいキズぐすり・すごいキズぐすりは<strong>同じ <code>heal</code> の数値違い</strong>で、
+    ネットボール・クイックボール・ダークボールは<strong>同じ「条件つき倍率」の条件違い</strong>。
+    <strong>「全部入り」はゴールではなく設計制約</strong>という方針が、
+    毎回このレジストリの形になって現れる。
   </div>
 
   <h3 style="margin:24px 0 8px">バトルと同じ構造にした</h3>
@@ -1052,18 +1288,167 @@ T !normal   ← 通行不可    T.HHH..HHH.T
   </div>
 </section>
 
+<!-- ───────────── 実個体 ───────────── -->
+<section>
+  <div class="sec-head"><span class="eyebrow">11</span><h2>実個体 ― 「設計図」から「実在する1体」へ</h2></div>
+
+  <p class="lede" style="margin-bottom:16px">
+    v0.7 までの手持ちは <code>PartySpec</code>（「Lv5のヒトカゲ」という<strong>設計図</strong>）で、
+    バトルのたびに満タンで作り直されていた。そのため
+    <strong>野生戦に消耗が無く、遭遇そのものに意味が生まれなかった。</strong>
+  </p>
+
+  <pre><code>v0.7                          v0.8
+PartySpec                     PokemonInstance
+  species: "charmander"         uid: "a3f1…"        ← 個体の同一性
+  level: 5                      species, exp        ← レベルは exp から導く
+  moves: [...]                  ivs, evs, nature    ← 一度決まったら変わらない
+                                currentHp, status   ← 歩いても残る
+  ↓ 毎回ここから作り直す        moves: [{id, pp}]   ← PP も残る
+BattlePokemon                   friendship, shiny, gender, met</code></pre>
+
+  <div class="note">
+    <strong>レベルを個体に持たせない。</strong>
+    持つのは<strong>累計経験値だけ</strong>で、レベルはそこから導く。
+    二重に持つと必ずずれる ―― 「レベルアップしたのに経験値が足りない個体」は、
+    保存と読み込みを挟んだ瞬間に生まれる。
+    同じ理由で、最大HP も個体には持たせず毎回計算する。
+  </div>
+
+  <h3 style="margin:24px 0 8px">バトルとの往復は2本の関数だけ</h3>
+  <pre><code>instanceToSpec(data, instance)   … 出るとき。今の HP を「割合」で渡す
+writeBack(data, instance, after) … 戻るとき。HP・PP・状態異常・消えた持ち物だけ</code></pre>
+  <p>HP を割合で渡すのは、施設のレベル同期で最大HPが変わっても
+  <strong>「半分減っている」という事実が保たれる</strong>ため。
+  戻すときは<strong>ランク補正や混乱のような「その場限りのもの」を戻さない</strong> ――
+  バトルの外に持ち出す意味があるものだけを選ぶ。</p>
+
+  <h3 style="margin:24px 0 8px">戦闘後シーケンスは7段</h3>
+  <pre><code>経験値 → レベル → 技習得 → 努力値 → なつき度 → 進化 → 図鑑</code></pre>
+  <p><code>core</code> が返すのは <code>PostBattleEvent[]</code> だけで、
+  <strong>「おぼえますか？」を聞くのも、進化の演出も UI の仕事</strong>。
+  バトル中の <code>BattleEvent</code> とまったく同じ形にしてある ――
+  <strong>同じ構造を2度目に使うとき、設計判断は1回で済む。</strong></p>
+
+  <h3 style="margin:24px 0 8px">器（手持ち・ボックス）は関数でしか触れない</h3>
+  <p>1体が手持ちとボックスに同時に居る状態は、<strong>データとしては簡単に作れてしまう</strong>。
+  <code>Storage</code> を用意し、<code>addCaught</code> / <code>withdraw</code> / <code>deposit</code> /
+  <code>release</code> / <code>reorder</code> を通してしか触れない形にした。
+  配列を直接編集する道を残さないので、<strong>二重所属は「気をつける」ものではなくなる。</strong></p>
+
+  <div class="note warn">
+    <strong>読み込みでは個体を減らさない。</strong>
+    器に居ない個体を「ゴミ」として消す実装を書きかけたが、
+    施設の連戦中のように<strong>手持ちにもボックスにも居ないまま参照される場面</strong>がある。
+    プレイヤーのデータを消す方向の推測は、間違えたときに取り返しがつかない。
+    捨てるのは<strong>書き込み側</strong>の仕事にした。
+  </div>
+</section>
+
+<!-- ───────────── 経済 ───────────── -->
+<section>
+  <div class="sec-head"><span class="eyebrow">12</span><h2>経済 ― お金と BP を分けたまま保つ</h2></div>
+
+  <p class="lede" style="margin-bottom:16px">
+    本作の主動線は<strong>「施設を遊ぶ → BP を稼ぐ → 個体を強くする → 上位に挑む」</strong>。
+    お金でも同じものが買えると、この循環が二重になって薄まる。
+    <strong>2つの経済を分けたまま保つことが、エンドゲームの設計そのもの。</strong>
+  </p>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>お金</h3>
+      <p>その地方を攻略するための<strong>消耗品</strong>を買う。ボール・回復道具・基本的な持ち物。
+      地方をクリアした時点で役目が終わる。</p>
+    </div>
+    <div class="card">
+      <h3>BP</h3>
+      <p>施設で稼ぐ。<strong>対戦で強い持ち物</strong>（たべのこし・こだわり系・きあいのタスキ…）と
+      交換できる。お金では絶対に買えない。</p>
+    </div>
+  </div>
+
+  <div class="note" style="margin-top:16px">
+    <strong>この原則を CI の合否にした。</strong>
+    #66「お金でも BP でも買える道具が無い」／#67「お金でも BP でも手に入らない持ち物が無い」。<br>
+    書いた瞬間に、対戦用の持ち物14種が
+    <strong>v0.5 からどこからも入手できないまま置かれていた</strong>ことが分かった ――
+    35種の持ち物効果は動いていたが、届いていたのは施設の貸しポケモンだけだった。
+  </div>
+
+  <h3 style="margin:24px 0 8px">「持たせる」と「つかう」は別の型にする</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th></th><th><code>HeldEffect</code></th><th><code>UseEffect</code></th></tr></thead>
+      <tbody>
+        <tr><td>いつ働くか</td><td>持たせている間、フックが発火したとき</td><td>バッグから選んで使った瞬間</td></tr>
+        <tr><td>対象</td><td>持っている個体</td><td>選んだ個体（<strong>倒れている個体も選べる</strong>）</td></tr>
+        <tr><td>種類</td><td>35種</td><td>6種</td></tr>
+        <tr><td>TSV の欄</td><td><code>effect</code></td><td><code>use</code>（別の欄）</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="margin-top:14px">同じ「道具の効果」に見えるので1つにまとめたくなるが、
+  混ぜると <strong>「持たせると回復し続けるきずぐすり」</strong>のような、
+  意味の無い組み合わせが型として通ってしまう。
+  分けたことで「<code>recovery</code> なのに使えない」「使えるのに使い切りでない」を検証にできた。</p>
+
+  <h3 style="margin:24px 0 8px">バトル中とマップ上で、同じ実装を通す</h3>
+  <pre><code>UseTarget = { currentHp, maxHp, status, moves: [{pp, maxPp}] }
+
+BattlePokemon  ──┐
+                 ├─→ UseTarget ─→ useItem() ─→ 新しい UseTarget
+PokemonInstance ─┘</code></pre>
+  <p>回復量の計算を2箇所に書くと、いつか片方だけずれる。
+  型は違うが<strong>道具が触るのは HP・状態異常・PP の3つだけ</strong>なので、
+  そこに揃えれば1つにできる。テストは
+  <strong>「同じ道具の回復量が両方で一致すること」を直接見ている</strong> ――
+  実装が1つである証拠を、テストの側にも残す。</p>
+
+  <h3 style="margin:24px 0 8px">値段は道具が持ち、店は品揃えだけを持つ</h3>
+  <pre><code>Shop = { id, name, items: ItemId[] }      ← 何を置くかだけ
+Item = { …, price?: number, bpPrice?: number }  ← いくらかは道具側</code></pre>
+  <p>店ごとに値段を持たせると、同じキズぐすりが町ごとに違う値段になり、
+  <strong>直す場所が地方の数だけ増える。</strong></p>
+
+  <h3 style="margin:24px 0 8px">敗北処理 ― ペナルティは時間を奪うだけで何も教えない</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>項目</th><th>扱い</th></tr></thead>
+      <tbody>
+        <tr><td>戻る場所</td><td><strong>最後に回復した場所</strong>（<code>RegionProgress.respawn</code>）</td></tr>
+        <tr><td>手持ち</td><td>全回復</td></tr>
+        <tr><td>お金</td><td><strong>失わない</strong>（既定）／設定で原作準拠（半分）も選べる</td></tr>
+        <tr><td>道具・進行フラグ</td><td>そのまま</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="margin-top:14px">負けた原因（相性を見誤った、レベルが足りない）とペナルティの内容に関係がなく、
+  再挑戦までの作業時間が伸びるだけになる。<strong>9地方を周回する本作では、この摩擦が9回積み重なる。</strong>
+  秘伝技の廃止・捕獲の軽量化と同じ判断軸で落とした。</p>
+
+  <div class="note">
+    <strong>「最後に利用したポケモンセンター」をコードで持たない。</strong>
+    <code>healParty</code> イベントが起きた場所を、そのまま復活地点にしている。
+    <strong>回復してくれた場所が戻る場所</strong>という規則を回復イベント側に持たせたので、
+    ポケモンセンターを1軒足すのにコードは要らない。
+  </div>
+</section>
+
 <!-- ───────────── データ ───────────── -->
 <section>
-  <div class="sec-head"><span class="eyebrow">11</span><h2>データの現状</h2></div>
+  <div class="sec-head"><span class="eyebrow">13</span><h2>データの現状</h2></div>
 
   <div class="grid2" style="margin-bottom:16px">
     <div class="card">
       <h3><span class="pill done">検証済</span> 正確なもの</h3>
-      <p>種族値151種はすべて原作の値と一致（合計値との照合を投入時に実行）。技105件の威力・命中・PP・接触判定も原作どおり。ダメージ計算は手計算と完全一致。</p>
+      <p>種族値151種はすべて原作の値と一致（合計値との照合を投入時に実行）。技247件の威力・命中・PP・接触判定も原作どおり。
+      <strong>learnset は v0.8 で全件が公式データになった</strong>（第9世代99種／第8世代40種／第7世代12種）。ダメージ計算は手計算と完全一致。</p>
     </div>
     <div class="card">
       <h3><span class="pill warn">暫定</span> 未確定のもの</h3>
-      <p>learnset（何レベルで何を覚えるか）は規則生成の暫定値。<code>learnsetSource: "provisional"</code> が立ち、検証が毎回報告する。差し替え期限は <strong>v0.8</strong>。</p>
+      <p><strong>与える経験値（<code>baseExp</code>）が全件暫定</strong>で、種族値合計からの推定。検証が毎回そう報告する。
+      進化 72件のうち今の機構で起きるのは 52件（石・通信交換などは未実装）。</p>
     </div>
   </div>
 
@@ -1072,15 +1457,17 @@ T !normal   ← 通行不可    T.HHH..HHH.T
       <thead><tr><th>データ</th><th class="n">件数</th><th>状態</th></tr></thead>
       <tbody>
         <tr><td>種族（カントー）</td><td class="n">151</td><td><span class="pill done">実数値・相性・レンタルで使用中</span></td></tr>
-        <tr><td>技</td><td class="n">105</td><td><span class="pill done">74件が効果つき・39件が接触技</span></td></tr>
+        <tr><td>技</td><td class="n">247</td><td><span class="pill done">全件が公式データ</span> <span class="pill pending">155件は未実装（理由つきで保留）</span></td></tr>
         <tr><td>特性</td><td class="n">48</td><td><span class="pill done">37件が戦闘中に働く</span> <span class="pill pending">11件は機構待ち</span></td></tr>
-        <tr><td>持ち物</td><td class="n">32</td><td><span class="pill done">全件が戦闘中に働く</span></td></tr>
+        <tr><td>道具</td><td class="n">58</td><td><span class="pill done">持ち物32・ボール9・回復17</span></td></tr>
         <tr><td>BattleSet</td><td class="n">64</td><td><span class="pill done">grade 1〜4 に16件ずつ</span></td></tr>
         <tr><td>施設</td><td class="n">2</td><td><span class="pill done">ルールセット駆動</span></td></tr>
         <tr><td>ネームド（カントー）</td><td class="n">13</td><td><span class="pill done">原作・本気の2ティア</span> <span class="pill pending">極は v1.1</span></td></tr>
         <tr><td>カップ</td><td class="n">3</td><td><span class="pill done">ティア解放つき</span></td></tr>
-        <tr><td>マップ</td><td class="n">4</td><td><span class="pill done">マサラタウン・家・研究所・1番道路</span></td></tr>
-        <tr><td>イベント</td><td class="n">15</td><td><span class="pill done">18種のコマンドで記述</span></td></tr>
+        <tr><td>マップ</td><td class="n">8</td><td><span class="pill done">マサラタウン・1番道路・トキワシティと屋内</span></td></tr>
+        <tr><td>イベント</td><td class="n">26</td><td><span class="pill done">18種のコマンドで記述</span></td></tr>
+        <tr><td>進化</td><td class="n">72</td><td><span class="pill done">52件が今の機構で起きる</span> <span class="pill pending">20件は条件が未実装</span></td></tr>
+        <tr><td>ショップ</td><td class="n">1</td><td><span class="pill done">品揃えだけを持ち、値段は道具側</span></td></tr>
         <tr><td>トレーナー</td><td class="n">3</td><td><span class="pill done">ライバル（選んだ1匹で相手が変わる）</span></td></tr>
         <tr><td>出現テーブル</td><td class="n">1</td><td><span class="pill done">1番道路の草むら</span></td></tr>
         <tr><td>性格</td><td class="n">25</td><td><span class="pill done">実数値の補正で使用中</span></td></tr>
@@ -1094,10 +1481,7 @@ T !normal   ← 通行不可    T.HHH..HHH.T
     <table>
       <thead><tr><th>フィールド</th><th>状態</th></tr></thead>
       <tbody>
-        <tr><td class="mono">catchRate</td><td><span class="pill pending">v0.8 (捕獲) まで未使用</span></td></tr>
-        <tr><td class="mono">expType</td><td><span class="pill pending">v0.8 (経験値) まで未使用</span></td></tr>
-        <tr><td class="mono">evYield</td><td><span class="pill pending">v0.8 (努力値) まで未使用</span></td></tr>
-        <tr><td class="mono">genderRatio</td><td><span class="pill pending">v0.8 まで未使用</span></td></tr>
+        <tr><td class="mono">catchRate / expType / evYield / genderRatio</td><td><span class="pill done">v0.8 で全て使用開始</span></td></tr>
         <tr><td class="mono">MapObject.sight</td><td><span class="pill pending">v0.10 (トレーナーの視線) まで未使用</span></td></tr>
         <tr><td class="mono">MapObject.movement</td><td><span class="pill pending">v0.10 (NPCの移動) まで未使用</span></td></tr>
         <tr><td class="mono">layers.decoration / overhead</td><td><span class="pill pending">タイル画像が入るまで空</span></td></tr>
@@ -1106,7 +1490,10 @@ T !normal   ← 通行不可    T.HHH..HHH.T
   </div>
 
   <h3 style="margin:24px 0 8px">投入の流れ</h3>
-  <pre><code>packages/data/source/*.tsv        （人が編集する正）
+  <pre><code>@pkmn/dex （生成時のみ・devDependency）
+        │  npm run fetch:official   … 公式 learnset・進化 → TSV（v0.8）
+        ▼
+packages/data/source/*.tsv        （人が編集する正）
 packages/data/source/maps/*.map
         │  npm run import           … TSV → JSON。種族値の合計を照合
         │  npm run maps             … マップ原本 → MapData JSON
@@ -1115,14 +1502,14 @@ packages/data/*.json
         │  npm run gen:ids          … ID のユニオン型を生成
         ▼
 packages/data/generated/ids.d.ts
-        │  npm run validate         … 58項目の検証（下記）
+        │  npm run validate         … 67項目の検証（下記）
         ▼
                                    CI ―― 生成物が古ければ落ちる</code></pre>
 </section>
 
 <!-- ───────────── 検証 ───────────── -->
 <section>
-  <div class="sec-head"><span class="eyebrow">12</span><h2>検証 ― 設計ルールを CI に預ける</h2></div>
+  <div class="sec-head"><span class="eyebrow">14</span><h2>検証 ― 設計ルールを CI に預ける</h2></div>
 
   <p class="lede" style="margin-bottom:16px">
     <strong>文書はいずれ読まれなくなるが、CI は必ず実行される。</strong>
@@ -1158,6 +1545,13 @@ packages/data/generated/ids.d.ts
         <tr><td><strong>置いてあるが起動できないオブジェクトが無い</strong>（隣に立てるマスがあるか）</td><td><span class="pill done">v0.7</span></td></tr>
         <tr><td>トレーナーの手持ちに技がある（わるあがきしかできない相手を作らない）</td><td><span class="pill done">v0.7</span></td></tr>
         <tr><td>全 <code>EventCommand.kind</code> にハンドラが登録されている</td><td><span class="pill done">v0.7</span></td></tr>
+        <tr><td><strong>野生で出る種が Lv5 までに技を覚える</strong>（わるあがきしかできない相手を出さない）</td><td><span class="pill done">v0.8</span></td></tr>
+        <tr><td><strong>「調べる」warp が歩けるマスに無い</strong>（乗ってしまって起動できない）</td><td><span class="pill done">v0.8</span></td></tr>
+        <tr><td>全 <code>UseEffect.kind</code> に処理がある（<code>multi</code> の中身も再帰的に）</td><td><span class="pill done">v0.9</span></td></tr>
+        <tr><td><strong><code>recovery</code> カテゴリの道具は必ず使える</strong>／使える道具は使い切り</td><td><span class="pill done">v0.9</span></td></tr>
+        <tr><td>ショップの品揃えが実在し、値段があり、重複しない</td><td><span class="pill done">v0.9</span></td></tr>
+        <tr><td><strong>お金でも BP でも買える道具が無い</strong>（2つの経済が混ざらない）</td><td><span class="pill done">v0.9</span></td></tr>
+        <tr><td><strong>お金でも BP でも手に入らない持ち物が無い</strong></td><td><span class="pill done">v0.9</span></td></tr>
       </tbody>
     </table>
   </div>
@@ -1175,26 +1569,50 @@ packages/data/generated/ids.d.ts
     後者の方が気づきにくい ―― 前者は歩けば分かるが、
     後者は<strong>「その NPC に用がある」と知っている人にしか気づけない。</strong>
   </div>
+
+  <div class="note warn" style="margin-top:14px">
+    <strong>v0.8 ―― 検証を書き換える側になったこともある。</strong>
+    公式 learnset を入れた結果、<strong>暫定データ用に書いた品質条件が原作の事実とぶつかった。</strong>
+    「Lv5 までに攻撃技を覚える」「攻撃技のタイプが2種類以上」はエラーだったが、
+    メタポッド・アブラ・コイキングは原作でそうなっていない。<br>
+    <strong>規則が守るべき品質条件と、事実を写しただけのデータは扱いが違う。</strong>
+    前者は生成器のバグなのでエラーにしてよい。後者をエラーにすると
+    「正しいデータを入れられない」状態になる。<br>
+    エラーは一覧の報告に落とし、代わりに<strong>「野生で出る種が Lv5 までに技を覚える」</strong>を新設した ――
+    「データの正しさ」ではなく<strong>「遊べるか」</strong>を見る検証に置き換わっている。
+  </div>
+
+  <div class="note" style="margin-top:14px">
+    <strong>「お金と BP が混ざらない」が v0.9 の収穫。</strong>
+    設計には「お金では個体を強くできない」と書いてあったが、
+    <strong>それは運用ルールでしかなかった。</strong>
+    #66・#67 として書いた瞬間、対戦用の持ち物14種が
+    <strong>v0.5 からどこからも入手できないまま置かれていた</strong>ことが判明した。
+    <strong>原則を CI の合否にすると、原則が守られていないことも一緒に出てくる。</strong>
+  </div>
 </section>
 
 <!-- ───────────── テスト ───────────── -->
 <section>
-  <div class="sec-head"><span class="eyebrow">13</span><h2>テスト構成</h2></div>
+  <div class="sec-head"><span class="eyebrow">15</span><h2>テスト構成</h2></div>
 
   <div class="scroll">
     <table>
       <thead><tr><th>ファイル</th><th class="n">件数</th><th>守っているもの</th><th>導入</th></tr></thead>
       <tbody>
-        <tr><td class="mono">reference-data.test.ts</td><td class="n">48</td><td>種族値・技データ・ダメージの手計算値を固定</td><td><span class="pill done">v0.1</span></td></tr>
+        <tr><td class="mono">reference-data.test.ts</td><td class="n">50</td><td>種族値・技データ・ダメージの手計算値を固定</td><td><span class="pill done">v0.1</span></td></tr>
+        <tr><td class="mono">pokemon.test.ts</td><td class="n">33</td><td><strong>実個体</strong>・経験値・成長曲線・戦闘後シーケンス・進化・<strong>初戦の勝率</strong></td><td><span class="pill done">v0.8</span></td></tr>
         <tr><td class="mono">world.test.ts</td><td class="n">26</td><td>移動・段差・warp・イベント・<strong>遭遇率の実測</strong>・<strong>完了条件の道行き</strong></td><td><span class="pill done">v0.7</span></td></tr>
         <tr><td class="mono">held.test.ts</td><td class="n">24</td><td>特性・持ち物の各フック・行動の制限</td><td><span class="pill done">v0.5</span></td></tr>
+        <tr><td class="mono">capture.test.ts</td><td class="n">23</td><td>捕獲率・ボールの補正・手持ちとボックス・<strong>二重所属の禁止</strong></td><td><span class="pill done">v0.8</span></td></tr>
+        <tr><td class="mono">save.test.ts</td><td class="n">23</td><td>読み書き・<strong>過去版 fixtures の引き上げ</strong>・器と個体の突き合わせ・エクスポート</td><td><span class="pill done">v0.5</span></td></tr>
+        <tr><td class="mono">tournament.test.ts</td><td class="n">21</td><td>ネームド・ティア・選出・組み合わせ・<strong>実数値が有限であること</strong></td><td><span class="pill done">v0.6</span></td></tr>
         <tr><td class="mono">endgame.test.ts</td><td class="n">20</td><td>相手プール・ルールセット・連戦・<strong>制覇率</strong></td><td><span class="pill done">v0.5</span></td></tr>
-        <tr><td class="mono">tournament.test.ts</td><td class="n">18</td><td>ネームド・ティア・選出・組み合わせ・<strong>実数値が有限であること</strong></td><td><span class="pill done">v0.6</span></td></tr>
         <tr><td class="mono">status.test.ts</td><td class="n">16</td><td>状態異常6種＋混乱・タイプ無効・交代時のリセット</td><td><span class="pill done">v0.2</span></td></tr>
-        <tr><td class="mono">battle.test.ts</td><td class="n">14</td><td>ターン処理・不変性・PP・優先度・わるあがき・逃走の制限</td><td><span class="pill done">v0.1</span></td></tr>
+        <tr><td class="mono">battle.test.ts</td><td class="n">15</td><td>ターン処理・不変性・PP・優先度・わるあがき・逃走と道具の制限</td><td><span class="pill done">v0.1</span></td></tr>
         <tr><td class="mono">ai-basic.test.ts</td><td class="n">13</td><td><strong>相対勝率</strong>・悪手の回帰・<code>AiView</code> の可視性</td><td><span class="pill done">v0.5</span></td></tr>
+        <tr><td class="mono">use-item.test.ts</td><td class="n">13</td><td>回復量・断る条件・<strong>バトル中とマップ上で結果が一致すること</strong></td><td><span class="pill done">v0.9</span></td></tr>
         <tr><td class="mono">stages.test.ts</td><td class="n">10</td><td>ランク補正の倍率表・クランプ・変化技</td><td><span class="pill done">v0.2</span></td></tr>
-        <tr><td class="mono">save.test.ts</td><td class="n">8</td><td>読み書き・マイグレーション・壊れたデータの扱い</td><td><span class="pill done">v0.5</span></td></tr>
         <tr><td class="mono">stats.test.ts</td><td class="n">8</td><td>実数値の計算式・レベル同期</td><td><span class="pill done">v0.1</span></td></tr>
         <tr><td class="mono">switch.test.ts</td><td class="n">7</td><td>交代・強制交代・3対3の完走</td><td><span class="pill done">v0.2</span></td></tr>
         <tr><td class="mono">damage.test.ts</td><td class="n">6</td><td>ダメージ計算の各補正</td><td><span class="pill done">v0.1</span></td></tr>
@@ -1218,15 +1636,20 @@ packages/data/generated/ids.d.ts
       <p><strong>「家 → 町 → 研究所 → 1番道路 → 遭遇」を1本のテストで通す。</strong> 経路は <code>isWalkable</code> と段差の規則だけを使った探索で求めるので、マップを直すと道も自動で追従する。</p>
     </div>
     <div class="card">
+      <h3><code>save.test.ts</code> — 過去の番人</h3>
+      <p><code>fixtures/saves/v1..v3.json</code> を毎回読み、<strong>全ての過去版が最新版まで引き上がること</strong>を確かめる。マイグレーションが壊れていることに気づくのは常に手遅れになってから、なので版を上げたら1件足す規則にしてある。</p>
+    </div>
+    <div class="card">
       <h3><code>tools/playthrough.mjs</code> — 画面の番人</h3>
-      <p>ブラウザを実際に操作して同じ道行きを通す。<strong>型検査もテストも素通りする層</strong>（渡し忘れた技指定、描き分けられていないタイル）がここでしか見つからないと分かって常設した。</p>
+      <p>ブラウザを実際に操作して同じ道行きを通す。<strong>型検査もテストも素通りする層</strong>（渡し忘れた技指定、描き分けられていないタイル、リロードで消える進行）がここでしか見つからないと分かって常設した。
+      v0.9 で <strong>44項目</strong>まで増え、マップデータを読む経路探索に置き換わっている。</p>
     </div>
   </div>
 </section>
 
 <!-- ───────────── 設計原則 ───────────── -->
 <section>
-  <div class="sec-head"><span class="eyebrow">14</span><h2>設計原則が実装にどう現れたか</h2></div>
+  <div class="sec-head"><span class="eyebrow">16</span><h2>設計原則が実装にどう現れたか</h2></div>
 
   <div class="scroll">
     <table>
@@ -1234,11 +1657,11 @@ packages/data/generated/ids.d.ts
       <tbody>
         <tr>
           <td>コンテンツ追加のコストをゼロに近づける</td>
-          <td>105技・48特性・32持ち物・64 BattleSet・2施設 ―― <strong>すべて TSV / JSON の1行</strong>。効果の種類だけがコード</td>
+          <td>247技・48特性・58道具・64 BattleSet・2施設・8マップ ―― <strong>すべて TSV / JSON の1行</strong>。効果の種類だけがコード</td>
         </tr>
         <tr>
           <td>効果の種類は増えにくい</td>
-          <td>技効果は v0.2 の8種から <strong>105技へ拡張しても1つも増えなかった</strong>。イベントコマンドも同じ形にした（18種）</td>
+          <td>技効果は v0.2 の8種から <strong>247技へ拡張しても1つも増えなかった</strong>。イベントコマンド（18種）・ボールの補正（6種）・道具の使用（6種）も同じ形にした</td>
         </tr>
         <tr>
           <td><code>core</code> はデータを持たない</td>
@@ -1283,7 +1706,7 @@ packages/data/generated/ids.d.ts
 
 <!-- ───────────── 未実装 ───────────── -->
 <section>
-  <div class="sec-head"><span class="eyebrow">15</span><h2>意図的に実装していないもの</h2></div>
+  <div class="sec-head"><span class="eyebrow">17</span><h2>意図的に実装していないもの</h2></div>
 
   <p class="lede" style="margin-bottom:16px">すべて拡張フックだけは用意済み。後から差し込む形にすると書き直しになる箇所を避けてある。</p>
 
@@ -1291,15 +1714,12 @@ packages/data/generated/ids.d.ts
     <table>
       <thead><tr><th>要素</th><th>予定</th><th>用意してあるフック</th></tr></thead>
       <tbody>
-        <tr><td><strong>HP をマップに持ち越す</strong></td><td><span class="pill pending">v0.8</span></td><td>手持ちはまだ設計図（<code>PartySpec</code>）。<strong>v0.8 の最優先はここ</strong>（下記）</td></tr>
-        <tr><td>道具の使用（<code>Action.item</code>）</td><td><span class="pill pending">v0.8</span></td><td><code>Action</code> に定義済み。<strong>回復道具そのものがまだ無い</strong></td></tr>
-        <tr><td>世界の状態のセーブ</td><td><span class="pill pending">v0.9</span></td><td><code>WorldState</code> は実装済み。<code>SaveData</code> に繋いでいないだけ</td></tr>
-        <tr><td>生成した ID 型の接続</td><td><span class="pill warn">v0.8</span></td><td>生成は v0.4 から動いている。<strong>参照している箇所が無い</strong></td></tr>
+        <tr><td><strong>生成した ID 型の接続</strong></td><td><span class="pill warn">未解決</span></td><td>生成は v0.4 から動き、CI も毎回確かめている。<strong>だが参照している箇所が今も1つも無い</strong>（<code>SpeciesId</code> は <code>string</code> のまま）</td></tr>
+        <tr><td><strong>与える経験値の実データ化</strong></td><td><span class="pill warn">未解決</span></td><td><code>baseExp</code> は種族値合計からの推定。検証が毎回そう報告する</td></tr>
+        <tr><td>壊れたセーブからの復旧</td><td><span class="pill pending">未定</span></td><td>アトミックな書き込み・1世代前の保持は未実装。エクスポートが唯一の保険</td></tr>
         <tr><td>トレーナーの視線・NPC の移動</td><td><span class="pill pending">v0.10</span></td><td><code>sight</code> / <code>movement</code> は型にある</td></tr>
-        <tr><td>経験値・レベルアップ・進化</td><td><span class="pill pending">v0.8</span></td><td>戦闘後シーケンスを設計済み（実行順つき）。<code>expType</code> / <code>evYield</code> は投入済み</td></tr>
-        <tr><td>learnset の正式データ化</td><td><span class="pill pending">v0.8</span></td><td>TSV に列を足すだけ。<code>learnsetSource</code> が暫定を宣言している</td></tr>
-        <tr><td>捕獲・ボックス・図鑑</td><td><span class="pill pending">v0.8</span></td><td><code>catchRate</code> ほかデータは設定済み</td></tr>
-        <tr><td>IndexedDB・エクスポート</td><td><span class="pill pending">v0.9</span></td><td><code>SaveStore</code> interface とマイグレーションの鎖</td></tr>
+        <tr><td>ジム・バッジ・フィールド技</td><td><span class="pill pending">v0.10</span></td><td><code>badges</code> はセーブに入り、条件（<code>badges</code>）も評価される。ジムのデータが無いだけ</td></tr>
+        <tr><td>ボックスの検索・ソート・チーム保存</td><td><span class="pill pending">未定</span></td><td>最小のボックスは動いている。<strong>数千体になるまで要らない</strong></td></tr>
         <tr><td>天候・フィールド</td><td><span class="pill pending">v1.1</span></td><td>該当特性は <code>inert</code> で理由つきに待機中（ようりょくそ等11種）</td></tr>
         <tr><td>AI <code>smart</code>・連勝上限の解除</td><td><span class="pill pending">v1.1</span></td><td><code>AiConfig.policy</code> と <code>AiView</code>。検証が <code>smart</code> をまだ弾いている</td></tr>
         <tr><td>キャラごとの戦い方（<code>tactic</code>）</td><td><span class="pill pending">v1.1</span></td><td>データには入っているが AI が読んでいない。<code>basic</code> では演じられない</td></tr>
@@ -1311,37 +1731,51 @@ packages/data/generated/ids.d.ts
 
 <!-- ───────────── 次 ───────────── -->
 <section>
-  <div class="sec-head"><span class="eyebrow">16</span><h2>次にやること</h2></div>
+  <div class="sec-head"><span class="eyebrow">18</span><h2>次にやること</h2></div>
   <div class="scroll" style="margin-bottom:20px">
     <table>
       <thead><tr><th>最初の3つの希望</th><th>現在地</th></tr></thead>
       <tbody>
-        <tr><td>全てのポケモンが出る</td><td>カントー151種（v0.4）。<strong>残り8地方はデータの追加</strong></td></tr>
+        <tr><td>全てのポケモンが出る</td><td>カントー151種（v0.4）。<strong>捕まえて育てられる</strong>（v0.8）。残り8地方はデータの追加</td></tr>
         <tr><td>今までの全てのトレーナーが出る</td><td>カントー13人 × 2ティア（v0.6）。極ティアは v1.1</td></tr>
-        <tr><td>原作のマップを再現</td><td>マサラタウンほか4枚（v0.7）。カントー全域は v0.10</td></tr>
+        <tr><td>原作のマップを再現</td><td>マサラタウン・1番道路・<strong>トキワシティ</strong>ほか8枚（v0.7・v0.9）。カントー全域は v0.10</td></tr>
       </tbody>
     </table>
   </div>
 
   <article class="release">
-    <header><span class="ver">v0.8</span><h2>捕獲・育成・戦闘後シーケンス</h2></header>
-    <p class="goal">v0.7 で分かった<strong>「HP がマップに持ち越されないので、野生戦に消耗が無い」</strong>を、経験値より先に解く。</p>
+    <header><span class="ver">v0.10</span><h2>カントー全域＋ジムリーダー8人</h2></header>
+    <p class="goal"><strong>全計画で最大の塊。</strong> マップ数十枚・トレーナー百人以上・ジム8つ。着手時に「南半分／北半分」等へ分割することを前提にする。</p>
     <ul>
-      <li><strong>手持ちを設計図から実個体へ</strong> — HP・PP・状態異常がマップをまたいで残る。ここが入ると <code>healParty</code> にも回復する対象ができる</li>
-      <li>捕獲（<code>Action.item</code> とボール）・共通ボックス・図鑑</li>
-      <li>戦闘後シーケンス — 経験値・努力値・進化</li>
-      <li><strong>learnset を原作の正式データへ差し替える</strong>。今は規則生成の暫定値で、検証が毎回それを報告している</li>
-      <li>生成した ID 型を実際に <code>core</code> へ接続する（<code>SpeciesId</code> を <code>string</code> でなくする）</li>
+      <li>カントー全域のマップとトレーナー。<strong>v0.9 で「町を1つ足すのにコードは0行」が確かめられた</strong>ので、増えるのはデータ量だけのはず</li>
+      <li>ジム8つ・バッジ・バッジ連動のショップ品揃え</li>
+      <li>トレーナーの視線（<code>sight</code>）と NPC の移動（<code>movement</code>）―― 型だけある2つ</li>
+      <li>フィールド技（ただし秘伝技は採用しない。周回の摩擦になるだけのため）</li>
     </ul>
     <div class="note" style="margin-bottom:0">
-      ここが入ると <strong>捕まえた個体をバトルタワーとトーナメントに持ち込める</strong>。
-      v0.5・v0.6 で作ったエンドゲームと、v0.7 で作った世界が、初めて1本に繋がる。
+      <strong>ここで試されるのは v0.4 のツールと v0.7 の検証。</strong>
+      マップを1枚置くたびに人は同じ間違いをする（入れない建物・話しかけられない NPC）ことが
+      v0.9 で確かめられている。数十枚に増えたとき、検証が実際に間に合うかどうかが分かる。
     </div>
   </article>
+
+  <article class="release" style="margin-top:14px">
+    <header><span class="ver">v1.0</span><h2>カントー殿堂入り</h2></header>
+    <p class="goal">1地方を完走し、<strong>集めた個体でネームドに挑める</strong>。v0.5〜v0.6 のエンドゲームと本編が、初めて「遊びの循環」として閉じる。</p>
+  </article>
+
+  <div class="note warn" style="margin-top:20px">
+    <strong>先に返すべき借り。</strong>
+    生成した ID 型は v0.4 から5バージョンにわたって誰にも参照されていない。
+    「補完が効く」「タイプミスがコンパイルエラーになる」という目的は、
+    <strong>CI が毎回通っているのに1つも達成されていない。</strong>
+    マップとトレーナーが数十倍に増える v0.10 の前に返しておく価値がある ――
+    <strong>タイプミスの数もそこで数十倍になる。</strong>
+  </div>
 </section>
 
 <footer>
-  ポケモン風RPG ／ v0.1 → v0.7 ／ 個人利用・非配布 ／ 設計文書は <span class="mono">docs/</span> を参照
+  ポケモン風RPG ／ v0.1 → v0.9 ／ 個人利用・非配布 ／ 設計文書は <span class="mono">docs/</span> を参照
 </footer>
 
 </div>
