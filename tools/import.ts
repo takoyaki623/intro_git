@@ -348,6 +348,50 @@ type SpeciesOut = {
  * **ここでは外部データを取りに行かない** ―― ビルドを外部に依存させないため。
  * ファイルが無ければ v0.4 の暫定生成に落ちる（生成物に `provisional` が立つ）。
  */
+/**
+ * 種族の数値の事実（v0.9.5）。
+ *
+ * 捕獲率・成長曲線・努力値・性別比・与える経験値は**公式データが持ち主**で、
+ * `tools/fetch-numbers.ts` が veekun のデータセットから書き出す。
+ * `name` は突き合わせ専用 ―― species.tsv の表記が正しいかをここで確かめる。
+ */
+type SpeciesNumbers = {
+  name: string;
+  catchRate: number;
+  expType: string;
+  evYield: Record<string, number>;
+  genderRatio: number | null;
+  baseExp: number;
+};
+
+function speciesNumbers(): Map<string, SpeciesNumbers> {
+  const out = new Map<string, SpeciesNumbers>();
+  let rows: Record<string, string>[];
+  try {
+    rows = readTsv("species-numbers.tsv");
+  } catch {
+    // 未生成でも投入は止めない。足りないことは buildSpecies が種ごとに報告する
+    return out;
+  }
+  for (const r of rows) {
+    const ev: Record<string, number> = {};
+    for (const part of (r["ev"] ?? "").split(",").filter(Boolean)) {
+      const [stat, n] = part.split(":");
+      ev[stat!] = Number(n);
+    }
+    const gender = r["gender"] ?? "";
+    out.set(r["id"]!, {
+      name: r["name"]!,
+      catchRate: Number(r["catch"]),
+      expType: r["exp"]!,
+      evYield: ev,
+      genderRatio: gender === "-" ? null : Number(gender),
+      baseExp: Number(r["baseExp"]),
+    });
+  }
+  return out;
+}
+
 function officialLearnsets(): Map<string, { gen: number; learnset: { level: number; move: string }[] }> {
   const out = new Map<string, { gen: number; learnset: { level: number; move: string }[] }>();
   let rows: Record<string, string>[];
@@ -484,15 +528,20 @@ function provisionalBaseExp(bst: number, stage: "basic" | "middle" | "final"): n
 function importSpecies(moves: MoveOut[]): SpeciesOut[] {
   const all = buildSpecies(moves);
 
-  // ── 第2周: 進化段階が決まってから baseExp を埋める ──
-  // 「誰が誰に進化するか」を全件見ないと段階が決まらないため、2周に分ける
-  const evolvesInto = new Set(all.flatMap((s) => s.evolutions.map((e) => e.to)));
-  const evolvesFrom = new Set(all.filter((s) => s.evolutions.length > 0).map((s) => s.id));
-  for (const s of all) {
-    const isMiddle = evolvesInto.has(s.id) && evolvesFrom.has(s.id);
-    const isFinal = evolvesInto.has(s.id) && !evolvesFrom.has(s.id);
-    const bst = STAT_KEYS.reduce((n, k) => n + s.baseStats[k]!, 0);
-    s.baseExp = provisionalBaseExp(bst, isMiddle ? "middle" : isFinal ? "final" : "basic");
+  // ── 公式値が無い種だけ、進化段階から baseExp を推定する ──
+  // v0.9.5 で species-numbers.tsv が入り、151種は全件が実データになった。
+  // 推定の道は**消さずに残す** ―― v0.11 で種を足したとき、数値の取り込みを
+  // 忘れても遊べなくならないようにするため（忘れたことは検証が報告する）
+  const needsGuess = all.filter((s) => s.baseExpSource === "provisional");
+  if (needsGuess.length > 0) {
+    const evolvesInto = new Set(all.flatMap((s) => s.evolutions.map((e) => e.to)));
+    const evolvesFrom = new Set(all.filter((s) => s.evolutions.length > 0).map((s) => s.id));
+    for (const s of needsGuess) {
+      const isMiddle = evolvesInto.has(s.id) && evolvesFrom.has(s.id);
+      const isFinal = evolvesInto.has(s.id) && !evolvesFrom.has(s.id);
+      const bst = STAT_KEYS.reduce((n, k) => n + s.baseStats[k]!, 0);
+      s.baseExp = provisionalBaseExp(bst, isMiddle ? "middle" : isFinal ? "final" : "basic");
+    }
   }
   return all;
 }
@@ -500,10 +549,13 @@ function importSpecies(moves: MoveOut[]): SpeciesOut[] {
 function buildSpecies(moves: MoveOut[]): SpeciesOut[] {
   const rows = readTsv("species.tsv");
   const official = officialLearnsets();
+  const numbers = speciesNumbers();
+  /** 公式の数値が無い種。止めずに集めて、最後にまとめて報告する。 */
+  const missingNumbers: string[] = [];
   const evolutions = evolutionsBySpecies();
   const known = new Set(moves.map((m) => m.id));
 
-  return rows.map((r) => {
+  const built: SpeciesOut[] = rows.map((r) => {
     const where = `species.tsv/${r["id"]}`;
 
     const baseStats: Record<string, number> = {};
@@ -518,10 +570,16 @@ function buildSpecies(moves: MoveOut[]): SpeciesOut[] {
 
     const types = [r["type1"]!, r["type2"] ?? ""].filter((t) => t !== "" && t !== "-");
 
-    const evYield: Record<string, number> = {};
-    for (const part of (r["ev"] ?? "").split(",").filter(Boolean)) {
-      const [stat, n] = part.split(":");
-      evYield[stat!] = Number(n);
+    // ── 数値の事実は species-numbers.tsv（公式データ）が持ち主 ──
+    //
+    // **無くても止めない。** 出典の veekun データは第7世代（807種）までで、
+    // 第8・第9世代の種は載っていない。そういう種は推定にフォールバックし、
+    // 検証（#68）が「推定値である」と報告し続ける（fetch-numbers.ts の注記）
+    const num = numbers.get(r["id"]!);
+    if (num === undefined) missingNumbers.push(r["id"]!);
+    // 名前は突き合わせるだけ。**species.tsv 側は人が読むための見出しとして残す**
+    if (num !== undefined && num.name !== r["name"]) {
+      err(where, `名前が公式データと違う: "${r["name"]}" / 公式 "${num.name}"`);
     }
 
     // ── learnset ──
@@ -533,7 +591,6 @@ function buildSpecies(moves: MoveOut[]): SpeciesOut[] {
     }
     const learnset = found?.learnset ?? provisionalLearnset(types, moves, baseStats);
 
-    const genderRaw = r["gender"] ?? "";
     return {
       id: r["id"]!,
       dexNo: Number(r["dex"]),
@@ -543,16 +600,24 @@ function buildSpecies(moves: MoveOut[]): SpeciesOut[] {
       abilities: (r["abilities"] ?? "").split(",").filter(Boolean),
       learnset,
       evolutions: evolutions.get(r["id"]!) ?? [],
-      baseExp: 0, // 進化段階が分かってから埋める（下の第2周）
-      catchRate: Number(r["catch"]),
-      expType: r["exp"]!,
-      evYield,
-      genderRatio: genderRaw === "-" ? null : Number(genderRaw),
+      baseExp: num?.baseExp ?? 0, // 無ければ進化段階から推定（importSpecies の第2周）
+      catchRate: num?.catchRate ?? 255,
+      expType: num?.expType ?? "medium-fast",
+      evYield: num?.evYield ?? {},
+      genderRatio: num?.genderRatio ?? null,
       learnsetSource: found === undefined ? "provisional" : "official",
-      baseExpSource: "provisional",
+      baseExpSource: num === undefined ? "provisional" : "official",
       ...(found === undefined ? {} : { learnsetGen: found.gen }),
     };
   });
+
+  if (missingNumbers.length > 0) {
+    console.warn(
+      `  ⚠ 公式の数値が無い種が ${missingNumbers.length} 件（推定で埋めた）: ` +
+        missingNumbers.slice(0, 8).join(" "),
+    );
+  }
+  return built;
 }
 
 // ─────────────────────────────────────────────
@@ -750,7 +815,12 @@ function main(): void {
     0,
   );
   console.log(`  進化 ${evoCount} 件（うち今の機構で起きるもの ${evoNow} 件）`);
-  console.log(`  与える経験値は全件が暫定（種族値合計からの推定）`);
+  const guessed = species.filter((s) => s.baseExpSource === "provisional").length;
+  console.log(
+    guessed === 0
+      ? `  捕獲率・成長曲線・努力値・性別比・与える経験値は全件が公式データ`
+      : `  与える経験値は ${species.length - guessed} 件が公式データ / ${guessed} 件が暫定（推定）`,
+  );
   console.log(`  持ち物 ${items.length}（うちボール ${balls.length}）/ BattleSet ${battleSets.length}`);
   const parties = named.reduce((n, c) => n + Object.keys(c.tiers).length, 0);
   console.log(`  ネームド ${named.length} 人 / パーティ ${parties} 件`);

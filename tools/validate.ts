@@ -820,6 +820,20 @@ function reportProvenance(): void {
       `${provisional.length}/${allSpecies.length} 種の learnset が暫定（原作の習得レベルではない）`,
     );
   }
+
+  // #68 与える経験値の出典（v0.9.5）。
+  // v0.8 は全件が種族値合計からの推定だった。species-numbers.tsv が入って全件が実データになったが、
+  // **種を足して数値の取り込みを忘れると静かに推定へ戻る**ので、ここで報告し続ける
+  const guessed = allSpecies.filter(
+    (s) => (s as Species & { baseExpSource?: string }).baseExpSource !== "official",
+  );
+  if (guessed.length > 0) {
+    warn(
+      "provenance",
+      `${guessed.length}/${allSpecies.length} 種の与える経験値が推定値` +
+        `（npm run fetch:numbers を実行）: ${guessed.slice(0, 8).map((s) => s.id).join(" ")}`,
+    );
+  }
 }
 
 
