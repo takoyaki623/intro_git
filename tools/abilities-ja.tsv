@@ -1,0 +1,22 @@
+# 追加する特性の日本語名。species-ja.tsv と同じ理由でここだけ人が書く。
+# 無い特性は英語名のまま入り、add-species.ts が名指しで警告する。
+sturdy	がんじょう
+sand-stream	すなおこし
+sniper	スナイパー
+technician	テクニシャン
+serene-grace	てんのめぐみ
+marvel-scale	ふしぎなうろこ
+competitive	かちき
+frisk	おみとおし
+solid-rock	ハードロック
+leaf-guard	リーフガード
+anticipation	きけんよち
+dry-skin	かんそうはだ
+motor-drive	でんきエンジン
+snow-warning	ゆきふらし
+snow-cloak	ゆきがくれ
+battle-armor	カブトアーマー
+hustle	はりきり
+sand-rush	すなかき
+sand-force	すなのちから
+sheer-force	ちからずく

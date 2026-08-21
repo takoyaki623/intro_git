@@ -34,6 +34,57 @@
       ],
       "serious": [
         {
+          "species": "steelix",
+          "level": 50,
+          "moves": [
+            "earthquake",
+            "iron-head",
+            "stone-edge",
+            "iron-defense"
+          ],
+          "item": "rocky-helmet",
+          "ability": "sturdy",
+          "nature": "impish",
+          "evs": {
+            "hp": 252,
+            "def": 252
+          }
+        },
+        {
+          "species": "rhyperior",
+          "level": 50,
+          "moves": [
+            "earthquake",
+            "stone-edge",
+            "megahorn",
+            "brick-break"
+          ],
+          "item": "assault-vest",
+          "ability": "solid-rock",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "hp": 252
+          }
+        },
+        {
+          "species": "tyranitar",
+          "level": 50,
+          "moves": [
+            "crunch",
+            "stone-edge",
+            "earthquake",
+            "iron-head"
+          ],
+          "item": "hard-stone",
+          "ability": "sand-stream",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "hp": 252
+          }
+        },
+        {
           "species": "golem",
           "level": 50,
           "moves": [
@@ -42,63 +93,12 @@
             "brick-break",
             "double-edge"
           ],
-          "item": "hard-stone",
+          "item": "expert-belt",
           "ability": "rock-head",
           "nature": "adamant",
           "evs": {
             "atk": 252,
             "hp": 252
-          }
-        },
-        {
-          "species": "rhydon",
-          "level": 50,
-          "moves": [
-            "earthquake",
-            "stone-edge",
-            "brick-break",
-            "iron-head"
-          ],
-          "item": "assault-vest",
-          "ability": "lightning-rod",
-          "nature": "adamant",
-          "evs": {
-            "atk": 252,
-            "hp": 252
-          }
-        },
-        {
-          "species": "kabutops",
-          "level": 50,
-          "moves": [
-            "stone-edge",
-            "waterfall",
-            "x-scissor",
-            "swords-dance"
-          ],
-          "item": "focus-sash",
-          "ability": "swift-swim",
-          "nature": "adamant",
-          "evs": {
-            "atk": 252,
-            "spe": 252
-          }
-        },
-        {
-          "species": "onix",
-          "level": 50,
-          "moves": [
-            "stone-edge",
-            "earthquake",
-            "iron-head",
-            "double-edge"
-          ],
-          "item": "rocky-helmet",
-          "ability": "rock-head",
-          "nature": "impish",
-          "evs": {
-            "hp": 252,
-            "def": 252
           }
         }
       ]
@@ -151,12 +151,46 @@
       ],
       "serious": [
         {
+          "species": "starmie",
+          "level": 50,
+          "moves": [
+            "hydro-pump",
+            "psychic",
+            "ice-beam",
+            "recover"
+          ],
+          "item": "life-orb",
+          "ability": "illuminate",
+          "nature": "timid",
+          "evs": {
+            "spa": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "kingdra",
+          "level": 50,
+          "moves": [
+            "hydro-pump",
+            "dragon-pulse",
+            "ice-beam",
+            "agility"
+          ],
+          "item": "choice-specs",
+          "ability": "sniper",
+          "nature": "modest",
+          "evs": {
+            "spa": 252,
+            "spe": 252
+          }
+        },
+        {
           "species": "gyarados",
           "level": 50,
           "moves": [
             "waterfall",
             "crunch",
-            "earthquake",
+            "iron-head",
             "double-edge"
           ],
           "item": "choice-band",
@@ -168,54 +202,20 @@
           }
         },
         {
-          "species": "vaporeon",
+          "species": "milotic",
           "level": 50,
           "moves": [
             "surf",
             "ice-beam",
-            "toxic",
+            "dragon-pulse",
             "recover"
           ],
           "item": "leftovers",
-          "ability": "water-absorb",
+          "ability": "marvel-scale",
           "nature": "bold",
           "evs": {
             "hp": 252,
-            "def": 252
-          }
-        },
-        {
-          "species": "lapras",
-          "level": 50,
-          "moves": [
-            "surf",
-            "ice-beam",
-            "psychic",
-            "body-slam"
-          ],
-          "item": "assault-vest",
-          "ability": "water-absorb",
-          "nature": "modest",
-          "evs": {
-            "hp": 252,
-            "spa": 252
-          }
-        },
-        {
-          "species": "starmie",
-          "level": 50,
-          "moves": [
-            "surf",
-            "psychic",
-            "dazzling-gleam",
-            "recover"
-          ],
-          "item": "life-orb",
-          "ability": "illuminate",
-          "nature": "timid",
-          "evs": {
-            "spa": 252,
-            "spe": 252
+            "spd": 252
           }
         }
       ]
@@ -277,71 +277,71 @@
       ],
       "serious": [
         {
+          "species": "raichu",
+          "level": 50,
+          "moves": [
+            "thunderbolt",
+            "thunder-wave",
+            "nuzzle",
+            "dazzling-gleam"
+          ],
+          "item": "magnet",
+          "ability": "static",
+          "nature": "timid",
+          "evs": {
+            "spa": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "electivire",
+          "level": 50,
+          "moves": [
+            "thunder-punch",
+            "ice-punch",
+            "brick-break",
+            "thunder-wave"
+          ],
+          "item": "life-orb",
+          "ability": "motor-drive",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "manectric",
+          "level": 50,
+          "moves": [
+            "thunderbolt",
+            "flamethrower",
+            "thunder-wave",
+            "charge-beam"
+          ],
+          "item": "expert-belt",
+          "ability": "lightning-rod",
+          "nature": "timid",
+          "evs": {
+            "spa": 252,
+            "spe": 252
+          }
+        },
+        {
           "species": "magneton",
           "level": 50,
           "moves": [
             "thunderbolt",
             "flash-cannon",
             "thunder-wave",
-            "iron-defense"
+            "discharge"
           ],
-          "item": "magnet",
+          "item": "leftovers",
           "ability": "magnet-pull",
           "nature": "modest",
           "evs": {
             "spa": 252,
             "hp": 252
-          }
-        },
-        {
-          "species": "electabuzz",
-          "level": 50,
-          "moves": [
-            "thunderbolt",
-            "psychic",
-            "thunder-wave",
-            "ice-punch"
-          ],
-          "item": "expert-belt",
-          "ability": "static",
-          "nature": "timid",
-          "evs": {
-            "spa": 252,
-            "spe": 252
-          }
-        },
-        {
-          "species": "jolteon",
-          "level": 50,
-          "moves": [
-            "thunderbolt",
-            "dark-pulse",
-            "thunder",
-            "swift"
-          ],
-          "item": "choice-specs",
-          "ability": "volt-absorb",
-          "nature": "timid",
-          "evs": {
-            "spa": 252,
-            "spe": 252
-          }
-        },
-        {
-          "species": "raichu",
-          "level": 50,
-          "moves": [
-            "thunderbolt",
-            "thunder-wave",
-            "quick-attack",
-            "iron-head"
-          ],
-          "item": "life-orb",
-          "ability": "static",
-          "nature": "jolly",
-          "evs": {
-            "atk": 252,
-            "spe": 252
           }
         }
       ]
@@ -404,16 +404,33 @@
       ],
       "serious": [
         {
-          "species": "victreebel",
+          "species": "vileplume",
           "level": 50,
           "moves": [
             "giga-drain",
             "sludge-bomb",
             "sleep-powder",
-            "swords-dance"
+            "toxic"
+          ],
+          "item": "leftovers",
+          "ability": "chlorophyll",
+          "nature": "bold",
+          "evs": {
+            "hp": 252,
+            "spd": 252
+          }
+        },
+        {
+          "species": "roserade",
+          "level": 50,
+          "moves": [
+            "giga-drain",
+            "sludge-bomb",
+            "calm-mind",
+            "sleep-powder"
           ],
           "item": "miracle-seed",
-          "ability": "chlorophyll",
+          "ability": "natural-cure",
           "nature": "modest",
           "evs": {
             "spa": 252,
@@ -421,54 +438,37 @@
           }
         },
         {
-          "species": "exeggutor",
+          "species": "bellossom",
           "level": 50,
           "moves": [
-            "psychic",
+            "petal-blizzard",
             "giga-drain",
-            "sleep-powder",
-            "dazzling-gleam"
+            "stun-spore",
+            "toxic"
           ],
-          "item": "expert-belt",
-          "ability": "chlorophyll",
-          "nature": "modest",
-          "evs": {
-            "spa": 252,
-            "hp": 252
-          }
-        },
-        {
-          "species": "venusaur",
-          "level": 50,
-          "moves": [
-            "giga-drain",
-            "sludge-bomb",
-            "sleep-powder",
-            "calm-mind"
-          ],
-          "item": "focus-sash",
-          "ability": "overgrow",
-          "nature": "modest",
-          "evs": {
-            "spa": 252,
-            "hp": 252
-          }
-        },
-        {
-          "species": "vileplume",
-          "level": 50,
-          "moves": [
-            "giga-drain",
-            "sludge-bomb",
-            "toxic",
-            "stun-spore"
-          ],
-          "item": "leftovers",
+          "item": "sitrus-berry",
           "ability": "chlorophyll",
           "nature": "calm",
           "evs": {
             "hp": 252,
             "spd": 252
+          }
+        },
+        {
+          "species": "tangrowth",
+          "level": 50,
+          "moves": [
+            "power-whip",
+            "giga-drain",
+            "knock-off",
+            "sleep-powder"
+          ],
+          "item": "rocky-helmet",
+          "ability": "leaf-guard",
+          "nature": "relaxed",
+          "evs": {
+            "hp": 252,
+            "def": 252
           }
         }
       ]
@@ -532,36 +532,53 @@
       ],
       "serious": [
         {
-          "species": "tentacruel",
+          "species": "weezing",
           "level": 50,
           "moves": [
-            "surf",
             "sludge-bomb",
+            "will-o-wisp",
             "toxic",
-            "acid"
+            "clear-smog"
           ],
-          "item": "mystic-water",
-          "ability": "clear-body",
-          "nature": "timid",
+          "item": "leftovers",
+          "ability": "levitate",
+          "nature": "bold",
           "evs": {
-            "spa": 252,
+            "hp": 252,
+            "def": 252
+          }
+        },
+        {
+          "species": "toxicroak",
+          "level": 50,
+          "moves": [
+            "poison-jab",
+            "drain-punch",
+            "x-scissor",
+            "swords-dance"
+          ],
+          "item": "life-orb",
+          "ability": "dry-skin",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
             "spe": 252
           }
         },
         {
-          "species": "venomoth",
+          "species": "scolipede",
           "level": 50,
           "moves": [
-            "bug-buzz",
-            "sludge-bomb",
-            "sleep-powder",
-            "psybeam"
+            "megahorn",
+            "poison-jab",
+            "rock-slide",
+            "swords-dance"
           ],
-          "item": "silver-powder",
-          "ability": "shield-dust",
-          "nature": "modest",
+          "item": "focus-sash",
+          "ability": "swarm",
+          "nature": "jolly",
           "evs": {
-            "spa": 252,
+            "atk": 252,
             "spe": 252
           }
         },
@@ -569,9 +586,9 @@
           "species": "muk",
           "level": 50,
           "moves": [
-            "sludge-bomb",
-            "poison-jab",
+            "gunk-shot",
             "brick-break",
+            "shadow-punch",
             "toxic"
           ],
           "item": "poison-barb",
@@ -580,23 +597,6 @@
           "evs": {
             "atk": 252,
             "hp": 252
-          }
-        },
-        {
-          "species": "weezing",
-          "level": 50,
-          "moves": [
-            "sludge-bomb",
-            "will-o-wisp",
-            "flamethrower",
-            "toxic"
-          ],
-          "item": "rocky-helmet",
-          "ability": "levitate",
-          "nature": "bold",
-          "evs": {
-            "hp": 252,
-            "def": 252
           }
         }
       ]
@@ -670,64 +670,13 @@
       ],
       "serious": [
         {
-          "species": "slowbro",
-          "level": 50,
-          "moves": [
-            "surf",
-            "psychic",
-            "calm-mind",
-            "recover"
-          ],
-          "item": "leftovers",
-          "ability": "oblivious",
-          "nature": "bold",
-          "evs": {
-            "hp": 252,
-            "def": 252
-          }
-        },
-        {
-          "species": "hypno",
-          "level": 50,
-          "moves": [
-            "psychic",
-            "hypnosis",
-            "shadow-ball",
-            "calm-mind"
-          ],
-          "item": "twisted-spoon",
-          "ability": "insomnia",
-          "nature": "modest",
-          "evs": {
-            "spa": 252,
-            "hp": 252
-          }
-        },
-        {
-          "species": "mr-mime",
-          "level": 50,
-          "moves": [
-            "dazzling-gleam",
-            "psychic",
-            "calm-mind",
-            "recover"
-          ],
-          "item": "sitrus-berry",
-          "ability": "soundproof",
-          "nature": "modest",
-          "evs": {
-            "hp": 252,
-            "spa": 252
-          }
-        },
-        {
           "species": "alakazam",
           "level": 50,
           "moves": [
             "psychic",
-            "dazzling-gleam",
-            "dark-pulse",
-            "calm-mind"
+            "psycho-cut",
+            "calm-mind",
+            "recover"
           ],
           "item": "life-orb",
           "ability": "synchronize",
@@ -735,6 +684,57 @@
           "evs": {
             "spa": 252,
             "spe": 252
+          }
+        },
+        {
+          "species": "espeon",
+          "level": 50,
+          "moves": [
+            "psychic",
+            "calm-mind",
+            "dazzling-gleam",
+            "stored-power"
+          ],
+          "item": "twisted-spoon",
+          "ability": "synchronize",
+          "nature": "timid",
+          "evs": {
+            "spa": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "gardevoir",
+          "level": 50,
+          "moves": [
+            "psychic",
+            "moonblast",
+            "calm-mind",
+            "hypnosis"
+          ],
+          "item": "leftovers",
+          "ability": "trace",
+          "nature": "modest",
+          "evs": {
+            "spa": 252,
+            "hp": 252
+          }
+        },
+        {
+          "species": "slowking",
+          "level": 50,
+          "moves": [
+            "psychic",
+            "surf",
+            "calm-mind",
+            "slack-off"
+          ],
+          "item": "sitrus-berry",
+          "ability": "own-tempo",
+          "nature": "bold",
+          "evs": {
+            "hp": 252,
+            "def": 252
           }
         }
       ]
@@ -808,30 +808,47 @@
       ],
       "serious": [
         {
-          "species": "ninetales",
+          "species": "arcanine",
           "level": 50,
           "moves": [
-            "flamethrower",
-            "will-o-wisp",
-            "dark-pulse",
-            "confuse-ray"
+            "flare-blitz",
+            "extreme-speed",
+            "crunch",
+            "brick-break"
           ],
-          "item": "charcoal",
-          "ability": "flash-fire",
-          "nature": "timid",
+          "item": "choice-band",
+          "ability": "intimidate",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "magmortar",
+          "level": 50,
+          "moves": [
+            "fire-blast",
+            "thunderbolt",
+            "psychic",
+            "heat-wave"
+          ],
+          "item": "choice-specs",
+          "ability": "flame-body",
+          "nature": "modest",
           "evs": {
             "spa": 252,
             "spe": 252
           }
         },
         {
-          "species": "rapidash",
+          "species": "houndoom",
           "level": 50,
           "moves": [
-            "fire-blast",
             "flamethrower",
-            "will-o-wisp",
-            "agility"
+            "dark-pulse",
+            "nasty-plot",
+            "will-o-wisp"
           ],
           "item": "life-orb",
           "ability": "flash-fire",
@@ -842,34 +859,17 @@
           }
         },
         {
-          "species": "magmar",
+          "species": "chandelure",
           "level": 50,
           "moves": [
             "fire-blast",
-            "psychic",
-            "thunderbolt",
+            "shadow-ball",
+            "hex",
             "will-o-wisp"
           ],
-          "item": "expert-belt",
-          "ability": "flame-body",
+          "item": "charcoal",
+          "ability": "flash-fire",
           "nature": "modest",
-          "evs": {
-            "spa": 252,
-            "spe": 252
-          }
-        },
-        {
-          "species": "arcanine",
-          "level": 50,
-          "moves": [
-            "fire-blast",
-            "flamethrower",
-            "crunch",
-            "dragon-pulse"
-          ],
-          "item": "choice-specs",
-          "ability": "intimidate",
-          "nature": "timid",
           "evs": {
             "spa": 252,
             "spe": 252
@@ -956,15 +956,32 @@
       ],
       "serious": [
         {
-          "species": "dugtrio",
+          "species": "rhyperior",
           "level": 50,
           "moves": [
             "earthquake",
-            "rock-slide",
-            "aerial-ace",
-            "magnitude"
+            "stone-edge",
+            "megahorn",
+            "iron-head"
           ],
-          "item": "choice-band",
+          "item": "assault-vest",
+          "ability": "solid-rock",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "hp": 252
+          }
+        },
+        {
+          "species": "garchomp",
+          "level": 50,
+          "moves": [
+            "earthquake",
+            "dragon-claw",
+            "stone-edge",
+            "swords-dance"
+          ],
+          "item": "life-orb",
           "ability": "sand-veil",
           "nature": "jolly",
           "evs": {
@@ -973,33 +990,16 @@
           }
         },
         {
-          "species": "nidoqueen",
+          "species": "excadrill",
           "level": 50,
           "moves": [
             "earthquake",
-            "sludge-bomb",
-            "ice-punch",
-            "body-slam"
+            "iron-head",
+            "rock-slide",
+            "swords-dance"
           ],
-          "item": "leftovers",
-          "ability": "poison-point",
-          "nature": "adamant",
-          "evs": {
-            "atk": 252,
-            "hp": 252
-          }
-        },
-        {
-          "species": "nidoking",
-          "level": 50,
-          "moves": [
-            "earthquake",
-            "sludge-bomb",
-            "ice-punch",
-            "thunderbolt"
-          ],
-          "item": "life-orb",
-          "ability": "poison-point",
+          "item": "soft-sand",
+          "ability": "sand-force",
           "nature": "adamant",
           "evs": {
             "atk": 252,
@@ -1007,20 +1007,20 @@
           }
         },
         {
-          "species": "rhydon",
+          "species": "nidoking",
           "level": 50,
           "moves": [
-            "earthquake",
-            "stone-edge",
-            "brick-break",
-            "iron-head"
+            "earth-power",
+            "sludge-bomb",
+            "ice-beam",
+            "thunderbolt"
           ],
-          "item": "hard-stone",
-          "ability": "lightning-rod",
-          "nature": "adamant",
+          "item": "expert-belt",
+          "ability": "poison-point",
+          "nature": "modest",
           "evs": {
-            "atk": 252,
-            "hp": 252
+            "spa": 252,
+            "spe": 252
           }
         }
       ]
@@ -1104,41 +1104,7 @@
       ],
       "serious": [
         {
-          "species": "cloyster",
-          "level": 50,
-          "moves": [
-            "surf",
-            "ice-beam",
-            "iron-defense",
-            "harden"
-          ],
-          "item": "never-melt-ice",
-          "ability": "shell-armor",
-          "nature": "bold",
-          "evs": {
-            "hp": 252,
-            "def": 252
-          }
-        },
-        {
-          "species": "jynx",
-          "level": 50,
-          "moves": [
-            "ice-beam",
-            "psychic",
-            "hypnosis",
-            "dazzling-gleam"
-          ],
-          "item": "life-orb",
-          "ability": "oblivious",
-          "nature": "timid",
-          "evs": {
-            "spa": 252,
-            "spe": 252
-          }
-        },
-        {
-          "species": "dewgong",
+          "species": "lapras",
           "level": 50,
           "moves": [
             "surf",
@@ -1147,28 +1113,62 @@
             "body-slam"
           ],
           "item": "leftovers",
-          "ability": "thick-fat",
-          "nature": "calm",
+          "ability": "water-absorb",
+          "nature": "bold",
           "evs": {
             "hp": 252,
-            "spd": 252
+            "def": 252
           }
         },
         {
-          "species": "lapras",
+          "species": "abomasnow",
           "level": 50,
           "moves": [
-            "surf",
-            "ice-beam",
-            "psychic",
-            "body-slam"
+            "blizzard",
+            "giga-drain",
+            "ice-shard",
+            "toxic"
           ],
-          "item": "assault-vest",
-          "ability": "water-absorb",
+          "item": "never-melt-ice",
+          "ability": "snow-warning",
           "nature": "modest",
           "evs": {
-            "hp": 252,
-            "spa": 252
+            "spa": 252,
+            "hp": 252
+          }
+        },
+        {
+          "species": "mamoswine",
+          "level": 50,
+          "moves": [
+            "icicle-crash",
+            "earthquake",
+            "ice-shard",
+            "stone-edge"
+          ],
+          "item": "choice-band",
+          "ability": "snow-cloak",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "hp": 252
+          }
+        },
+        {
+          "species": "glaceon",
+          "level": 50,
+          "moves": [
+            "blizzard",
+            "freeze-dry",
+            "icy-wind",
+            "hyper-voice"
+          ],
+          "item": "sitrus-berry",
+          "ability": "snow-cloak",
+          "nature": "modest",
+          "evs": {
+            "spa": 252,
+            "spd": 252
           }
         }
       ]
@@ -1242,64 +1242,30 @@
       ],
       "serious": [
         {
-          "species": "hitmonlee",
-          "level": 50,
-          "moves": [
-            "cross-chop",
-            "mega-kick",
-            "rock-slide",
-            "double-kick"
-          ],
-          "item": "expert-belt",
-          "ability": "limber",
-          "nature": "jolly",
-          "evs": {
-            "atk": 252,
-            "spe": 252
-          }
-        },
-        {
-          "species": "hitmonchan",
-          "level": 50,
-          "moves": [
-            "cross-chop",
-            "fire-punch",
-            "ice-punch",
-            "quick-attack"
-          ],
-          "item": "life-orb",
-          "ability": "keen-eye",
-          "nature": "adamant",
-          "evs": {
-            "atk": 252,
-            "spe": 252
-          }
-        },
-        {
-          "species": "primeape",
-          "level": 50,
-          "moves": [
-            "cross-chop",
-            "crunch",
-            "rock-slide",
-            "swords-dance"
-          ],
-          "item": "black-belt",
-          "ability": "vital-spirit",
-          "nature": "jolly",
-          "evs": {
-            "atk": 252,
-            "spe": 252
-          }
-        },
-        {
           "species": "machamp",
           "level": 50,
           "moves": [
             "cross-chop",
-            "rock-slide",
+            "stone-edge",
             "earthquake",
-            "ice-punch"
+            "mach-punch"
+          ],
+          "item": "choice-band",
+          "ability": "guts",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "hp": 252
+          }
+        },
+        {
+          "species": "conkeldurr",
+          "level": 50,
+          "moves": [
+            "drain-punch",
+            "mach-punch",
+            "stone-edge",
+            "hammer-arm"
           ],
           "item": "flame-orb",
           "ability": "guts",
@@ -1307,6 +1273,40 @@
           "evs": {
             "atk": 252,
             "hp": 252
+          }
+        },
+        {
+          "species": "hariyama",
+          "level": 50,
+          "moves": [
+            "cross-chop",
+            "earthquake",
+            "rock-slide",
+            "bullet-punch"
+          ],
+          "item": "assault-vest",
+          "ability": "thick-fat",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "hp": 252
+          }
+        },
+        {
+          "species": "hitmontop",
+          "level": 50,
+          "moves": [
+            "mach-punch",
+            "rapid-spin",
+            "stone-edge",
+            "aerial-ace"
+          ],
+          "item": "black-belt",
+          "ability": "technician",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "spe": 252
           }
         }
       ]
@@ -1390,47 +1390,30 @@
       ],
       "serious": [
         {
-          "species": "golbat",
-          "level": 50,
-          "moves": [
-            "wing-attack",
-            "bite",
-            "supersonic",
-            "toxic"
-          ],
-          "item": "sharp-beak",
-          "ability": "inner-focus",
-          "nature": "jolly",
-          "evs": {
-            "atk": 252,
-            "spe": 252
-          }
-        },
-        {
-          "species": "arbok",
-          "level": 50,
-          "moves": [
-            "poison-jab",
-            "crunch",
-            "earthquake",
-            "toxic"
-          ],
-          "item": "poison-barb",
-          "ability": "intimidate",
-          "nature": "adamant",
-          "evs": {
-            "atk": 252,
-            "hp": 252
-          }
-        },
-        {
-          "species": "haunter",
+          "species": "gengar",
           "level": 50,
           "moves": [
             "shadow-ball",
             "sludge-bomb",
             "hypnosis",
-            "dark-pulse"
+            "hex"
+          ],
+          "item": "life-orb",
+          "ability": "cursed-body",
+          "nature": "timid",
+          "evs": {
+            "spa": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "mismagius",
+          "level": 50,
+          "moves": [
+            "shadow-ball",
+            "dazzling-gleam",
+            "nasty-plot",
+            "confuse-ray"
           ],
           "item": "spell-tag",
           "ability": "levitate",
@@ -1441,20 +1424,37 @@
           }
         },
         {
-          "species": "gengar",
+          "species": "dusknoir",
+          "level": 50,
+          "moves": [
+            "shadow-punch",
+            "earthquake",
+            "will-o-wisp",
+            "toxic"
+          ],
+          "item": "leftovers",
+          "ability": "pressure",
+          "nature": "impish",
+          "evs": {
+            "hp": 252,
+            "def": 252
+          }
+        },
+        {
+          "species": "banette",
           "level": 50,
           "moves": [
             "shadow-ball",
-            "sludge-bomb",
-            "dazzling-gleam",
-            "hypnosis"
+            "hex",
+            "will-o-wisp",
+            "knock-off"
           ],
-          "item": "life-orb",
-          "ability": "cursed-body",
-          "nature": "timid",
+          "item": "expert-belt",
+          "ability": "frisk",
+          "nature": "quiet",
           "evs": {
             "spa": 252,
-            "spe": 252
+            "hp": 252
           }
         }
       ]
@@ -1538,16 +1538,16 @@
       ],
       "serious": [
         {
-          "species": "gyarados",
+          "species": "dragonite",
           "level": 50,
           "moves": [
-            "waterfall",
-            "crunch",
+            "dragon-claw",
             "earthquake",
-            "double-edge"
+            "extreme-speed",
+            "swords-dance"
           ],
-          "item": "choice-band",
-          "ability": "intimidate",
+          "item": "life-orb",
+          "ability": "inner-focus",
           "nature": "adamant",
           "evs": {
             "atk": 252,
@@ -1555,16 +1555,16 @@
           }
         },
         {
-          "species": "aerodactyl",
+          "species": "salamence",
           "level": 50,
           "moves": [
-            "stone-edge",
-            "aerial-ace",
+            "dragon-claw",
+            "brave-bird",
             "earthquake",
-            "double-edge"
+            "crunch"
           ],
-          "item": "choice-scarf",
-          "ability": "rock-head",
+          "item": "choice-band",
+          "ability": "intimidate",
           "nature": "jolly",
           "evs": {
             "atk": 252,
@@ -1572,37 +1572,37 @@
           }
         },
         {
-          "species": "dragonair",
+          "species": "garchomp",
           "level": 50,
           "moves": [
-            "dragon-pulse",
-            "thunderbolt",
-            "ice-beam",
-            "agility"
+            "earthquake",
+            "dragon-claw",
+            "stone-edge",
+            "swords-dance"
           ],
-          "item": "life-orb",
-          "ability": "shed-skin",
-          "nature": "modest",
+          "item": "dragon-fang",
+          "ability": "sand-veil",
+          "nature": "jolly",
           "evs": {
-            "spa": 252,
+            "atk": 252,
             "spe": 252
           }
         },
         {
-          "species": "dragonite",
+          "species": "kingdra",
           "level": 50,
           "moves": [
-            "dragon-claw",
-            "earthquake",
-            "brave-bird",
-            "fire-punch"
+            "hydro-pump",
+            "dragon-pulse",
+            "ice-beam",
+            "agility"
           ],
           "item": "leftovers",
-          "ability": "inner-focus",
-          "nature": "adamant",
+          "ability": "swift-swim",
+          "nature": "modest",
           "evs": {
-            "atk": 252,
-            "spe": 252
+            "spa": 252,
+            "hp": 252
           }
         }
       ]
@@ -1697,12 +1697,12 @@
           "species": "pidgeot",
           "level": 50,
           "moves": [
-            "drill-peck",
+            "brave-bird",
             "aerial-ace",
-            "body-slam",
+            "double-edge",
             "agility"
           ],
-          "item": "sharp-beak",
+          "item": "choice-band",
           "ability": "keen-eye",
           "nature": "jolly",
           "evs": {
@@ -1711,33 +1711,16 @@
           }
         },
         {
-          "species": "alakazam",
+          "species": "scizor",
           "level": 50,
           "moves": [
-            "psychic",
-            "dazzling-gleam",
-            "dark-pulse",
-            "calm-mind"
-          ],
-          "item": "life-orb",
-          "ability": "synchronize",
-          "nature": "timid",
-          "evs": {
-            "spa": 252,
-            "spe": 252
-          }
-        },
-        {
-          "species": "rhydon",
-          "level": 50,
-          "moves": [
-            "earthquake",
-            "stone-edge",
-            "brick-break",
+            "bullet-punch",
+            "x-scissor",
+            "swords-dance",
             "iron-head"
           ],
-          "item": "assault-vest",
-          "ability": "lightning-rod",
+          "item": "life-orb",
+          "ability": "technician",
           "nature": "adamant",
           "evs": {
             "atk": 252,
@@ -1745,20 +1728,37 @@
           }
         },
         {
-          "species": "charizard",
+          "species": "metagross",
           "level": 50,
           "moves": [
-            "fire-blast",
-            "dragon-pulse",
-            "aerial-ace",
-            "dragon-claw"
+            "meteor-mash",
+            "zen-headbutt",
+            "earthquake",
+            "bullet-punch"
           ],
           "item": "expert-belt",
-          "ability": "blaze",
-          "nature": "timid",
+          "ability": "clear-body",
+          "nature": "adamant",
           "evs": {
-            "spa": 252,
-            "spe": 252
+            "atk": 252,
+            "hp": 252
+          }
+        },
+        {
+          "species": "tyranitar",
+          "level": 50,
+          "moves": [
+            "crunch",
+            "stone-edge",
+            "earthquake",
+            "iron-head"
+          ],
+          "item": "leftovers",
+          "ability": "sand-stream",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "spd": 252
           }
         }
       ]
@@ -1773,6 +1773,458 @@
         "before": "グリーン 「穴のない6体。専門を持たないから最も強い」",
         "win": "グリーン 「まだ こんなものでは ないぞ」",
         "lose": "グリーン 「いい しょうぶ だった」"
+      }
+    }
+  },
+  {
+    "id": "red",
+    "name": "レッド",
+    "role": "champion",
+    "region": "kanto",
+    "concept": {
+      "theme": "無言。積み上げた時間が、そのまま強さになっている",
+      "tactic": "coverage"
+    },
+    "signature": "pikachu",
+    "tiers": {
+      "serious": [
+        {
+          "species": "pikachu",
+          "level": 50,
+          "moves": [
+            "thunderbolt",
+            "nuzzle",
+            "quick-attack",
+            "iron-tail"
+          ],
+          "item": "life-orb",
+          "ability": "static",
+          "nature": "timid",
+          "evs": {
+            "spa": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "charizard",
+          "level": 50,
+          "moves": [
+            "fire-blast",
+            "air-slash",
+            "dragon-pulse",
+            "brick-break"
+          ],
+          "item": "charcoal",
+          "ability": "blaze",
+          "nature": "timid",
+          "evs": {
+            "spa": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "blastoise",
+          "level": 50,
+          "moves": [
+            "hydro-pump",
+            "ice-beam",
+            "dark-pulse",
+            "aura-sphere"
+          ],
+          "item": "leftovers",
+          "ability": "torrent",
+          "nature": "modest",
+          "evs": {
+            "spa": 252,
+            "hp": 252
+          }
+        },
+        {
+          "species": "venusaur",
+          "level": 50,
+          "moves": [
+            "giga-drain",
+            "sludge-bomb",
+            "sleep-powder",
+            "toxic"
+          ],
+          "item": "miracle-seed",
+          "ability": "overgrow",
+          "nature": "bold",
+          "evs": {
+            "hp": 252,
+            "spd": 252
+          }
+        }
+      ]
+    },
+    "dialogue": {
+      "serious": {
+        "before": "レッド 「無言。積み上げた時間が、そのまま強さになっている」",
+        "win": "レッド 「まだ こんなものでは ないぞ」",
+        "lose": "レッド 「いい しょうぶ だった」"
+      }
+    }
+  },
+  {
+    "id": "daisy",
+    "name": "ナナミ",
+    "role": "other",
+    "region": "kanto",
+    "concept": {
+      "theme": "倒す気が無い相手ほど、倒しにくい",
+      "type": "fairy",
+      "tactic": "support"
+    },
+    "signature": "clefable",
+    "tiers": {
+      "serious": [
+        {
+          "species": "clefable",
+          "level": 50,
+          "moves": [
+            "moonblast",
+            "soft-boiled",
+            "toxic",
+            "charm"
+          ],
+          "item": "leftovers",
+          "ability": "cute-charm",
+          "nature": "bold",
+          "evs": {
+            "hp": 252,
+            "def": 252
+          }
+        },
+        {
+          "species": "blissey",
+          "level": 50,
+          "moves": [
+            "soft-boiled",
+            "toxic",
+            "dazzling-gleam",
+            "charm"
+          ],
+          "item": "sitrus-berry",
+          "ability": "natural-cure",
+          "nature": "calm",
+          "evs": {
+            "hp": 252,
+            "spd": 252
+          }
+        },
+        {
+          "species": "sylveon",
+          "level": 50,
+          "moves": [
+            "moonblast",
+            "draining-kiss",
+            "charm",
+            "hyper-voice"
+          ],
+          "item": "fairy-feather",
+          "ability": "cute-charm",
+          "nature": "modest",
+          "evs": {
+            "spa": 252,
+            "spd": 252
+          }
+        },
+        {
+          "species": "togekiss",
+          "level": 50,
+          "moves": [
+            "dazzling-gleam",
+            "air-slash",
+            "charm",
+            "toxic"
+          ],
+          "item": "rocky-helmet",
+          "ability": "serene-grace",
+          "nature": "bold",
+          "evs": {
+            "hp": 252,
+            "def": 252
+          }
+        }
+      ]
+    },
+    "dialogue": {
+      "serious": {
+        "before": "ナナミ 「倒す気が無い相手ほど、倒しにくい」",
+        "win": "ナナミ 「まだ こんなものでは ないぞ」",
+        "lose": "ナナミ 「いい しょうぶ だった」"
+      }
+    }
+  },
+  {
+    "id": "oak",
+    "name": "オーキド",
+    "role": "other",
+    "region": "kanto",
+    "concept": {
+      "theme": "図鑑を作った人間は、全部の答えを知っている",
+      "tactic": "balanced"
+    },
+    "signature": "tauros",
+    "tiers": {
+      "serious": [
+        {
+          "species": "tauros",
+          "level": 50,
+          "moves": [
+            "body-slam",
+            "earthquake",
+            "stone-edge",
+            "megahorn"
+          ],
+          "item": "choice-band",
+          "ability": "intimidate",
+          "nature": "jolly",
+          "evs": {
+            "atk": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "snorlax",
+          "level": 50,
+          "moves": [
+            "body-slam",
+            "earthquake",
+            "crunch",
+            "toxic"
+          ],
+          "item": "leftovers",
+          "ability": "immunity",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "hp": 252
+          }
+        },
+        {
+          "species": "exeggutor",
+          "level": 50,
+          "moves": [
+            "psychic",
+            "giga-drain",
+            "sleep-powder",
+            "leaf-storm"
+          ],
+          "item": "miracle-seed",
+          "ability": "chlorophyll",
+          "nature": "modest",
+          "evs": {
+            "spa": 252,
+            "hp": 252
+          }
+        },
+        {
+          "species": "aerodactyl",
+          "level": 50,
+          "moves": [
+            "stone-edge",
+            "aerial-ace",
+            "earthquake",
+            "iron-head"
+          ],
+          "item": "focus-sash",
+          "ability": "rock-head",
+          "nature": "jolly",
+          "evs": {
+            "atk": 252,
+            "spe": 252
+          }
+        }
+      ]
+    },
+    "dialogue": {
+      "serious": {
+        "before": "オーキド 「図鑑を作った人間は、全部の答えを知っている」",
+        "win": "オーキド 「まだ こんなものでは ないぞ」",
+        "lose": "オーキド 「いい しょうぶ だった」"
+      }
+    }
+  },
+  {
+    "id": "bill",
+    "name": "マサキ",
+    "role": "other",
+    "region": "kanto",
+    "concept": {
+      "theme": "保管庫の主。分岐のすべてを、ひととおり持っている",
+      "tactic": "typeShift"
+    },
+    "signature": "eevee",
+    "tiers": {
+      "serious": [
+        {
+          "species": "vaporeon",
+          "level": 50,
+          "moves": [
+            "surf",
+            "ice-beam",
+            "toxic",
+            "recover"
+          ],
+          "item": "leftovers",
+          "ability": "water-absorb",
+          "nature": "bold",
+          "evs": {
+            "hp": 252,
+            "def": 252
+          }
+        },
+        {
+          "species": "jolteon",
+          "level": 50,
+          "moves": [
+            "thunderbolt",
+            "shadow-ball",
+            "thunder-wave",
+            "charge-beam"
+          ],
+          "item": "magnet",
+          "ability": "volt-absorb",
+          "nature": "timid",
+          "evs": {
+            "spa": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "umbreon",
+          "level": 50,
+          "moves": [
+            "crunch",
+            "toxic",
+            "confuse-ray",
+            "payback"
+          ],
+          "item": "rocky-helmet",
+          "ability": "synchronize",
+          "nature": "calm",
+          "evs": {
+            "hp": 252,
+            "spd": 252
+          }
+        },
+        {
+          "species": "leafeon",
+          "level": 50,
+          "moves": [
+            "leaf-blade",
+            "x-scissor",
+            "swords-dance",
+            "double-edge"
+          ],
+          "item": "miracle-seed",
+          "ability": "leaf-guard",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "spe": 252
+          }
+        }
+      ]
+    },
+    "dialogue": {
+      "serious": {
+        "before": "マサキ 「保管庫の主。分岐のすべてを、ひととおり持っている」",
+        "win": "マサキ 「まだ こんなものでは ないぞ」",
+        "lose": "マサキ 「いい しょうぶ だった」"
+      }
+    }
+  },
+  {
+    "id": "rocket-boss",
+    "name": "サカキ（ロケット団）",
+    "role": "villain",
+    "region": "kanto",
+    "concept": {
+      "theme": "ジムリーダーの顔を捨てたときの、こちらが本当の構築だ",
+      "type": "dark",
+      "tactic": "attrition"
+    },
+    "signature": "persian",
+    "tiers": {
+      "serious": [
+        {
+          "species": "persian",
+          "level": 50,
+          "moves": [
+            "night-slash",
+            "body-slam",
+            "slash",
+            "screech"
+          ],
+          "item": "silk-scarf",
+          "ability": "limber",
+          "nature": "jolly",
+          "evs": {
+            "atk": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "houndoom",
+          "level": 50,
+          "moves": [
+            "dark-pulse",
+            "flamethrower",
+            "nasty-plot",
+            "will-o-wisp"
+          ],
+          "item": "black-glasses",
+          "ability": "flash-fire",
+          "nature": "timid",
+          "evs": {
+            "spa": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "drapion",
+          "level": 50,
+          "moves": [
+            "crunch",
+            "poison-jab",
+            "x-scissor",
+            "swords-dance"
+          ],
+          "item": "life-orb",
+          "ability": "battle-armor",
+          "nature": "jolly",
+          "evs": {
+            "atk": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "crobat",
+          "level": 50,
+          "moves": [
+            "cross-poison",
+            "aerial-ace",
+            "bite",
+            "toxic"
+          ],
+          "item": "leftovers",
+          "ability": "inner-focus",
+          "nature": "jolly",
+          "evs": {
+            "atk": 252,
+            "spe": 252
+          }
+        }
+      ]
+    },
+    "dialogue": {
+      "serious": {
+        "before": "サカキ（ロケット団） 「ジムリーダーの顔を捨てたときの、こちらが本当の構築だ」",
+        "win": "サカキ（ロケット団） 「まだ こんなものでは ないぞ」",
+        "lose": "サカキ（ロケット団） 「いい しょうぶ だった」"
       }
     }
   }

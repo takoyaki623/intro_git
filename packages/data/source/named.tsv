@@ -21,3 +21,16 @@ bruno	シバ	elite4	kanto	fighting	受けの薄さを承知の上で、殴り勝
 agatha	キクコ	elite4	kanto	ghost	眠らせて毒を入れ、触れられないまま削る	status	gengar
 lance	ワタル	elite4	kanto	dragon	ドラゴンの数値で、小細工ごと押し流す	setup	dragonite
 blue	グリーン	champion	kanto	-	穴のない6体。専門を持たないから最も強い	-	pidgeot
+# ── v0.11 で増えた5人 ──
+#
+# ここまでの13人は「原作で戦う相手」だった。この5人は**エンドゲームにしか居ない。**
+# 拠点は地方の外にある場所なので、本編に出てこない相手が居てよい。
+#
+# ナナミの type が fairy なのにハピナスが居るのは、§3 の「⚠ 要検討」の範囲。
+# 準専門が構築の過半を占めたら「らしさ」を失うが、1/4 なら核はフェアリーのまま
+# ―― そして「戦わない人の手持ち」という theme の核はハピナスの方にある。
+red	レッド	champion	kanto	-	無言。積み上げた時間が、そのまま強さになっている	coverage	pikachu
+daisy	ナナミ	other	kanto	fairy	倒す気が無い相手ほど、倒しにくい	support	clefable
+oak	オーキド	other	kanto	-	図鑑を作った人間は、全部の答えを知っている	balanced	tauros
+bill	マサキ	other	kanto	-	保管庫の主。分岐のすべてを、ひととおり持っている	typeShift	eevee
+rocket-boss	サカキ（ロケット団）	villain	kanto	dark	ジムリーダーの顔を捨てたときの、こちらが本当の構築だ	attrition	persian

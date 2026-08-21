@@ -28,6 +28,7 @@ import {
   recordCupWin,
   rentalGradeFor,
   requiredSides,
+  evolutionLine,
   selectParty,
   startCupRun,
   step,
@@ -63,11 +64,14 @@ describe("ネームドキャラ", () => {
     }
   });
 
-  it("エースは全ティアで不動（同じキャラだと認識できる最低条件）", () => {
+  it("エースは全ティアで不動（進化形は同じエースと見なす）", () => {
     for (const character of allNamed) {
+      // v0.11 まで ID の一致だけを見ていた。ハガネールもドサイドンも別 ID なので、
+      // **進化させた瞬間に「エースが居ない」ことになっていた**
+      const line = evolutionLine(gameData, character.signature);
       for (const tier of Object.keys(character.tiers) as TierId[]) {
         expect(
-          character.tiers[tier]!.some((m) => m.species === character.signature),
+          character.tiers[tier]!.some((m) => line.has(m.species)),
           `${character.id}/${tier}`,
         ).toBe(true);
       }
@@ -80,10 +84,12 @@ describe("ネームドキャラ", () => {
     }
   });
 
-  it("専門タイプを持たないのはチャンピオンだけ", () => {
+  it("ジムリーダーと四天王には必ず専門タイプがある", () => {
+    // §4: 専門タイプで定義されるのはこの2つ。チャンピオンは縛りを持たず、
+    // 「その他」（研究者・保管庫の主）は職業で定義されるので、無いのが普通
     for (const character of allNamed) {
-      if (character.concept.type === undefined) {
-        expect(character.role, character.id).toBe("champion");
+      if (character.role === "gymLeader" || character.role === "elite4") {
+        expect(character.concept.type, character.id).toBeDefined();
       }
     }
   });
@@ -102,7 +108,7 @@ describe("ネームドキャラ", () => {
   it("3対3に絞ってもエースが落ちない", () => {
     // 原作のパーティは弱い順で、単純に先頭3体を取るとエースが落ちる
     const lance = namedById("lance");
-    const picked = selectParty(lance, lance.tiers.original!, 3);
+    const picked = selectParty(gameData, lance, lance.tiers.original!, 3);
     expect(picked).toHaveLength(3);
     expect(picked.some((m) => m.species === "dragonite")).toBe(true);
     // 並びは原作どおり（弱い順・エースが最後）を保つ
@@ -210,10 +216,30 @@ describe("勝ち抜き", () => {
     expect(outcome.gainedBp).toBe(0);
   });
 
+  it("エースが進化していても、選出で落ちない（v0.11）", () => {
+    // タケシの本気ティアはハガネールを出すが、signature は onix のまま
+    // ―― 原作で象徴だったのはイワークなので（named-characters.md §3.1）。
+    // ID の一致だけで見ていた頃は、**ここでエースが落ちていた。**
+    const brock = namedById("brock");
+    const party = brock.tiers.serious!;
+    expect(brock.signature).toBe("onix");
+    expect(party.some((m) => m.species === "onix")).toBe(false);
+
+    const picked = selectParty(gameData, brock, party, 3);
+    expect(picked).toHaveLength(3);
+    expect(picked.some((m) => m.species === "steelix")).toBe(true);
+  });
+
+  it("進化していないエースも従来どおり残る", () => {
+    const misty = namedById("misty");
+    const picked = selectParty(gameData, misty, misty.tiers.serious!, 3);
+    expect(picked.some((m) => m.species === misty.signature)).toBe(true);
+  });
+
   it("相手は3体・Lv50 に揃う（原作のレベルは同期される）", () => {
     const run = startCupRun(cup, allNamed, "original", team, 3);
     const character = currentOpponent(run, allNamed);
-    const party = opponentParty(cup, run, character);
+    const party = opponentParty(gameData, cup, run, character);
     expect(party.length).toBeLessThanOrEqual(3);
     expect(party.every((m) => m.level === 50)).toBe(true);
     expect(cupPlayerParty(cup, run).every((m) => m.level === 50)).toBe(true);
@@ -243,7 +269,7 @@ function playCup(t: Tournament, tier: TierId, seed: number) {
 
     let state = createBattle(
       gameData,
-      [cupPlayerParty(t, run), opponentParty(t, run, character)],
+      [cupPlayerParty(t, run), opponentParty(gameData, t, run, character)],
       seed + battles,
     );
     let guard = 0;

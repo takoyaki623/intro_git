@@ -17,6 +17,7 @@ import {
   heldHandlers,
   assertAllEventCommandsHandled,
   flagsUsedBy,
+  evolutionLine,
   selectParty,
   walkCommands,
   type Condition,
@@ -677,9 +678,15 @@ function checkNamed(): void {
         && !(TYPES as readonly string[]).includes(character.concept.type)) {
       fail("named-type", `${where}: 未知の専門タイプ ${character.concept.type}`);
     }
-    // チャンピオンだけがタイプ縛りを持たない（だから最も強くなる）
-    if (character.role !== "champion" && character.concept?.type === undefined) {
-      warn("named-type", `${where}: 専門タイプが無い（チャンピオン以外は珍しい）`);
+    // ジムリーダーと四天王は専門タイプで定義される（§4）。
+    // チャンピオンは縛りを持たない（だから最も強くなる）し、
+    // 「その他」は職業や役割で定義するので、タイプが無いのが普通
+    // ―― 研究者や保管庫の主に専門タイプを求める意味は無い（v0.11）
+    if (
+      (character.role === "gymLeader" || character.role === "elite4")
+      && character.concept?.type === undefined
+    ) {
+      fail("named-type", `${where}: ${character.role} に専門タイプが無い`);
     }
     if (character.concept?.tactic !== undefined) {
       const users = tacticUsers.get(character.concept.tactic) ?? [];
@@ -708,9 +715,29 @@ function checkNamed(): void {
       if (party.length === 0 || party.length > 6) {
         fail("named-party", `${label}: ${party.length}体`);
       }
-      // #10 signature が全ティアに含まれる ―― 「同じキャラだ」と認識できる最低条件
-      if (signatureOk && !party.some((m) => m.species === character.signature)) {
-        fail("named-signature", `${label}: エース ${character.signature} が居ない`);
+      // #10 signature が全ティアに含まれる ―― 「同じキャラだ」と認識できる最低条件。
+      // **進化形でもよい**（§3.1）。イワークとハガネールは同じ「タケシのイワーク」
+      const line = signatureOk ? evolutionLine(gameData, character.signature) : new Set<string>();
+      if (signatureOk && !party.some((m) => line.has(m.species))) {
+        fail("named-signature", `${label}: エース ${character.signature}（進化形を含む）が居ない`);
+      }
+
+      // #74 進化前と進化後を同時に出さない（§3.1）。
+      // 両方居ると「どちらが核か」が消える ―― エースを不動にした意味が無くなる。
+      //
+      // **原作ティアは対象外。** ワタルは本当にハクリュー2匹とカイリューを出すし、
+      // キクコは本当にゴーストとゲンガーを並べる。原作の再現に自分の規則を当てない
+      // （持ち物の重複検査を original で外しているのと同じ理由）
+      for (const m of tier === "original" ? [] : party) {
+        const after = evolutionLine(gameData, m.species);
+        after.delete(m.species);
+        const both = party.filter((o) => after.has(o.species));
+        if (both.length > 0) {
+          fail(
+            "named-evo-pair",
+            `${label}: ${m.species} と ${both.map((o) => o.species).join(",")} が同時に居る（進化前後）`,
+          );
+        }
       }
 
       const items = new Set<string>();
@@ -832,11 +859,12 @@ function checkTournaments(): void {
       // 3対3のカップで、エースが選から漏れないこと（selectParty の妥当性）
       for (const character of eligible) {
         const party = character.tiers[tier]!;
-        const picked = selectParty(character, party, rules.teamSize);
+        const picked = selectParty(gameData, character, party, rules.teamSize);
         if (picked.length !== Math.min(rules.teamSize, party.length)) {
           fail("cup-select", `${where}/${tier}/${character.id}: 選出が ${picked.length}体`);
         }
-        if (!picked.some((m) => m.species === character.signature)) {
+        const aceLine = evolutionLine(gameData, character.signature);
+        if (!picked.some((m) => aceLine.has(m.species))) {
           fail("cup-select", `${where}/${tier}/${character.id}: 選出でエースが落ちる`);
         }
       }

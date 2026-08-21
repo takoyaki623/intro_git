@@ -53,20 +53,54 @@ export type NamedCharacter = {
 };
 
 /**
+ * ある種から進化で辿り着ける種を全部集める（自分自身を含む）。
+ *
+ * v0.11 で要るようになった ―― **タケシの本気ティアはハガネールを出す**が、
+ * `signature` は `onix` のままにしてある（原作で象徴だったのはイワークなので）。
+ * 「エースはどれか」を ID の一致だけで見ると、ここでハガネールを見落とす。
+ *
+ * 見落とすと**選出でエースが落ちる。** 3対3のカップでレベル順に3体選ぶとき、
+ * エースだけは必ず残す規則が働かなくなるため。
+ * 進化はエースの延長、という決定（named-characters.md §3.1）を
+ * 文書ではなくここに置く。
+ */
+export function evolutionLine(data: GameData, from: string): Set<string> {
+  const seen = new Set<string>([from]);
+  const stack = [from];
+  while (stack.length > 0) {
+    const here = stack.pop()!;
+    let species;
+    try {
+      species = data.species(here);
+    } catch {
+      continue;
+    }
+    for (const evo of species.evolutions) {
+      if (seen.has(evo.to)) continue;
+      seen.add(evo.to);
+      stack.push(evo.to);
+    }
+  }
+  return seen;
+}
+
+/**
  * ルールセットの体数に合わせてパーティを絞る。
  *
  * 原作のパーティは3〜6体だが、PWT は3対3。**単純に先頭から取ると
  * エースが落ちる**（原作の並びは弱い順で、ラスト がエース）。
- * signature を必ず残し、残りをレベルの高い順に埋める。
+ * signature（**または その進化形**）を必ず残し、残りをレベルの高い順に埋める。
  */
 export function selectParty(
+  data: GameData,
   character: NamedCharacter,
   party: readonly PartySpec[],
   size: number,
 ): PartySpec[] {
   if (party.length <= size) return [...party];
 
-  const ace = party.find((m) => m.species === character.signature);
+  const line = evolutionLine(data, character.signature);
+  const ace = party.find((m) => line.has(m.species));
   const rest = party
     .filter((m) => m !== ace)
     .slice()
@@ -83,6 +117,7 @@ export function selectParty(
 
 /** そのティアのパーティを、レベル同期まで済ませて返す。 */
 export function partyFor(
+  data: GameData,
   character: NamedCharacter,
   tier: TierId,
   size: number,
@@ -92,7 +127,7 @@ export function partyFor(
   if (party === undefined) {
     throw new Error(`${character.id}: ティア "${tier}" のパーティが無い`);
   }
-  return selectParty(character, party, size).map((m) => ({
+  return selectParty(data, character, party, size).map((m) => ({
     ...m,
     level: level ?? m.level,
   }));
@@ -130,8 +165,13 @@ export function assertNamedUsable(data: GameData, character: NamedCharacter): vo
   for (const tier of tiersOf(character)) {
     const party = character.tiers[tier]!;
     if (party.length === 0) throw new Error(`${character.id}/${tier}: パーティが空`);
-    if (!party.some((m) => m.species === character.signature)) {
-      throw new Error(`${character.id}/${tier}: signature ${character.signature} が居ない`);
+    // **進化形でもよい**（v0.11・named-characters.md §3.1）。
+    // タケシの signature は onix のままで、本気ティアに居るのはハガネール
+    const line = evolutionLine(data, character.signature);
+    if (!party.some((m) => line.has(m.species))) {
+      throw new Error(
+        `${character.id}/${tier}: signature ${character.signature}（進化形を含む）が居ない`,
+      );
     }
     for (const m of party) {
       const species = data.species(m.species);

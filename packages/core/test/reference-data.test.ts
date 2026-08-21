@@ -11,7 +11,7 @@ import {
   TYPES, calcDamage, createBattle, createRng, createRngState, legalActions, step,
   toBattlePokemon,
 } from "@pkmn/core";
-import { allMoves, allSpecies, gameData } from "@pkmn/data";
+import { allMoves, allNamed, allSpecies, gameData } from "@pkmn/data";
 
 describe("種族値が原作と一致する", () => {
   const EXPECTED: Record<string, [number, number, number, number, number, number]> = {
@@ -121,12 +121,30 @@ describe("ダメージ計算が手計算と一致する", () => {
 });
 
 describe("データ全体の整合", () => {
-  it("カントー151種が図鑑番号1〜151で揃っている", () => {
-    expect(allSpecies).toHaveLength(151);
-    const nums = allSpecies.map((s) => s.dexNo).sort((a, b) => a - b);
-    expect(nums[0]).toBe(1);
-    expect(nums.at(-1)).toBe(151);
-    expect(new Set(nums).size).toBe(151); // 重複なし
+  it("カントー151種が1つも欠けていない", () => {
+    // v0.11 でカントーの外の種が入った（ネームドが使うぶんだけ）。
+    // **「151種ちょうど」を数えるのはもう正しくない**が、
+    // 確かめたいのは元から「1〜151 が欠けていないこと」の方だった
+    const nums = new Set(allSpecies.map((s) => s.dexNo));
+    for (let n = 1; n <= 151; n += 1) {
+      expect(nums.has(n), `図鑑 ${n} 番`).toBe(true);
+    }
+    expect(nums.size, "図鑑番号の重複").toBe(allSpecies.length);
+  });
+
+  it("カントーの外の種は、ネームドが使うためだけに居る（v0.11）", () => {
+    // 出現テーブルには入れない ―― 地方チャレンジは現地の種で攻略する（capture.md §4）。
+    // 図鑑では「みつけた」止まりになる（原作と同じ挙動）
+    const outside = allSpecies.filter((s) => s.dexNo > 151);
+    expect(outside.length).toBeGreaterThan(0);
+    const used = new Set(
+      allNamed.flatMap((c) =>
+        Object.values(c.tiers).flatMap((party) => party.map((m) => m.species)),
+      ),
+    );
+    for (const s of outside) {
+      expect(used.has(s.id), `${s.name} を使うネームドが居ない`).toBe(true);
+    }
   });
 
   it("種族値の合計が原作の値と一致する（打ち間違いの検出）", () => {

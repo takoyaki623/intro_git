@@ -10,6 +10,7 @@
  * 設計: docs/design/endgame.md §7・§11
  */
 
+import type { GameData } from "../gamedata.js";
 import type { PartySpec } from "../normalize.js";
 import { createRng, createRngState } from "../rng.js";
 import type { CupId, NamedId, RngState } from "../types.js";
@@ -142,13 +143,14 @@ export function currentOpponent(
 
 /** 相手のパーティ。ルールセットの体数とレベル同期を適用済み。 */
 export function opponentParty(
+  data: GameData,
   cup: Tournament,
   run: TournamentRun,
   character: NamedCharacter,
 ): PartySpec[] {
   const level =
     cup.ruleset.levelMode.kind === "sync" ? syncedLevel(cup.ruleset, 50) : null;
-  return partyFor(character, run.tier, cup.ruleset.teamSize, level);
+  return partyFor(data, character, run.tier, cup.ruleset.teamSize, level);
 }
 
 /** 自分側のパーティ。施設側の playerParty と紛れないよう名前を分けてある。 */

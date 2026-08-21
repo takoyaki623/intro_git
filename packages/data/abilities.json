@@ -429,5 +429,165 @@
       "kind": "inert",
       "reason": "かなしばりが未実装"
     }
+  },
+  {
+    "id": "sturdy",
+    "name": "がんじょう",
+    "effect": {
+      "kind": "inert",
+      "reason": "未実装（v0.11 で追加）"
+    }
+  },
+  {
+    "id": "sand-stream",
+    "name": "すなおこし",
+    "effect": {
+      "kind": "inert",
+      "reason": "未実装（v0.11 で追加）"
+    }
+  },
+  {
+    "id": "sniper",
+    "name": "スナイパー",
+    "effect": {
+      "kind": "inert",
+      "reason": "未実装（v0.11 で追加）"
+    }
+  },
+  {
+    "id": "technician",
+    "name": "テクニシャン",
+    "effect": {
+      "kind": "inert",
+      "reason": "未実装（v0.11 で追加）"
+    }
+  },
+  {
+    "id": "serene-grace",
+    "name": "てんのめぐみ",
+    "effect": {
+      "kind": "inert",
+      "reason": "未実装（v0.11 で追加）"
+    }
+  },
+  {
+    "id": "marvel-scale",
+    "name": "ふしぎなうろこ",
+    "effect": {
+      "kind": "inert",
+      "reason": "未実装（v0.11 で追加）"
+    }
+  },
+  {
+    "id": "competitive",
+    "name": "かちき",
+    "effect": {
+      "kind": "inert",
+      "reason": "未実装（v0.11 で追加）"
+    }
+  },
+  {
+    "id": "frisk",
+    "name": "おみとおし",
+    "effect": {
+      "kind": "inert",
+      "reason": "未実装（v0.11 で追加）"
+    }
+  },
+  {
+    "id": "solid-rock",
+    "name": "ハードロック",
+    "effect": {
+      "kind": "inert",
+      "reason": "未実装（v0.11 で追加）"
+    }
+  },
+  {
+    "id": "leaf-guard",
+    "name": "リーフガード",
+    "effect": {
+      "kind": "inert",
+      "reason": "未実装（v0.11 で追加）"
+    }
+  },
+  {
+    "id": "anticipation",
+    "name": "きけんよち",
+    "effect": {
+      "kind": "inert",
+      "reason": "未実装（v0.11 で追加）"
+    }
+  },
+  {
+    "id": "dry-skin",
+    "name": "かんそうはだ",
+    "effect": {
+      "kind": "inert",
+      "reason": "未実装（v0.11 で追加）"
+    }
+  },
+  {
+    "id": "motor-drive",
+    "name": "でんきエンジン",
+    "effect": {
+      "kind": "inert",
+      "reason": "未実装（v0.11 で追加）"
+    }
+  },
+  {
+    "id": "snow-warning",
+    "name": "ゆきふらし",
+    "effect": {
+      "kind": "inert",
+      "reason": "未実装（v0.11 で追加）"
+    }
+  },
+  {
+    "id": "snow-cloak",
+    "name": "ゆきがくれ",
+    "effect": {
+      "kind": "inert",
+      "reason": "未実装（v0.11 で追加）"
+    }
+  },
+  {
+    "id": "battle-armor",
+    "name": "カブトアーマー",
+    "effect": {
+      "kind": "inert",
+      "reason": "未実装（v0.11 で追加）"
+    }
+  },
+  {
+    "id": "hustle",
+    "name": "はりきり",
+    "effect": {
+      "kind": "inert",
+      "reason": "未実装（v0.11 で追加）"
+    }
+  },
+  {
+    "id": "sand-rush",
+    "name": "すなかき",
+    "effect": {
+      "kind": "inert",
+      "reason": "未実装（v0.11 で追加）"
+    }
+  },
+  {
+    "id": "sand-force",
+    "name": "すなのちから",
+    "effect": {
+      "kind": "inert",
+      "reason": "未実装（v0.11 で追加）"
+    }
+  },
+  {
+    "id": "sheer-force",
+    "name": "ちからずく",
+    "effect": {
+      "kind": "inert",
+      "reason": "未実装（v0.11 で追加）"
+    }
   }
 ]

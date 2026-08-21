@@ -3,6 +3,7 @@ abra	kadabra	level	16
 bellsprout	weepinbell	level	21		
 bulbasaur	ivysaur	level	16		
 caterpie	metapod	level	7		
+chansey	blissey	levelFriendship			
 charmander	charmeleon	level	16		
 charmeleon	charizard	level	36		
 clefairy	clefable	useItem		moon-stone	
@@ -12,14 +13,22 @@ doduo	dodrio	level	31
 dragonair	dragonite	level	55		
 dratini	dragonair	level	30		
 drowzee	hypno	level	26		
+eevee	espeon	levelFriendship			during the day
 eevee	flareon	useItem		fire-stone	
+eevee	glaceon	useItem		ice-stone	
 eevee	jolteon	useItem		thunder-stone	
+eevee	leafeon	useItem		leaf-stone	
+eevee	sylveon	levelExtra			with a Fairy-type move and two levels of Affection
+eevee	umbreon	levelFriendship			at night
 eevee	vaporeon	useItem		water-stone	
 ekans	arbok	level	22		
+electabuzz	electivire	trade		electirizer	
 exeggcute	exeggutor	useItem		leaf-stone	
 gastly	haunter	level	25		
 geodude	graveler	level	25		
+gloom	bellossom	useItem		sun-stone	
 gloom	vileplume	useItem		leaf-stone	
+golbat	crobat	levelFriendship			
 goldeen	seaking	level	33		
 graveler	golem	trade			
 grimer	muk	level	38		
@@ -36,6 +45,7 @@ krabby	kingler	level	28
 machoke	machamp	trade			
 machop	machoke	level	28		
 magikarp	gyarados	level	20		
+magmar	magmortar	trade		magmarizer	
 magnemite	magneton	level	30		
 mankey	primeape	level	28		
 meowth	persian	level	28		
@@ -46,6 +56,7 @@ nidorina	nidoqueen	useItem		moon-stone
 nidorino	nidoking	useItem		moon-stone	
 oddish	gloom	level	21		
 omanyte	omastar	level	40		
+onix	steelix	trade		metal-coat	
 paras	parasect	level	24		
 pidgeotto	pidgeot	level	36		
 pidgey	pidgeotto	level	18		
@@ -55,14 +66,19 @@ poliwhirl	poliwrath	useItem		water-stone
 ponyta	rapidash	level	40		
 psyduck	golduck	level	33		
 rattata	raticate	level	20		
+rhydon	rhyperior	trade		protector	
 rhyhorn	rhydon	level	42		
 sandshrew	sandslash	level	22		
+scyther	scizor	trade		metal-coat	
+seadra	kingdra	trade		dragon-scale	
 seel	dewgong	level	34		
 shellder	cloyster	useItem		water-stone	
 slowpoke	slowbro	level	37		
+slowpoke	slowking	trade		king-s-rock	
 spearow	fearow	level	20		
 squirtle	wartortle	level	16		
 staryu	starmie	useItem		water-stone	
+tangela	tangrowth	levelMove			
 tentacool	tentacruel	level	30		
 venonat	venomoth	level	31		
 voltorb	electrode	level	30		
