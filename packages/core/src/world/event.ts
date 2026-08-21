@@ -11,7 +11,7 @@
  * 設計: docs/design/world.md §6
  */
 
-import type { ItemId, MoveId, SpeciesId } from "../types.js";
+import type { ItemId, MoveId, RegionId, SpeciesId } from "../types.js";
 import type {
   Condition,
   Direction,
@@ -77,6 +77,10 @@ export type EventEffect =
   | { kind: "shop"; inventory: ShopId }
   | { kind: "openBox" }
   | { kind: "openDex" }
+  | { kind: "enterRegion"; region: RegionId }
+  | { kind: "openFacility" }
+  | { kind: "openTournament" }
+  | { kind: "openStorage" }
   | { kind: "gotItem"; item: ItemId; count: number }
   | { kind: "gotPokemon"; species: SpeciesId; level: number; moves: MoveId[] }
   | { kind: "moneyChanged"; delta: number }
@@ -92,6 +96,11 @@ const BLOCKING = new Set<EventEffect["kind"]>([
   "shop",
   "openBox",
   "openDex",
+  // 拠点（v0.10）。どれも別画面を開くので、閉じるまでイベントを止める
+  "enterRegion",
+  "openFacility",
+  "openTournament",
+  "openStorage",
 ]);
 
 /**
@@ -224,6 +233,27 @@ const handlers: { [K in EventCommand["kind"]]: Handler } = {
 
   openDex: (_c, _w, _r, effects) => {
     effects.push({ kind: "openDex" });
+  },
+
+  // ── 拠点（v0.10）──
+  // 拠点は9地方とエンドゲームを束ねる唯一の場所。**どれもマップ上の
+  // オブジェクトから開く**ので、専用の画面遷移ではなくコマンドとして持つ
+
+  enterRegion: (c, _w, _r, effects) => {
+    if (c.kind !== "enterRegion") return;
+    effects.push({ kind: "enterRegion", region: c.region });
+  },
+
+  openFacility: (_c, _w, _r, effects) => {
+    effects.push({ kind: "openFacility" });
+  },
+
+  openTournament: (_c, _w, _r, effects) => {
+    effects.push({ kind: "openTournament" });
+  },
+
+  openStorage: (_c, _w, _r, effects) => {
+    effects.push({ kind: "openStorage" });
   },
 };
 

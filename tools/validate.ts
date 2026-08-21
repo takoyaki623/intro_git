@@ -41,6 +41,7 @@ import {
   allEvents,
   allFlags,
   allMaps,
+  allRegions,
   allShops,
   allTrainers,
   gameData,
@@ -469,6 +470,59 @@ function checkUseEffects(): void {
     }
     if (new Set(shop.items).size !== shop.items.length) {
       fail("shop-dup", `${shop.id}: 同じ道具が2度並んでいる`);
+    }
+  }
+}
+
+/**
+ * 地方の定義（v0.10）。検証項目 #70〜#72。
+ */
+function checkRegions(): void {
+  const named = new Set(allNamed.map((n) => n.id));
+  const species = new Set(allSpecies.map((s) => s.id));
+
+  for (const region of allRegions) {
+    // #70 遊べる地方は、始められるだけの情報を持つ
+    if (!region.available) {
+      // 未実装の地方に中途半端な定義を残さない（あるのに入れない、が一番分かりにくい）
+      if (region.start !== undefined || region.challenge !== undefined) {
+        fail("region", `${region.id}: available でないのに start / challenge がある`);
+      }
+      continue;
+    }
+    if (region.start === undefined) fail("region", `${region.id}: start が無い`);
+    if (region.starters === undefined) fail("region", `${region.id}: starters が無い`);
+    if (region.challenge === undefined) fail("region", `${region.id}: challenge が無い`);
+    if (region.levelBands === undefined || region.levelBands.length === 0) {
+      fail("region", `${region.id}: levelBands が無い`);
+    }
+
+    // #71 参照先が実在する
+    for (const id of region.starters ?? []) {
+      if (!species.has(id)) fail("region", `${region.id}: 御三家 "${id}" が無い`);
+    }
+    const challenge = region.challenge;
+    if (challenge?.kind === "gyms") {
+      for (const id of [...challenge.gyms, ...challenge.elite4, challenge.champion]) {
+        if (!named.has(id)) fail("region", `${region.id}: ネームド "${id}" が無い`);
+      }
+    }
+
+    // #72 レベル帯が単調（相棒のレベル同期がここを読む・regions.md §6）
+    const bands = region.levelBands ?? [];
+    for (const [i, band] of bands.entries()) {
+      if (band.min > band.max) fail("region", `${region.id}: バッジ${band.badges} の min > max`);
+      const prev = bands[i - 1];
+      if (prev !== undefined && band.min < prev.min) {
+        fail("region", `${region.id}: バッジ${band.badges} でレベル帯が下がっている`);
+      }
+    }
+  }
+
+  // #73 拠点のマップに野生は出ない（拠点は地方の外なので出現テーブルを持たない）
+  for (const map of allMaps) {
+    if (map.region === "hub" && map.encounters !== undefined) {
+      fail("region", `${map.id}: 拠点のマップに出現テーブルがある`);
     }
   }
 }
@@ -1030,6 +1084,25 @@ function checkWorld(): void {
             fail("event-ref", `${where}: マップ "${command.to}" が無い`);
           }
           break;
+        // ── #69 拠点から地方へ入る（v0.10）──
+        case "enterRegion": {
+          const region = allRegions.find((r) => r.id === command.region);
+          if (region === undefined) {
+            fail("event-ref", `${where}: 地方 "${command.region}" が regions.json に無い`);
+            break;
+          }
+          // **遊べない地方へのゲートを開けない。**
+          // 「じゅんびちゅう」と伝えるのはメッセージの仕事で、入口の仕事ではない
+          if (!region.available) {
+            fail("region", `${where}: 地方 "${command.region}" は available でない`);
+          }
+          if (region.start === undefined) {
+            fail("region", `${where}: 地方 "${command.region}" に start が無い`);
+          } else if (!mapById.has(region.start.map)) {
+            fail("region", `${command.region}: start のマップ "${region.start.map}" が無い`);
+          }
+          break;
+        }
         default:
           break;
       }
@@ -1221,6 +1294,7 @@ function main(): void {
   checkBattleReady();
   checkHeldEffects();
   checkUseEffects();
+  checkRegions();
   checkEndgame();
   checkNamed();
   checkTournaments();

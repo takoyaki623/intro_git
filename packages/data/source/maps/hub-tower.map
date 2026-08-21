@@ -1,0 +1,28 @@
+# バトル施設の受付。ルール特化の連勝チャレンジへ入る場所。
+id: hub-tower
+name: バトル しせつ
+region: hub
+bgm: hub
+
+legend:
+. normal
+W !normal
+C !normal
+D normal
+
+grid:
+WWWWWWWWW
+WCCCCCCCW
+W.......W
+W.......W
+W.......W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,7 step hub-plaza 5,4 down
+
+objects:
+tower-clerk 4,2 npc:clerk:static hub.tower.clerk
+tower-board 2,4 sign hub.tower.board

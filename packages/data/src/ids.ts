@@ -41,6 +41,7 @@ import type {
   GeneratedMoveId,
   GeneratedNamedId,
   GeneratedNatureId,
+  GeneratedRegionId,
   GeneratedShopId,
   GeneratedSpeciesId,
   GeneratedTrainerId,
@@ -59,6 +60,7 @@ export type {
   GeneratedMoveId,
   GeneratedNamedId,
   GeneratedNatureId,
+  GeneratedRegionId,
   GeneratedShopId,
   GeneratedSpeciesId,
   GeneratedTrainerId,
@@ -90,4 +92,5 @@ export const eventId = check<GeneratedEventId>();
 export const trainerId = check<GeneratedTrainerId>();
 export const encounterTableId = check<GeneratedEncounterTableId>();
 export const shopId = check<GeneratedShopId>();
+export const regionId = check<GeneratedRegionId>();
 export const flagId = check<GeneratedFlagId>();

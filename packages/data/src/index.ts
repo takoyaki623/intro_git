@@ -23,6 +23,7 @@ import {
   type EventScript,
   type FlagId,
   type MapData,
+  type RegionDefinition,
   type Shop,
   type Trainer,
   type Facility,
@@ -45,6 +46,7 @@ import encountersJson from "../encounters.json" with { type: "json" };
 import eventsJson from "../events.json" with { type: "json" };
 import flagsJson from "../flags.json" with { type: "json" };
 import shopsJson from "../shops.json" with { type: "json" };
+import regionsJson from "../regions.json" with { type: "json" };
 import mapsJson from "../maps.json" with { type: "json" };
 import trainersJson from "../trainers.json" with { type: "json" };
 import facilitiesJson from "../facilities.json" with { type: "json" };
@@ -241,6 +243,14 @@ export const allTrainers = trainersJson as unknown as readonly Trainer[];
 /** 宣言済みフラグ。ここに無いフラグを使うと検証エラーになる（world.md §6）。 */
 export const allFlags = flagsJson as unknown as readonly FlagId[];
 export const allShops = shopsJson as unknown as readonly Shop[];
+/** 地方の定義（v0.10）。`available: false` は未実装の印であってロックではない。 */
+export const allRegions = regionsJson as unknown as readonly RegionDefinition[];
+
+export function regionById(id: string): RegionDefinition {
+  const r = allRegions.find((x) => x.id === id);
+  if (r === undefined) throw new MissingDataError("region", id);
+  return r;
+}
 
 export function shopById(id: string): Shop {
   const s = allShops.find((x) => x.id === id);

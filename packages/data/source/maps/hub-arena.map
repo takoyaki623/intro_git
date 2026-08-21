@@ -1,0 +1,28 @@
+# トーナメント会場。歴代ネームドが出場する勝ち抜き戦へ入る場所。
+id: hub-arena
+name: たいかい かいじょう
+region: hub
+bgm: hub
+
+legend:
+. normal
+W !normal
+C !normal
+D normal
+
+grid:
+WWWWWWWWW
+WCCCCCCCW
+W.......W
+W.......W
+W.......W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,7 step hub-plaza 12,4 down
+
+objects:
+arena-clerk 4,2 npc:clerk:static hub.arena.clerk
+arena-board 2,4 sign hub.arena.board

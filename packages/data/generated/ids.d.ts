@@ -6,8 +6,8 @@
  * 特性 48 / 道具 58 /
  * BattleSet 64 / 施設 2 /
  * ネームド 13 / カップ 3 /
- * マップ 8 / イベント 26 / トレーナー 3 /
- * 出現テーブル 1 / ショップ 1 /
+ * マップ 12 / イベント 41 / トレーナー 3 /
+ * 出現テーブル 1 / ショップ 1 / 地方 9 /
  * フラグ 8
  */
 
@@ -641,6 +641,10 @@ export type GeneratedCupId =
   | "kanto-gym-leader-cup";
 
 export type GeneratedMapId =
+  | "hub-arena"
+  | "hub-depot"
+  | "hub-plaza"
+  | "hub-tower"
   | "kanto-oak-lab"
   | "kanto-pallet-town"
   | "kanto-players-house-1f"
@@ -651,6 +655,21 @@ export type GeneratedMapId =
   | "kanto-viridian-pokecenter";
 
 export type GeneratedEventId =
+  | "hub.arena.board"
+  | "hub.arena.clerk"
+  | "hub.depot.box"
+  | "hub.depot.exchange"
+  | "hub.depot.note"
+  | "hub.gate.johto"
+  | "hub.gate.kanto"
+  | "hub.plaza.free-battle"
+  | "hub.plaza.guide"
+  | "hub.plaza.sign"
+  | "hub.plaza.sign-arena"
+  | "hub.plaza.sign-depot"
+  | "hub.plaza.sign-tower"
+  | "hub.tower.board"
+  | "hub.tower.clerk"
   | "kanto.pallet.aide"
   | "kanto.pallet.bookshelf"
   | "kanto.pallet.kid"
@@ -688,6 +707,17 @@ export type GeneratedEncounterTableId =
 
 export type GeneratedShopId =
   | "kanto-viridian-mart";
+
+export type GeneratedRegionId =
+  | "alola"
+  | "galar"
+  | "hoenn"
+  | "johto"
+  | "kalos"
+  | "kanto"
+  | "paldea"
+  | "sinnoh"
+  | "unova";
 
 export type GeneratedFlagId =
   | "kanto.pallet.got-starter"

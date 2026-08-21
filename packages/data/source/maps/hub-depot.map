@@ -1,0 +1,30 @@
+# 保管庫。共通ボックスと BP交換所。
+id: hub-depot
+name: ほかんこ
+region: hub
+bgm: hub
+
+legend:
+. normal
+W !normal
+C !normal
+M !normal
+D normal
+
+grid:
+WWWWWWWWW
+WCCC.MMMW
+W.......W
+W.......W
+W.......W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,7 step hub-plaza 5,13 down
+
+objects:
+depot-box 2,2 npc:scientist:static hub.depot.box
+depot-exchange 6,2 npc:clerk:static hub.depot.exchange
+depot-note 4,4 sign hub.depot.note

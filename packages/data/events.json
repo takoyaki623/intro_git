@@ -596,5 +596,203 @@
         ]
       }
     ]
+  },
+  {
+    "id": "hub.plaza.sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "きょてん\n\nここから どの ちほうへも いける。\nみぎては バトルしせつ、ひだりては たいかいかいじょう。"
+      }
+    ]
+  },
+  {
+    "id": "hub.plaza.sign-tower",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "バトル しせつ\n\nルールを かえた れんしょう ちょうせん"
+      }
+    ]
+  },
+  {
+    "id": "hub.plaza.sign-arena",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "たいかい かいじょう\n\nれきだいの つよい トレーナーが しゅつじょうする"
+      }
+    ]
+  },
+  {
+    "id": "hub.plaza.sign-depot",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ほかんこ\n\nつかまえた ポケモンと、BPの こうかんじょ"
+      }
+    ]
+  },
+  {
+    "id": "hub.gate.kanto",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "カントーへ いきますか?",
+        "speaker": "ゲートけいび"
+      },
+      {
+        "kind": "choice",
+        "prompt": "カントーへ いく?",
+        "options": [
+          {
+            "text": "いく",
+            "then": [
+              {
+                "kind": "enterRegion",
+                "region": "kanto"
+              }
+            ]
+          },
+          {
+            "text": "やめる",
+            "then": [
+              {
+                "kind": "message",
+                "text": "また どうぞ。",
+                "speaker": "ゲートけいび"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hub.gate.johto",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ジョウトへの ゲートは まだ ひらいていない。",
+        "speaker": "ゲートけいび"
+      },
+      {
+        "kind": "message",
+        "text": "ちほうは これから ふえていく。\nいまは カントーだけだ。",
+        "speaker": "ゲートけいび"
+      }
+    ]
+  },
+  {
+    "id": "hub.plaza.guide",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ここは どの ちほうにも ぞくさない ばしょ。",
+        "speaker": "あんないにん"
+      },
+      {
+        "kind": "message",
+        "text": "ちほうで つかまえた ポケモンは、\nほかんこに おくれば ここで つかえるよ。",
+        "speaker": "あんないにん"
+      },
+      {
+        "kind": "message",
+        "text": "ちほうの ちょうせんちゅうは、\nほかんこから ひきだせない。\nそこは がまんしてね。",
+        "speaker": "あんないにん"
+      }
+    ]
+  },
+  {
+    "id": "hub.plaza.free-battle",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "てあわせ するかい?\nランダムな 3たい どうしの 1せんだ。",
+        "speaker": "たいかいスタッフ"
+      },
+      {
+        "kind": "openTournament"
+      }
+    ]
+  },
+  {
+    "id": "hub.tower.clerk",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "バトルしせつへ ようこそ!",
+        "speaker": "うけつけ"
+      },
+      {
+        "kind": "openFacility"
+      }
+    ]
+  },
+  {
+    "id": "hub.tower.board",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "けいじばん\n\nしせつは ルールセットと あいてプールと\nほうしゅうの 3つの データで できている。"
+      }
+    ]
+  },
+  {
+    "id": "hub.arena.clerk",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "たいかいに しゅつじょう しますか?",
+        "speaker": "うけつけ"
+      },
+      {
+        "kind": "openTournament"
+      }
+    ]
+  },
+  {
+    "id": "hub.arena.board",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "けいじばん\n\nカップを かちぬくと、うえの ティアが ひらく。"
+      }
+    ]
+  },
+  {
+    "id": "hub.depot.box",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ポケモンの ほかんこです。",
+        "speaker": "はかせのじょしゅ"
+      },
+      {
+        "kind": "openStorage"
+      }
+    ]
+  },
+  {
+    "id": "hub.depot.exchange",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "BPと こうかん できますよ。",
+        "speaker": "こうかんいん"
+      },
+      {
+        "kind": "openFacility"
+      }
+    ]
+  },
+  {
+    "id": "hub.depot.note",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "はりがみ\n\n「ちほうから ほかんこへ おくるのは いつでも できます。\nひきだせるのは ここだけです」"
+      }
+    ]
   }
 ]

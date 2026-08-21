@@ -9,7 +9,7 @@
  */
 
 import type { PartySpec } from "../normalize.js";
-import type { ItemId, MoveId, SpeciesId } from "../types.js";
+import type { ItemId, MoveId, RegionId, SpeciesId } from "../types.js";
 
 export type MapId = string;
 export type FlagId = string;
@@ -141,7 +141,16 @@ export type EventCommand =
   | { kind: "playSe" }
   | { kind: "shop"; inventory: ShopId }
   | { kind: "openBox" }
-  | { kind: "openDex" };
+  | { kind: "openDex" }
+  // ── 拠点（v0.10）──
+  // 拠点は「地方の外側」にある唯一の場所で、9地方とエンドゲームを束ねる。
+  // どれも**マップ上のオブジェクトから開く**ので、コマンドとして持つ
+  /** 地方チャレンジへ入る。`null` を渡す道は無い（拠点へ戻るのは warp）。 */
+  | { kind: "enterRegion"; region: RegionId }
+  | { kind: "openFacility" }
+  | { kind: "openTournament" }
+  /** 共通ボックス。地方ボックス（`openBox`）とは**別物**（capture.md §4）。 */
+  | { kind: "openStorage" };
 
 /**
  * ショップの品揃え（v0.9）。
@@ -155,6 +164,37 @@ export type Shop = {
   name: string;
   items: ItemId[];
 };
+
+/**
+ * 地方の定義（v0.10・regions.md §8）。
+ *
+ * **チャレンジ構造をデータとして持つ。** アローラ（島巡り）やパルデア
+ * （オープンワールド）は「8ジム→四天王」に当てはまらないので、
+ * 後から特例のコードを足す形にしない。
+ *
+ * `levelBands` は**レベルデザインの定義と、相棒のレベル同期（regions.md §6）を兼ねる。**
+ * 1箇所に持つことで、両者がずれることがなくなる。
+ */
+export type RegionDefinition = {
+  id: RegionId;
+  name: string;
+  /** 選択画面に出す難易度の目安。 */
+  difficulty: 1 | 2 | 3;
+  /** 遊べるか。**ロックではなく未実装の印**（regions.md §3 は段階解放を採らない）。 */
+  available: boolean;
+  description: string;
+  /** 冒険の開始地点。`available` な地方だけが持つ。 */
+  start?: { map: MapId; x: number; y: number; facing: Direction };
+  starters?: [SpeciesId, SpeciesId, SpeciesId];
+  challenge?:
+    | { kind: "gyms"; gyms: NamedRef[]; elite4: NamedRef[]; champion: NamedRef }
+    | { kind: "trials"; trials: string[]; kahunas: NamedRef[]; champion: NamedRef }
+    | { kind: "open"; routes: string[][]; champion: NamedRef };
+  levelBands?: { badges: number; min: number; max: number }[];
+};
+
+/** ネームドの ID。`core` は `NamedId` を endgame 側に持っているので別名で受ける。 */
+type NamedRef = string;
 
 export type EventScript = {
   id: EventId;
