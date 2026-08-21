@@ -23,6 +23,7 @@ import {
   type SaveStore,
   type Storage,
 } from "@pkmn/core";
+import { mapId } from "@pkmn/data";
 
 export type Place = { map: string; x: number; y: number; facing: Direction };
 
@@ -42,9 +43,20 @@ export type PlayerState = {
   started: boolean;
 };
 
-/** 地方は1つだけ実装済み（v0.10 で全域）。 */
+/** 地方は1つだけ実装済み（v0.10 で拠点と地方選択が入る）。 */
 export const REGION = "kanto";
-export const START: Place = { map: "kanto-players-house-1f", x: 3, y: 5, facing: "down" };
+/**
+ * 冒険の開始地点。
+ *
+ * `mapId()` は生成した ID 型を通す恒等関数で、**書き間違いをここで落とす**。
+ * 手で書いた ID を型で守れるのはこういう場所だけ（packages/data/src/ids.ts）。
+ */
+export const START: Place = {
+  map: mapId("kanto-players-house-1f"),
+  x: 3,
+  y: 5,
+  facing: "down",
+};
 
 export const player: PlayerState = {
   storage: emptyStorage(),

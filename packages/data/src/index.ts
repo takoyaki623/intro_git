@@ -5,6 +5,12 @@
  * 設計: docs/design/data-schema.md
  */
 
+/**
+ * 生成した ID 型を使う口（v0.9.5）。**手書きリテラルの検査にだけ使う。**
+ * JSON に書いた ID の持ち主は型ではなく `tools/validate.ts`（data-schema.md §3）。
+ */
+export * from "./ids.js";
+
 import {
   assertCompleteTypeChart,
   MissingDataError,
