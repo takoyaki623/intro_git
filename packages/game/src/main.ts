@@ -23,6 +23,8 @@ import { $, setSpeed, type Speed } from "./battle-screen.js";
 import { playField, type FieldHandle } from "./field.js";
 import { loadPlayer, save, setSave, useStore, SLOT } from "./player.js";
 import { createLocalSaveStore } from "./save.js";
+import { useArtMode } from "./art/source.js";
+import { loadArt } from "./art/store.js";
 import { settingsScreen } from "./settings.js";
 
 const store = createLocalSaveStore();
@@ -34,7 +36,7 @@ useStore(store);
 
 $("#app").innerHTML = `
   <header>
-    <h1>ポケモン風RPG <span class="ver">v0.10</span></h1>
+    <h1>ポケモン風RPG <span class="ver">v0.10.5</span></h1>
     <div class="tools">
       <div class="speed" id="speed">
         <button data-s="normal" class="on">つうじょう</button>
@@ -122,5 +124,17 @@ void (async () => {
   for (const b of $("#speed").querySelectorAll("button")) {
     b.classList.toggle("on", b.dataset["s"] === save.settings.battleSpeed);
   }
+
+  // 手元の素材を使う設定なら読み込む。**読めなくても先へ進む** ――
+  // 素材が無い状態は逃げ道ではなく通常動作（art/source.ts）
+  if (save.settings.artSource === "local") {
+    useArtMode("local");
+    try {
+      await loadArt();
+    } catch (error) {
+      console.warn("そざいを よみこめませんでした", error);
+    }
+  }
+
   showField();
 })();

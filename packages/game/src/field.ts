@@ -72,6 +72,8 @@ import { $, runBattle, type BattleOutcome } from "./battle-screen.js";
 import { escape } from "./team-select.js";
 import { autosave, enterRegion, player, returnToHub, save, sendToStorage } from "./player.js";
 import { openFacilityScreen, openTournamentScreen } from "./screens.js";
+import { buildingsOf, drawBuilding } from "./art/buildings.js";
+import { drawTile, shade, type TileView } from "./art/tiles.js";
 import { STATUS_LABEL, TYPE_COLOR, TYPE_LABEL } from "./view.js";
 
 const TILE = 28;
@@ -80,44 +82,11 @@ const VIEW = { w: 15, h: 11 };
 const WALK_MS = 130;
 
 // ─────────────────────────────────────────────
-// 見た目（アセット無しのフォールバック）
+// 見た目
+//
+// 描画そのものは art/ に置いてある（v0.10.5）。
+// ここに残すのは「マップを読んで art/ に渡す」ぶんだけ。
 // ─────────────────────────────────────────────
-
-/**
- * 凡例の文字ごとの色。**見た目のヒントにしか使わない。**
- *
- * 通行可否と地形は `collision` / `terrain` が持っていて、ここは一切関与しない。
- * 逆に、規則からだけ色を決めると「木の茂み」と「家の壁」が同じ緑になり、
- * 町が森に見えてしまう ―― 見た目とルールを分けたのは、
- * 片方をもう片方から**導出しない**ためなので、見た目の情報はここに持たせる。
- */
-const TILE_HINT: Record<string, string> = {
-  T: "#2f4a2c", // 木
-  H: "#a8624a", // 家の壁
-  W: "#8e8578", // 屋内の壁
-  B: "#7a6ba8", // ベッド
-  C: "#5d6a7a", // パソコン
-  M: "#5a6f7d", // 機械・棚
-  P: "#c0504a", // ポケモンセンターの屋根（原作の赤）
-  F: "#3f6fa8", // フレンドリィショップの屋根（原作の青）
-  S: "#a98b5f", // カウンター
-  X: "#7b7f88", // 石の壁（拠点）
-  A: "#8a6fb0", // 大会会場の屋根（拠点）
-  G: "#d8cba0", // ゲート前の敷石（拠点）
-  D: "#7a5230", // ドア
-};
-
-/** 地形と通行可否から決める色。凡例の文字に色が無ければこちら。 */
-function colorOf(terrain: TerrainId, blocked: boolean, hint: string | undefined): string {
-  if (terrain === "water") return "#2f6fb5";
-  if (terrain === "grass") return "#4f9b46";
-  if (terrain === "ledge") return "#8a6a3d";
-  if (terrain === "sand") return "#d8c48a";
-  if (terrain === "cave") return blocked ? "#4a4642" : "#7b736b";
-  const named = hint === undefined ? undefined : TILE_HINT[hint];
-  if (named !== undefined) return named;
-  return blocked ? "#3d5a3a" : "#cbbf9c";
-}
 
 const OBJECT_COLOR: Record<string, string> = {
   npc: "#d95f5f",
@@ -220,6 +189,39 @@ export function playField(rebuild: () => void): FieldHandle {
   const currentMap = (): MapData => mapById(player.position.map);
 
   // ── 描画 ──
+
+  /** 足元の影。**これだけで「地面の上に立っている」ように見える。** */
+  function dropShadow(cx: number, cy: number, radius: number): void {
+    ctx.fillStyle = "rgba(0,0,0,.22)";
+    ctx.beginPath();
+    ctx.ellipse(cx, cy, radius, radius * 0.42, 0, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  /**
+   * 今どこを見ているか（ピクセル単位）。
+   *
+   * v0.10 まではマス単位で、歩くたびに画面がガクッと1マスぶん飛んでいた。
+   * 歩行アニメの進み具合をカメラにも反映すると、**地面が滑らかに流れる**。
+   */
+  function camera(map: MapData, px: number, py: number, cols: number, rows: number) {
+    const clamp = (v: number, max: number) => Math.max(0, Math.min(v, max));
+    return {
+      x: clamp(px - (cols - 1) / 2, map.size.width - cols) * TILE,
+      y: clamp(py - (rows - 1) / 2, map.size.height - rows) * TILE,
+    };
+  }
+
+  /** 歩行アニメを混ぜた「今の見た目の位置」。 */
+  function shownPosition(): { x: number; y: number } {
+    if (walk === null) return { x: player.position.x, y: player.position.y };
+    const t = Math.min(1, (performance.now() - walk.start) / WALK_MS);
+    return {
+      x: walk.from.x + (walk.to.x - walk.from.x) * t,
+      y: walk.from.y + (walk.to.y - walk.from.y) * t,
+    };
+  }
+
   function draw(): void {
     syncWorld();
     const map = currentMap();
@@ -228,80 +230,152 @@ export function playField(rebuild: () => void): FieldHandle {
     canvas.width = cols * TILE;
     canvas.height = rows * TILE;
 
-    // 追従カメラ。マップの端では止める
-    const clamp = (v: number, max: number) => Math.max(0, Math.min(v, max));
-    const camX = clamp(player.position.x - (cols >> 1), map.size.width - cols);
-    const camY = clamp(player.position.y - (rows >> 1), map.size.height - rows);
+    const shown = shownPosition();
+    const cam = camera(map, shown.x, shown.y, cols, rows);
+    const toScreenX = (mx: number) => mx * TILE - cam.x;
+    const toScreenY = (my: number) => my * TILE - cam.y;
 
     ctx.fillStyle = "#111";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    for (let y = 0; y < rows; y += 1) {
-      for (let x = 0; x < cols; x += 1) {
-        const mx = camX + x;
-        const my = camY + y;
+    // 端数ぶん1マス多く描く（ピクセル単位で動かすと隙間が出るため）
+    const firstX = Math.floor(cam.x / TILE);
+    const firstY = Math.floor(cam.y / TILE);
+    const lastX = Math.min(map.size.width - 1, firstX + cols);
+    const lastY = Math.min(map.size.height - 1, firstY + rows);
+
+    /** そのマスの「種類」。同じ種類どうしは境目を描かない。 */
+    const kindAt = (mx: number, my: number): string | null => {
+      if (mx < 0 || my < 0 || mx >= map.size.width || my >= map.size.height) return null;
+      const i = my * map.size.width + mx;
+      return map.layers.ground[i] ?? map.terrain[i] ?? "normal";
+    };
+
+    // 建物のマスは後でまとめて描くので、地面の段では飛ばす
+    const buildings = buildingsOf(map);
+    const inBuilding = new Set<string>();
+    for (const b of buildings) {
+      for (let by = b.y; by < b.y + b.h; by += 1) {
+        for (let bx = b.x; bx < b.x + b.w; bx += 1) inBuilding.add(`${bx},${by}`);
+      }
+    }
+
+    for (let my = firstY; my <= lastY; my += 1) {
+      for (let mx = firstX; mx <= lastX; mx += 1) {
+        if (inBuilding.has(`${mx},${my}`)) continue;
         const i = my * map.size.width + mx;
-        const terrain = map.terrain[i] ?? "normal";
-        ctx.fillStyle = colorOf(terrain, map.collision[i] === true, map.layers.ground[i]);
-        ctx.fillRect(x * TILE, y * TILE, TILE, TILE);
-
-        if (terrain === "grass") {
-          ctx.fillStyle = "#3d7c36";
-          for (const [gx, gy] of [[6, 18], [13, 12], [20, 19]] as const) {
-            ctx.fillRect(x * TILE + gx, y * TILE + gy, 3, 7);
-          }
-        }
-        if (terrain === "ledge") {
-          ctx.fillStyle = "#5f4726";
-          ctx.fillRect(x * TILE, y * TILE + TILE - 7, TILE, 7);
-        }
-        if (map.collision[i] === true) {
-          // 通れないことは、色ではなく形（枠）で示す。色を当てにしない
-          ctx.strokeStyle = "rgba(0,0,0,.28)";
-          ctx.lineWidth = 2;
-          ctx.strokeRect(x * TILE + 1, y * TILE + 1, TILE - 2, TILE - 2);
-        }
+        const kind = kindAt(mx, my);
+        const view: TileView = {
+          terrain: map.terrain[i] ?? "normal",
+          blocked: map.collision[i] === true,
+          hint: map.layers.ground[i],
+          same: {
+            up: kindAt(mx, my - 1) === kind,
+            down: kindAt(mx, my + 1) === kind,
+            left: kindAt(mx - 1, my) === kind,
+            right: kindAt(mx + 1, my) === kind,
+          },
+        };
+        drawTile(ctx, view, toScreenX(mx), toScreenY(my), TILE);
       }
     }
 
-    // warp は床の模様として見せる（ドアが見えないと往復できない）
+    // ── warp（床の模様）──
+    // ドアが見えないと往復できない。**踏む warp は明るく、調べる warp は暗く**
     for (const warp of map.warps) {
-      const x = warp.at.x - camX;
-      const y = warp.at.y - camY;
-      if (x < 0 || y < 0 || x >= cols || y >= rows) continue;
-      ctx.fillStyle = warp.trigger === "step" ? "#efe6c8" : "#6b4a2a";
-      ctx.fillRect(x * TILE + 5, y * TILE + 5, TILE - 10, TILE - 10);
+      const x = toScreenX(warp.at.x);
+      const y = toScreenY(warp.at.y);
+      if (x < -TILE || y < -TILE || x > canvas.width || y > canvas.height) continue;
+      ctx.fillStyle = warp.trigger === "step" ? "#f0e4bf" : "#5a3d21";
+      ctx.fillRect(x + 4, y + 4, TILE - 8, TILE - 8);
+      ctx.fillStyle = shade(warp.trigger === "step" ? "#f0e4bf" : "#5a3d21", -0.15);
+      ctx.fillRect(x + 4, y + TILE - 8, TILE - 8, 4);
     }
 
+    // ── 建物 ──
+    // 塊ごと描くので、warp（ドア）より後。ドアは建物の上に出したいので下でもう一度描く
+    for (const b of buildings) {
+      const x = toScreenX(b.x);
+      const y = toScreenY(b.y);
+      if (x + b.w * TILE < 0 || y + b.h * TILE < 0 || x > canvas.width || y > canvas.height) continue;
+      drawBuilding(ctx, b, x, y, TILE);
+    }
+    // 建物の中にあるドアを描き直す（屋根に隠れてしまうため）
+    for (const warp of map.warps) {
+      if (!inBuilding.has(`${warp.at.x},${warp.at.y}`)) continue;
+      const x = toScreenX(warp.at.x);
+      const y = toScreenY(warp.at.y);
+      ctx.fillStyle = "#6b4a2a";
+      ctx.fillRect(x + 5, y + 4, TILE - 10, TILE - 4);
+      ctx.fillStyle = "#d9c48c";
+      ctx.fillRect(x + TILE - 10, y + TILE / 2, 3, 3);
+    }
+
+    // ── オブジェクト ──
     for (const object of visibleObjects(map, world)) {
-      const x = object.at.x - camX;
-      const y = object.at.y - camY;
-      if (x < 0 || y < 0 || x >= cols || y >= rows) continue;
-      ctx.fillStyle = OBJECT_COLOR[object.kind.type] ?? "#888";
+      const x = toScreenX(object.at.x);
+      const y = toScreenY(object.at.y);
+      if (x < -TILE || y < -TILE || x > canvas.width || y > canvas.height) continue;
+      const color = OBJECT_COLOR[object.kind.type] ?? "#888";
+
       if (object.kind.type === "item") {
+        dropShadow(x + TILE / 2, y + TILE * 0.78, TILE * 0.22);
+        ctx.fillStyle = color;
         ctx.beginPath();
-        ctx.arc(x * TILE + TILE / 2, y * TILE + TILE / 2, 6, 0, Math.PI * 2);
+        ctx.arc(x + TILE / 2, y + TILE / 2, 6, 0, Math.PI * 2);
         ctx.fill();
-      } else {
-        ctx.fillRect(x * TILE + 5, y * TILE + 3, TILE - 10, TILE - 6);
+        continue;
       }
+      if (object.kind.type === "sign") {
+        dropShadow(x + TILE / 2, y + TILE * 0.82, TILE * 0.26);
+        ctx.fillStyle = shade(color, -0.25);
+        ctx.fillRect(x + TILE / 2 - 2, y + TILE * 0.5, 4, TILE * 0.42);
+        ctx.fillStyle = color;
+        ctx.fillRect(x + 5, y + 5, TILE - 10, TILE * 0.46);
+        continue;
+      }
+      // NPC。**足元に影を落とすと、地面の上に立って見える**
+      dropShadow(x + TILE / 2, y + TILE * 0.84, TILE * 0.3);
+      ctx.fillStyle = color;
+      ctx.fillRect(x + 6, y + 4, TILE - 12, TILE - 9);
+      ctx.fillStyle = shade(color, -0.28);
+      ctx.fillRect(x + 6, y + TILE - 8, TILE - 12, 3);
     }
 
     // ── プレイヤー ──
-    let px = player.position.x;
-    let py = player.position.y;
-    if (walk !== null) {
-      const t = Math.min(1, (performance.now() - walk.start) / WALK_MS);
-      px = walk.from.x + (walk.to.x - walk.from.x) * t;
-      py = walk.from.y + (walk.to.y - walk.from.y) * t;
-    }
-    const sx = (px - camX) * TILE;
-    const sy = (py - camY) * TILE;
-    ctx.fillStyle = "#f2f2f2";
-    ctx.fillRect(sx + 6, sy + 4, TILE - 12, TILE - 8);
-    ctx.fillStyle = "#222";
+    const sx = toScreenX(shown.x);
+    const sy = toScreenY(shown.y);
+    dropShadow(sx + TILE / 2, sy + TILE * 0.86, TILE * 0.3);
+    ctx.fillStyle = "#f4f2ee";
+    ctx.fillRect(sx + 6, sy + 4, TILE - 12, TILE - 9);
+    ctx.fillStyle = "#c9c4bb";
+    ctx.fillRect(sx + 6, sy + TILE - 8, TILE - 12, 3);
+    ctx.fillStyle = "#2a2a2a";
     const eye = { up: [0, -1], down: [0, 4], left: [-4, 1], right: [4, 1] }[player.position.facing]!;
     ctx.fillRect(sx + TILE / 2 - 3 + eye[0]!, sy + TILE / 2 - 2 + eye[1]!, 6, 3);
+
+    // ── overhead ──
+    // 木の下に入ったら上に葉がかぶる。**データにある層を初めて使う**（v0.7 から空だった）
+    for (let my = firstY; my <= lastY; my += 1) {
+      for (let mx = firstX; mx <= lastX; mx += 1) {
+        const over = map.layers.overhead[my * map.size.width + mx];
+        if (over === undefined || over === "" || over === ".") continue;
+        ctx.globalAlpha = 0.75;
+        drawTile(
+          ctx,
+          {
+            terrain: "normal",
+            blocked: true,
+            hint: over,
+            same: { up: false, down: false, left: false, right: false },
+          },
+          toScreenX(mx),
+          toScreenY(my),
+          TILE,
+        );
+        ctx.globalAlpha = 1;
+      }
+    }
 
     // 自動テストから現在地を読むための印（画面には出ない）
     canvas.dataset["at"] = `${player.position.map} ${player.position.x},${player.position.y} ${player.position.facing}`;
