@@ -36,7 +36,7 @@ useStore(store);
 
 $("#app").innerHTML = `
   <header>
-    <h1>ポケモン風RPG <span class="ver">v0.10.5</span></h1>
+    <h1>ポケモン風RPG <span class="ver">v0.11</span></h1>
     <div class="tools">
       <div class="speed" id="speed">
         <button data-s="normal" class="on">つうじょう</button>
@@ -63,8 +63,12 @@ $("#app").innerHTML = `
     シードが おなじなら まったく おなじ しょうぶに なります（設計: シード固定の疑似乱数）
   </footer>`;
 
+// v0.11 でカントーの外の種が入った。**「カントー190種」は嘘になる**ので、
+// 図鑑番号で内訳を出す（151番までがカントー）
+const kanto = allSpecies.filter((s) => s.dexNo <= 151).length;
 $("#scale").textContent =
-  `カントー ${allSpecies.length} 種 ・ 技 ${allMoves.length} 種 ・ ネームド ${allNamed.length} 人`;
+  `ポケモン ${allSpecies.length} 種（カントー ${kanto} ＋ ${allSpecies.length - kanto}）`
+  + ` ・ 技 ${allMoves.length} 種 ・ ネームド ${allNamed.length} 人`;
 
 $("#speed").addEventListener("click", (e) => {
   const target = e.target as HTMLElement;
