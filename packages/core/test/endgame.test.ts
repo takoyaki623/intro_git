@@ -23,12 +23,15 @@ import {
   bpFor,
   buildOpponentParty,
   createBattle,
+  judge,
   createRng,
   createRngState,
   DEFAULT_IVS_BY_GRADE,
   nextOpponent,
   playerParty,
   startRun,
+  swapAfterWin,
+  swapCandidates,
   syncedLevel,
   toBattlePokemon,
   validateTeam,
@@ -276,6 +279,111 @@ describe("連戦を実際に最後まで走らせる", () => {
   it("2つ目の施設も同じ手順で走る（コードの分岐が無い）", () => {
     const { run } = playRun(facilityById("battle-tower-super"), 5);
     expect(["won", "lost"]).toContain(run.state);
+  });
+});
+
+describe("ターン制限と採点（v0.11・バトルアリーナ）", () => {
+  const team = (species: string[]): PartySpec[] =>
+    species.map((id) => ({ species: id, level: 50, moves: ["tackle"] }));
+
+  it("倒しきらなくても、制限ターンで決着する", () => {
+    // わざと決着しない組み合わせ ―― ぼうぎょ200のハガネール同士をタックルで殴っても
+    // 8ターンでは倒れない（カビゴンでやったら普通に決着した）
+    let state = createBattle(gameData, [team(["steelix"]), team(["steelix"])], 1, {
+      limit: { turns: 8, judge: { criteria: ["hpRatio", "damageDealt", "movesHit"] } },
+    });
+    let guard = 0;
+    while (state.result === null) {
+      state = step(gameData, state, [{ kind: "move", moveIndex: 0 }, { kind: "move", moveIndex: 0 }]).state;
+      if ((guard += 1) > 50) throw new Error("終わらなかった");
+    }
+    expect(state.result.reason).toBe("judged");
+    expect(state.turn).toBe(8);
+  });
+
+  it("制限が無ければ、これまでどおり倒れるまで続く", () => {
+    let state = createBattle(gameData, [team(["steelix"]), team(["steelix"])], 1);
+    for (let i = 0; i < 8; i += 1) {
+      state = step(gameData, state, [{ kind: "move", moveIndex: 0 }, { kind: "move", moveIndex: 0 }]).state;
+    }
+    expect(state.result).toBeNull();
+    expect(state.limit).toBeNull();
+  });
+
+  it("観点は並べた順に見る。差がついた時点で決まる", () => {
+    let state = createBattle(gameData, [team(["steelix"]), team(["steelix"])], 1, {
+      limit: { turns: 4, judge: { criteria: ["movesHit"] } },
+    });
+    // 片側だけ当て続ける状況を作る（相手は交代しかしない番兵）
+    state.tally = [
+      { damageDealt: 0, movesHit: 3 },
+      { damageDealt: 999, movesHit: 1 },
+    ];
+    const decision = judge(state, { criteria: ["movesHit", "damageDealt"] });
+    expect(decision.winner).toBe(0);
+    expect(decision.by).toBe("movesHit");
+
+    // 1つ目が同点なら次の観点へ落ちる
+    const second = judge(
+      { ...state, tally: [{ damageDealt: 10, movesHit: 2 }, { damageDealt: 30, movesHit: 2 }] },
+      { criteria: ["movesHit", "damageDealt"] },
+    );
+    expect(second.winner).toBe(1);
+    expect(second.by).toBe("damageDealt");
+  });
+
+  it("すべて互角なら引き分け", () => {
+    const state = createBattle(gameData, [team(["steelix"]), team(["steelix"])], 1);
+    expect(judge(state, { criteria: ["hpRatio", "damageDealt", "movesHit"] })).toEqual({
+      winner: null,
+      by: null,
+    });
+  });
+});
+
+describe("勝った相手からもらう（v0.11・バトルファクトリー）", () => {
+  const factory = facilityById("battle-factory");
+
+  it("交換すると編成が入れ替わり、持ち越しの HP は捨てる", () => {
+    const team = buildOpponentParty(allBattleSets, factory.rentalGrade, 3, rng()).map((s) =>
+      battleSetToSource(s, 50),
+    );
+    const run = { ...startRun(factory, team, 1), carried: { hp: [1, 2, 3], pp: [] } };
+    const gift: PartySpec = { species: "snorlax", level: 50, moves: ["tackle"] };
+
+    const after = swapAfterWin(factory, run, 1, gift);
+    expect(after.team[1]!.species).toBe("snorlax");
+    expect(after.team[0]).toEqual(run.team[0]);
+    // 中身が変わった編成に、前の編成の HP を当てはめる意味が無い
+    expect(after.carried).toBeNull();
+  });
+
+  it("交換したあとも「同じ種を重ねない」が守られる", () => {
+    const team: PartySpec[] = [
+      { species: "snorlax", level: 50, moves: ["tackle"], item: "leftovers" },
+      { species: "pikachu", level: 50, moves: ["tackle"], item: "life-orb" },
+      { species: "onix", level: 50, moves: ["tackle"], item: "hard-stone" },
+    ];
+    const run = startRun(factory, team, 1);
+    const offered: PartySpec[] = [
+      { species: "snorlax", level: 50, moves: ["tackle"], item: "sitrus-berry" }, // 種が重なる
+      { species: "gengar", level: 50, moves: ["tackle"], item: "life-orb" }, // 持ち物が重なる
+      { species: "gengar", level: 50, moves: ["tackle"], item: "spell-tag" }, // これだけ通る
+    ];
+    // 0番（カビゴン）を出すなら、カビゴンをもらうのは通ってよい
+    const forFirst = swapCandidates(factory, run, offered, 0);
+    expect(forFirst.map((m) => m.item)).toEqual(["sitrus-berry", "spell-tag"]);
+
+    // 2番（イワーク）を出すなら、カビゴンは重なるので出せない
+    const forThird = swapCandidates(factory, run, offered, 2);
+    expect(forThird.map((m) => m.item)).toEqual(["spell-tag"]);
+  });
+
+  it("交換できない施設で呼んだら例外（黙って何もしない、にしない）", () => {
+    const run = startRun(tower, [{ species: "snorlax", level: 50, moves: ["tackle"] }], 1);
+    expect(() =>
+      swapAfterWin(tower, run, 0, { species: "pikachu", level: 50, moves: ["tackle"] }),
+    ).toThrow();
   });
 });
 

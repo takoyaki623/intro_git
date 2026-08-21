@@ -116,5 +116,134 @@
       }
     ],
     "streakCap": 20
+  },
+  {
+    "id": "battle-factory",
+    "name": "バトルファクトリー",
+    "description": "かりた 3たいで たたかい、かった あいてから 1たい もらえる。かつほど てもちが かわっていく。",
+    "ruleset": {
+      "teamSize": 3,
+      "battleSize": 3,
+      "teamSource": "rental",
+      "levelMode": {
+        "kind": "sync",
+        "level": 50
+      },
+      "duplicateSpecies": false,
+      "duplicateItems": false,
+      "battleFormat": "single",
+      "itemsAllowed": false,
+      "winCondition": {
+        "kind": "faint"
+      },
+      "moveSelection": "player",
+      "streakLength": "endless",
+      "healBetweenBattles": true,
+      "carryOverDamage": false,
+      "swapAfterWin": "factory"
+    },
+    "rentalGrade": 2,
+    "bands": [
+      {
+        "upTo": 7,
+        "grade": 1,
+        "policy": "basic",
+        "mistakeRate": 0.25
+      },
+      {
+        "upTo": 14,
+        "grade": 2,
+        "policy": "basic",
+        "mistakeRate": 0.12
+      },
+      {
+        "upTo": 21,
+        "grade": 3,
+        "policy": "basic",
+        "mistakeRate": 0.05
+      }
+    ],
+    "bpByStreak": [
+      {
+        "upTo": 7,
+        "bp": 3
+      },
+      {
+        "upTo": 14,
+        "bp": 6
+      },
+      {
+        "upTo": 21,
+        "bp": 12
+      }
+    ],
+    "streakCap": 21
+  },
+  {
+    "id": "battle-arena",
+    "name": "バトルアリーナ",
+    "description": "8ターンで しょうぶが つく。たおしきれなければ、のこり HP → あたえた ダメージ → あてた わざ の じゅんで はんてい。",
+    "ruleset": {
+      "teamSize": 3,
+      "battleSize": 3,
+      "teamSource": "rental",
+      "levelMode": {
+        "kind": "sync",
+        "level": 50
+      },
+      "duplicateSpecies": false,
+      "duplicateItems": false,
+      "battleFormat": "single",
+      "itemsAllowed": false,
+      "winCondition": {
+        "kind": "turnLimit",
+        "turns": 8,
+        "judge": {
+          "criteria": [
+            "hpRatio",
+            "damageDealt",
+            "movesHit"
+          ]
+        }
+      },
+      "moveSelection": "player",
+      "streakLength": "endless",
+      "healBetweenBattles": false,
+      "carryOverDamage": true
+    },
+    "rentalGrade": 3,
+    "bands": [
+      {
+        "upTo": 10,
+        "grade": 2,
+        "policy": "basic",
+        "mistakeRate": 0.15
+      },
+      {
+        "upTo": 20,
+        "grade": 3,
+        "policy": "basic",
+        "mistakeRate": 0.05
+      }
+    ],
+    "bpByStreak": [
+      {
+        "upTo": 5,
+        "bp": 4
+      },
+      {
+        "upTo": 10,
+        "bp": 7
+      },
+      {
+        "upTo": 15,
+        "bp": 11
+      },
+      {
+        "upTo": 20,
+        "bp": 18
+      }
+    ],
+    "streakCap": 20
   }
 ]

@@ -15,6 +15,8 @@ import {
   createRngState,
   nextOpponent,
   playerParty,
+  swapAfterWin,
+  swapCandidates,
   syncedLevel,
   recordRun,
   startRun,
@@ -109,6 +111,74 @@ function showProgress(facility: Facility, run: FacilityRun): void {
   $("#run").classList.remove("hidden");
 }
 
+/**
+ * 1つ選ばせる。`waitForButton` の N択版。
+ *
+ * `#controls` に描くのは、**バトルの直後にそのまま続く操作**だから ――
+ * 別の画面を挟むと「まだ連戦の途中」という感じが切れる。
+ */
+function pickOne(labels: readonly string[], cancel: string): Promise<number | null> {
+  return new Promise((resolve) => {
+    const box = $("#controls");
+    box.innerHTML = "";
+    for (const [i, label] of labels.entries()) {
+      const btn = document.createElement("button");
+      btn.className = "move";
+      btn.textContent = label;
+      btn.onclick = () => {
+        box.innerHTML = "";
+        resolve(i);
+      };
+      box.appendChild(btn);
+    }
+    const no = document.createElement("button");
+    no.className = "run";
+    no.textContent = cancel;
+    no.onclick = () => {
+      box.innerHTML = "";
+      resolve(null);
+    };
+    box.appendChild(no);
+  });
+}
+
+const speciesName = (m: PartySpec): string => gameData.species(m.species).name;
+
+/**
+ * 勝った相手から1体もらう（v0.11・バトルファクトリー）。
+ *
+ * **断れる。** 断れないと「引くほど弱くなる」事故が起きて、
+ * 連戦が運だけになる（原作でも交換は任意）。
+ */
+async function offerSwap(
+  facility: Facility,
+  run: FacilityRun,
+  offered: readonly PartySpec[],
+): Promise<FacilityRun> {
+  if (facility.ruleset.swapAfterWin !== "factory") return run;
+
+  const mine = await pickOne(
+    run.team.map((m) => `${speciesName(m)} を わたす`),
+    "こうかん しない",
+  );
+  if (mine === null) return run;
+
+  // 同じ種・同じ持ち物を重ねない規則は**交換のあとも守る**。
+  // 出せない相手は最初から並べない（押してから断られる方が分かりにくい）
+  const candidates = swapCandidates(facility, run, offered, mine);
+  if (candidates.length === 0) {
+    await waitForButton("この あいてとは こうかん できない（おなじ ポケモンに なる） つぎへ");
+    return run;
+  }
+  const theirs = await pickOne(
+    candidates.map((m) => `${speciesName(m)} を もらう`),
+    "やめる",
+  );
+  if (theirs === null) return run;
+
+  return swapAfterWin(facility, run, mine, candidates[theirs]!);
+}
+
 export async function playFacility(
   facility: Facility,
   context: Context,
@@ -132,6 +202,10 @@ export async function playFacility(
       knowledge: "fair",
     };
 
+    // ターン制限のある施設（バトルアリーナ）は、倒しきらなくても採点で終わる。
+    // **施設ごとの分岐はここにも書かない** ―― ルールセットの値をそのまま渡すだけ
+    const win = facility.ruleset.winCondition;
+
     const { winner } = await runBattle({
       parties: [playerParty(facility, run), next.party],
       seed: seed + run.battleIndex * 7919,
@@ -139,6 +213,7 @@ export async function playFacility(
       headline: `${run.streak + 1} せんめ! あいては ${next.sets
         .map((s) => gameData.species(s.species).name)
         .join("・")}`,
+      ...(win.kind === "turnLimit" ? { limit: { turns: win.turns, judge: win.judge } } : {}),
     });
 
     const outcome = applyBattleOutcome(facility, run, winner === 0);
@@ -147,6 +222,11 @@ export async function playFacility(
 
     if (outcome.gainedBp > 0) {
       await waitForButton(`${outcome.gainedBp} BP を てにいれた! つぎへ`);
+    }
+
+    // 勝った相手から1体もらう（ファクトリー）。続けるときだけ意味がある
+    if (winner === 0 && run.state === "inProgress") {
+      run = await offerSwap(facility, run, next.party);
     }
   }
 

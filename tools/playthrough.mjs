@@ -386,9 +386,13 @@ for (let i = 0; i < 40 && hpAfter === hpBefore; i += 1) {
   if (await page.isVisible("#battle")) {
     battles += 1;
     await fight();
+    // **戦い終えた直後に見る。** 全滅すると復活地点で全回復するので、
+    // 後片付けのあとに見ると「何も起きなかった」と同じ字面になる
+    const justAfter = (await page.textContent("#field-party")).trim();
     await page.waitForTimeout(700);
     await drain();
-    hpAfter = (await page.textContent("#field-party")).trim();
+    const settled = (await page.textContent("#field-party")).trim();
+    hpAfter = justAfter !== hpBefore ? justAfter : settled;
   }
 }
 note("野生と戦った回数", String(battles));
@@ -582,7 +586,13 @@ await page.click("#open-settings");
 await page.waitForSelector("#save-export");
 await page.click("#save-export");
 const weak = JSON.parse(await page.inputValue("#save-text"));
-for (const mon of Object.values(weak.pokemon)) mon.currentHp = 1;
+// HP を1にするだけでは**勝ってしまうことがある**（先制して倒せば負けない）。
+// 攻撃技を取り上げて、**勝ちようが無い状態**にする ――
+// ここで確かめたいのは「負けたとき何が起きるか」であって、勝敗の運ではない
+for (const mon of Object.values(weak.pokemon)) {
+  mon.currentHp = 1;
+  mon.moves = [{ id: "growl", pp: 40 }];
+}
 const respawn = weak.regions.kanto.respawn;
 note("セーブに入っている 復活地点", `${respawn.map} ${respawn.x},${respawn.y}`);
 expect("復活地点は ポケモンセンター", respawn.map, "kanto-viridian-pokecenter");

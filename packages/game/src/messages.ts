@@ -30,6 +30,8 @@ export function baseDelayOf(event: BattleEvent): number {
       return 650;
     case "faint":
       return 900;
+    case "judged":
+      return 1100;
     case "battleEnd":
       return 600;
     case "hitCount":
@@ -101,6 +103,19 @@ export function messageOf(event: BattleEvent, view: BattleView): string | null {
     }
     case "faint":
       return event.side === 0 ? `${name(0)} は たおれた!` : `あいての ${name(1)} は たおれた!`;
+    case "judged": {
+      // 何で差がついたかを必ず出す。**採点の理由が見えないと理不尽にしか見えない**
+      const BY: Record<string, string> = {
+        hpRatio: "のこり HP",
+        damageDealt: "あたえた ダメージ",
+        movesHit: "あてた わざの かず",
+      };
+      const why = event.by === null ? "すべて ごかく" : `${BY[event.by] ?? event.by} の さ`;
+      if (event.winner === null) return `じかんぎれ! ${why} ―― はんていは ひきわけ!`;
+      return event.winner === 0
+        ? `じかんぎれ! ${why}で はんていがち!`
+        : `じかんぎれ! ${why}で はんていまけ...`;
+    }
     case "battleEnd":
       if (event.winner === null) return `ひきわけ!`;
       return event.winner === 0 ? `しょうぶに かった!` : `めのまえが まっくらに なった...`;

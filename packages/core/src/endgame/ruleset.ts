@@ -15,14 +15,13 @@ import { ZERO_STATS } from "../stats.js";
 import type {
   AbilityId,
   ItemId,
+  JudgeRule,
   MoveId,
   NatureId,
   SpeciesId,
   StatSpread,
   Type,
 } from "../types.js";
-
-export type JudgeRule = { criteria: ("hpRatio" | "damageDealt" | "movesHit")[] };
 
 export type Ruleset = {
   // 編成

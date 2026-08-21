@@ -51,6 +51,8 @@ function render(event: BattleEvent): string | null {
   switch (event.kind) {
     case "switchIn":
       return `${nameOf(event.side)} を くりだした!`;
+    case "judged":
+      return `  じかんぎれ ―― はんてい（${event.by ?? "ごかく"}）`;
     case "blocked":
       return `  ${nameOf(event.side)} は ${BLOCK_LABEL[event.reason]}`;
     case "wokeUp":

@@ -44,6 +44,8 @@ import type {
   BattleEvent,
   BattlePokemon,
   BattleState,
+  JudgeCriterion,
+  JudgeRule,
   Move,
   Side,
   SideIndex,
@@ -73,8 +75,15 @@ export function createBattle(
   data: GameData,
   parties: [readonly BattlePokemonSource[], readonly BattlePokemonSource[]],
   seed: number,
-  /** 野生戦なら逃走が選べる（v0.7）。省略時はトレーナー戦。 */
-  options: { isWild?: boolean } = {},
+  options: {
+    /** 野生戦なら逃走が選べる（v0.7）。省略時はトレーナー戦。 */
+    isWild?: boolean;
+    /**
+     * ターン制限（v0.11・バトルアリーナ）。
+     * 省略すると「ひんしまで」―― これまでどおりの、決着するまで終わらないバトル。
+     */
+    limit?: { turns: number; judge: JudgeRule };
+  } = {},
 ): BattleState {
   const build = (sources: readonly BattlePokemonSource[]): Side => {
     if (sources.length === 0) throw new Error("party must not be empty");
@@ -87,6 +96,11 @@ export function createBattle(
     isWild: options.isWild ?? false,
     runAttempts: 0,
     result: null,
+    limit: options.limit ?? null,
+    tally: [
+      { damageDealt: 0, movesHit: 0 },
+      { damageDealt: 0, movesHit: 0 },
+    ],
     pendingSwitch: [],
   };
 }
@@ -466,6 +480,13 @@ function performMove(
     }
   }
 
+  // 採点の集計（v0.11）。**当たった技と与えたダメージだけを数える。**
+  // 数えるだけなので、ターン制限が無いバトルでも害は無い
+  if (totalDealt > 0) {
+    state.tally[attacker].damageDealt += totalDealt;
+    state.tally[attacker].movesHit += 1;
+  }
+
   if (hits > 1) events.push({ kind: "hitCount", side: defender, hits });
 
   // ほのお技を受けるとこおりが解ける
@@ -765,8 +786,47 @@ export function step(
     updateBattleStatus(draft, events);
   }
 
+  // ── 5. ターン制限（v0.11・バトルアリーナ）──
+  //
+  // **ひんしより後に見る。** 制限ターンぴったりで倒れたなら、それは採点ではなく決着。
+  if (draft.result === null && draft.limit !== null && draft.turn >= draft.limit.turns) {
+    const decision = judge(draft, draft.limit.judge);
+    draft.result = { winner: decision.winner, reason: "judged" };
+    events.push({ kind: "judged", winner: decision.winner, by: decision.by });
+    events.push({ kind: "battleEnd", winner: decision.winner });
+  }
+
   draft.rng = rng.state();
   return { state: draft, events };
+}
+
+/**
+ * 採点（v0.11）。観点を**並べた順に**比べ、差がついた時点で決める。
+ *
+ * 点数を合成しない ―― 合成すると「なぜ負けたか」が読めなくなる。
+ * 全部同じなら引き分け（`winner: null`）。
+ */
+export function judge(
+  state: BattleState,
+  rule: JudgeRule,
+): { winner: SideIndex | null; by: JudgeCriterion | null } {
+  const remaining = (side: SideIndex): number => {
+    const party = state.sides[side].party;
+    const max = party.reduce((sum, p) => sum + p.maxHp, 0);
+    return max === 0 ? 0 : party.reduce((sum, p) => sum + p.currentHp, 0) / max;
+  };
+
+  for (const criterion of rule.criteria) {
+    const value = (side: SideIndex): number => {
+      if (criterion === "hpRatio") return remaining(side);
+      if (criterion === "damageDealt") return state.tally[side].damageDealt;
+      return state.tally[side].movesHit;
+    };
+    const a = value(0);
+    const b = value(1);
+    if (a !== b) return { winner: a > b ? 0 : 1, by: criterion };
+  }
+  return { winner: null, by: null };
 }
 
 export { EMPTY_STAGES };

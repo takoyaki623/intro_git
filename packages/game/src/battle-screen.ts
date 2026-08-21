@@ -23,6 +23,7 @@ import {
   type BattleEvent,
   type BattlePokemonSource,
   type BattleState,
+  type JudgeRule,
   type SideIndex,
 } from "@pkmn/core";
 import { gameData } from "@pkmn/data";
@@ -62,6 +63,11 @@ export type BattleOptions = {
   /** 野生戦。逃げるが選べるようになる（v0.7）。 */
   isWild?: boolean;
   /**
+   * ターン制限（v0.11・バトルアリーナ）。
+   * この数だけターンが過ぎたら、倒しきっていなくても採点で決着する。
+   */
+  limit?: { turns: number; judge: JudgeRule };
+  /**
    * 投げられるボール（v0.8）。`core` はバッグの在庫を知らないので、
    * 何を何個持っているかは呼び出し側が渡す。
    *
@@ -90,6 +96,7 @@ export type BattleOutcome = NonNullable<BattleState["result"]> & { state: Battle
 export async function runBattle(options: BattleOptions): Promise<BattleOutcome> {
   let state: BattleState = createBattle(gameData, options.parties, options.seed, {
     isWild: options.isWild ?? false,
+    ...(options.limit === undefined ? {} : { limit: options.limit }),
   });
   let view: BattleView = viewFromState(state);
   const knowledge = createKnowledge();

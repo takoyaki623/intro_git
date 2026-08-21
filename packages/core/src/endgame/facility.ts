@@ -105,6 +105,56 @@ export function startRun(
 }
 
 /** そのまま createBattle に渡せる、レベル同期後の自分側パーティ。 */
+/**
+ * 勝った相手から1体もらい、自分の1体と入れ替える（v0.11・バトルファクトリー）。
+ *
+ * **レンタルの施設でしか意味が無い。** 自分の手持ちで挑む施設で交換すると、
+ * 連れてきた個体が消えることになる ―― 施設は預かり所ではない。
+ *
+ * 交換した個体は次の戦いから使う。HP の持ち越し（`carried`）は捨てる ――
+ * **中身が変わった編成に、前の編成の HP を当てはめる意味が無い。**
+ */
+export function swapAfterWin(
+  facility: Facility,
+  run: FacilityRun,
+  mine: number,
+  theirs: PartySpec,
+): FacilityRun {
+  if (facility.ruleset.swapAfterWin !== "factory") {
+    throw new Error(`${facility.id}: この施設は交換できない`);
+  }
+  if (mine < 0 || mine >= run.team.length) {
+    throw new RangeError(`交換する位置が範囲外: ${mine}`);
+  }
+  const team = run.team.map((m, i) => (i === mine ? { ...theirs } : m));
+  return { ...run, team, carried: null };
+}
+
+/**
+ * 交換に出せる相手の個体。
+ *
+ * ルールセットの「同じ種を重ねない」「同じ持ち物を重ねない」は
+ * **交換のあとも守られなければならない** ―― 編成の検査は最初の1回だけ、では
+ * 抜け道になる。自分が出す1体を抜いたうえで、残りと衝突しないものだけ返す。
+ */
+export function swapCandidates(
+  facility: Facility,
+  run: FacilityRun,
+  offered: readonly PartySpec[],
+  mine: number,
+): PartySpec[] {
+  const rest = run.team.filter((_, i) => i !== mine);
+  const species = new Set(rest.map((m) => m.species));
+  const items = new Set(rest.map((m) => m.item).filter((x) => x !== undefined));
+  return offered.filter((m) => {
+    if (facility.ruleset.duplicateSpecies === false && species.has(m.species)) return false;
+    if (facility.ruleset.duplicateItems === false && m.item !== undefined && items.has(m.item)) {
+      return false;
+    }
+    return true;
+  });
+}
+
 export function playerParty(facility: Facility, run: FacilityRun): PartySpec[] {
   return run.team.map((m) => ({ ...m, level: syncedLevel(facility.ruleset, m.level) }));
 }

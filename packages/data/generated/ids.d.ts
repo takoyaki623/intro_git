@@ -4,8 +4,8 @@
  *
  * 種族 190 / 技 247 / 性格 25 /
  * 特性 68 / 道具 58 /
- * BattleSet 64 / 施設 2 /
- * ネームド 18 / カップ 3 /
+ * BattleSet 64 / 施設 4 /
+ * ネームド 18 / カップ 10 /
  * マップ 12 / イベント 42 / トレーナー 3 /
  * 出現テーブル 1 / ショップ 1 / 地方 9 /
  * フラグ 8
@@ -676,6 +676,8 @@ export type GeneratedBattleSetId =
   | "g4-venusaur";
 
 export type GeneratedFacilityId =
+  | "battle-arena"
+  | "battle-factory"
   | "battle-tower"
   | "battle-tower-super";
 
@@ -700,9 +702,16 @@ export type GeneratedNamedId =
   | "sabrina";
 
 export type GeneratedCupId =
+  | "kanto-champion-cup"
   | "kanto-cup"
+  | "kanto-dragon-cup"
+  | "kanto-electric-cup"
   | "kanto-elite-cup"
-  | "kanto-gym-leader-cup";
+  | "kanto-fire-cup"
+  | "kanto-grass-cup"
+  | "kanto-gym-leader-cup"
+  | "kanto-rocket-cup"
+  | "kanto-water-cup";
 
 export type GeneratedMapId =
   | "hub-arena"

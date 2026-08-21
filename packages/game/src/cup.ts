@@ -20,6 +20,7 @@ import {
   recordCupWin,
   rentalGradeFor,
   startCupRun,
+  syncedLevel,
   TIER_LABEL,
   type NamedCharacter,
   type PartySpec,
@@ -30,8 +31,9 @@ import {
   type TournamentRun,
 } from "@pkmn/core";
 import { allBattleSets, allNamed, gameData } from "@pkmn/data";
+import { player } from "./player.js";
 import { $, runBattle, waitForButton } from "./battle-screen.js";
-import { chooseRentalTeam, escape, setScreen } from "./team-select.js";
+import { chooseOwnTeam, chooseRentalTeam, escape, setScreen } from "./team-select.js";
 
 type Context = {
   save: SaveData;
@@ -84,26 +86,69 @@ function introOf(character: NamedCharacter, tier: TierId): string[] {
 // 挑戦
 // ─────────────────────────────────────────────
 
-export async function playCup(
+/**
+ * カップの編成。**タイプ縛りカップは「自分の手持ちで」挑む**（v0.11）。
+ *
+ * レンタルで縛ると、貸し出しの6体にそのタイプが3体入らない限り
+ * **編成が組めずに詰む。** タイプを絞った時点で候補が薄くなるので、
+ * 「そのタイプを自分で育ててから来る」方がカップの意味にも合う
+ * ―― 縛りは制限ではなく、集めた成果を使う場所（endgame.md §5）。
+ */
+function chooseCupTeam(
   cup: Tournament,
   tier: TierId,
-  context: Context,
   seed: number,
-): Promise<void> {
+): Promise<PartySpec[] | null> {
+  const level = cup.ruleset.levelMode.kind === "sync" ? syncedLevel(cup.ruleset, 50) : null;
+
+  if (cup.ruleset.teamSource === "own") {
+    const candidates = [...player.storage.party, ...player.storage.box];
+    if (candidates.length < cup.ruleset.teamSize) {
+      return notEnoughOwn(cup, candidates.length);
+    }
+    return chooseOwnTeam({
+      title: `${cup.name}（${TIER_LABEL[tier]}）`,
+      lead: cup.description,
+      candidates,
+      ruleset: cup.ruleset,
+      syncedLevel: level,
+    });
+  }
+
   const grade = rentalGradeFor(cup, tier);
-  const offer = buildOpponentParty(
-    allBattleSets,
-    grade,
-    6,
-    createRng(createRngState(seed)),
-  );
-  const team: PartySpec[] | null = await chooseRentalTeam({
+  const offer = buildOpponentParty(allBattleSets, grade, 6, createRng(createRngState(seed)));
+  return chooseRentalTeam({
     title: `${cup.name}（${TIER_LABEL[tier]}）`,
     lead: cup.description,
     offer,
     ruleset: cup.ruleset,
     note: `レンタルは 相手と おなじ しあがり（grade ${grade}）です`,
   });
+}
+
+/** 手持ちが足りないことを、黙って戻らずに伝える。 */
+function notEnoughOwn(cup: Tournament, have: number): Promise<null> {
+  return new Promise((resolve) => {
+    setScreen(`
+      <h2>${escape(cup.name)}</h2>
+      <p class="lead">${escape(cup.description)}</p>
+      <div class="note-box">
+        <p>ここは <strong>じぶんの ポケモン</strong> で ちょうせん する カップです。</p>
+        <p>${cup.ruleset.teamSize}体 ひつようですが、いま ${have}体 しか いません。</p>
+        <p class="dim">ちほうで つかまえて、ほかんこに おくってから きてください。</p>
+      </div>
+      <div class="menu-actions"><button id="back" class="ghost">もどる</button></div>`);
+    $("#back").onclick = () => resolve(null);
+  });
+}
+
+export async function playCup(
+  cup: Tournament,
+  tier: TierId,
+  context: Context,
+  seed: number,
+): Promise<void> {
+  const team: PartySpec[] | null = await chooseCupTeam(cup, tier, seed);
   if (team === null) return;
 
   let run = startCupRun(cup, allNamed, tier, team, seed);

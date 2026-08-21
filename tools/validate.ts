@@ -18,6 +18,7 @@ import {
   assertAllEventCommandsHandled,
   flagsUsedBy,
   evolutionLine,
+  JUDGE_CRITERIA,
   selectParty,
   walkCommands,
   type Condition,
@@ -603,8 +604,46 @@ function checkEndgame(): void {
     if (rules.itemsAllowed) {
       fail("unimplemented-mechanic", `${where}: 戦闘中の道具使用が未実装（v0.9）`);
     }
-    if (rules.winCondition.kind !== "faint") {
-      fail("unimplemented-mechanic", `${where}: 採点による決着が未実装`);
+    // v0.11 で採点決着が入った。**入ったからこそ、値の方を検査する**
+    if (rules.winCondition.kind === "turnLimit") {
+      const { turns, judge } = rules.winCondition;
+      if (turns < 1) fail("facility-judge", `${where}: ターン制限が ${turns}`);
+      if (judge.criteria.length === 0) {
+        fail("facility-judge", `${where}: 採点の観点が1つも無い（必ず引き分けになる）`);
+      }
+      for (const criterion of judge.criteria) {
+        if (!(JUDGE_CRITERIA as readonly string[]).includes(criterion)) {
+          fail("facility-judge", `${where}: 未知の採点の観点 ${criterion}`);
+        }
+      }
+      if (new Set(judge.criteria).size !== judge.criteria.length) {
+        fail("facility-judge", `${where}: 採点の観点が重複（2回目は必ず同点になる）`);
+      }
+    }
+
+    // #76 タイプ縛りをレンタルでやると詰む（v0.11）。
+    // 貸し出しの候補にそのタイプが teamSize 体入らないと、**編成が組めない**
+    if (rules.requiredType !== undefined && rules.teamSource === "rental") {
+      const usable = allBattleSets.filter(
+        (set) =>
+          set.grade === facility.rentalGrade
+          && gameData.species(set.species).types.includes(rules.requiredType!),
+      ).length;
+      if (usable < rules.teamSize * 2) {
+        fail(
+          "rental-type",
+          `${where}: grade ${facility.rentalGrade} の ${rules.requiredType} が ${usable} 件（編成が組めずに詰む）`,
+        );
+      }
+    }
+
+    // #75 交換はレンタルの施設でしか成立しない（v0.11）。
+    // 自分の手持ちで挑む施設で交換すると、連れてきた個体が消える
+    if (rules.swapAfterWin !== undefined && rules.teamSource !== "rental") {
+      fail(
+        "facility-swap",
+        `${where}: teamSource が ${rules.teamSource} なのに交換がある（自分の個体が消える）`,
+      );
     }
     // v0.8 で実個体が入ったので "own" が成立するようになった。
     // "hallOfFame"（殿堂入りの記録から相手を作る）は v1.0
@@ -828,6 +867,25 @@ function checkTournaments(): void {
       fail("unimplemented-mechanic", `${where}: 殿堂入りの記録からの編成は未実装（v1.0）`);
     }
     if (cup.rounds < 1) fail("cup-rounds", `${where}: rounds が ${cup.rounds}`);
+
+    // #76 タイプ縛りをレンタルでやると詰む（v0.11）。
+    // タイプ縛りカップは「自分で育てたそのタイプで挑む」場所にしてある
+    if (rules.requiredType !== undefined && rules.teamSource === "rental") {
+      for (const tier of cup.tierProgression) {
+        const grade = cup.rentalGradeByTier[tier] ?? 4;
+        const usable = allBattleSets.filter(
+          (set) =>
+            set.grade === grade
+            && gameData.species(set.species).types.includes(rules.requiredType!),
+        ).length;
+        if (usable < rules.teamSize * 2) {
+          fail(
+            "rental-type",
+            `${where}/${tier}: grade ${grade} の ${rules.requiredType} が ${usable} 件（編成が組めずに詰む）`,
+          );
+        }
+      }
+    }
 
     // #27 出場者プールが解放条件と整合している（今はカントーのみ）
     for (const id of cup.entrantPool) {

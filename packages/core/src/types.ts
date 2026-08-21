@@ -431,6 +431,20 @@ export type RngState = {
   calls: number;
 };
 
+/**
+ * 採点の観点（v0.11・バトルアリーナ）。
+ *
+ * ターン制限で決着がつかなかったとき、この順に比べて勝者を決める。
+ * **観点を並べる順が規則**であって、点数の計算式は持たない ――
+ * 「HPの残りで比べ、同じなら与えたダメージで比べる」と読めることが要件。
+ */
+export const JUDGE_CRITERIA = ["hpRatio", "damageDealt", "movesHit"] as const;
+export type JudgeCriterion = (typeof JUDGE_CRITERIA)[number];
+export type JudgeRule = { criteria: JudgeCriterion[] };
+
+/** 採点のための集計。ターン制限のあるバトルだけが使う。 */
+export type BattleTally = { damageDealt: number; movesHit: number };
+
 export type BattleState = {
   sides: [Side, Side];
   turn: number;
@@ -442,7 +456,18 @@ export type BattleState = {
   isWild: boolean;
   /** 逃走を試みた回数。試すほど成功しやすくなる（原作準拠）。 */
   runAttempts: number;
-  result: { winner: SideIndex | null; reason: "faint" | "escaped" | "caught" } | null;
+  result: {
+    winner: SideIndex | null;
+    /** `judged` はターン制限による採点決着（v0.11）。 */
+    reason: "faint" | "escaped" | "caught" | "judged";
+  } | null;
+  /**
+   * ターン制限（v0.11）。`null` なら「ひんしまで」―― 通常のバトルはこちら。
+   * 施設のルールセットが持っている値を `createBattle` が受け取って置く。
+   */
+  limit: { turns: number; judge: JudgeRule } | null;
+  /** 採点用の集計。制限が無くても数えておく（数えるだけなら害が無い）。 */
+  tally: [BattleTally, BattleTally];
   /** 野生戦で使ったボール（v0.8）。捕獲後の処理で誰が捕まえたかを見る。 */
   caughtWith?: ItemId;
   /**
@@ -504,6 +529,12 @@ export type BattleEvent =
   | { kind: "statChange"; side: SideIndex; stat: StagedStat; delta: number; stage: number }
   | { kind: "statChangeFailed"; side: SideIndex; stat: StagedStat }
   | { kind: "faint"; side: SideIndex }
+  /**
+   * ターン制限による採点決着（v0.11）。`by` はどの観点で差がついたか。
+   * **`battleEnd` の直前に出る。** 「なぜその結果になったか」が読めないと、
+   * 採点で負けたときに理不尽にしか見えない
+   */
+  | { kind: "judged"; winner: SideIndex | null; by: JudgeCriterion | null }
   | { kind: "battleEnd"; winner: SideIndex | null }
   // ── 特性・持ち物（v0.5）──
   /** 特性が発動した。UI は「〇〇の 〈特性名〉!」と出す。 */
