@@ -71,7 +71,7 @@ import {
 import { $, runBattle, type BattleOutcome } from "./battle-screen.js";
 import { escape } from "./team-select.js";
 import { autosave, enterRegion, player, returnToHub, save, sendToStorage } from "./player.js";
-import { openFacilityScreen, openTournamentScreen } from "./screens.js";
+import { openExchangeScreen, openFacilityScreen, openTournamentScreen } from "./screens.js";
 import { buildingsOf, drawBuilding } from "./art/buildings.js";
 import { drawTile, shade, type TileView } from "./art/tiles.js";
 import { STATUS_LABEL, TYPE_COLOR, TYPE_LABEL } from "./view.js";
@@ -538,6 +538,11 @@ export function playField(rebuild: () => void): FieldHandle {
       case "openFacility":
         hideText();
         await openFacilityScreen();
+        draw();
+        return;
+      case "openExchange":
+        hideText();
+        await openExchangeScreen();
         draw();
         return;
       case "openTournament":

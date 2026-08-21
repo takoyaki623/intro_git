@@ -206,12 +206,7 @@ export function facilityMenu(
     <div class="facilities">${rows}</div>
     <p class="lead dim">しせつは ルールセットと あいてプールと ほうしゅう の3つの データで できています。
       1つ ふやしても コードは かわりません。</p>
-    <h3>BP こうかんじょ</h3>
-    <p class="lead dim">
-      たいせんで つよい もちものは <strong>おかねでは かえません</strong>。
-      しせつで かせいだ BP とだけ こうかんできます（economy.md §7）。
-    </p>
-    <div class="facilities" id="bp-shop">${exchangeRows()}</div>`);
+    <p class="lead dim">かせいだ BP は <strong>ほかんこの こうかんじょ</strong>で つかえます。</p>`);
 
   for (const el of $("#menu").querySelectorAll<HTMLElement>(".facility")) {
     el.onclick = () => {
@@ -219,7 +214,26 @@ export function facilityMenu(
       if (facility !== undefined) onPick(facility);
     };
   }
-  bindExchange(() => facilityMenu(facilities, liveSave, onPick));
+}
+
+/**
+ * BP交換所の画面（v0.11 で施設一覧から分けた）。
+ *
+ * v0.9 まで両方が1つのタブに載っていた名残で、v0.10 で場所を分けたあとも
+ * **保管庫の交換員が施設一覧を開いていた。**
+ * 場所を2つ作ったなら、画面も2つに割る。
+ */
+export function exchangeMenu(save: SaveData): void {
+  setScreen(`
+    <h2>BP こうかんじょ</h2>
+    <p class="lead">もっている BP: <strong>${save.global.bp}</strong></p>
+    <p class="lead dim">
+      たいせんで つよい もちものは <strong>おかねでは かえません</strong>。
+      しせつで かせいだ BP とだけ こうかんできます（economy.md §7）。
+    </p>
+    <div class="facilities" id="bp-shop">${exchangeRows()}</div>`);
+
+  bindExchange(() => exchangeMenu(liveSave));
 }
 
 /**

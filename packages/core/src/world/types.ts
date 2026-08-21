@@ -153,6 +153,8 @@ export type EventCommand =
   /** 拠点へ戻る。`enterRegion` の対。地方の進行はセーブに残る。 */
   | { kind: "returnToHub" }
   | { kind: "openFacility" }
+  /** BP交換所。**施設とは別の画面**（v0.11 で分けた。理由は event.ts）。 */
+  | { kind: "openExchange" }
   | { kind: "openTournament" }
   /** 共通ボックス。地方ボックス（`openBox`）とは**別物**（capture.md §4）。 */
   | { kind: "openStorage" };

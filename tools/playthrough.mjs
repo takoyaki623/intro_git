@@ -255,10 +255,14 @@ expect("バトル施設に 入れた", (await spot()).map, "hub-tower");
 await talk("ArrowUp");
 await page.waitForTimeout(500);
 expect("施設の画面が 開いた", (await page.$("#screen-back")) ? "開いた" : "開かない", "開いた");
+// **v0.10 まで、ここに BP交換所が同居していた**（v0.9 のタブの名残）。
+// この台本は「同じ画面にある」ことを確かめていた ―― つまり**バグを正解として固定していた。**
+// 場所を2つに分けたなら、画面も2つ。ここは「無い」が正しい（v0.11）
+// 文字ではなく**買える一覧そのもの**を見る。案内文に「こうかんじょ」の4文字は出る
 expect(
-  "BP交換所も 同じ画面にある",
-  ((await page.textContent("#menu")) ?? "").includes("こうかんじょ") ? "ある" : "ない",
-  "ある",
+  "施設の画面に BP交換所は 無い",
+  (await page.$("#bp-shop")) === null ? "ない" : "ある",
+  "ない",
 );
 await shot("0b-facility");
 await page.click("#screen-back");
@@ -525,9 +529,15 @@ await page.waitForTimeout(400);
 // 施設は拠点にある。**ゲートを通らないと行けない**（v0.10 でタブが消えた）
 await backToHub();
 expect("ゲートで 拠点に もどれた", (await spot()).map, "hub-plaza");
-await goToMap("hub-tower", 4, 3);
+// **BP交換所は保管庫にある**（v0.11 で施設から分けた）
+await goToMap("hub-depot", 6, 3);
 await talk("ArrowUp");
 await page.waitForSelector("#bp-shop");
+expect(
+  "こうかんじょから 連戦は 始められない",
+  ((await page.textContent("#menu")) ?? "").includes("バトルタワー") ? "始められる" : "始められない",
+  "始められない",
+);
 const shopText = (await page.textContent("#bp-shop")) ?? "";
 expect("BP交換所に たべのこし が ある", shopText.includes("たべのこし") ? "ある" : "ない", "ある");
 expect(

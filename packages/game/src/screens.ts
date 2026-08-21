@@ -15,7 +15,7 @@ import { allFacilities, allSpecies, allTournaments } from "@pkmn/data";
 import { $, runBattle, waitForButton } from "./battle-screen.js";
 import { cupMenu, playCup } from "./cup.js";
 import { save, saveStore, setSave } from "./player.js";
-import { facilityMenu, playFacility } from "./tower.js";
+import { exchangeMenu, facilityMenu, playFacility } from "./tower.js";
 
 const seed = () => Math.floor(Math.random() * 1_000_000);
 
@@ -61,6 +61,18 @@ export function openFacilityScreen(): Promise<void> {
       });
     };
     show();
+  });
+}
+
+/**
+ * BP交換所（`openExchange`）。
+ *
+ * 施設の画面とは**別の場所から開く別の画面**。
+ * 交換すると BP が減るので描き直しが要るが、出口は `#menu` の外にあるので消えない。
+ */
+export function openExchangeScreen(): Promise<void> {
+  return openScreen("きょてんへ", () => {
+    exchangeMenu(save);
   });
 }
 

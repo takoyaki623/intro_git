@@ -80,6 +80,7 @@ export type EventEffect =
   | { kind: "enterRegion"; region: RegionId }
   | { kind: "returnToHub" }
   | { kind: "openFacility" }
+  | { kind: "openExchange" }
   | { kind: "openTournament" }
   | { kind: "openStorage" }
   | { kind: "gotItem"; item: ItemId; count: number }
@@ -101,6 +102,7 @@ const BLOCKING = new Set<EventEffect["kind"]>([
   "enterRegion",
   "returnToHub",
   "openFacility",
+  "openExchange",
   "openTournament",
   "openStorage",
 ]);
@@ -252,6 +254,20 @@ const handlers: { [K in EventCommand["kind"]]: Handler } = {
 
   openFacility: (_c, _w, _r, effects) => {
     effects.push({ kind: "openFacility" });
+  },
+
+  /**
+   * BP交換所（v0.11 で `openFacility` から分けた）。
+   *
+   * v0.9 まで施設と BP交換所は**同じタブ**だったので、1つの画面に同居していた。
+   * v0.10 で場所を2つに分けた（バトル施設＝`hub-tower` / BP交換所＝`hub-depot`）のに、
+   * **画面を割らなかった** ―― 結果、保管庫から連戦を始められた。
+   *
+   * タブを場所に置き換えるときは、**画面の中身も一緒に割る**。
+   * 場所が2つあるのに中身が1つだと、行った先が同じものになる。
+   */
+  openExchange: (_c, _w, _r, effects) => {
+    effects.push({ kind: "openExchange" });
   },
 
   openTournament: (_c, _w, _r, effects) => {
