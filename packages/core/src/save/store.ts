@@ -20,8 +20,10 @@ import type { CupId, PokemonInstance } from "../types.js";
  * v1 → v2: トーナメントの記録を足した（v0.6）。
  * v2 → v3: **世界の状態を入れた**（v0.9）。手持ち・ボックス・図鑑・バッグ・
  *          フラグ・現在地・お金。ここまでは全部メモリ上にしか無かった。
+ * v3 → v4: **共通ボックスと「今どの地方に居るか」**（v0.10）。
+ *          地方が並列に9つある構造を、セーブが初めて表現する。
  */
-export const CURRENT_SCHEMA_VERSION = 3;
+export const CURRENT_SCHEMA_VERSION = 4;
 
 export type FacilityRecord = {
   bestStreak: number;
@@ -39,6 +41,12 @@ export type Settings = {
   battleSpeed: "normal" | "fast" | "logOnly";
   /** 全滅したときにお金を失うか。**既定は失わない**（economy.md §2）。 */
   lossPenalty: "none" | "classic";
+  /**
+   * 絵の出どころ（v0.10 で器だけ、v0.10.5 で実装）。
+   * `drawn` はコードで描く既定。`local` は手元の素材を使う
+   * ―― 公式素材はリポジトリに入れられないため（game-plan.md §10）。
+   */
+  artSource: "drawn" | "local";
 };
 
 /**
@@ -75,6 +83,19 @@ export type SaveData = {
     dex: Record<string, DexEntryState>;
     /** 道具の在庫。地方をまたいで持ち歩く。 */
     bag: Record<string, number>;
+    /**
+     * 共通ボックス（v0.10）。地方ボックスとは**別物**（capture.md §4）。
+     *
+     * 収集の器はこちらで、エンドゲームで編成するのもこちら。
+     * **送るのはいつでもできるが、引き出せるのは拠点だけ** ―― 地方チャレンジ中に
+     * 引き出せると本編の難易度が壊れるため。送る方向は壊さないので許す。
+     */
+    boxUids: string[];
+    /**
+     * 今どの地方に居るか。**`null` は拠点**（v0.10）。
+     * どの地方の `RegionProgress` を見るかがこれで決まる。
+     */
+    currentRegion: string | null;
     endgame: {
       facilityRecords: Record<FacilityId, FacilityRecord>;
       tournamentRecords: Record<CupId, TournamentRecord>;
@@ -127,10 +148,17 @@ export function importSave(text: string): SaveData | null {
 export function emptySave(): SaveData {
   return {
     schemaVersion: CURRENT_SCHEMA_VERSION,
-    global: { bp: 0, dex: {}, bag: {}, endgame: { facilityRecords: {}, tournamentRecords: {} } },
+    global: {
+      bp: 0,
+      dex: {},
+      bag: {},
+      boxUids: [],
+      currentRegion: null,
+      endgame: { facilityRecords: {}, tournamentRecords: {} },
+    },
     pokemon: {},
     regions: {},
-    settings: { battleSpeed: "normal", lossPenalty: "none" },
+    settings: { battleSpeed: "normal", lossPenalty: "none", artSource: "drawn" },
   };
 }
 
@@ -161,6 +189,16 @@ const migrations: Record<number, (data: SaveData) => SaveData> = {
     pokemon: {},
     regions: {},
     settings: { ...v2.settings, lossPenalty: "none" },
+  }),
+
+  // v0.10: 共通ボックスと現在地方。
+  // v0.9 のセーブは「カントーに居る」以外に有りえないので、そこから始める。
+  // 共通ボックスは空 ―― 殿堂入りの移送はまだ無く、地方ボックスの中身は地方に残る
+  4: (v3) => ({
+    ...v3,
+    schemaVersion: 4,
+    global: { ...v3.global, boxUids: [], currentRegion: "kanto" },
+    settings: { ...v3.settings, artSource: "drawn" },
   }),
 };
 
@@ -226,11 +264,23 @@ function normalize(data: SaveData): SaveData {
     pokemon[uid] = instance;
   }
 
+  const known = (uids: unknown): string[] =>
+    (Array.isArray(uids) ? uids : []).filter((u): u is string => typeof u === "string" && u in pokemon);
+
+  // ── 共通ボックス（v0.10）──
+  // **地方の器より優先しない。** 地方チャレンジ中の個体が共通ボックスにも
+  // 載っているセーブを読んだら、地方側を正として共通ボックスから外す
+  // （送るときに地方から抜くのが正しい手順なので、両方に居るのは壊れた状態）
+  const commonBox = [...new Set(known(data.global?.boxUids))];
+  const inRegions = new Set(
+    Object.values(data.regions ?? {}).flatMap((r) =>
+      typeof r === "object" && r !== null ? [...known(r.partyUids), ...known(r.boxUids)] : [],
+    ),
+  );
+
   const regions: Record<string, RegionProgress> = {};
   for (const [id, raw] of Object.entries(data.regions ?? {})) {
     if (typeof raw !== "object" || raw === null) continue;
-    const known = (uids: unknown): string[] =>
-      (Array.isArray(uids) ? uids : []).filter((u): u is string => typeof u === "string" && u in pokemon);
     const place = (v: unknown, fallback: RegionProgress["position"]) =>
       typeof v === "object" && v !== null && typeof (v as { map?: unknown }).map === "string"
         ? (v as RegionProgress["position"])
@@ -258,12 +308,20 @@ function normalize(data: SaveData): SaveData {
     if (state === "seen" || state === "caught") dex[id] = state;
   }
 
+  // 地方に居る個体は共通ボックスから外す（上のコメントの規則）
+  const boxUids = commonBox.filter((uid) => !inRegions.has(uid));
+
+  const region = data.global?.currentRegion;
+
   return {
     schemaVersion: CURRENT_SCHEMA_VERSION,
     global: {
       bp: Number(data.global?.bp) || 0,
       dex,
       bag,
+      boxUids,
+      // 知らない地方が入っていたら拠点に落とす（存在しない地方で立ち往生させない）
+      currentRegion: typeof region === "string" && region in regions ? region : null,
       endgame: { facilityRecords: clean, tournamentRecords: cleanCups },
     },
     pokemon,
@@ -271,6 +329,7 @@ function normalize(data: SaveData): SaveData {
     settings: {
       battleSpeed: data.settings?.battleSpeed ?? base.settings.battleSpeed,
       lossPenalty: data.settings?.lossPenalty === "classic" ? "classic" : "none",
+      artSource: data.settings?.artSource === "local" ? "local" : "drawn",
     },
   };
 }
@@ -361,12 +420,17 @@ export function storeParty(
   rest: Omit<RegionProgress, "partyUids" | "boxUids">,
 ): SaveData {
   const pokemon = { ...data.pokemon };
-  // この地方の器から外れた個体は捨てる（幽霊を残さない）
+  // この地方の器から外れた個体は捨てる（幽霊を残さない）。
+  //
+  // **共通ボックスに居る個体は捨てない**（v0.10）。地方から共通ボックスへ送ると
+  // 地方の器からは外れるが、失われたわけではない ―― ここを見落とすと
+  // 「送った瞬間に消える」という最悪の壊れ方をする
+  const kept = new Set(data.global.boxUids);
   const before = new Set([
     ...(data.regions[region]?.partyUids ?? []),
     ...(data.regions[region]?.boxUids ?? []),
   ]);
-  for (const uid of before) delete pokemon[uid];
+  for (const uid of before) if (!kept.has(uid)) delete pokemon[uid];
   for (const p of [...party, ...box]) pokemon[p.uid] = p;
 
   return {
@@ -376,6 +440,66 @@ export function storeParty(
       ...data.regions,
       [region]: { ...rest, partyUids: party.map((p) => p.uid), boxUids: box.map((p) => p.uid) },
     },
+  };
+}
+
+/**
+ * 共通ボックスの中身（v0.10）。
+ *
+ * 地方の器と違い、**手持ちとの突き合わせが要らない** ――
+ * 共通ボックスに手持ちの概念は無い（拠点で編成するとき初めて手持ちが作られる）。
+ */
+export function resolveCommonBox(data: SaveData): PokemonInstance[] {
+  return data.global.boxUids
+    .map((uid) => data.pokemon[uid])
+    .filter((p): p is PokemonInstance => p !== undefined);
+}
+
+/**
+ * 拠点の器（手持ち＋共通ボックス）をセーブへ落とす。
+ *
+ * 地方と違って**外れた個体を捨てない。** 拠点の「手持ち」は共通ボックスから
+ * 一時的に取り出したものにすぎず、逃がす操作は `release` が別に受け持つ。
+ */
+export function storeCommonBox(
+  data: SaveData,
+  party: readonly PokemonInstance[],
+  box: readonly PokemonInstance[],
+): SaveData {
+  const pokemon = { ...data.pokemon };
+  for (const p of [...party, ...box]) pokemon[p.uid] = p;
+  return {
+    ...data,
+    pokemon,
+    global: { ...data.global, boxUids: [...party, ...box].map((p) => p.uid) },
+  };
+}
+
+/**
+ * 地方から共通ボックスへ送る（v0.10・一方通行）。
+ *
+ * `capture.md` §4 は「地方チャレンジ中は共通ボックスを開けない」と定めているが、
+ * それは**引き出せると本編の難易度が壊れる**から。送る方向は壊さないので許す。
+ * これが無いと、殿堂入り（v1.0）まで共通ボックスが空のままで、
+ * 拠点のエンドゲームに持ち込む個体が1体も居ないことになる。
+ */
+export function sendToCommonBox(data: SaveData, uids: readonly string[]): SaveData {
+  const adding = uids.filter((uid) => uid in data.pokemon && !data.global.boxUids.includes(uid));
+  if (adding.length === 0) return data;
+
+  const gone = new Set(adding);
+  const regions: Record<string, RegionProgress> = {};
+  for (const [id, progress] of Object.entries(data.regions)) {
+    regions[id] = {
+      ...progress,
+      partyUids: progress.partyUids.filter((uid) => !gone.has(uid)),
+      boxUids: progress.boxUids.filter((uid) => !gone.has(uid)),
+    };
+  }
+  return {
+    ...data,
+    regions,
+    global: { ...data.global, boxUids: [...data.global.boxUids, ...adding] },
   };
 }
 
@@ -410,6 +534,7 @@ export function summarize(data: SaveData | null): string {
   if (data === null) return "よみこめない データ";
   const caught = Object.values(data.global.dex).filter((s) => s === "caught").length;
   const party = Object.values(data.regions).reduce((n, r) => n + r.partyUids.length, 0);
-  const box = Object.values(data.regions).reduce((n, r) => n + r.boxUids.length, 0);
+  const box =
+    Object.values(data.regions).reduce((n, r) => n + r.boxUids.length, 0) + data.global.boxUids.length;
   return `てもち ${party} ・ ボックス ${box} ・ ずかん ${caught} ・ BP ${data.global.bp}`;
 }

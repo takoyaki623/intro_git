@@ -18,7 +18,10 @@ import {
   migrate,
   recordCupWin,
   recordRun,
+  resolveCommonBox,
   resolveParty,
+  sendToCommonBox,
+  storeCommonBox,
   storeParty,
   summarize,
   type PokemonInstance,
@@ -69,6 +72,8 @@ describe("マイグレーション", () => {
     expect(migrated?.regions).toEqual({});
     expect(migrated?.pokemon).toEqual({});
     expect(migrated?.settings.lossPenalty).toBe("none");
+    expect(migrated?.global.boxUids).toEqual([]);
+    expect(migrated?.settings.artSource).toBe("drawn");
   });
 
   it("施設の記録を書いてもトーナメントの記録が消えない", () => {
@@ -255,5 +260,117 @@ describe("スロット一覧", () => {
 
   it("要約は読めないデータでも落ちない", () => {
     expect(summarize(null)).toContain("よみこめない");
+  });
+});
+
+
+// ─────────────────────────────────────────────
+// v0.10 ― 共通ボックスと現在地方
+// ─────────────────────────────────────────────
+
+describe("共通ボックス", () => {
+  const mon = (uid: string, species: string): PokemonInstance => ({
+    uid, species, exp: 135,
+    ivs: { hp: 1, atk: 1, def: 1, spa: 1, spd: 1, spe: 1 },
+    evs: { hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 },
+    nature: "hardy", ability: "blaze",
+    moves: [{ id: "scratch", pp: 30 }],
+    currentHp: 10, status: null, statusCounter: 0, item: null,
+    friendship: 70, shiny: false, gender: "male",
+    met: { region: "kanto", level: 5 },
+  });
+  const place = { map: "m", x: 0, y: 0, facing: "down" } as const;
+  const rest = { flags: {}, money: 0, badges: 0, position: place, respawn: place };
+
+  const withKanto = (party: PokemonInstance[], box: PokemonInstance[] = []) =>
+    storeParty(emptySave(), "kanto", party, box, rest);
+
+  const reload = (data: ReturnType<typeof emptySave>) =>
+    migrate(JSON.parse(JSON.stringify(data)))!;
+
+  it("v3 のセーブは共通ボックスが空・カントーに居る状態から始まる", () => {
+    const v3 = JSON.parse(readFileSync("fixtures/saves/v3.json", "utf8")) as { schemaVersion: number };
+    const up = migrate(v3)!;
+    expect(up.global.boxUids).toEqual([]);
+    expect(up.global.currentRegion).toBe("kanto");
+  });
+
+  it("v4 のサンプルから共通ボックスが読める", () => {
+    const data = migrate(JSON.parse(readFileSync("fixtures/saves/v4.json", "utf8")))!;
+    expect(resolveCommonBox(data).map((p) => p.species)).toEqual(["eevee"]);
+    // 共通ボックスの個体は地方の器には出てこない
+    expect(resolveParty(data, "kanto").box.map((p) => p.species)).toEqual(["pidgey"]);
+  });
+
+  it("地方から送ると、地方の器から外れて共通ボックスに入る", () => {
+    const saved = withKanto([mon("a", "charmander")], [mon("b", "pidgey")]);
+    const sent = sendToCommonBox(saved, ["b"]);
+
+    expect(sent.global.boxUids).toEqual(["b"]);
+    expect(resolveParty(sent, "kanto").box).toEqual([]);
+    expect(resolveParty(sent, "kanto").party.map((p) => p.uid)).toEqual(["a"]);
+  });
+
+  it("送ってから地方を保存しても、送った個体は残る", () => {
+    let data = withKanto([mon("a", "charmander"), mon("b", "pidgey")]);
+    data = sendToCommonBox(data, ["b"]);
+    data = storeParty(data, "kanto", [mon("a", "charmander")], [], rest);
+
+    expect(Object.keys(data.pokemon).sort()).toEqual(["a", "b"]);
+    expect(resolveCommonBox(reload(data)).map((p) => p.uid)).toEqual(["b"]);
+  });
+
+  it("地方の記録が古いままでも、共通ボックスの個体を保存で捨てない", () => {
+    // **書き込みで個体を失わない**という不変条件を直接見る。
+    //
+    // storeParty は「地方の器から外れた個体を捨てる」（幽霊を残さないため）。
+    // 共通ボックスを見ないと、地方の記録が古い瞬間に**送ったはずの個体が消える**。
+    // sendToCommonBox は地方と共通ボックスを同時に動かすのでこの状態は作らないが、
+    // 捨てる判断が「片方しか見ていない」ままだと、いつか別の経路で踏む
+    const saved = withKanto([mon("a", "charmander"), mon("b", "pidgey")]);
+    const stale = { ...saved, global: { ...saved.global, boxUids: ["b"] } };
+
+    const after = storeParty(stale, "kanto", [mon("a", "charmander")], [], rest);
+    expect(Object.keys(after.pokemon).sort()).toEqual(["a", "b"]);
+  });
+
+  it("同じ個体を2回送っても増えない", () => {
+    let data = withKanto([mon("a", "charmander"), mon("b", "pidgey")]);
+    data = sendToCommonBox(data, ["b"]);
+    data = sendToCommonBox(data, ["b"]);
+    expect(data.global.boxUids).toEqual(["b"]);
+  });
+
+  it("居ない個体を送っても何も起きない", () => {
+    const data = withKanto([mon("a", "charmander")]);
+    expect(sendToCommonBox(data, ["zzz"])).toBe(data);
+  });
+
+  it("地方にも共通ボックスにも居る壊れたセーブは、地方を正として直す", () => {
+    const saved = withKanto([mon("a", "charmander")]);
+    const broken = { ...saved, global: { ...saved.global, boxUids: ["a"] } };
+    const fixed = reload(broken);
+
+    expect(fixed.global.boxUids).toEqual([]);
+    expect(resolveParty(fixed, "kanto").party.map((p) => p.uid)).toEqual(["a"]);
+  });
+
+  it("拠点の器を保存しても、外れた個体を捨てない", () => {
+    // 拠点の「手持ち」は共通ボックスから一時的に取り出したもの。
+    // 逃がすのは release の仕事で、編成し直しただけで消えては困る
+    const data = storeCommonBox(emptySave(), [mon("a", "charmander")], [mon("b", "pidgey")]);
+    expect(data.global.boxUids).toEqual(["a", "b"]);
+    expect(Object.keys(data.pokemon).sort()).toEqual(["a", "b"]);
+  });
+});
+
+describe("現在地方", () => {
+  it("新しいセーブは拠点に居る", () => {
+    expect(emptySave().global.currentRegion).toBeNull();
+  });
+
+  it("知らない地方が入っていたら拠点に落とす", () => {
+    const data = { ...emptySave(), global: { ...emptySave().global, currentRegion: "hoenn" } };
+    expect(migrate(JSON.parse(JSON.stringify(data)))!.global.currentRegion).toBeNull();
   });
 });
