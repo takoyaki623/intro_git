@@ -10,31 +10,30 @@ bgm: hub
 
 legend:
 . normal
-S !normal
-T !normal
+X !normal
 G normal
 P !normal
 A !normal
-D !normal
+H !normal
 W !water
 
 grid:
-SSSSSSSSSSSSSSSSS
-S...............S
-S..PPPP...AAAA..S
-S..PPGP...AAGA..S
-S...............S
-S...............S
-S..............WS
-S...WW.........WS
-S...WW.........WS
-S..............WS
-S...............S
-S..DDDD.........S
-S..DDGD.........S
-S...............S
-S.......GG......S
-SSSSSSSSSSSSSSSSS
+XXXXXXXXXXXXXXXXX
+X...............X
+X..PPPP...AAAA..X
+X..PPGP...AAGA..X
+X...............X
+X...............X
+X..............WX
+X...WW.........WX
+X...WW.........WX
+X..............WX
+X...............X
+X..HHHH.........X
+X..HHGH.........X
+X...............X
+X.......GG......X
+XXXXXXXXXXXXXXXXX
 
 warps:
 5,3 step hub-tower 4,6 up

@@ -145,8 +145,13 @@ export type EventCommand =
   // ── 拠点（v0.10）──
   // 拠点は「地方の外側」にある唯一の場所で、9地方とエンドゲームを束ねる。
   // どれも**マップ上のオブジェクトから開く**ので、コマンドとして持つ
-  /** 地方チャレンジへ入る。`null` を渡す道は無い（拠点へ戻るのは warp）。 */
+  /**
+   * 地方チャレンジへ入る。**前回いた場所から再開する**ので warp では表せない
+   * （warp は行き先が固定で、続きから始められない）。
+   */
   | { kind: "enterRegion"; region: RegionId }
+  /** 拠点へ戻る。`enterRegion` の対。地方の進行はセーブに残る。 */
+  | { kind: "returnToHub" }
   | { kind: "openFacility" }
   | { kind: "openTournament" }
   /** 共通ボックス。地方ボックス（`openBox`）とは**別物**（capture.md §4）。 */
@@ -185,6 +190,8 @@ export type RegionDefinition = {
   description: string;
   /** 冒険の開始地点。`available` な地方だけが持つ。 */
   start?: { map: MapId; x: number; y: number; facing: Direction };
+  /** 初めてその地方に入ったときの案内。**地方ごとに違うのでデータが持つ。** */
+  intro?: string;
   starters?: [SpeciesId, SpeciesId, SpeciesId];
   challenge?:
     | { kind: "gyms"; gyms: NamedRef[]; elite4: NamedRef[]; champion: NamedRef }

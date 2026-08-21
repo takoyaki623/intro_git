@@ -64,12 +64,14 @@ import {
   eventById,
   gameData,
   mapById,
+  regionById,
   shopById,
   trainerById,
 } from "@pkmn/data";
 import { $, runBattle, type BattleOutcome } from "./battle-screen.js";
 import { escape } from "./team-select.js";
-import { autosave, player, save } from "./player.js";
+import { autosave, enterRegion, player, returnToHub, save, sendToStorage } from "./player.js";
+import { openFacilityScreen, openTournamentScreen } from "./screens.js";
 import { STATUS_LABEL, TYPE_COLOR, TYPE_LABEL } from "./view.js";
 
 const TILE = 28;
@@ -99,6 +101,9 @@ const TILE_HINT: Record<string, string> = {
   P: "#c0504a", // ポケモンセンターの屋根（原作の赤）
   F: "#3f6fa8", // フレンドリィショップの屋根（原作の青）
   S: "#a98b5f", // カウンター
+  X: "#7b7f88", // 石の壁（拠点）
+  A: "#8a6fb0", // 大会会場の屋根（拠点）
+  G: "#d8cba0", // ゲート前の敷石（拠点）
   D: "#7a5230", // ドア
 };
 
@@ -128,7 +133,14 @@ const OBJECT_COLOR: Record<string, string> = {
 
 export type FieldHandle = { stop: () => void };
 
-export function playField(): FieldHandle {
+/**
+ * マップ画面を作る。
+ *
+ * `rebuild` は「この画面を捨てて作り直してくれ」と呼び出し側へ頼む口（v0.10）。
+ * 地方へ入る／拠点へ戻るときは**居場所ごと変わる**ので、
+ * 途中から書き換えるより作り直す方が安全 ―― 位置・手持ち・フラグが一斉に入れ替わる。
+ */
+export function playField(rebuild: () => void): FieldHandle {
   /**
    * `core` に渡す世界の状態。
    *
@@ -432,6 +444,35 @@ export function playField(): FieldHandle {
         return;
       case "openDex":
         showDex();
+        return;
+
+      // ── 拠点（v0.10）──
+      case "enterRegion":
+        // マップ画面ごと作り直す。**この playField は用済みになる**ので、
+        // 呼び出し側（main.ts）に作り直しを頼んで、ここでは走るのをやめる
+        hideText();
+        enterRegion(effect.region);
+        await autosave();
+        rebuild();
+        return;
+      case "returnToHub":
+        hideText();
+        returnToHub();
+        await autosave();
+        rebuild();
+        return;
+      case "openFacility":
+        hideText();
+        await openFacilityScreen();
+        draw();
+        return;
+      case "openTournament":
+        hideText();
+        await openTournamentScreen();
+        draw();
+        return;
+      case "openStorage":
+        showStorage();
         return;
       case "wait":
       case "playSe":
@@ -926,10 +967,16 @@ export function playField(): FieldHandle {
 
   /**
    * 手持ちとボックス。
+   *
+   * **どのボックスを見ているかは居場所で変わる**（v0.10・capture.md §4）。
+   *   地方に居る … 地方ボックス。共通ボックスへ「おくる」ことはできるが引き出せない
+   *   拠点に居る … 共通ボックス。ここでだけ引き出して編成できる
+   *
    * 設計（capture.md §5）は検索・ソート・チーム保存まで求めているが、
-   * **数千個体になるまで要らない。** v0.9（セーブ完成）で足す。
+   * **数千個体になるまで要らない。** 数が増えてから足す。
    */
   function showStorage(): void {
+    const inHub = player.region === null;
     const full = player.storage.party.length >= PARTY_SIZE;
     panel.classList.remove("hidden");
     panel.innerHTML = `
@@ -948,12 +995,25 @@ export function playField(): FieldHandle {
                   p.item === null ? "もたせる" : escape(gameData.item(p.item).name)
                 }</button>
                 ${player.storage.party.length > 1 ? `<button data-deposit="${p.uid}">あずける</button>` : ""}
+                ${
+                  !inHub && player.storage.party.length > 1
+                    ? `<button data-send="${p.uid}">ほかんこへ</button>`
+                    : ""
+                }
               </span>
             </li>`,
           )
           .join("")}
       </ul>
-      <div class="panel-head"><strong>ボックス（${player.storage.box.length}）</strong></div>
+      <div class="panel-head">
+        <strong>${inHub ? "ほかんこ（きょうつう）" : "ちほうボックス"}（${player.storage.box.length}）</strong>
+      </div>
+      ${
+        inHub
+          ? ""
+          : `<p class="dim">ちほうの ちょうせんちゅうは、ほかんこから ひきだせません。
+             おくるのは いつでも できます。</p>`
+      }
       ${
         player.storage.box.length === 0
           ? `<p class="dim">まだ だれも いません。</p>`
@@ -963,6 +1023,7 @@ export function playField(): FieldHandle {
                   ${lineOf(p)}
                   <span class="row-actions">
                     <button data-withdraw="${p.uid}">${full ? "いれかえ" : "つれていく"}</button>
+                    ${!inHub ? `<button data-send="${p.uid}">ほかんこへ</button>` : ""}
                     <button data-release="${p.uid}" class="danger">にがす</button>
                   </span>
                 </li>`,
@@ -977,6 +1038,21 @@ export function playField(): FieldHandle {
     });
     bind("data-hold", async (uid) => {
       await chooseHeldItem(uid);
+    });
+    bind("data-send", async (uid) => {
+      // **一方通行。** 送ったら地方チャレンジ中は戻せない（capture.md §4.1）
+      const target = findInPanel(uid);
+      if (target === null) return;
+      const name = target.nickname ?? gameData.species(target.species).name;
+      const choice = await ask(`${name} を ほかんこへ おくる?\nこの ちほうでは とりだせません。`, [
+        "やめる",
+        "おくる",
+      ]);
+      hideText();
+      if (choice !== 1) return;
+      sendToStorage([uid]);
+      await say(`${name} を ほかんこへ おくった。`);
+      hideText();
     });
     bind("data-deposit", (uid) => {
       player.storage = deposit(player.storage, uid);
@@ -1240,13 +1316,16 @@ export function playField(): FieldHandle {
 
   draw();
   void (async () => {
-    // 家の中から始める。母との会話が最初の案内になる。
-    // **続きから遊ぶときには出さない** ―― セーブが入ったので、
-    // ここは「マップ画面を開くたび」ではなく「冒険を始めたとき」1回きり
-    if (player.started) return;
+    // **その地方を初めて始めたとき1回きり。** 続きから遊ぶときには出さないし、
+    // 拠点でも出さない（v0.9 では「マップ画面を開くたび」出ていた）。
+    // 文面は地方ごとに違うので regions.json が持つ
+    if (player.region === null || player.started) return;
     player.started = true;
-    await say("いえの そとに でて、オーキドはかせを たずねよう。");
-    hideText();
+    const intro = regionById(player.region).intro;
+    if (intro !== undefined) {
+      await say(intro);
+      hideText();
+    }
     await autosave();
   })();
 

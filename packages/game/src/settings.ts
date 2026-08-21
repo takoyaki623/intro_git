@@ -27,10 +27,17 @@ import {
   SLOT,
 } from "./player.js";
 import { saveAvailable } from "./save.js";
+import { openFreeBattle } from "./screens.js";
 
 const when = (at: number): string => new Date(at).toLocaleString("ja-JP");
 
-export function settingsScreen(): void {
+/**
+ * セーブと設定。
+ *
+ * v0.10 でタブが消えたので、**ここが常設の出口になった**（main.ts）。
+ * `onClose` はマップへ戻る道 ―― 出口の無い画面を作らないための約束。
+ */
+export function settingsScreen(onClose: () => void): void {
   // 施設・トーナメントと同じ `#menu` に描く。
   // `#run` は連戦の進行表示（flex の1行）で、**文書を入れる場所ではない** ――
   // 一度そこへ描いて、見出しが段落の横に並ぶ画面になった
@@ -38,6 +45,7 @@ export function settingsScreen(): void {
 
   function render(slots: readonly SlotInfo[], available: boolean, note = ""): void {
     setScreen(`
+      <button class="back" id="settings-back">← もどる</button>
       <h2>セーブと せってい</h2>
       <p class="lead">${
         available
@@ -85,7 +93,19 @@ export function settingsScreen(): void {
         <button id="save-export">かきだす</button>
         <button id="save-import">よみこむ</button>
         <button id="save-reset" class="danger">さいしょから</button>
-      </p>`);
+      </p>
+
+      <h3>かいはつよう</h3>
+      <p class="dim">
+        ランダムな 3たい どうしの 1せん。**てもちが いなくても** エンジンの
+        ちょうしを たしかめられます（v0.3 からある いちばん ふるい あそびかた）。
+      </p>
+      <p><button id="free-battle">てあわせ（フリーバトル）</button></p>`);
+
+    $("#settings-back").onclick = () => {
+      $("#menu").classList.add("hidden");
+      onClose();
+    };
 
     $<HTMLSelectElement>("#set-speed").value = save.settings.battleSpeed;
     $<HTMLSelectElement>("#set-loss").value = save.settings.lossPenalty;
@@ -124,6 +144,10 @@ export function settingsScreen(): void {
       }
       loadPlayer(loaded);
       void saveStore().save(SLOT, loaded).then(() => refresh("よみこみました。「ぼうけん」で つづきから。"));
+    };
+
+    $("#free-battle").onclick = () => {
+      void openFreeBattle().then(() => refresh());
     };
 
     $("#save-reset").onclick = () => {

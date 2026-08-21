@@ -708,11 +708,13 @@
     "commands": [
       {
         "kind": "message",
-        "text": "てあわせ するかい?\nランダムな 3たい どうしの 1せんだ。",
-        "speaker": "たいかいスタッフ"
+        "speaker": "たいかいスタッフ",
+        "text": "エンジンの ちょうしを みるなら、\n「セーブ」の がめんに てあわせが あるよ。"
       },
       {
-        "kind": "openTournament"
+        "kind": "message",
+        "speaker": "たいかいスタッフ",
+        "text": "ランダムな 3たい どうしの 1せん。\nてもちが いなくても ためせる。"
       }
     ]
   },
@@ -792,6 +794,40 @@
       {
         "kind": "message",
         "text": "はりがみ\n\n「ちほうから ほかんこへ おくるのは いつでも できます。\nひきだせるのは ここだけです」"
+      }
+    ]
+  },
+  {
+    "id": "kanto.pallet.hub-gate",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "きょてんへ もどりますか?\nちほうの しんこうは そのまま のこります。",
+        "speaker": "ゲートけいび"
+      },
+      {
+        "kind": "choice",
+        "prompt": "きょてんへ もどる?",
+        "options": [
+          {
+            "text": "もどる",
+            "then": [
+              {
+                "kind": "returnToHub"
+              }
+            ]
+          },
+          {
+            "text": "やめる",
+            "then": [
+              {
+                "kind": "message",
+                "text": "いってらっしゃい。",
+                "speaker": "ゲートけいび"
+              }
+            ]
+          }
+        ]
       }
     ]
   }

@@ -1,33 +1,29 @@
 /**
- * v0.9 の入口。
+ * v0.10 の入口。
  *
- * 遊び方を切り替えるだけの薄い層。
- *   ぼうけん     … v0.7。マップを歩く。原作の遊び方の入口
- *   トーナメント … v0.6。歴代ネームドと戦う勝ち抜き。「誰と戦うか」が主役
- *   バトル施設   … v0.5 の連戦。「どう戦うか」が主役
- *   ネームド     … 収録済みのキャラ一覧
- *   フリーバトル … v0.3 からある、ランダムな3体どうしの1戦
- *   セーブ       … v0.9。保存の状態・設定・バックアップ
+ * **v0.9 まではモードタブだった。** 画面上部に「ぼうけん／トーナメント／
+ * バトルしせつ／ネームド／フリーバトル／セーブ」が並んでいて、
+ * どれを押しても別の画面になる ―― ゲームというより機能の一覧だった。
  *
- * セーブの実体は `player.ts` が1つだけ持つ。ここは起動時に読み込み、
- * 施設とトーナメントに渡すだけ ―― **同じセーブを2箇所が別々に持つと、
- * 後から書いた方が相手の記録を消す。**
+ * v0.10 でタブを捨て、**拠点マップ**に置き換えた。
+ * 施設もトーナメントも共通ボックスも、歩いて建物に入って受付に話しかける。
+ * 地方へもゲートから入る（ui-flow.md §3 のホーム画面を、場所として実装した）。
  *
- * 設計: docs/design/ui-flow.md / docs/design/endgame.md
+ * そのため、ここに残るのは3つだけになった。
+ *   1. 起動してセーブを読む
+ *   2. マップ画面を作る（居場所が変わったら作り直す）
+ *   3. **セーブ／設定への常設の出口**
+ *
+ * 3 を残すのは安全弁。マップが壊れた版を掴んだとき、
+ * **バックアップに辿り着けなくなるのがいちばん困る**（エクスポートが唯一の保険）。
  */
 
-import { createRng, type BattlePokemonSource, type SaveData } from "@pkmn/core";
-import { allFacilities, allMoves, allNamed, allSpecies, allTournaments } from "@pkmn/data";
-import { $, runBattle, setSpeed, waitForButton, type Speed } from "./battle-screen.js";
-import { cupMenu, namedList, playCup } from "./cup.js";
+import { allMoves, allNamed, allSpecies } from "@pkmn/data";
+import { $, setSpeed, type Speed } from "./battle-screen.js";
 import { playField, type FieldHandle } from "./field.js";
 import { loadPlayer, save, setSave, useStore, SLOT } from "./player.js";
 import { createLocalSaveStore } from "./save.js";
 import { settingsScreen } from "./settings.js";
-import { facilityMenu, playFacility } from "./tower.js";
-
-const LEVEL = 50;
-const TEAM_SIZE = 3;
 
 const store = createLocalSaveStore();
 useStore(store);
@@ -38,26 +34,21 @@ useStore(store);
 
 $("#app").innerHTML = `
   <header>
-    <h1>ポケモン風RPG <span class="ver">v0.9</span></h1>
+    <h1>ポケモン風RPG <span class="ver">v0.10</span></h1>
     <div class="tools">
       <div class="speed" id="speed">
         <button data-s="normal" class="on">つうじょう</button>
         <button data-s="fast">こうそく</button>
         <button data-s="logOnly">ログのみ</button>
       </div>
+      <button id="open-settings" class="pad-menu">セーブ</button>
     </div>
   </header>
-  <nav id="modes">
-    <button data-m="field" class="on">ぼうけん</button>
-    <button data-m="cup">トーナメント</button>
-    <button data-m="facility">バトル しせつ</button>
-    <button data-m="named">ネームド</button>
-    <button data-m="free">フリーバトル</button>
-    <button data-m="save">セーブ</button>
-  </nav>
   <main>
     <section id="run" class="hidden"></section>
-    <section id="menu"></section>
+    <!-- 画面の出口。#menu の外に置く（理由は下のコメント） -->
+    <button id="screen-back" class="back hidden"></button>
+    <section id="menu" class="hidden"></section>
     <div id="battle" class="hidden">
       <section id="field"></section>
       <section id="log"></section>
@@ -84,98 +75,40 @@ $("#speed").addEventListener("click", (e) => {
 });
 
 // ─────────────────────────────────────────────
-// フリーバトル（v0.3 からの遊び方）
+// マップ画面
 // ─────────────────────────────────────────────
 
-function randomTeam(seed: number, offset: number): BattlePokemonSource[] {
-  const rng = createRng({ s: (seed + offset * 7919) >>> 0 || 1, calls: 0 });
-  const pool = [...allSpecies];
-  const team: BattlePokemonSource[] = [];
-  for (let i = 0; i < TEAM_SIZE; i++) {
-    const species = pool.splice(rng.int(pool.length), 1)[0]!;
-    const moves = species.learnset
-      .filter((l) => l.level <= LEVEL)
-      .map((l) => l.move)
-      .slice(-4);
-    team.push({ species: species.id, level: LEVEL, moves });
-  }
-  return team;
-}
+/**
+ * 画面の出口（`#screen-back`）を **`#menu` の外**に置いてある理由。
+ *
+ * 中に置いたら、画面が描き直されるたびに消えた ――
+ * **BP交換所で1つ買った瞬間に出口が消え、拠点へ戻れなくなった。**
+ * タブがあった頃は、どこで詰まっても別のタブへ逃げられた。今は逃げ道がここだけなので、
+ * 描き直しに巻き込まれない場所に置く（screens.ts の `openScreen` が付け外しする）。
+ */
 
-async function freeBattle(): Promise<void> {
-  $("#menu").classList.add("hidden");
-  $("#run").classList.add("hidden");
-  let seed = 1;
-  while (mode === "free") {
-    await runBattle({
-      parties: [randomTeam(seed, 1), randomTeam(seed, 2)],
-      seed,
-      ai: "random",
-      headline: `しょうぶ かいし! (seed ${seed})`,
-    });
-    await waitForButton("もう いちど");
-    seed = Math.floor(Math.random() * 1_000_000);
-  }
-}
-
-// ─────────────────────────────────────────────
-// モード切り替え
-// ─────────────────────────────────────────────
-
-type Mode = "field" | "cup" | "facility" | "named" | "free" | "save";
-let mode: Mode = "field";
-
-/** マップ探索はキーボードを掴むので、モードを離れるときに必ず解放する。 */
+/** マップ探索はキーボードを掴むので、作り直す前に必ず解放する。 */
 let field: FieldHandle | null = null;
 
-const context = () => ({ save, store, onSaveChanged: (next: SaveData) => setSave(next) });
-
-const seed = () => Math.floor(Math.random() * 1_000_000);
-
-function showFacilityMenu(): void {
-  $("#run").classList.add("hidden");
-  facilityMenu(allFacilities, save, (facility) => {
-    void playFacility(facility, context(), seed()).then(() => {
-      if (mode === "facility") showFacilityMenu();
-    });
-  });
-}
-
-function showCupMenu(): void {
-  $("#run").classList.add("hidden");
-  cupMenu(allTournaments, save, (cup, tier) => {
-    void playCup(cup, tier, context(), seed()).then(() => {
-      if (mode === "cup") showCupMenu();
-    });
-  });
-}
-
-function show(next: Mode): void {
+/**
+ * マップ画面を作り直す。
+ *
+ * 地方へ入る／拠点へ戻ると**居場所ごと変わる**（位置・手持ち・フラグが一斉に入れ替わる）。
+ * 途中から書き換えるより作り直す方が安全なので、`field.ts` から呼んでもらう。
+ */
+function showField(): void {
   field?.stop();
   field = null;
-  mode = next;
-  if (next === "field") {
-    $("#menu").classList.add("hidden");
-    field = playField();
-  } else if (next === "cup") showCupMenu();
-  else if (next === "facility") showFacilityMenu();
-  else if (next === "named") {
-    $("#run").classList.add("hidden");
-    namedList();
-  } else if (next === "save") {
-    // マップ画面はモードを離れるたびに捨てている（`field = null`）ので、
-    // ここでセーブを読み込み直しても、「ぼうけん」に戻った時点で作り直される
-    settingsScreen();
-  } else void freeBattle();
+  $("#menu").classList.add("hidden");
+  field = playField(showField);
 }
 
-$("#modes").addEventListener("click", (e) => {
-  const target = e.target as HTMLElement;
-  const value = target.dataset["m"] as Mode | undefined;
-  if (value === undefined || value === mode) return;
-  for (const b of $("#modes").querySelectorAll("button")) b.classList.toggle("on", b === target);
-  show(value);
-});
+$("#open-settings").onclick = () => {
+  field?.stop();
+  field = null;
+  // 設定画面を閉じたら、そのときの居場所でマップを作り直す
+  settingsScreen(showField);
+};
 
 // ─────────────────────────────────────────────
 // 起動
@@ -189,5 +122,5 @@ void (async () => {
   for (const b of $("#speed").querySelectorAll("button")) {
     b.classList.toggle("on", b.dataset["s"] === save.settings.battleSpeed);
   }
-  show("field");
+  showField();
 })();

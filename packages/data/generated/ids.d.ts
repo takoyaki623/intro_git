@@ -6,7 +6,7 @@
  * 特性 48 / 道具 58 /
  * BattleSet 64 / 施設 2 /
  * ネームド 13 / カップ 3 /
- * マップ 12 / イベント 41 / トレーナー 3 /
+ * マップ 12 / イベント 42 / トレーナー 3 /
  * 出現テーブル 1 / ショップ 1 / 地方 9 /
  * フラグ 8
  */
@@ -672,6 +672,7 @@ export type GeneratedEventId =
   | "hub.tower.clerk"
   | "kanto.pallet.aide"
   | "kanto.pallet.bookshelf"
+  | "kanto.pallet.hub-gate"
   | "kanto.pallet.kid"
   | "kanto.pallet.mom"
   | "kanto.pallet.oak-block"

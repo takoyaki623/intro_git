@@ -497,6 +497,18 @@ select {
 .record th { width: 38%; color: var(--muted); font-weight: 600; }
 .record hr { border: 0; border-top: 1px solid var(--line); margin: 6px 0; }
 .save-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/*
+ * 画面の出口。**タブを消した以上、逃げ道はこれだけ**なので、
+ * どの画面でも同じ位置に、同じ見た目で出す。
+ */
+.back {
+  display: inline-block;
+  margin-bottom: 10px;
+  font-size: 13px;
+  padding: 7px 12px;
+}
+.back.hidden { display: none; }
 #menu .danger { color: #b5432f; }
 
 @media (max-width: 520px) {

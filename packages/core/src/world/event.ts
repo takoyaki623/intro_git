@@ -78,6 +78,7 @@ export type EventEffect =
   | { kind: "openBox" }
   | { kind: "openDex" }
   | { kind: "enterRegion"; region: RegionId }
+  | { kind: "returnToHub" }
   | { kind: "openFacility" }
   | { kind: "openTournament" }
   | { kind: "openStorage" }
@@ -98,6 +99,7 @@ const BLOCKING = new Set<EventEffect["kind"]>([
   "openDex",
   // 拠点（v0.10）。どれも別画面を開くので、閉じるまでイベントを止める
   "enterRegion",
+  "returnToHub",
   "openFacility",
   "openTournament",
   "openStorage",
@@ -242,6 +244,10 @@ const handlers: { [K in EventCommand["kind"]]: Handler } = {
   enterRegion: (c, _w, _r, effects) => {
     if (c.kind !== "enterRegion") return;
     effects.push({ kind: "enterRegion", region: c.region });
+  },
+
+  returnToHub: (_c, _w, _r, effects) => {
+    effects.push({ kind: "returnToHub" });
   },
 
   openFacility: (_c, _w, _r, effects) => {

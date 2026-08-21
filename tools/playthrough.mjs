@@ -211,8 +211,72 @@ async function goToMap(map, x, y, tries = 8) {
 const goTo = async (x, y) => goToMap((await spot()).map, x, y);
 
 
-// ── 1. 家から町へ ──
+/** 選択肢の1つ目を押しながら会話を流す（「はい」側）。 */
+async function accept(limit = 20) {
+  for (let i = 0; i < limit; i += 1) {
+    if (!(await talking())) return;
+    const buttons = await page.$$("#field-text .choices button");
+    if (buttons.length > 0) await buttons[0].click();
+    else await page.keyboard.press("z");
+    await page.waitForTimeout(230);
+  }
+}
+
+/** ゲートからカントーへ。**warp ではなくイベント**なので経路探索では跨げない。 */
+async function enterKanto() {
+  await goToMap("hub-plaza", 8, 13);
+  await key("ArrowDown", 2, 200);
+  await key("z", 1, 400);
+  await accept();
+  await page.waitForTimeout(700);
+}
+
+/** マサラタウンのゲートから拠点へ戻る。ゲートの南は海なので北から近づく。 */
+async function backToHub() {
+  await goToMap("kanto-pallet-town", 9, 10);
+  await key("ArrowDown", 2, 200);
+  await key("z", 1, 400);
+  await accept();
+  await page.waitForTimeout(700);
+}
+
+// ── 0. 拠点（v0.10）──
+//
+// v0.9 までは家の中から始まり、画面上部のタブで施設へ行けた。
+// v0.10 でタブが消え、**拠点マップが起点**になった。
 note("開始", await at());
+expect("拠点から始まる", (await spot()).map, "hub-plaza");
+await clear();
+await shot("0-hub");
+
+// 施設の受付。**建物に入って話しかける**形になっている
+await goToMap("hub-tower", 4, 3);
+expect("バトル施設に 入れた", (await spot()).map, "hub-tower");
+await talk("ArrowUp");
+await page.waitForTimeout(500);
+expect("施設の画面が 開いた", (await page.$("#screen-back")) ? "開いた" : "開かない", "開いた");
+expect(
+  "BP交換所も 同じ画面にある",
+  ((await page.textContent("#menu")) ?? "").includes("こうかんじょ") ? "ある" : "ない",
+  "ある",
+);
+await shot("0b-facility");
+await page.click("#screen-back");
+await page.waitForTimeout(500);
+expect("マップに もどれた", (await spot()).map, "hub-tower");
+
+// 共通ボックス。**拠点でだけ引き出せる**（capture.md §4.1）
+await goToMap("hub-depot", 2, 3);
+await talk("ArrowUp");
+await page.waitForTimeout(400);
+const hubBox = (await page.textContent("#field-panel")) ?? "";
+expect("拠点では ほかんこ が開く", hubBox.includes("ほかんこ") ? "開く" : "開かない", "開く");
+await page.click("#panel-close");
+await page.waitForTimeout(200);
+
+// ── 1. ゲートからカントーへ ──
+await enterKanto();
+expect("カントーに 入れた", (await spot()).map, "kanto-players-house-1f");
 await clear();
 await shot("1-house");
 await key("ArrowDown", 2, 250);
@@ -401,7 +465,7 @@ expect("リロードしても同じ手持ち", (await page.textContent("#field-p
 await shot("9-reloaded");
 
 // ── 8. セーブ画面。書き出したものが読み戻せるか ──
-await page.click('#modes button[data-m="save"]');
+await page.click("#open-settings");
 await page.waitForSelector("#save-export");
 await page.click("#save-export");
 const exported = await page.inputValue("#save-text");
@@ -414,7 +478,7 @@ expect(
 await shot("10-save");
 
 // 別の場所へ歩いてから、書き出したものを読み戻して元に戻るか
-await page.click('#modes button[data-m="field"]');
+await page.click("#settings-back");
 await page.waitForSelector("#field-canvas");
 await page.waitForTimeout(300);
 // **動いていなければ、読み戻しの検査は何も確かめていない。**
@@ -430,12 +494,12 @@ for (let i = 0; i < 6 && moved === beforeReload.at; i += 1) {
   moved = await at();
 }
 expect("読み戻す前に、ちゃんと べつの ばしょに いる", moved === beforeReload.at ? "同じ" : "ちがう", "ちがう");
-await page.click('#modes button[data-m="save"]');
+await page.click("#open-settings");
 await page.waitForSelector("#save-text");
 await page.fill("#save-text", exported);
 await page.click("#save-import");
 await page.waitForTimeout(900);
-await page.click('#modes button[data-m="field"]');
+await page.click("#settings-back");
 await page.waitForSelector("#field-canvas");
 await page.waitForTimeout(400);
 note("読み戻す前に歩いた先", moved);
@@ -446,7 +510,7 @@ await shot("11-imported");
 //
 // BP は施設を遊んで貯めるものなので、台本では**セーブを書き換えて**用意する。
 // エクスポート／インポートが本当に往復していることの確認にもなっている。
-await page.click('#modes button[data-m="save"]');
+await page.click("#open-settings");
 await page.waitForSelector("#save-export");
 await page.click("#save-export");
 const cheat = JSON.parse(await page.inputValue("#save-text"));
@@ -454,8 +518,15 @@ cheat.global.bp = 100;
 await page.fill("#save-text", JSON.stringify(cheat));
 await page.click("#save-import");
 await page.waitForTimeout(900);
+await page.click("#settings-back");
+await page.waitForSelector("#field-canvas");
+await page.waitForTimeout(400);
 
-await page.click('#modes button[data-m="facility"]');
+// 施設は拠点にある。**ゲートを通らないと行けない**（v0.10 でタブが消えた）
+await backToHub();
+expect("ゲートで 拠点に もどれた", (await spot()).map, "hub-plaza");
+await goToMap("hub-tower", 4, 3);
+await talk("ArrowUp");
 await page.waitForSelector("#bp-shop");
 const shopText = (await page.textContent("#bp-shop")) ?? "";
 expect("BP交換所に たべのこし が ある", shopText.includes("たべのこし") ? "ある" : "ない", "ある");
@@ -470,10 +541,12 @@ const bpAfter = (await page.textContent("#menu")) ?? "";
 expect("BP が 減った", bpAfter.includes("BP: 100") ? "減っていない" : "減った", "減った");
 await shot("13-bp");
 
-// 持ち物を持たせる（v0.5 から動いていた機構が、本編で初めて届く）
-await page.click('#modes button[data-m="field"]');
-await page.waitForSelector("#field-canvas");
-await page.waitForTimeout(300);
+// 持ち物を持たせる（v0.5 から動いていた機構が、本編で初めて届く）。
+// **手持ちはカントーに居る。** 拠点の手持ちは空なので、ゲートを通って戻る
+await page.click("#screen-back");
+await page.waitForTimeout(500);
+await enterKanto();
+expect("カントーに もどれた", (await spot()).map, (v) => v.startsWith("kanto-"));
 await page.click("#open-box");
 await page.waitForTimeout(300);
 await page.click("[data-hold]");
@@ -495,7 +568,7 @@ await page.waitForTimeout(200);
 // ── 10. 全滅したら復活地点へ戻る（v0.9-c）──
 //
 // **どこへ戻るかはセーブに入っている。** 家ではなく、最後に回復した場所。
-await page.click('#modes button[data-m="save"]');
+await page.click("#open-settings");
 await page.waitForSelector("#save-export");
 await page.click("#save-export");
 const weak = JSON.parse(await page.inputValue("#save-text"));
@@ -507,14 +580,16 @@ await page.fill("#save-text", JSON.stringify(weak));
 await page.click("#save-import");
 await page.waitForTimeout(900);
 
-await page.click('#modes button[data-m="field"]');
+await page.click("#settings-back");
 await page.waitForSelector("#field-canvas");
 await page.waitForTimeout(300);
 // 1番道路の草むらへ戻り、負けるまで戦う
 await goToMap("kanto-route-1", 4, 3);
+// HP1 でも勝ってしまうことがある（相手が変化技しか撃たない等）。
+// **負けるまで粘る**ので、歩数は多めに取る
 let lost = false;
-for (let i = 0; i < 30 && !lost; i += 1) {
-  await key(i % 2 === 0 ? "ArrowLeft" : "ArrowRight", 1, 190);
+for (let i = 0; i < 80 && !lost; i += 1) {
+  await key(i % 2 === 0 ? "ArrowLeft" : "ArrowRight", 1, 170);
   if (await page.isVisible("#battle")) {
     await fight();
     await page.waitForTimeout(800);
@@ -533,6 +608,26 @@ if (lost) {
   );
 }
 await shot("15-blackout");
+
+// ── 11. 拠点と地方を往復しても、進行が混ざらない（v0.10 の眼目）──
+//
+// **地方の進行は地方に、共通ボックスは拠点に。** 行き来しても混ざらない。
+// **出るときの場所が保存される。** 記録するのはゲートの前まで歩いた後
+await goToMap("kanto-pallet-town", 9, 10);
+const beforeTrip = { at: await at(), party: (await page.textContent("#field-party")).trim() };
+await backToHub();
+expect("拠点に もどれた", (await spot()).map, "hub-plaza");
+expect(
+  "拠点では 手持ちが 空",
+  (await page.textContent("#field-party")).trim(),
+  "てもち なし",
+);
+await enterKanto();
+// 向きは比べない。ゲートに向き直ってから出るので、保存されるのは「下向き」になる
+const place = (raw) => raw.split(" ").slice(0, 2).join(" ");
+expect("カントーの 続きから 始まる", place(await at()), place(beforeTrip.at));
+expect("手持ちも そのまま", (await page.textContent("#field-party")).trim(), beforeTrip.party);
+await shot("16-roundtrip");
 
 console.log(`\nスクリーンショット: ${SHOTS}`);
 console.log(errors.length === 0 ? "JS エラーなし" : `JS エラー ${errors.length} 件:\n${errors.join("\n")}`);
