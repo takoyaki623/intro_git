@@ -856,6 +856,30 @@ await shot("21-three-badges");
 //
 // **ジムの順番をイベントの条件だけで縛れているか**を確かめる区間。
 // ナツメ（ジム6）はバッジ5つまで挑めない ―― 警備員が通さない。
+// **ここから相手が Lv37〜43 になる。** §12 で持たせた技（かくとう・じめん・ほのお）では
+// キョウの ベトベトン と マタドガス を削り切れず、実際に負けて連鎖で全部落ちた。
+// 台本は機構を確かめるものなので、通る技に入れ替える
+await page.click("#open-settings");
+await page.waitForSelector("#save-export");
+await page.click("#save-export");
+const forLate = JSON.parse(await page.inputValue("#save-text"));
+for (const mon of Object.values(forLate.pokemon)) {
+  mon.exp = 900000;
+  mon.currentHp = 999;
+  mon.moves = [
+    { id: "earthquake", pp: 10 }, // どく・でんきに2倍
+    { id: "crunch", pp: 15 }, // エスパー・ゴーストに2倍
+    { id: "brick-break", pp: 15 }, // いわ・ノーマルに2倍
+  ];
+}
+await page.fill("#save-text", JSON.stringify(forLate));
+await page.click("#save-import");
+await page.waitForTimeout(900);
+await page.click("#settings-back");
+await page.waitForSelector("#field-canvas");
+await page.waitForTimeout(400);
+await drain();
+
 await goToMap("kanto-saffron-city", 5, 8, 80);
 expect("ヤマブキまで 行ける", (await spot()).map, "kanto-saffron-city");
 await talk("ArrowUp");
@@ -878,7 +902,10 @@ expect("エリカ戦の 決着", await fight(), "決着してマップに戻っ�
 await page.waitForTimeout(800);
 await drain(30);
 
-// キョウ（ジム5）
+// キョウ（ジム5）。**ジムの前にポケモンセンターへ寄る** ―― 人がやることと同じ
+await goToMap("kanto-fuchsia-pokecenter", 4, 3, 80);
+await talk("ArrowUp");
+await drain();
 await goToMap("kanto-fuchsia-gym", 4, 2, 80);
 expect("セキチクジムまで 行ける", (await spot()).map, "kanto-fuchsia-gym");
 await talk("ArrowUp");
@@ -891,6 +918,12 @@ await shot("23-five-badges");
 
 // バッジ5つになったので、警備員が通す
 await goToMap("kanto-saffron-city", 5, 8, 80);
+await talk("ArrowUp");
+await drain(6);
+await goToMap("kanto-saffron-pokecenter", 4, 3, 40);
+await talk("ArrowUp");
+await drain();
+await goToMap("kanto-saffron-city", 5, 8, 40);
 await talk("ArrowUp");
 await drain(6);
 await goToMap("kanto-saffron-gym", 4, 2, 20);
