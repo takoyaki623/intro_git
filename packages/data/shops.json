@@ -23,5 +23,45 @@
       "paralyze-heal",
       "awakening"
     ]
+  },
+  {
+    "id": "kanto-mart-1",
+    "name": "フレンドリィショップ",
+    "items": [
+      "poke-ball",
+      "potion",
+      "antidote",
+      "paralyze-heal",
+      "awakening"
+    ]
+  },
+  {
+    "id": "kanto-mart-2",
+    "name": "フレンドリィショップ",
+    "items": [
+      "poke-ball",
+      "great-ball",
+      "potion",
+      "super-potion",
+      "antidote",
+      "paralyze-heal",
+      "burn-heal",
+      "ice-heal",
+      "awakening"
+    ]
+  },
+  {
+    "id": "kanto-mart-3",
+    "name": "フレンドリィショップ",
+    "items": [
+      "great-ball",
+      "ultra-ball",
+      "super-potion",
+      "hyper-potion",
+      "full-heal",
+      "revive",
+      "antidote",
+      "paralyze-heal"
+    ]
   }
 ]

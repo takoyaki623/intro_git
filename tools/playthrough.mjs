@@ -175,7 +175,11 @@ function route(from, to) {
  * 目的地まで歩く。マップをまたいでもよい。
  * 途中で野生に会ったら戦い、位置がずれたら経路を引き直す。
  */
-async function goToMap(map, x, y, tries = 8) {
+/**
+ * `tries` は「引き直す回数」。**野生に出くわすたびに1回消える**ので、
+ * 洞窟のような長い道では既定では足りない（v0.12-b でおつきみやまが越えられなかった）。
+ */
+async function goToMap(map, x, y, tries = 20) {
   for (let attempt = 0; attempt < tries; attempt += 1) {
     const from = await spot();
     if (from.map === map && from.x === x && from.y === y) return from;
@@ -186,6 +190,7 @@ async function goToMap(map, x, y, tries = 8) {
       return from;
     }
     let drifted = false;
+    let before = from;
     for (const step of path) {
       await key(step.key, 1, 175);
       // **視線バトルは会話から始まる**（v0.12）。会話が開いたままだと
@@ -204,9 +209,23 @@ async function goToMap(map, x, y, tries = 8) {
       const now = await spot();
       // 全滅で飛ばされた・向き直りで進まなかった等。引き直す
       if (now.map !== step.node.map || now.x !== step.node.x || now.y !== step.node.y) {
+        // **条件つきのオブジェクトは経路探索では素通りできる**（消える前提）。
+        // だが実際には塞いでいるので、ぶつかったら話しかける ―― 人がやることと同じ。
+        // v0.12-b でおつきみやまのやまおとこに永久にぶつかり続けて気づいた
+        if (now.map === before.map && now.x === before.x && now.y === before.y) {
+          await page.keyboard.press("z");
+          await page.waitForTimeout(300);
+          if (await talking()) await drain();
+          if (await page.isVisible("#battle")) {
+            await fight();
+            await page.waitForTimeout(800);
+            await drain();
+          }
+        }
         drifted = true;
         break;
       }
+      before = now;
     }
     if (!drifted) return spot();
   }
@@ -759,6 +778,69 @@ expect("バッジが セーブに 入る", afterGym.regions.kanto.badges, 1);
 expect("タケシ撃破が 記録される", afterGym.regions.kanto.flags["kanto.pewter.brock-beaten"], true);
 await page.click("#settings-back");
 await page.waitForSelector("#field-canvas");
+
+// ── 13. ハナダ・クチバまで通す（v0.12-b の眼目）──
+//
+// **ここはコードを1行も足していない区間。** 町を2つとジムを2つ、
+// データだけで足せたかどうかを、実際に歩いて確かめる。
+await goToMap("kanto-cerulean-gym", 4, 8, 60);
+expect("ハナダジムまで 行ける", (await spot()).map, "kanto-cerulean-gym");
+await goToMap("kanto-cerulean-gym", 4, 2);
+await talk("ArrowUp");
+await drain(8);
+expect("カスミに いどめる", (await page.isVisible("#battle")) ? "いどめた" : "いどめない", "いどめた");
+expect("カスミ戦の 決着", await fight(), "決着してマップに戻った");
+await page.waitForTimeout(800);
+await drain(30);
+await shot("19-misty");
+
+// **バッジの数でショップの品揃えが変わる**（イベントの if だけで作った）
+// 店員は (2,2)。真下から話しかける。
+// **`talk()` は使わない** ―― あれは最後に `drain()` するが、`drain()` は
+// 選択肢の**いちばん下**（＝「やめる」）を押すので、開いた瞬間に店を閉じてしまう。
+// 品揃えは `#menu` ではなく**会話枠の選択肢**として出る（field.ts の openShop）
+await goToMap("kanto-cerulean-mart", 2, 3, 40);
+note("ショップの前", await at());
+await key("ArrowUp", 2, 200);
+await key("z", 1, 400);
+for (let i = 0; i < 4 && !(await page.isVisible("#field-text .choices")); i += 1) {
+  await page.keyboard.press("z");
+  await page.waitForTimeout(260);
+}
+const badgeShelf = (await page.textContent("#field-text")) ?? "";
+note("ショップの品ぞろえ", badgeShelf.trim().replace(/\s+/g, " ").slice(0, 100));
+expect(
+  "バッジ2つで いい ボールが ならぶ",
+  badgeShelf.includes("スーパーボール") ? "ならんだ" : "ならばない",
+  "ならんだ",
+);
+expect(
+  "バッジ4つの しなは まだ ならばない",
+  badgeShelf.includes("ハイパーボール") ? "ならんでいる" : "ならばない",
+  "ならばない",
+);
+await shot("20-badge-shop");
+await drain();
+
+// クチバまで
+await goToMap("kanto-vermilion-gym", 4, 8, 60);
+expect("クチバジムまで 行ける", (await spot()).map, "kanto-vermilion-gym");
+await goToMap("kanto-vermilion-gym", 4, 2);
+await talk("ArrowUp");
+await drain(8);
+expect("マチスに いどめる", (await page.isVisible("#battle")) ? "いどめた" : "いどめない", "いどめた");
+expect("マチス戦の 決着", await fight(), "決着してマップに戻った");
+await page.waitForTimeout(800);
+await drain(30);
+
+await page.click("#open-settings");
+await page.waitForSelector("#save-export");
+await page.click("#save-export");
+const threeBadges = JSON.parse(await page.inputValue("#save-text"));
+expect("バッジが 3つに なる", threeBadges.regions.kanto.badges, 3);
+await page.click("#settings-back");
+await page.waitForSelector("#field-canvas");
+await shot("21-three-badges");
 
 console.log(`\nスクリーンショット: ${SHOTS}`);
 console.log(errors.length === 0 ? "JS エラーなし" : `JS エラー ${errors.length} 件:\n${errors.join("\n")}`);

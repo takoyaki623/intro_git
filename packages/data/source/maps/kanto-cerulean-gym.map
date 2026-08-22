@@ -1,0 +1,32 @@
+# ハナダジム。**水の上は通れない**ので、通路が細くなる。
+# 視線が水路の向こうに届かないのが、この部屋の骨格。
+id: kanto-cerulean-gym
+name: ハナダジム
+region: kanto
+bgm: gym
+
+legend:
+. normal
+W !normal
+~ !water
+D normal
+
+grid:
+WWWWWWWWW
+W.......W
+W.~~.~~.W
+W.~~.~~.W
+W.......W
+W.~~.~~.W
+W.~~.~~.W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,9 step kanto-cerulean-city 5,4 down
+
+objects:
+cerulean-gym-jr 1,7 trainer:kanto-cerulean-gym-jr:3:right kanto.cerulean.gym-jr if:kanto.cerulean.gym-jr-beaten=false
+cerulean-misty 4,1 npc:leader:static kanto.cerulean.misty
+cerulean-gym-sign 7,8 sign kanto.cerulean.gym-sign

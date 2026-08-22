@@ -183,5 +183,295 @@
         ]
       }
     ]
+  },
+  {
+    "id": "kanto-route3-lass",
+    "name": "ミナミ",
+    "class": "ミニスカート",
+    "reward": 192,
+    "defeatedFlag": "kanto.route3.lass-beaten",
+    "party": [
+      {
+        "species": "pidgey",
+        "level": 9,
+        "moves": [
+          "tackle",
+          "sand-attack"
+        ]
+      },
+      {
+        "species": "nidoran-f",
+        "level": 9,
+        "moves": [
+          "scratch",
+          "growl"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route3-youngster",
+    "name": "タカシ",
+    "class": "たんぱんこぞう",
+    "reward": 208,
+    "defeatedFlag": "kanto.route3.youngster-beaten",
+    "party": [
+      {
+        "species": "rattata",
+        "level": 10,
+        "moves": [
+          "tackle",
+          "tail-whip"
+        ]
+      },
+      {
+        "species": "spearow",
+        "level": 10,
+        "moves": [
+          "peck",
+          "growl"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-moon-hiker",
+    "name": "イワオ",
+    "class": "やまおとこ",
+    "reward": 352,
+    "defeatedFlag": "kanto.moon.hiker-beaten",
+    "party": [
+      {
+        "species": "geodude",
+        "level": 11,
+        "moves": [
+          "tackle",
+          "rock-throw"
+        ]
+      },
+      {
+        "species": "onix",
+        "level": 11,
+        "moves": [
+          "rock-throw",
+          "harden"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-moon-rocket",
+    "name": "ロケットだん",
+    "class": "したっぱ",
+    "reward": 432,
+    "defeatedFlag": "kanto.moon.rocket-beaten",
+    "party": [
+      {
+        "species": "rattata",
+        "level": 13,
+        "moves": [
+          "hyper-fang",
+          "tail-whip"
+        ]
+      },
+      {
+        "species": "zubat",
+        "level": 13,
+        "moves": [
+          "leech-life",
+          "supersonic"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route4-bug",
+    "name": "ユウジ",
+    "class": "むしとりしょうねん",
+    "reward": 240,
+    "defeatedFlag": "kanto.route4.bug-beaten",
+    "party": [
+      {
+        "species": "butterfree",
+        "level": 12,
+        "moves": [
+          "confusion",
+          "gust"
+        ]
+      },
+      {
+        "species": "beedrill",
+        "level": 12,
+        "moves": [
+          "twineedle",
+          "string-shot"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-cerulean-gym-jr",
+    "name": "サチコ",
+    "class": "ジムトレーナー",
+    "reward": 600,
+    "defeatedFlag": "kanto.cerulean.gym-jr-beaten",
+    "party": [
+      {
+        "species": "goldeen",
+        "level": 16,
+        "moves": [
+          "water-gun",
+          "horn-attack"
+        ]
+      },
+      {
+        "species": "psyduck",
+        "level": 16,
+        "moves": [
+          "water-gun",
+          "confusion"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-misty",
+    "name": "カスミ",
+    "class": "ジムリーダー",
+    "reward": 2079,
+    "defeatedFlag": "kanto.cerulean.misty-beaten",
+    "party": [
+      {
+        "species": "staryu",
+        "level": 18,
+        "moves": [
+          "water-gun",
+          "harden",
+          "swift"
+        ]
+      },
+      {
+        "species": "starmie",
+        "level": 21,
+        "moves": [
+          "water-gun",
+          "bubble-beam",
+          "swift",
+          "recover"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route5-hiker",
+    "name": "ゴロウ",
+    "class": "やまおとこ",
+    "reward": 480,
+    "defeatedFlag": "kanto.route5.hiker-beaten",
+    "party": [
+      {
+        "species": "machop",
+        "level": 15,
+        "moves": [
+          "karate-chop",
+          "low-sweep"
+        ]
+      },
+      {
+        "species": "geodude",
+        "level": 15,
+        "moves": [
+          "rock-throw",
+          "tackle"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route6-camper",
+    "name": "ケイタ",
+    "class": "キャンプボーイ",
+    "reward": 512,
+    "defeatedFlag": "kanto.route6.camper-beaten",
+    "party": [
+      {
+        "species": "nidoran-m",
+        "level": 16,
+        "moves": [
+          "peck",
+          "leer"
+        ]
+      },
+      {
+        "species": "sandshrew",
+        "level": 16,
+        "moves": [
+          "scratch",
+          "sand-attack"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-vermilion-gym-jr",
+    "name": "デンジ",
+    "class": "ジムトレーナー",
+    "reward": 800,
+    "defeatedFlag": "kanto.vermilion.gym-jr-beaten",
+    "party": [
+      {
+        "species": "voltorb",
+        "level": 21,
+        "moves": [
+          "spark",
+          "screech"
+        ]
+      },
+      {
+        "species": "magnemite",
+        "level": 21,
+        "moves": [
+          "thunder-shock",
+          "supersonic"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-surge",
+    "name": "マチス",
+    "class": "ジムリーダー",
+    "reward": 2772,
+    "defeatedFlag": "kanto.vermilion.surge-beaten",
+    "party": [
+      {
+        "species": "voltorb",
+        "level": 21,
+        "moves": [
+          "spark",
+          "screech",
+          "thunder-wave"
+        ]
+      },
+      {
+        "species": "pikachu",
+        "level": 18,
+        "moves": [
+          "thunder-shock",
+          "quick-attack",
+          "thunder-wave"
+        ]
+      },
+      {
+        "species": "raichu",
+        "level": 24,
+        "moves": [
+          "thunderbolt",
+          "thunder-wave",
+          "quick-attack",
+          "body-slam"
+        ]
+      }
+    ]
   }
 ]

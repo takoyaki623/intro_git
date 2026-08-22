@@ -112,5 +112,211 @@
         "rate": 15
       }
     ]
+  },
+  {
+    "id": "kanto-route-3-grass",
+    "method": "grass",
+    "entries": [
+      {
+        "species": "pidgey",
+        "levelRange": [
+          6,
+          8
+        ],
+        "rate": 25
+      },
+      {
+        "species": "rattata",
+        "levelRange": [
+          6,
+          8
+        ],
+        "rate": 25
+      },
+      {
+        "species": "spearow",
+        "levelRange": [
+          6,
+          8
+        ],
+        "rate": 25
+      },
+      {
+        "species": "jigglypuff",
+        "levelRange": [
+          6,
+          7
+        ],
+        "rate": 15
+      },
+      {
+        "species": "nidoran-m",
+        "levelRange": [
+          6,
+          8
+        ],
+        "rate": 10
+      }
+    ]
+  },
+  {
+    "id": "kanto-mt-moon-cave",
+    "method": "cave",
+    "entries": [
+      {
+        "species": "zubat",
+        "levelRange": [
+          7,
+          10
+        ],
+        "rate": 45
+      },
+      {
+        "species": "geodude",
+        "levelRange": [
+          7,
+          10
+        ],
+        "rate": 30
+      },
+      {
+        "species": "paras",
+        "levelRange": [
+          8,
+          10
+        ],
+        "rate": 15
+      },
+      {
+        "species": "clefairy",
+        "levelRange": [
+          8,
+          10
+        ],
+        "rate": 10
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-4-grass",
+    "method": "grass",
+    "entries": [
+      {
+        "species": "rattata",
+        "levelRange": [
+          8,
+          12
+        ],
+        "rate": 30
+      },
+      {
+        "species": "spearow",
+        "levelRange": [
+          8,
+          12
+        ],
+        "rate": 30
+      },
+      {
+        "species": "ekans",
+        "levelRange": [
+          8,
+          12
+        ],
+        "rate": 20
+      },
+      {
+        "species": "sandshrew",
+        "levelRange": [
+          8,
+          12
+        ],
+        "rate": 20
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-5-grass",
+    "method": "grass",
+    "entries": [
+      {
+        "species": "pidgey",
+        "levelRange": [
+          10,
+          14
+        ],
+        "rate": 30
+      },
+      {
+        "species": "oddish",
+        "levelRange": [
+          10,
+          14
+        ],
+        "rate": 25
+      },
+      {
+        "species": "bellsprout",
+        "levelRange": [
+          10,
+          14
+        ],
+        "rate": 25
+      },
+      {
+        "species": "meowth",
+        "levelRange": [
+          10,
+          14
+        ],
+        "rate": 20
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-6-grass",
+    "method": "grass",
+    "entries": [
+      {
+        "species": "pidgey",
+        "levelRange": [
+          11,
+          14
+        ],
+        "rate": 25
+      },
+      {
+        "species": "oddish",
+        "levelRange": [
+          11,
+          14
+        ],
+        "rate": 20
+      },
+      {
+        "species": "bellsprout",
+        "levelRange": [
+          11,
+          14
+        ],
+        "rate": 20
+      },
+      {
+        "species": "meowth",
+        "levelRange": [
+          11,
+          14
+        ],
+        "rate": 20
+      },
+      {
+        "species": "mankey",
+        "levelRange": [
+          11,
+          14
+        ],
+        "rate": 15
+      }
+    ]
   }
 ]

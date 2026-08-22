@@ -26,7 +26,7 @@ T..GGDG......T
 T............T
 T.......PPPP.T
 T.......PPDP.T
-T............T
+T.............
 T.......FFFF.T
 T.......FFDF.T
 T............T
@@ -37,6 +37,7 @@ warps:
 10,10 step kanto-pewter-pokecenter 4,5 up
 10,13 step kanto-pewter-mart 4,5 up
 7,15 step kanto-route-2-north 4,1 down
+13,11 step kanto-route-3 1,5 right
 
 objects:
 pewter-sign-gym 4,8 sign kanto.pewter.sign-gym

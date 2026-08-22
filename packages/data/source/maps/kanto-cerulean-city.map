@@ -1,0 +1,46 @@
+# ハナダシティ。ジム2（カスミ）。町の東に川が流れている。
+id: kanto-cerulean-city
+name: ハナダシティ
+region: kanto
+bgm: cerulean-city
+
+legend:
+. normal
+T !normal
+G !normal
+P !normal
+F !normal
+H !normal
+D normal
+~ !water
+
+grid:
+T.TTTTTTTTTTTT
+T............T
+T..GGGG......T
+T..GGDG......T
+T............T
+T............T
+T.......PPPP.T
+T.......PPDP.T
+T............T
+T..HHH.......T
+T..HDH....~~~T
+T.........~~~T
+T..FFFF...~~~T
+T..FFDF...~~~T
+T............T
+TTTTTTT.TTTTTT
+
+warps:
+1,0 step kanto-route-4 10,7 down
+5,3 step kanto-cerulean-gym 4,8 up
+10,7 step kanto-cerulean-pokecenter 4,5 up
+5,13 step kanto-cerulean-mart 4,5 up
+4,10 step kanto-cerulean-house 3,4 up
+7,15 step kanto-route-5 5,1 down
+
+objects:
+cerulean-sign-gym 4,4 sign kanto.cerulean.sign-gym
+cerulean-girl 9,4 npc:lass:static kanto.cerulean.girl
+cerulean-fisher 9,11 npc:fisher:static kanto.cerulean.fisher

@@ -1,0 +1,41 @@
+# クチバシティ。ジム3（マチス）。港町なので南が海。
+id: kanto-vermilion-city
+name: クチバシティ
+region: kanto
+bgm: vermilion-city
+
+legend:
+. normal
+T !normal
+G !normal
+P !normal
+F !normal
+D normal
+~ !water
+
+grid:
+TTTTTTT.TTTTTT
+T............T
+T..PPPP......T
+T..PPDP......T
+T............T
+T.......FFFF.T
+T.......FFDF.T
+T............T
+T..GGGG......T
+T..GGDG......T
+T............T
+T~~~~~~~~~~~~T
+T~~~~~~~~~~~~T
+TTTTTTTTTTTTTT
+
+warps:
+7,0 step kanto-route-6 5,7 up
+5,3 step kanto-vermilion-pokecenter 4,5 up
+10,6 step kanto-vermilion-mart 4,5 up
+5,9 step kanto-vermilion-gym 4,8 up
+
+objects:
+vermilion-sign-gym 4,10 sign kanto.vermilion.sign-gym
+vermilion-sailor 9,10 npc:sailor:static kanto.vermilion.sailor
+vermilion-boy 9,1 npc:youngster:static kanto.vermilion.boy

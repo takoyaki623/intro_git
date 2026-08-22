@@ -1,0 +1,28 @@
+# ハナダシティのポケモンセンター。
+id: kanto-cerulean-pokecenter
+name: ポケモンセンター
+region: kanto
+bgm: pokecenter
+
+legend:
+. normal
+W !normal
+S !normal
+C !normal
+D normal
+
+grid:
+WWWWWWWWW
+WSSSSS..W
+W.......W
+W.....CCW
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,6 step kanto-cerulean-city 10,8 down
+
+objects:
+cerulean-nurse 4,2 npc:nurse:static kanto.cerulean.nurse
+cerulean-center-pc 7,4 npc:machine:static kanto.cerulean.center-pc

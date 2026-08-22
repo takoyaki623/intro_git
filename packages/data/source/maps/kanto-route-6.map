@@ -1,0 +1,30 @@
+# 6番道路。クチバシティの北。ここを抜けると港町に出る。
+id: kanto-route-6
+name: 6ばんどうろ
+region: kanto
+encounters: kanto-route-6-grass
+bgm: route-6
+
+legend:
+. normal
+, grass
+T !normal
+
+grid:
+TTTTT.TTTTT
+T.........T
+T....,,,..T
+T....,,,..T
+T.........T
+T..,,,....T
+T..,,,....T
+T.........T
+TTTTT.TTTTT
+
+warps:
+5,0 step kanto-route-5 5,7 up
+5,8 step kanto-vermilion-city 7,1 down
+
+objects:
+route6-sign 3,1 sign kanto.route6.sign
+route6-camper 5,4 trainer:kanto-route6-camper:3:down kanto.route6.camper if:kanto.route6.camper-beaten=false

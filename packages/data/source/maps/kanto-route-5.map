@@ -1,0 +1,31 @@
+# 5番道路。ハナダシティの南。**段差で一方通行**になっていて、北へ戻るには町を回る。
+id: kanto-route-5
+name: 5ばんどうろ
+region: kanto
+encounters: kanto-route-5-grass
+bgm: route-5
+
+legend:
+. normal
+, grass
+T !normal
+= ledge
+
+grid:
+TTTTT.TTTTT
+T.........T
+T..,,,....T
+T..,,,....T
+T.........T
+T...====..T
+T.........T
+T.........T
+TTTTT.TTTTT
+
+warps:
+5,0 step kanto-cerulean-city 7,14 up
+5,8 step kanto-route-6 5,1 down
+
+objects:
+route5-sign 3,7 sign kanto.route5.sign
+route5-hiker 8,3 trainer:kanto-route5-hiker:2:left kanto.route5.hiker if:kanto.route5.hiker-beaten=false

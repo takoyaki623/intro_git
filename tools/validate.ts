@@ -25,6 +25,8 @@ import {
   type EventCommand,
   type HeldEffect,
   type MapData,
+  type MapObject,
+  type Warp,
   type Move,
   type Species,
   type TierId,
@@ -1286,12 +1288,94 @@ function checkWorld(): void {
   // ── #55・#56 到達不能な区画と、話しかけられないオブジェクト ──
   for (const map of allMaps) checkReachability(map, mapById);
 
+  // ── #80 地方の入口から、その地方の全マップに歩いて行けること（v0.12-b）──
+  checkRegionConnectivity();
+
   // ── #57・#58 使われていない宣言（警告）──
   for (const flag of declaredFlags) {
     if (!usedFlags.has(flag)) warn("flag-unused", `フラグ "${flag}" を誰も使っていない`);
   }
   for (const event of allEvents) {
     if (!usedEvents.has(event.id)) warn("event-unused", `イベント "${event.id}" を誰も呼ばない`);
+  }
+}
+
+/**
+ * 地方まるごとの到達可能性（v0.12-b）。
+ *
+ * #55 は**1枚のマップの中**しか見ていなかった。
+ * おつきみやまを足したとき、7行目の壁が右まで届いていて
+ * **南半分が丸ごと切れていた**が、そこは「到達できないマス」ではなく
+ * 「行き止まりだが繋がっている区画」だったので #55 を素通りした。
+ * 気づいたのは、台本が「経路なし」と言ったときだった。
+ *
+ * ここでは地方の入口（`regions.json` の `start`）から踏む warp を辿り、
+ * **その地方のマップに1枚も取り残しが無いこと**を見る。
+ */
+function checkRegionConnectivity(): void {
+  const byId = new Map(allMaps.map((m) => [m.id, m]));
+  const mapOf = (id: string): MapData => {
+    const found = byId.get(id);
+    if (found === undefined) throw new Error(`マップ ${id} が無い`);
+    return found;
+  };
+
+  for (const region of allRegions) {
+    if (region.start === undefined) continue;
+    const inRegion = allMaps.filter((m) => m.region === region.id);
+    const key = (map: string, x: number, y: number) => `${map}|${x},${y}`;
+
+    const seen = new Set<string>([key(region.start.map, region.start.x, region.start.y)]);
+    const reached = new Set<string>();
+    const queue = [{ map: region.start.map, x: region.start.x, y: region.start.y }];
+
+    while (queue.length > 0) {
+      const here = queue.shift()!;
+      reached.add(here.map);
+      const map = mapOf(here.map);
+      for (const [dx, dy] of [[0, -1], [0, 1], [-1, 0], [1, 0]] as const) {
+        let nx = here.x + dx;
+        let ny = here.y + dy;
+        if (nx < 0 || ny < 0 || nx >= map.size.width || ny >= map.size.height) continue;
+        // 段差は下方向にしか越えられない
+        if (map.terrain[ny * map.size.width + nx] === "ledge") {
+          if (dy !== 1) continue;
+          nx += dx;
+          ny += dy;
+          if (nx < 0 || ny < 0 || nx >= map.size.width || ny >= map.size.height) continue;
+        }
+        if (map.collision[ny * map.size.width + nx] === true) continue;
+        // **条件つきのオブジェクトは塞いでいないものとして扱う。**
+        // 進行で消えるものを壁として数えると、開通済みの道まで閉じてしまう
+        if (
+          map.objects.some(
+            (o: MapObject) =>
+              o.at.x === nx && o.at.y === ny && o.kind.type !== "item" && o.condition === undefined,
+          )
+        ) {
+          continue;
+        }
+        const warp = map.warps.find(
+          (w: Warp) => w.at.x === nx && w.at.y === ny && w.trigger === "step",
+        );
+        const next = warp === undefined
+          ? { map: here.map, x: nx, y: ny }
+          : { map: warp.to.map, x: warp.to.x, y: warp.to.y };
+        const id = key(next.map, next.x, next.y);
+        if (seen.has(id)) continue;
+        seen.add(id);
+        queue.push(next);
+      }
+    }
+
+    for (const map of inRegion) {
+      if (!reached.has(map.id)) {
+        fail(
+          "region-connectivity",
+          `${region.id}: ${map.id} へ ${region.start.map} から歩いて行けない`,
+        );
+      }
+    }
   }
 }
 
