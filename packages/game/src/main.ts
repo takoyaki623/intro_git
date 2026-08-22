@@ -36,7 +36,7 @@ useStore(store);
 
 $("#app").innerHTML = `
   <header>
-    <h1>ポケモン風RPG <span class="ver">v0.11</span></h1>
+    <h1>ポケモン風RPG <span class="ver">v0.11.5</span></h1>
     <div class="tools">
       <div class="speed" id="speed">
         <button data-s="normal" class="on">つうじょう</button>

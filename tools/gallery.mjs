@@ -50,17 +50,17 @@ const escape = (s) =>
   String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
 let bytes = 0;
-const sheet = places
+const sheetOf = (rows) => rows
   .map((place) => {
     const phone = dataUri(`${place.file}-phone.png`);
     const wide = dataUri(`${place.file}-wide.png`);
     bytes += phone.length + wide.length;
     const [map, x, y] = place.to;
+    const slug = map === "—"
+      ? `<span class="id">${escape(place.file)}</span>`
+      : `<span class="id">${escape(map)}</span><span class="at">${escape(x)},${escape(y)}</span>`;
     return `      <figure class="shot">
-        <div class="slug">
-          <span class="id">${escape(map)}</span>
-          <span class="at">${escape(x)},${escape(y)}</span>
-        </div>
+        <div class="slug">${slug}</div>
         <div class="frame">
           <img class="phone" src="${phone}" alt="${escape(place.name)}（スマホ幅）" loading="lazy" />
           <img class="wide" src="${wide}" alt="${escape(place.name)}（広い幅）" loading="lazy" />
@@ -72,6 +72,9 @@ const sheet = places
       </figure>`;
   })
   .join("\n");
+
+const maps = sheetOf(places.filter((p) => p.group !== "画面"));
+const screens = sheetOf(places.filter((p) => p.group === "画面"));
 
 const legend = tileHints()
   .map(
@@ -86,7 +89,7 @@ const legend = tileHints()
 
 const stamp = new Date().toISOString().slice(0, 16).replace("T", " ");
 
-const html = `<title>v0.10.5 描画チェックシート</title>
+const html = `<title>v0.11.5 描画チェックシート</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link
@@ -305,8 +308,10 @@ const html = `<title>v0.10.5 描画チェックシート</title>
 
 <header>
   <div class="bar">
-    <h1>v0.10.5 ― マップ描画の見た目チェック</h1>
-    <p class="meta">${places.length} PLACES / SHOT ${stamp} UTC</p>
+    <h1>v0.11.5 ― 見た目チェック</h1>
+    <p class="meta">${places.filter((p) => p.group === "画面").length} SCREENS / ${
+      places.filter((p) => p.group !== "画面").length
+    } PLACES / SHOT ${stamp} UTC</p>
     <div class="switch">
       <button type="button" data-set="phone" aria-pressed="true">スマホ幅 420px</button>
       <button type="button" data-set="wide" aria-pressed="false">広い幅 900px</button>
@@ -320,20 +325,36 @@ const html = `<title>v0.10.5 描画チェックシート</title>
       <b>見た目に自動判定は無い。</b>撮って並べて目で見るしかないので、見るための道具の方を作った。
     </p>
     <p>
-      この版で変えたのは3つ。<b>オートタイル</b>（隣が同じ種類かを見て、縁と角を描き分ける）、
-      <b>建物のまとまり描画</b>（同じ文字の塊を1棟として見つけ、屋根・壁・窓・軒に分ける）、
-      <b>足元の影とピクセル単位のカメラ</b>。
+      <b>v0.11.5（見た目②）で変えたのはバトル画面と UI 全体。</b>
+      いちばん効いたのは演出を足したことではなく、
+      <b>バトル画面が毎イベント作り直されていたのをやめた</b>こと ――
+      作り直している限り、HPバーの補間も揺れも、始まった瞬間に要素ごと消えていた。
+      その上で、技を出したら前に出る／被弾で揺れる（ばつぐんと急所は強く）／
+      ひんしで落ちる／タイプ色が場を1瞬染める、を足した。
     </p>
     <p>
+      <b>この写真では書体が本来のものではない。</b>
+      見出しと会話には Google Fonts の DotGothic16 を指定してあるが、
+      撮影環境から fonts.googleapis.com へ出られないため、フォールバックの和文ゴシックで写っている。
+      （フォールバックでも成立するように積んであるので、これはこれで想定どおりの姿）
+    </p>
+    <p>
+      v0.10.5（見た目①）で入れたマップ側は<b>オートタイル</b>・
+      <b>建物のまとまり描画</b>・<b>足元の影</b>。
       <b>データは1文字も変えていない。</b>絵も1枚も足していない ――
       公式素材はこの公開リポジトリに入れられないので（game-plan.md §10）、
-      既定は「コードで描く」のまま。手元でだけ素材に差し替えられる口を別に用意してある。
+      既定は「コードで描く」のまま。
     </p>
+  </div>
+
+  <h2>Screens</h2>
+  <div class="sheet">
+${screens}
   </div>
 
   <h2>Places</h2>
   <div class="sheet">
-${sheet}
+${maps}
   </div>
 
   <h2>Tile legend</h2>

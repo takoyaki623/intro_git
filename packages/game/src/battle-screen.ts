@@ -28,6 +28,7 @@ import {
 } from "@pkmn/core";
 import { gameData } from "@pkmn/data";
 import { baseDelayOf, extraMessagesOf, messageOf } from "./messages.js";
+import { allowMotion, enter, faint, heal, hit, lunge, tick, tint } from "./art/effects.js";
 import {
   applyEvent,
   STATUS_LABEL,
@@ -44,6 +45,9 @@ const SPEED_FACTOR: Record<Speed, number> = { normal: 1, fast: 0.3, logOnly: 0 }
 let speed: Speed = "normal";
 export const setSpeed = (value: Speed): void => {
   speed = value;
+  // 演出は「つうじょう」のときだけ。周回のための高速モードで動かす意味は無い
+  // （飛ばしても結果が変わらないのは、演出が結果に触れていないから・effects.ts）
+  allowMotion(value === "normal");
 };
 export const getSpeed = (): Speed => speed;
 
@@ -103,58 +107,104 @@ export async function runBattle(options: BattleOptions): Promise<BattleOutcome> 
   let resolvePlayerAction: ((action: Action) => void) | null = null;
 
   // ── 表示 ──
+  //
+  // **作り直さない。** v0.11 まで `#field` の innerHTML をイベントごとに
+  // 全部書き直していたので、HPバーの transition も揺れも一度も動かなかった
+  // （art/effects.ts の頭に経緯）。骨組みを1回作り、中身だけ差し替える。
   const hpClass = (ratio: number) => (ratio > 0.5 ? "high" : ratio > 0.2 ? "mid" : "low");
 
-  function renderSide(side: SideIndex): string {
+  /** 側ごとの DOM。交代したときだけ作り直す。 */
+  const nodes: [HTMLElement | null, HTMLElement | null] = [null, null];
+  const shown: [number, number] = [-1, -1];
+
+  function buildSide(side: SideIndex): HTMLElement {
+    const el = document.createElement("div");
+    el.className = `mon ${side === 0 ? "ally" : "foe"}`;
+    el.innerHTML = `
+      <div class="figure"><div class="blob"></div></div>
+      <div class="panel">
+        <div class="row">
+          <strong class="mon-name"></strong>
+          <span class="lv"></span>
+          <span class="status hidden"></span>
+        </div>
+        <div class="types"></div>
+        <div class="hpbar"><div class="fill"></div></div>
+        <div class="row small">
+          <span class="hpnum"></span>
+          <span class="balls"></span>
+        </div>
+        <div class="gears"></div>
+        <div class="stages"></div>
+      </div>`;
+    return el;
+  }
+
+  /** 中身を今の `view` に合わせる。**DOM は差し替えない。** */
+  function updateSide(side: SideIndex): void {
     const v = view[side];
+    const el = nodes[side];
+    if (el === null) return;
+    const q = <T extends Element>(sel: string) => el.querySelector<T>(sel)!;
+
+    q(".figure").setAttribute("style", `--c:${TYPE_COLOR[v.types[0]!]}`);
+    q(".mon-name").textContent = v.name;
+    q(".lv").textContent = `Lv${v.level}`;
+
+    const status = q(".status");
+    status.className = `status ${v.status ?? ""} ${v.status === null ? "hidden" : ""}`;
+    status.textContent = v.status === null ? "" : STATUS_LABEL[v.status];
+
+    q(".types").innerHTML = v.types
+      .map((t) => `<span class="type" style="background:${TYPE_COLOR[t]}">${TYPE_LABEL[t]}</span>`)
+      .join("");
+
     const ratio = v.maxHp === 0 ? 0 : v.hp / v.maxHp;
-    const stages = Object.entries(v.stages)
+    const fill = q<HTMLElement>(".fill");
+    fill.className = `fill ${hpClass(ratio)}`;
+    fill.style.width = `${ratio * 100}%`;
+    q(".hpnum").textContent = `${v.hp} / ${v.maxHp}`;
+
+    q(".balls").innerHTML = Array.from(
+      { length: state.sides[side].party.length },
+      (_, i) => `<i class="ball ${i < v.remaining ? "alive" : ""}"></i>`,
+    ).join("");
+
+    // 特性と持ち物。相手のぶんは発動して初めて出る
+    q(".gears").innerHTML = [
+      v.ability === null ? "" : `<span class="gear ability">${gameData.ability(v.ability).name}</span>`,
+      v.item === null ? "" : `<span class="gear item">${gameData.item(v.item).name}</span>`,
+    ].join("");
+
+    q(".stages").innerHTML = Object.entries(v.stages)
       .filter(([, n]) => n !== 0)
       .map(([stat, n]) => {
         const arrows = (n > 0 ? "↑" : "↓").repeat(Math.min(3, Math.abs(n)));
         return `<span class="stage ${n > 0 ? "up" : "down"}">${STAT_LABEL[stat] ?? stat}${arrows}</span>`;
       })
       .join("");
-
-    const types = v.types
-      .map((t) => `<span class="type" style="background:${TYPE_COLOR[t]}">${TYPE_LABEL[t]}</span>`)
-      .join("");
-
-    const balls = Array.from({ length: state.sides[side].party.length }, (_, i) =>
-      `<i class="ball ${i < v.remaining ? "alive" : ""}"></i>`).join("");
-
-    // 特性と持ち物。相手のぶんは発動して初めて出る
-    const gear = [
-      v.ability === null ? "" : `<span class="gear ability">${gameData.ability(v.ability).name}</span>`,
-      v.item === null ? "" : `<span class="gear item">${gameData.item(v.item).name}</span>`,
-    ].join("");
-
-    return `
-      <div class="mon ${side === 0 ? "ally" : "foe"}">
-        <div class="figure" style="--c:${TYPE_COLOR[v.types[0]!]}">
-          <div class="blob"></div>
-        </div>
-        <div class="panel">
-          <div class="row">
-            <strong>${v.name}</strong>
-            <span class="lv">Lv${v.level}</span>
-            ${v.status ? `<span class="status ${v.status}">${STATUS_LABEL[v.status]}</span>` : ""}
-          </div>
-          <div class="types">${types}</div>
-          <div class="hpbar"><div class="fill ${hpClass(ratio)}" style="width:${ratio * 100}%"></div></div>
-          <div class="row small">
-            <span>${v.hp} / ${v.maxHp}</span>
-            <span class="balls">${balls}</span>
-          </div>
-          <div class="gears">${gear}</div>
-          <div class="stages">${stages}</div>
-        </div>
-      </div>`;
   }
 
-  const renderField = () => {
-    $("#field").innerHTML = renderSide(1) + renderSide(0);
-  };
+  function renderField(): void {
+    const field = $("#field");
+    for (const side of [1, 0] as const) {
+      // 交代したら作り直す。**それ以外では作り直さない**のがこの版の要点
+      if (nodes[side] === null || shown[side] !== view[side].partyIndex) {
+        const fresh = buildSide(side);
+        if (nodes[side] === null) field.appendChild(fresh);
+        else field.replaceChild(fresh, nodes[side]!);
+        nodes[side] = fresh;
+        shown[side] = view[side].partyIndex;
+        updateSide(side);
+        enter(fresh.querySelector(".figure"));
+        continue;
+      }
+      updateSide(side);
+    }
+  }
+
+  const figureOf = (side: SideIndex): Element | null =>
+    nodes[side]?.querySelector(".figure") ?? null;
 
   function log(text: string): void {
     const el = $("#log");
@@ -312,8 +362,46 @@ export async function runBattle(options: BattleOptions): Promise<BattleOutcome> 
       resolvePlayerAction = resolve;
     });
 
+  /**
+   * イベント1件を演出に落とす（v0.11.5）。
+   *
+   * **表示を更新する前に呼ぶ。** 揺れや点滅は「今の姿」に掛けるもので、
+   * 減ったあとの HP に掛けるものではない ―― 順番を逆にすると、
+   * バーが先に縮んでから揺れる。
+   */
+  function animate(event: BattleEvent): void {
+    switch (event.kind) {
+      case "moveUsed":
+        lunge(figureOf(event.side), event.side);
+        tint($("#field"), TYPE_COLOR[gameData.move(event.move).type]);
+        return;
+      case "struggle":
+        lunge(figureOf(event.side), event.side);
+        return;
+      case "damage":
+        hit(figureOf(event.side), event.effectiveness, event.critical);
+        return;
+      case "confusionHit":
+      case "recoil":
+      case "statusDamage":
+      case "itemDamage":
+        tick(figureOf(event.side));
+        return;
+      case "drain":
+      case "heal":
+        heal(figureOf(event.side));
+        return;
+      case "faint":
+        faint(figureOf(event.side));
+        return;
+      default:
+        return;
+    }
+  }
+
   async function playEvents(events: readonly BattleEvent[], next: BattleState) {
     for (const event of events) {
+      animate(event);
       applyEvent(view, next, event);
       renderField();
 
@@ -340,6 +428,11 @@ export async function runBattle(options: BattleOptions): Promise<BattleOutcome> 
   }
 
   // ── ループ ──
+  //
+  // **`#field` を空にしてから始める。** 作り直しをやめた（v0.11.5）ので、
+  // 前の戦いで作った 2体ぶんの DOM がそのまま残る ―― 実際、撮影したら
+  // 1画面に4体並んでいた。作らない側に倒したぶん、片付けは明示的にやる
+  $("#field").innerHTML = "";
   $("#log").innerHTML = "";
   $("#battle").classList.remove("hidden");
   renderField();

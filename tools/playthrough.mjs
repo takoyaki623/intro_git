@@ -614,7 +614,16 @@ for (let i = 0; i < 80 && !lost; i += 1) {
     await fight();
     await page.waitForTimeout(800);
     await drain();
-    lost = (await spot()).map === respawn.map;
+    // **1回見て終わりにしない。** 全滅のあとは会話とマップ移動が続くので、
+    // 800ms 後に覗くと、まだ道路に立っている瞬間を掴むことがある
+    // ―― これで「負けなかった」と誤報していた
+    for (let w = 0; w < 20 && !lost; w += 1) {
+      lost = (await spot()).map === respawn.map;
+      if (!lost) {
+        await drain(4);
+        await page.waitForTimeout(300);
+      }
+    }
   }
 }
 expect("全滅したら 復活地点に 戻る", lost ? "戻った" : "負けなかった", "戻った");

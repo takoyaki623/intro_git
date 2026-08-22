@@ -1,4 +1,18 @@
+/*
+ * 書体（v0.11.5）。
+ *
+ * Google Fonts は Artifact 版で使える**唯一の外部ホスト**なので、
+ * ここだけは外部参照にしてよい（他は全部埋め込む・game-plan.md §10）。
+ * 読み込めなかったときのために、**必ず実在する和文フォント**を後ろに積む
+ * ―― 抜けると中華フォントに落ちて、字面が別物になる。
+ *
+ * DotGothic16 は「ゲームの声」にだけ使う（見出し・会話・ログ・ポケモンの名前）。
+ * 操作系まで全部ドット字にすると、小さい字が読めなくなる。
+ */
+@import url("https://fonts.googleapis.com/css2?family=DotGothic16&display=swap");
+
 :root {
+  --game-font: "DotGothic16", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", sans-serif;
   --bg: #f4f6f9;
   --panel: #ffffff;
   --ink: #1c2230;
@@ -128,7 +142,7 @@ button:active { transform: translateY(1px); }
   height: 8px; background: var(--line);
   border-radius: 999px; overflow: hidden;
 }
-.fill { height: 100%; transition: width .3s ease; border-radius: 999px; }
+.fill { height: 100%; border-radius: 999px; }
 .fill.high { background: #3fbf6a; }
 .fill.mid { background: #e8bb3a; }
 .fill.low { background: #e0553f; }
@@ -144,6 +158,111 @@ button:active { transform: translateY(1px); }
 .stage { font-size: 10px; padding: 0 5px; border-radius: 4px; border: 1px solid var(--line); }
 .stage.up { color: #2f9e5b; border-color: #2f9e5b55; }
 .stage.down { color: #d0553f; border-color: #d0553f55; }
+
+/* ──────────────────────────────────────────
+ * バトルの演出（v0.11.5）
+ *
+ * v0.11 まで #field は毎イベント作り直されていたので、
+ * ここに何を書いても再生される前に要素ごと消えていた。
+ * 作り直しをやめたのが先で、この節はその後にしか意味を持たない。
+ * ────────────────────────────────────────── */
+
+#field { position: relative; overflow: hidden; }
+
+/* 技のタイプで場を1瞬だけ染める。色は TYPE_COLOR がそのまま入る */
+#field::after {
+  content: ""; position: absolute; inset: 0;
+  background: var(--tint, transparent);
+  opacity: 0; pointer-events: none;
+}
+#field.tinted::after { animation: tint .3s ease-out; }
+@keyframes tint {
+  0% { opacity: 0; }
+  35% { opacity: .16; }
+  100% { opacity: 0; }
+}
+
+.figure { transition: transform .18s ease, opacity .3s ease; }
+
+/* 技を出した側が前に出る。自分は上、相手は下（画面の並びに合わせる） */
+.figure.lunge-up { animation: lunge-up .38s ease; }
+.figure.lunge-down { animation: lunge-down .38s ease; }
+@keyframes lunge-up {
+  0%, 100% { transform: none; }
+  45% { transform: translateY(-12px) scale(1.04); }
+}
+@keyframes lunge-down {
+  0%, 100% { transform: none; }
+  45% { transform: translateY(12px) scale(1.04); }
+}
+
+/* 被弾。ばつぐん・急所は強く、いまひとつは弱く */
+.figure.hit { animation: shake .34s ease; }
+.figure.hit-weak { animation: shake-weak .34s ease; }
+.figure.hit-strong { animation: shake-strong .46s ease; }
+@keyframes shake {
+  0%, 100% { transform: none; }
+  20% { transform: translateX(-6px); filter: brightness(1.8); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-3px); filter: brightness(1.4); }
+}
+@keyframes shake-weak {
+  0%, 100% { transform: none; }
+  40% { transform: translateX(-3px); filter: brightness(1.2); }
+}
+@keyframes shake-strong {
+  0%, 100% { transform: none; }
+  12% { transform: translateX(-10px) scale(1.06); filter: brightness(2.4); }
+  30% { transform: translateX(9px) scale(1.04); }
+  50% { transform: translateX(-7px); filter: brightness(1.9); }
+  70% { transform: translateX(5px); }
+  85% { transform: translateX(-3px); filter: brightness(1.3); }
+}
+
+/* 毒・やけど・反動。技の被弾より弱く、区別がつく程度に */
+.figure.tick { animation: tick .3s ease; }
+@keyframes tick {
+  0%, 100% { transform: none; }
+  50% { transform: translateY(2px); filter: brightness(.72) saturate(1.4); }
+}
+
+/* 回復 */
+.figure.healed { animation: healed .52s ease; }
+@keyframes healed {
+  0%, 100% { filter: none; }
+  40% { filter: brightness(1.5) saturate(1.3); }
+}
+
+/* ひんし。**外さない** ―― 倒れたものは次の交代まで倒れたまま */
+.figure.fainted { transform: translateY(20px) scale(.8); opacity: 0; }
+
+/* 場に出る */
+.figure.entering { animation: entering .42s ease; }
+@keyframes entering {
+  0% { transform: translateY(14px) scale(.7); opacity: 0; }
+  100% { transform: none; opacity: 1; }
+}
+
+/* HPバーは幅の補間だけで十分に「減っていく」ように見える。
+   低くなるほど速度を上げる（v0.3 から transition はあったが、
+   毎回作り直していたので一度も動いていなかった） */
+.fill { transition: width .45s cubic-bezier(.25, .8, .35, 1), background .3s ease; }
+.fill.low { animation: pulse-low 1s ease-in-out infinite; }
+@keyframes pulse-low {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .62; }
+}
+
+/* 閲覧環境の設定が上。こちらが上書きしない */
+@media (prefers-reduced-motion: reduce) {
+  .figure, .figure.hit, .figure.hit-weak, .figure.hit-strong,
+  .figure.lunge-up, .figure.lunge-down, .figure.tick,
+  .figure.healed, .figure.entering, .fill.low, #field.tinted::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .fill { transition: none !important; }
+}
 
 /* ── ログ ── */
 #log {
@@ -185,18 +304,34 @@ button:active { transform: translateY(1px); }
 
 footer { margin-top: 16px; font-size: 11px; color: var(--muted); text-align: center; }
 
+/* ──────────────────────────────────────────
+ * 「ゲームの声」だけドット字にする（v0.11.5）
+ *
+ * 全部に掛けると小さい字が読めなくなる。掛けるのは
+ * 見出し・会話・ログ・ポケモンの名前 ―― 世界の側の文字だけ。
+ * 操作系（ボタン・表・設定）は素の書体のままにする。
+ * ────────────────────────────────────────── */
+h1, #menu h2, #menu h3,
+#log, #prompt,
+#field-text,
+.mon-name, .lv, .type, .status, .stage,
+.headline, .result th, .record th {
+  font-family: var(--game-font);
+}
+h1 { letter-spacing: .06em; }
+#log { letter-spacing: .01em; }
+.mon-name { letter-spacing: .04em; }
+
+/* ドット字は字面が小さいので、少しだけ大きくする */
+#field-text { font-size: 15px; }
+#log { font-size: 13.5px; }
+
 /* ── v0.5: モード切り替え・メニュー・施設 ── */
 .hidden { display: none !important; }
 .dim { color: var(--muted); }
 
-/* 4つ並ぶと 390px では折り返して読みにくいので、横スクロールにする */
-#modes {
-  display: flex; gap: 6px; margin-bottom: 12px;
-  overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
-}
-#modes::-webkit-scrollbar { display: none; }
-#modes button { padding: 6px 12px; white-space: nowrap; flex: none; }
-#modes button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+/* #modes（モード切替タブ）の指定はここにあったが、v0.10 で <nav> ごと消えた。
+   使われない CSS を残すと「まだあるもの」に見えるので、v0.11.5 で落とした。 */
 
 #menu h2 { font-size: 15px; margin: 0 0 6px; }
 .lead { font-size: 12px; color: var(--muted); margin: 0 0 10px; }
@@ -525,3 +660,63 @@ select {
 }
 .note-box p { margin: 4px 0; }
 .rentals .st { color: var(--warn); }
+
+
+/* ──────────────────────────────────────────
+ * UI 全体の手ざわり（v0.11.5）
+ * ────────────────────────────────────────── */
+
+/* 押した感じ。**押したのに何も起きない**時間が一番不安になる */
+button {
+  transition: transform .08s ease, background .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+button:not(:disabled):active { transform: translateY(1px); }
+button:not(:disabled):hover { border-color: var(--accent); }
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+button:disabled { opacity: .45; cursor: default; }
+
+/* 技ボタンはタイプ色の帯を持っている。押せることを面でも見せる */
+.move:not(:disabled):hover { background: color-mix(in srgb, var(--c) 10%, var(--panel)); }
+
+/* 画面が入れ替わったことを一度だけ示す。
+   **`#menu` には掛けない** ―― 施設の画面は1操作ごとに innerHTML を
+   書き直すので、掛けると BP を1つ買うたびに画面全体が動く。
+   掛けるのは「別の場所へ移った」ときだけ。 */
+#battle:not(.hidden), #run .field {
+  animation: screen-in .22s ease;
+}
+@keyframes screen-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* 会話枠。原作の「▼」は、押せることの合図なので目立たせる */
+#field-text {
+  box-shadow: inset 0 0 0 2px #fbf8ee, inset 0 0 0 3px #c9bfa4, 0 3px 0 rgba(0,0,0,.25);
+}
+#field-text .next { animation: next-bounce 1s ease-in-out infinite; }
+@keyframes next-bounce {
+  0%, 100% { transform: translateY(0); opacity: .5; }
+  50% { transform: translateY(3px); opacity: .95; }
+}
+
+/* ログの最新行。読む場所が分かるように、左に細い線を足す */
+.line:last-child {
+  border-left: 3px solid var(--accent);
+  padding-left: 7px;
+  margin-left: -10px;
+}
+
+/* 表の見出しと余白。設定画面が「文書」に見えるように */
+.record th, .result th { text-align: left; color: var(--muted); font-weight: 500; }
+.record td, .result td { padding: 3px 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  button, #battle:not(.hidden), #run .field, #field-text .next {
+    animation: none !important;
+    transition: none !important;
+  }
+}

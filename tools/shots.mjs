@@ -117,6 +117,19 @@ const PLACES = [
 
 const shots = [];
 
+/**
+ * 画面（マップ以外）も撮る（v0.11.5）。
+ *
+ * 見た目②で触ったのはバトル画面と UI 全体なので、**マップだけ撮っても分からない。**
+ * 撮るのは「1戦の途中」「手持ち」「施設」「カップ」の4枚。
+ */
+const SCREENS = [
+  { file: "battle", name: "バトル", note: "演出つきの1戦。HPバー・タイプ色・技ボタン" },
+  { file: "party", name: "てもち", note: "マップから開くパネル" },
+  { file: "facility", name: "バトルしせつ", note: "拠点の受付。4施設" },
+  { file: "cups", name: "トーナメント", note: "カップ10。タイプ縛りは自分の手持ちで" },
+];
+
 for (const size of [
   { label: "phone", width: 420, height: 900, scale: 2 },
   { label: "wide", width: 900, height: 1000, scale: 2 },
@@ -268,7 +281,98 @@ for (const size of [
         ? `  ✓ ${place.name}（${size.label}）… ${where}`
         : `  △ ${place.name}（${size.label}）… ねらい ${map} ${x},${y} / いま ${where}`,
     );
-    if (size.label === "phone") shots.push({ ...place, file: place.file });
+    if (size.label === "phone") shots.push({ ...place, group: "マップ", file: place.file });
+  }
+
+  // ── 画面（マップ以外）──
+  const shoot = async (file) => {
+    // 画面まるごとは大きいので **CSS ピクセルで撮る**（等倍）。
+    // マップは拡大して見たいので canvas だけ 2倍のまま ―― 用途が違う
+    await page.screenshot({ path: join(OUT, `${file}-${size.label}.png`), scale: "css" });
+  };
+
+  /** 1戦を途中まで進めて撮る。**動いている最中の絵**でないと演出は写らない。 */
+  await page.click("#open-settings");
+  await page.waitForSelector("#free-battle");
+  await page.click("#free-battle");
+  await page.waitForTimeout(1500);
+  for (let i = 0; i < 6; i += 1) {
+    const move = await page.$("#controls .move");
+    if (move !== null) await move.click().catch(() => {});
+    await page.waitForTimeout(500);
+  }
+  await page.waitForTimeout(300);
+  await shoot("battle");
+
+  // バトルから抜ける（勝敗がつくまで殴る → もどる）
+  // `#settings-back` は**バトル中も DOM に残っている**（隠れているだけ）。
+  // `$()` で見ると即座に真になり、殴る前に抜けてしまう ―― 見えるかで判定する
+  for (let i = 0; i < 200; i += 1) {
+    if (await page.isVisible("#settings-back")) break;
+    // **順番が要る。** フリーバトルは終わると「もう いちど / やめる」を出すので、
+    // `.again` を先に押すと永久に戦い続ける（実際そうなって撮影が終わらなかった）
+    const btn =
+      (await page.$("#controls .move")) ??
+      (await page.$("#controls .switch")) ??
+      (await page.$("#controls .run")) ??
+      (await page.$("#controls .again"));
+    if (btn !== null) await btn.click().catch(() => {});
+    await page.waitForTimeout(220);
+  }
+  // **1回押しただけでは戻れないことがある。**
+  // フリーバトルが終わると設定画面が描き直されるので、
+  // その前に「もどる」を押すと、マップの上に設定画面が生え直す
+  for (let i = 0; i < 5; i += 1) {
+    if (!(await page.isVisible("#settings-back"))) break;
+    await page.click("#settings-back").catch(() => {});
+    await page.waitForTimeout(700);
+  }
+
+  // **抜けられなかったら読み込み直す。**
+  // 1戦の長さは乱数しだいで、押し方の工夫では上限を決められない。
+  // オートセーブが効いているので、読み直せば拠点から再開できる
+  if (!(await page.isVisible("#field-canvas"))) {
+    console.log("  ! フリーバトルから戻れないので読み込み直しました");
+    await page.goto(URL);
+    await page.waitForSelector("#field-canvas");
+    await page.waitForTimeout(1200);
+  }
+  await page.waitForTimeout(500);
+
+  await clearBattle();
+  for (let i = 0; i < 6 && (await page.isVisible("#field-text")); i += 1) {
+    await page.keyboard.press("z");
+    await page.waitForTimeout(200);
+  }
+  // 何が出ているか分からないまま落ちると原因が読めないので、名指しで残す
+  await page.waitForSelector("#open-box", { state: "visible", timeout: 8000 }).catch(async () => {
+    console.log(`  ! てもちボタンが出ない（いま ${await at()} / menu=${(
+      (await page.textContent("#menu")) ?? ""
+    ).trim().slice(0, 40)}）`);
+  });
+  await page.click("#open-box");
+  await page.waitForTimeout(600);
+  await shoot("party");
+  await page.click("#panel-close").catch(() => {});
+  await page.waitForTimeout(400);
+
+  await goTo("hub-tower", 4, 3);
+  await useGate("ArrowUp");
+  await page.waitForTimeout(600);
+  await shoot("facility");
+  await page.click("#screen-back").catch(() => {});
+  await page.waitForTimeout(600);
+
+  await goTo("hub-arena", 4, 3);
+  await useGate("ArrowUp");
+  await page.waitForTimeout(600);
+  await shoot("cups");
+  await page.click("#screen-back").catch(() => {});
+  await page.waitForTimeout(400);
+
+  for (const screen of SCREENS) {
+    console.log(`  ✓ ${screen.name}（${size.label}）`);
+    if (size.label === "phone") shots.push({ ...screen, group: "画面", to: ["—", 0, 0] });
   }
 
   await page.close();
