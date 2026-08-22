@@ -2,6 +2,8 @@
 id: kanto-fuchsia-city
 name: セキチクシティ
 region: kanto
+fly: 6,1 kanto.fly.fuchsia
+onEnter: kanto.fuchsia.arrive
 bgm: fuchsia-city
 
 legend:
@@ -17,7 +19,7 @@ TTTTTT.TTTTTT
 T...........T
 T..GGGG.....T
 T..GGDG.....T
-T...........T
+T.........TTT
 T...........T
 T.......PPPPT
 T.......PPDPT
@@ -36,3 +38,7 @@ warps:
 objects:
 fuchsia-sign-gym 4,4 sign kanto.fuchsia.sign-gym
 fuchsia-warden 9,4 npc:oldman:static kanto.fuchsia.warden
+fuchsia-strength-man 3,8 npc:oldman:static kanto.fuchsia.strength-man
+fuchsia-surf-teacher 3,5 npc:fisher:static kanto.fuchsia.surf-teacher
+fuchsia-boulder 10,5 obstacle:strength
+fuchsia-nugget 11,5 item:max-ether kanto.fuchsia.nugget if:kanto.fuchsia.nugget-taken=false

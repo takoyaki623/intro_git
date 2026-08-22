@@ -23,6 +23,7 @@ import {
   type EventScript,
   type FlagId,
   type MapData,
+  type FieldAbility,
   type RegionDefinition,
   type Shop,
   type Trainer,
@@ -48,6 +49,7 @@ import flagsJson from "../flags.json" with { type: "json" };
 import shopsJson from "../shops.json" with { type: "json" };
 import regionsJson from "../regions.json" with { type: "json" };
 import mapsJson from "../maps.json" with { type: "json" };
+import fieldAbilitiesJson from "../field-abilities.json" with { type: "json" };
 import trainersJson from "../trainers.json" with { type: "json" };
 import facilitiesJson from "../facilities.json" with { type: "json" };
 import itemsJson from "../items.json" with { type: "json" };
@@ -245,6 +247,11 @@ export const allFlags = flagsJson as unknown as readonly FlagId[];
 export const allShops = shopsJson as unknown as readonly Shop[];
 /** 地方の定義（v0.10）。`available: false` は未実装の印であってロックではない。 */
 export const allRegions = regionsJson as unknown as readonly RegionDefinition[];
+/**
+ * フィールド技（v0.12-d）。秘伝技は廃止したので、これはポケモンではなく
+ * **プレイヤーの能力**の一覧（world.md §7）。
+ */
+export const allFieldAbilities = fieldAbilitiesJson as unknown as readonly FieldAbility[];
 
 export function regionById(id: string): RegionDefinition {
   const r = allRegions.find((x) => x.id === id);

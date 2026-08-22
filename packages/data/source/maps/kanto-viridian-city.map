@@ -3,6 +3,9 @@
 id: kanto-viridian-city
 name: トキワシティ
 region: kanto
+fly: 7,1 kanto.fly.viridian
+onEnter: kanto.viridian.arrive
+encounters: kanto-pond-surf
 bgm: viridian-city
 
 legend:

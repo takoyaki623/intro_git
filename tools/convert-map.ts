@@ -11,10 +11,11 @@
 
 import { readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { DIRECTIONS, TERRAINS } from "@pkmn/core";
+import { DIRECTIONS, FIELD_ABILITIES, TERRAINS } from "@pkmn/core";
 import type {
   Condition,
   Direction,
+  FieldAbilityId,
   MapData,
   MapObject,
   MapObjectKind,
@@ -126,8 +127,13 @@ function parseKind(file: string, spec: string): MapObjectKind {
       };
     case "item":
       return { type: "item", item: rest[0]!, hidden: rest[1] === "hidden" };
-    case "obstacle":
-      return { type: "obstacle", clearedBy: rest[0]! as "cut" };
+    case "obstacle": {
+      const ability = rest[0];
+      if (ability === undefined || !(FIELD_ABILITIES as readonly string[]).includes(ability)) {
+        throw new Error(`${file}: 未知のフィールド技 "${ability}"`);
+      }
+      return { type: "obstacle", clearedBy: ability as FieldAbilityId };
+    }
     default:
       throw new Error(`${file}: 未知のオブジェクト種別 "${type}"`);
   }
@@ -205,8 +211,20 @@ function convert(file: string, text: string): MapData {
     warps: parseWarps(file, body.warps!),
     objects: parseObjects(file, body.objects!),
   };
+  // 出現テーブルは空白区切りで複数書ける（草むら用と なみのり用など・v0.12-d）
   const encounters = head.get("encounters");
-  if (encounters !== undefined && encounters !== "") map.encounters = encounters;
+  if (encounters !== undefined && encounters.trim() !== "") {
+    map.encounters = encounters.trim().split(/\s+/);
+  }
+  // "fly: 6,1 kanto.fly.pewter" ―― 着地点と「来たことがある」印
+  const fly = head.get("fly");
+  if (fly !== undefined && fly.trim() !== "") {
+    const t = fly.trim().split(/\s+/);
+    if (t.length !== 2) throw new Error(`${file}: fly は「座標 フラグ」の2項目: "${fly}"`);
+    map.flyPoint = { ...parseCoords(file, t[0]!), flag: t[1]! };
+  }
+  const onEnter = head.get("onEnter");
+  if (onEnter !== undefined && onEnter.trim() !== "") map.onEnter = onEnter.trim();
   const bgm = head.get("bgm");
   if (bgm !== undefined && bgm !== "") map.bgm = bgm;
   return map;

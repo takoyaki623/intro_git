@@ -29,6 +29,7 @@ export * from "./save/store.js";
 export * from "./world/types.js";
 export * from "./world/event.js";
 export * from "./world/movement.js";
+export * from "./world/ability.js";
 export { chooseRandomAction } from "./ai/random.js";
 export * from "./ai/view.js";
 export * from "./ai/basic.js";

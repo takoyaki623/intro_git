@@ -3,6 +3,8 @@
 id: kanto-pewter-city
 name: ニビシティ
 region: kanto
+fly: 6,1 kanto.fly.pewter
+onEnter: kanto.pewter.arrive
 bgm: pewter-city
 
 legend:
@@ -44,3 +46,4 @@ pewter-sign-gym 4,8 sign kanto.pewter.sign-gym
 pewter-sign-museum 4,4 sign kanto.pewter.sign-museum
 pewter-boy 9,5 npc:youngster:static kanto.pewter.boy
 pewter-museum-guide 7,4 npc:scientist:static kanto.pewter.museum-guide
+pewter-hiker 10,5 npc:hiker:static kanto.pewter.hiker

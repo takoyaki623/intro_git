@@ -1,0 +1,67 @@
+[
+  {
+    "id": "rockSmash",
+    "name": "いわくだき",
+    "requires": {
+      "kind": "and",
+      "of": [
+        { "kind": "flag", "flag": "kanto.ability.rock-smash", "value": true },
+        { "kind": "badges", "op": ">=", "count": 1 }
+      ]
+    },
+    "lockedText": "ひび割れた いわが みちを ふさいでいる。",
+    "useText": "{name} で いわを くだいた!"
+  },
+  {
+    "id": "cut",
+    "name": "いあいぎり",
+    "requires": {
+      "kind": "and",
+      "of": [
+        { "kind": "flag", "flag": "kanto.ability.cut", "value": true },
+        { "kind": "badges", "op": ">=", "count": 2 }
+      ]
+    },
+    "lockedText": "ほそい き が みちを ふさいでいる。",
+    "useText": "{name} で き を きりたおした!"
+  },
+  {
+    "id": "fly",
+    "name": "そらをとぶ",
+    "requires": {
+      "kind": "and",
+      "of": [
+        { "kind": "flag", "flag": "kanto.ability.fly", "value": true },
+        { "kind": "badges", "op": ">=", "count": 3 }
+      ]
+    },
+    "lockedText": "そらへ とびあがれそうだ。",
+    "useText": "{name} で とびたった!"
+  },
+  {
+    "id": "strength",
+    "name": "かいりき",
+    "requires": {
+      "kind": "and",
+      "of": [
+        { "kind": "flag", "flag": "kanto.ability.strength", "value": true },
+        { "kind": "badges", "op": ">=", "count": 4 }
+      ]
+    },
+    "lockedText": "おおきな いわ だ。とても おせそうにない。",
+    "useText": "{name} で いわを おしのけた!"
+  },
+  {
+    "id": "surf",
+    "name": "なみのり",
+    "requires": {
+      "kind": "and",
+      "of": [
+        { "kind": "flag", "flag": "kanto.ability.surf", "value": true },
+        { "kind": "badges", "op": ">=", "count": 5 }
+      ]
+    },
+    "lockedText": "みずうみ だ。むこうぎしまでは とても とおい。",
+    "useText": "{name} で みずのうえへ でた!"
+  }
+]

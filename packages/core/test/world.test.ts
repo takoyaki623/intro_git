@@ -14,6 +14,9 @@ import {
   emptyEncounterState,
   emptyWorldState,
   evaluate,
+  fieldAbilitiesFor,
+  obstacleKey,
+  tableFor,
   interact,
   isWalkable,
   legalActions,
@@ -27,6 +30,7 @@ import {
   terrainAt,
   visibleObjects,
   walkCommands,
+  type Condition,
   type Direction,
   type EncounterState,
   type EventEffect,
@@ -37,6 +41,7 @@ import {
 import {
   allEncounterTables,
   allEvents,
+  allFieldAbilities,
   allMaps,
   allTrainers,
   eventById,
@@ -638,6 +643,115 @@ describe("トレーナー", () => {
         expect(Number.isFinite(mon.maxHp), `${trainer.id}/${mon.name}`).toBe(true);
         expect(mon.currentHp, `${trainer.id}/${mon.name}`).toBeGreaterThan(0);
       }
+    }
+  });
+});
+
+/** 条件の中に出てくるフラグ。 */
+function flagsIn(cond: Condition): string[] {
+  if (cond.kind === "flag") return [cond.flag];
+  if (cond.kind === "and" || cond.kind === "or") return cond.of.flatMap(flagsIn);
+  return [];
+}
+
+describe("フィールド技（v0.12-d）", () => {
+  const VERMILION = "kanto-vermilion-city";
+  const FUCHSIA = "kanto-fuchsia-city";
+
+  /** 条件をぜんぶ満たした世界。フィールド技は派生値なので毎回導き直す。 */
+  const worldWith = (badges: number, flags: string[]): WorldState => {
+    const world = emptyWorldState();
+    world.badges = badges;
+    for (const flag of flags) world.flags[flag] = true;
+    world.abilities = fieldAbilitiesFor(allFieldAbilities, world);
+    return world;
+  };
+
+  it("能力はフラグとバッジの両方が揃って初めて使える", () => {
+    expect(worldWith(9, []).abilities).toEqual([]);
+    expect(worldWith(0, ["kanto.ability.cut"]).abilities).toEqual([]);
+    expect(worldWith(2, ["kanto.ability.cut"]).abilities).toEqual(["cut"]);
+  });
+
+  it("いあいぎり を覚えるまで クチバジムの前の き は通れない", () => {
+    const map = mapById(VERMILION);
+    const before = worldWith(2, []);
+    expect(isWalkable(map, before, 5, 10)).toBe(false);
+
+    // 調べると「どければ通れる」ことと、何が要るかが返る
+    const found = interact(map, before, { map: VERMILION, x: 5, y: 11, facing: "up" });
+    expect(found?.kind).toBe("obstacle");
+    if (found?.kind === "obstacle") expect(found.ability).toBe("cut");
+
+    const after = worldWith(2, ["kanto.ability.cut"]);
+    // **能力があるだけでは消えない。** どけて初めて通れる
+    expect(isWalkable(map, after, 5, 10)).toBe(false);
+    after.cleared.push(obstacleKey(VERMILION, objectAt(map, after, 5, 10)!));
+    expect(isWalkable(map, after, 5, 10)).toBe(true);
+  });
+
+  it("どけた記録はマップIDまで含む（別の町の同名オブジェクトを巻き込まない）", () => {
+    const map = mapById(FUCHSIA);
+    const world = worldWith(4, ["kanto.ability.strength"]);
+    world.cleared.push("kanto-somewhere-else:fuchsia-boulder");
+    expect(isWalkable(map, world, 10, 5)).toBe(false);
+    world.cleared.push(obstacleKey(FUCHSIA, objectAt(map, world, 10, 5)!));
+    expect(isWalkable(map, world, 10, 5)).toBe(true);
+  });
+
+  it("なみのり を覚えると水の上に出られる", () => {
+    const map = mapById(VERMILION);
+    expect(terrainAt(map, 6, 11)).toBe("water");
+    expect(isWalkable(map, worldWith(5, []), 6, 11)).toBe(false);
+    expect(isWalkable(map, worldWith(5, ["kanto.ability.surf"]), 6, 11)).toBe(true);
+    // 壁は なみのり でも越えられない
+    expect(isWalkable(map, worldWith(5, ["kanto.ability.surf"]), 0, 11)).toBe(false);
+  });
+
+  it("水の上で引く表は なみのり用（地形が方式を決める）", () => {
+    const map = mapById(VERMILION);
+    expect(tableFor(map, "water", allEncounterTables)?.method).toBe("surf");
+    // 同じマップの草むら用の表は無いので、陸では何も出ない
+    expect(tableFor(map, "grass", allEncounterTables)).toBe(null);
+  });
+
+  it("障害物に使う技は、必ずどこかで手に入る", () => {
+    const granted = new Set(
+      allEvents.flatMap((e) =>
+        walkCommands(e.commands).flatMap((c) =>
+          c.kind === "setFlag" && c.value ? [c.flag] : [],
+        ),
+      ),
+    );
+    const used = new Set(
+      allMaps.flatMap((m) =>
+        m.objects.flatMap((o) => (o.kind.type === "obstacle" ? [o.kind.clearedBy] : [])),
+      ),
+    );
+    expect(used.size).toBeGreaterThan(0);
+    for (const id of used) {
+      const ability = allFieldAbilities.find((a) => a.id === id)!;
+      const flags = flagsIn(ability.requires);
+      expect(flags.length, id).toBeGreaterThan(0);
+      for (const flag of flags) expect(granted.has(flag), `${id}: ${flag}`).toBe(true);
+    }
+  });
+});
+
+describe("そらをとぶ（v0.12-d）", () => {
+  it("行き先は立てるマスで、来れば必ず開く", () => {
+    const points = allMaps.filter((m) => m.flyPoint !== undefined);
+    expect(points.length).toBeGreaterThanOrEqual(9);
+    for (const map of points) {
+      const point = map.flyPoint!;
+      const world = emptyWorldState();
+      expect(isWalkable(map, world, point.x, point.y), map.id).toBe(true);
+
+      // **来たら開く**ことまで見る。座標だけ見ていると、
+      // 行き先として並ぶのに一生選べないマップが作れてしまう
+      expect(map.onEnter, map.id).toBeDefined();
+      runEvent(world, map.onEnter!);
+      expect(world.flags[point.flag], map.id).toBe(true);
     }
   });
 });

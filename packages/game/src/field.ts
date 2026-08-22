@@ -25,6 +25,8 @@ import {
   reorder,
   emptyWorldState,
   evolutionFor,
+  fieldAbilitiesFor,
+  obstacleKey,
   evolve,
   healParty,
   instanceToSpec,
@@ -46,6 +48,7 @@ import {
   type EncounterState,
   type EventEffect,
   type EventId,
+  type FieldAbilityId,
   type MapData,
   type MapObject,
   type BattlePokemon,
@@ -59,6 +62,8 @@ import {
 import {
   allBalls,
   allEncounterTables,
+  allFieldAbilities,
+  allMaps,
   allItems,
   allNatures,
   allSpecies,
@@ -126,6 +131,9 @@ export function playField(rebuild: () => void): FieldHandle {
     world.badges = player.badges;
     world.money = player.money;
     world.partySpecies = party().map((p) => p.species);
+    // **フラグ・バッジを写したあとで導く。** 順番を逆にすると、
+    // ジムに勝った直後の1回だけ、まだ使えないことになる
+    world.abilities = fieldAbilitiesFor(allFieldAbilities, world);
   };
   const syncPlayer = () => {
     player.badges = world.badges;
@@ -176,6 +184,7 @@ export function playField(rebuild: () => void): FieldHandle {
           <button id="open-box" class="pad-menu">てもち</button>
           <button id="open-bag" class="pad-menu">どうぐ</button>
           <button id="open-dex" class="pad-menu">ずかん</button>
+          <button id="open-fly" class="pad-menu hidden">そらをとぶ</button>
         </div>
       </div>
       <p class="dim field-help">
@@ -423,6 +432,9 @@ export function playField(rebuild: () => void): FieldHandle {
     // 自動テストから現在地を読むための印（画面には出ない）
     canvas.dataset["at"] = `${player.position.map} ${player.position.x},${player.position.y} ${player.position.facing}`;
     $("#field-place").textContent = map.name;
+    // 使えないうちは出さない。**押せるのに何も起きないボタン**を置くより、
+    // 覚えた瞬間に増える方が「手に入った」ことが伝わる
+    $("#open-fly").classList.toggle("hidden", !world.abilities.includes("fly"));
     $("#field-party").textContent =
       party().length === 0
         ? "てもち なし"
@@ -1012,6 +1024,39 @@ export function playField(rebuild: () => void): FieldHandle {
     await new Promise((r) => setTimeout(r, 80));
     // マップ遷移はセーブ点（save-data.md §6）。落ちても直前の建物には戻れる
     await autosave();
+    await arrive();
+  }
+
+  /**
+   * 今どのマップに居ることになっているか。`arrive()` の判定に使う。
+   *
+   * **空文字から始める。** 現在地で初期化すると、続きから始めた町だけが
+   * 「まだ来ていない」ままになり、そらをとぶ の行き先から抜け落ちる。
+   */
+  let lastMap = "";
+
+  /**
+   * マップに入った直後の処理（v0.12-d）。
+   *
+   * warp を踏んだ直後だけでなく、**イベントの中で飛ばされた場合にも要る**ので、
+   * 「マップIDが変わっていたら」で判定する。呼び出し口を増やしても二重に走らない。
+   *
+   * ここでしかフラグを立てないので、`onEnter` を書き忘れたマップは
+   * そらをとぶ の行き先にならない ―― それは検証が落とす。
+   */
+  async function arrive(): Promise<void> {
+    // onEnter がさらに warp することがある（戻れない部屋）。回数で歯止めをかける
+    for (let guard = 0; guard < 8; guard += 1) {
+      if (player.position.map === lastMap) break;
+      lastMap = player.position.map;
+      // どけた障害物は出入りで元に戻る（原作と同じ）
+      world.cleared = [];
+      const script = currentMap().onEnter;
+      if (script === undefined) break;
+      await runEvent(script);
+    }
+    syncWorld();
+    draw();
   }
 
   async function tryInteract(): Promise<void> {
@@ -1019,7 +1064,32 @@ export function playField(rebuild: () => void): FieldHandle {
     const found = interact(currentMap(), world, player.position);
     if (found === null) return;
     if (found.kind === "warp") await doWarp(found.warp);
+    else if (found.kind === "obstacle") await tryClear(found.object, found.ability);
     else await runEvent(found.event);
+  }
+
+  /**
+   * 障害物をどける（v0.12-d）。
+   *
+   * **どけた記録は `world.cleared` にしか残らない**（`core` の設計どおり
+   * セーブに載せない）。マップを出入りすれば元に戻る ―― 原作と同じ。
+   */
+  async function tryClear(object: MapObject, ability: FieldAbilityId): Promise<void> {
+    const spec = allFieldAbilities.find((a) => a.id === ability);
+    if (spec === undefined) return;
+    // **どの道を通っても最後に会話枠を閉じる。**
+    // 閉じ忘れると `press()` が入力を会話側へ渡し続け、
+    // 岩をどけた直後から一歩も動けなくなる（v0.12-d の台本が丸ごと止まった）
+    try {
+      await say(spec.lockedText);
+      if (!world.abilities.includes(ability)) return;
+      if ((await ask(`${spec.name} を つかいますか?`, ["はい", "いいえ"])) !== 0) return;
+      world.cleared.push(obstacleKey(player.position.map, object));
+      await say(spec.useText.replace("{name}", spec.name));
+    } finally {
+      hideText();
+      draw();
+    }
   }
 
   const KEYS: Record<string, Direction> = {
@@ -1063,6 +1133,7 @@ export function playField(rebuild: () => void): FieldHandle {
         if (direction === null) break;
         await tryStep(direction);
       } while (heldDirection !== null && !stopped);
+      await arrive();
     } finally {
       busy = false;
     }
@@ -1073,6 +1144,7 @@ export function playField(rebuild: () => void): FieldHandle {
     busy = true;
     try {
       await action();
+      await arrive();
     } finally {
       busy = false;
     }
@@ -1149,6 +1221,61 @@ export function playField(rebuild: () => void): FieldHandle {
    * 設計（capture.md §5）は検索・ソート・チーム保存まで求めているが、
    * **数千個体になるまで要らない。** 数が増えてから足す。
    */
+  /**
+   * そらをとぶ（v0.12-d）。
+   *
+   * 行き先は **マップ側が名乗る**（`flyPoint`）。「行ける町の一覧」を
+   * どこか別の表に持つと、マップを消したときにそこだけ残る。
+   *
+   * 建物の中からは飛べない ―― 原作と同じで、屋根の下から空へは出られない。
+   */
+  function showFly(): void {
+    const outside = currentMap().encounters !== undefined || currentMap().flyPoint !== undefined;
+    const places = allMaps.filter(
+      (m) =>
+        m.flyPoint !== undefined &&
+        m.region === player.region &&
+        (player.flags[m.flyPoint.flag] ?? false),
+    );
+    panel.classList.remove("hidden");
+    panel.innerHTML = `
+      <div class="panel-head">
+        <strong>そらをとぶ</strong>
+        <button class="ghost" id="panel-close">とじる</button>
+      </div>
+      ${
+        !outside
+          ? `<p class="dim">ここでは そらへ でられません。</p>`
+          : places.length === 0
+            ? `<p class="dim">まだ いったことのある まちが ありません。</p>`
+            : `<ul class="mon-list">${places
+                .map(
+                  (m) => `<li>
+                    <strong>${escape(m.name)}</strong>
+                    <span class="row-actions">
+                      <button data-fly="${m.id}"${
+                        m.id === player.position.map ? " disabled" : ""
+                      }>とぶ</button>
+                    </span>
+                  </li>`,
+                )
+                .join("")}</ul>`
+      }`;
+    $("#panel-close").onclick = closePanel;
+    for (const button of panel.querySelectorAll<HTMLElement>("[data-fly]")) {
+      button.onclick = () => {
+        const target = mapById(button.dataset["fly"]!);
+        const point = target.flyPoint!;
+        closePanel();
+        void once(async () => {
+          await say(`そらを とんで ${target.name} へ むかった!`);
+          hideText();
+          await doWarp({ to: { map: target.id, x: point.x, y: point.y, facing: "down" } });
+        });
+      };
+    }
+  }
+
   function showStorage(): void {
     const inHub = player.region === null;
     const full = player.storage.party.length >= PARTY_SIZE;
@@ -1487,12 +1614,17 @@ export function playField(rebuild: () => void): FieldHandle {
     if (panel.classList.contains("hidden")) showDex();
     else closePanel();
   };
+  $("#open-fly").onclick = () => {
+    if (panel.classList.contains("hidden")) showFly();
+    else closePanel();
+  };
 
   draw();
   void (async () => {
     // **その地方を初めて始めたとき1回きり。** 続きから遊ぶときには出さないし、
     // 拠点でも出さない（v0.9 では「マップ画面を開くたび」出ていた）。
     // 文面は地方ごとに違うので regions.json が持つ
+    await arrive();
     if (player.region === null || player.started) return;
     player.started = true;
     const intro = regionById(player.region).intro;

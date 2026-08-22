@@ -104,6 +104,18 @@ const SHOOTING_SAVE = (() => {
     save.regions.kanto.flags[flag] = true;
   }
   save.regions.kanto.badges = 5;
+  // フィールド技（v0.12-d）。**覚えていないと そらをとぶ のボタンが出ない**ので、
+  // 撮りたい画面が1枚まるごと消える
+  for (const flag of [
+    "kanto.ability.cut", "kanto.ability.surf", "kanto.ability.strength",
+    "kanto.ability.rock-smash", "kanto.ability.fly",
+  ]) {
+    save.regions.kanto.flags[flag] = true;
+  }
+  // 行ったことのある町（そらをとぶ の行き先）。実際に歩けば立つが、撮影は歩かない
+  for (const key of ["pallet", "viridian", "pewter", "cerulean", "vermilion", "celadon", "fuchsia"]) {
+    save.regions.kanto.flags[`kanto.fly.${key}`] = true;
+  }
   for (const flag of [
     "kanto.route11.gambler-beaten", "kanto.route8.lass-beaten",
     "kanto.route7.camper-beaten", "kanto.route16.biker-beaten",
@@ -170,6 +182,7 @@ const SCREENS = [
   { file: "party", name: "てもち", note: "マップから開くパネル" },
   { file: "facility", name: "バトルしせつ", note: "拠点の受付。4施設" },
   { file: "cups", name: "トーナメント", note: "カップ10。タイプ縛りは自分の手持ちで" },
+  { file: "fly", name: "そらをとぶ", note: "行き先は「一度でも行った町」だけ並ぶ" },
 ];
 
 for (const size of [
@@ -342,6 +355,20 @@ for (const size of [
     // マップは拡大して見たいので canvas だけ 2倍のまま ―― 用途が違う
     await page.screenshot({ path: join(OUT, `${file}-${size.label}.png`), scale: "css" });
   };
+
+  // **そらをとぶ は地方に居るうちに撮る。** 拠点には行き先が無いので、
+  // 拠点へ戻ってから開いても「まだ いったことのある まちが ありません」しか写らない
+  if (region !== "kanto") {
+    await enterKanto();
+    region = "kanto";
+  }
+  await goTo("kanto-celadon-city", 7, 7);
+  await clearBattle();
+  await page.click("#open-fly").catch(() => {});
+  await page.waitForTimeout(600);
+  await shoot("fly");
+  await page.click("#panel-close").catch(() => {});
+  await page.waitForTimeout(400);
 
   /** 1戦を途中まで進めて撮る。**動いている最中の絵**でないと演出は写らない。 */
   await page.click("#open-settings");

@@ -2,6 +2,8 @@
 id: kanto-lavender-town
 name: シオンタウン
 region: kanto
+fly: 6,1 kanto.fly.lavender
+onEnter: kanto.lavender.arrive
 bgm: lavender-town
 
 legend:

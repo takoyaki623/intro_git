@@ -470,5 +470,65 @@
         "rate": 15
       }
     ]
+  },
+  {
+    "id": "kanto-sea-surf",
+    "method": "surf",
+    "entries": [
+      {
+        "species": "tentacool",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 60
+      },
+      {
+        "species": "magikarp",
+        "levelRange": [
+          15,
+          20
+        ],
+        "rate": 25
+      },
+      {
+        "species": "krabby",
+        "levelRange": [
+          10,
+          18
+        ],
+        "rate": 15
+      }
+    ]
+  },
+  {
+    "id": "kanto-pond-surf",
+    "method": "surf",
+    "entries": [
+      {
+        "species": "poliwag",
+        "levelRange": [
+          10,
+          20
+        ],
+        "rate": 40
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          12,
+          22
+        ],
+        "rate": 30
+      },
+      {
+        "species": "goldeen",
+        "levelRange": [
+          10,
+          18
+        ],
+        "rate": 30
+      }
+    ]
   }
 ]

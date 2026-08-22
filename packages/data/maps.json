@@ -2557,8 +2557,27 @@
           "movement": "static"
         },
         "event": "kanto.celadon.woman"
+      },
+      {
+        "id": "celadon-fly-girl",
+        "at": {
+          "x": 3,
+          "y": 10
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "lass",
+          "movement": "static"
+        },
+        "event": "kanto.celadon.fly-girl"
       }
     ],
+    "flyPoint": {
+      "x": 6,
+      "y": 1,
+      "flag": "kanto.fly.celadon"
+    },
+    "onEnter": "kanto.celadon.arrive",
     "bgm": "celadon-city"
   },
   {
@@ -4211,6 +4230,15 @@
         "event": "kanto.cerulean.fisher"
       }
     ],
+    "encounters": [
+      "kanto-pond-surf"
+    ],
+    "flyPoint": {
+      "x": 6,
+      "y": 1,
+      "flag": "kanto.fly.cerulean"
+    },
+    "onEnter": "kanto.cerulean.arrive",
     "bgm": "cerulean-city"
   },
   {
@@ -5315,8 +5343,8 @@
         ".",
         ".",
         ".",
-        ".",
-        ".",
+        "T",
+        "T",
         "T",
         "T",
         ".",
@@ -5489,8 +5517,8 @@
       false,
       false,
       false,
-      false,
-      false,
+      true,
+      true,
       true,
       true,
       false,
@@ -5846,8 +5874,69 @@
           "movement": "static"
         },
         "event": "kanto.fuchsia.warden"
+      },
+      {
+        "id": "fuchsia-strength-man",
+        "at": {
+          "x": 3,
+          "y": 8
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "oldman",
+          "movement": "static"
+        },
+        "event": "kanto.fuchsia.strength-man"
+      },
+      {
+        "id": "fuchsia-surf-teacher",
+        "at": {
+          "x": 3,
+          "y": 5
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "fisher",
+          "movement": "static"
+        },
+        "event": "kanto.fuchsia.surf-teacher"
+      },
+      {
+        "id": "fuchsia-boulder",
+        "at": {
+          "x": 10,
+          "y": 5
+        },
+        "kind": {
+          "type": "obstacle",
+          "clearedBy": "strength"
+        }
+      },
+      {
+        "id": "fuchsia-nugget",
+        "at": {
+          "x": 11,
+          "y": 5
+        },
+        "kind": {
+          "type": "item",
+          "item": "max-ether",
+          "hidden": false
+        },
+        "event": "kanto.fuchsia.nugget",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.fuchsia.nugget-taken",
+          "value": false
+        }
       }
     ],
+    "flyPoint": {
+      "x": 6,
+      "y": 1,
+      "flag": "kanto.fly.fuchsia"
+    },
+    "onEnter": "kanto.fuchsia.arrive",
     "bgm": "fuchsia-city"
   },
   {
@@ -7698,6 +7787,12 @@
         "event": "kanto.lavender.girl"
       }
     ],
+    "flyPoint": {
+      "x": 6,
+      "y": 1,
+      "flag": "kanto.fly.lavender"
+    },
+    "onEnter": "kanto.lavender.arrive",
     "bgm": "lavender-town"
   },
   {
@@ -8309,9 +8404,22 @@
           "flag": "kanto.moon.great-ball-taken",
           "value": false
         }
+      },
+      {
+        "id": "moon-rock",
+        "at": {
+          "x": 5,
+          "y": 6
+        },
+        "kind": {
+          "type": "obstacle",
+          "clearedBy": "rockSmash"
+        }
       }
     ],
-    "encounters": "kanto-mt-moon-cave",
+    "encounters": [
+      "kanto-mt-moon-cave"
+    ],
     "bgm": "mt-moon"
   },
   {
@@ -9277,6 +9385,15 @@
         "event": "kanto.pallet.hub-gate"
       }
     ],
+    "encounters": [
+      "kanto-sea-surf"
+    ],
+    "flyPoint": {
+      "x": 6,
+      "y": 1,
+      "flag": "kanto.fly.pallet"
+    },
+    "onEnter": "kanto.pallet.arrive",
     "bgm": "pallet-town"
   },
   {
@@ -10084,8 +10201,27 @@
           "movement": "static"
         },
         "event": "kanto.pewter.museum-guide"
+      },
+      {
+        "id": "pewter-hiker",
+        "at": {
+          "x": 10,
+          "y": 5
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "hiker",
+          "movement": "static"
+        },
+        "event": "kanto.pewter.hiker"
       }
     ],
+    "flyPoint": {
+      "x": 6,
+      "y": 1,
+      "flag": "kanto.fly.pewter"
+    },
+    "onEnter": "kanto.pewter.arrive",
     "bgm": "pewter-city"
   },
   {
@@ -12256,7 +12392,9 @@
         "event": "kanto.route1.boy"
       }
     ],
-    "encounters": "kanto-route-1-grass",
+    "encounters": [
+      "kanto-route-1-grass"
+    ],
     "bgm": "route-1"
   },
   {
@@ -12832,7 +12970,9 @@
         }
       }
     ],
-    "encounters": "kanto-route-11-grass",
+    "encounters": [
+      "kanto-route-11-grass"
+    ],
     "bgm": "route-11"
   },
   {
@@ -13303,7 +13443,9 @@
         }
       }
     ],
-    "encounters": "kanto-route-16-grass",
+    "encounters": [
+      "kanto-route-16-grass"
+    ],
     "bgm": "route-16"
   },
   {
@@ -14207,7 +14349,9 @@
         }
       }
     ],
-    "encounters": "kanto-route-2-grass",
+    "encounters": [
+      "kanto-route-2-grass"
+    ],
     "bgm": "route-2"
   },
   {
@@ -14886,7 +15030,9 @@
         }
       }
     ],
-    "encounters": "kanto-route-3-grass",
+    "encounters": [
+      "kanto-route-3-grass"
+    ],
     "bgm": "route-3"
   },
   {
@@ -15291,7 +15437,9 @@
         }
       }
     ],
-    "encounters": "kanto-route-4-grass",
+    "encounters": [
+      "kanto-route-4-grass"
+    ],
     "bgm": "route-4"
   },
   {
@@ -15669,7 +15817,9 @@
         }
       }
     ],
-    "encounters": "kanto-route-5-grass",
+    "encounters": [
+      "kanto-route-5-grass"
+    ],
     "bgm": "route-5"
   },
   {
@@ -16047,7 +16197,9 @@
         }
       }
     ],
-    "encounters": "kanto-route-6-grass",
+    "encounters": [
+      "kanto-route-6-grass"
+    ],
     "bgm": "route-6"
   },
   {
@@ -16458,7 +16610,9 @@
         }
       }
     ],
-    "encounters": "kanto-route-7-grass",
+    "encounters": [
+      "kanto-route-7-grass"
+    ],
     "bgm": "route-7"
   },
   {
@@ -16929,7 +17083,9 @@
         }
       }
     ],
-    "encounters": "kanto-route-8-grass",
+    "encounters": [
+      "kanto-route-8-grass"
+    ],
     "bgm": "route-8"
   },
   {
@@ -17691,6 +17847,12 @@
         "event": "kanto.saffron.boy"
       }
     ],
+    "flyPoint": {
+      "x": 6,
+      "y": 1,
+      "flag": "kanto.fly.saffron"
+    },
+    "onEnter": "kanto.saffron.arrive",
     "bgm": "saffron-city"
   },
   {
@@ -18721,7 +18883,7 @@
         "~",
         "~",
         "~",
-        "~",
+        "s",
         "~",
         "~",
         "~",
@@ -18922,7 +19084,7 @@
       true,
       true,
       true,
-      true,
+      false,
       true,
       true,
       true,
@@ -19120,7 +19282,7 @@
       "water",
       "water",
       "water",
-      "water",
+      "sand",
       "water",
       "water",
       "water",
@@ -19244,8 +19406,59 @@
           "movement": "static"
         },
         "event": "kanto.vermilion.boy"
+      },
+      {
+        "id": "vermilion-tree",
+        "at": {
+          "x": 5,
+          "y": 10
+        },
+        "kind": {
+          "type": "obstacle",
+          "clearedBy": "cut"
+        }
+      },
+      {
+        "id": "vermilion-captain",
+        "at": {
+          "x": 3,
+          "y": 4
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "sailor",
+          "movement": "static"
+        },
+        "event": "kanto.vermilion.captain"
+      },
+      {
+        "id": "vermilion-island",
+        "at": {
+          "x": 9,
+          "y": 12
+        },
+        "kind": {
+          "type": "item",
+          "item": "hyper-potion",
+          "hidden": false
+        },
+        "event": "kanto.vermilion.island",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.vermilion.island-taken",
+          "value": false
+        }
       }
     ],
+    "encounters": [
+      "kanto-sea-surf"
+    ],
+    "flyPoint": {
+      "x": 6,
+      "y": 1,
+      "flag": "kanto.fly.vermilion"
+    },
+    "onEnter": "kanto.vermilion.arrive",
     "bgm": "vermilion-city"
   },
   {
@@ -20872,6 +21085,15 @@
         "event": "kanto.viridian.oldman"
       }
     ],
+    "encounters": [
+      "kanto-pond-surf"
+    ],
+    "flyPoint": {
+      "x": 7,
+      "y": 1,
+      "flag": "kanto.fly.viridian"
+    },
+    "onEnter": "kanto.viridian.arrive",
     "bgm": "viridian-city"
   },
   {
@@ -21535,7 +21757,9 @@
         }
       }
     ],
-    "encounters": "kanto-viridian-forest-grass",
+    "encounters": [
+      "kanto-viridian-forest-grass"
+    ],
     "bgm": "viridian-forest"
   },
   {

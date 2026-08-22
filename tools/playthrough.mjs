@@ -96,17 +96,29 @@ const STEPS = {
   ArrowUp: [0, -1], ArrowDown: [0, 1], ArrowLeft: [-1, 0], ArrowRight: [1, 0],
 };
 
+/**
+ * 台本がどけた障害物と、なみのり を覚えたかどうか（v0.12-d）。
+ *
+ * **経路探索は「今できること」を知らないと役に立たない。**
+ * き を切ったのに経路探索が塞がったままだと、
+ * ジムに入れたのに「行けない」と報告する台本ができあがる。
+ */
+const cleared = new Set();
+let canSurf = false;
+
 function blocked(map, x, y) {
   if (x < 0 || y < 0 || x >= map.size.width || y >= map.size.height) return true;
   const i = y * map.size.width + x;
-  if (map.collision[i] === true) return true;
+  if (map.collision[i] === true && !(canSurf && map.terrain[i] === "water")) return true;
   // **条件つきのオブジェクトは通れる扱いにする。**
   // 消える前提のもの（進行を塞ぐオーキドなど）を壁として扱うと、
   // 本来の道が丸ごと消える ―― 実際、これで1番道路へ一生行けなかった。
   // 条件が残っていれば実際に進めず、goToMap が経路を引き直す。
-  return map.objects.some(
-    (o) => o.at.x === x && o.at.y === y && o.kind.type !== "item" && o.condition === undefined,
-  );
+  return map.objects.some((o) => {
+    if (o.at.x !== x || o.at.y !== y || o.kind.type === "item") return false;
+    if (o.kind.type === "obstacle") return !cleared.has(`${map.id}:${o.id}`);
+    return o.condition === undefined;
+  });
 }
 
 const terrainAt = (map, x, y) => map.terrain[y * map.size.width + x];
@@ -245,6 +257,19 @@ async function accept(limit = 20) {
     else await page.keyboard.press("z");
     await page.waitForTimeout(230);
   }
+}
+
+/**
+ * 目の前の障害物に フィールド技を使う（v0.12-d）。
+ * 「つかいますか?」の **はい は先頭**なので `accept()` に任せる。
+ */
+async function useAbility(direction, key2) {
+  await key(direction, 2, 220);
+  await key("z", 1, 350);
+  note("フィールド技", ((await page.textContent("#field-text")) ?? "（何も出ない）").trim().replace(/\s+/g, " "));
+  await accept();
+  await clear();
+  cleared.add(key2);
 }
 
 /** ゲートからカントーへ。**warp ではなくイベント**なので経路探索では跨げない。 */
@@ -832,9 +857,28 @@ expect(
 await shot("20-badge-shop");
 await drain();
 
-// クチバまで
+// クチバ ―― **ジムの前に き がある**（v0.12-d）。
+// 進行能力が本当に進行を止めているかは、止まってみないと分からない
+// **き の真下は海。** 立てるのは右どなりだけ（左どなりには看板がある）
+await goToMap("kanto-vermilion-city", 6, 10, 60);
+expect("クチバまで 行ける", (await spot()).map, "kanto-vermilion-city");
+expect(
+  "いあいぎり が 無いと ジムに 入れない",
+  (await goToMap("kanto-vermilion-gym", 4, 8, 4)).map,
+  "kanto-vermilion-city",
+);
+
+// せんちょうに おそわる（道具ではなくフラグ・world.md §7）
+await goToMap("kanto-vermilion-city", 3, 5, 30);
+await talk("ArrowUp");
+await drain(8);
+await goToMap("kanto-vermilion-city", 6, 10, 30);
+await useAbility("ArrowLeft", "kanto-vermilion-city:vermilion-tree");
+note("き を きったあと", await at());
+await shot("20b-cut");
+
 await goToMap("kanto-vermilion-gym", 4, 8, 60);
-expect("クチバジムまで 行ける", (await spot()).map, "kanto-vermilion-gym");
+expect("いあいぎり で ジムに 入れる", (await spot()).map, "kanto-vermilion-gym");
 await goToMap("kanto-vermilion-gym", 4, 2);
 await talk("ArrowUp");
 await drain(8);
@@ -859,26 +903,51 @@ await shot("21-three-badges");
 // **ここから相手が Lv37〜43 になる。** §12 で持たせた技（かくとう・じめん・ほのお）では
 // キョウの ベトベトン と マタドガス を削り切れず、実際に負けて連鎖で全部落ちた。
 // 台本は機構を確かめるものなので、通る技に入れ替える
-await page.click("#open-settings");
-await page.waitForSelector("#save-export");
-await page.click("#save-export");
-const forLate = JSON.parse(await page.inputValue("#save-text"));
-for (const mon of Object.values(forLate.pokemon)) {
-  mon.exp = 900000;
-  mon.currentHp = 999;
-  mon.moves = [
-    { id: "earthquake", pp: 10 }, // どく・でんきに2倍
-    { id: "crunch", pp: 15 }, // エスパー・ゴーストに2倍
-    { id: "brick-break", pp: 15 }, // いわ・ノーマルに2倍
-  ];
+/**
+ * 後半のジムに勝てる状態へ戻す。
+ *
+ * **PP は歩いているうちに尽きる。** 1回だけ強化して3つのジムを回った版は、
+ * 道中の野生戦で技を使い切り、わるあがき でキョウに負けて、
+ * そこから先の判定が全部連鎖で崩れた。台本が確かめたいのは機構なので、
+ * **ジムの直前ごとに満タンに戻す**（人で言えば「ちゃんと準備してから行く」）。
+ */
+/** セーブを読み出して、今のバッジ数を見る。 */
+async function badgeCount() {
+  await page.click("#open-settings");
+  await page.waitForSelector("#save-export");
+  await page.click("#save-export");
+  const save = JSON.parse(await page.inputValue("#save-text"));
+  await page.click("#settings-back");
+  await page.waitForSelector("#field-canvas");
+  await page.waitForTimeout(300);
+  return save.regions.kanto.badges;
 }
-await page.fill("#save-text", JSON.stringify(forLate));
-await page.click("#save-import");
-await page.waitForTimeout(900);
-await page.click("#settings-back");
-await page.waitForSelector("#field-canvas");
-await page.waitForTimeout(400);
-await drain();
+
+async function powerUp() {
+  await page.click("#open-settings");
+  await page.waitForSelector("#save-export");
+  await page.click("#save-export");
+  const save = JSON.parse(await page.inputValue("#save-text"));
+  for (const mon of Object.values(save.pokemon)) {
+    mon.exp = 900000;
+    mon.currentHp = 999;
+    mon.status = null;
+    mon.moves = [
+      { id: "earthquake", pp: 10 }, // どく・でんきに2倍
+      { id: "crunch", pp: 15 }, // エスパー・ゴーストに2倍
+      { id: "brick-break", pp: 15 }, // いわ・ノーマルに2倍
+    ];
+  }
+  await page.fill("#save-text", JSON.stringify(save));
+  await page.click("#save-import");
+  await page.waitForTimeout(900);
+  await page.click("#settings-back");
+  await page.waitForSelector("#field-canvas");
+  await page.waitForTimeout(400);
+  await drain();
+}
+
+await powerUp();
 
 await goToMap("kanto-saffron-city", 5, 8, 80);
 expect("ヤマブキまで 行ける", (await spot()).map, "kanto-saffron-city");
@@ -892,6 +961,7 @@ expect(
 );
 await shot("22-saffron-closed");
 
+await powerUp();
 // エリカ（ジム4）
 await goToMap("kanto-celadon-gym", 4, 2, 80);
 expect("タマムシジムまで 行ける", (await spot()).map, "kanto-celadon-gym");
@@ -901,11 +971,13 @@ expect("エリカに いどめる", (await page.isVisible("#battle")) ? "いど�
 expect("エリカ戦の 決着", await fight(), "決着してマップに戻った");
 await page.waitForTimeout(800);
 await drain(30);
+note("エリカのあと", `バッジ ${await badgeCount()} / ${(await page.textContent("#field-party")).trim()}`);
 
 // キョウ（ジム5）。**ジムの前にポケモンセンターへ寄る** ―― 人がやることと同じ
 await goToMap("kanto-fuchsia-pokecenter", 4, 3, 80);
 await talk("ArrowUp");
 await drain();
+await powerUp();
 await goToMap("kanto-fuchsia-gym", 4, 2, 80);
 expect("セキチクジムまで 行ける", (await spot()).map, "kanto-fuchsia-gym");
 await talk("ArrowUp");
@@ -914,6 +986,7 @@ expect("キョウに いどめる", (await page.isVisible("#battle")) ? "いど�
 expect("キョウ戦の 決着", await fight(), "決着してマップに戻った");
 await page.waitForTimeout(800);
 await drain(30);
+note("キョウのあと", `${await at()} / バッジ ${await badgeCount()} / ${(await page.textContent("#field-party")).trim()}`);
 await shot("23-five-badges");
 
 // バッジ5つになったので、警備員が通す
@@ -926,6 +999,7 @@ await drain();
 await goToMap("kanto-saffron-city", 5, 8, 40);
 await talk("ArrowUp");
 await drain(6);
+await powerUp();
 await goToMap("kanto-saffron-gym", 4, 2, 20);
 expect("バッジ5つで ヤマブキジムに 入れる", (await spot()).map, "kanto-saffron-gym");
 await talk("ArrowUp");
@@ -943,6 +1017,73 @@ expect("バッジが 6つに なる", sixBadges.regions.kanto.badges, 6);
 await page.click("#settings-back");
 await page.waitForSelector("#field-canvas");
 await shot("24-six-badges");
+
+// ── 15. かいりき・なみのり・そらをとぶ（v0.12-d）──
+//
+// **秘伝要員をパーティに入れない**（world.md §7）。
+// 能力はプレイヤー自身が持つので、手持ちを1匹も入れ替えずにここを通せる。
+
+await powerUp();
+
+// かいりき ―― セキチクの おおきな いわ の先に道具がある
+await goToMap("kanto-fuchsia-city", 3, 9, 80);
+await talk("ArrowUp");
+await drain(8);
+expect(
+  "かいりき が 無いうちは いわの むこうに 行けない",
+  (await goToMap("kanto-fuchsia-city", 11, 5, 4)).x,
+  (v) => v !== 11,
+);
+await goToMap("kanto-fuchsia-city", 9, 5, 30);
+await useAbility("ArrowRight", "kanto-fuchsia-city:fuchsia-boulder");
+await goToMap("kanto-fuchsia-city", 11, 5, 20);
+await drain();
+expect("いわの むこうに 行ける", (await spot()).x, 11);
+await shot("25-strength");
+
+// なみのり を おそわる（使うのは クチバの海。飛んでから)
+await goToMap("kanto-fuchsia-city", 3, 6, 30);
+await talk("ArrowUp");
+await drain(8);
+
+// そらをとぶ ―― 行き先は「来たことのある町」だけ。
+// **歩いてカントーを横断しない。** 覚えた能力で移動するのが、この版の眼目でもある
+await goToMap("kanto-celadon-city", 3, 11, 60);
+await talk("ArrowUp");
+await drain(8);
+expect(
+  "そらをとぶ の ボタンが 出る",
+  (await page.isVisible("#open-fly")) ? "出た" : "出ない",
+  "出た",
+);
+await page.click("#open-fly");
+await page.waitForSelector("#field-panel [data-fly]");
+const flyTargets = await page.$$eval("#field-panel [data-fly]", (b) => b.map((x) => x.dataset.fly));
+note("そらをとぶ の 行き先", `${flyTargets.length}件 ${flyTargets.join(" ")}`);
+expect(
+  "行った町だけが 行き先に ならぶ",
+  flyTargets.includes("kanto-vermilion-city") && !flyTargets.some((id) => id.startsWith("hub-"))
+    ? "正しい"
+    : "おかしい",
+  "正しい",
+);
+await page.click('#field-panel [data-fly="kanto-vermilion-city"]');
+await drain();
+await page.waitForTimeout(700);
+expect("そらをとぶ で クチバへ 飛べる", (await spot()).map, "kanto-vermilion-city");
+await shot("26-fly");
+
+// なみのり ―― 海へ出て、砂州の道具を拾う
+canSurf = true;
+await goToMap("kanto-vermilion-city", 9, 12, 40);
+await drain();
+const onWater = await spot();
+expect(
+  "なみのり で 海に 出られる",
+  `${onWater.map} ${onWater.x},${onWater.y}`,
+  "kanto-vermilion-city 9,12",
+);
+await shot("27-surf");
 
 console.log(`\nスクリーンショット: ${SHOTS}`);
 console.log(errors.length === 0 ? "JS エラーなし" : `JS エラー ${errors.length} 件:\n${errors.join("\n")}`);

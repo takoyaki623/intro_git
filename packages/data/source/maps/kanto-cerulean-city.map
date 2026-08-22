@@ -2,6 +2,9 @@
 id: kanto-cerulean-city
 name: ハナダシティ
 region: kanto
+fly: 6,1 kanto.fly.cerulean
+onEnter: kanto.cerulean.arrive
+encounters: kanto-pond-surf
 bgm: cerulean-city
 
 legend:

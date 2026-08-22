@@ -29,6 +29,10 @@ const byId = new Map(maps.map((m) => [m.id, m]));
 const trainerById = new Map(trainers.map((t) => [t.id, t]));
 const encounterById = new Map(encounters.map((e) => [e.id, e]));
 
+/** そのマップが引きうる出現テーブル（v0.12-d で複数持てるようになった）。 */
+const tablesOf = (map) =>
+  (map.encounters ?? []).map((id) => encounterById.get(id)).filter((t) => t !== undefined);
+
 /**
  * 建物か、外か。
  *
@@ -117,7 +121,7 @@ function kindOf(map) {
   if (interiorOf.has(map.id)) {
     return map.objects.some((o) => o.kind.type === "trainer") ? "gym" : "inside";
   }
-  if (encounterById.get(map.encounters)?.method === "cave") return "cave";
+  if (tablesOf(map).some((t) => t.method === "cave")) return "cave";
   return insideOf.has(map.id) ? "town" : "route";
 }
 
@@ -219,9 +223,9 @@ const allRows = maps
   .map((map) => {
     const kind = KIND[kindOf(map)];
     const tr = map.objects.filter((o) => o.kind.type === "trainer");
-    const enc = map.encounters === undefined ? "—" : encounterById.get(map.encounters);
+    const enc = tablesOf(map);
     const encLabel =
-      enc === "—" ? "—" : `${enc.entries.length}種 / ${enc.method}`;
+      enc.length === 0 ? "—" : enc.map((t) => `${t.entries.length}種 / ${t.method}`).join(" ・ ");
     const names = tr
       .map((o) => trainerById.get(o.kind.trainer)?.name ?? o.kind.trainer)
       .join("・");

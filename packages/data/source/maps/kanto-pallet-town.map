@@ -2,6 +2,9 @@
 id: kanto-pallet-town
 name: マサラタウン
 region: kanto
+fly: 6,1 kanto.fly.pallet
+onEnter: kanto.pallet.arrive
+encounters: kanto-sea-surf
 bgm: pallet-town
 
 legend:

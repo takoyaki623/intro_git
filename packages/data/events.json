@@ -3424,5 +3424,330 @@
         "speaker": "キョウ"
       }
     ]
+  },
+  {
+    "id": "kanto.pallet.arrive",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.fly.pallet",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridian.arrive",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.fly.viridian",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.pewter.arrive",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.fly.pewter",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.cerulean.arrive",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.fly.cerulean",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.vermilion.arrive",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.fly.vermilion",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.lavender.arrive",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.fly.lavender",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.celadon.arrive",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.fly.celadon",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.saffron.arrive",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.fly.saffron",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.fuchsia.arrive",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.fly.fuchsia",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.pewter.hiker",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.ability.rock-smash",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "speaker": "やまおとこ",
+            "text": "わしの ハンマーさばきを みるかね?\nひびの はいった いわなら くだけるぞ。"
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.ability.rock-smash",
+            "value": true
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.pewter.hiker",
+            "value": true
+          },
+          {
+            "kind": "message",
+            "text": "いわくだき の こつを おそわった!\n（バッジが 1つ あれば つかえる）"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "speaker": "やまおとこ",
+            "text": "ひびの はいった いわを さがしてみな。"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.vermilion.captain",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.ability.cut",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "speaker": "せんちょう",
+            "text": "ふねの ロープを きる やりかたを\nおしえて やろう。き にも きくぞ。"
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.ability.cut",
+            "value": true
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.vermilion.captain",
+            "value": true
+          },
+          {
+            "kind": "message",
+            "text": "いあいぎり の こつを おそわった!\n（バッジが 2つ あれば つかえる）"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "speaker": "せんちょう",
+            "text": "ジムの まえの き が じゃまだろう?"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.celadon.fly-girl",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.ability.fly",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "speaker": "おねえさん",
+            "text": "そらを とぶ ポケモンに のせて もらう\nほうほう、しりたい?"
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.ability.fly",
+            "value": true
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.celadon.fly-girl",
+            "value": true
+          },
+          {
+            "kind": "message",
+            "text": "そらをとぶ の こつを おそわった!\n（バッジが 3つ あれば つかえる）"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "speaker": "おねえさん",
+            "text": "いちど いった まちには もどれるわ。"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.fuchsia.strength-man",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.ability.strength",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "speaker": "かんりにん",
+            "text": "おおきな いわを おすには こつが いる。\nちからまかせでは うごかんぞ。"
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.ability.strength",
+            "value": true
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.fuchsia.strength-man",
+            "value": true
+          },
+          {
+            "kind": "message",
+            "text": "かいりき の こつを おそわった!\n（バッジが 4つ あれば つかえる）"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "speaker": "かんりにん",
+            "text": "この まちにも おもい いわが あったな。"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.fuchsia.surf-teacher",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.ability.surf",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "speaker": "つりびと",
+            "text": "うみを わたりたいのか?\nポケモンの せなかを かりれば いい。"
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.ability.surf",
+            "value": true
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.fuchsia.surf-teacher",
+            "value": true
+          },
+          {
+            "kind": "message",
+            "text": "なみのり の こつを おそわった!\n（バッジが 5つ あれば つかえる）"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "speaker": "つりびと",
+            "text": "うみの うえにも ポケモンは いるぞ。"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.fuchsia.nugget",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-ether",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.fuchsia.nugget-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.vermilion.island",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "hyper-potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.vermilion.island-taken",
+        "value": true
+      }
+    ]
   }
 ]

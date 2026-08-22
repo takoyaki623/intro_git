@@ -2,6 +2,9 @@
 id: kanto-vermilion-city
 name: クチバシティ
 region: kanto
+fly: 6,1 kanto.fly.vermilion
+onEnter: kanto.vermilion.arrive
+encounters: kanto-sea-surf
 bgm: vermilion-city
 
 legend:
@@ -12,6 +15,7 @@ P !normal
 F !normal
 D normal
 ~ !water
+s sand
 
 grid:
 TTTTTTT.TTTTTT
@@ -26,7 +30,7 @@ T..GGGG......T
 T..GGDG......T
 T............T
 T~~~~~~~~~~~~T
-T~~~~~~~~~~~~T
+T~~~~~~~~s~~~T
 TTTTTTTTTTTTTT
 
 warps:
@@ -40,3 +44,6 @@ objects:
 vermilion-sign-gym 4,10 sign kanto.vermilion.sign-gym
 vermilion-sailor 9,10 npc:sailor:static kanto.vermilion.sailor
 vermilion-boy 9,1 npc:youngster:static kanto.vermilion.boy
+vermilion-tree 5,10 obstacle:cut
+vermilion-captain 3,4 npc:sailor:static kanto.vermilion.captain
+vermilion-island 9,12 item:hyper-potion kanto.vermilion.island if:kanto.vermilion.island-taken=false

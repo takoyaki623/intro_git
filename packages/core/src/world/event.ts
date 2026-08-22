@@ -17,6 +17,7 @@ import type {
   Direction,
   EventCommand,
   EventId,
+  FieldAbilityId,
   FlagId,
   MapId,
   ShopId,
@@ -30,6 +31,18 @@ export type WorldState = {
   money: number;
   bag: Record<ItemId, number>;
   partySpecies: SpeciesId[];
+  /**
+   * 今使えるフィールド技（v0.12-d）。
+   *
+   * **`Condition` から毎回導く派生値**で、セーブには載せない。
+   * 保存してしまうと「フラグは消えたのに、なみのりだけ使える」状態が作れる。
+   */
+  abilities: FieldAbilityId[];
+  /**
+   * この訪問でどけた障害物（v0.12-d）。`obstacleKey()` の文字列。
+   * これもセーブに載せない ―― 出入りすれば元に戻る（原作と同じ）。
+   */
+  cleared: string[];
 };
 
 export const emptyWorldState = (): WorldState => ({
@@ -38,6 +51,8 @@ export const emptyWorldState = (): WorldState => ({
   money: 3000,
   bag: {},
   partySpecies: [],
+  abilities: [],
+  cleared: [],
 });
 
 /** 条件の評価。用途をまたいで1つだけ持つ（分岐の仕組みを3つに分けない）。 */

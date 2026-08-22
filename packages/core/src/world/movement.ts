@@ -9,11 +9,13 @@
 
 import type { Rng } from "../rng.js";
 import type { SpeciesId } from "../types.js";
+import { obstacleKey } from "./ability.js";
 import { evaluate, type WorldState } from "./event.js";
 import type {
   Direction,
   EncounterTable,
   EventId,
+  FieldAbilityId,
   MapData,
   MapObject,
   TerrainId,
@@ -94,10 +96,21 @@ export function isWalkable(
   y: number,
 ): boolean {
   if (!inBounds(map, x, y)) return false;
-  if (map.collision[indexOf(map, x, y)] === true) return false;
+  if (map.collision[indexOf(map, x, y)] === true && !canSwimTo(map, world, x, y)) return false;
   return !visibleObjects(map, world).some(
     (o) => o.at.x === x && o.at.y === y && blocksMovement(o),
   );
+}
+
+/**
+ * なみのり で入れる水面か（v0.12-d）。
+ *
+ * **水は通行不可のまま置き、能力で例外にする。** 逆（水を通行可にして
+ * 能力が無いときだけ塞ぐ）にすると、能力の実装を消した瞬間に
+ * 海の上を歩けるマップができあがる。既定は塞がっている側に倒す。
+ */
+function canSwimTo(map: MapData, world: WorldState, x: number, y: number): boolean {
+  return terrainAt(map, x, y) === "water" && world.abilities.includes("surf");
 }
 
 /** 看板・NPC・障害物は通れない。落ちている道具は踏める。 */
@@ -105,7 +118,12 @@ const blocksMovement = (object: MapObject): boolean => object.kind.type !== "ite
 
 /** 条件を満たして今そこに居るオブジェクトだけ。 */
 export function visibleObjects(map: MapData, world: WorldState): MapObject[] {
-  return map.objects.filter((o) => o.condition === undefined || evaluate(o.condition, world));
+  return map.objects.filter((o) => {
+    // どけた障害物はもう居ない。**ここ1箇所で消す**ので、
+    // 当たり判定・描画・視線が勝手に揃う（別々に判定を足すとどれか1つ忘れる）
+    if (o.kind.type === "obstacle" && world.cleared.includes(obstacleKey(map.id, o))) return false;
+    return o.condition === undefined || evaluate(o.condition, world);
+  });
 }
 
 export function objectAt(
@@ -277,6 +295,33 @@ function advanceEncounterState(state: EncounterState, terrain: TerrainId): Encou
   };
 }
 
+/**
+ * 地形とエンカウント方式の対応（v0.12-d）。
+ *
+ * **地形が方式を決める。** マップ側に「この表は水用」と書かせると、
+ * 書き忘れたマップで草むらのポケモンが海から出てくる。
+ */
+export const METHOD_BY_TERRAIN: Partial<Record<TerrainId, EncounterTable["method"]>> = {
+  grass: "grass",
+  cave: "cave",
+  water: "surf",
+};
+
+/** その地形で引く表。無ければ null（＝その地形では出ない）。 */
+export function tableFor(
+  map: MapData,
+  terrain: TerrainId,
+  tables: readonly EncounterTable[],
+): EncounterTable | null {
+  const method = METHOD_BY_TERRAIN[terrain];
+  if (method === undefined || map.encounters === undefined) return null;
+  for (const id of map.encounters) {
+    const table = tables.find((t) => t.id === id);
+    if (table !== undefined && table.method === method) return table;
+  }
+  return null;
+}
+
 /** 1歩ぶんのエンカウント抽選。出なければ null。 */
 export function rollEncounter(
   map: MapData,
@@ -286,15 +331,17 @@ export function rollEncounter(
   tables: readonly EncounterTable[],
 ): { kind: "encounter"; species: SpeciesId; level: number } | null {
   const base = ENCOUNTER.rateByTerrain[terrain];
-  if (base === undefined || map.encounters === undefined) return null;
+  if (base === undefined) return null;
   if (state.stepsSince <= ENCOUNTER.graceSteps) return null;
+
+  // **抽選より先に表を決める。** 表が無い地形で乱数を回すと、
+  // 「出るはずだったのに何も起きなかった」ぶんだけ乱数がずれ、再生が合わなくなる
+  const table = tableFor(map, terrain, tables);
+  if (table === null || table.entries.length === 0) return null;
 
   // 出なさすぎの救済。歩くほど確率が上がる
   const pity = Math.max(0, state.stepsInGrass - ENCOUNTER.pityAfter) * ENCOUNTER.pityStep;
   if (!rng.chance(Math.min(1, base + pity))) return null;
-
-  const table = tables.find((t) => t.id === map.encounters);
-  if (table === undefined || table.entries.length === 0) return null;
   return { kind: "encounter", ...pickEncounter(table, rng) };
 }
 
@@ -316,12 +363,22 @@ export function pickEncounter(
   return { species: last.species, level: last.levelRange[0] };
 }
 
-/** 目の前を調べる。話しかけ・看板・調べる warp。 */
+export type InteractResult =
+  | { kind: "event"; event: EventId; object: MapObject }
+  | { kind: "warp"; warp: Warp }
+  /**
+   * 障害物（v0.12-d）。`ability` を持っていれば どけられる。
+   * **どけられるかどうかの判定はここでしない** ―― UI が文章を出し分ける都合上、
+   * 「何が要るか」だけ返して、可否は `canClear` に一本化する。
+   */
+  | { kind: "obstacle"; object: MapObject; ability: FieldAbilityId };
+
+/** 目の前を調べる。話しかけ・看板・調べる warp・障害物。 */
 export function interact(
   map: MapData,
   world: WorldState,
   position: PlayerPosition,
-): { kind: "event"; event: EventId; object: MapObject } | { kind: "warp"; warp: Warp } | null {
+): InteractResult | null {
   const { dx, dy } = STEP[position.facing];
   const x = position.x + dx;
   const y = position.y + dy;
@@ -330,6 +387,10 @@ export function interact(
   if (warp !== null) return { kind: "warp", warp };
 
   const object = objectAt(map, world, x, y);
-  if (object?.event !== undefined) return { kind: "event", event: object.event, object };
+  if (object === null) return null;
+  if (object.kind.type === "obstacle") {
+    return { kind: "obstacle", object, ability: object.kind.clearedBy };
+  }
+  if (object.event !== undefined) return { kind: "event", event: object.event, object };
   return null;
 }

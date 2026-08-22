@@ -18,7 +18,26 @@ export type EncounterTableId = string;
 export type EventId = string;
 export type ShopId = string;
 /** 進行能力。秘伝技を廃止し、道具・フラグで解放する（world.md §7）。 */
-export type FieldAbilityId = "cut" | "surf" | "strength" | "rockSmash" | "fly";
+export const FIELD_ABILITIES = ["cut", "surf", "strength", "rockSmash", "fly"] as const;
+export type FieldAbilityId = (typeof FIELD_ABILITIES)[number];
+
+/**
+ * フィールド技の定義（v0.12-d）。
+ *
+ * **使えるかどうかは手持ちではなくプレイヤー自身で決まる**（world.md §7）。
+ * 条件は分岐・NPCの出現条件と同じ `Condition` を使い回す（data-schema.md §5）
+ * ―― 「解放条件」という専用の型を作ると、書き方が2つに割れる。
+ */
+export type FieldAbility = {
+  id: FieldAbilityId;
+  /** 「いあいぎり」。表示にだけ使う。 */
+  name: string;
+  requires: Condition;
+  /** まだ使えないときに障害物を調べて出す文。 */
+  lockedText: string;
+  /** 使ったときに出す文。`{name}` は能力名に置き換わる。 */
+  useText: string;
+};
 
 export const DIRECTIONS = ["up", "down", "left", "right"] as const;
 export type Direction = (typeof DIRECTIONS)[number];
@@ -92,7 +111,29 @@ export type MapData = {
   terrain: TerrainId[];
   warps: Warp[];
   objects: MapObject[];
-  encounters?: EncounterTableId;
+  /**
+   * 出現テーブル。**複数持てる**（v0.12-d）。
+   *
+   * 1つしか持てなかった頃は「草むらの表」しか置けず、
+   * なみのりで水の上へ出た瞬間に**草むらのポケモンが海から出てくる**。
+   * どの表を引くかは地形が決める（`method` と地形の対応・`METHOD_BY_TERRAIN`）。
+   */
+  encounters?: EncounterTableId[];
+  /**
+   * そらをとぶ の行き先（v0.12-d）。**この欄があるマップだけが行き先になる。**
+   * 「行ける町の一覧」をどこか別の表に持つと、マップを消したときに残る。
+   *
+   * `flag` は「一度でも来たか」の記録。`onEnter` で立てる約束にしてあり、
+   * **立てていなければ検証が落とす**（行き先に宣言したのに永久に開かない、を防ぐ）。
+   */
+  flyPoint?: { x: number; y: number; flag: FlagId };
+  /**
+   * マップに入った瞬間に走るイベント（v0.12-d）。
+   *
+   * 「訪れた」の記録に使う（そらをとぶ の解放）。
+   * 四天王の「戻れない部屋」もここで塞ぐ想定。
+   */
+  onEnter?: EventId;
   bgm?: string;
 };
 

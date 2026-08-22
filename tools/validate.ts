@@ -43,6 +43,7 @@ import {
   allTournaments,
   allEncounterTables,
   allEvents,
+  allFieldAbilities,
   allFlags,
   allMaps,
   allRegions,
@@ -330,12 +331,22 @@ function checkBattleReady(): void {
   // ── 実際に戦えるか ──
   // 上の2つと違い、これは**遊べるかどうか**に直結する。
   // 野生で出てくる種が わるあがき しかできないと、戦闘が成立しない
-  const wildSpecies = new Set(allEncounterTables.flatMap((t) => t.entries.map((e) => e.species)));
-  for (const id of wildSpecies) {
+  //
+  // **「Lv5 まで」ではなく「実際に出るレベルまで」を見る**（v0.12-d）。
+  // 固定の 5 で測っていたので、なみのり の表を Lv10〜 で作っても
+  // 「Lv5 で技が無い」と言われた ―― 測る対象が違えば、通っても落ちても意味が無い。
+  const lowestWildLevel = new Map<string, number>();
+  for (const table of allEncounterTables) {
+    for (const entry of table.entries) {
+      const at = Math.min(entry.levelRange[0], entry.levelRange[1]);
+      const seen = lowestWildLevel.get(entry.species);
+      lowestWildLevel.set(entry.species, seen === undefined ? at : Math.min(seen, at));
+    }
+  }
+  for (const [id, level] of lowestWildLevel) {
     const s = allSpecies.find((x) => x.id === id)!;
-    const early = s.learnset.filter((l) => l.level <= 5);
-    if (early.length === 0) {
-      fail("wild-usable", `${id}: 野生で出るのに Lv5 までに技を1つも覚えない`);
+    if (!s.learnset.some((l) => l.level <= level)) {
+      fail("wild-usable", `${id}: 野生で Lv${level} から出るのに、そこまでに技を1つも覚えない`);
     }
   }
 }
@@ -997,8 +1008,11 @@ function checkWorld(): void {
   const itemIds = new Set(allItems.map((i) => i.id));
   const moveIds = new Set(allMoves.map((m) => m.id));
 
+  const abilityIds = new Set(allFieldAbilities.map((a) => a.id));
+
   const usedFlags = new Set<string>();
   const usedEvents = new Set<string>();
+  const usedAbilities = new Set<string>();
 
   const at = (map: MapData, x: number, y: number) => y * map.size.width + x;
   const inside = (map: MapData, x: number, y: number) =>
@@ -1016,8 +1030,10 @@ function checkWorld(): void {
         fail("map-size", `${map.id}: ${label} の長さが ${length}（${cells} のはず）`);
       }
     }
-    if (map.encounters !== undefined && !tableIds.has(map.encounters)) {
-      fail("map-encounters", `${map.id}: 出現テーブル "${map.encounters}" が無い`);
+    for (const id of map.encounters ?? []) {
+      if (!tableIds.has(id)) {
+        fail("map-encounters", `${map.id}: 出現テーブル "${id}" が無い`);
+      }
     }
   }
 
@@ -1092,6 +1108,13 @@ function checkWorld(): void {
           fail("map-object", `${where}: イベント "${object.event}" が無い`);
         }
       }
+      if (object.kind.type === "obstacle") {
+        const clearedBy = object.kind.clearedBy;
+        if (!abilityIds.has(clearedBy)) {
+          fail("field-ability", `${where}: フィールド技 "${clearedBy}" が宣言されていない`);
+        }
+        usedAbilities.add(clearedBy);
+      }
       if (object.kind.type === "trainer") {
         const kind = object.kind;
         if (!trainerIds.has(kind.trainer)) {
@@ -1152,6 +1175,22 @@ function checkWorld(): void {
     if (cond.kind === "and" || cond.kind === "or") {
       for (const c of cond.of) checkCondition(c, where);
     }
+  }
+
+  /** そのイベントがこのフラグを true にするか（v0.12-d）。 */
+  function setsFlag(eventId: string, flag: string): boolean {
+    const event = allEvents.find((e) => e.id === eventId);
+    if (event === undefined) return false;
+    return walkCommands(event.commands).some(
+      (c) => c.kind === "setFlag" && c.flag === flag && c.value,
+    );
+  }
+
+  /** 条件の中に出てくるフラグ（v0.12-d）。 */
+  function flagsIn(cond: Condition): string[] {
+    if (cond.kind === "flag") return [cond.flag];
+    if (cond.kind === "and" || cond.kind === "or") return cond.of.flatMap(flagsIn);
+    return [];
   }
 
   // ── #49〜#52 イベント ──
@@ -1288,6 +1327,62 @@ function checkWorld(): void {
   // ── #55・#56 到達不能な区画と、話しかけられないオブジェクト ──
   for (const map of allMaps) checkReachability(map, mapById);
 
+  // ── #81 マップに入った瞬間のイベント（v0.12-d）──
+  for (const map of allMaps) {
+    if (map.onEnter === undefined) continue;
+    usedEvents.add(map.onEnter);
+    if (!eventIds.has(map.onEnter)) {
+      fail("map-on-enter", `${map.id}: onEnter のイベント "${map.onEnter}" が無い`);
+    }
+  }
+
+  // ── #82 そらをとぶ の行き先（v0.12-d）──
+  //
+  // **「立てる場所か」と「来たら開くか」を両方見る。**
+  // 座標だけ見ていると、壁の中へ飛ばす行き先を作れてしまう。
+  // 記録するフラグだけ見ていると、行き先に宣言したのに永久に開かないマップができる。
+  for (const map of allMaps) {
+    const point = map.flyPoint;
+    if (point === undefined) continue;
+    const where = `${map.id} そらをとぶ`;
+    if (!inside(map, point.x, point.y) || map.collision[at(map, point.x, point.y)] === true) {
+      fail("fly-point", `${where}: (${point.x},${point.y}) に立てない`);
+    } else if (map.objects.some((o) => o.at.x === point.x && o.at.y === point.y)) {
+      fail("fly-point", `${where}: (${point.x},${point.y}) に何か置いてある`);
+    }
+    usedFlags.add(point.flag);
+    if (!declaredFlags.has(point.flag)) {
+      fail("fly-point", `${where}: フラグ "${point.flag}" が flags.json に無い`);
+    }
+    if (map.onEnter === undefined || !setsFlag(map.onEnter, point.flag)) {
+      fail("fly-point", `${where}: 来ても "${point.flag}" が立たない（onEnter で立てる約束）`);
+    }
+  }
+
+  // ── #83 フィールド技の解放条件（v0.12-d）──
+  for (const ability of allFieldAbilities) {
+    for (const flag of flagsIn(ability.requires)) {
+      usedFlags.add(flag);
+      if (!declaredFlags.has(flag)) {
+        fail("field-ability", `${ability.id}: フラグ "${flag}" が flags.json に無い`);
+      } else if (!allEvents.some((e) => setsFlag(e.id, flag))) {
+        fail("field-ability", `${ability.id}: "${flag}" を立てるイベントが無い（永久に使えない）`);
+      }
+    }
+  }
+
+  // ── #84 障害物として使われている技は、実際に手に入るか（v0.12-d）──
+  //
+  // 置いた岩をどける手段が世界のどこにも無ければ、その先は永久に閉じている。
+  // #80 は地形として繋がっているかしか見ないので、ここで別に見る。
+  for (const id of usedAbilities) {
+    const ability = allFieldAbilities.find((a) => a.id === id);
+    if (ability === undefined) continue;
+    if (flagsIn(ability.requires).length === 0) {
+      warn("field-ability", `${id}: 解放条件にフラグが無い（バッジだけで開く）`);
+    }
+  }
+
   // ── #80 地方の入口から、その地方の全マップに歩いて行けること（v0.12-b）──
   checkRegionConnectivity();
 
@@ -1344,13 +1439,26 @@ function checkRegionConnectivity(): void {
           ny += dy;
           if (nx < 0 || ny < 0 || nx >= map.size.width || ny >= map.size.height) continue;
         }
-        if (map.collision[ny * map.size.width + nx] === true) continue;
+        // 水は なみのり で越えられる（v0.12-d）。
+        // **ここは「地形として繋がっているか」を見る場所**であって、
+        // 「今の進行度で行けるか」ではない。能力の入手順は #84 が別に見る
+        if (
+          map.collision[ny * map.size.width + nx] === true &&
+          map.terrain[ny * map.size.width + nx] !== "water"
+        ) {
+          continue;
+        }
         // **条件つきのオブジェクトは塞いでいないものとして扱う。**
-        // 進行で消えるものを壁として数えると、開通済みの道まで閉じてしまう
+        // 進行で消えるものを壁として数えると、開通済みの道まで閉じてしまう。
+        // 障害物も同じ（どければ通れる・v0.12-d）
         if (
           map.objects.some(
             (o: MapObject) =>
-              o.at.x === nx && o.at.y === ny && o.kind.type !== "item" && o.condition === undefined,
+              o.at.x === nx &&
+              o.at.y === ny &&
+              o.kind.type !== "item" &&
+              o.kind.type !== "obstacle" &&
+              o.condition === undefined,
           )
         ) {
           continue;
@@ -1390,15 +1498,21 @@ function checkReachability(map: MapData, mapById: ReadonlyMap<string, MapData>):
   const at = (x: number, y: number) => y * width + x;
   const inside = (x: number, y: number) => x >= 0 && y >= 0 && x < width && y < height;
 
-  // 条件付きオブジェクトは消えうるので、塞いでいるとは見なさない
+  // 条件付きオブジェクトは消えうるので、塞いでいるとは見なさない。
+  // **障害物も塞いでいない扱い**（v0.12-d）―― どければ通れるので、
+  // ここで壁と見なすと「いあいぎりの先に置いた道具」が全部エラーになる。
   const blockedByObject = new Set(
     map.objects
-      .filter((o) => o.condition === undefined && o.kind.type !== "item")
+      .filter(
+        (o) => o.condition === undefined && o.kind.type !== "item" && o.kind.type !== "obstacle",
+      )
       .map((o) => at(o.at.x, o.at.y)),
   );
+  // 水は通行不可のままだが、**なみのり で越えられる**ので床として数える（v0.12-d）。
+  // 数えないと、海の向こうの砂州が「到達できないマス」に見える。
   const standable = (x: number, y: number) =>
     inside(x, y) &&
-    map.collision[at(x, y)] !== true &&
+    (map.collision[at(x, y)] !== true || map.terrain[at(x, y)] === "water") &&
     map.terrain[at(x, y)] !== "ledge" &&
     !blockedByObject.has(at(x, y));
 

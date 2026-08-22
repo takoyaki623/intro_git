@@ -38,3 +38,4 @@ objects:
 moon-hiker 5,5 trainer:kanto-moon-hiker:3:left kanto.moon.hiker if:kanto.moon.hiker-beaten=false
 moon-rocket 8,8 trainer:kanto-moon-rocket:2:down kanto.moon.rocket if:kanto.moon.rocket-beaten=false
 moon-great-ball 3,7 item:great-ball kanto.moon.great-ball if:kanto.moon.great-ball-taken=false
+moon-rock 5,6 obstacle:rockSmash

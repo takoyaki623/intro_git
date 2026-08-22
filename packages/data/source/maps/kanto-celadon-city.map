@@ -2,6 +2,8 @@
 id: kanto-celadon-city
 name: タマムシシティ
 region: kanto
+fly: 6,1 kanto.fly.celadon
+onEnter: kanto.celadon.arrive
 bgm: celadon-city
 
 legend:
@@ -40,3 +42,4 @@ warps:
 objects:
 celadon-sign-gym 4,7 sign kanto.celadon.sign-gym
 celadon-woman 9,3 npc:lass:static kanto.celadon.woman
+celadon-fly-girl 3,10 npc:lass:static kanto.celadon.fly-girl

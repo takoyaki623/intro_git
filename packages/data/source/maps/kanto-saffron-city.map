@@ -3,6 +3,8 @@
 id: kanto-saffron-city
 name: ヤマブキシティ
 region: kanto
+fly: 6,1 kanto.fly.saffron
+onEnter: kanto.saffron.arrive
 bgm: saffron-city
 
 legend:
