@@ -334,8 +334,10 @@ export function playField(rebuild: () => void): FieldHandle {
       );
 
       ctx.save();
-      ctx.globalAlpha = 0.22;
-      ctx.fillStyle = "#ffe9a8";
+      // 薄すぎると「なんとなく明るい」で終わって読めない。
+      // 濃すぎると地形が見えなくなる ―― 撮って見比べてこの辺りにした
+      ctx.globalAlpha = 0.3;
+      ctx.fillStyle = "#ffdf7a";
       for (let step = 1; step <= object.kind.sight; step += 1) {
         const sx = object.at.x + dx * step;
         const sy = object.at.y + dy * step;

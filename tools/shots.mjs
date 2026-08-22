@@ -91,9 +91,23 @@ const SHOOTING_SAVE = (() => {
     "kanto.pallet.got-starter": true,
     "kanto.pallet.rival-battled": true,
     "kanto.pallet.talked-mom": true,
+    // 北の警備員をどかす（v0.12）。開けておかないとニビまで行けない
+    "kanto.viridian.talked-guard": true,
   };
   save.regions.kanto.position = { map: "kanto-pallet-town", x: 5, y: 5, facing: "down" };
   save.regions.kanto.money = 3000;
+  // **道中のトレーナーに勝てる手持ちにする。**
+  // v0.12 で視線が入り、Lv5 のヒトカゲでは2番道路で全滅して
+  // 撮影が家に戻されるようになった。撮りたいのはマップなので、勝敗は問わない
+  for (const mon of Object.values(save.pokemon)) {
+    mon.exp = 125000;
+    mon.currentHp = 999;
+    mon.moves = [
+      { id: "brick-break", pp: 15 },
+      { id: "bulldoze", pp: 20 },
+      { id: "ember", pp: 25 },
+    ];
+  }
   return save;
 })();
 
@@ -111,6 +125,10 @@ const PLACES = [
   { file: "route-1", name: "1番道路", note: "草むらと段差", to: ["kanto-route-1", 4, 8] },
   { file: "viridian-city", name: "トキワシティ", note: "ポケモンセンター（赤）とショップ（青）", to: ["kanto-viridian-city", 6, 5] },
   { file: "viridian-center", name: "ポケモンセンター", note: "屋内。カウンターと机", to: ["kanto-viridian-pokecenter", 4, 4] },
+  { file: "route-2", name: "2番道路", note: "視線を持つトレーナー。届く範囲が薄く光る", to: ["kanto-route-2", 5, 12] },
+  { file: "viridian-forest", name: "トキワの森", note: "木の迷路。視線が2本ある", to: ["kanto-viridian-forest", 5, 12] },
+  { file: "pewter-city", name: "ニビシティ", note: "ジム（灰）・博物館・ポケセン・ショップ", to: ["kanto-pewter-city", 7, 11] },
+  { file: "pewter-gym", name: "ニビジム", note: "岩とジムトレーナーの視線。奥にタケシ", to: ["kanto-pewter-gym", 4, 7] },
   { file: "hub-plaza", name: "拠点の広場", note: "施設・大会・保管庫・地方ゲートが並ぶ", to: ["hub-plaza", 8, 9] },
   { file: "hub-depot", name: "保管庫のなか", note: "共通ボックスと BP交換所", to: ["hub-depot", 4, 3] },
 ];
@@ -211,6 +229,14 @@ for (const size of [
       for (const key of path) {
         await page.keyboard.press(key);
         await page.waitForTimeout(150);
+        // **視線バトルは会話から始まる**（v0.12）。会話が開いたままだと
+        // 以降のキーは全部そちらに吸われ、歩いていないのに歩いたことになる
+        for (let i = 0; i < 8 && (await page.isVisible("#field-text")); i += 1) {
+          const buttons = await page.$$("#field-text .choices button");
+          if (buttons.length > 0) await buttons[0].click();
+          else await page.keyboard.press("z");
+          await page.waitForTimeout(200);
+        }
         if (await page.isVisible("#battle")) {
           await clearBattle();
           break; // 位置がずれている。引き直す

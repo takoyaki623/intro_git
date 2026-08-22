@@ -89,7 +89,7 @@ const legend = tileHints()
 
 const stamp = new Date().toISOString().slice(0, 16).replace("T", " ");
 
-const html = `<title>v0.11.5 描画チェックシート</title>
+const html = `<title>v0.12 描画チェックシート</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link
@@ -308,7 +308,7 @@ const html = `<title>v0.11.5 描画チェックシート</title>
 
 <header>
   <div class="bar">
-    <h1>v0.11.5 ― 見た目チェック</h1>
+    <h1>v0.12-a ― 見た目チェック</h1>
     <p class="meta">${places.filter((p) => p.group === "画面").length} SCREENS / ${
       places.filter((p) => p.group !== "画面").length
     } PLACES / SHOT ${stamp} UTC</p>
@@ -323,6 +323,14 @@ const html = `<title>v0.11.5 描画チェックシート</title>
   <div class="note">
     <p>
       <b>見た目に自動判定は無い。</b>撮って並べて目で見るしかないので、見るための道具の方を作った。
+    </p>
+    <p>
+      <b>v0.12-a で足したのはトレーナーの視線・ニビジム・バッジ。</b>
+      2番道路・トキワの森・ニビジムの写真で、
+      <b>トレーナーの向いている側が薄く光っている</b>のが視線の届く範囲。
+      原作は視線を描かないが、<b>本作のトレーナーはただの四角</b>なので、
+      どちらを向いているか分からないまま見つかるのは理不尽でしかない。
+      判定と同じ規則で切ってあるので、光っていないマスでは見つからない。
     </p>
     <p>
       <b>v0.11.5（見た目②）で変えたのはバトル画面と UI 全体。</b>
