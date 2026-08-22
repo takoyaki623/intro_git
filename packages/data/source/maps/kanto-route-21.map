@@ -1,0 +1,32 @@
+# 21番水道。グレンじま と マサラタウン を結ぶ。
+# **この1本でカントーが輪になる**（v0.12-e）―― ここまでは木だった。
+id: kanto-route-21
+name: 21ばんすいどう
+region: kanto
+encounters: kanto-sea-surf
+bgm: route-21
+
+legend:
+~ !water
+s sand
+T !normal
+
+grid:
+TTTTTsTTTTT
+T~~~~s~~~~T
+T~~~~~~~~~T
+T~~~~~~~~~T
+T~~~~~~~~~T
+T~~~~~~~~~T
+T~~~~~~~~~T
+T~~~~~~~~~T
+T~~~~~~~~~T
+T~~~~~~~~~T
+T~~~~s~~~~T
+TTTTTsTTTTT
+
+warps:
+5,0 step kanto-cinnabar-island 6,12 up
+5,11 step kanto-pallet-town 5,11 down
+
+objects:

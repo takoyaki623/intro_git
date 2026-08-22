@@ -14,6 +14,7 @@ T !normal
 H !normal
 D normal
 ~ !water
+s sand
 
 grid:
 TTTTT.TTTTTT
@@ -28,13 +29,14 @@ T.HHHHH....T
 T.HHDHH....T
 T..........T
 T..........T
-T~~~~~~~~~~T
+T~~~~s~~~~~T
 TTTTTTTTTTTT
 
 warps:
 5,0 step kanto-route-1 5,16 up
 3,4 step kanto-players-house-1f 3,6 up
 4,9 step kanto-oak-lab 4,6 up
+5,12 step kanto-route-21 5,10 up
 
 objects:
 pallet-sign-town 8,7 sign kanto.pallet.sign-town

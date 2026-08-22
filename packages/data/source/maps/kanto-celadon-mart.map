@@ -20,7 +20,7 @@ W.......W
 WWWWDWWWW
 
 warps:
-4,6 step kanto-celadon-city 10,7 down
+4,6 step kanto-celadon-city 10,13 down
 
 objects:
 celadon-clerk 2,2 npc:clerk:static kanto.celadon.clerk

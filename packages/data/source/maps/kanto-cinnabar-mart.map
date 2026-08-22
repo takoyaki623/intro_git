@@ -1,0 +1,26 @@
+# グレンじまのフレンドリィショップ。品揃えはバッジの数で変わる。
+id: kanto-cinnabar-mart
+name: フレンドリィショップ
+region: kanto
+bgm: mart
+
+legend:
+. normal
+W !normal
+S !normal
+D normal
+
+grid:
+WWWWWWWWW
+WSSS....W
+W.......W
+W.......W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,6 step kanto-cinnabar-island 10,12 down
+
+objects:
+cinnabar-clerk 2,2 npc:clerk:static kanto.cinnabar.clerk

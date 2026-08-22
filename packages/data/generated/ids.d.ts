@@ -6,9 +6,9 @@
  * 特性 68 / 道具 58 /
  * BattleSet 64 / 施設 4 /
  * ネームド 18 / カップ 10 /
- * マップ 53 / イベント 179 / トレーナー 30 /
+ * マップ 61 / イベント 198 / トレーナー 34 /
  * 出現テーブル 14 / ショップ 5 / 地方 9 /
- * フラグ 77
+ * フラグ 84
  */
 
 export type GeneratedSpeciesId =
@@ -727,6 +727,10 @@ export type GeneratedMapId =
   | "kanto-cerulean-house"
   | "kanto-cerulean-mart"
   | "kanto-cerulean-pokecenter"
+  | "kanto-cinnabar-gym"
+  | "kanto-cinnabar-island"
+  | "kanto-cinnabar-mart"
+  | "kanto-cinnabar-pokecenter"
   | "kanto-fuchsia-city"
   | "kanto-fuchsia-gym"
   | "kanto-fuchsia-mart"
@@ -746,8 +750,11 @@ export type GeneratedMapId =
   | "kanto-route-1"
   | "kanto-route-11"
   | "kanto-route-16"
+  | "kanto-route-19"
   | "kanto-route-2"
   | "kanto-route-2-north"
+  | "kanto-route-20"
+  | "kanto-route-21"
   | "kanto-route-3"
   | "kanto-route-4"
   | "kanto-route-5"
@@ -764,6 +771,7 @@ export type GeneratedMapId =
   | "kanto-vermilion-pokecenter"
   | "kanto-viridian-city"
   | "kanto-viridian-forest"
+  | "kanto-viridian-gym"
   | "kanto-viridian-house"
   | "kanto-viridian-mart"
   | "kanto-viridian-pokecenter";
@@ -810,6 +818,18 @@ export type GeneratedEventId =
   | "kanto.cerulean.misty-win"
   | "kanto.cerulean.nurse"
   | "kanto.cerulean.sign-gym"
+  | "kanto.cinnabar.arrive"
+  | "kanto.cinnabar.blaine"
+  | "kanto.cinnabar.blaine-win"
+  | "kanto.cinnabar.center-pc"
+  | "kanto.cinnabar.clerk"
+  | "kanto.cinnabar.gym-jr"
+  | "kanto.cinnabar.gym-jr-win"
+  | "kanto.cinnabar.gym-sign"
+  | "kanto.cinnabar.nurse"
+  | "kanto.cinnabar.scientist"
+  | "kanto.cinnabar.sign-gym"
+  | "kanto.cinnabar.sign-mansion"
   | "kanto.forest.antidote"
   | "kanto.forest.bug-1"
   | "kanto.forest.bug-1-win"
@@ -940,6 +960,12 @@ export type GeneratedEventId =
   | "kanto.viridian.center-chat"
   | "kanto.viridian.clerk"
   | "kanto.viridian.customer"
+  | "kanto.viridian.giovanni"
+  | "kanto.viridian.giovanni-win"
+  | "kanto.viridian.gym-guard"
+  | "kanto.viridian.gym-jr"
+  | "kanto.viridian.gym-jr-win"
+  | "kanto.viridian.gym-sign"
   | "kanto.viridian.house-man"
   | "kanto.viridian.north-guard"
   | "kanto.viridian.nurse"
@@ -947,16 +973,20 @@ export type GeneratedEventId =
   | "kanto.viridian.pc"
   | "kanto.viridian.shelf"
   | "kanto.viridian.sign-center"
+  | "kanto.viridian.sign-gym"
   | "kanto.viridian.sign-mart";
 
 export type GeneratedTrainerId =
+  | "kanto-blaine"
   | "kanto-brock"
   | "kanto-celadon-gym-jr"
   | "kanto-cerulean-gym-jr"
+  | "kanto-cinnabar-gym-jr"
   | "kanto-erika"
   | "kanto-forest-bug-1"
   | "kanto-forest-bug-2"
   | "kanto-fuchsia-gym-jr"
+  | "kanto-giovanni"
   | "kanto-koga"
   | "kanto-misty"
   | "kanto-moon-hiker"
@@ -979,7 +1009,8 @@ export type GeneratedTrainerId =
   | "kanto-saffron-gym-jr"
   | "kanto-surge"
   | "kanto-tower-channeler"
-  | "kanto-vermilion-gym-jr";
+  | "kanto-vermilion-gym-jr"
+  | "kanto-viridian-gym-jr";
 
 export type GeneratedEncounterTableId =
   | "kanto-mt-moon-cave"
@@ -1031,8 +1062,12 @@ export type GeneratedFlagId =
   | "kanto.cerulean.house-man"
   | "kanto.cerulean.mart-girl"
   | "kanto.cerulean.misty-beaten"
+  | "kanto.cinnabar.blaine-beaten"
+  | "kanto.cinnabar.gym-jr-beaten"
+  | "kanto.cinnabar.scientist"
   | "kanto.fly.celadon"
   | "kanto.fly.cerulean"
+  | "kanto.fly.cinnabar"
   | "kanto.fly.fuchsia"
   | "kanto.fly.lavender"
   | "kanto.fly.pallet"
@@ -1090,6 +1125,9 @@ export type GeneratedFlagId =
   | "kanto.vermilion.mart-sailor"
   | "kanto.vermilion.sailor"
   | "kanto.vermilion.surge-beaten"
+  | "kanto.viridian.giovanni-beaten"
   | "kanto.viridian.got-sample-potion"
+  | "kanto.viridian.gym-jr-beaten"
+  | "kanto.viridian.gym-open"
   | "kanto.viridian.talked-guard"
   | "kanto.viridian.talked-oldman";

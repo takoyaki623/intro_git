@@ -12,6 +12,7 @@ legend:
 . normal
 T !normal
 H !normal
+G !normal
 P !normal
 F !normal
 D normal
@@ -27,8 +28,8 @@ T............T
 T.......FFFF.T
 T.......FFDF.T
 T............T
-T..HHH.......T
-T..HDH.......T
+T..HHH.GGGG..T
+T..HDH.GGDG..T
 T............T
 T..~~~.......T
 T............T
@@ -37,6 +38,7 @@ TTTTT.TTTTTTTT
 warps:
 6,0 step kanto-route-2 5,14 down
 5,3 step kanto-viridian-pokecenter 4,6 up
+9,10 step kanto-viridian-gym 4,8 up
 10,7 step kanto-viridian-mart 4,6 up
 4,10 step kanto-viridian-house 3,5 up
 5,14 step kanto-route-1 5,1 down
@@ -46,3 +48,5 @@ viridian-sign-center 4,4 sign kanto.viridian.sign-center
 viridian-sign-mart 9,8 sign kanto.viridian.sign-mart
 viridian-north-guard 6,1 npc:guard:static kanto.viridian.north-guard if:kanto.viridian.talked-guard=false
 viridian-oldman 3,8 npc:oldman:static kanto.viridian.oldman
+viridian-sign-gym 8,11 sign kanto.viridian.sign-gym
+viridian-gym-guard 9,11 npc:guard:static kanto.viridian.gym-guard if:kanto.viridian.gym-open=false

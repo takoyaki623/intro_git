@@ -1,0 +1,33 @@
+# 19番水道。セキチクの南。**ここから先は なみのり が要る**（v0.12-e）。
+# 砂州（s）だけが陸で、あいだは全部 水。
+# 地形が方式を決めるので、出現テーブルは なみのり用を置くだけでいい。
+id: kanto-route-19
+name: 19ばんすいどう
+region: kanto
+encounters: kanto-sea-surf
+bgm: route-19
+
+legend:
+~ !water
+s sand
+T !normal
+
+grid:
+TTTTTsTTTTT
+T~~~~s~~~~T
+T~~~~~~~~~T
+T~~~~~~~~~T
+T~~~~~~~~~T
+T~~~~~~~~~T
+T~~~~~~~~~T
+T~~~~~~~~~T
+T~~~~~~~~~T
+T~~~~~~~~~T
+T~~~~s~~~~T
+TTTTTsTTTTT
+
+warps:
+5,0 step kanto-fuchsia-city 6,11 up
+5,11 step kanto-route-20 5,1 down
+
+objects:

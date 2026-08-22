@@ -1327,6 +1327,31 @@ function checkWorld(): void {
   // ── #55・#56 到達不能な区画と、話しかけられないオブジェクト ──
   for (const map of allMaps) checkReachability(map, mapById);
 
+  // ── #85 warp の往復がずれていないこと（v0.12-e）──
+  //
+  // **入って出たら、入口の前に立っている。** これが崩れていても
+  // 「歩けないマス」でも「繋がっていない」でもないので、#47 も #80 も通る。
+  // 実際 v0.12-c の4つの町で、ポケモンセンターを出ると
+  // **町の反対側に飛ばされていた**（原本を写して座標だけ直し忘れた）。
+  for (const map of allMaps) {
+    for (const warp of map.warps) {
+      const target = mapById.get(warp.to.map);
+      if (target === undefined) continue;
+      const back = target.warps.filter((w) => w.to.map === map.id);
+      // 出入口が複数ある建物では「どの口の対か」が決まらないので見ない
+      if (back.length !== 1) continue;
+      const landing = back[0]!.to;
+      const away = Math.abs(landing.x - warp.at.x) + Math.abs(landing.y - warp.at.y);
+      if (away > 1) {
+        fail(
+          "warp-roundtrip",
+          `${map.id} (${warp.at.x},${warp.at.y}) → ${target.id} から戻ると ` +
+            `(${landing.x},${landing.y})＝${away}マス離れた場所に出る`,
+        );
+      }
+    }
+  }
+
   // ── #81 マップに入った瞬間のイベント（v0.12-d）──
   for (const map of allMaps) {
     if (map.onEnter === undefined) continue;

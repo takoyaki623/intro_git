@@ -25,9 +25,16 @@ const MAPS = new Map(
 );
 const STEPS = { ArrowUp: [0, -1], ArrowDown: [0, 1], ArrowLeft: [-1, 0], ArrowRight: [1, 0] };
 
+/**
+ * 撮影用のセーブは**フィールド技を全部持っている**（v0.12-e）ので、
+ * 経路探索も水の上を通れる扱いにする。知らないままだと、グレンじまへ
+ * 「経路なし」と言いながら**その場でシャッターを切って別の町の絵を保存する。**
+ * 障害物は壁のまま ―― 撮りたい場所はどれも岩の手前にある。
+ */
 const blocked = (m, x, y) =>
   x < 0 || y < 0 || x >= m.size.width || y >= m.size.height ||
-  m.collision[y * m.size.width + x] === true ||
+  (m.collision[y * m.size.width + x] === true &&
+    m.terrain[y * m.size.width + x] !== "water") ||
   m.objects.some((o) => o.at.x === x && o.at.y === y && o.kind.type !== "item" && o.condition === undefined);
 
 const warpAt = (m, x, y) =>
@@ -93,6 +100,8 @@ const SHOOTING_SAVE = (() => {
     "kanto.pallet.talked-mom": true,
     // 北の警備員をどかす（v0.12）。開けておかないとニビまで行けない
     "kanto.viridian.talked-guard": true,
+    // トキワジムの うけつけ（v0.12-e）。開けておかないとジム8の中を撮れない
+    "kanto.viridian.gym-open": true,
   };
   // 道中のトレーナーは倒した状態にしておく。**撮りたいのは町であって連戦ではない**
   for (const flag of [
@@ -100,10 +109,14 @@ const SHOOTING_SAVE = (() => {
     "kanto.pewter.gym-jr-beaten", "kanto.route3.lass-beaten", "kanto.route3.youngster-beaten",
     "kanto.moon.hiker-beaten", "kanto.moon.rocket-beaten", "kanto.route4.bug-beaten",
     "kanto.route5.hiker-beaten", "kanto.route6.camper-beaten",
+    // ジムの中のトレーナーも倒した扱いにする（v0.12-e）。
+    // 視線に入ると戦いになり、負ければ復活地点へ飛ぶ ―― 実際そうなって、
+    // 「トキワジム」の絵としてマサラタウンが保存された
+    "kanto.viridian.gym-jr-beaten", "kanto.cinnabar.gym-jr-beaten",
   ]) {
     save.regions.kanto.flags[flag] = true;
   }
-  save.regions.kanto.badges = 5;
+  save.regions.kanto.badges = 8;
   // フィールド技（v0.12-d）。**覚えていないと そらをとぶ のボタンが出ない**ので、
   // 撮りたい画面が1枚まるごと消える
   for (const flag of [
@@ -113,7 +126,9 @@ const SHOOTING_SAVE = (() => {
     save.regions.kanto.flags[flag] = true;
   }
   // 行ったことのある町（そらをとぶ の行き先）。実際に歩けば立つが、撮影は歩かない
-  for (const key of ["pallet", "viridian", "pewter", "cerulean", "vermilion", "celadon", "fuchsia"]) {
+  for (const key of [
+    "pallet", "viridian", "pewter", "cerulean", "vermilion", "celadon", "fuchsia", "cinnabar",
+  ]) {
     save.regions.kanto.flags[`kanto.fly.${key}`] = true;
   }
   for (const flag of [
@@ -152,6 +167,7 @@ const PLACES = [
   { file: "oak-lab", name: "オーキド研究所", note: "屋内。机と本棚", to: ["kanto-oak-lab", 4, 5] },
   { file: "route-1", name: "1番道路", note: "草むらと段差", to: ["kanto-route-1", 4, 8] },
   { file: "viridian-city", name: "トキワシティ", note: "ポケモンセンター（赤）とショップ（青）", to: ["kanto-viridian-city", 6, 5] },
+  { file: "viridian-gym", name: "トキワジム", note: "ジム8（サカキ）。バッジ7つまで うけつけが通さない", to: ["kanto-viridian-gym", 4, 7] },
   { file: "viridian-center", name: "ポケモンセンター", note: "屋内。カウンターと机", to: ["kanto-viridian-pokecenter", 4, 4] },
   { file: "route-2", name: "2番道路", note: "視線を持つトレーナー。届く範囲が薄く光る", to: ["kanto-route-2", 5, 12] },
   { file: "viridian-forest", name: "トキワの森", note: "木の迷路。視線が2本ある", to: ["kanto-viridian-forest", 5, 12] },
@@ -165,6 +181,8 @@ const PLACES = [
   { file: "celadon-city", name: "タマムシシティ", note: "ジム4（エリカ）。カントーで一番大きい町", to: ["kanto-celadon-city", 7, 7] },
   { file: "saffron-city", name: "ヤマブキシティ", note: "ジム6（ナツメ）。バッジ5つまで警備員が通さない", to: ["kanto-saffron-city", 8, 4] },
   { file: "fuchsia-city", name: "セキチクシティ", note: "ジム5（キョウ）。サファリゾーンはまだ閉まっている", to: ["kanto-fuchsia-city", 6, 5] },
+  { file: "route-19", name: "19ばんすいどう", note: "なみのり の海。砂州だけが陸", to: ["kanto-route-19", 5, 5] },
+  { file: "cinnabar-island", name: "グレンじま", note: "ジム7（カツラ）。なみのり でしか来られない島", to: ["kanto-cinnabar-island", 6, 4] },
   { file: "hub-plaza", name: "拠点の広場", note: "施設・大会・保管庫・地方ゲートが並ぶ", to: ["hub-plaza", 8, 9] },
   { file: "hub-depot", name: "保管庫のなか", note: "共通ボックスと BP交換所", to: ["hub-depot", 4, 3] },
 ];

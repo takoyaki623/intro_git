@@ -42,6 +42,7 @@ import {
   allEncounterTables,
   allEvents,
   allFieldAbilities,
+  allFlags,
   allMaps,
   allTrainers,
   eventById,
@@ -753,5 +754,75 @@ describe("そらをとぶ（v0.12-d）", () => {
       runEvent(world, map.onEnter!);
       expect(world.flags[point.flag], map.id).toBe(true);
     }
+  });
+});
+
+describe("カントーの地図（v0.12-e）", () => {
+  /** 踏む warp を辿って、その世界で行けるマップを全部あげる。 */
+  function walkableMaps(world: WorldState): Set<string> {
+    const start = { map: "kanto-pallet-town", x: 5, y: 5 };
+    const key = (m: string, x: number, y: number) => `${m}|${x},${y}`;
+    const seen = new Set([key(start.map, start.x, start.y)]);
+    const maps = new Set([start.map]);
+    const queue = [start];
+    while (queue.length > 0) {
+      const here = queue.shift()!;
+      const map = mapById(here.map);
+      for (const [dx, dy] of [[0, -1], [0, 1], [-1, 0], [1, 0]] as const) {
+        let nx = here.x + dx;
+        let ny = here.y + dy;
+        if (terrainAt(map, nx, ny) === "ledge") {
+          if (dy !== 1) continue;
+          nx += dx;
+          ny += dy;
+        }
+        if (!isWalkable(map, world, nx, ny)) continue;
+        const warp = map.warps.find((w) => w.at.x === nx && w.at.y === ny && w.trigger === "step");
+        const next =
+          warp === undefined
+            ? { map: here.map, x: nx, y: ny }
+            : { map: warp.to.map, x: warp.to.x, y: warp.to.y };
+        const id = key(next.map, next.x, next.y);
+        if (seen.has(id)) continue;
+        seen.add(id);
+        maps.add(next.map);
+        queue.push(next);
+      }
+    }
+    return maps;
+  }
+
+  /** 進行を全部開けた世界（オブジェクトの条件で塞がれないようにする）。 */
+  const opened = (abilities: string[]): WorldState => {
+    const world = emptyWorldState();
+    world.badges = 8;
+    for (const flag of allFlags) world.flags[flag] = true;
+    world.abilities = fieldAbilitiesFor(allFieldAbilities, world);
+    return { ...world, abilities: world.abilities.filter((a) => abilities.includes(a)) };
+  };
+
+  it("**一直線ではない** ―― 21番水道で輪になっている", () => {
+    const kanto = allMaps.filter((m) => m.region === "kanto");
+    const ids = new Set(kanto.map((m) => m.id));
+    const pairs = new Set<string>();
+    for (const map of kanto) {
+      for (const warp of map.warps) {
+        if (!ids.has(warp.to.map) || warp.to.map === map.id) continue;
+        pairs.add([map.id, warp.to.map].sort().join("|"));
+      }
+    }
+    // 木なら「辺 = 頂点 - 1」。これを超えたぶんが閉路の数
+    expect(pairs.size).toBeGreaterThan(kanto.length - 1);
+  });
+
+  it("グレンじまへは なみのり が無いと行けない", () => {
+    const withoutSurf = walkableMaps(opened(["cut", "strength", "rockSmash"]));
+    expect(withoutSurf.has("kanto-viridian-city")).toBe(true);
+    expect(withoutSurf.has("kanto-cinnabar-island")).toBe(false);
+
+    const withSurf = walkableMaps(opened(["cut", "strength", "rockSmash", "surf"]));
+    expect(withSurf.has("kanto-cinnabar-island")).toBe(true);
+    // 輪が閉じる ―― グレンから 21番水道 でマサラへ戻れる
+    expect(withSurf.has("kanto-route-21")).toBe(true);
   });
 });

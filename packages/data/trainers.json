@@ -787,5 +787,162 @@
         ]
       }
     ]
+  },
+  {
+    "id": "kanto-cinnabar-gym-jr",
+    "name": "ヒロシ",
+    "class": "かえんむすめ",
+    "reward": 2000,
+    "defeatedFlag": "kanto.cinnabar.gym-jr-beaten",
+    "party": [
+      {
+        "species": "growlithe",
+        "level": 40,
+        "moves": [
+          "flamethrower",
+          "take-down",
+          "bite"
+        ]
+      },
+      {
+        "species": "ponyta",
+        "level": 40,
+        "moves": [
+          "flame-wheel",
+          "stomp",
+          "agility"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-blaine",
+    "name": "カツラ",
+    "class": "ジムリーダー",
+    "reward": 6237,
+    "defeatedFlag": "kanto.cinnabar.blaine-beaten",
+    "party": [
+      {
+        "species": "growlithe",
+        "level": 42,
+        "moves": [
+          "flamethrower",
+          "bite",
+          "take-down"
+        ]
+      },
+      {
+        "species": "ponyta",
+        "level": 40,
+        "moves": [
+          "flame-wheel",
+          "stomp",
+          "agility"
+        ]
+      },
+      {
+        "species": "rapidash",
+        "level": 45,
+        "moves": [
+          "fire-blast",
+          "stomp",
+          "agility",
+          "take-down"
+        ]
+      },
+      {
+        "species": "arcanine",
+        "level": 47,
+        "moves": [
+          "flare-blitz",
+          "crunch",
+          "will-o-wisp",
+          "body-slam"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-viridian-gym-jr",
+    "name": "タカシ",
+    "class": "ボスの したっぱ",
+    "reward": 2400,
+    "defeatedFlag": "kanto.viridian.gym-jr-beaten",
+    "party": [
+      {
+        "species": "sandslash",
+        "level": 45,
+        "moves": [
+          "earthquake",
+          "slash",
+          "rock-slide"
+        ]
+      },
+      {
+        "species": "persian",
+        "level": 44,
+        "moves": [
+          "slash",
+          "body-slam",
+          "screech"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-giovanni",
+    "name": "サカキ",
+    "class": "ジムリーダー",
+    "reward": 7425,
+    "defeatedFlag": "kanto.viridian.giovanni-beaten",
+    "party": [
+      {
+        "species": "dugtrio",
+        "level": 45,
+        "moves": [
+          "earthquake",
+          "slash",
+          "rock-slide"
+        ]
+      },
+      {
+        "species": "nidoqueen",
+        "level": 46,
+        "moves": [
+          "earthquake",
+          "body-slam",
+          "poison-jab"
+        ]
+      },
+      {
+        "species": "nidoking",
+        "level": 47,
+        "moves": [
+          "earthquake",
+          "poison-jab",
+          "horn-attack",
+          "thunderbolt"
+        ]
+      },
+      {
+        "species": "rhyhorn",
+        "level": 45,
+        "moves": [
+          "rock-slide",
+          "bulldoze",
+          "horn-attack"
+        ]
+      },
+      {
+        "species": "rhydon",
+        "level": 50,
+        "moves": [
+          "earthquake",
+          "rock-slide",
+          "horn-attack",
+          "body-slam"
+        ]
+      }
+    ]
   }
 ]

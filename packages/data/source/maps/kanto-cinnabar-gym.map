@@ -1,0 +1,32 @@
+# グレンジム。ジムリーダーは カツラ（ほのお）。
+# 原作のクイズ扉は v1.x（正誤で開く扉の機構が要る）。
+id: kanto-cinnabar-gym
+name: グレンジム
+region: kanto
+bgm: gym
+
+legend:
+. normal
+W !normal
+X !normal
+D normal
+
+grid:
+WWWWWWWWW
+W.......W
+W.XX.XX.W
+W.......W
+W.......W
+W.XX.XX.W
+W.......W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,9 step kanto-cinnabar-island 5,4 down
+
+objects:
+cinnabar-gym-jr 1,7 trainer:kanto-cinnabar-gym-jr:3:right kanto.cinnabar.gym-jr if:kanto.cinnabar.gym-jr-beaten=false
+cinnabar-blaine 4,1 npc:leader:static kanto.cinnabar.blaine
+cinnabar-gym-sign 7,8 sign kanto.cinnabar.gym-sign

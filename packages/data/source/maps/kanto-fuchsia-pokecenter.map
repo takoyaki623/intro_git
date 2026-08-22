@@ -21,7 +21,7 @@ W.......W
 WWWWDWWWW
 
 warps:
-4,6 step kanto-fuchsia-city 3,4 down
+4,6 step kanto-fuchsia-city 10,8 down
 
 objects:
 fuchsia-nurse 4,2 npc:nurse:static kanto.fuchsia.nurse

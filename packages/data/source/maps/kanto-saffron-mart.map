@@ -20,7 +20,7 @@ W.......W
 WWWWDWWWW
 
 warps:
-4,6 step kanto-saffron-city 10,7 down
+4,6 step kanto-saffron-city 10,13 down
 
 objects:
 saffron-clerk 2,2 npc:clerk:static kanto.saffron.clerk

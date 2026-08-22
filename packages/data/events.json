@@ -3749,5 +3749,390 @@
         "value": true
       }
     ]
+  },
+  {
+    "id": "kanto.cinnabar.arrive",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.fly.cinnabar",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.cinnabar.sign-gym",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "グレンジム\n\n ジムリーダー カツラ\n 「もえる ほのおの おとこ」"
+      }
+    ]
+  },
+  {
+    "id": "kanto.cinnabar.sign-mansion",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ポケモンやしき\n\n 「かぎが かかっている」"
+      }
+    ]
+  },
+  {
+    "id": "kanto.cinnabar.gym-sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "グレンジムの きろく\n\n 「あつさに たえられるか」"
+      }
+    ]
+  },
+  {
+    "id": "kanto.cinnabar.scientist",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.cinnabar.scientist",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "この しまは かざんの うえに ある。\nやしきの おくには なにか いるらしい。",
+            "speaker": "かがくしゃ"
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.cinnabar.scientist",
+            "value": true
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "やしきの かぎは まだ みつからん。",
+            "speaker": "かがくしゃ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.cinnabar.nurse",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ポケモンを おあずかりします。",
+        "speaker": "ジョーイ"
+      },
+      {
+        "kind": "healParty"
+      },
+      {
+        "kind": "message",
+        "text": "おまたせしました!",
+        "speaker": "ジョーイ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.cinnabar.center-pc",
+    "commands": [
+      {
+        "kind": "openBox"
+      }
+    ]
+  },
+  {
+    "id": "kanto.cinnabar.gym-jr",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.cinnabar.gym-jr-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ここは あついよ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-cinnabar-gym-jr",
+            "onWin": "kanto.cinnabar.gym-jr-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "みずタイプ、もってきた?",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.cinnabar.gym-jr-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.cinnabar.gym-jr-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "みずタイプ、もってきた?",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.cinnabar.blaine",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.cinnabar.blaine-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "フン! わしが カツラじゃ。\nクイズは やめじゃ、まともに いくぞ。",
+            "speaker": "カツラ"
+          },
+          {
+            "kind": "message",
+            "text": "わしの ポケモンは あついぞ!\nやけどしても しらんからな!",
+            "speaker": "カツラ"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-blaine",
+            "onWin": "kanto.cinnabar.blaine-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ヴォルケーンバッジを もっていけ。\nのこるは トキワジムだけじゃ。",
+            "speaker": "カツラ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.cinnabar.blaine-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.cinnabar.blaine-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "ぬぬ! ひが きえた...",
+        "speaker": "カツラ"
+      },
+      {
+        "kind": "giveBadge",
+        "count": 7
+      },
+      {
+        "kind": "message",
+        "text": "ヴォルケーンバッジを もっていけ。\nのこるは トキワジムだけじゃ。",
+        "speaker": "カツラ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.cinnabar.clerk",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "いらっしゃいませ!",
+        "speaker": "てんいん"
+      },
+      {
+        "kind": "message",
+        "speaker": "てんいん",
+        "text": "バッジを 4つも!\nとっておきの しなを だしますね。"
+      },
+      {
+        "kind": "shop",
+        "inventory": "kanto-mart-3"
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridian.sign-gym",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "トキワジム\n\n ジムリーダー ?????\n 「ながらく るす だった」"
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridian.gym-sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "トキワジムの きろく\n\n 「さいごの ジムに ふさわしい つよさを」"
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridian.gym-guard",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "badges",
+          "op": ">=",
+          "count": 7
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "バッジ 7つ ですか。\nジムリーダーが おまちです。",
+            "speaker": "うけつけ"
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.viridian.gym-open",
+            "value": true
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ここの ジムリーダーは\nバッジ 7つの ちょうせんしゃしか あいません。",
+            "speaker": "うけつけ"
+          },
+          {
+            "kind": "message",
+            "text": "グレンじまの カツラを たおしてから\nおいでください。",
+            "speaker": "うけつけ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridian.gym-jr",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.viridian.gym-jr-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ボスの じゃまは させん!",
+            "speaker": "ロケットだん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-viridian-gym-jr",
+            "onWin": "kanto.viridian.gym-jr-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ボスは おくだ。",
+            "speaker": "ロケットだん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridian.gym-jr-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.viridian.gym-jr-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "ボスは おくだ。",
+        "speaker": "ロケットだん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridian.giovanni",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.viridian.giovanni-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "また あったな。\nわたしが この ジムの ぬし、サカキだ。",
+            "speaker": "サカキ"
+          },
+          {
+            "kind": "message",
+            "text": "じめんの おそろしさを\nその みで しるがいい。",
+            "speaker": "サカキ"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-giovanni",
+            "onWin": "kanto.viridian.giovanni-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "アースバッジは きみのものだ。\nポケモンリーグへ いくがいい。",
+            "speaker": "サカキ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridian.giovanni-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.viridian.giovanni-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "...みごとだ。ロケットだんは かいさんする。",
+        "speaker": "サカキ"
+      },
+      {
+        "kind": "giveBadge",
+        "count": 8
+      },
+      {
+        "kind": "message",
+        "text": "アースバッジは きみのものだ。\nポケモンリーグへ いくがいい。",
+        "speaker": "サカキ"
+      }
+    ]
   }
 ]

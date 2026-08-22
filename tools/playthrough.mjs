@@ -1103,6 +1103,39 @@ expect(
 );
 await shot("27-surf");
 
+// ── 16. グレンじま と トキワジム（v0.12-e）──
+//
+// **ここで地図が輪になる。** 21番水道で グレン → マサラ と戻れるので、
+// カントーはもう一直線ではない（木ではなくグラフ）。
+await goToMap("kanto-fuchsia-city", 6, 11, 80);
+expect("セキチクの 南に 出口が できた", (await spot()).map, "kanto-fuchsia-city");
+await goToMap("kanto-cinnabar-island", 6, 1, 200);
+expect("なみのり で グレンじまに つく", (await spot()).map, "kanto-cinnabar-island");
+await shot("28-cinnabar");
+
+expect(
+  "カツラに 勝つと バッジが 7つに なる",
+  await challengeGym("カツラ", "kanto-cinnabar-gym", 4, 2, 7),
+  (v) => v > 0,
+);
+
+// **輪を歩いて確かめる。** グレン → 21番水道 → マサラ
+await goToMap("kanto-pallet-town", 5, 11, 200);
+expect("21ばんすいどう で マサラへ 戻れる（地図が輪になった）", (await spot()).map, "kanto-pallet-town");
+await shot("29-loop");
+
+// トキワジム（ジム8）。うけつけは バッジ7つで通す
+await goToMap("kanto-viridian-city", 9, 12, 120);
+await talk("ArrowUp");
+await drain(6);
+expect(
+  "サカキに 勝つと バッジが 8つに なる",
+  await challengeGym("サカキ", "kanto-viridian-gym", 4, 2, 8),
+  (v) => v > 0,
+);
+expect("バッジが 8つに なる", await badgeCount(), 8);
+await shot("30-eight-badges");
+
 console.log(`\nスクリーンショット: ${SHOTS}`);
 console.log(errors.length === 0 ? "JS エラーなし" : `JS エラー ${errors.length} 件:\n${errors.join("\n")}`);
 if (errors.length > 0) process.exitCode = 1;

@@ -14,8 +14,12 @@
   "kanto.cerulean.house-man",
   "kanto.cerulean.mart-girl",
   "kanto.cerulean.misty-beaten",
+  "kanto.cinnabar.blaine-beaten",
+  "kanto.cinnabar.gym-jr-beaten",
+  "kanto.cinnabar.scientist",
   "kanto.fly.celadon",
   "kanto.fly.cerulean",
+  "kanto.fly.cinnabar",
   "kanto.fly.fuchsia",
   "kanto.fly.lavender",
   "kanto.fly.pallet",
@@ -73,7 +77,10 @@
   "kanto.vermilion.mart-sailor",
   "kanto.vermilion.sailor",
   "kanto.vermilion.surge-beaten",
+  "kanto.viridian.giovanni-beaten",
   "kanto.viridian.got-sample-potion",
+  "kanto.viridian.gym-jr-beaten",
+  "kanto.viridian.gym-open",
   "kanto.viridian.talked-guard",
   "kanto.viridian.talked-oldman"
 ]

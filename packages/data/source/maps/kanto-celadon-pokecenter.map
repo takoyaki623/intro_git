@@ -21,7 +21,7 @@ W.......W
 WWWWDWWWW
 
 warps:
-4,6 step kanto-celadon-city 3,4 down
+4,6 step kanto-celadon-city 10,10 down
 
 objects:
 celadon-nurse 4,2 npc:nurse:static kanto.celadon.nurse

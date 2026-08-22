@@ -21,7 +21,7 @@ W.......W
 WWWWDWWWW
 
 warps:
-4,6 step kanto-lavender-town 5,4 down
+4,6 step kanto-lavender-town 5,8 down
 
 objects:
 lavender-nurse 4,2 npc:nurse:static kanto.lavender.nurse
