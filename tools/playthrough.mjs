@@ -354,7 +354,11 @@ async function pickMove() {
   return buttons[0];
 }
 
-async function fight(limit = 80) {
+/**
+ * `limit` は「ボタンを押す回数」。ジムリーダーは3〜4体出すので、
+ * 80回では殴り切れずに「終わらなかった」と誤報する（v0.12-c で出た）。
+ */
+async function fight(limit = 240) {
   for (let i = 0; i < limit; i += 1) {
     if (await page.isHidden("#battle")) return "決着してマップに戻った";
     const move = await pickMove();
@@ -438,6 +442,12 @@ async function talk(direction) {
   await key("z", 1, 400);
   await drain();
 }
+
+// **演出を短くしてから歩き出す。**
+// カントーが53枚になって完走が20分を超えたので、台本は高速モードで走る。
+// 飛ばしても結果が変わらないことは core の分担が保証している（ui-flow.md §4）
+await page.click("#speed button[data-s=\"fast\"]");
+await page.waitForTimeout(200);
 
 await drain();
 await goToMap("kanto-viridian-city", 5, 4);
@@ -846,11 +856,11 @@ await shot("21-three-badges");
 //
 // **ジムの順番をイベントの条件だけで縛れているか**を確かめる区間。
 // ナツメ（ジム6）はバッジ5つまで挑めない ―― 警備員が通さない。
-await goToMap("kanto-saffron-city", 5, 5, 80);
+await goToMap("kanto-saffron-city", 5, 8, 80);
 expect("ヤマブキまで 行ける", (await spot()).map, "kanto-saffron-city");
 await talk("ArrowUp");
 await drain(6);
-await goToMap("kanto-saffron-city", 5, 5, 20);
+await goToMap("kanto-saffron-city", 5, 8, 20);
 expect(
   "バッジ3つでは ヤマブキジムに 入れない",
   (await goToMap("kanto-saffron-gym", 4, 8, 6)).map,
@@ -880,7 +890,7 @@ await drain(30);
 await shot("23-five-badges");
 
 // バッジ5つになったので、警備員が通す
-await goToMap("kanto-saffron-city", 5, 5, 80);
+await goToMap("kanto-saffron-city", 5, 8, 80);
 await talk("ArrowUp");
 await drain(6);
 await goToMap("kanto-saffron-gym", 4, 2, 20);

@@ -39,6 +39,6 @@ warps:
 5,14 step kanto-route-7 5,1 down
 
 objects:
-saffron-sign-gym 4,7 sign kanto.saffron.sign-gym
-saffron-guard 5,4 npc:guard:static kanto.saffron.guard if:kanto.saffron.gym-open=false
+saffron-sign-gym 3,7 sign kanto.saffron.sign-gym
+saffron-guard 5,7 npc:guard:static kanto.saffron.guard if:kanto.saffron.gym-open=false
 saffron-boy 9,3 npc:youngster:static kanto.saffron.boy

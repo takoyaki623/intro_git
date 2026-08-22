@@ -5882,7 +5882,7 @@
         ".",
         "X",
         ".",
-        "X",
+        ".",
         ".",
         "X",
         ".",
@@ -5977,7 +5977,7 @@
       false,
       true,
       false,
-      true,
+      false,
       false,
       true,
       false,
@@ -17651,7 +17651,7 @@
       {
         "id": "saffron-sign-gym",
         "at": {
-          "x": 4,
+          "x": 3,
           "y": 7
         },
         "kind": {
@@ -17663,7 +17663,7 @@
         "id": "saffron-guard",
         "at": {
           "x": 5,
-          "y": 4
+          "y": 7
         },
         "kind": {
           "type": "npc",
