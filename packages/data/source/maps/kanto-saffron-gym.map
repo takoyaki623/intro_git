@@ -1,0 +1,31 @@
+# ヤマブキジム。ジムリーダーは ナツメ（エスパー）。
+id: kanto-saffron-gym
+name: ヤマブキジム
+region: kanto
+bgm: gym
+
+legend:
+. normal
+W !normal
+X !normal
+D normal
+
+grid:
+WWWWWWWWW
+W.......W
+W..X.X..W
+W.......W
+W.XX.XX.W
+W.......W
+W.......W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,9 step kanto-saffron-city 5,7 down
+
+objects:
+saffron-gym-jr 1,7 trainer:kanto-saffron-gym-jr:3:right kanto.saffron.gym-jr if:kanto.saffron.gym-jr-beaten=false
+saffron-sabrina 4,1 npc:leader:static kanto.saffron.sabrina
+saffron-gym-sign 7,8 sign kanto.saffron.gym-sign

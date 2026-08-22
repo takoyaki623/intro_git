@@ -1,0 +1,32 @@
+# 16番道路。タマムシからセキチクへ向かう道。
+id: kanto-route-16
+name: 16ばんどうろ
+region: kanto
+encounters: kanto-route-16-grass
+bgm: route-16
+
+legend:
+. normal
+, grass
+T !normal
+= ledge
+
+grid:
+TTTTTTTTTTTTT
+T...........T
+T..,,,......T
+T..,,,......T
+............T
+T.....===...T
+T...........T
+T.......,,,.T
+T...........T
+TTTTTT.TTTTTT
+
+warps:
+0,4 step kanto-celadon-city 12,10 left
+6,9 step kanto-fuchsia-city 6,1 down
+
+objects:
+route16-sign 3,6 sign kanto.route16.sign
+route16-biker 8,3 trainer:kanto-route16-biker:3:left kanto.route16.biker if:kanto.route16.biker-beaten=false

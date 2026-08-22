@@ -1,0 +1,31 @@
+# 7番道路。ヤマブキとタマムシのあいだ。
+id: kanto-route-7
+name: 7ばんどうろ
+region: kanto
+encounters: kanto-route-7-grass
+bgm: route-7
+
+legend:
+. normal
+, grass
+T !normal
+
+grid:
+TTTTT.TTTTT
+T.........T
+T..,,,....T
+T..,,,....T
+T.........T
+..........T
+T.........T
+T....,,,..T
+T.........T
+TTTTTTTTTTT
+
+warps:
+5,0 step kanto-saffron-city 5,13 up
+0,5 step kanto-celadon-city 11,6 left
+
+objects:
+route7-sign 3,1 sign kanto.route7.sign
+route7-camper 5,7 trainer:kanto-route7-camper:2:up kanto.route7.camper if:kanto.route7.camper-beaten=false

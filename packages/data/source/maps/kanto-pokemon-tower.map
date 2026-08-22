@@ -1,0 +1,31 @@
+# ポケモンタワー1階。**ジムではない**が、視線を持つ相手が居る。
+# 上の階は v0.12-d（ゴーストの機構が要るため）。
+id: kanto-pokemon-tower
+name: ポケモンタワー
+region: kanto
+bgm: pokemon-tower
+
+legend:
+. normal
+W !normal
+G !normal
+D normal
+
+grid:
+WWWWWWWWW
+W.......W
+W.GG.GG.W
+W.......W
+W.GG.GG.W
+W.......W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,8 step kanto-lavender-town 5,4 down
+
+objects:
+tower-channeler 1,6 trainer:kanto-tower-channeler:3:right kanto.tower.channeler if:kanto.tower.channeler-beaten=false
+tower-sign 7,7 sign kanto.tower.sign
+tower-old 4,1 npc:oldman:static kanto.tower.old

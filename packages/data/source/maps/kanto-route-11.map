@@ -1,0 +1,33 @@
+# 11番道路。クチバシティの東。ここからシオンタウンへ抜ける。
+id: kanto-route-11
+name: 11ばんどうろ
+region: kanto
+encounters: kanto-route-11-grass
+bgm: route-11
+
+legend:
+. normal
+, grass
+T !normal
+= ledge
+
+grid:
+TTTTTTTTTTTTTTT
+..............T
+T..,,,,.......T
+T..,,,,.......T
+T.............T
+T.....===.....T
+T.............T
+T........,,,..T
+T........,,,..T
+T.............T
+TTTTTTTTTTTT.TT
+
+warps:
+0,1 step kanto-vermilion-city 12,1 left
+12,10 step kanto-lavender-town 5,1 down
+
+objects:
+route11-sign 2,4 sign kanto.route11.sign
+route11-gambler 6,7 trainer:kanto-route11-gambler:3:left kanto.route11.gambler if:kanto.route11.gambler-beaten=false

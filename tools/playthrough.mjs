@@ -842,6 +842,65 @@ await page.click("#settings-back");
 await page.waitForSelector("#field-canvas");
 await shot("21-three-badges");
 
+// ── 14. タマムシ・セキチク・ヤマブキ（v0.12-c）──
+//
+// **ジムの順番をイベントの条件だけで縛れているか**を確かめる区間。
+// ナツメ（ジム6）はバッジ5つまで挑めない ―― 警備員が通さない。
+await goToMap("kanto-saffron-city", 5, 5, 80);
+expect("ヤマブキまで 行ける", (await spot()).map, "kanto-saffron-city");
+await talk("ArrowUp");
+await drain(6);
+await goToMap("kanto-saffron-city", 5, 5, 20);
+expect(
+  "バッジ3つでは ヤマブキジムに 入れない",
+  (await goToMap("kanto-saffron-gym", 4, 8, 6)).map,
+  "kanto-saffron-city",
+);
+await shot("22-saffron-closed");
+
+// エリカ（ジム4）
+await goToMap("kanto-celadon-gym", 4, 2, 80);
+expect("タマムシジムまで 行ける", (await spot()).map, "kanto-celadon-gym");
+await talk("ArrowUp");
+await drain(8);
+expect("エリカに いどめる", (await page.isVisible("#battle")) ? "いどめた" : "いどめない", "いどめた");
+expect("エリカ戦の 決着", await fight(), "決着してマップに戻った");
+await page.waitForTimeout(800);
+await drain(30);
+
+// キョウ（ジム5）
+await goToMap("kanto-fuchsia-gym", 4, 2, 80);
+expect("セキチクジムまで 行ける", (await spot()).map, "kanto-fuchsia-gym");
+await talk("ArrowUp");
+await drain(8);
+expect("キョウに いどめる", (await page.isVisible("#battle")) ? "いどめた" : "いどめない", "いどめた");
+expect("キョウ戦の 決着", await fight(), "決着してマップに戻った");
+await page.waitForTimeout(800);
+await drain(30);
+await shot("23-five-badges");
+
+// バッジ5つになったので、警備員が通す
+await goToMap("kanto-saffron-city", 5, 5, 80);
+await talk("ArrowUp");
+await drain(6);
+await goToMap("kanto-saffron-gym", 4, 2, 20);
+expect("バッジ5つで ヤマブキジムに 入れる", (await spot()).map, "kanto-saffron-gym");
+await talk("ArrowUp");
+await drain(8);
+expect("ナツメに いどめる", (await page.isVisible("#battle")) ? "いどめた" : "いどめない", "いどめた");
+expect("ナツメ戦の 決着", await fight(), "決着してマップに戻った");
+await page.waitForTimeout(800);
+await drain(30);
+
+await page.click("#open-settings");
+await page.waitForSelector("#save-export");
+await page.click("#save-export");
+const sixBadges = JSON.parse(await page.inputValue("#save-text"));
+expect("バッジが 6つに なる", sixBadges.regions.kanto.badges, 6);
+await page.click("#settings-back");
+await page.waitForSelector("#field-canvas");
+await shot("24-six-badges");
+
 console.log(`\nスクリーンショット: ${SHOTS}`);
 console.log(errors.length === 0 ? "JS エラーなし" : `JS エラー ${errors.length} 件:\n${errors.join("\n")}`);
 if (errors.length > 0) process.exitCode = 1;

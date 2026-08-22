@@ -1,0 +1,26 @@
+# ヤマブキシティのフレンドリィショップ。品揃えはバッジの数で変わる。
+id: kanto-saffron-mart
+name: フレンドリィショップ
+region: kanto
+bgm: mart
+
+legend:
+. normal
+W !normal
+S !normal
+D normal
+
+grid:
+WWWWWWWWW
+WSSS....W
+W.......W
+W.......W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,6 step kanto-saffron-city 10,7 down
+
+objects:
+saffron-clerk 2,2 npc:clerk:static kanto.saffron.clerk

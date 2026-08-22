@@ -15,7 +15,7 @@ D normal
 
 grid:
 TTTTTTT.TTTTTT
-T............T
+T.............
 T..PPPP......T
 T..PPDP......T
 T............T
@@ -34,6 +34,7 @@ warps:
 5,3 step kanto-vermilion-pokecenter 4,5 up
 10,6 step kanto-vermilion-mart 4,5 up
 5,9 step kanto-vermilion-gym 4,8 up
+13,1 step kanto-route-11 1,1 right
 
 objects:
 vermilion-sign-gym 4,10 sign kanto.vermilion.sign-gym

@@ -473,5 +473,319 @@
         ]
       }
     ]
+  },
+  {
+    "id": "kanto-route11-gambler",
+    "name": "マサル",
+    "class": "ギャンブラー",
+    "reward": 1080,
+    "defeatedFlag": "kanto.route11.gambler-beaten",
+    "party": [
+      {
+        "species": "poliwag",
+        "level": 21,
+        "moves": [
+          "water-gun",
+          "hypnosis"
+        ]
+      },
+      {
+        "species": "horsea",
+        "level": 21,
+        "moves": [
+          "water-gun",
+          "smokescreen"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-tower-channeler",
+    "name": "ミキ",
+    "class": "れいばいし",
+    "reward": 1104,
+    "defeatedFlag": "kanto.tower.channeler-beaten",
+    "party": [
+      {
+        "species": "gastly",
+        "level": 23,
+        "moves": [
+          "lick",
+          "hypnosis",
+          "confuse-ray"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route8-lass",
+    "name": "ユカリ",
+    "class": "ミニスカート",
+    "reward": 960,
+    "defeatedFlag": "kanto.route8.lass-beaten",
+    "party": [
+      {
+        "species": "clefairy",
+        "level": 24,
+        "moves": [
+          "pound",
+          "sing"
+        ]
+      },
+      {
+        "species": "meowth",
+        "level": 24,
+        "moves": [
+          "scratch",
+          "bite"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route7-camper",
+    "name": "ススム",
+    "class": "キャンプボーイ",
+    "reward": 1024,
+    "defeatedFlag": "kanto.route7.camper-beaten",
+    "party": [
+      {
+        "species": "nidorino",
+        "level": 24,
+        "moves": [
+          "horn-attack",
+          "leer"
+        ]
+      },
+      {
+        "species": "sandslash",
+        "level": 24,
+        "moves": [
+          "slash",
+          "sand-attack"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-celadon-gym-jr",
+    "name": "アヤ",
+    "class": "ジムトレーナー",
+    "reward": 1120,
+    "defeatedFlag": "kanto.celadon.gym-jr-beaten",
+    "party": [
+      {
+        "species": "weepinbell",
+        "level": 26,
+        "moves": [
+          "razor-leaf",
+          "poison-powder"
+        ]
+      },
+      {
+        "species": "gloom",
+        "level": 26,
+        "moves": [
+          "absorb",
+          "sleep-powder"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-erika",
+    "name": "エリカ",
+    "class": "ジムリーダー",
+    "reward": 3861,
+    "defeatedFlag": "kanto.celadon.erika-beaten",
+    "party": [
+      {
+        "species": "victreebel",
+        "level": 29,
+        "moves": [
+          "razor-leaf",
+          "sleep-powder",
+          "acid",
+          "vine-whip"
+        ]
+      },
+      {
+        "species": "tangela",
+        "level": 24,
+        "moves": [
+          "absorb",
+          "vine-whip",
+          "stun-spore"
+        ]
+      },
+      {
+        "species": "vileplume",
+        "level": 29,
+        "moves": [
+          "petal-blizzard",
+          "sludge-bomb",
+          "sleep-powder",
+          "mega-drain"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route16-biker",
+    "name": "ゲンジ",
+    "class": "ライダー",
+    "reward": 1200,
+    "defeatedFlag": "kanto.route16.biker-beaten",
+    "party": [
+      {
+        "species": "koffing",
+        "level": 28,
+        "moves": [
+          "sludge",
+          "smokescreen"
+        ]
+      },
+      {
+        "species": "grimer",
+        "level": 28,
+        "moves": [
+          "sludge",
+          "poison-gas"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-fuchsia-gym-jr",
+    "name": "タツヤ",
+    "class": "ジムトレーナー",
+    "reward": 1360,
+    "defeatedFlag": "kanto.fuchsia.gym-jr-beaten",
+    "party": [
+      {
+        "species": "venonat",
+        "level": 31,
+        "moves": [
+          "confusion",
+          "poison-powder"
+        ]
+      },
+      {
+        "species": "golbat",
+        "level": 31,
+        "moves": [
+          "leech-life",
+          "confuse-ray"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-koga",
+    "name": "キョウ",
+    "class": "ジムリーダー",
+    "reward": 5049,
+    "defeatedFlag": "kanto.fuchsia.koga-beaten",
+    "party": [
+      {
+        "species": "koffing",
+        "level": 37,
+        "moves": [
+          "sludge",
+          "smokescreen",
+          "toxic"
+        ]
+      },
+      {
+        "species": "muk",
+        "level": 39,
+        "moves": [
+          "sludge-bomb",
+          "toxic",
+          "acid-armor"
+        ]
+      },
+      {
+        "species": "weezing",
+        "level": 43,
+        "moves": [
+          "sludge-bomb",
+          "toxic",
+          "smog",
+          "clear-smog"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-saffron-gym-jr",
+    "name": "レイコ",
+    "class": "ジムトレーナー",
+    "reward": 1520,
+    "defeatedFlag": "kanto.saffron.gym-jr-beaten",
+    "party": [
+      {
+        "species": "kadabra",
+        "level": 34,
+        "moves": [
+          "confusion",
+          "psybeam"
+        ]
+      },
+      {
+        "species": "mr-mime",
+        "level": 34,
+        "moves": [
+          "confusion",
+          "dazzling-gleam"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-sabrina",
+    "name": "ナツメ",
+    "class": "ジムリーダー",
+    "reward": 5643,
+    "defeatedFlag": "kanto.saffron.sabrina-beaten",
+    "party": [
+      {
+        "species": "kadabra",
+        "level": 38,
+        "moves": [
+          "psybeam",
+          "recover",
+          "psychic"
+        ]
+      },
+      {
+        "species": "mr-mime",
+        "level": 37,
+        "moves": [
+          "psychic",
+          "dazzling-gleam",
+          "confusion"
+        ]
+      },
+      {
+        "species": "venomoth",
+        "level": 38,
+        "moves": [
+          "psybeam",
+          "poison-powder",
+          "leech-life"
+        ]
+      },
+      {
+        "species": "alakazam",
+        "level": 43,
+        "moves": [
+          "psychic",
+          "recover",
+          "psycho-cut",
+          "calm-mind"
+        ]
+      }
+    ]
   }
 ]

@@ -1,0 +1,31 @@
+# タマムシジム。ジムリーダーは エリカ（くさ）。
+id: kanto-celadon-gym
+name: タマムシジム
+region: kanto
+bgm: gym
+
+legend:
+. normal
+W !normal
+V !normal
+D normal
+
+grid:
+WWWWWWWWW
+W.......W
+W.VV.VV.W
+W.......W
+W.VV.VV.W
+W.......W
+W.......W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,9 step kanto-celadon-city 5,7 down
+
+objects:
+celadon-gym-jr 1,7 trainer:kanto-celadon-gym-jr:3:right kanto.celadon.gym-jr if:kanto.celadon.gym-jr-beaten=false
+celadon-erika 4,1 npc:leader:static kanto.celadon.erika
+celadon-gym-sign 7,8 sign kanto.celadon.gym-sign

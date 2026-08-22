@@ -1,0 +1,32 @@
+# セキチクジム。ジムリーダーは キョウ（どく）。
+# 原作の透明な壁の迷路は v1.x（見えない壁の機構が要る）。
+id: kanto-fuchsia-gym
+name: セキチクジム
+region: kanto
+bgm: gym
+
+legend:
+. normal
+W !normal
+X !normal
+D normal
+
+grid:
+WWWWWWWWW
+W.......W
+W.X.X.X.W
+W.......W
+W.X.X.X.W
+W.......W
+W.......W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,9 step kanto-fuchsia-city 5,4 down
+
+objects:
+fuchsia-gym-jr 1,7 trainer:kanto-fuchsia-gym-jr:3:right kanto.fuchsia.gym-jr if:kanto.fuchsia.gym-jr-beaten=false
+fuchsia-koga 4,1 npc:leader:static kanto.fuchsia.koga
+fuchsia-gym-sign 7,8 sign kanto.fuchsia.gym-sign

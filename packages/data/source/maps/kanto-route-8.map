@@ -1,0 +1,31 @@
+# 8番道路。シオンタウンとヤマブキシティを結ぶ。
+id: kanto-route-8
+name: 8ばんどうろ
+region: kanto
+encounters: kanto-route-8-grass
+bgm: route-8
+
+legend:
+. normal
+, grass
+T !normal
+
+grid:
+TTTTT.TTTTTTT
+T...........T
+T..,,,......T
+T..,,,......T
+T...........T
+T.......,,,.T
+T.......,,,.T
+T...........T
+.............
+TTTTTTTTTTTTT
+
+warps:
+5,0 step kanto-lavender-town 7,11 up
+0,8 step kanto-saffron-city 11,7 left
+
+objects:
+route8-sign 3,7 sign kanto.route8.sign
+route8-lass 8,3 trainer:kanto-route8-lass:2:left kanto.route8.lass if:kanto.route8.lass-beaten=false

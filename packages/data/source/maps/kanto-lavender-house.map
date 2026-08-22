@@ -1,0 +1,25 @@
+# シオンタウンの民家。ポケモンタワーの話をしてくれる。
+id: kanto-lavender-house
+name: シオンタウンの いえ
+region: kanto
+bgm: house
+
+legend:
+. normal
+W !normal
+B !normal
+D normal
+
+grid:
+WWWWWWW
+WB....W
+W.....W
+W.....W
+W.....W
+WWWDWWW
+
+warps:
+3,5 step kanto-lavender-town 4,11 down
+
+objects:
+lavender-house-woman 4,2 npc:lass:static kanto.lavender.house-woman

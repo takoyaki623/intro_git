@@ -318,5 +318,157 @@
         "rate": 15
       }
     ]
+  },
+  {
+    "id": "kanto-route-11-grass",
+    "method": "grass",
+    "entries": [
+      {
+        "species": "drowzee",
+        "levelRange": [
+          18,
+          22
+        ],
+        "rate": 30
+      },
+      {
+        "species": "spearow",
+        "levelRange": [
+          18,
+          22
+        ],
+        "rate": 25
+      },
+      {
+        "species": "ekans",
+        "levelRange": [
+          18,
+          22
+        ],
+        "rate": 25
+      },
+      {
+        "species": "sandshrew",
+        "levelRange": [
+          18,
+          22
+        ],
+        "rate": 20
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-8-grass",
+    "method": "grass",
+    "entries": [
+      {
+        "species": "growlithe",
+        "levelRange": [
+          20,
+          24
+        ],
+        "rate": 25
+      },
+      {
+        "species": "vulpix",
+        "levelRange": [
+          20,
+          24
+        ],
+        "rate": 25
+      },
+      {
+        "species": "pidgey",
+        "levelRange": [
+          20,
+          24
+        ],
+        "rate": 25
+      },
+      {
+        "species": "meowth",
+        "levelRange": [
+          20,
+          24
+        ],
+        "rate": 25
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-7-grass",
+    "method": "grass",
+    "entries": [
+      {
+        "species": "meowth",
+        "levelRange": [
+          21,
+          25
+        ],
+        "rate": 30
+      },
+      {
+        "species": "oddish",
+        "levelRange": [
+          21,
+          25
+        ],
+        "rate": 25
+      },
+      {
+        "species": "bellsprout",
+        "levelRange": [
+          21,
+          25
+        ],
+        "rate": 25
+      },
+      {
+        "species": "pidgey",
+        "levelRange": [
+          21,
+          25
+        ],
+        "rate": 20
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-16-grass",
+    "method": "grass",
+    "entries": [
+      {
+        "species": "rattata",
+        "levelRange": [
+          24,
+          28
+        ],
+        "rate": 30
+      },
+      {
+        "species": "spearow",
+        "levelRange": [
+          24,
+          28
+        ],
+        "rate": 30
+      },
+      {
+        "species": "doduo",
+        "levelRange": [
+          24,
+          28
+        ],
+        "rate": 25
+      },
+      {
+        "species": "grimer",
+        "levelRange": [
+          24,
+          28
+        ],
+        "rate": 15
+      }
+    ]
   }
 ]

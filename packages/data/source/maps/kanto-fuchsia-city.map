@@ -1,0 +1,38 @@
+# セキチクシティ。ジム5（キョウ）。サファリゾーンは v1.x（捕獲の別機構が要る）。
+id: kanto-fuchsia-city
+name: セキチクシティ
+region: kanto
+bgm: fuchsia-city
+
+legend:
+. normal
+T !normal
+G !normal
+P !normal
+F !normal
+D normal
+
+grid:
+TTTTTT.TTTTTT
+T...........T
+T..GGGG.....T
+T..GGDG.....T
+T...........T
+T...........T
+T.......PPPPT
+T.......PPDPT
+T...........T
+T.......FFFFT
+T.......FFDFT
+T...........T
+TTTTTTTTTTTTT
+
+warps:
+6,0 step kanto-route-16 6,8 up
+5,3 step kanto-fuchsia-gym 4,8 up
+10,7 step kanto-fuchsia-pokecenter 4,5 up
+10,10 step kanto-fuchsia-mart 4,5 up
+
+objects:
+fuchsia-sign-gym 4,4 sign kanto.fuchsia.sign-gym
+fuchsia-warden 9,4 npc:oldman:static kanto.fuchsia.warden

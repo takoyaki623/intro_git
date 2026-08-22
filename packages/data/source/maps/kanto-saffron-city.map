@@ -1,0 +1,44 @@
+# ヤマブキシティ。カントーの中央。**ジム6（ナツメ）はバッジ5つまで開かない**
+# ―― 開けるのはイベントの条件（badges）だけで、コードは要らない。
+id: kanto-saffron-city
+name: ヤマブキシティ
+region: kanto
+bgm: saffron-city
+
+legend:
+. normal
+T !normal
+G !normal
+P !normal
+F !normal
+X !normal
+D normal
+
+grid:
+TTTTTTTTTTTTTT
+T............T
+T..XXXX......T
+T..XXXX......T
+T............T
+T..GGGG......T
+T..GGDG......T
+T.............
+T.......PPPP.T
+T.......PPDP.T
+T............T
+T.......FFFF.T
+T.......FFDF.T
+T............T
+TTTTT.TTTTTTTT
+
+warps:
+5,6 step kanto-saffron-gym 4,8 up
+10,9 step kanto-saffron-pokecenter 4,5 up
+10,12 step kanto-saffron-mart 4,5 up
+12,7 step kanto-route-8 1,8 right
+5,14 step kanto-route-7 5,1 down
+
+objects:
+saffron-sign-gym 4,7 sign kanto.saffron.sign-gym
+saffron-guard 5,4 npc:guard:static kanto.saffron.guard if:kanto.saffron.gym-open=false
+saffron-boy 9,3 npc:youngster:static kanto.saffron.boy
