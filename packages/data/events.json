@@ -830,5 +830,466 @@
         ]
       }
     ]
+  },
+  {
+    "id": "kanto.route2.sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "2ばんどうろ\n\n きた トキワのもり\n みなみ トキワシティ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route2.bug-catcher",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route2.bug-catcher-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "むしポケモンは よわくない!\nみせて やる!",
+            "speaker": "むしとりしょうねん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route2-bug-catcher",
+            "onWin": "kanto.route2.bug-catcher-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "うーん...\nもりの ほうが つよいのが いるぞ。",
+            "speaker": "むしとりしょうねん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route2.bug-catcher-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route2.bug-catcher-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "うーん...\nもりの ほうが つよいのが いるぞ。",
+        "speaker": "むしとりしょうねん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route2.potion",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route2.potion-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.forest.sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "トキワのもり しぜんこうえん\n\n むしポケモンに ちゅうい"
+      }
+    ]
+  },
+  {
+    "id": "kanto.forest.bug-1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.forest.bug-1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "この もりの むしは\nぼくが いちばん しってる!",
+            "speaker": "むしとりしょうねん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-forest-bug-1",
+            "onWin": "kanto.forest.bug-1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ううっ...\nまだまだ あつめるぞ。",
+            "speaker": "むしとりしょうねん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.forest.bug-1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.forest.bug-1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "ううっ...\nまだまだ あつめるぞ。",
+        "speaker": "むしとりしょうねん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.forest.bug-2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.forest.bug-2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "バタフリーの つよさを\nおしえて あげるよ!",
+            "speaker": "むしとりしょうねん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-forest-bug-2",
+            "onWin": "kanto.forest.bug-2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "そんな...\nバタフリーが まけるなんて。",
+            "speaker": "むしとりしょうねん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.forest.bug-2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.forest.bug-2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "そんな...\nバタフリーが まけるなんて。",
+        "speaker": "むしとりしょうねん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.forest.antidote",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "antidote",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.forest.antidote-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route2n.sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "2ばんどうろ\n\n きた ニビシティ\n みなみ トキワのもり"
+      }
+    ]
+  },
+  {
+    "id": "kanto.pewter.sign-gym",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ニビジム\n\n ジムリーダー タケシ\n 「いわの ように かたい こころざし」"
+      }
+    ]
+  },
+  {
+    "id": "kanto.pewter.sign-museum",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ニビかがくはくぶつかん\n\n かせきポケモンの てんじちゅう"
+      }
+    ]
+  },
+  {
+    "id": "kanto.pewter.gym-sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ニビジムの きろく\n\n ちょうせんしゃの みなさんへ\n 「まず うけきる ことから」"
+      }
+    ]
+  },
+  {
+    "id": "kanto.pewter.boy",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.pewter.boy",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ジムの タケシは\nいわタイプの つかいてだ。",
+            "speaker": "おとこのこ"
+          },
+          {
+            "kind": "message",
+            "text": "くさか みずの わざが あれば\nラクなんだけどね。",
+            "speaker": "おとこのこ"
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.pewter.boy",
+            "value": true
+          }
+        ],
+        "else": []
+      }
+    ]
+  },
+  {
+    "id": "kanto.pewter.museum-guide",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.pewter.museum-guide",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ここには むかしの ポケモンの\nかせきが ならんでいます。",
+            "speaker": "がくげいいん"
+          },
+          {
+            "kind": "message",
+            "text": "いつか よみがえらせる ひが\nくるかも しれませんね。",
+            "speaker": "がくげいいん"
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.pewter.museum-guide",
+            "value": true
+          }
+        ],
+        "else": []
+      }
+    ]
+  },
+  {
+    "id": "kanto.pewter.nurse",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ポケモンを おあずかりします。",
+        "speaker": "ジョーイ"
+      },
+      {
+        "kind": "healParty"
+      },
+      {
+        "kind": "message",
+        "text": "おまたせしました!",
+        "speaker": "ジョーイ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.pewter.center-pc",
+    "commands": [
+      {
+        "kind": "openBox"
+      }
+    ]
+  },
+  {
+    "id": "kanto.pewter.clerk",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "いらっしゃいませ!",
+        "speaker": "てんいん"
+      },
+      {
+        "kind": "shop",
+        "inventory": "kanto-pewter-mart"
+      }
+    ]
+  },
+  {
+    "id": "kanto.pewter.mart-boy",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.pewter.mart-boy",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ニビの みせは\nトキワより しなぞろえが いいんだ。",
+            "speaker": "おとこのこ"
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.pewter.mart-boy",
+            "value": true
+          }
+        ],
+        "else": []
+      }
+    ]
+  },
+  {
+    "id": "kanto.pewter.gym-jr",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.pewter.gym-jr-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "タケシさんに あいたければ\nぼくを たおしてからだ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-pewter-gym-jr",
+            "onWin": "kanto.pewter.gym-jr-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "...つよいな。\nタケシさんは もっと つよいぞ。",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.pewter.gym-jr-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.pewter.gym-jr-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "...つよいな。\nタケシさんは もっと つよいぞ。",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.pewter.brock",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.pewter.brock-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "おれは タケシ。\nこの ニビジムの リーダーだ。",
+            "speaker": "タケシ"
+          },
+          {
+            "kind": "message",
+            "text": "おれの ポケモンは\nいわの ように かたい。",
+            "speaker": "タケシ"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-brock",
+            "onWin": "kanto.pewter.brock-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "いい しょうぶだった。\nつぎは ハナダシティだ。",
+            "speaker": "タケシ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.pewter.brock-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.pewter.brock-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "...みごとだ。\nおまえの こころざしを みとめよう。",
+        "speaker": "タケシ"
+      },
+      {
+        "kind": "giveBadge",
+        "count": 1
+      },
+      {
+        "kind": "message",
+        "text": "グレーバッジを うけとってくれ。\nつぎは ハナダシティを めざすといい。",
+        "speaker": "タケシ"
+      }
+    ]
   }
 ]

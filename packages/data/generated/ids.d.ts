@@ -6,9 +6,9 @@
  * 特性 68 / 道具 58 /
  * BattleSet 64 / 施設 4 /
  * ネームド 18 / カップ 10 /
- * マップ 12 / イベント 42 / トレーナー 3 /
- * 出現テーブル 1 / ショップ 1 / 地方 9 /
- * フラグ 8
+ * マップ 19 / イベント 66 / トレーナー 8 /
+ * 出現テーブル 3 / ショップ 2 / 地方 9 /
+ * フラグ 18
  */
 
 export type GeneratedSpeciesId =
@@ -720,9 +720,16 @@ export type GeneratedMapId =
   | "hub-tower"
   | "kanto-oak-lab"
   | "kanto-pallet-town"
+  | "kanto-pewter-city"
+  | "kanto-pewter-gym"
+  | "kanto-pewter-mart"
+  | "kanto-pewter-pokecenter"
   | "kanto-players-house-1f"
   | "kanto-route-1"
+  | "kanto-route-2"
+  | "kanto-route-2-north"
   | "kanto-viridian-city"
+  | "kanto-viridian-forest"
   | "kanto-viridian-house"
   | "kanto-viridian-mart"
   | "kanto-viridian-pokecenter";
@@ -743,6 +750,12 @@ export type GeneratedEventId =
   | "hub.plaza.sign-tower"
   | "hub.tower.board"
   | "hub.tower.clerk"
+  | "kanto.forest.antidote"
+  | "kanto.forest.bug-1"
+  | "kanto.forest.bug-1-win"
+  | "kanto.forest.bug-2"
+  | "kanto.forest.bug-2-win"
+  | "kanto.forest.sign"
   | "kanto.pallet.aide"
   | "kanto.pallet.bookshelf"
   | "kanto.pallet.hub-gate"
@@ -756,9 +769,27 @@ export type GeneratedEventId =
   | "kanto.pallet.sign-lab"
   | "kanto.pallet.sign-town"
   | "kanto.pallet.tv"
+  | "kanto.pewter.boy"
+  | "kanto.pewter.brock"
+  | "kanto.pewter.brock-win"
+  | "kanto.pewter.center-pc"
+  | "kanto.pewter.clerk"
+  | "kanto.pewter.gym-jr"
+  | "kanto.pewter.gym-jr-win"
+  | "kanto.pewter.gym-sign"
+  | "kanto.pewter.mart-boy"
+  | "kanto.pewter.museum-guide"
+  | "kanto.pewter.nurse"
+  | "kanto.pewter.sign-gym"
+  | "kanto.pewter.sign-museum"
   | "kanto.route1.boy"
   | "kanto.route1.potion"
   | "kanto.route1.sign-north"
+  | "kanto.route2.bug-catcher"
+  | "kanto.route2.bug-catcher-win"
+  | "kanto.route2.potion"
+  | "kanto.route2.sign"
+  | "kanto.route2n.sign"
   | "kanto.viridian.center-chat"
   | "kanto.viridian.clerk"
   | "kanto.viridian.customer"
@@ -772,14 +803,22 @@ export type GeneratedEventId =
   | "kanto.viridian.sign-mart";
 
 export type GeneratedTrainerId =
+  | "kanto-brock"
+  | "kanto-forest-bug-1"
+  | "kanto-forest-bug-2"
+  | "kanto-pewter-gym-jr"
   | "kanto-rival-bulbasaur"
   | "kanto-rival-charmander"
-  | "kanto-rival-squirtle";
+  | "kanto-rival-squirtle"
+  | "kanto-route2-bug-catcher";
 
 export type GeneratedEncounterTableId =
-  | "kanto-route-1-grass";
+  | "kanto-route-1-grass"
+  | "kanto-route-2-grass"
+  | "kanto-viridian-forest-grass";
 
 export type GeneratedShopId =
+  | "kanto-pewter-mart"
   | "kanto-viridian-mart";
 
 export type GeneratedRegionId =
@@ -794,11 +833,21 @@ export type GeneratedRegionId =
   | "unova";
 
 export type GeneratedFlagId =
+  | "kanto.forest.antidote-taken"
+  | "kanto.forest.bug-1-beaten"
+  | "kanto.forest.bug-2-beaten"
   | "kanto.pallet.got-starter"
   | "kanto.pallet.rival-battled"
   | "kanto.pallet.talked-mom"
+  | "kanto.pewter.boy"
+  | "kanto.pewter.brock-beaten"
+  | "kanto.pewter.gym-jr-beaten"
+  | "kanto.pewter.mart-boy"
+  | "kanto.pewter.museum-guide"
   | "kanto.route1.potion-taken"
   | "kanto.route1.talked-boy"
+  | "kanto.route2.bug-catcher-beaten"
+  | "kanto.route2.potion-taken"
   | "kanto.viridian.got-sample-potion"
   | "kanto.viridian.talked-guard"
   | "kanto.viridian.talked-oldman";

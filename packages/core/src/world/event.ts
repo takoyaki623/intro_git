@@ -79,6 +79,7 @@ export type EventEffect =
   | { kind: "openDex" }
   | { kind: "enterRegion"; region: RegionId }
   | { kind: "returnToHub" }
+  | { kind: "giveBadge"; count: number }
   | { kind: "openFacility" }
   | { kind: "openExchange" }
   | { kind: "openTournament" }
@@ -250,6 +251,13 @@ const handlers: { [K in EventCommand["kind"]]: Handler } = {
 
   returnToHub: (_c, _w, _r, effects) => {
     effects.push({ kind: "returnToHub" });
+  },
+
+  giveBadge: (c, world, _r, effects) => {
+    if (c.kind !== "giveBadge") return;
+    // 到達点なので、少ない方へは下げない
+    world.badges = Math.max(world.badges, c.count);
+    effects.push({ kind: "giveBadge", count: world.badges });
   },
 
   openFacility: (_c, _w, _r, effects) => {

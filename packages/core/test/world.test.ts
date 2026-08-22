@@ -22,6 +22,7 @@ import {
   startEvent,
   step,
   stepEvent,
+  spotterAt,
   stepPlayer,
   terrainAt,
   visibleObjects,
@@ -538,6 +539,90 @@ describe("v0.7 の完了条件をひと続きで通す", () => {
     expect(["pidgey", "rattata"]).toContain(encountered);
 
     expect([...visited].sort()).toEqual([HOUSE, LAB, ROUTE, TOWN].sort());
+  });
+});
+
+describe("トレーナーの視線（v0.12）", () => {
+  const FOREST = "kanto-viridian-forest";
+
+  const worldWithout = (...flags: string[]) => {
+    const world = emptyWorldState();
+    for (const flag of flags) world.flags[flag] = false;
+    return world;
+  };
+
+  it("向いている先に立つと見つかる", () => {
+    const map = mapById(FOREST);
+    const world = worldWithout("kanto.forest.bug-1-beaten");
+    const trainer = map.objects.find((o) => o.id === "forest-bug-1")!;
+    expect(trainer.kind.type).toBe("trainer");
+
+    // 真下（向いている方向）は見つかる
+    expect(spotterAt(map, world, trainer.at.x, trainer.at.y + 1)?.id).toBe("forest-bug-1");
+    // 真上（背中側）は見つからない
+    expect(spotterAt(map, world, trainer.at.x, trainer.at.y - 1)).toBeNull();
+    // 横も見つからない
+    expect(spotterAt(map, world, trainer.at.x + 1, trainer.at.y)).toBeNull();
+  });
+
+  it("視線の長さを超えると見つからない", () => {
+    const map = mapById(FOREST);
+    const world = worldWithout("kanto.forest.bug-1-beaten");
+    const trainer = map.objects.find((o) => o.id === "forest-bug-1")!;
+    const sight = trainer.kind.type === "trainer" ? trainer.kind.sight : 0;
+    expect(sight).toBeGreaterThan(0);
+    expect(spotterAt(map, world, trainer.at.x, trainer.at.y + sight)?.id).toBe("forest-bug-1");
+    expect(spotterAt(map, world, trainer.at.x, trainer.at.y + sight + 1)).toBeNull();
+  });
+
+  it("倒したトレーナーは見つけてこない（condition で消える）", () => {
+    const map = mapById(FOREST);
+    const trainer = map.objects.find((o) => o.id === "forest-bug-1")!;
+    const beaten = emptyWorldState();
+    beaten.flags["kanto.forest.bug-1-beaten"] = true;
+    expect(spotterAt(map, beaten, trainer.at.x, trainer.at.y + 1)).toBeNull();
+  });
+
+  it("歩いて視線に入ると spotted が返る（野生より先）", () => {
+    const map = mapById(FOREST);
+    const world = worldWithout("kanto.forest.bug-1-beaten");
+    const trainer = map.objects.find((o) => o.id === "forest-bug-1")!;
+
+    // 視線の2マス先から1マス先へ踏み込む
+    const from = { map: FOREST, x: trainer.at.x, y: trainer.at.y + 2, facing: "up" as Direction };
+    const result = stepPlayer(
+      map,
+      world,
+      from,
+      emptyEncounterState(),
+      "up",
+      rng(),
+      allEncounterTables,
+    );
+    expect(result.outcome.kind).toBe("spotted");
+    if (result.outcome.kind === "spotted") {
+      expect(result.outcome.object.id).toBe("forest-bug-1");
+      expect(result.outcome.event).toBe("kanto.forest.bug-1");
+    }
+  });
+});
+
+describe("バッジ（v0.12）", () => {
+  it("giveBadge は到達点。2回踏んでも増えない", () => {
+    const world = emptyWorldState();
+    runEvent(world, "kanto.pewter.brock-win");
+    expect(world.badges).toBe(1);
+
+    // **同じイベントを2回踏んでも増えない。** 増分ではなく到達点にしてあるため
+    runEvent(world, "kanto.pewter.brock-win");
+    expect(world.badges).toBe(1);
+  });
+
+  it("バッジの数はイベントの分岐に使える", () => {
+    const world = emptyWorldState();
+    expect(evaluate({ kind: "badges", op: ">=", count: 1 }, world)).toBe(false);
+    runEvent(world, "kanto.pewter.brock-win");
+    expect(evaluate({ kind: "badges", op: ">=", count: 1 }, world)).toBe(true);
   });
 });
 

@@ -46,5 +46,139 @@
         ]
       }
     ]
+  },
+  {
+    "id": "kanto-route2-bug-catcher",
+    "name": "リョウ",
+    "class": "むしとりしょうねん",
+    "reward": 112,
+    "defeatedFlag": "kanto.route2.bug-catcher-beaten",
+    "party": [
+      {
+        "species": "caterpie",
+        "level": 7,
+        "moves": [
+          "tackle",
+          "string-shot"
+        ]
+      },
+      {
+        "species": "weedle",
+        "level": 7,
+        "moves": [
+          "poison-sting",
+          "string-shot"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-forest-bug-1",
+    "name": "サトシ",
+    "class": "むしとりしょうねん",
+    "reward": 144,
+    "defeatedFlag": "kanto.forest.bug-1-beaten",
+    "party": [
+      {
+        "species": "weedle",
+        "level": 9,
+        "moves": [
+          "poison-sting",
+          "string-shot"
+        ]
+      },
+      {
+        "species": "kakuna",
+        "level": 9,
+        "moves": [
+          "harden"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-forest-bug-2",
+    "name": "ケンジ",
+    "class": "むしとりしょうねん",
+    "reward": 160,
+    "defeatedFlag": "kanto.forest.bug-2-beaten",
+    "party": [
+      {
+        "species": "caterpie",
+        "level": 10,
+        "moves": [
+          "tackle",
+          "string-shot"
+        ]
+      },
+      {
+        "species": "metapod",
+        "level": 10,
+        "moves": [
+          "harden"
+        ]
+      },
+      {
+        "species": "butterfree",
+        "level": 10,
+        "moves": [
+          "confusion",
+          "gust"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-pewter-gym-jr",
+    "name": "ジロウ",
+    "class": "ジムトレーナー",
+    "reward": 240,
+    "defeatedFlag": "kanto.pewter.gym-jr-beaten",
+    "party": [
+      {
+        "species": "geodude",
+        "level": 10,
+        "moves": [
+          "tackle",
+          "rock-throw"
+        ]
+      },
+      {
+        "species": "onix",
+        "level": 10,
+        "moves": [
+          "rock-throw",
+          "harden"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-brock",
+    "name": "タケシ",
+    "class": "ジムリーダー",
+    "reward": 1386,
+    "defeatedFlag": "kanto.pewter.brock-beaten",
+    "party": [
+      {
+        "species": "geodude",
+        "level": 12,
+        "moves": [
+          "tackle",
+          "rock-throw",
+          "harden"
+        ]
+      },
+      {
+        "species": "onix",
+        "level": 14,
+        "moves": [
+          "rock-throw",
+          "bulldoze",
+          "harden",
+          "bite"
+        ]
+      }
+    ]
   }
 ]

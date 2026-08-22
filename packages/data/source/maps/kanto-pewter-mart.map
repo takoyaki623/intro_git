@@ -1,0 +1,27 @@
+# ニビシティのフレンドリィショップ。品揃えはトキワより1段よい。
+id: kanto-pewter-mart
+name: フレンドリィショップ
+region: kanto
+bgm: mart
+
+legend:
+. normal
+W !normal
+S !normal
+D normal
+
+grid:
+WWWWWWWWW
+WSSS....W
+W.......W
+W.......W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,6 step kanto-pewter-city 10,14 down
+
+objects:
+pewter-clerk 2,2 npc:clerk:static kanto.pewter.clerk
+pewter-mart-boy 6,3 npc:youngster:static kanto.pewter.mart-boy

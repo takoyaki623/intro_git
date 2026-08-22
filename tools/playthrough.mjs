@@ -188,6 +188,12 @@ async function goToMap(map, x, y, tries = 8) {
     let drifted = false;
     for (const step of path) {
       await key(step.key, 1, 175);
+      // **視線バトルは会話から始まる**（v0.12）。会話が開いたままだと
+      // 以降のキーは全部そちらに吸われ、歩いていないのに歩いたことになる
+      if (await talking()) {
+        await drain();
+        await page.waitForTimeout(300);
+      }
       if (await page.isVisible("#battle")) {
         await fight();
         await page.waitForTimeout(800);
@@ -657,6 +663,101 @@ const place = (raw) => raw.split(" ").slice(0, 2).join(" ");
 expect("カントーの 続きから 始まる", place(await at()), place(beforeTrip.at));
 expect("手持ちも そのまま", (await page.textContent("#field-party")).trim(), beforeTrip.party);
 await shot("16-roundtrip");
+
+// ── 12. 視線・ジム・バッジ（v0.12 の眼目）──
+//
+// **セーブを作って始める。** ここで確かめたいのは
+// 「視線に入ると戦いになり、勝つと消え、ジムでバッジが手に入る」という機構で、
+// そこまで歩いて育てる過程ではない（過程は 1〜11 で確かめている）。
+await page.click("#open-settings");
+await page.waitForSelector("#save-export");
+await page.click("#save-export");
+const forGym = JSON.parse(await page.inputValue("#save-text"));
+forGym.regions.kanto.position = { map: "kanto-viridian-city", x: 6, y: 3, facing: "up" };
+// **レベルを上げるだけでは足りなかった。**
+// Lv50 のヒトカゲでも、ひっかく と ひのこ では イワーク（ぼうぎょ160・
+// ほのおは半減）を削り切れず、実際に全滅して復活地点へ飛ばされた。
+// 相性を確かめたいのではなく機構を確かめたいので、通る技を持たせる
+// ―― ゲーム内の子どもが言っている「くさか みずの わざが あれば ラク」そのもの
+for (const mon of Object.values(forGym.pokemon)) {
+  mon.exp = 125000;
+  mon.currentHp = 999;
+  mon.moves = [
+    { id: "brick-break", pp: 15 },
+    { id: "bulldoze", pp: 20 },
+    { id: "ember", pp: 25 },
+  ];
+}
+await page.fill("#save-text", JSON.stringify(forGym));
+await page.click("#save-import");
+await page.waitForTimeout(900);
+await page.click("#settings-back");
+await page.waitForSelector("#field-canvas");
+await page.waitForTimeout(400);
+await drain();
+
+// 警備員は (6,1)。真下はポケモンセンターの壁なので、右から話しかける
+await goToMap("kanto-viridian-city", 7, 1);
+await talk("ArrowLeft");
+await drain();
+await goToMap("kanto-route-2", 5, 12);
+expect("警備員に 話すと 北が ひらく", (await spot()).map, "kanto-route-2");
+
+// 視線に踏み込む。
+// **goToMap は道中のバトルを勝手に片付ける**ので、視線の手前まで行って
+// そこから自分で1歩踏み込む（でないと「入った瞬間」を掴めない）
+await goToMap("kanto-route-2", 5, 11);
+note("視線の手前", await at());
+// 「！」は押さなくても消える（v0.12）ので、その時間ぶん待つ
+await key("ArrowUp", 1, 1400);
+// **話しかけていないのに向こうから始まる**のが視線。まず会話が開く
+expect("視線に 入ると むこうから しかけてくる", (await talking()) ? "しかけてきた" : "なにも起きない", "しかけてきた");
+await drain();
+await page.waitForTimeout(400);
+expect("そのまま しょうぶに なる", (await page.isVisible("#battle")) ? "なった" : "ならない", "なった");
+expect("視線バトルの 決着", await fight(), "決着してマップに戻った");
+await page.waitForTimeout(700);
+await drain();
+await shot("17-sight");
+
+// **倒したトレーナーは消える。** 消えないと同じ相手と無限に戦える
+await goToMap("kanto-route-2", 5, 11);
+await key("ArrowUp", 1, 400);
+expect(
+  "倒した あとは 視線に 入っても 起きない",
+  (await page.isVisible("#battle")) ? "また戦いになる" : "起きない",
+  "起きない",
+);
+await drain();
+
+// 森を抜けてニビジムへ
+await goToMap("kanto-pewter-city", 5, 8);
+expect("トキワの森を ぬけて ニビに つく", (await spot()).map, "kanto-pewter-city");
+await goToMap("kanto-pewter-gym", 4, 8);
+expect("ジムに 入れる", (await spot()).map, "kanto-pewter-gym");
+
+// ジムトレーナーは視線で捕まえてくる。goToMap が道中で片付けてくれる
+await goToMap("kanto-pewter-gym", 4, 3);
+note("ジムの中", await at());
+await goToMap("kanto-pewter-gym", 4, 2);
+expect("タケシの まえに 立てる", await at(), (v) => v.startsWith("kanto-pewter-gym 4,2"));
+await talk("ArrowUp");
+await drain(8);
+expect("タケシに いどめる", (await page.isVisible("#battle")) ? "いどめた" : "いどめない", "いどめた");
+expect("ジムリーダー戦の 決着", await fight(), "決着してマップに戻った");
+await page.waitForTimeout(800);
+await drain(30);
+note("タケシ戦のあと", `${await at()} / ${(await page.textContent("#field-party")).trim()}`);
+await shot("18-badge");
+
+await page.click("#open-settings");
+await page.waitForSelector("#save-export");
+await page.click("#save-export");
+const afterGym = JSON.parse(await page.inputValue("#save-text"));
+expect("バッジが セーブに 入る", afterGym.regions.kanto.badges, 1);
+expect("タケシ撃破が 記録される", afterGym.regions.kanto.flags["kanto.pewter.brock-beaten"], true);
+await page.click("#settings-back");
+await page.waitForSelector("#field-canvas");
 
 console.log(`\nスクリーンショット: ${SHOTS}`);
 console.log(errors.length === 0 ? "JS エラーなし" : `JS エラー ${errors.length} 件:\n${errors.join("\n")}`);

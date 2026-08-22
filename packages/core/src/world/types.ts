@@ -133,6 +133,14 @@ export type EventCommand =
   | { kind: "giveItem"; item: ItemId; count: number }
   | { kind: "givePokemon"; species: SpeciesId; level: number; moves?: MoveId[] }
   | { kind: "giveMoney"; amount: number }
+  /**
+   * バッジを渡す（v0.12）。`count` は「これで何個目になるか」。
+   *
+   * 増分ではなく**到達点**にしてあるので、同じイベントを2回踏んでも増えない。
+   * ジムの順番を入れ替えても数が狂わない（バッジは進行の目盛りなので、
+   * 「何個持っているか」だけが意味を持つ）。
+   */
+  | { kind: "giveBadge"; count: number }
   | { kind: "takeMoney"; amount: number }
   | { kind: "healParty" }
   | { kind: "warp"; to: MapId; x: number; y: number; facing?: Direction }

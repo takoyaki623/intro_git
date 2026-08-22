@@ -2,6 +2,26 @@
   {
     "id": "kanto-viridian-mart",
     "name": "フレンドリィショップ",
-    "items": ["poke-ball", "potion", "antidote", "paralyze-heal", "burn-heal", "awakening"]
+    "items": [
+      "poke-ball",
+      "potion",
+      "antidote",
+      "paralyze-heal",
+      "burn-heal",
+      "awakening"
+    ]
+  },
+  {
+    "id": "kanto-pewter-mart",
+    "name": "フレンドリィショップ",
+    "items": [
+      "poke-ball",
+      "great-ball",
+      "potion",
+      "super-potion",
+      "antidote",
+      "paralyze-heal",
+      "awakening"
+    ]
   }
 ]

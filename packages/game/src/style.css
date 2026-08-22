@@ -720,3 +720,12 @@ button:disabled { opacity: .45; cursor: default; }
     transition: none !important;
   }
 }
+
+
+/* 見つかったときの「！」（v0.12）。押さなくても消える */
+#field-text .flash {
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: .1em;
+}

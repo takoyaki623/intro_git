@@ -3,8 +3,114 @@
     "id": "kanto-route-1-grass",
     "method": "grass",
     "entries": [
-      { "species": "pidgey", "levelRange": [2, 5], "rate": 50 },
-      { "species": "rattata", "levelRange": [2, 4], "rate": 50 }
+      {
+        "species": "pidgey",
+        "levelRange": [
+          2,
+          5
+        ],
+        "rate": 50
+      },
+      {
+        "species": "rattata",
+        "levelRange": [
+          2,
+          4
+        ],
+        "rate": 50
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-2-grass",
+    "method": "grass",
+    "entries": [
+      {
+        "species": "pidgey",
+        "levelRange": [
+          3,
+          5
+        ],
+        "rate": 30
+      },
+      {
+        "species": "rattata",
+        "levelRange": [
+          3,
+          5
+        ],
+        "rate": 30
+      },
+      {
+        "species": "caterpie",
+        "levelRange": [
+          3,
+          5
+        ],
+        "rate": 20
+      },
+      {
+        "species": "weedle",
+        "levelRange": [
+          3,
+          5
+        ],
+        "rate": 20
+      }
+    ]
+  },
+  {
+    "id": "kanto-viridian-forest-grass",
+    "method": "grass",
+    "entries": [
+      {
+        "species": "caterpie",
+        "levelRange": [
+          4,
+          6
+        ],
+        "rate": 25
+      },
+      {
+        "species": "metapod",
+        "levelRange": [
+          5,
+          7
+        ],
+        "rate": 15
+      },
+      {
+        "species": "weedle",
+        "levelRange": [
+          4,
+          6
+        ],
+        "rate": 25
+      },
+      {
+        "species": "kakuna",
+        "levelRange": [
+          5,
+          7
+        ],
+        "rate": 15
+      },
+      {
+        "species": "pikachu",
+        "levelRange": [
+          5,
+          6
+        ],
+        "rate": 5
+      },
+      {
+        "species": "pidgey",
+        "levelRange": [
+          4,
+          6
+        ],
+        "rate": 15
+      }
     ]
   }
 ]

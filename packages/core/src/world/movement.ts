@@ -127,6 +127,11 @@ export function warpAt(map: MapData, x: number, y: number, trigger: Warp["trigge
 
 export type StepOutcome =
   | { kind: "moved" }
+  /**
+   * トレーナーに見つかった（v0.12）。
+   * `object` はそのトレーナー。UI が「!」を出して近づかせ、イベントを流す。
+   */
+  | { kind: "spotted"; object: MapObject; event: EventId }
   | { kind: "blocked" }
   /** 向きだけ変えた（原作の「向き直り」）。 */
   | { kind: "turned" }
@@ -141,6 +146,46 @@ export type StepPlayerResult = {
   encounter: EncounterState;
   outcome: StepOutcome;
 };
+
+/**
+ * 視線に入ったトレーナーを探す（v0.12）。
+ *
+ * 原作の規則をそのまま:
+ *   - **向いている方向にだけ** `sight` マスぶん見る
+ *   - 途中に通れないマスや別のオブジェクトがあれば、そこで視線が切れる
+ *   - 撃破済みは `condition` で消えるので、ここには出てこない
+ *
+ * **近い方を優先する。** 2人の視線が重なるマスに立ったとき、
+ * 遠い方が先に来ると「すり抜けて奥から呼ばれた」ように見える。
+ */
+export function spotterAt(
+  map: MapData,
+  world: WorldState,
+  x: number,
+  y: number,
+): MapObject | null {
+  let best: { object: MapObject; distance: number } | null = null;
+
+  for (const object of visibleObjects(map, world)) {
+    if (object.kind.type !== "trainer") continue;
+    const { dx, dy } = STEP[object.kind.direction];
+    if (dx === 0 && dy === 0) continue;
+
+    for (let step = 1; step <= object.kind.sight; step += 1) {
+      const sx = object.at.x + dx * step;
+      const sy = object.at.y + dy * step;
+      if (sx === x && sy === y) {
+        if (best === null || step < best.distance) best = { object, distance: step };
+        break;
+      }
+      // 壁の向こうは見えない。他のオブジェクトも視線を遮る
+      if (!inBounds(map, sx, sy)) break;
+      if (map.collision[indexOf(map, sx, sy)] === true) break;
+      if (objectAt(map, world, sx, sy) !== null) break;
+    }
+  }
+  return best?.object ?? null;
+}
 
 /**
  * 1歩進もうとする。
@@ -202,6 +247,17 @@ export function stepPlayer(
       position: moved,
       encounter: { ...encounter, stepsSince: encounter.stepsSince + 1 },
       outcome: { kind: "event", event: object.event, object },
+    };
+  }
+
+  // **視線は野生より先。** 草むらを横切ってトレーナーの前に出たとき、
+  // 野生が割り込むと「見つかったのに何も起きない」状態になる
+  const spotter = spotterAt(map, world, nx, ny);
+  if (spotter !== null && spotter.event !== undefined) {
+    return {
+      position: moved,
+      encounter: emptyEncounterState(),
+      outcome: { kind: "spotted", object: spotter, event: spotter.event },
     };
   }
 

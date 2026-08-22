@@ -1,0 +1,33 @@
+# ニビジム。**最初のジム。**
+# 手前のジムトレーナーは視線で捕まえ、奥のタケシは話しかけて挑む
+# ―― ジムリーダーだけは「自分から挑む」形にしてある。
+id: kanto-pewter-gym
+name: ニビジム
+region: kanto
+bgm: gym
+
+legend:
+. normal
+W !normal
+X !normal
+D normal
+
+grid:
+WWWWWWWWW
+W.......W
+W..X.X..W
+W.......W
+W.XX.XX.W
+W.......W
+W...X...W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,9 step kanto-pewter-city 5,8 down
+
+objects:
+pewter-gym-jr 2,5 trainer:kanto-pewter-gym-jr:3:right kanto.pewter.gym-jr if:kanto.pewter.gym-jr-beaten=false
+pewter-brock 4,1 npc:leader:static kanto.pewter.brock
+pewter-gym-sign 6,8 sign kanto.pewter.gym-sign

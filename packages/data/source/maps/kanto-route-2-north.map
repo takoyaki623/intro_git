@@ -1,0 +1,27 @@
+# 2番道路（北）。森を抜けてニビシティへ出るまでの短い道。
+# 原作では左右に木が並ぶだけの通路なので、こちらも短くしてある。
+id: kanto-route-2-north
+name: 2ばんどうろ きた
+region: kanto
+bgm: route-2
+
+legend:
+. normal
+T !normal
+
+grid:
+TTTT.TTTT
+T.......T
+T.......T
+T..TTT..T
+T..TTT..T
+T.......T
+T.......T
+TTTT.TTTT
+
+warps:
+4,0 step kanto-pewter-city 7,14 up
+4,7 step kanto-viridian-forest 10,1 down
+
+objects:
+route2n-sign 3,1 sign kanto.route2n.sign

@@ -39,6 +39,7 @@ import {
   stepEvent,
   stepPlayer,
   createRng,
+  objectAt,
   visibleObjects,
   writeBack,
   type Direction,
@@ -311,6 +312,41 @@ export function playField(rebuild: () => void): FieldHandle {
       ctx.fillRect(x + TILE - 10, y + TILE / 2, 3, 3);
     }
 
+    /**
+     * トレーナーの視線（v0.12）。
+     *
+     * `spotterAt` と**同じ規則で切る** ―― 壁や他のオブジェクトで途切れる。
+     * 見えているものと当たり判定がずれると、そちらの方が理不尽になる。
+     */
+    function drawGaze(object: MapObject, on: MapData, ox: number, oy: number): void {
+      if (object.kind.type !== "trainer") return;
+      const dir = object.kind.direction;
+      const dx = dir === "left" ? -1 : dir === "right" ? 1 : 0;
+      const dy = dir === "up" ? -1 : dir === "down" ? 1 : 0;
+
+      // 向いている側の頭に印を置く（1マス先が壁でも、向きは分かるように）
+      ctx.fillStyle = "#f5f0dc";
+      ctx.fillRect(
+        ox + TILE / 2 - 3 + dx * (TILE / 2 - 5),
+        oy + TILE / 2 - 3 + dy * (TILE / 2 - 5),
+        6,
+        6,
+      );
+
+      ctx.save();
+      ctx.globalAlpha = 0.22;
+      ctx.fillStyle = "#ffe9a8";
+      for (let step = 1; step <= object.kind.sight; step += 1) {
+        const sx = object.at.x + dx * step;
+        const sy = object.at.y + dy * step;
+        if (sx < 0 || sy < 0 || sx >= on.size.width || sy >= on.size.height) break;
+        if (on.collision[sy * on.size.width + sx] === true) break;
+        if (objectAt(on, world, sx, sy) !== null) break;
+        ctx.fillRect(toScreenX(sx) + 4, toScreenY(sy) + 4, TILE - 8, TILE - 8);
+      }
+      ctx.restore();
+    }
+
     // ── オブジェクト ──
     for (const object of visibleObjects(map, world)) {
       const x = toScreenX(object.at.x);
@@ -340,6 +376,11 @@ export function playField(rebuild: () => void): FieldHandle {
       ctx.fillRect(x + 6, y + 4, TILE - 12, TILE - 9);
       ctx.fillStyle = shade(color, -0.28);
       ctx.fillRect(x + 6, y + TILE - 8, TILE - 12, 3);
+
+      // トレーナーは**視線を見せる**（v0.12）。
+      // 姿がただの四角である以上、どちらを向いているか分からないまま
+      // 見つかるのは理不尽でしかない。見えている範囲だけ薄く引く
+      if (object.kind.type === "trainer") drawGaze(object, map, x, y);
     }
 
     // ── プレイヤー ──
@@ -410,6 +451,24 @@ export function playField(rebuild: () => void): FieldHandle {
 
   // ── メッセージ・選択肢 ──
   const textBox = $("#field-text");
+
+  /**
+   * 一瞬だけ出して、勝手に消える表示（v0.12）。
+   *
+   * トレーナーに見つかったときの「！」に使う。
+   * **ここでキー入力を要求しない** ―― 見つかったのはこちらの操作ではないので、
+   * 「押さないと進まない」を挟むと、理不尽さの上に手間が乗る。
+   */
+  function flash(text: string, ms = 650): Promise<void> {
+    textBox.classList.remove("hidden");
+    textBox.innerHTML = `<div class="text flash">${escape(text)}</div>`;
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        hideText();
+        resolve();
+      }, ms);
+    });
+  }
 
   function say(text: string, speaker?: string): Promise<void> {
     textBox.classList.remove("hidden");
@@ -503,6 +562,12 @@ export function playField(rebuild: () => void): FieldHandle {
         player.respawn = { ...player.position };
         draw();
         await say("ポケモンたちは げんきに なった!");
+        return;
+      case "giveBadge":
+        // バッジは進行の目盛り。**数が増えたときだけ言う**
+        player.badges = effect.count;
+        draw();
+        await say(`バッジを てにいれた! いま ${effect.count}こ もっている。`);
         return;
       case "moneyChanged":
         await say(effect.delta >= 0 ? `${effect.delta}円 てにいれた!` : `${-effect.delta}円 はらった。`);
@@ -896,6 +961,18 @@ export function playField(rebuild: () => void): FieldHandle {
         await animateWalk(before, player.position);
         await runEvent(result.outcome.event);
         return;
+      case "spotted": {
+        // **見つかった側が近づいてくる**（原作の「!」）。
+        // プレイヤーの位置は動かさない ―― 動かすと、戦ったあとに
+        // どこに立っていたか分からなくなる
+        await animateWalk(before, player.position);
+        const spotter = result.outcome.object;
+        player.position = { ...player.position, facing: facingTowards(spotter.at) };
+        draw();
+        await flash("！");
+        await runEvent(result.outcome.event);
+        return;
+      }
       case "turned":
         // 向き直った直後に1回だけ続ける（無限に再帰しないよう turned で止める）
         if (!turned) await tryStep(direction, true);
@@ -908,6 +985,14 @@ export function playField(rebuild: () => void): FieldHandle {
         await sleep(BUMP_MS);
         return;
     }
+  }
+
+  /** そのマスの方を向く。見つかったときに、こちらも相手を見る。 */
+  function facingTowards(at: { x: number; y: number }): Direction {
+    const dx = at.x - player.position.x;
+    const dy = at.y - player.position.y;
+    if (Math.abs(dx) > Math.abs(dy)) return dx > 0 ? "right" : "left";
+    return dy > 0 ? "down" : "up";
   }
 
   async function doWarp(warp: { to: { map: string; x: number; y: number; facing: Direction } }) {

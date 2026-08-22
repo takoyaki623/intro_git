@@ -1090,8 +1090,35 @@ function checkWorld(): void {
           fail("map-object", `${where}: イベント "${object.event}" が無い`);
         }
       }
-      if (object.kind.type === "trainer" && !trainerIds.has(object.kind.trainer)) {
-        fail("map-object", `${where}: トレーナー "${object.kind.trainer}" が無い`);
+      if (object.kind.type === "trainer") {
+        const kind = object.kind;
+        if (!trainerIds.has(kind.trainer)) {
+          fail("map-object", `${where}: トレーナー "${kind.trainer}" が無い`);
+        }
+        // #77 視線に入っても、イベントが無ければ何も起きない（v0.12）。
+        // 置いてあるのに戦えないトレーナーは、ただの通れないマス
+        if (object.event === undefined) {
+          fail("map-object", `${where}: トレーナーにイベントが無い（視線に入っても何も起きない）`);
+        }
+        if (kind.sight < 0 || kind.sight > 8) {
+          fail("map-object", `${where}: 視線 ${kind.sight} マスは範囲外`);
+        }
+        // #78 撃破しても消えないと、**同じ相手と無限に戦える**。
+        // 消し方は condition（撃破フラグが false のときだけ居る）
+        const trainer = allTrainers.find((t) => t.id === kind.trainer);
+        if (kind.sight > 0 && object.condition === undefined && trainer !== undefined) {
+          fail(
+            "map-object",
+            `${where}: 視線があるのに条件が無い（撃破後も見つけてくる。if:${trainer.defeatedFlag}=false）`,
+          );
+        }
+      }
+      // #79 NPC が動く機構は未実装（v0.12 で「向きだけ」に決めた・world-map.md）
+      if (object.kind.type === "npc" && object.kind.movement !== "static") {
+        fail(
+          "unimplemented-mechanic",
+          `${where}: NPC の movement "${object.kind.movement}" は未実装（static のみ）`,
+        );
       }
       if (object.kind.type === "item" && !itemIds.has(object.kind.item)) {
         fail("map-object", `${where}: 道具 "${object.kind.item}" が無い`);
