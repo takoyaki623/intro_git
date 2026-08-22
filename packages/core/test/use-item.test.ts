@@ -8,8 +8,10 @@
 
 import { describe, expect, it } from "vitest";
 import {
+  createBattle,
   createInstance,
   createRng,
+  step,
   instanceToBattle,
   isUsable,
   maxHpOf,
@@ -144,5 +146,62 @@ describe("使える場所", () => {
     expect(isUsable(gameData.item("poke-ball"), "field")).toBe(false);
     expect(isUsable(gameData.item("potion"), "field")).toBe(true);
     expect(isUsable(gameData.item("potion"), "battle")).toBe(true);
+  });
+});
+
+describe("バトル中に使ったとき、UI が結果を受け取れる（v0.12）", () => {
+  /**
+   * v0.9 から v0.11 まで、`itemUsed` は文章しか運んでいなかった。
+   * 表示層は **BattleState を覗きにいかない**造りなので、
+   * イベントに乗っていない情報は存在しないのと同じ ――
+   * 結果として、キズぐすりを使っても HPバーが動かなかった。
+   */
+  it("回復したあとの HP と状態がイベントに乗る", () => {
+    const state = createBattle(
+      gameData,
+      [
+        [{ species: "charmander", level: 20, moves: ["scratch"] }],
+        [{ species: "pidgey", level: 5, moves: ["tackle"] }],
+      ],
+      1,
+    );
+    const me = state.sides[0].party[0]!;
+    me.currentHp = 5;
+    me.status = "poison";
+
+    const out = step(gameData, state, [
+      { kind: "item", item: "full-heal" },
+      { kind: "move", moveIndex: 0 },
+    ]);
+    const used = out.events.find((e) => e.kind === "itemUsed");
+    expect(used?.kind).toBe("itemUsed");
+    if (used?.kind !== "itemUsed") return;
+    expect(used.target).toBe(0);
+    expect(used.status).toBeNull();
+
+    // 状態を治しただけなので HP は増えない。**それでも今の HP を返す**
+    // ―― 「変わらなかった」ことも表示層には情報になる
+    expect(used.remainingHp).toBeGreaterThan(0);
+  });
+
+  it("回復薬なら HP が増えた値が乗る", () => {
+    const state = createBattle(
+      gameData,
+      [
+        [{ species: "charmander", level: 20, moves: ["scratch"] }],
+        [{ species: "pidgey", level: 5, moves: ["tackle"] }],
+      ],
+      2,
+    );
+    const me = state.sides[0].party[0]!;
+    me.currentHp = 5;
+
+    const out = step(gameData, state, [
+      { kind: "item", item: "potion" },
+      { kind: "move", moveIndex: 0 },
+    ]);
+    const used = out.events.find((e) => e.kind === "itemUsed");
+    if (used?.kind !== "itemUsed") throw new Error("itemUsed が出ていない");
+    expect(used.remainingHp).toBeGreaterThan(5);
   });
 });

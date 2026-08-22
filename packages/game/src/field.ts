@@ -702,10 +702,18 @@ export function playField(rebuild: () => void): FieldHandle {
     );
 
     // ── 2. 戦闘後シーケンス ──
+    //
+    // **倒した相手のぶんは、勝っていなくても入る（v0.12 の訂正）。**
+    // v0.8 から「勝ったときだけ」にしていたので、3体のうち2体を倒して
+    // 負けると経験値が1も入らなかった ―― 遊ぶ側からは
+    // 「全員倒さないと経験値が入らない」に見える。
+    //
+    // 原作は**倒れたその瞬間に**経験値が入る。捕まえた場合は入らない（原作準拠）。
+    const beaten = outcome.reason === "caught" ? [] : foes.filter((f) => f.currentHp <= 0);
     const result = applyBattleResult(gameData, {
       party: party(),
       participants: party().filter((p) => p.currentHp > 0).map((p) => p.uid),
-      defeated: outcome.winner === 0 ? foes.filter((f) => f.currentHp <= 0) : [],
+      defeated: beaten,
       encountered: foes.map((f) => f.species),
       isWild,
       dex: player.dex,

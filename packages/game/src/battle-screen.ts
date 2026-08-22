@@ -391,6 +391,10 @@ export async function runBattle(options: BattleOptions): Promise<BattleOutcome> 
       case "heal":
         heal(figureOf(event.side));
         return;
+      case "itemUsed":
+        // 控えに使ったときは場を光らせない（v0.12）
+        if (event.target === view[event.side].partyIndex) heal(figureOf(event.side));
+        return;
       case "faint":
         faint(figureOf(event.side));
         return;

@@ -22,6 +22,7 @@ import {
   healParty,
   instanceToBattle,
   instanceToSpec,
+  type EventCommand,
   legalActions,
   levelForExp,
   levelOf,
@@ -38,7 +39,7 @@ import {
   type Action,
   type PokemonInstance,
 } from "../src/index.js";
-import { allSpecies, createGameData, gameData, trainerById } from "@pkmn/data";
+import { allSpecies, createGameData, eventById, gameData, trainerById } from "@pkmn/data";
 
 const NATURES = ["hardy", "adamant", "modest", "timid", "jolly"];
 const rng = (seed = 12345) => createRng({ s: seed, calls: 0 });
@@ -419,22 +420,65 @@ describe("施設への持ち込み", () => {
   });
 });
 
-describe("最初のライバル戦が成立しているか（v0.8 の実測）", () => {
-  /** プレイヤーもライバルも `basic` で最善を打つ。データだけを見る。 */
-  function winRate(mine: string, trainerId: string, samples = 200): number {
+describe("最初のライバル戦が成立しているか（v0.8 の実測 / v0.12 で測り直し）", () => {
+  /**
+   * **ゲームが実際に配る手持ちで測る（v0.12 の訂正）。**
+   *
+   * v0.8 のこの検証は `createInstance(level 5)` で個体を作っていた。
+   * それは**種族の learnset から技が決まる**個体で、
+   * オーキドが配る個体（`givePokemon` の `moves`）とは別物だった。
+   *
+   * 実際に配られていたのは「たいあたり＋タイプ技」の2つだけで、
+   * 変化技が無い。検証はずっと 25〜70% と言い続けていたが、
+   * 遊ぶ側から見た勝率は **17〜21%**（ヒトカゲを選ぶと壁）だった。
+   *
+   * > 測っている対象が違えば、通っていても意味が無い。
+   */
+  const starterMoves = (species: string): string[] => {
+    const found: string[] = [];
+    const walk = (commands: readonly EventCommand[]): void => {
+      for (const command of commands) {
+        if (command.kind === "givePokemon" && command.species === species) {
+          found.push(...(command.moves ?? []));
+        }
+        if (command.kind === "if") {
+          walk(command.then);
+          walk(command.else ?? []);
+        }
+        if (command.kind === "choice") {
+          for (const option of command.options) walk(option.then);
+        }
+      }
+    };
+    walk(eventById("kanto.pallet.oak-lab").commands);
+    return found;
+  };
+
+  /**
+   * @param mistakeRate こちらの誤り率。0 は「最善を打つ人」、
+   *   0.25 は「だいたい強い技を押すだけの人」。**両方で成立している必要がある。**
+   */
+  function winRate(mine: string, trainerId: string, mistakeRate: number, samples = 200): number {
     const trainer = trainerById(trainerId);
+    const moves = starterMoves(mine);
+    expect(moves.length, `${mine} を配るイベントが無い`).toBeGreaterThan(0);
+
     let wins = 0;
     for (let seed = 1; seed <= samples; seed += 1) {
-      const seedRng = createRng({ s: seed, calls: 0 });
-      const me = createInstance(gameData, { species: mine, level: 5, region: "kanto" }, seedRng, NATURES);
-      let state = createBattle(gameData, [[instanceToSpec(gameData, me)], trainer.party], seed);
-      const config = { policy: "basic", mistakeRate: 0, knowledge: "fair" } as const;
+      let state = createBattle(
+        gameData,
+        [[{ species: mine, level: 5, moves }], trainer.party],
+        seed,
+      );
+      const me = { policy: "basic", mistakeRate, knowledge: "fair" } as const;
+      const foe = { policy: "basic", mistakeRate: 0.25, knowledge: "fair" } as const;
       const knowledge = [createKnowledge(), createKnowledge()];
       let guard = 0;
       while (state.result === null && guard++ < 300) {
         const r = createRng(state.rng);
         const actions: [Action | null, Action | null] = [null, null];
         for (const side of requiredSides(state)) {
+          const config = side === 0 ? me : foe;
           actions[side] = state.pendingSwitch.includes(side)
             ? legalActions(gameData, state, side)[0]!
             : chooseBasicAction(gameData, toAiView(gameData, state, side, config, knowledge[side]!), config, r);
@@ -450,23 +494,76 @@ describe("最初のライバル戦が成立しているか（v0.8 の実測）",
     return wins / samples;
   }
 
+  const PAIRS: [string, string][] = [
+    ["bulbasaur", "kanto-rival-charmander"],
+    ["charmander", "kanto-rival-squirtle"],
+    ["squirtle", "kanto-rival-bulbasaur"],
+  ];
+
   /**
    * ライバルは**こちらに有利な1匹**を出してくる（原作準拠）。
-   * それでも3択のどれを選んでも勝負になっていること。
+   * それでも最初の1戦は勝てる側に置く ―― 負けると家に飛ばされる導入戦なので。
    *
-   * v0.8 で公式 learnset を入れたとき、ここが 1.5% まで落ちた。
-   * 原因はレベルでも種族値でもなく、**ライバルが持っていた「しっぽをふる」1つ**。
-   * Lv5 はダメージが小さいので、ぼうぎょ −1 が KO までの手数を丸ごと1回増やす。
+   * v0.12 で測ったこと（1回600戦）:
+   *   ライバルにタイプ技を持たせる … どの選択でも **0%**（Lv5 では2倍が即死）
+   *   ライバルにも変化技・Lv5     … 22〜33%
+   *   ライバルは変化技つき Lv4    … 93〜100%
    */
-  it("どの1匹を選んでも 25%〜70% の範囲に収まる", () => {
-    const rates: [string, string, number][] = [
-      ["bulbasaur", "kanto-rival-charmander", winRate("bulbasaur", "kanto-rival-charmander")],
-      ["charmander", "kanto-rival-squirtle", winRate("charmander", "kanto-rival-squirtle")],
-      ["squirtle", "kanto-rival-bulbasaur", winRate("squirtle", "kanto-rival-bulbasaur")],
-    ];
-    for (const [mine, foe, rate] of rates) {
-      expect(rate, `${mine} vs ${foe} = ${(rate * 100).toFixed(1)}%`).toBeGreaterThan(0.25);
-      expect(rate, `${mine} vs ${foe} = ${(rate * 100).toFixed(1)}%`).toBeLessThan(0.7);
+  it("どの1匹を選んでも、ふつうに遊んで勝てる", () => {
+    for (const [mine, foe] of PAIRS) {
+      const rate = winRate(mine, foe, 0.25);
+      expect(rate, `${mine} vs ${foe} = ${(rate * 100).toFixed(1)}%`).toBeGreaterThan(0.75);
     }
+  });
+
+  it("御三家は変化技も持って配られる（原作の Lv5 と同じ形）", () => {
+    // ここが抜けていたのが本体の不具合だった。
+    // 攻撃技だけを配ると、相手のランクを下げる手が最初から存在しない
+    for (const [mine] of PAIRS) {
+      const moves = starterMoves(mine);
+      const kinds = moves.map((id) => gameData.move(id).category);
+      expect(kinds, `${mine} の技 ${moves.join(",")}`).toContain("status");
+    }
+  });
+});
+
+describe("倒した相手のぶんは、勝っていなくても入る（v0.12）", () => {
+  /**
+   * v0.8 から v0.11 まで、UI は「勝ったときだけ」倒した相手を数えていた。
+   * 3体のうち2体を倒して負けると経験値が1も入らず、
+   * 遊ぶ側からは **「全員倒さないと経験値が入らない」** に見えていた。
+   *
+   * 原作は倒れたその瞬間に入る。ここで確かめるのは
+   * 「倒した相手を渡せば、勝敗と無関係に経験値が入る」という core 側の性質。
+   */
+  it("倒した相手を1体だけ渡しても経験値が入る", () => {
+    const mine = make("charmander", 5);
+    const foe = instanceToBattle(gameData, make("pidgey", 5));
+    foe.currentHp = 0;
+
+    const result = applyBattleResult(gameData, {
+      party: [mine],
+      participants: [mine.uid],
+      defeated: [foe],
+      encountered: ["pidgey"],
+      isWild: true,
+      dex: {},
+    });
+    const gained = result.events.filter((e) => e.kind === "expGained");
+    expect(gained.length).toBe(1);
+    expect(result.party[0]!.exp).toBeGreaterThan(mine.exp);
+  });
+
+  it("倒した相手が居なければ入らない（逃げた・捕まえた）", () => {
+    const mine = make("charmander", 5);
+    const result = applyBattleResult(gameData, {
+      party: [mine],
+      participants: [mine.uid],
+      defeated: [],
+      encountered: ["pidgey"],
+      isWild: true,
+      dex: {},
+    });
+    expect(result.events.some((e) => e.kind === "expGained")).toBe(false);
   });
 });

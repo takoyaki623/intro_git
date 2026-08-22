@@ -669,12 +669,16 @@ export function step(
       // 回復薬など。倒れている手持ちにも使えるので、場に出ている1体に限らない
       const mon = draft.sides[side].party[action.target ?? draft.sides[side].activeIndex];
       if (mon === undefined) throw new Error("道具の対象が手持ちに居ない");
+      const target = action.target ?? draft.sides[side].activeIndex;
       const result = useOnBattle(data, action.item, mon);
       events.push({
         kind: "itemUsed",
         side,
         item: action.item,
         text: refused(result) ? result.reason : result.message,
+        target,
+        remainingHp: mon.currentHp,
+        status: mon.status,
       });
       continue;
     }

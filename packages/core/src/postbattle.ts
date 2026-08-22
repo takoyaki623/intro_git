@@ -79,8 +79,14 @@ export function applyBattleResult(
         ...(input.expMultiplier === undefined ? {} : { multiplier: input.expMultiplier }),
       });
     }
-    // 参加者で山分けする（原作準拠）
-    gained = Math.max(1, Math.floor(gained / Math.max(1, participants.size)));
+    // 参加者で山分けする（原作準拠）。
+    // **倒した相手が居るときだけ下限1を当てる（v0.12 の訂正）。**
+    // 前は無条件に `Math.max(1, …)` していたので、逃げただけの戦いでも
+    // 1経験値が入り、「けいけんちを もらった!」が毎回出ていた
+    gained =
+      input.defeated.length === 0
+        ? 0
+        : Math.max(1, Math.floor(gained / Math.max(1, participants.size)));
     if (gained > 0) {
       const cap = expForLevel(data, data.species(instance.species).expType, MAX_LEVEL);
       instance.exp = Math.min(cap, instance.exp + gained);

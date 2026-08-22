@@ -543,8 +543,23 @@ export type BattleEvent =
   /** ボールを投げた（v0.8）。`shakes` がそのまま演出の回数になる。 */
   | { kind: "ballThrown"; item: ItemId; shakes: number; caught: boolean }
   | { kind: "itemConsumed"; side: SideIndex; item: ItemId }
-  /** バッグから道具を使った（v0.9）。`text` は core が組み立てた結果。 */
-  | { kind: "itemUsed"; side: SideIndex; item: ItemId; text: string }
+  /**
+   * バッグから道具を使った（v0.9）。`text` は core が組み立てた結果。
+   *
+   * **使ったあとの状態も一緒に返す（v0.12）。** 返していなかったので、
+   * 回復薬を使っても HPバーが動かなかった ―― UI は BattleState を
+   * 覗きにいかない造りなので、イベントに乗っていないものは存在しないのと同じ。
+   */
+  | {
+      kind: "itemUsed";
+      side: SideIndex;
+      item: ItemId;
+      text: string;
+      /** 誰に使ったか（手持ちの位置）。倒れている個体にも使える。 */
+      target: number;
+      remainingHp: number;
+      status: StatusId | null;
+    }
   | { kind: "itemDamage"; side: SideIndex; item: ItemId; amount: number; remainingHp: number }
   /** きあいのタスキ・がんじょうで持ちこたえた。 */
   | { kind: "endured"; side: SideIndex }

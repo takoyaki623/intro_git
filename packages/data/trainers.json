@@ -8,9 +8,10 @@
     "party": [
       {
         "species": "bulbasaur",
-        "level": 5,
+        "level": 4,
         "moves": [
-          "tackle"
+          "tackle",
+          "growl"
         ]
       }
     ]
@@ -24,9 +25,10 @@
     "party": [
       {
         "species": "charmander",
-        "level": 5,
+        "level": 4,
         "moves": [
-          "scratch"
+          "scratch",
+          "growl"
         ]
       }
     ]
@@ -40,9 +42,10 @@
     "party": [
       {
         "species": "squirtle",
-        "level": 5,
+        "level": 4,
         "moves": [
-          "tackle"
+          "tackle",
+          "tail-whip"
         ]
       }
     ]

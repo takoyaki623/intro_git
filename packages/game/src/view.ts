@@ -97,6 +97,18 @@ export function applyEvent(view: BattleView, state: BattleState, event: BattleEv
     case "itemConsumed":
       view[event.side].item = null;
       break;
+    /**
+     * バッグの道具（v0.12 で表示に繋いだ）。
+     *
+     * **場に出ている個体に使ったときだけ映す。** 控えに使ったぶんまで
+     * 場のバーを動かすと、別の個体の HP を見せることになる。
+     */
+    case "itemUsed":
+      if (event.target === view[event.side].partyIndex) {
+        view[event.side].hp = event.remainingHp;
+        view[event.side].status = event.status;
+      }
+      break;
     case "cured":
       view[event.side].status = null;
       break;
