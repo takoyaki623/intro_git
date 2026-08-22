@@ -103,7 +103,13 @@ const SHOOTING_SAVE = (() => {
   ]) {
     save.regions.kanto.flags[flag] = true;
   }
-  save.regions.kanto.badges = 2;
+  save.regions.kanto.badges = 5;
+  for (const flag of [
+    "kanto.route11.gambler-beaten", "kanto.route8.lass-beaten",
+    "kanto.route7.camper-beaten", "kanto.route16.biker-beaten",
+  ]) {
+    save.regions.kanto.flags[flag] = true;
+  }
   save.regions.kanto.position = { map: "kanto-pallet-town", x: 5, y: 5, facing: "down" };
   save.regions.kanto.money = 3000;
   // **道中のトレーナーに勝てる手持ちにする。**
@@ -143,6 +149,10 @@ const PLACES = [
   { file: "cerulean-city", name: "ハナダシティ", note: "ジム2。町の東に川", to: ["kanto-cerulean-city", 7, 5] },
   { file: "cerulean-gym", name: "ハナダジム", note: "水路で通路が細い。奥にカスミ", to: ["kanto-cerulean-gym", 4, 7] },
   { file: "vermilion-city", name: "クチバシティ", note: "港町。南が海。ジム3", to: ["kanto-vermilion-city", 7, 7] },
+  { file: "lavender-town", name: "シオンタウン", note: "ポケモンタワーのある町。ジムは無い", to: ["kanto-lavender-town", 7, 5] },
+  { file: "celadon-city", name: "タマムシシティ", note: "ジム4（エリカ）。カントーで一番大きい町", to: ["kanto-celadon-city", 7, 7] },
+  { file: "saffron-city", name: "ヤマブキシティ", note: "ジム6（ナツメ）。バッジ5つまで警備員が通さない", to: ["kanto-saffron-city", 8, 4] },
+  { file: "fuchsia-city", name: "セキチクシティ", note: "ジム5（キョウ）。サファリゾーンはまだ閉まっている", to: ["kanto-fuchsia-city", 6, 5] },
   { file: "hub-plaza", name: "拠点の広場", note: "施設・大会・保管庫・地方ゲートが並ぶ", to: ["hub-plaza", 8, 9] },
   { file: "hub-depot", name: "保管庫のなか", note: "共通ボックスと BP交換所", to: ["hub-depot", 4, 3] },
 ];
