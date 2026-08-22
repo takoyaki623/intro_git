@@ -94,6 +94,16 @@ const SHOOTING_SAVE = (() => {
     // 北の警備員をどかす（v0.12）。開けておかないとニビまで行けない
     "kanto.viridian.talked-guard": true,
   };
+  // 道中のトレーナーは倒した状態にしておく。**撮りたいのは町であって連戦ではない**
+  for (const flag of [
+    "kanto.route2.bug-catcher-beaten", "kanto.forest.bug-1-beaten", "kanto.forest.bug-2-beaten",
+    "kanto.pewter.gym-jr-beaten", "kanto.route3.lass-beaten", "kanto.route3.youngster-beaten",
+    "kanto.moon.hiker-beaten", "kanto.moon.rocket-beaten", "kanto.route4.bug-beaten",
+    "kanto.route5.hiker-beaten", "kanto.route6.camper-beaten",
+  ]) {
+    save.regions.kanto.flags[flag] = true;
+  }
+  save.regions.kanto.badges = 2;
   save.regions.kanto.position = { map: "kanto-pallet-town", x: 5, y: 5, facing: "down" };
   save.regions.kanto.money = 3000;
   // **道中のトレーナーに勝てる手持ちにする。**
@@ -129,6 +139,10 @@ const PLACES = [
   { file: "viridian-forest", name: "トキワの森", note: "木の迷路。視線が2本ある", to: ["kanto-viridian-forest", 5, 12] },
   { file: "pewter-city", name: "ニビシティ", note: "ジム（灰）・博物館・ポケセン・ショップ", to: ["kanto-pewter-city", 7, 11] },
   { file: "pewter-gym", name: "ニビジム", note: "岩とジムトレーナーの視線。奥にタケシ", to: ["kanto-pewter-gym", 4, 7] },
+  { file: "mt-moon", name: "おつきみやま", note: "洞窟。曲がり角で視線が切れる", to: ["kanto-mt-moon", 4, 2] },
+  { file: "cerulean-city", name: "ハナダシティ", note: "ジム2。町の東に川", to: ["kanto-cerulean-city", 7, 5] },
+  { file: "cerulean-gym", name: "ハナダジム", note: "水路で通路が細い。奥にカスミ", to: ["kanto-cerulean-gym", 4, 7] },
+  { file: "vermilion-city", name: "クチバシティ", note: "港町。南が海。ジム3", to: ["kanto-vermilion-city", 7, 7] },
   { file: "hub-plaza", name: "拠点の広場", note: "施設・大会・保管庫・地方ゲートが並ぶ", to: ["hub-plaza", 8, 9] },
   { file: "hub-depot", name: "保管庫のなか", note: "共通ボックスと BP交換所", to: ["hub-depot", 4, 3] },
 ];
@@ -221,7 +235,9 @@ for (const size of [
   }
 
   async function goTo(map, x, y) {
-    for (let attempt = 0; attempt < 10; attempt += 1) {
+    // **引き直しは1戦ごとに1回消える。** カントーが広がって
+    // クチバからマサラまで歩くようになったので、10回では足りない（v0.12-b）
+    for (let attempt = 0; attempt < 60; attempt += 1) {
       const from = await spot();
       if (from.map === map && from.x === x && from.y === y) return true;
       const path = route(from, { map, x, y });
