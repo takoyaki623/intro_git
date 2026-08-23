@@ -215,28 +215,26 @@ a:focus-visible, summary:focus-visible {
   <span class="eyebrow">実装記録 · v0.1 → v0.9</span>
   <h1>ポケモン風RPG 実装記録</h1>
   <p class="lede">
-    v0.1〜v0.9 で何を実装し、何を意図的に残したかの技術リファレンス。
+    v0.1〜v1.1-e で何を実装し、何を意図的に残したかの技術リファレンス。
     バトルエンジンから始まり、歴代ネームドとのトーナメントを経て、
-    <strong>マップを歩き、捕まえて育て、道具を買い、セーブして続きから遊べるところまで</strong>来ている。
+    <strong>マサラタウンから殿堂入りまで1本で通り、いまカントーを原作に寄せている</strong>ところ。
     設計文書は <code>docs/design/</code>、上位方針は <code>docs/game-plan.md</code>。
   </p>
-  <p class="meta">対象コミット: <span class="mono">36cf0e3 … 4ac2867</span> ／ 全テスト緑・型チェック通過・検証スクリプト通過</p>
-  <p class="meta"><strong>この文書は v0.9 で止まっている。</strong>
-    v0.10 以降（拠点・カントー全域・見た目・殿堂入り・カントー再現）は
-    <code>docs/design/README.md</code> と <code>docs/game-plan.md</code> §8 が正。
-    <strong>古いことを黙って置かない</strong>ためにここに書いておく ――
-    追いつかせるのは別の作業。</p>
+  <p class="meta">
+    テスト 388件 ／ 検証項目 102 ／ マップ 91枚 ／ 種族 190 ／ 技 248 ／ 道具 98
+    ―― 型チェック・検証スクリプト・通し確認（173項目）・撮影（37か所）すべて緑
+  </p>
 </header>
 
 <div class="figures">
-  <div class="fig"><b class="num">315</b><span>テスト</span></div>
-  <div class="fig"><b class="num">151</b><span>種族</span></div>
-  <div class="fig"><b class="num">247</b><span>技</span></div>
-  <div class="fig"><b class="num">13</b><span>ネームド</span></div>
-  <div class="fig"><b class="num">8</b><span>マップ</span></div>
-  <div class="fig"><b class="num">67</b><span>検証項目</span></div>
-  <div class="fig"><b class="num">9,800</b><span>実装行 (TS)</span></div>
-  <div class="fig"><b class="num">4,233</b><span>テスト行</span></div>
+  <div class="fig"><b class="num">388</b><span>テスト</span></div>
+  <div class="fig"><b class="num">190</b><span>種族</span></div>
+  <div class="fig"><b class="num">248</b><span>技</span></div>
+  <div class="fig"><b class="num">18</b><span>ネームド</span></div>
+  <div class="fig"><b class="num">91</b><span>マップ</span></div>
+  <div class="fig"><b class="num">102</b><span>検証項目</span></div>
+  <div class="fig"><b class="num">13,267</b><span>実装行 (TS)</span></div>
+  <div class="fig"><b class="num">5,329</b><span>テスト行</span></div>
 </div>
 
 <!-- ───────────── 全体像 ───────────── -->
@@ -268,45 +266,38 @@ tools/    一括投入・公式データ取得・マップ変換・ID生成・�
     <table>
       <thead><tr><th>モジュール</th><th>役割</th><th class="n">行</th><th>導入</th></tr></thead>
       <tbody>
-        <tr><td class="mono">game/src/field.ts</td><td>マップ探索画面（描画・入力・会話・捕獲・バッグ・ボックス・図鑑・ショップ）</td><td class="n">1,261</td><td><span class="pill done">v0.7</span></td></tr>
-        <tr><td class="mono">tools/validate.ts</td><td>全67項目の検証。CI で回す</td><td class="n">1,240</td><td><span class="pill done">v0.4</span></td></tr>
-        <tr><td class="mono">core/battle.ts</td><td>ターン処理・交代・行動阻害・逃走・道具・ターン終了処理</td><td class="n">772</td><td><span class="pill done">v0.1</span></td></tr>
-        <tr><td class="mono">tools/import.ts</td><td>TSV → JSON の一括投入</td><td class="n">759</td><td><span class="pill done">v0.4</span></td></tr>
+        <tr><td class="mono">tools/validate.ts</td><td>全<strong>102項目</strong>の検証。CI で回す</td><td class="n">1,969</td><td><span class="pill done">v0.4</span></td></tr>
+        <tr><td class="mono">game/field.ts</td><td>マップ探索画面（描画・入力・会話・捕獲・バッグ・ボックス・図鑑・ショップ・釣り・殿堂）</td><td class="n">1,834</td><td><span class="pill done">v0.7</span></td></tr>
+        <tr><td class="mono">tools/playthrough.mjs</td><td><strong>ブラウザ操作の台本</strong>。core の <code>neighborsOf</code> で経路探索する</td><td class="n">1,658</td><td><span class="pill done">v0.7</span></td></tr>
+        <tr><td class="mono">tools/import.ts</td><td>TSV → JSON の一括投入。<code>--check</code> で鮮度も見る</td><td class="n">1,058</td><td><span class="pill done">v0.4</span></td></tr>
+        <tr><td class="mono">core/battle.ts</td><td>ターン処理・交代・行動阻害・逃走・道具・ターン終了処理</td><td class="n">836</td><td><span class="pill done">v0.1</span></td></tr>
         <tr><td class="mono">core/held.ts</td><td><strong>特性・持ち物のレジストリ</strong>（35種の効果 × 25のフック）</td><td class="n">720</td><td><span class="pill done">v0.5</span></td></tr>
-        <tr><td class="mono">tools/playthrough.mjs</td><td><strong>ブラウザ操作の台本</strong>。マップデータを読んで経路探索する</td><td class="n">540</td><td><span class="pill done">v0.7</span></td></tr>
-        <tr><td class="mono">core/types.ts</td><td>全型定義。<code>Action</code> / <code>BattleEvent</code> / <code>HeldEffect</code> / <code>UseEffect</code></td><td class="n">535</td><td><span class="pill done">v0.1</span></td></tr>
-        <tr><td class="mono">core/save/store.ts</td><td><code>SaveStore</code>・スキーマ v3・マイグレーションの鎖・器と個体の突き合わせ</td><td class="n">415</td><td><span class="pill done">v0.5</span></td></tr>
-        <tr><td class="mono">tools/fetch-official.ts</td><td><strong>公式 learnset / 進化の取り込み</strong>（<code>@pkmn/dex</code>・生成時のみ）</td><td class="n">397</td><td><span class="pill done">v0.8</span></td></tr>
-        <tr><td class="mono">game/src/battle-screen.ts</td><td>1戦を進める画面（フリーバトル・施設・カップ・野生が共用）</td><td class="n">392</td><td><span class="pill done">v0.5</span></td></tr>
-        <tr><td class="mono">game/src/tower.ts</td><td>施設の連戦画面と <strong>BP交換所</strong></td><td class="n">266</td><td><span class="pill done">v0.5</span></td></tr>
-        <tr><td class="mono">core/use-item.ts</td><td><strong>道具を「つかう」レジストリ</strong>。バトル中とマップ上で同じ実装</td><td class="n">240</td><td><span class="pill done">v0.9</span></td></tr>
-        <tr><td class="mono">core/postbattle.ts</td><td>戦闘後シーケンス（経験値・レベル・技習得・努力値・進化・図鑑）</td><td class="n">232</td><td><span class="pill done">v0.8</span></td></tr>
+        <tr><td class="mono">core/types.ts</td><td>全型定義。<code>Action</code> / <code>BattleEvent</code> / <code>HeldEffect</code> / <code>UseEffect</code></td><td class="n">614</td><td><span class="pill done">v0.1</span></td></tr>
+        <tr><td class="mono">core/save/store.ts</td><td><code>SaveStore</code>・スキーマ v5・マイグレーションの鎖・器と個体の突き合わせ</td><td class="n">572</td><td><span class="pill done">v0.5</span></td></tr>
+        <tr><td class="mono">core/world/movement.ts</td><td>移動・段差・warp・エンカウント・<strong><code>neighborsOf</code>（「隣とは何か」の唯一の定義）</strong></td><td class="n">551</td><td><span class="pill done">v0.7</span></td></tr>
+        <tr><td class="mono">tools/shots.mjs</td><td>代表画面の一括撮影。経路探索は <code>neighborsOf</code> を共有する</td><td class="n">535</td><td><span class="pill done">v0.10.5</span></td></tr>
+        <tr><td class="mono">game/battle-screen.ts</td><td>1戦を進める画面（フリーバトル・施設・カップ・野生が共用）</td><td class="n">504</td><td><span class="pill done">v0.5</span></td></tr>
+        <tr><td class="mono">tools/mapgraph.mjs</td><td>マップのつながりを1枚の HTML にまとめる</td><td class="n">464</td><td><span class="pill done">v0.12-b</span></td></tr>
+        <tr><td class="mono">tools/fetch-official.ts</td><td><strong>公式 learnset / 進化 / わざマシン互換表</strong>（<code>@pkmn/dex</code>）</td><td class="n">443</td><td><span class="pill done">v0.8</span></td></tr>
+        <tr><td class="mono">core/world/event.ts</td><td><strong>イベントのインタプリタ</strong>（21種のコマンド）</td><td class="n">421</td><td><span class="pill done">v0.7</span></td></tr>
+        <tr><td class="mono">core/use-item.ts</td><td><strong>道具を「つかう」レジストリ</strong>。バトル中とマップ上で同じ実装</td><td class="n">372</td><td><span class="pill done">v0.9</span></td></tr>
+        <tr><td class="mono">game/tower.ts</td><td>施設の連戦画面と <strong>BP交換所</strong></td><td class="n">360</td><td><span class="pill done">v0.5</span></td></tr>
+        <tr><td class="mono">core/world/types.ts</td><td>マップ・オブジェクト・トレーナー・条件・コマンド・<code>FieldEffect</code> の型</td><td class="n">328</td><td><span class="pill done">v0.7</span></td></tr>
+        <tr><td class="mono">data/index.ts</td><td>JSON 読み込みと <code>GameData</code> 実装</td><td class="n">309</td><td><span class="pill done">v0.1</span></td></tr>
+        <tr><td class="mono">game/cup.ts</td><td>カップ・ネームド一覧・トーナメント進行の画面</td><td class="n">302</td><td><span class="pill done">v0.6</span></td></tr>
+        <tr><td class="mono">game/player.ts</td><td>手持ち・ボックス・図鑑・バッグ・現在地・殿堂。<code>SaveData</code> との唯一の出入口</td><td class="n">276</td><td><span class="pill done">v0.8</span></td></tr>
+        <tr><td class="mono">tools/convert-map.ts</td><td>マップ原本（テキスト）→ <code>MapData</code> JSON</td><td class="n">272</td><td><span class="pill done">v0.7</span></td></tr>
+        <tr><td class="mono">tools/fetch-encounters.ts</td><td><strong>出現表を公式データから取り込む</strong>（veekun・FRLG）</td><td class="n">241</td><td><span class="pill done">v1.1-a</span></td></tr>
+        <tr><td class="mono">core/postbattle.ts</td><td>戦闘後シーケンス（経験値・レベル・技習得・努力値・進化・図鑑）</td><td class="n">238</td><td><span class="pill done">v0.8</span></td></tr>
+        <tr><td class="mono">core/effects.ts</td><td>技効果のレジストリ</td><td class="n">215</td><td><span class="pill done">v0.1</span></td></tr>
         <tr><td class="mono">core/pokemon.ts</td><td><strong><code>PokemonInstance</code></strong> ―― 実在する1体。バトルとの往復</td><td class="n">209</td><td><span class="pill done">v0.8</span></td></tr>
-        <tr><td class="mono">core/world/event.ts</td><td><strong>イベントのインタプリタ</strong>（18種のコマンド）</td><td class="n">314</td><td><span class="pill done">v0.7</span></td></tr>
-        <tr><td class="mono">core/world/movement.ts</td><td>移動・向き直り・段差・warp・エンカウント判定</td><td class="n">279</td><td><span class="pill done">v0.7</span></td></tr>
-        <tr><td class="mono">game/src/cup.ts</td><td>カップ・ネームド一覧・トーナメント進行の画面</td><td class="n">257</td><td><span class="pill done">v0.6</span></td></tr>
-        <tr><td class="mono">tools/convert-map.ts</td><td>マップ原本（テキスト）→ <code>MapData</code> JSON</td><td class="n">254</td><td><span class="pill done">v0.7</span></td></tr>
-        <tr><td class="mono">data/src/index.ts</td><td>JSON 読み込みと <code>GameData</code> 実装</td><td class="n">224</td><td><span class="pill done">v0.1</span></td></tr>
-        <tr><td class="mono">core/effects.ts</td><td>技効果のレジストリ (8種のハンドラ)</td><td class="n">212</td><td><span class="pill done">v0.1</span></td></tr>
-        <tr><td class="mono">core/endgame/tournament.ts</td><td>カップ・組み合わせ抽選・ティア解放</td><td class="n">203</td><td><span class="pill done">v0.6</span></td></tr>
-        <tr><td class="mono">core/endgame/ruleset.ts</td><td><code>Ruleset</code> / <code>BattleSet</code> / 相手の抽選・編成の検証</td><td class="n">199</td><td><span class="pill done">v0.5</span></td></tr>
-        <tr><td class="mono">core/ai/basic.ts</td><td>AI <code>basic</code> — 期待ダメージと相性のスコアリング</td><td class="n">187</td><td><span class="pill done">v0.5</span></td></tr>
-        <tr><td class="mono">core/endgame/facility.ts</td><td>連戦の進行・連勝・BP・施設の敗北処理</td><td class="n">182</td><td><span class="pill done">v0.5</span></td></tr>
-        <tr><td class="mono">game/src/main.ts</td><td>モード切り替えとフリーバトル</td><td class="n">193</td><td><span class="pill done">v0.3</span></td></tr>
-        <tr><td class="mono">game/src/save.ts</td><td><strong>IndexedDB</strong>（個体は別ストア）</td><td class="n">169</td><td><span class="pill done">v0.5</span></td></tr>
-        <tr><td class="mono">game/src/player.ts</td><td>手持ち・ボックス・図鑑・バッグ・現在地。<code>SaveData</code> との唯一の出入口</td><td class="n">162</td><td><span class="pill done">v0.8</span></td></tr>
-        <tr><td class="mono">game/src/settings.ts</td><td>セーブ画面・設定・エクスポート／インポート</td><td class="n">152</td><td><span class="pill done">v0.9</span></td></tr>
-        <tr><td class="mono">core/storage.ts</td><td>手持ちとボックス。<strong>二重所属を型と関数で禁じる</strong></td><td class="n">139</td><td><span class="pill done">v0.8</span></td></tr>
-        <tr><td class="mono">core/capture.ts</td><td>捕獲判定とボールの補正（データ駆動）</td><td class="n">128</td><td><span class="pill done">v0.8</span></td></tr>
-        <tr><td class="mono">core/world/types.ts</td><td>マップ・オブジェクト・トレーナー・条件・コマンドの型</td><td class="n">149</td><td><span class="pill done">v0.7</span></td></tr>
-        <tr><td class="mono">core/endgame/named.ts</td><td>ネームド・ティア・選出・キャラごとの AI 設定</td><td class="n">146</td><td><span class="pill done">v0.6</span></td></tr>
-        <tr><td class="mono">core/damage.ts</td><td>ダメージ計算・命中判定・急所</td><td class="n">144</td><td><span class="pill done">v0.1</span></td></tr>
-        <tr><td class="mono">core/ai/view.ts</td><td><code>AiView</code> — AIに見える情報を型で制限する</td><td class="n">130</td><td><span class="pill done">v0.5</span></td></tr>
-        <tr><td class="mono">core/normalize.ts</td><td><code>toBattlePokemon</code> — 参加者の正規化</td><td class="n">113</td><td><span class="pill done">v0.1</span></td></tr>
-        <tr><td class="mono">core/status.ts</td><td>状態異常6種＋混乱・スリップダメージ</td><td class="n">99</td><td><span class="pill done">v0.2</span></td></tr>
-        <tr><td class="mono">core/exp.ts</td><td>経験値と成長曲線6種（レベルは経験値から導く）</td><td class="n">72</td><td><span class="pill done">v0.8</span></td></tr>
-        <tr><td class="mono">core/rng.ts</td><td>シード固定の疑似乱数 (xorshift32)</td><td class="n">63</td><td><span class="pill done">v0.1</span></td></tr>
-        <tr><td class="mono">core/gamedata.ts</td><td><code>GameData</code> interface (依存性注入)</td><td class="n">42</td><td><span class="pill done">v0.1</span></td></tr>
+        <tr><td class="mono">game/art/tiles.ts</td><td>地形の描画（オートタイル）と素材の差し替え口</td><td class="n">197</td><td><span class="pill done">v0.10.5</span></td></tr>
+        <tr><td class="mono">game/art/sprites.ts</td><td><strong>ポケモンの姿</strong>（体型14種 × 飾り14種をコードで描く）</td><td class="n">196</td><td><span class="pill done">v0.12.5</span></td></tr>
+        <tr><td class="mono">core/world/ability.ts</td><td><strong>フィールド行動のレジストリ</strong>（どける・歩く・釣る・探す・飛ぶ）</td><td class="n">160</td><td><span class="pill done">v0.12-d</span></td></tr>
+        <tr><td class="mono">game/screens.ts</td><td>施設・大会・BP交換所の入口</td><td class="n">157</td><td><span class="pill done">v0.10</span></td></tr>
+        <tr><td class="mono">tools/fetch-art.ts</td><td>姿のレシピの下地（体型・体色・大きさは公式の分類）</td><td class="n">147</td><td><span class="pill done">v0.12.5</span></td></tr>
+        <tr><td class="mono">game/art/buildings.ts</td><td>建物の描画（屋根・窓・ドア・影）</td><td class="n">141</td><td><span class="pill done">v0.10.5</span></td></tr>
+        <tr><td class="mono">tools/fetch-machines.ts</td><td>わざマシンの番号と技の対応（veekun・FRLG）。落としたものは理由つき</td><td class="n">97</td><td><span class="pill done">v1.1-b</span></td></tr>
       </tbody>
     </table>
   </div>
@@ -686,6 +677,142 @@ pokemon … 個体の実体。uid が主キー</code></pre>
     エクスポートして書き戻すと元の場所に戻る → BP交換所で持ち物を買って持たせる →
     全滅してポケモンセンターに戻る、まで一続きで確認している。</p>
   </article>
+
+  <article class="release">
+    <header><span class="ver">v0.9.5</span><h2>借りを2つ返す</h2></header>
+    <p class="goal">先へ進む前に、<strong>「CI が毎回通っているのに達成されていない主張」</strong>を2つ片付ける。</p>
+    <ul>
+      <li><strong>生成 ID 型</strong> — v0.4 から5版にわたって誰も import していなかった。
+      繋ごうとして分かったのは<strong>繋げない</strong>こと ―― TS は JSON の文字列を広げるし、ID は設計上 <code>string</code> として流れる。
+      さらに、生成ユニオンが防げる「静かな失敗」が1つも見つからなかった（存在しない ID は検証か <code>MissingDataError</code> が必ず<strong>うるさく</strong>落とす）</li>
+      <li><strong><code>baseExp</code> の暫定値</strong> — BST からの推定だった。veekun の CSV から取り込んで実データにした</li>
+    </ul>
+    <div class="note">
+      <strong>借りの返し方は、足りないコードを書くことではなく、達成していない主張を降ろすことだった。</strong>
+      型で守るのは「人が TS にリテラルで書いた ID」だけに縮め、JSON の ID の持ち主は <code>validate</code> だと明記した。
+    </div>
+  </article>
+
+  <article class="release">
+    <header><span class="ver">v0.10</span><h2>拠点と地方チャレンジ</h2></header>
+    <p class="goal">9地方を束ねる器を作る。完了条件は<strong>「モードタブを消しても遊べる」</strong>。</p>
+    <ul>
+      <li><strong>スキーマ v4</strong> — 共通ボックス・現在地方。地方の進行は地方ごとに閉じる</li>
+      <li><strong>拠点マップ4枚</strong>と <code>EventCommand</code> 5種（<code>enterRegion</code> / <code>returnToHub</code> / <code>openFacility</code> / <code>openExchange</code> / <code>openStorage</code>）</li>
+      <li><strong>モードタブを廃止</strong> — 施設も大会も BP交換所も、<strong>拠点のマップ上のオブジェクトから開く</strong></li>
+    </ul>
+    <p>共通ボックスは<strong>一方通行</strong>。地方へ持ち込めるのは、その地方で捕まえた個体だけ
+    ―― 「地方チャレンジ」が成立する条件をデータではなく<strong>関数の形</strong>で守っている。</p>
+  </article>
+
+  <article class="release">
+    <header><span class="ver">v0.10.5 / v0.11.5 / v0.12.5</span><h2>見た目を3回に分けて作る</h2></header>
+    <p class="goal"><strong>公式素材を1枚も使わずに</strong>、丸と四角から脱する。素材は手元にあっても
+    公開リポジトリには置かない（<code>game-plan.md</code> §10）ので、<strong>絵はコードで描く。</strong></p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>版</th><th>作ったもの</th><th>作らなかったもの</th></tr></thead>
+        <tbody>
+          <tr><td><span class="ver">v0.10.5</span></td><td>マップ描画（オートタイル・建物・影・カメラ）・<strong>素材の差し替え口</strong>・撮影の道具</td><td>アニメーション</td></tr>
+          <tr><td><span class="ver">v0.11.5</span></td><td>バトル演出・UI全体・書体</td><td>作り直し（既存の画面を捨てない）</td></tr>
+          <tr><td><span class="ver">v0.12.5</span></td><td><strong>ポケモンの姿</strong>（体型14種 × 飾り14種）・姿のレシピ（<code>art.tsv</code>）</td><td>種ごとの手描き</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>体型・体色・大きさは<strong>公式の分類</strong>（veekun の <code>pokemon_shapes</code> / <code>pokemon_colors</code>）から取り込む。
+    <strong>絵ではなく分類なのでコミットできる</strong> ―― 数値と構造情報だけを置くという原則がここでも効いた。</p>
+  </article>
+
+  <article class="release">
+    <header><span class="ver">v0.11</span><h2>エンドゲーム拡充</h2></header>
+    <p class="goal">キャラを深くする前に、<strong>キャラが使える駒を増やす</strong>。</p>
+    <ul>
+      <li>種を39追加（<strong>ネームドが使うぶんだけ</strong>）。タケシがハガネール・バンギラスを出す</li>
+      <li>ネームド18人・カップ10・施設4</li>
+      <li><code>swapAfterWin</code>（勝ち抜き）・ターン制限と採点（<code>judge</code>）</li>
+    </ul>
+    <div class="note">
+      <strong>カントーの外の種は「ネームドが使うためだけに居る」</strong>と決め、テストで縛った。
+      野生には出さない ―― 地方チャレンジは現地の種で攻略する。
+      （この規則は v1.1-e で「ネームドが使う<strong>か</strong>野生に出る」まで広げた。原作のカントーには第2世代の種も出るため。）
+    </div>
+  </article>
+
+  <article class="release">
+    <header><span class="ver">v0.12</span><h2>カントー全域と殿堂入り</h2></header>
+    <p class="goal">1地方を<strong>頭から終わりまで</strong>通す。v1.0 の完了条件そのもの。</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>版</th><th>入れたもの</th><th><code>core</code> の行数</th></tr></thead>
+        <tbody>
+          <tr><td><span class="ver">v0.12</span></td><td>カントー全域のマップ・ジムリーダー8人・視線（<code>spotterAt</code>）・バッジ連動の品揃え</td><td>視線とバッジのみ</td></tr>
+          <tr><td><span class="ver">v0.12-d</span></td><td><strong>フィールド技5つ</strong>（いあいぎり・なみのり・かいりき・いわくだき・そらをとぶ）</td><td>3つの概念</td></tr>
+          <tr><td><span class="ver">v0.12-e</span></td><td>グレンじま・トキワジム・19〜21番水道 ―― <strong>21番水道で地図が輪になった</strong></td><td><strong>0行</strong></td></tr>
+          <tr><td><span class="ver">v0.12-f</span></td><td>22・23番道路・チャンピオンロード・四天王5部屋</td><td><strong>0行</strong></td></tr>
+          <tr><td><span class="ver">v1.0</span></td><td>殿堂入り（スキーマ v5）</td><td><code>EventCommand</code> 2つ</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>秘伝技を廃止した</h3>
+    <p>進行能力は<strong>プレイヤー自身が持つ</strong>（手持ちに秘伝要員を置かない）。
+    <strong>ゲームのコードに「いあいぎり」という文字列は1つも無い</strong> ―― 能力の一覧も解放条件も文面もデータにある。</p>
+    <p>解放条件は分岐・NPCの出現条件と<strong>同じ <code>Condition</code> を使い回す。</strong>
+    「解放条件」専用の型を作ると、書き方が2つに割れる。</p>
+    <h3>「戻れない部屋」は機構ではなくデータだった</h3>
+    <p>四天王の5部屋は<strong>戻る warp を置かないだけ</strong>で成立した。
+    そのために用意した <code>onEnter</code> は、結局この用途では要らなかった。</p>
+  </article>
+
+  <article class="release">
+    <header><span class="ver">v1.1-a 〜 v1.1-e</span><h2>カントーを原作に寄せる（進行中）</h2></header>
+    <p class="goal">v1.0 で通ったのは<strong>筋</strong>であって、中身は骨組みだった。
+    実測すると<strong>カントー151種のうち82種はどうやっても手に入らなかった</strong> ――
+    図鑑を埋める進行軸が実質死んでいた。完了条件は<strong>「151種すべてに入手経路がある」</strong>。</p>
+
+    <div class="scroll">
+      <table>
+        <thead><tr><th>版</th><th>入れたもの</th><th>ゲームのコード</th><th>入手できる種</th></tr></thead>
+        <tbody>
+          <tr><td><span class="ver">v1.1-a</span></td><td><strong>出現表を公式データから取り込む</strong>（17表 → 78表）・わざマシン互換表・<code>trainers.json</code> を TSV 化・<strong><code>neighborsOf</code> の一本化</strong></td><td>取り込み口だけ</td><td>―（器のみ）</td></tr>
+          <tr><td><span class="ver">v1.1-b</span></td><td>わざマシン22本・進化の石7種・つながりのヒモ・じてんしゃ</td><td><code>UseEffect</code> 2種</td><td>73 → <strong>88</strong></td></tr>
+          <tr><td><span class="ver">v1.1-c</span></td><td>釣り3段・いわくだき の野生・隠しアイテム・固定シンボル</td><td>レジストリ5行</td><td>―（引ける方式が増えた）</td></tr>
+          <tr><td><span class="ver">v1.1-d</span></td><td><strong>ヤマブキを4叉路に戻す</strong>・けんもんじょ4棟・ちかつうろ</td><td><strong>0行</strong></td><td>88</td></tr>
+          <tr><td><span class="ver">v1.1-e</span></td><td>東の腕（9・10・12〜15番＋イワヤマトンネル）・ダンジョンの階層</td><td><strong>0行</strong></td><td>88 → <strong>92</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>出現表は「入力」ではなく「取り込み」だった</h3>
+    <p>veekun の CSV に <strong>FRLG のカントーの出現データが1,115件</strong>入っている
+    ―― 種・レベル帯・出現率・引き方が、場所ごと・階ごとに。
+    <strong>絵ではなく数値と分類</strong>なのでコミットできる。</p>
+    <p>表の id を <code>&lt;mapid&gt;-&lt;method&gt;</code> に固定したので、
+    <strong>マップを1枚足す → 取り込みを回す → 行を貼る</strong>だけになった。手入力の余地が消えている。</p>
+
+    <h3>構造の嘘が2つ見つかった</h3>
+    <ul>
+      <li><strong>ヤマブキが2叉路だった</strong> — 5番道路が6番道路へ直通し、町を迂回していた。
+      原作では迂回するのは<strong>ちかつうろ</strong>のほうで、あれは任意の近道。
+      地図としては繋がっているので、<strong>検証も台本も何も言わない</strong></li>
+      <li><strong>おつきみやま と チャンピオンロードが同じ迷路だった</strong> — 13行中12行が一致。いま0行</li>
+    </ul>
+
+    <h3>コードが1行も要らないことの、いちばん強い証拠</h3>
+    <p>v1.1-d と v1.1-e はマップ20枚を足し、町の出入口を作り直し、ダンジョンを階層化したが、
+    <strong><code>packages/core</code> も <code>packages/game</code> も0行</strong>。
+    v0.4 から積んできた「1件足すコストをゼロに近づける」が、
+    原作の地理を丸ごと作り直す場面でそのまま効いた。</p>
+
+    <h3>台本を先に速くした</h3>
+    <p>広げる前に <code>playthrough</code> を速くしてある ――
+    じてんしゃ（v1.1-b）で歩行アニメが 130ms → 62ms になるので、1歩の待ちも詰められる。
+    <strong>約35分 → 13.5分。</strong> 逆順だと1時間を超えていた。</p>
+    <div class="note warn">
+      <strong>1入力＝1マスは変えていない。</strong>
+      2マス進む実装にすると、<code>playthrough</code> と <code>shots</code> が同時に、しかも黙ってずれる。
+      速さは <code>field.ts</code> の定数だけの話にしてある（<code>core</code> は時間を持たない）。
+    </div>
+  </article>
 </section>
 
 <!-- ───────────── 訂正記録 ───────────── -->
@@ -734,6 +861,24 @@ pokemon … 個体の実体。uid が主キー</code></pre>
         <tr><td><span class="ver">v0.9</span></td><td>エクスポートは<strong>ファイル保存ではなくテキスト</strong>（埋め込みでは保存が封じられる）</td><td>配布形態</td></tr>
         <tr><td><span class="ver">v0.9</span></td><td>「持たせる効果」と「使う効果」を同じ欄にすると、無意味な組み合わせが通る</td><td>型の設計</td></tr>
         <tr><td><span class="ver">v0.9</span></td><td>座標を数える台本は、<strong>町を1枚足すと全部通らなくなる</strong></td><td>検証の維持費</td></tr>
+        <tr><td><span class="ver">v0.9.5</span></td><td><strong>借りの返し方は、達成していない主張を降ろすことだった</strong>（生成 ID 型は繋げない）</td><td>目的の側を直す</td></tr>
+        <tr><td><span class="ver">v0.11</span></td><td>色を規則から導出しきると<strong>家の壁と木が同じ色になる</strong></td><td>やりすぎた抽象</td></tr>
+        <tr><td><span class="ver">v0.12</span></td><td><strong>視線は描かないと理不尽</strong>（トレーナーがただの四角である以上）</td><td>遊ぶと分かる</td></tr>
+        <tr><td><span class="ver">v0.12</span></td><td>NPC を動かすと<strong>経路探索の道具が2つ同時に壊れる</strong> → <code>static</code> だけ実装</td><td>維持費の見積もり</td></tr>
+        <tr><td><span class="ver">v0.12</span></td><td>検証が「配られる手持ち」ではなく<strong>種族の技</strong>を測っていた（ライバル戦17%）</td><td>測る対象のずれ</td></tr>
+        <tr><td><span class="ver">v0.12-b</span></td><td><strong>到達可能性をマップ1枚の中でしか見ていなかった</strong>（洞窟の南半分が切れていた）</td><td>検証の穴</td></tr>
+        <tr><td><span class="ver">v0.12-c</span></td><td><strong>ジムの順番もデータの問題だった</strong>（バッジの条件で塞ぐだけ）</td><td>機構だと思い込んだ</td></tr>
+        <tr><td><span class="ver">v1.1-a</span></td><td><strong>「隣とは何か」が3箇所に書かれていた</strong> ― 一本化して初めて、撮影でコメントと実装がずれていたことが見えた</td><td>重複の代償</td></tr>
+        <tr><td><span class="ver">v1.1-a</span></td><td><strong>測っている対象が違えば、通っていても意味が無い</strong>（1番道路を「50:50の2件表」と決め打ちしたテスト）</td><td>測る対象のずれ</td></tr>
+        <tr><td><span class="ver">v1.1-a</span></td><td>生成物の鮮度を見ていたのがマップと ID 型だけ ― <strong>原本を直して投入を忘れると検証が古い JSON を見て通った</strong></td><td>検証の穴</td></tr>
+        <tr><td><span class="ver">v1.1-a</span></td><td><strong>一度も通っていなかった道が、データが増えた日に通った</strong>（海に出現表が付き、なみのりの直後にバトルが割り込んだ）</td><td>前提の崩れ</td></tr>
+        <tr><td><span class="ver">v1.1-b</span></td><td><strong>公式データを2箇所から採ると版がずれる</strong>（マシンは第3世代・互換表は第9世代 → 誰も覚えないマシンが1本できる）</td><td>取り込みの罠</td></tr>
+        <tr><td><span class="ver">v1.1-b</span></td><td><code>USE_KINDS</code> が v0.9 から<strong>手書きの写し</strong>だった（技効果と持ち物はレジストリを直接見ていたのに）</td><td>重複の代償</td></tr>
+        <tr><td><span class="ver">v1.1-b</span></td><td><strong>台本の誤報はゲームの不具合に見える</strong>（<code>#open-bag</code> は切り替えなので、押した台本がバッグを閉じていた）</td><td>道具の側の欠陥</td></tr>
+        <tr><td><span class="ver">v1.1-c</span></td><td><strong><code>core</code> が特定の地形と能力の名前を知っていた</strong>（<code>canSwimTo</code> に "water" と "surf"）</td><td>データに置くべきもの</td></tr>
+        <tr><td><span class="ver">v1.1-d</span></td><td><strong>通っているのに間違っている接続があった</strong>（ヤマブキが2叉路で、近道のほうが本道）</td><td>地図の嘘</td></tr>
+        <tr><td><span class="ver">v1.1-d</span></td><td><strong>地理を直すと難易度が変わる</strong>（道が2倍になり、消耗してジム3に負けるようになった）</td><td>原作に寄せた結果</td></tr>
+        <tr><td><span class="ver">v1.1-e</span></td><td><strong>関門は「置いた」だけでは関門にならない</strong>（迷路に輪があり、岩を通らずに階段へ行けた）</td><td>検証が言えないこと</td></tr>
       </tbody>
     </table>
   </div>
@@ -1452,8 +1597,9 @@ Item = { …, price?: number, bpPrice?: number }  ← いくらかは道具側</
     </div>
     <div class="card">
       <h3><span class="pill warn">暫定</span> 未確定のもの</h3>
-      <p><strong>与える経験値（<code>baseExp</code>）が全件暫定</strong>で、種族値合計からの推定。検証が毎回そう報告する。
-      進化 72件のうち今の機構で起きるのは 52件（石・通信交換などは未実装）。</p>
+      <p><strong>捕獲率・成長曲線・努力値・性別比・与える経験値は全件が公式データ</strong>（v0.9.5 で暫定値を返済）。
+      進化 88件のうち今の機構で起きるのは 86件 ―― 石とつながりのヒモが v1.1-b で入り、
+      残る2件は <code>levelMove</code> / <code>levelExtra</code>（条件が未実装）。</p>
     </div>
   </div>
 
@@ -1461,20 +1607,22 @@ Item = { …, price?: number, bpPrice?: number }  ← いくらかは道具側</
     <table>
       <thead><tr><th>データ</th><th class="n">件数</th><th>状態</th></tr></thead>
       <tbody>
-        <tr><td>種族（カントー）</td><td class="n">151</td><td><span class="pill done">実数値・相性・レンタルで使用中</span></td></tr>
-        <tr><td>技</td><td class="n">247</td><td><span class="pill done">全件が公式データ</span> <span class="pill pending">155件は未実装（理由つきで保留）</span></td></tr>
-        <tr><td>特性</td><td class="n">48</td><td><span class="pill done">37件が戦闘中に働く</span> <span class="pill pending">11件は機構待ち</span></td></tr>
-        <tr><td>道具</td><td class="n">58</td><td><span class="pill done">持ち物32・ボール9・回復17</span></td></tr>
+        <tr><td>種族</td><td class="n">190</td><td><span class="pill done">カントー151＋ネームドが使う39</span></td></tr>
+        <tr><td>技</td><td class="n">248</td><td><span class="pill done">全件が公式データ</span> <span class="pill pending">186件は未実装（理由つきで保留）</span></td></tr>
+        <tr><td>特性</td><td class="n">68</td><td><span class="pill done">37件が戦闘中に働く</span> <span class="pill pending">31件は機構待ち（<code>inert</code>・理由つき）</span></td></tr>
+        <tr><td>道具</td><td class="n">98</td><td><span class="pill done">持ち物32・ボール9・回復17・<strong>わざマシン22</strong>・進化13・キー5</span></td></tr>
+        <tr><td>わざマシン互換表</td><td class="n">3,866</td><td><span class="pill done">公式 learnset の <code>'M'</code> から取り込み（1種あたり20.3技）</span></td></tr>
         <tr><td>BattleSet</td><td class="n">64</td><td><span class="pill done">grade 1〜4 に16件ずつ</span></td></tr>
-        <tr><td>施設</td><td class="n">2</td><td><span class="pill done">ルールセット駆動</span></td></tr>
-        <tr><td>ネームド（カントー）</td><td class="n">13</td><td><span class="pill done">原作・本気の2ティア</span> <span class="pill pending">極は v1.1</span></td></tr>
-        <tr><td>カップ</td><td class="n">3</td><td><span class="pill done">ティア解放つき</span></td></tr>
-        <tr><td>マップ</td><td class="n">8</td><td><span class="pill done">マサラタウン・1番道路・トキワシティと屋内</span></td></tr>
-        <tr><td>イベント</td><td class="n">26</td><td><span class="pill done">18種のコマンドで記述</span></td></tr>
-        <tr><td>進化</td><td class="n">72</td><td><span class="pill done">52件が今の機構で起きる</span> <span class="pill pending">20件は条件が未実装</span></td></tr>
-        <tr><td>ショップ</td><td class="n">1</td><td><span class="pill done">品揃えだけを持ち、値段は道具側</span></td></tr>
-        <tr><td>トレーナー</td><td class="n">3</td><td><span class="pill done">ライバル（選んだ1匹で相手が変わる）</span></td></tr>
-        <tr><td>出現テーブル</td><td class="n">1</td><td><span class="pill done">1番道路の草むら</span></td></tr>
+        <tr><td>施設</td><td class="n">4</td><td><span class="pill done">ルールセット駆動</span></td></tr>
+        <tr><td>ネームド</td><td class="n">18</td><td><span class="pill done">原作・本気の2ティア</span> <span class="pill pending">極は v1.2</span></td></tr>
+        <tr><td>カップ</td><td class="n">10</td><td><span class="pill done">ティア解放つき</span></td></tr>
+        <tr><td>マップ</td><td class="n">91</td><td><span class="pill done">カントー全域＋拠点。出入口184か所</span></td></tr>
+        <tr><td>イベント</td><td class="n">257</td><td><span class="pill done">21種のコマンドで記述</span></td></tr>
+        <tr><td>トレーナー</td><td class="n">45</td><td><span class="pill done">TSV原本を持つ（v1.1-a）</span> <span class="pill pending">原作は約180人・v1.1-i</span></td></tr>
+        <tr><td>出現テーブル</td><td class="n">103</td><td><span class="pill done">公式データから取り込み（v1.1-a）</span></td></tr>
+        <tr><td>進化</td><td class="n">88</td><td><span class="pill done">86件が今の機構で起きる</span> <span class="pill pending">2件は条件が未実装</span></td></tr>
+        <tr><td>ショップ</td><td class="n">6</td><td><span class="pill done">品揃えだけを持ち、値段は道具側</span></td></tr>
+        <tr><td>フラグ</td><td class="n">109</td><td><span class="pill done">宣言必須。未宣言は検証が落とす</span></td></tr>
         <tr><td>性格</td><td class="n">25</td><td><span class="pill done">実数値の補正で使用中</span></td></tr>
         <tr><td>タイプ相性</td><td class="n">18×18</td><td><span class="pill done">疎な JSON から展開し完全性を検証</span></td></tr>
       </tbody>
@@ -1487,9 +1635,10 @@ Item = { …, price?: number, bpPrice?: number }  ← いくらかは道具側</
       <thead><tr><th>フィールド</th><th>状態</th></tr></thead>
       <tbody>
         <tr><td class="mono">catchRate / expType / evYield / genderRatio</td><td><span class="pill done">v0.8 で全て使用開始</span></td></tr>
-        <tr><td class="mono">MapObject.sight</td><td><span class="pill pending">v0.10 (トレーナーの視線) まで未使用</span></td></tr>
-        <tr><td class="mono">MapObject.movement</td><td><span class="pill pending">v0.10 (NPCの移動) まで未使用</span></td></tr>
+        <tr><td class="mono">MapObject.sight</td><td><span class="pill done">v0.12 で使用開始（トレーナーの視線）</span></td></tr>
+        <tr><td class="mono">MapObject.movement</td><td><span class="pill pending"><code>static</code> だけ実装 ―― 動かすと経路探索の道具が2つ同時に壊れる</span></td></tr>
         <tr><td class="mono">layers.decoration / overhead</td><td><span class="pill pending">タイル画像が入るまで空</span></td></tr>
+        <tr><td class="mono">EncounterTable.method: "gift"</td><td><span class="pill pending">宣言だけ ―― 配布はイベント側が持つほうが素直だった</span></td></tr>
       </tbody>
     </table>
   </div>
@@ -1500,14 +1649,14 @@ Item = { …, price?: number, bpPrice?: number }  ← いくらかは道具側</
         ▼
 packages/data/source/*.tsv        （人が編集する正）
 packages/data/source/maps/*.map
-        │  npm run import           … TSV → JSON。種族値の合計を照合
+        │  npm run import           … TSV → JSON。種族値の合計を照合（--check で鮮度も見る）
         │  npm run maps             … マップ原本 → MapData JSON
         ▼
 packages/data/*.json
         │  npm run gen:ids          … ID のユニオン型を生成
         ▼
 packages/data/generated/ids.d.ts
-        │  npm run validate         … 67項目の検証（下記）
+        │  npm run validate         … 102項目の検証（下記）
         ▼
                                    CI ―― 生成物が古ければ落ちる</code></pre>
 </section>
@@ -1557,6 +1706,23 @@ packages/data/generated/ids.d.ts
         <tr><td>ショップの品揃えが実在し、値段があり、重複しない</td><td><span class="pill done">v0.9</span></td></tr>
         <tr><td><strong>お金でも BP でも買える道具が無い</strong>（2つの経済が混ざらない）</td><td><span class="pill done">v0.9</span></td></tr>
         <tr><td><strong>お金でも BP でも手に入らない持ち物が無い</strong></td><td><span class="pill done">v0.9</span></td></tr>
+        <tr><td><strong>遊べる地方には「殿堂入りするイベント」が必ずある</strong>（終われない地方を作らない）</td><td><span class="pill done">v1.0</span></td></tr>
+        <tr><td><strong>踏む warp のマスを、消えないオブジェクトで塞いでいない</strong></td><td><span class="pill done">v0.12-f</span></td></tr>
+        <tr><td><strong>warp を往復すると元の場所の1マス以内に戻る</strong>（実データ7件を捕まえた）</td><td><span class="pill done">v0.12-f</span></td></tr>
+        <tr><td><strong>地方まるごとの到達可能性</strong>（マップ1枚の中だけでは見えない）</td><td><span class="pill done">v0.12-b</span></td></tr>
+        <tr><td>障害物に使う技が、必ず世界のどこかで手に入る</td><td><span class="pill done">v0.12-d</span></td></tr>
+        <tr><td>そらをとぶ の行き先に立てて、来たらフラグが立つ</td><td><span class="pill done">v0.12-d</span></td></tr>
+        <tr><td>全種にレシピがあり、居ない種のレシピを持っていない（姿）</td><td><span class="pill done">v0.12.5</span></td></tr>
+        <tr><td><strong>同じ品揃えを開くイベントは、同じ条件の下で開く</strong>（グレンじまだけ <code>if</code> 抜けだった）</td><td><span class="pill done">v1.1-a</span></td></tr>
+        <tr><td>まだ引く手段の無い出現表を名乗らせる（警告）</td><td><span class="pill done">v1.1-a</span></td></tr>
+        <tr><td>個体を作り替える道具は <code>scope: field</code> を宣言している</td><td><span class="pill done">v1.1-b</span></td></tr>
+        <tr><td><strong>わざマシンが教える技を、覚えられる種が1種以上いる</strong>（書いた瞬間に本物を捕まえた）</td><td><span class="pill done">v1.1-b</span></td></tr>
+        <tr><td>進化の道具が、実際にどれかの枝の鍵になっている</td><td><span class="pill done">v1.1-b</span></td></tr>
+        <tr><td><strong>バッジをくれるイベントは わざマシンもくれる</strong>（原作の不変条件）</td><td><span class="pill done">v1.1-b</span></td></tr>
+        <tr><td>全 <code>FieldEffect.kind</code> にハンドラがある</td><td><span class="pill done">v1.1-c</span></td></tr>
+        <tr><td>釣りの方式ごとに、その表を持つマップが1枚以上ある</td><td><span class="pill done">v1.1-c</span></td></tr>
+        <tr><td>隠しアイテムがあるなら、探す能力がある</td><td><span class="pill done">v1.1-c</span></td></tr>
+        <tr><td><strong>能力の鍵になる道具は、必ず世界のどこかで手に入る</strong></td><td><span class="pill done">v1.1-c</span></td></tr>
       </tbody>
     </table>
   </div>
@@ -1573,6 +1739,22 @@ packages/data/generated/ids.d.ts
     <strong>「歩けるマスが全部繋がっている」ことと「置いたものが起動できる」ことは別物</strong>で、
     後者の方が気づきにくい ―― 前者は歩けば分かるが、
     後者は<strong>「その NPC に用がある」と知っている人にしか気づけない。</strong>
+  </div>
+
+  <div class="note" style="margin-top:14px">
+    <strong>v1.1-b の #95 は、書いた瞬間に本物を捕まえた。</strong>
+    でんげきは は FRLG ではわざマシンだが、<strong>いま誰もマシンでは覚えない</strong> ――
+    マシン番号は第3世代、互換表は第9〜7世代から採っているので、版がずれると
+    「置いてあるが一生使えない道具」が生まれる。<strong>1本だけなので手で見ていたら気づかない。</strong>
+  </div>
+
+  <div class="note warn" style="margin-top:14px">
+    <strong>検証が言えないこともある（v1.1-d・v1.1-e）。</strong>
+    ヤマブキが2叉路で近道が本道になっていたこと、
+    チャンピオンロードの岩を通らずに階段へ行けたこと ――
+    どちらも<strong>「繋がっている」ので検証は正しいとしか言わない。</strong>
+    <strong>関門は「置いた」ではなく「そこしか通れない」で初めて関門になる</strong>ので、
+    迷路を描いたら関門の手前と先で経路探索を1回ずつ回す。
   </div>
 
   <div class="note warn" style="margin-top:14px">
@@ -1605,18 +1787,18 @@ packages/data/generated/ids.d.ts
     <table>
       <thead><tr><th>ファイル</th><th class="n">件数</th><th>守っているもの</th><th>導入</th></tr></thead>
       <tbody>
-        <tr><td class="mono">reference-data.test.ts</td><td class="n">50</td><td>種族値・技データ・ダメージの手計算値を固定</td><td><span class="pill done">v0.1</span></td></tr>
-        <tr><td class="mono">pokemon.test.ts</td><td class="n">33</td><td><strong>実個体</strong>・経験値・成長曲線・戦闘後シーケンス・進化・<strong>初戦の勝率</strong></td><td><span class="pill done">v0.8</span></td></tr>
-        <tr><td class="mono">world.test.ts</td><td class="n">26</td><td>移動・段差・warp・イベント・<strong>遭遇率の実測</strong>・<strong>完了条件の道行き</strong></td><td><span class="pill done">v0.7</span></td></tr>
+        <tr><td class="mono">reference-data.test.ts</td><td class="n">54</td><td>種族値・技データ・ダメージの手計算値を固定</td><td><span class="pill done">v0.1</span></td></tr>
+        <tr><td class="mono">world.test.ts</td><td class="n">54</td><td>移動・段差・warp・イベント・フィールド行動・<strong>遭遇率の実測</strong>・<strong>完了条件の道行き</strong></td><td><span class="pill done">v0.7</span></td></tr>
+        <tr><td class="mono">save.test.ts</td><td class="n">39</td><td>読み書き・<strong>過去版 fixtures の引き上げ</strong>・器と個体の突き合わせ・エクスポート</td><td><span class="pill done">v0.5</span></td></tr>
+        <tr><td class="mono">pokemon.test.ts</td><td class="n">36</td><td><strong>実個体</strong>・経験値・成長曲線・戦闘後シーケンス・進化・<strong>初戦の勝率</strong></td><td><span class="pill done">v0.8</span></td></tr>
+        <tr><td class="mono">endgame.test.ts</td><td class="n">27</td><td>相手プール・ルールセット・連戦・<strong>制覇率</strong></td><td><span class="pill done">v0.5</span></td></tr>
+        <tr><td class="mono">use-item.test.ts</td><td class="n">26</td><td>回復量・断る条件・わざマシン・進化の石・<strong>バトル中とマップ上で結果が一致すること</strong></td><td><span class="pill done">v0.9</span></td></tr>
         <tr><td class="mono">held.test.ts</td><td class="n">24</td><td>特性・持ち物の各フック・行動の制限</td><td><span class="pill done">v0.5</span></td></tr>
         <tr><td class="mono">capture.test.ts</td><td class="n">23</td><td>捕獲率・ボールの補正・手持ちとボックス・<strong>二重所属の禁止</strong></td><td><span class="pill done">v0.8</span></td></tr>
-        <tr><td class="mono">save.test.ts</td><td class="n">23</td><td>読み書き・<strong>過去版 fixtures の引き上げ</strong>・器と個体の突き合わせ・エクスポート</td><td><span class="pill done">v0.5</span></td></tr>
-        <tr><td class="mono">tournament.test.ts</td><td class="n">21</td><td>ネームド・ティア・選出・組み合わせ・<strong>実数値が有限であること</strong></td><td><span class="pill done">v0.6</span></td></tr>
-        <tr><td class="mono">endgame.test.ts</td><td class="n">20</td><td>相手プール・ルールセット・連戦・<strong>制覇率</strong></td><td><span class="pill done">v0.5</span></td></tr>
+        <tr><td class="mono">tournament.test.ts</td><td class="n">23</td><td>ネームド・ティア・選出・組み合わせ・<strong>実数値が有限であること</strong></td><td><span class="pill done">v0.6</span></td></tr>
         <tr><td class="mono">status.test.ts</td><td class="n">16</td><td>状態異常6種＋混乱・タイプ無効・交代時のリセット</td><td><span class="pill done">v0.2</span></td></tr>
         <tr><td class="mono">battle.test.ts</td><td class="n">15</td><td>ターン処理・不変性・PP・優先度・わるあがき・逃走と道具の制限</td><td><span class="pill done">v0.1</span></td></tr>
         <tr><td class="mono">ai-basic.test.ts</td><td class="n">13</td><td><strong>相対勝率</strong>・悪手の回帰・<code>AiView</code> の可視性</td><td><span class="pill done">v0.5</span></td></tr>
-        <tr><td class="mono">use-item.test.ts</td><td class="n">13</td><td>回復量・断る条件・<strong>バトル中とマップ上で結果が一致すること</strong></td><td><span class="pill done">v0.9</span></td></tr>
         <tr><td class="mono">stages.test.ts</td><td class="n">10</td><td>ランク補正の倍率表・クランプ・変化技</td><td><span class="pill done">v0.2</span></td></tr>
         <tr><td class="mono">stats.test.ts</td><td class="n">8</td><td>実数値の計算式・レベル同期</td><td><span class="pill done">v0.1</span></td></tr>
         <tr><td class="mono">switch.test.ts</td><td class="n">7</td><td>交代・強制交代・3対3の完走</td><td><span class="pill done">v0.2</span></td></tr>
@@ -1642,12 +1824,12 @@ packages/data/generated/ids.d.ts
     </div>
     <div class="card">
       <h3><code>save.test.ts</code> — 過去の番人</h3>
-      <p><code>fixtures/saves/v1..v3.json</code> を毎回読み、<strong>全ての過去版が最新版まで引き上がること</strong>を確かめる。マイグレーションが壊れていることに気づくのは常に手遅れになってから、なので版を上げたら1件足す規則にしてある。</p>
+      <p><code>fixtures/saves/v1..v5.json</code> を毎回読み、<strong>全ての過去版が最新版まで引き上がること</strong>を確かめる。マイグレーションが壊れていることに気づくのは常に手遅れになってから、なので版を上げたら1件足す規則にしてある。</p>
     </div>
     <div class="card">
       <h3><code>tools/playthrough.mjs</code> — 画面の番人</h3>
       <p>ブラウザを実際に操作して同じ道行きを通す。<strong>型検査もテストも素通りする層</strong>（渡し忘れた技指定、描き分けられていないタイル、リロードで消える進行）がここでしか見つからないと分かって常設した。
-      v0.9 で <strong>44項目</strong>まで増え、マップデータを読む経路探索に置き換わっている。</p>
+      v0.9 で 44項目、v1.1-e で <strong>173項目</strong>まで増え、経路探索は <code>core</code> の <code>neighborsOf</code> をそのまま呼ぶ形になっている。</p>
     </div>
   </div>
 </section>
@@ -1662,11 +1844,11 @@ packages/data/generated/ids.d.ts
       <tbody>
         <tr>
           <td>コンテンツ追加のコストをゼロに近づける</td>
-          <td>247技・48特性・58道具・64 BattleSet・2施設・8マップ ―― <strong>すべて TSV / JSON の1行</strong>。効果の種類だけがコード</td>
+          <td>248技・68特性・98道具・64 BattleSet・4施設・91マップ ―― <strong>すべて TSV / JSON の1行</strong>。効果の種類だけがコード</td>
         </tr>
         <tr>
           <td>効果の種類は増えにくい</td>
-          <td>技効果は v0.2 の8種から <strong>247技へ拡張しても1つも増えなかった</strong>。イベントコマンド（18種）・ボールの補正（6種）・道具の使用（6種）も同じ形にした</td>
+          <td>技効果は v0.2 の8種から <strong>248技へ拡張しても1つも増えなかった</strong>。イベントコマンド（27種）・ボールの補正（6種）・道具の使用（8種）・フィールド行動（5種）も同じ形にした</td>
         </tr>
         <tr>
           <td><code>core</code> はデータを持たない</td>
@@ -1678,7 +1860,7 @@ packages/data/generated/ids.d.ts
         </tr>
         <tr>
           <td>規律を人間の注意力に預けない</td>
-          <td>58種類の判定を CI で回す。<strong>「遊ぶと成立しない」種類の誤りも検証項目に落とす</strong></td>
+          <td>102項目の判定を CI で回す。<strong>「遊ぶと成立しない」種類の誤りも検証項目に落とす</strong></td>
         </tr>
         <tr>
           <td>強さは情報量ではなく思考の深さで作る</td>
@@ -1690,15 +1872,15 @@ packages/data/generated/ids.d.ts
         </tr>
         <tr>
           <td>施設は量産できる</td>
-          <td>2つ目の施設で増えたコードは <strong>0行</strong>。JSON を1件足しただけ</td>
+          <td>4施設に増えても、2つ目以降で増えたコードは <strong>0行</strong>。JSON を1件足しただけ</td>
         </tr>
         <tr>
           <td>ネームドは1人足すとティアぶん増える</td>
-          <td>TSV に行を足すだけで13人 × 2ティア。<strong>署名ポケモンが落ちないことを検証が守る</strong></td>
+          <td>TSV に行を足すだけで18人 × 2ティア。<strong>署名ポケモンが落ちないことを検証が守る</strong></td>
         </tr>
         <tr>
           <td>マップは「作る」ものではなく「流し込む」もの</td>
-          <td>4枚を足してもコードは1行も増えていない。増えるのは<strong>座標</strong>なので、そこを検証が見る</td>
+          <td>8枚から91枚に増えてもコードは1行も増えていない。増えるのは<strong>座標</strong>なので、そこを検証が見る</td>
         </tr>
         <tr>
           <td>アセットが無くても動くのは通常動作</td>
@@ -1713,22 +1895,24 @@ packages/data/generated/ids.d.ts
 <section>
   <div class="sec-head"><span class="eyebrow">17</span><h2>意図的に実装していないもの</h2></div>
 
-  <p class="lede" style="margin-bottom:16px">すべて拡張フックだけは用意済み。後から差し込む形にすると書き直しになる箇所を避けてある。</p>
+  <p class="lede" style="margin-bottom:16px">すべて拡張フックだけは用意済み。後から差し込む形にすると書き直しになる箇所を避けてある。
+  <strong>そして全部が「理由つきでデータに書いてある」</strong> ―― 入れ忘れとは区別できる。</p>
 
   <div class="scroll">
     <table>
       <thead><tr><th>要素</th><th>予定</th><th>用意してあるフック</th></tr></thead>
       <tbody>
-        <tr><td><strong>生成した ID 型の接続</strong></td><td><span class="pill warn">未解決</span></td><td>生成は v0.4 から動き、CI も毎回確かめている。<strong>だが参照している箇所が今も1つも無い</strong>（<code>SpeciesId</code> は <code>string</code> のまま）</td></tr>
-        <tr><td><strong>与える経験値の実データ化</strong></td><td><span class="pill warn">未解決</span></td><td><code>baseExp</code> は種族値合計からの推定。検証が毎回そう報告する</td></tr>
+        <tr><td><strong>へんしん</strong></td><td><span class="pill warn">借り</span></td><td>メタモンは原作でもこの技しか覚えない。13〜15番道路の公式データに居るのに<strong>野生に出せない</strong> ―― 取り込み器に理由つきで除外</td></tr>
+        <tr><td><strong>ポケモンタワー 2〜7階</strong></td><td><span class="pill warn">借り</span></td><td>機構（ゴースト＝条件で入れ替わる2つのオブジェクト＋<code>hasItem</code>）は v1.1-c で揃った。<strong>シルフスコープの入手元</strong>が無いだけ（v1.1-g）</td></tr>
+        <tr><td>氷の床・押せる岩</td><td><span class="pill pending">v1.1-f</span></td><td><strong>「一歩＝1マス」を変える唯一の機構。</strong> <code>neighborsOf</code> を一本化してあるのはこの日のため</td></tr>
+        <tr><td>サファリゾーン</td><td><span class="pill pending">v1.1-h</span></td><td><code>MapData.rules</code> ＋ <code>field-rules.json</code>。<strong><code>Ruleset</code> には寄せない</strong>（4施設すべてが無視する任意欄が8個増える）</td></tr>
+        <tr><td>天候・フィールド</td><td><span class="pill pending">v1.2</span></td><td>該当特性は <code>inert</code> で理由つきに待機中（31種）</td></tr>
+        <tr><td>AI <code>smart</code>・連勝上限の解除</td><td><span class="pill pending">v1.2</span></td><td><code>AiConfig.policy</code> と <code>AiView</code>。検証が <code>smart</code> をまだ弾いている</td></tr>
+        <tr><td>キャラごとの戦い方（<code>tactic</code>）</td><td><span class="pill pending">v1.2</span></td><td>データには入っているが AI が読んでいない。<code>basic</code> では演じられない</td></tr>
         <tr><td>壊れたセーブからの復旧</td><td><span class="pill pending">未定</span></td><td>アトミックな書き込み・1世代前の保持は未実装。エクスポートが唯一の保険</td></tr>
-        <tr><td>トレーナーの視線・NPC の移動</td><td><span class="pill pending">v0.10</span></td><td><code>sight</code> / <code>movement</code> は型にある</td></tr>
-        <tr><td>ジム・バッジ・フィールド技</td><td><span class="pill pending">v0.10</span></td><td><code>badges</code> はセーブに入り、条件（<code>badges</code>）も評価される。ジムのデータが無いだけ</td></tr>
         <tr><td>ボックスの検索・ソート・チーム保存</td><td><span class="pill pending">未定</span></td><td>最小のボックスは動いている。<strong>数千体になるまで要らない</strong></td></tr>
-        <tr><td>天候・フィールド</td><td><span class="pill pending">v1.1</span></td><td>該当特性は <code>inert</code> で理由つきに待機中（ようりょくそ等11種）</td></tr>
-        <tr><td>AI <code>smart</code>・連勝上限の解除</td><td><span class="pill pending">v1.1</span></td><td><code>AiConfig.policy</code> と <code>AiView</code>。検証が <code>smart</code> をまだ弾いている</td></tr>
-        <tr><td>キャラごとの戦い方（<code>tactic</code>）</td><td><span class="pill pending">v1.1</span></td><td>データには入っているが AI が読んでいない。<code>basic</code> では演じられない</td></tr>
-        <tr><td>ダブルバトル</td><td><span class="pill pending">v1.2〜</span></td><td><code>Ruleset.battleFormat</code> は型として存在し、検証が弾く</td></tr>
+        <tr><td>NPC の移動</td><td><span class="pill pending">保留</span></td><td><code>static</code> 以外は実装しない ―― <strong>動かすと経路探索の道具が2つ同時に壊れる</strong>わりに、得られるのは町の賑わいだけ</td></tr>
+        <tr><td>ダブルバトル</td><td><span class="pill pending">v1.3〜</span></td><td><code>Ruleset.battleFormat</code> は型として存在し、検証が弾く</td></tr>
       </tbody>
     </table>
   </div>
@@ -1741,46 +1925,69 @@ packages/data/generated/ids.d.ts
     <table>
       <thead><tr><th>最初の3つの希望</th><th>現在地</th></tr></thead>
       <tbody>
-        <tr><td>全てのポケモンが出る</td><td>カントー151種（v0.4）。<strong>捕まえて育てられる</strong>（v0.8）。残り8地方はデータの追加</td></tr>
-        <tr><td>今までの全てのトレーナーが出る</td><td>カントー13人 × 2ティア（v0.6）。極ティアは v1.1</td></tr>
-        <tr><td>原作のマップを再現</td><td>マサラタウン・1番道路・<strong>トキワシティ</strong>ほか8枚（v0.7・v0.9）。カントー全域は v0.10</td></tr>
+        <tr><td>全てのポケモンが出る</td><td>カントー151種のうち<strong>92種に入手経路がある</strong>（v1.1-e 実測）。151種すべてが v1.1 の完了条件</td></tr>
+        <tr><td>今までの全てのトレーナーが出る</td><td>ネームド18人 × 2ティア（v0.11）＋道中45人。<strong>原作は約180人</strong>（v1.1-i）。極ティアは v1.2</td></tr>
+        <tr><td>原作のマップを再現</td><td><strong>91枚・出入口184か所。</strong> ヤマブキは4叉路、シオンは行き止まりでない、ダンジョンは階層つき（v1.1-d/-e）</td></tr>
       </tbody>
     </table>
   </div>
 
   <article class="release">
-    <header><span class="ver">v0.10</span><h2>カントー全域＋ジムリーダー8人</h2></header>
-    <p class="goal"><strong>全計画で最大の塊。</strong> マップ数十枚・トレーナー百人以上・ジム8つ。着手時に「南半分／北半分」等へ分割することを前提にする。</p>
-    <ul>
-      <li>カントー全域のマップとトレーナー。<strong>v0.9 で「町を1つ足すのにコードは0行」が確かめられた</strong>ので、増えるのはデータ量だけのはず</li>
-      <li>ジム8つ・バッジ・バッジ連動のショップ品揃え</li>
-      <li>トレーナーの視線（<code>sight</code>）と NPC の移動（<code>movement</code>）―― 型だけある2つ</li>
-      <li>フィールド技（ただし秘伝技は採用しない。周回の摩擦になるだけのため）</li>
-    </ul>
+    <header><span class="ver">v1.1-f 〜 v1.1-i</span><h2>カントー再現の残り</h2></header>
+    <p class="goal">完了条件は<strong>「カントー151種すべてに入手経路があり、検証 #102 が通ること」</strong>
+    ―― v2.0 の「全1,025種で通る」の<strong>1地方ぶんの予行</strong>でもある。</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>版</th><th>入れるもの</th><th>危ないところ</th></tr></thead>
+        <tbody>
+          <tr><td><span class="ver">v1.1-f</span></td><td>氷の床・押せる岩</td><td><strong>「一歩＝1マス」を変える唯一の機構。</strong> 台本2本を同時に直す必要がある</td></tr>
+          <tr><td><span class="ver">v1.1-g</span></td><td>ロケット団の筋・見えない壁・クイズ扉・テレポート床・ポケモンタワー7階</td><td>仕掛けは<strong>どれも既存の型で書ける</strong>（コード0行）</td></tr>
+          <tr><td><span class="ver">v1.1-h</span></td><td>サファリゾーン</td><td><code>Ruleset</code> に寄せない判断が効くか</td></tr>
+          <tr><td><span class="ver">v1.1-i</span></td><td>トレーナー約180人・地面の道具・デパート</td><td>入力作業。<strong>最後に回す</strong>のは、広げると何が起きるかが実測で分かってからにするため</td></tr>
+        </tbody>
+      </table>
+    </div>
     <div class="note" style="margin-bottom:0">
-      <strong>ここで試されるのは v0.4 のツールと v0.7 の検証。</strong>
-      マップを1枚置くたびに人は同じ間違いをする（入れない建物・話しかけられない NPC）ことが
-      v0.9 で確かめられている。数十枚に増えたとき、検証が実際に間に合うかどうかが分かる。
+      <strong>v1.1-f がこの版でいちばん危ない。</strong>
+      <code>goToMap</code> は1キーごとに予測ノードと突き合わせるので、
+      滑走は毎回ずれて経路を引き直すループに入る ――
+      v1.1-a で <code>neighborsOf</code> を <code>core</code> に一本化したのは、この日のためだった。
     </div>
   </article>
 
   <article class="release" style="margin-top:14px">
-    <header><span class="ver">v1.0</span><h2>カントー殿堂入り</h2></header>
-    <p class="goal">1地方を完走し、<strong>集めた個体でネームドに挑める</strong>。v0.5〜v0.6 のエンドゲームと本編が、初めて「遊びの循環」として閉じる。</p>
+    <header><span class="ver">v1.2 →</span><h2>エンドゲームの完成、そして地方追加</h2></header>
+    <p class="goal">v1.1 と v1.2 は<strong>順番を入れ替えた</strong>（元は v1.1 がエンドゲーム）。
+    原作寄せで増えるトレーナー・出現種・道具は、そのまま <code>BattleSet</code>・ネームド・図鑑の材料になる
+    ―― 逆順だと、材料が揃う前に「極」ティアの構築を決めることになる。</p>
   </article>
 
-  <div class="note warn" style="margin-top:20px">
-    <strong>先に返すべき借り。</strong>
-    生成した ID 型は v0.4 から5バージョンにわたって誰にも参照されていない。
-    「補完が効く」「タイプミスがコンパイルエラーになる」という目的は、
-    <strong>CI が毎回通っているのに1つも達成されていない。</strong>
-    マップとトレーナーが数十倍に増える v0.10 の前に返しておく価値がある ――
-    <strong>タイプミスの数もそこで数十倍になる。</strong>
+  <div class="note" style="margin-top:20px">
+    <strong>傾向がある。</strong>
+    設計フェーズの見直しで見つかったのは「章の間に落ちたもの」だったが、
+    実装で見つかるのは<strong>「机上では正しいが、遊ぶと成立しないもの」</strong>に偏る。
+    <strong>そして v1.1 に入ってから、3件目の型が増えた</strong> ――
+    <em>測っている対象が1つずれていて、緑の行が嘘をつく</em>。
+    エンカウントの比・「決着してマップに戻った」・バッグの個数は、
+    どれも通っていたのに確かめたいものを確かめていなかった。
+  </div>
+
+  <div class="note warn" style="margin-top:16px">
+    <strong>いま残っている借り。</strong>
+    <ul style="margin:8px 0 0">
+      <li><strong>へんしん が未実装</strong> ―― メタモンは原作でもこの技しか覚えないので、
+      13〜15番道路の公式データに居るのに<strong>野生に出せない</strong>。
+      取り込み器に理由つきで除外してある（機構が入った日に外せば戻ってくる）</li>
+      <li><strong>ポケモンタワーの2〜7階</strong> ―― 機構（ゴースト＝条件で入れ替わる2つのオブジェクト＋<code>hasItem</code>）は
+      v1.1-c で揃っているが、<strong>シルフスコープの入手元</strong>が無い。ロケット団アジトと一緒に v1.1-g</li>
+      <li><strong>特性31種が <code>inert</code></strong> ―― 天候・場の効果が未実装。v1.2</li>
+    </ul>
+    どれも<strong>理由つきでデータに書いてある</strong>ので、入れ忘れとは区別できる。
   </div>
 </section>
 
 <footer>
-  ポケモン風RPG ／ v0.1 → v0.9 ／ 個人利用・非配布 ／ 設計文書は <span class="mono">docs/</span> を参照
+  ポケモン風RPG ／ v0.1 → v1.1-e ／ 個人利用・非配布 ／ 設計文書は <span class="mono">docs/design/</span> を参照
 </footer>
 
 </div>
