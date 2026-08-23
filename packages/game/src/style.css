@@ -110,12 +110,14 @@ button:active { transform: translateY(1px); }
   width: 78px; height: 78px; flex: none;
   display: grid; place-items: center;
 }
-.blob {
-  width: 60px; height: 60px; border-radius: 50% 50% 46% 46%;
-  background: var(--c);
-  box-shadow: inset 0 -8px 14px rgba(0,0,0,.18), 0 6px 14px color-mix(in srgb, var(--c) 40%, transparent);
-}
-.mon.foe .blob { width: 50px; height: 50px; }
+/* 姿は art/sprites.ts が SVG で描く（v0.12.5）。
+   `--c` はタイプ色で、演出（点滅・色被せ）だけが使う ―― 体そのものは体色で描く */
+.figure svg, .figure img { width: 100%; height: 100%; display: block; }
+/* 一覧の小さい姿。名前の左に置く */
+.mon-icon { width: 30px; height: 30px; flex: none; display: inline-block; vertical-align: middle; }
+.mon-icon svg, .mon-icon img { width: 100%; height: 100%; display: block; }
+.figure img.flip { transform: scaleX(-1); }
+.mon.foe .figure { width: 66px; height: 66px; }
 
 .panel { flex: 1; min-width: 0; }
 .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }

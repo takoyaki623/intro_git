@@ -73,6 +73,13 @@ export function drawImage(
   return false;
 }
 
+/**
+ * 素材の URL。**canvas ではなく DOM に貼るとき**に使う（v0.12.5）。
+ * ポケモンの姿はバトル画面の DOM に置くので、`drawImage` では届かない。
+ */
+export const imageSrc = (name: string): string | null =>
+  hasImage(name) ? images.get(name)!.src : null;
+
 /** 覚えている素材の数。設定画面が「何枚読み込めているか」を出すのに使う。 */
 export const imageCount = (): number => images.size;
 

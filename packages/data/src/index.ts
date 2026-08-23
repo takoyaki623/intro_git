@@ -50,6 +50,7 @@ import shopsJson from "../shops.json" with { type: "json" };
 import regionsJson from "../regions.json" with { type: "json" };
 import mapsJson from "../maps.json" with { type: "json" };
 import fieldAbilitiesJson from "../field-abilities.json" with { type: "json" };
+import artJson from "../art.json" with { type: "json" };
 import trainersJson from "../trainers.json" with { type: "json" };
 import facilitiesJson from "../facilities.json" with { type: "json" };
 import itemsJson from "../items.json" with { type: "json" };
@@ -252,6 +253,30 @@ export const allRegions = regionsJson as unknown as readonly RegionDefinition[];
  * **プレイヤーの能力**の一覧（world.md §7）。
  */
 export const allFieldAbilities = fieldAbilitiesJson as unknown as readonly FieldAbility[];
+
+/**
+ * 姿のレシピ（v0.12.5）。
+ *
+ * **絵ではなく分類**（体型・体色・飾り）なので、公開リポジトリに置ける
+ * （game-plan.md §10）。描き方を持つのは `packages/game/src/art/sprites.ts`。
+ */
+export type ArtRecipe = {
+  species: string;
+  shape: string;
+  color: string;
+  /** 公式の高さから4段階に丸めたもの。**進化前後が同じ絵にならない**のに効く。 */
+  size: string;
+  parts: string[];
+};
+
+export const allArt = artJson as unknown as readonly ArtRecipe[];
+
+const artIndex = new Map(allArt.map((a) => [a.species, a]));
+
+/** レシピが無い種は、まるい既定の姿にする（絵が消えるより形が出るほうがよい）。 */
+export function artFor(id: string): ArtRecipe {
+  return artIndex.get(id) ?? { species: id, shape: "blob", color: "gray", size: "medium", parts: [] };
+}
 
 export function regionById(id: string): RegionDefinition {
   const r = allRegions.find((x) => x.id === id);

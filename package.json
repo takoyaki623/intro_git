@@ -26,7 +26,9 @@
     "check:raw": "npm run validate && npm run typecheck && npm run test && vite-node tools/convert-map.ts --check && vite-node tools/gen-ids.ts --check",
     "shots": "node tools/shots.mjs",
     "gallery": "node tools/gallery.mjs",
-    "mapgraph": "node tools/mapgraph.mjs"
+    "mapgraph": "node tools/mapgraph.mjs",
+    "fetch:art": "vite-node tools/fetch-art.ts",
+    "sprites": "vite-node tools/sprite-sheet.ts"
   },
   "devDependencies": {
     "@pkmn/dex": "^0.10.11",

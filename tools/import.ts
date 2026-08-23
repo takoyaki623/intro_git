@@ -766,6 +766,52 @@ function importNamed(): NamedOut[] {
 }
 
 // ─────────────────────────────────────────────
+// ─────────────────────────────────────────────
+// 姿のレシピ（v0.12.5）
+//
+// **体型と体色は公式の分類、飾りはこちらの判断**（`fetch-art.ts`）。
+// 絵ではなく分類なので、このリポジトリに置ける（game-plan.md §10）。
+// ─────────────────────────────────────────────
+
+/** 描ける体型。ここに無い体型を書くと投入で止まる。 */
+const SHAPES = [
+  "ball", "squiggle", "fish", "arms", "blob", "upright", "legs",
+  "quadruped", "wings", "tentacles", "heads", "humanoid", "bug-wings", "armor",
+] as const;
+
+/** 描ける飾り。 */
+const PARTS = [
+  "flame", "plant", "fin", "spark", "crystal", "drip", "aura",
+  "horn", "spike", "plate", "antenna", "wing", "band", "sparkle",
+] as const;
+
+/** 公式の体色。 */
+const COLORS = [
+  "black", "blue", "brown", "gray", "green", "pink", "purple", "red", "white", "yellow",
+] as const;
+
+const SIZES = ["tiny", "small", "medium", "large"] as const;
+
+type ArtOut = { species: string; shape: string; color: string; size: string; parts: string[] };
+
+function importArt(): ArtOut[] {
+  return readTsv("art.tsv").map((r) => {
+    const where = `art.tsv/${r["species"]}`;
+    const shape = r["shape"] ?? "";
+    const color = r["color"] ?? "";
+    if (!(SHAPES as readonly string[]).includes(shape)) err(where, `未知の体型 "${shape}"`);
+    if (!(COLORS as readonly string[]).includes(color)) err(where, `未知の体色 "${color}"`);
+    const size = r["size"] ?? "";
+    if (!(SIZES as readonly string[]).includes(size)) err(where, `未知の大きさ "${size}"`);
+    // **区切りはカンマ。** `list()` は別の区切りを使うので、ここは自前で割る
+    const parts = (r["parts"] ?? "").split(",").map((p) => p.trim()).filter((p) => p !== "");
+    for (const part of parts) {
+      if (!(PARTS as readonly string[]).includes(part)) err(where, `未知の飾り "${part}"`);
+    }
+    return { species: r["species"]!, shape, color, size, parts };
+  });
+}
+
 function main(): void {
   const moves = importMoves();
   const species = importSpecies(moves);
@@ -774,6 +820,13 @@ function main(): void {
   const balls = importBalls();
   const battleSets = importBattleSets();
   const named = importNamed();
+  const art = importArt();
+
+  // **全種にレシピがあるか**をここで見る（検証 #87 と同じことを投入時にも）
+  const drawn = new Set(art.map((a) => a.species));
+  for (const s of species) {
+    if (!drawn.has(s.id)) err("art.tsv", `種族 "${s.id}" のレシピが無い`);
+  }
 
   if (errors.length > 0) {
     console.error("投入を中止しました:");
@@ -791,6 +844,7 @@ function main(): void {
   write("balls.json", balls);
   write("battle-sets.json", battleSets);
   write("named.json", named);
+  write("art.json", art);
 
   const inert = abilities.filter(
     (a) => (a.effect as { kind?: string } | undefined)?.kind === "inert",

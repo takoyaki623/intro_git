@@ -11,7 +11,7 @@ import {
   TYPES, calcDamage, createBattle, createRng, createRngState, legalActions, step,
   toBattlePokemon,
 } from "@pkmn/core";
-import { allMoves, allNamed, allSpecies, gameData } from "@pkmn/data";
+import { allArt, allMoves, allNamed, allSpecies, gameData } from "@pkmn/data";
 
 describe("種族値が原作と一致する", () => {
   const EXPECTED: Record<string, [number, number, number, number, number, number]> = {
@@ -217,5 +217,51 @@ describe("データの網羅性", () => {
       if (m.category === "status") expect(m.power, m.id).toBeNull();
       else expect(m.power, m.id).toBeGreaterThan(0);
     }
+  });
+});
+
+describe("姿のレシピ（v0.12.5）", () => {
+  const SHAPES = new Set([
+    "ball", "squiggle", "fish", "arms", "blob", "upright", "legs",
+    "quadruped", "wings", "tentacles", "heads", "humanoid", "bug-wings", "armor",
+  ]);
+  const SIZES = new Set(["tiny", "small", "medium", "large"]);
+  const PARTS = new Set([
+    "flame", "plant", "fin", "spark", "crystal", "drip", "aura",
+    "horn", "spike", "plate", "antenna", "wing", "band", "sparkle",
+  ]);
+
+  it("全種にレシピがあり、描ける種類だけを指している", () => {
+    const drawn = new Map(allArt.map((a) => [a.species, a]));
+    for (const s of allSpecies) {
+      const recipe = drawn.get(s.id);
+      expect(recipe, s.id).toBeDefined();
+      expect(SHAPES.has(recipe!.shape), `${s.id}: ${recipe!.shape}`).toBe(true);
+      expect(SIZES.has(recipe!.size), `${s.id}: ${recipe!.size}`).toBe(true);
+      for (const part of recipe!.parts) {
+        expect(PARTS.has(part), `${s.id}: ${part}`).toBe(true);
+      }
+    }
+  });
+
+  it("居ない種のレシピを持っていない", () => {
+    const ids = new Set(allSpecies.map((s) => s.id));
+    for (const a of allArt) expect(ids.has(a.species), a.species).toBe(true);
+  });
+
+  it("進化前後で見た目が変わる（大きさか体型か色のどれかが違う）", () => {
+    const recipe = new Map(allArt.map((a) => [a.species, a]));
+    const key = (id: string) => {
+      const a = recipe.get(id)!;
+      return `${a.shape}/${a.color}/${a.size}`;
+    };
+    // **全部は変わらない**（原作でも姿がほぼ同じ進化はある）。
+    // ここで見たいのは「ほとんど変わらない」状態になっていないこと
+    const pairs = allSpecies.flatMap((s) =>
+      s.evolutions.map((e) => [s.id, e.to] as const),
+    );
+    const changed = pairs.filter(([from, to]) => recipe.has(to) && key(from) !== key(to));
+    expect(pairs.length).toBeGreaterThan(50);
+    expect(changed.length / pairs.length).toBeGreaterThan(0.7);
   });
 });

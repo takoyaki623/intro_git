@@ -26,9 +26,10 @@ import {
   type JudgeRule,
   type SideIndex,
 } from "@pkmn/core";
-import { gameData } from "@pkmn/data";
+import { artFor, gameData } from "@pkmn/data";
 import { baseDelayOf, extraMessagesOf, messageOf } from "./messages.js";
 import { allowMotion, enter, faint, heal, hit, lunge, tick, tint } from "./art/effects.js";
+import { speciesFigure } from "./art/sprites.js";
 import {
   applyEvent,
   STATUS_LABEL,
@@ -121,7 +122,7 @@ export async function runBattle(options: BattleOptions): Promise<BattleOutcome> 
     const el = document.createElement("div");
     el.className = `mon ${side === 0 ? "ally" : "foe"}`;
     el.innerHTML = `
-      <div class="figure"><div class="blob"></div></div>
+      <div class="figure"></div>
       <div class="panel">
         <div class="row">
           <strong class="mon-name"></strong>
@@ -147,7 +148,14 @@ export async function runBattle(options: BattleOptions): Promise<BattleOutcome> 
     if (el === null) return;
     const q = <T extends Element>(sel: string) => el.querySelector<T>(sel)!;
 
-    q(".figure").setAttribute("style", `--c:${TYPE_COLOR[v.types[0]!]}`);
+    // **姿はレシピから描く**（v0.12.5）。`--c` はタイプ色で、演出（点滅・色被せ）が使う。
+    // 姿そのものは体色で描くので、両方あって喧嘩しない
+    const figure = q<HTMLElement>(".figure");
+    figure.setAttribute("style", `--c:${TYPE_COLOR[v.types[0]!]}`);
+    if (figure.dataset["species"] !== v.species) {
+      figure.dataset["species"] = v.species;
+      figure.innerHTML = speciesFigure(artFor(v.species), side === 0 ? "right" : "left");
+    }
     q(".mon-name").textContent = v.name;
     q(".lv").textContent = `Lv${v.level}`;
 

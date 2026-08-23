@@ -59,8 +59,10 @@ import {
   type TerrainId,
   type WorldState,
 } from "@pkmn/core";
+import { speciesFigure } from "./art/sprites.js";
 import {
   allBalls,
+  artFor,
   allEncounterTables,
   allFieldAbilities,
   allMaps,
@@ -1203,11 +1205,14 @@ export function playField(rebuild: () => void): FieldHandle {
     panel.innerHTML = "";
   };
 
+  /** 一覧に出す小さい姿（v0.12.5）。バトル画面と同じレシピで描く。 */
+  const iconOf = (id: string) => `<span class="mon-icon">${speciesFigure(artFor(id))}</span>`;
+
   const lineOf = (p: PokemonInstance) => {
     const species = gameData.species(p.species);
     const hp = `${p.currentHp}/${maxHpOf(gameData, p)}`;
     const status = p.status === null ? "" : ` <span class="st">${STATUS_LABEL[p.status]}</span>`;
-    return `<strong>${escape(p.nickname ?? species.name)}</strong>
+    return `${iconOf(p.species)}<strong>${escape(p.nickname ?? species.name)}</strong>
       <span class="meta">Lv${levelOf(gameData, p)} ・ ${hp}${status}</span>`;
   };
 
@@ -1479,6 +1484,7 @@ export function playField(rebuild: () => void): FieldHandle {
                   .join("");
                 return `<li class="${got ? "caught" : "seen"}">
                   <span class="no">${String(s.dexNo).padStart(3, "0")}</span>
+                  ${iconOf(s.id)}
                   <strong>${escape(s.name)}</strong>
                   ${types}
                   <span class="meta">${got ? `HP${s.baseStats.hp} こう${s.baseStats.atk} すば${s.baseStats.spe}` : "みつけた"}</span>

@@ -1,0 +1,1757 @@
+[
+  {
+    "species": "bulbasaur",
+    "shape": "quadruped",
+    "color": "green",
+    "size": "small",
+    "parts": [
+      "plant",
+      "drip"
+    ]
+  },
+  {
+    "species": "ivysaur",
+    "shape": "quadruped",
+    "color": "green",
+    "size": "small",
+    "parts": [
+      "plant",
+      "drip"
+    ]
+  },
+  {
+    "species": "venusaur",
+    "shape": "quadruped",
+    "color": "green",
+    "size": "large",
+    "parts": [
+      "plant",
+      "drip"
+    ]
+  },
+  {
+    "species": "charmander",
+    "shape": "upright",
+    "color": "red",
+    "size": "small",
+    "parts": [
+      "flame"
+    ]
+  },
+  {
+    "species": "charmeleon",
+    "shape": "upright",
+    "color": "red",
+    "size": "medium",
+    "parts": [
+      "flame"
+    ]
+  },
+  {
+    "species": "charizard",
+    "shape": "upright",
+    "color": "red",
+    "size": "medium",
+    "parts": [
+      "flame",
+      "wing"
+    ]
+  },
+  {
+    "species": "squirtle",
+    "shape": "upright",
+    "color": "blue",
+    "size": "tiny",
+    "parts": [
+      "fin"
+    ]
+  },
+  {
+    "species": "wartortle",
+    "shape": "upright",
+    "color": "blue",
+    "size": "small",
+    "parts": [
+      "fin"
+    ]
+  },
+  {
+    "species": "blastoise",
+    "shape": "upright",
+    "color": "blue",
+    "size": "medium",
+    "parts": [
+      "fin"
+    ]
+  },
+  {
+    "species": "caterpie",
+    "shape": "armor",
+    "color": "green",
+    "size": "tiny",
+    "parts": [
+      "antenna"
+    ]
+  },
+  {
+    "species": "metapod",
+    "shape": "squiggle",
+    "color": "green",
+    "size": "small",
+    "parts": [
+      "antenna"
+    ]
+  },
+  {
+    "species": "butterfree",
+    "shape": "bug-wings",
+    "color": "white",
+    "size": "medium",
+    "parts": [
+      "antenna",
+      "wing"
+    ]
+  },
+  {
+    "species": "weedle",
+    "shape": "armor",
+    "color": "brown",
+    "size": "tiny",
+    "parts": [
+      "antenna",
+      "drip"
+    ]
+  },
+  {
+    "species": "kakuna",
+    "shape": "squiggle",
+    "color": "yellow",
+    "size": "small",
+    "parts": [
+      "antenna",
+      "drip"
+    ]
+  },
+  {
+    "species": "beedrill",
+    "shape": "bug-wings",
+    "color": "yellow",
+    "size": "small",
+    "parts": [
+      "antenna",
+      "drip"
+    ]
+  },
+  {
+    "species": "pidgey",
+    "shape": "wings",
+    "color": "brown",
+    "size": "tiny",
+    "parts": [
+      "wing"
+    ]
+  },
+  {
+    "species": "pidgeotto",
+    "shape": "wings",
+    "color": "brown",
+    "size": "medium",
+    "parts": [
+      "wing"
+    ]
+  },
+  {
+    "species": "pidgeot",
+    "shape": "wings",
+    "color": "brown",
+    "size": "medium",
+    "parts": [
+      "wing"
+    ]
+  },
+  {
+    "species": "rattata",
+    "shape": "quadruped",
+    "color": "purple",
+    "size": "tiny",
+    "parts": []
+  },
+  {
+    "species": "raticate",
+    "shape": "quadruped",
+    "color": "brown",
+    "size": "small",
+    "parts": []
+  },
+  {
+    "species": "spearow",
+    "shape": "wings",
+    "color": "brown",
+    "size": "tiny",
+    "parts": [
+      "wing"
+    ]
+  },
+  {
+    "species": "fearow",
+    "shape": "wings",
+    "color": "brown",
+    "size": "medium",
+    "parts": [
+      "wing"
+    ]
+  },
+  {
+    "species": "ekans",
+    "shape": "squiggle",
+    "color": "purple",
+    "size": "large",
+    "parts": [
+      "drip"
+    ]
+  },
+  {
+    "species": "arbok",
+    "shape": "squiggle",
+    "color": "purple",
+    "size": "large",
+    "parts": [
+      "drip"
+    ]
+  },
+  {
+    "species": "pikachu",
+    "shape": "quadruped",
+    "color": "yellow",
+    "size": "tiny",
+    "parts": [
+      "spark"
+    ]
+  },
+  {
+    "species": "raichu",
+    "shape": "upright",
+    "color": "yellow",
+    "size": "small",
+    "parts": [
+      "spark"
+    ]
+  },
+  {
+    "species": "sandshrew",
+    "shape": "upright",
+    "color": "yellow",
+    "size": "small",
+    "parts": [
+      "spike"
+    ]
+  },
+  {
+    "species": "sandslash",
+    "shape": "upright",
+    "color": "yellow",
+    "size": "small",
+    "parts": [
+      "spike"
+    ]
+  },
+  {
+    "species": "nidoran-f",
+    "shape": "quadruped",
+    "color": "blue",
+    "size": "tiny",
+    "parts": [
+      "drip"
+    ]
+  },
+  {
+    "species": "nidorina",
+    "shape": "quadruped",
+    "color": "blue",
+    "size": "small",
+    "parts": [
+      "drip"
+    ]
+  },
+  {
+    "species": "nidoqueen",
+    "shape": "upright",
+    "color": "blue",
+    "size": "medium",
+    "parts": [
+      "drip",
+      "spike"
+    ]
+  },
+  {
+    "species": "nidoran-m",
+    "shape": "quadruped",
+    "color": "purple",
+    "size": "tiny",
+    "parts": [
+      "drip"
+    ]
+  },
+  {
+    "species": "nidorino",
+    "shape": "quadruped",
+    "color": "purple",
+    "size": "small",
+    "parts": [
+      "drip"
+    ]
+  },
+  {
+    "species": "nidoking",
+    "shape": "upright",
+    "color": "purple",
+    "size": "medium",
+    "parts": [
+      "drip",
+      "spike"
+    ]
+  },
+  {
+    "species": "clefairy",
+    "shape": "upright",
+    "color": "pink",
+    "size": "small",
+    "parts": [
+      "sparkle"
+    ]
+  },
+  {
+    "species": "clefable",
+    "shape": "upright",
+    "color": "pink",
+    "size": "medium",
+    "parts": [
+      "sparkle"
+    ]
+  },
+  {
+    "species": "vulpix",
+    "shape": "quadruped",
+    "color": "brown",
+    "size": "small",
+    "parts": [
+      "flame"
+    ]
+  },
+  {
+    "species": "ninetales",
+    "shape": "quadruped",
+    "color": "yellow",
+    "size": "medium",
+    "parts": [
+      "flame"
+    ]
+  },
+  {
+    "species": "jigglypuff",
+    "shape": "humanoid",
+    "color": "pink",
+    "size": "tiny",
+    "parts": [
+      "sparkle"
+    ]
+  },
+  {
+    "species": "wigglytuff",
+    "shape": "humanoid",
+    "color": "pink",
+    "size": "small",
+    "parts": [
+      "sparkle"
+    ]
+  },
+  {
+    "species": "zubat",
+    "shape": "wings",
+    "color": "purple",
+    "size": "small",
+    "parts": [
+      "drip",
+      "wing"
+    ]
+  },
+  {
+    "species": "golbat",
+    "shape": "wings",
+    "color": "purple",
+    "size": "medium",
+    "parts": [
+      "drip",
+      "wing"
+    ]
+  },
+  {
+    "species": "oddish",
+    "shape": "legs",
+    "color": "blue",
+    "size": "tiny",
+    "parts": [
+      "plant",
+      "drip"
+    ]
+  },
+  {
+    "species": "gloom",
+    "shape": "humanoid",
+    "color": "blue",
+    "size": "small",
+    "parts": [
+      "plant",
+      "drip"
+    ]
+  },
+  {
+    "species": "vileplume",
+    "shape": "humanoid",
+    "color": "red",
+    "size": "medium",
+    "parts": [
+      "plant",
+      "drip"
+    ]
+  },
+  {
+    "species": "paras",
+    "shape": "armor",
+    "color": "red",
+    "size": "tiny",
+    "parts": [
+      "antenna",
+      "plant"
+    ]
+  },
+  {
+    "species": "parasect",
+    "shape": "armor",
+    "color": "red",
+    "size": "small",
+    "parts": [
+      "antenna",
+      "plant"
+    ]
+  },
+  {
+    "species": "venonat",
+    "shape": "humanoid",
+    "color": "purple",
+    "size": "small",
+    "parts": [
+      "antenna",
+      "drip"
+    ]
+  },
+  {
+    "species": "venomoth",
+    "shape": "bug-wings",
+    "color": "purple",
+    "size": "medium",
+    "parts": [
+      "antenna",
+      "drip"
+    ]
+  },
+  {
+    "species": "diglett",
+    "shape": "blob",
+    "color": "brown",
+    "size": "tiny",
+    "parts": [
+      "spike"
+    ]
+  },
+  {
+    "species": "dugtrio",
+    "shape": "heads",
+    "color": "brown",
+    "size": "small",
+    "parts": [
+      "spike"
+    ]
+  },
+  {
+    "species": "meowth",
+    "shape": "quadruped",
+    "color": "yellow",
+    "size": "tiny",
+    "parts": []
+  },
+  {
+    "species": "persian",
+    "shape": "quadruped",
+    "color": "yellow",
+    "size": "small",
+    "parts": []
+  },
+  {
+    "species": "psyduck",
+    "shape": "upright",
+    "color": "yellow",
+    "size": "small",
+    "parts": [
+      "fin"
+    ]
+  },
+  {
+    "species": "golduck",
+    "shape": "upright",
+    "color": "blue",
+    "size": "medium",
+    "parts": [
+      "fin"
+    ]
+  },
+  {
+    "species": "mankey",
+    "shape": "upright",
+    "color": "brown",
+    "size": "tiny",
+    "parts": [
+      "band"
+    ]
+  },
+  {
+    "species": "primeape",
+    "shape": "upright",
+    "color": "brown",
+    "size": "small",
+    "parts": [
+      "band"
+    ]
+  },
+  {
+    "species": "growlithe",
+    "shape": "quadruped",
+    "color": "brown",
+    "size": "small",
+    "parts": [
+      "flame"
+    ]
+  },
+  {
+    "species": "arcanine",
+    "shape": "quadruped",
+    "color": "brown",
+    "size": "large",
+    "parts": [
+      "flame"
+    ]
+  },
+  {
+    "species": "poliwag",
+    "shape": "legs",
+    "color": "blue",
+    "size": "small",
+    "parts": [
+      "fin"
+    ]
+  },
+  {
+    "species": "poliwhirl",
+    "shape": "humanoid",
+    "color": "blue",
+    "size": "small",
+    "parts": [
+      "fin"
+    ]
+  },
+  {
+    "species": "poliwrath",
+    "shape": "humanoid",
+    "color": "blue",
+    "size": "medium",
+    "parts": [
+      "fin",
+      "band"
+    ]
+  },
+  {
+    "species": "abra",
+    "shape": "upright",
+    "color": "brown",
+    "size": "small",
+    "parts": [
+      "aura"
+    ]
+  },
+  {
+    "species": "kadabra",
+    "shape": "upright",
+    "color": "brown",
+    "size": "medium",
+    "parts": [
+      "aura"
+    ]
+  },
+  {
+    "species": "alakazam",
+    "shape": "humanoid",
+    "color": "brown",
+    "size": "medium",
+    "parts": [
+      "aura"
+    ]
+  },
+  {
+    "species": "machop",
+    "shape": "upright",
+    "color": "gray",
+    "size": "small",
+    "parts": [
+      "band"
+    ]
+  },
+  {
+    "species": "machoke",
+    "shape": "humanoid",
+    "color": "gray",
+    "size": "medium",
+    "parts": [
+      "band"
+    ]
+  },
+  {
+    "species": "machamp",
+    "shape": "humanoid",
+    "color": "gray",
+    "size": "medium",
+    "parts": [
+      "band"
+    ]
+  },
+  {
+    "species": "bellsprout",
+    "shape": "humanoid",
+    "color": "green",
+    "size": "small",
+    "parts": [
+      "plant",
+      "drip"
+    ]
+  },
+  {
+    "species": "weepinbell",
+    "shape": "blob",
+    "color": "green",
+    "size": "small",
+    "parts": [
+      "plant",
+      "drip"
+    ]
+  },
+  {
+    "species": "victreebel",
+    "shape": "blob",
+    "color": "green",
+    "size": "medium",
+    "parts": [
+      "plant",
+      "drip"
+    ]
+  },
+  {
+    "species": "tentacool",
+    "shape": "tentacles",
+    "color": "blue",
+    "size": "small",
+    "parts": [
+      "fin",
+      "drip"
+    ]
+  },
+  {
+    "species": "tentacruel",
+    "shape": "tentacles",
+    "color": "blue",
+    "size": "medium",
+    "parts": [
+      "fin",
+      "drip"
+    ]
+  },
+  {
+    "species": "geodude",
+    "shape": "arms",
+    "color": "brown",
+    "size": "tiny",
+    "parts": [
+      "spike"
+    ]
+  },
+  {
+    "species": "graveler",
+    "shape": "humanoid",
+    "color": "brown",
+    "size": "small",
+    "parts": [
+      "spike"
+    ]
+  },
+  {
+    "species": "golem",
+    "shape": "humanoid",
+    "color": "brown",
+    "size": "medium",
+    "parts": [
+      "spike"
+    ]
+  },
+  {
+    "species": "ponyta",
+    "shape": "quadruped",
+    "color": "yellow",
+    "size": "small",
+    "parts": [
+      "flame"
+    ]
+  },
+  {
+    "species": "rapidash",
+    "shape": "quadruped",
+    "color": "yellow",
+    "size": "medium",
+    "parts": [
+      "flame"
+    ]
+  },
+  {
+    "species": "slowpoke",
+    "shape": "quadruped",
+    "color": "pink",
+    "size": "medium",
+    "parts": [
+      "fin",
+      "aura"
+    ]
+  },
+  {
+    "species": "slowbro",
+    "shape": "upright",
+    "color": "pink",
+    "size": "medium",
+    "parts": [
+      "fin",
+      "aura"
+    ]
+  },
+  {
+    "species": "magnemite",
+    "shape": "arms",
+    "color": "gray",
+    "size": "tiny",
+    "parts": [
+      "spark",
+      "plate"
+    ]
+  },
+  {
+    "species": "magneton",
+    "shape": "heads",
+    "color": "gray",
+    "size": "small",
+    "parts": [
+      "spark",
+      "plate"
+    ]
+  },
+  {
+    "species": "farfetchd",
+    "shape": "wings",
+    "color": "brown",
+    "size": "small",
+    "parts": [
+      "wing"
+    ]
+  },
+  {
+    "species": "doduo",
+    "shape": "legs",
+    "color": "brown",
+    "size": "medium",
+    "parts": [
+      "wing"
+    ]
+  },
+  {
+    "species": "dodrio",
+    "shape": "legs",
+    "color": "brown",
+    "size": "large",
+    "parts": [
+      "wing"
+    ]
+  },
+  {
+    "species": "seel",
+    "shape": "fish",
+    "color": "white",
+    "size": "medium",
+    "parts": [
+      "fin"
+    ]
+  },
+  {
+    "species": "dewgong",
+    "shape": "fish",
+    "color": "white",
+    "size": "medium",
+    "parts": [
+      "fin",
+      "crystal"
+    ]
+  },
+  {
+    "species": "grimer",
+    "shape": "arms",
+    "color": "purple",
+    "size": "small",
+    "parts": [
+      "drip"
+    ]
+  },
+  {
+    "species": "muk",
+    "shape": "arms",
+    "color": "purple",
+    "size": "medium",
+    "parts": [
+      "drip"
+    ]
+  },
+  {
+    "species": "shellder",
+    "shape": "ball",
+    "color": "purple",
+    "size": "tiny",
+    "parts": [
+      "fin"
+    ]
+  },
+  {
+    "species": "cloyster",
+    "shape": "ball",
+    "color": "purple",
+    "size": "medium",
+    "parts": [
+      "fin",
+      "crystal"
+    ]
+  },
+  {
+    "species": "gastly",
+    "shape": "ball",
+    "color": "purple",
+    "size": "medium",
+    "parts": [
+      "aura",
+      "drip"
+    ]
+  },
+  {
+    "species": "haunter",
+    "shape": "arms",
+    "color": "purple",
+    "size": "medium",
+    "parts": [
+      "aura",
+      "drip"
+    ]
+  },
+  {
+    "species": "gengar",
+    "shape": "upright",
+    "color": "purple",
+    "size": "medium",
+    "parts": [
+      "aura",
+      "drip"
+    ]
+  },
+  {
+    "species": "onix",
+    "shape": "squiggle",
+    "color": "gray",
+    "size": "large",
+    "parts": [
+      "spike"
+    ]
+  },
+  {
+    "species": "drowzee",
+    "shape": "humanoid",
+    "color": "yellow",
+    "size": "small",
+    "parts": [
+      "aura"
+    ]
+  },
+  {
+    "species": "hypno",
+    "shape": "humanoid",
+    "color": "yellow",
+    "size": "medium",
+    "parts": [
+      "aura"
+    ]
+  },
+  {
+    "species": "krabby",
+    "shape": "armor",
+    "color": "red",
+    "size": "tiny",
+    "parts": [
+      "fin"
+    ]
+  },
+  {
+    "species": "kingler",
+    "shape": "armor",
+    "color": "red",
+    "size": "medium",
+    "parts": [
+      "fin"
+    ]
+  },
+  {
+    "species": "voltorb",
+    "shape": "ball",
+    "color": "red",
+    "size": "tiny",
+    "parts": [
+      "spark"
+    ]
+  },
+  {
+    "species": "electrode",
+    "shape": "ball",
+    "color": "red",
+    "size": "medium",
+    "parts": [
+      "spark"
+    ]
+  },
+  {
+    "species": "exeggcute",
+    "shape": "heads",
+    "color": "pink",
+    "size": "tiny",
+    "parts": [
+      "plant",
+      "aura"
+    ]
+  },
+  {
+    "species": "exeggutor",
+    "shape": "legs",
+    "color": "yellow",
+    "size": "large",
+    "parts": [
+      "plant",
+      "aura"
+    ]
+  },
+  {
+    "species": "cubone",
+    "shape": "upright",
+    "color": "brown",
+    "size": "tiny",
+    "parts": [
+      "spike"
+    ]
+  },
+  {
+    "species": "marowak",
+    "shape": "upright",
+    "color": "brown",
+    "size": "small",
+    "parts": [
+      "spike"
+    ]
+  },
+  {
+    "species": "hitmonlee",
+    "shape": "humanoid",
+    "color": "brown",
+    "size": "medium",
+    "parts": [
+      "band"
+    ]
+  },
+  {
+    "species": "hitmonchan",
+    "shape": "humanoid",
+    "color": "brown",
+    "size": "medium",
+    "parts": [
+      "band"
+    ]
+  },
+  {
+    "species": "lickitung",
+    "shape": "upright",
+    "color": "pink",
+    "size": "medium",
+    "parts": []
+  },
+  {
+    "species": "koffing",
+    "shape": "ball",
+    "color": "purple",
+    "size": "small",
+    "parts": [
+      "drip"
+    ]
+  },
+  {
+    "species": "weezing",
+    "shape": "heads",
+    "color": "purple",
+    "size": "medium",
+    "parts": [
+      "drip"
+    ]
+  },
+  {
+    "species": "rhyhorn",
+    "shape": "quadruped",
+    "color": "gray",
+    "size": "small",
+    "parts": [
+      "spike"
+    ]
+  },
+  {
+    "species": "rhydon",
+    "shape": "upright",
+    "color": "gray",
+    "size": "large",
+    "parts": [
+      "spike"
+    ]
+  },
+  {
+    "species": "chansey",
+    "shape": "upright",
+    "color": "pink",
+    "size": "medium",
+    "parts": []
+  },
+  {
+    "species": "tangela",
+    "shape": "legs",
+    "color": "blue",
+    "size": "small",
+    "parts": [
+      "plant"
+    ]
+  },
+  {
+    "species": "kangaskhan",
+    "shape": "upright",
+    "color": "brown",
+    "size": "large",
+    "parts": []
+  },
+  {
+    "species": "horsea",
+    "shape": "blob",
+    "color": "blue",
+    "size": "tiny",
+    "parts": [
+      "fin"
+    ]
+  },
+  {
+    "species": "seadra",
+    "shape": "blob",
+    "color": "blue",
+    "size": "medium",
+    "parts": [
+      "fin"
+    ]
+  },
+  {
+    "species": "goldeen",
+    "shape": "fish",
+    "color": "red",
+    "size": "small",
+    "parts": [
+      "fin"
+    ]
+  },
+  {
+    "species": "seaking",
+    "shape": "fish",
+    "color": "red",
+    "size": "medium",
+    "parts": [
+      "fin"
+    ]
+  },
+  {
+    "species": "staryu",
+    "shape": "blob",
+    "color": "brown",
+    "size": "small",
+    "parts": [
+      "fin"
+    ]
+  },
+  {
+    "species": "starmie",
+    "shape": "blob",
+    "color": "purple",
+    "size": "medium",
+    "parts": [
+      "fin",
+      "aura"
+    ]
+  },
+  {
+    "species": "mr-mime",
+    "shape": "humanoid",
+    "color": "pink",
+    "size": "medium",
+    "parts": [
+      "aura",
+      "sparkle"
+    ]
+  },
+  {
+    "species": "scyther",
+    "shape": "bug-wings",
+    "color": "green",
+    "size": "medium",
+    "parts": [
+      "antenna",
+      "wing"
+    ]
+  },
+  {
+    "species": "jynx",
+    "shape": "humanoid",
+    "color": "red",
+    "size": "medium",
+    "parts": [
+      "crystal",
+      "aura"
+    ]
+  },
+  {
+    "species": "electabuzz",
+    "shape": "upright",
+    "color": "yellow",
+    "size": "medium",
+    "parts": [
+      "spark"
+    ]
+  },
+  {
+    "species": "magmar",
+    "shape": "upright",
+    "color": "red",
+    "size": "medium",
+    "parts": [
+      "flame"
+    ]
+  },
+  {
+    "species": "pinsir",
+    "shape": "humanoid",
+    "color": "brown",
+    "size": "medium",
+    "parts": [
+      "antenna"
+    ]
+  },
+  {
+    "species": "tauros",
+    "shape": "quadruped",
+    "color": "brown",
+    "size": "medium",
+    "parts": []
+  },
+  {
+    "species": "magikarp",
+    "shape": "fish",
+    "color": "red",
+    "size": "small",
+    "parts": [
+      "fin"
+    ]
+  },
+  {
+    "species": "gyarados",
+    "shape": "squiggle",
+    "color": "blue",
+    "size": "large",
+    "parts": [
+      "fin",
+      "wing"
+    ]
+  },
+  {
+    "species": "lapras",
+    "shape": "fish",
+    "color": "blue",
+    "size": "large",
+    "parts": [
+      "fin",
+      "crystal"
+    ]
+  },
+  {
+    "species": "ditto",
+    "shape": "ball",
+    "color": "purple",
+    "size": "tiny",
+    "parts": []
+  },
+  {
+    "species": "eevee",
+    "shape": "quadruped",
+    "color": "brown",
+    "size": "tiny",
+    "parts": []
+  },
+  {
+    "species": "vaporeon",
+    "shape": "quadruped",
+    "color": "blue",
+    "size": "small",
+    "parts": [
+      "fin"
+    ]
+  },
+  {
+    "species": "jolteon",
+    "shape": "quadruped",
+    "color": "yellow",
+    "size": "small",
+    "parts": [
+      "spark"
+    ]
+  },
+  {
+    "species": "flareon",
+    "shape": "quadruped",
+    "color": "red",
+    "size": "small",
+    "parts": [
+      "flame"
+    ]
+  },
+  {
+    "species": "porygon",
+    "shape": "legs",
+    "color": "pink",
+    "size": "small",
+    "parts": []
+  },
+  {
+    "species": "omanyte",
+    "shape": "tentacles",
+    "color": "blue",
+    "size": "tiny",
+    "parts": [
+      "spike",
+      "fin"
+    ]
+  },
+  {
+    "species": "omastar",
+    "shape": "tentacles",
+    "color": "blue",
+    "size": "small",
+    "parts": [
+      "spike",
+      "fin"
+    ]
+  },
+  {
+    "species": "kabuto",
+    "shape": "armor",
+    "color": "brown",
+    "size": "tiny",
+    "parts": [
+      "spike",
+      "fin"
+    ]
+  },
+  {
+    "species": "kabutops",
+    "shape": "upright",
+    "color": "brown",
+    "size": "medium",
+    "parts": [
+      "spike",
+      "fin"
+    ]
+  },
+  {
+    "species": "aerodactyl",
+    "shape": "wings",
+    "color": "purple",
+    "size": "large",
+    "parts": [
+      "spike",
+      "wing"
+    ]
+  },
+  {
+    "species": "snorlax",
+    "shape": "humanoid",
+    "color": "black",
+    "size": "large",
+    "parts": []
+  },
+  {
+    "species": "articuno",
+    "shape": "wings",
+    "color": "blue",
+    "size": "medium",
+    "parts": [
+      "crystal",
+      "wing"
+    ]
+  },
+  {
+    "species": "zapdos",
+    "shape": "wings",
+    "color": "yellow",
+    "size": "medium",
+    "parts": [
+      "spark",
+      "wing"
+    ]
+  },
+  {
+    "species": "moltres",
+    "shape": "wings",
+    "color": "yellow",
+    "size": "large",
+    "parts": [
+      "flame",
+      "wing"
+    ]
+  },
+  {
+    "species": "dratini",
+    "shape": "squiggle",
+    "color": "blue",
+    "size": "large",
+    "parts": [
+      "horn"
+    ]
+  },
+  {
+    "species": "dragonair",
+    "shape": "squiggle",
+    "color": "blue",
+    "size": "large",
+    "parts": [
+      "horn"
+    ]
+  },
+  {
+    "species": "dragonite",
+    "shape": "upright",
+    "color": "brown",
+    "size": "large",
+    "parts": [
+      "horn",
+      "wing"
+    ]
+  },
+  {
+    "species": "mewtwo",
+    "shape": "upright",
+    "color": "purple",
+    "size": "large",
+    "parts": [
+      "aura"
+    ]
+  },
+  {
+    "species": "mew",
+    "shape": "upright",
+    "color": "pink",
+    "size": "tiny",
+    "parts": [
+      "aura"
+    ]
+  },
+  {
+    "species": "steelix",
+    "shape": "squiggle",
+    "color": "gray",
+    "size": "large",
+    "parts": [
+      "plate",
+      "spike"
+    ]
+  },
+  {
+    "species": "tyranitar",
+    "shape": "upright",
+    "color": "green",
+    "size": "large",
+    "parts": [
+      "spike",
+      "aura"
+    ]
+  },
+  {
+    "species": "kingdra",
+    "shape": "blob",
+    "color": "blue",
+    "size": "large",
+    "parts": [
+      "fin",
+      "horn"
+    ]
+  },
+  {
+    "species": "bellossom",
+    "shape": "humanoid",
+    "color": "green",
+    "size": "tiny",
+    "parts": [
+      "plant"
+    ]
+  },
+  {
+    "species": "espeon",
+    "shape": "quadruped",
+    "color": "purple",
+    "size": "small",
+    "parts": [
+      "aura"
+    ]
+  },
+  {
+    "species": "umbreon",
+    "shape": "quadruped",
+    "color": "black",
+    "size": "small",
+    "parts": [
+      "aura"
+    ]
+  },
+  {
+    "species": "slowking",
+    "shape": "upright",
+    "color": "pink",
+    "size": "large",
+    "parts": [
+      "fin",
+      "aura"
+    ]
+  },
+  {
+    "species": "houndoom",
+    "shape": "quadruped",
+    "color": "black",
+    "size": "medium",
+    "parts": [
+      "aura",
+      "flame"
+    ]
+  },
+  {
+    "species": "hitmontop",
+    "shape": "upright",
+    "color": "brown",
+    "size": "medium",
+    "parts": [
+      "band"
+    ]
+  },
+  {
+    "species": "scizor",
+    "shape": "bug-wings",
+    "color": "red",
+    "size": "large",
+    "parts": [
+      "antenna",
+      "plate"
+    ]
+  },
+  {
+    "species": "blissey",
+    "shape": "humanoid",
+    "color": "pink",
+    "size": "medium",
+    "parts": []
+  },
+  {
+    "species": "crobat",
+    "shape": "bug-wings",
+    "color": "purple",
+    "size": "large",
+    "parts": [
+      "drip",
+      "wing"
+    ]
+  },
+  {
+    "species": "milotic",
+    "shape": "squiggle",
+    "color": "pink",
+    "size": "large",
+    "parts": [
+      "fin"
+    ]
+  },
+  {
+    "species": "manectric",
+    "shape": "quadruped",
+    "color": "yellow",
+    "size": "medium",
+    "parts": [
+      "spark"
+    ]
+  },
+  {
+    "species": "gardevoir",
+    "shape": "humanoid",
+    "color": "white",
+    "size": "medium",
+    "parts": [
+      "aura",
+      "sparkle"
+    ]
+  },
+  {
+    "species": "hariyama",
+    "shape": "humanoid",
+    "color": "brown",
+    "size": "large",
+    "parts": [
+      "band"
+    ]
+  },
+  {
+    "species": "banette",
+    "shape": "upright",
+    "color": "black",
+    "size": "medium",
+    "parts": [
+      "aura"
+    ]
+  },
+  {
+    "species": "salamence",
+    "shape": "quadruped",
+    "color": "blue",
+    "size": "medium",
+    "parts": [
+      "horn",
+      "wing"
+    ]
+  },
+  {
+    "species": "metagross",
+    "shape": "heads",
+    "color": "blue",
+    "size": "medium",
+    "parts": [
+      "plate",
+      "aura"
+    ]
+  },
+  {
+    "species": "rhyperior",
+    "shape": "upright",
+    "color": "gray",
+    "size": "large",
+    "parts": [
+      "spike"
+    ]
+  },
+  {
+    "species": "roserade",
+    "shape": "humanoid",
+    "color": "green",
+    "size": "small",
+    "parts": [
+      "plant",
+      "drip"
+    ]
+  },
+  {
+    "species": "tangrowth",
+    "shape": "humanoid",
+    "color": "blue",
+    "size": "large",
+    "parts": [
+      "plant"
+    ]
+  },
+  {
+    "species": "toxicroak",
+    "shape": "humanoid",
+    "color": "blue",
+    "size": "medium",
+    "parts": [
+      "drip",
+      "band"
+    ]
+  },
+  {
+    "species": "magmortar",
+    "shape": "upright",
+    "color": "red",
+    "size": "medium",
+    "parts": [
+      "flame"
+    ]
+  },
+  {
+    "species": "electivire",
+    "shape": "upright",
+    "color": "yellow",
+    "size": "large",
+    "parts": [
+      "spark"
+    ]
+  },
+  {
+    "species": "garchomp",
+    "shape": "upright",
+    "color": "blue",
+    "size": "large",
+    "parts": [
+      "horn",
+      "spike"
+    ]
+  },
+  {
+    "species": "abomasnow",
+    "shape": "upright",
+    "color": "white",
+    "size": "large",
+    "parts": [
+      "plant",
+      "crystal"
+    ]
+  },
+  {
+    "species": "mamoswine",
+    "shape": "quadruped",
+    "color": "brown",
+    "size": "large",
+    "parts": [
+      "crystal",
+      "spike"
+    ]
+  },
+  {
+    "species": "glaceon",
+    "shape": "quadruped",
+    "color": "blue",
+    "size": "small",
+    "parts": [
+      "crystal"
+    ]
+  },
+  {
+    "species": "leafeon",
+    "shape": "quadruped",
+    "color": "green",
+    "size": "small",
+    "parts": [
+      "plant"
+    ]
+  },
+  {
+    "species": "mismagius",
+    "shape": "ball",
+    "color": "purple",
+    "size": "small",
+    "parts": [
+      "aura"
+    ]
+  },
+  {
+    "species": "dusknoir",
+    "shape": "arms",
+    "color": "black",
+    "size": "large",
+    "parts": [
+      "aura"
+    ]
+  },
+  {
+    "species": "drapion",
+    "shape": "armor",
+    "color": "purple",
+    "size": "medium",
+    "parts": [
+      "drip",
+      "aura"
+    ]
+  },
+  {
+    "species": "togekiss",
+    "shape": "wings",
+    "color": "white",
+    "size": "medium",
+    "parts": [
+      "sparkle",
+      "wing"
+    ]
+  },
+  {
+    "species": "scolipede",
+    "shape": "armor",
+    "color": "red",
+    "size": "large",
+    "parts": [
+      "antenna",
+      "drip"
+    ]
+  },
+  {
+    "species": "chandelure",
+    "shape": "arms",
+    "color": "black",
+    "size": "small",
+    "parts": [
+      "aura",
+      "flame"
+    ]
+  },
+  {
+    "species": "excadrill",
+    "shape": "humanoid",
+    "color": "gray",
+    "size": "small",
+    "parts": [
+      "spike",
+      "plate"
+    ]
+  },
+  {
+    "species": "conkeldurr",
+    "shape": "humanoid",
+    "color": "brown",
+    "size": "medium",
+    "parts": [
+      "band"
+    ]
+  },
+  {
+    "species": "sylveon",
+    "shape": "quadruped",
+    "color": "pink",
+    "size": "small",
+    "parts": [
+      "sparkle"
+    ]
+  }
+]

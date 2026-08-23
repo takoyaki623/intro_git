@@ -43,6 +43,7 @@ import {
   allTournaments,
   allEncounterTables,
   allEvents,
+  allArt,
   allFieldAbilities,
   allFlags,
   allMaps,
@@ -998,6 +999,66 @@ function reportProvenance(): void {
 // 発生してから原因を突き止めるのが極めて難しい。ここで潰す。
 // 設計: docs/design/world.md §3・§6・§8
 // ─────────────────────────────────────────────
+/**
+ * 姿のレシピ（v0.12.5・#87〜#89）。
+ *
+ * **描けない種が1匹でもあると、その種だけ丸に戻る。**
+ * 遊んでいて気づくのは、その種に出会ったときだけなので、ここで数える。
+ */
+/**
+ * 描ける体型と飾り。
+ *
+ * **`tools/import.ts` と同じ一覧をここでも持つ。** 共有したくなるが、
+ * `validate` は生成物（JSON）だけを見るという約束を崩したくない ――
+ * ずれたら #89 が落ちるので、ずれたまま進むことはない。
+ */
+const SHAPE_NAMES = [
+  "ball", "squiggle", "fish", "arms", "blob", "upright", "legs",
+  "quadruped", "wings", "tentacles", "heads", "humanoid", "bug-wings", "armor",
+];
+const SIZE_NAMES = ["tiny", "small", "medium", "large"];
+const PART_NAMES = [
+  "flame", "plant", "fin", "spark", "crystal", "drip", "aura",
+  "horn", "spike", "plate", "antenna", "wing", "band", "sparkle",
+];
+
+function checkArt(): void {
+  const drawn = new Set(allArt.map((a) => a.species));
+  const speciesIds = new Set(allSpecies.map((s) => s.id));
+
+  // #87 全種にレシピがある
+  for (const s of allSpecies) {
+    if (!drawn.has(s.id)) fail("art", `${s.id}: 姿のレシピが無い`);
+  }
+  // #88 居ない種のレシピを持っていない（種を消したときに残る）
+  for (const a of allArt) {
+    if (!speciesIds.has(a.species)) fail("art", `art.tsv: 居ない種 "${a.species}" のレシピがある`);
+  }
+  // #89 体型・飾りが描ける種類か
+  for (const a of allArt) {
+    if (!SHAPE_NAMES.includes(a.shape)) fail("art", `${a.species}: 描けない体型 "${a.shape}"`);
+    if (!SIZE_NAMES.includes(a.size)) fail("art", `${a.species}: 描けない大きさ "${a.size}"`);
+    for (const part of a.parts) {
+      if (!PART_NAMES.includes(part)) fail("art", `${a.species}: 描けない飾り "${part}"`);
+    }
+  }
+
+  // **同じ見た目になる種がどれだけ居るか**を数える（警告）。
+  // シルエットを描き分けるのが目的なので、被りの多さはそのまま出来の指標になる
+  const key = (a: (typeof allArt)[number]) =>
+    `${a.shape}/${a.color}/${a.size}/${[...a.parts].sort().join(",")}`;
+  const groups = new Map<string, string[]>();
+  for (const a of allArt) groups.set(key(a), [...(groups.get(key(a)) ?? []), a.species]);
+  const collided = [...groups.values()].filter((g) => g.length > 1);
+  const worst = collided.sort((a, b) => b.length - a.length)[0];
+  if (collided.length > 0) {
+    warn(
+      "art-collision",
+      `見た目が同じ組み合わせが ${collided.length} 組（最大 ${worst!.length} 種: ${worst!.slice(0, 6).join(" ")}）`,
+    );
+  }
+}
+
 function checkWorld(): void {
   const mapById = new Map(allMaps.map((m) => [m.id, m]));
   const eventIds = new Set(allEvents.map((e) => e.id));
@@ -1657,6 +1718,7 @@ function main(): void {
   checkEndgame();
   checkNamed();
   checkTournaments();
+  checkArt();
   checkWorld();
   reportProvenance();
 

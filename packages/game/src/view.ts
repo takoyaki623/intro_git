@@ -20,6 +20,8 @@ import { activeOf } from "@pkmn/core";
 
 export type SideView = {
   partyIndex: number;
+  /** 姿を描くのに要る（v0.12.5）。表示名はニックネームで変わるので当てにできない。 */
+  species: string;
   name: string;
   level: number;
   types: readonly Type[];
@@ -40,6 +42,7 @@ export function viewFromState(state: BattleState): BattleView {
     const p = activeOf(state, side);
     return {
       partyIndex: state.sides[side].activeIndex,
+      species: p.species,
       name: p.name,
       level: p.level,
       types: p.types,
