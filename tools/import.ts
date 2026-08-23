@@ -227,7 +227,53 @@ type ItemOut = {
   price?: number; bpPrice?: number; held?: unknown; use?: unknown; useScope?: string; consumable?: boolean;
 };
 
-function importItems(): ItemOut[] {
+function importItems(moves: MoveOut[]): ItemOut[] {
+  return [...handWritten(), ...machines(moves)];
+}
+
+/**
+ * わざマシン（v1.1-b）。
+ *
+ * 番号と技の対応は `fetch-machines.ts` が公式データから書く。
+ * **道具の行は人が書かない** ―― 22本を手で並べると、いつか番号がずれる。
+ * 技を1つ実装するたびに本数が増えるので、なおさら手では追えない。
+ *
+ * 名前に技名を入れているのは原作と違う。原作はバッグで「わざマシン26」としか
+ * 出さず、説明文で技を見せる ―― こちらは説明文の欄が無いので、
+ * **名前が唯一の手掛かり**になる。番号を先に置いて原作の並びは保つ。
+ */
+function machines(moves: MoveOut[]): ItemOut[] {
+  let rows: Record<string, string>[];
+  try {
+    rows = readTsv("machines.tsv");
+  } catch {
+    return [];
+  }
+  const byId = new Map(moves.map((m) => [m.id, m]));
+  const out: ItemOut[] = [];
+  for (const r of rows) {
+    if ((r["skip"] ?? "") !== "") continue;
+    const where = `machines.tsv/${r["id"]}`;
+    const move = byId.get(r["move"]!);
+    if (move === undefined) {
+      err(where, `技 "${r["move"]}" が moves.tsv に無い`);
+      continue;
+    }
+    out.push({
+      id: r["id"]!,
+      name: `わざマシン${r["number"]!.padStart(2, "0")} ${move.name}`,
+      category: "tm",
+      use: { kind: "teachMove", move: move.id },
+      // **バトル中には使えない。** 戦っている1体の技を差し替えても画面と噛み合わない
+      useScope: "field",
+      // 使い切り。こうしておけば検証 #64「つかえる道具は使い切り」を書き換えずに済む
+      consumable: true,
+    });
+  }
+  return out;
+}
+
+function handWritten(): ItemOut[] {
   return readTsv("items.tsv").map((r) => {
     const where = `items.tsv/${r["id"]}`;
     const item: ItemOut = { id: r["id"]!, name: r["name"]!, category: r["category"]! };
@@ -271,6 +317,13 @@ function parseUseEffect(src: string, where: string): unknown {
       return { kind, ratio: parseRatio(a[0], where) };
     case "pp":
       return { kind, amount: Number(a[0]), all: a[1] === "all" };
+    // わざマシン（v1.1-b）。道具の行そのものは machines.tsv から作るが、
+    // 手で書きたくなったときのためにここでも読めるようにしておく
+    case "teachMove":
+      return { kind, move: a[0] };
+    case "evolveByItem":
+      // `item`（進化の石）か `trade`（つながりのヒモ）。既定は石
+      return { kind, via: (a[0] ?? "") === "trade" ? "trade" : "item" };
     default:
       errors.push(`${where}: 未知の use 効果 ${kind}`);
       return undefined;
@@ -895,7 +948,7 @@ function main(): void {
   const moves = importMoves();
   const species = importSpecies(moves);
   const abilities = importAbilities();
-  const items = importItems();
+  const items = importItems(moves);
   const balls = importBalls();
   const battleSets = importBattleSets();
   const named = importNamed();

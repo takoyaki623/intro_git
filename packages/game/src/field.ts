@@ -97,6 +97,16 @@ const TILE = 28;
 /** 表示するマス数。マップが小さいときは切り詰める。 */
 const VIEW = { w: 15, h: 11 };
 const WALK_MS = 130;
+/**
+ * じてんしゃ（v1.1-b）。**持っているだけで速い。**
+ *
+ * 変えるのは見た目の速さだけで、**1入力＝1マスは変えない。**
+ * 2マス進む実装にすると `playthrough.mjs` と `shots.mjs` が同時に、
+ * しかも黙ってずれる（1歩ぶんの予測と実際が食い違う）。
+ * `core` は時間を持たないので、影響はこの定数1つに閉じる。
+ */
+const BIKE_MS = 62;
+const BICYCLE = "bicycle";
 
 // ─────────────────────────────────────────────
 // 見た目
@@ -233,10 +243,13 @@ export function playField(rebuild: () => void): FieldHandle {
     };
   }
 
+  /** 1マスにかける時間。じてんしゃを持っていれば速い（v1.1-b）。 */
+  const stepMs = () => ((player.bag[BICYCLE] ?? 0) > 0 ? BIKE_MS : WALK_MS);
+
   /** 歩行アニメを混ぜた「今の見た目の位置」。 */
   function shownPosition(): { x: number; y: number } {
     if (walk === null) return { x: player.position.x, y: player.position.y };
-    const t = Math.min(1, (performance.now() - walk.start) / WALK_MS);
+    const t = Math.min(1, (performance.now() - walk.start) / stepMs());
     return {
       x: walk.from.x + (walk.to.x - walk.from.x) * t,
       y: walk.from.y + (walk.to.y - walk.from.y) * t,
@@ -462,7 +475,7 @@ export function playField(rebuild: () => void): FieldHandle {
     return new Promise((resolve) => {
       const tick = () => {
         draw();
-        if (walk === null || performance.now() - walk.start >= WALK_MS) {
+        if (walk === null || performance.now() - walk.start >= stepMs()) {
           walk = null;
           draw();
           resolve();
@@ -787,10 +800,15 @@ export function playField(rebuild: () => void): FieldHandle {
     draw();
   }
 
-  /** 技が4つ埋まっているときの入れ替え。**選ぶのはプレイヤー。** */
-  async function offerMove(uid: string, move: string): Promise<void> {
+  /**
+   * 技が4つ埋まっているときの入れ替え。**選ぶのはプレイヤー。**
+   *
+   * 起きたかどうかを返す（v1.1-b）―― わざマシンは**覚えたときだけ減る。**
+   * 「やめる」で消えると、取り返しのつかない操作を確認なしでやったことになる。
+   */
+  async function offerMove(uid: string, move: string): Promise<boolean> {
     const target = party().find((p) => p.uid === uid);
-    if (target === undefined) return;
+    if (target === undefined) return false;
     const name = target.nickname ?? gameData.species(target.species).name;
     const learn = gameData.move(move).name;
 
@@ -799,29 +817,31 @@ export function playField(rebuild: () => void): FieldHandle {
     const choice = await ask(`どの わざを わすれさせる?`, options);
     if (choice >= target.moves.length) {
       await say(`${name} は ${learn} を おぼえなかった。`);
-      return;
+      return false;
     }
     const forgotten = gameData.move(target.moves[choice]!.id).name;
     player.storage = replaceInstance(player.storage, replaceMove(gameData, target, choice, move));
     await say(`${name} は ${forgotten} を わすれて\n${learn} を おぼえた!`);
+    return true;
   }
 
   /** 進化。**中断できる**（原作どおり）。 */
-  async function offerEvolution(uid: string, to: string): Promise<void> {
+  async function offerEvolution(uid: string, to: string): Promise<boolean> {
     const target = party().find((p) => p.uid === uid);
-    if (target === undefined) return;
+    if (target === undefined) return false;
     const before = target.nickname ?? gameData.species(target.species).name;
     const after = gameData.species(to).name;
 
     const choice = await ask(`おや? ${before} の ようすが...!`, ["しんかさせる", "やめる"]);
     if (choice !== 0) {
       await say(`${before} の しんかが とまった!`);
-      return;
+      return false;
     }
     player.storage = replaceInstance(player.storage, evolve(gameData, target, to));
     player.dex[to] = "caught";
     draw();
     await say(`おめでとう! ${before} は\n${after} に しんかした!`);
+    return true;
   }
 
   /**
@@ -1631,8 +1651,22 @@ export function playField(rebuild: () => void): FieldHandle {
         return;
       }
       player.storage = replaceInstance(player.storage, result.instance);
-      spendItem(id);
-      await say(`${gameData.item(id).name} を つかった!\n${result.message}`);
+      await say(
+        `${gameData.item(id).name} を つかった!` +
+          (result.message === "" ? "" : `\n${result.message}`),
+      );
+      // **続きがある道具**（わざマシン・進化の石・つながりのヒモ・v1.1-b）。
+      // 入れ替えと進化はプレイヤーが選ぶものなので、
+      // レベルアップのときと**同じ関数**に渡す ―― 選び方が2通りになると、
+      // いつか片方だけ「やめる」が効かなくなる。
+      // **道具が減るのは起きたときだけ**（「やめる」で消えない）
+      const happened =
+        result.then === undefined
+          ? true
+          : result.then.kind === "learnMove"
+            ? await offerMove(result.instance.uid, result.then.move)
+            : await offerEvolution(result.instance.uid, result.then.to);
+      if (happened) spendItem(id);
       hideText();
       await autosave();
     }, showBag);

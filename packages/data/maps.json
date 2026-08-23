@@ -3195,6 +3195,19 @@
           "movement": "static"
         },
         "event": "kanto.celadon.clerk"
+      },
+      {
+        "id": "celadon-stone-clerk",
+        "at": {
+          "x": 6,
+          "y": 2
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "clerk",
+          "movement": "static"
+        },
+        "event": "kanto.celadon.stone-clerk"
       }
     ],
     "bgm": "mart"

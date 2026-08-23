@@ -15,6 +15,8 @@ import {
   TYPES,
   effectHandlers,
   heldHandlers,
+  useHandlers,
+  REBUILDS_INSTANCE,
   assertAllEventCommandsHandled,
   flagsUsedBy,
   evolutionLine,
@@ -458,6 +460,31 @@ function checkUseEffects(): void {
       if (effect.of.length < 2) fail("use-multi", `${id}: multi なのに効果が1つ以下`);
       for (const each of effect.of) walk(id, each);
     }
+    // #95 わざマシンが教える技が実在し、覚えられる種が1種以上いる（v1.1-b）
+    //
+    // **番号と技の対応は取り込みなので間違えない。** 危ないのはその先で、
+    // 誰も覚えられない技のマシンは「置いてあるが一生使えない道具」になる。
+    // 互換表（Species.tmMoves）も公式データなので、食い違ったらどちらかの
+    // 取り込みが壊れている
+    if (effect.kind === "teachMove") {
+      if (!allMoves.some((m) => m.id === effect.move)) {
+        fail("tm-move", `${id}: 教える技 "${effect.move}" が moves.json に無い`);
+      } else if (!allSpecies.some((sp) => sp.tmMoves.includes(effect.move))) {
+        fail("tm-move", `${id}: "${effect.move}" を おぼえられる種が1種もいない`);
+      }
+    }
+    // #96 進化の道具が、実際にどれかの枝の鍵になっている（v1.1-b）
+    //
+    // 石を1つ足して**どの種にも効かない**のは、置き場所を間違えたか
+    // 綴りを間違えたかのどちらか ―― 使っても「こうかが なかった」しか出ない
+    if (effect.kind === "evolveByItem") {
+      const branches = allSpecies.flatMap((sp) => sp.evolutions);
+      const used =
+        effect.via === "item"
+          ? branches.some((e) => e.kind === "useItem" && e.item === id)
+          : branches.some((e) => e.kind === "trade");
+      if (!used) fail("evolve-item", `${id}: この道具で進化する種が1種もいない`);
+    }
   };
 
   for (const item of allItems) {
@@ -472,6 +499,19 @@ function checkUseEffects(): void {
       continue;
     }
     walk(item.id, item.use);
+    // #94 個体を作り替える道具は、バトル中に使えないと宣言している（v1.1-b）
+    //
+    // `BattlePokemon` は種族と技を戦闘開始時に固めているので、
+    // わざマシンや進化の石をバトル中に通すと**画面と中身が食い違う。**
+    // 実装（`useOnBattle`）も断るが、**断られるのと出てこないのは別**
+    // ―― 出てくるボタンを押して断られるのは、書き忘れの現れ方の1つ
+    if (REBUILDS_INSTANCE.has(item.use.kind) && item.useScope !== "field") {
+      fail(
+        "use-scope",
+        `${item.id}: 個体を作り替える道具（${item.use.kind}）なのに scope が "${item.useScope ?? "both"}"`,
+      );
+    }
+
     // #64 使える道具は使うと無くなる（持ち物と違い、使い切りでないと在庫が意味を失う）
     if (item.consumable !== true) {
       fail("use-consumable", `${item.id}: 使える道具なのに consumable でない`);
@@ -552,7 +592,15 @@ function checkRegions(): void {
 }
 
 /** `UseEffect` の全種類。型から漏れると型検査が落ちる。 */
-const USE_KINDS: UseEffect["kind"][] = ["heal", "healRatio", "cure", "revive", "pp", "multi"];
+/**
+ * 「つかう」効果の一覧。
+ *
+ * **レジストリから導く**（v1.1-b）。v0.9 からここは手書きの写しで、
+ * `use-item.ts` に効果を足すたびに2箇所を直す必要があった ――
+ * 技効果（`effectHandlers`）・持ち物（`heldHandlers`）はとっくに
+ * レジストリを直接見ているのに、ここだけ写しが残っていた。
+ */
+const USE_KINDS: UseEffect["kind"][] = Object.keys(useHandlers) as UseEffect["kind"][];
 
 // ─────────────────────────────────────────────
 // 施設と相手プール（v0.5）
@@ -1462,6 +1510,25 @@ function checkWorld(): void {
     }
     if (runs("openHall").length === 0) {
       warn("hall-of-fame", "殿堂の記録を見られる場所がどこにも無い");
+    }
+  }
+
+  // ── #97 バッジをくれるイベントは わざマシンもくれる（v1.1-b）──
+  //
+  // 原作では**どの世代でも、ジムリーダーはバッジと一緒にわざマシンを渡す。**
+  // 8人ぶん手で書けば、いつか1人だけ書き忘れる（#92 と同じ形の間違い）。
+  // バッジという目印があるので、機械が数えられる。
+  {
+    const tmIds = new Set(allItems.filter((i) => i.category === "tm").map((i) => i.id));
+    for (const event of allEvents) {
+      const commands = walkCommands(event.commands);
+      if (!commands.some((c) => c.kind === "giveBadge")) continue;
+      const given = commands.filter(
+        (c) => c.kind === "giveItem" && tmIds.has(c.item),
+      );
+      if (given.length === 0) {
+        fail("gym-tm", `${event.id}: バッジを渡すのに わざマシンを渡していない`);
+      }
     }
   }
 

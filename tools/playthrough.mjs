@@ -1064,6 +1064,132 @@ expect(
   (v) => v > 0,
 );
 
+// ── 15.5 道具が個体を書き換える（v1.1-b）──
+//
+// **わざマシンも進化の石も、世界のコードを1行も足さずに動く**はずのもの。
+// だから確かめるのは効果ではなく、**選ばせているか**と**やめたら減らないか。**
+// タマムシに居るこの時点でやる ―― しんかの どうぐ の店がここにある。
+{
+  // タケシがくれた わざマシン（がんせきふうじ）。原作どおり、ジムの報酬で手に入る
+  await page.click("#open-bag");
+  await page.waitForTimeout(300);
+  const bagText = (await page.textContent("#field-panel")) ?? "";
+  expect(
+    "ジムでもらった わざマシンが バッグに ある",
+    bagText.includes("わざマシン39") ? "ある" : "ない",
+    "ある",
+  );
+
+  /** バッグの中の個数。減った／減っていないを数える。 */
+  const countOf = async (label) => {
+    const text = (await page.textContent("#field-panel")) ?? "";
+    const hit = new RegExp(`${label}[^0-9]*(\\d+)こ`).exec(text);
+    return hit === null ? 0 : Number(hit[1]);
+  };
+  const before = await countOf("わざマシン39");
+
+  // 1回目 ―― **「おぼえない」を選ぶ。** 取り返しのつかない操作なので、
+  // やめたときに道具が消えてはいけない
+  await page.click('[data-use="tm39"]');
+  await page.waitForTimeout(400);
+  await page.click("#field-text .choices button:nth-child(1)"); // 1匹目に使う
+  await page.waitForTimeout(400);
+  await clear(4);
+  const slots = await page.$$eval("#field-text .choices button", (b) => b.map((x) => x.textContent));
+  expect(
+    "4つ埋まっていたら わすれる技を えらばせる",
+    slots.length >= 5 ? `${slots.length}つ（技4＋やめる）` : `${slots.length}つ`,
+    (v) => v.startsWith("5"),
+  );
+  await page.click(`#field-text .choices button:nth-child(${slots.length})`); // 「おぼえない」
+  await page.waitForTimeout(500);
+  await drain();
+  await page.click("#open-bag");
+  await page.waitForTimeout(300);
+  expect("やめたら わざマシンは 減らない", await countOf("わざマシン39"), before);
+
+  // 2回目 ―― 実際に入れ替える
+  await page.click('[data-use="tm39"]');
+  await page.waitForTimeout(400);
+  await page.click("#field-text .choices button:nth-child(1)");
+  await page.waitForTimeout(400);
+  await clear(4);
+  await page.click("#field-text .choices button:nth-child(1)"); // 1つめの技を忘れる
+  await page.waitForTimeout(600);
+  await drain();
+  const taught = await readSave();
+  const learned = Object.values(taught.pokemon).some((m) =>
+    m.moves.some((x) => x.id === "rock-tomb"),
+  );
+  expect("わざマシンで 技を おぼえた", learned ? "おぼえた" : "おぼえていない", "おぼえた");
+
+  // しんかの どうぐ の店（原作のデパート4階にあたる）
+  await goToMap("kanto-celadon-mart", 5, 2, 60);
+  expect("タマムシの 店に 入れた", (await spot()).map, "kanto-celadon-mart");
+  await key("ArrowUp", 2, 200);
+  await key("z", 1, 400);
+  await clear();
+  const stones = await page.$$eval("#field-text .choices button", (b) => b.map((x) => x.textContent));
+  note("しんかの どうぐ", stones.slice(0, 4).join(" / "));
+  expect(
+    "つながりのヒモが 売っている",
+    stones.some((t) => t.includes("つながりのヒモ")) ? "ある" : "ない",
+    "ある",
+  );
+  await page.click(`#field-text .choices button:nth-child(${stones.length})`); // やめる
+  await drain();
+
+  // **石とヒモの相手を用意する。** 手持ちはヒトカゲの系統しか居ないので、
+  // BP と同じやり方でセーブを書き換える（台本が確かめたいのは機構）
+  await page.click("#open-settings");
+  await page.waitForSelector("#save-export");
+  await page.click("#save-export");
+  const save = JSON.parse(await page.inputValue("#save-text"));
+  const uids = save.regions.kanto.partyUids;
+  save.pokemon[uids[0]].species = "pikachu";
+  save.pokemon[uids[0]].ability = "static";
+  save.pokemon[uids[1]].species = "machoke";
+  save.pokemon[uids[1]].ability = "guts";
+  save.global.bag = { ...save.global.bag, "thunder-stone": 1, "linking-cord": 1 };
+  await page.fill("#save-text", JSON.stringify(save));
+  await page.click("#save-import");
+  await page.waitForTimeout(900);
+  await page.click("#settings-back");
+  await page.waitForSelector("#field-canvas");
+  await page.waitForTimeout(400);
+
+  /** 道具を1匹目に使い、出た選択肢の1つ目を押す（「しんかさせる」）。 */
+  const useOnFirst = async (id, member) => {
+    await page.click("#open-bag");
+    await page.waitForTimeout(300);
+    await page.click(`[data-use="${id}"]`);
+    await page.waitForTimeout(400);
+    await page.click(`#field-text .choices button:nth-child(${member})`);
+    await page.waitForTimeout(400);
+    await clear(4);
+    await page.click("#field-text .choices button:nth-child(1)");
+    await page.waitForTimeout(700);
+    await drain();
+  };
+
+  await useOnFirst("thunder-stone", 1);
+  const evolved = await readSave();
+  expect(
+    "かみなりのいしで ライチュウに なる",
+    evolved.pokemon[uids[0]].species,
+    "raichu",
+  );
+
+  await useOnFirst("linking-cord", 2);
+  const traded = await readSave();
+  expect(
+    "つながりのヒモで ゴーリキーが カイリキーに なる",
+    traded.pokemon[uids[1]].species,
+    "machamp",
+  );
+  await shot("22b-items");
+}
+
 // キョウ（ジム5）。**ジムの前にポケモンセンターへ寄る** ―― 人がやることと同じ
 await goToMap("kanto-fuchsia-pokecenter", 4, 3, 80);
 await talk("ArrowUp");

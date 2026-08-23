@@ -62,3 +62,32 @@ ether	ピーピーエイド	recovery	1200			pp:10:one	both	1
 max-ether	ピーピーリカバー	recovery	2000			pp:99:one	both	1
 elixir	ピーピーエイダー	recovery		12		pp:10:all	both	1
 max-elixir	ピーピーマックス	recovery		24		pp:99:all	both	1
+# ── 進化の道具（v1.1-b）──
+# 石は「つかう」道具。つながりのヒモは通信交換の代替（progression.md §11）。
+# 交換時に持たせる道具（エレキブースターなど）は**持たせるだけ**で、
+# つかうのは常につながりのヒモ ―― 使える道具を2種類にすると、
+# 「石を持たせる」「ヒモを持たせる」という無意味な操作が生まれる。
+fire-stone	ほのおのいし	evolution	2100			evolveByItem:item	field	1
+water-stone	みずのいし	evolution	2100			evolveByItem:item	field	1
+thunder-stone	かみなりのいし	evolution	2100			evolveByItem:item	field	1
+leaf-stone	リーフのいし	evolution	2100			evolveByItem:item	field	1
+moon-stone	つきのいし	evolution	2100			evolveByItem:item	field	1
+sun-stone	たいようのいし	evolution	2100			evolveByItem:item	field	1
+ice-stone	こおりのいし	evolution	2100			evolveByItem:item	field	1
+linking-cord	つながりのヒモ	evolution	2100			evolveByItem:trade	field	1
+# 持たせて つながりのヒモ をつかう枝（原作の交換時持ち物）。
+# バトル中の効果は原作にもあるが、いずれも未実装の機構なので持たない。
+electirizer	エレキブースター	evolution	2100					0
+magmarizer	マグマブースター	evolution	2100					0
+protector	プロテクター	evolution	2100					0
+dragon-scale	りゅうのウロコ	evolution	2100					0
+king-s-rock	おうじゃのしるし	evolution	2100					0
+# ── そのほか（v1.1-b）──
+# じてんしゃ。**持っているだけで速くなる**（つかう道具ではない）。
+# core は時間を持たないので、速さは field.ts の定数だけで決まる。
+#
+# 原作では ひきかえけん と じてんしゃショップ で手に入り、店では買えない
+# （表示価格は100万円）。ショップと ひきかえけん は v1.1-d（ハナダ周り）で入れる。
+# それまでは買える道具にしておく ―― **買えない道具を置くと、原作寸法に
+# 広げたあとの歩数を実測できない**（自転車を前倒しした理由そのものが消える）。
+bicycle	じてんしゃ	key	5000					0

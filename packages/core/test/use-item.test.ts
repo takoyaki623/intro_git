@@ -205,3 +205,111 @@ describe("バトル中に使ったとき、UI が結果を受け取れる（v0.1
     expect(used.remainingHp).toBeGreaterThan(5);
   });
 });
+
+/**
+ * 道具が個体を作り替える（v1.1-b）。
+ *
+ * 確かめたいのは効果そのものより、**道具の側が決めないこと** ――
+ * わざの入れ替えも進化も「提案」で返り、実際にやるのは UI。
+ * ここが崩れると、原作の「やめる」が効かない道具ができる。
+ */
+describe("わざマシン", () => {
+  /** ヒトカゲはマシンで かえんほうしゃ を覚える（公式の互換表）。 */
+  const withMoves = (p: PokemonInstance, ids: string[]): PokemonInstance => ({
+    ...p,
+    moves: ids.map((id) => ({ id, pp: gameData.move(id).pp })),
+  });
+
+  it("空きがあれば その場で おぼえる", () => {
+    const before = withMoves(make(), ["scratch"]);
+    const result = useOnInstance(gameData, "tm35", before);
+    expect(refused(result)).toBe(false);
+    if (refused(result)) return;
+    expect(result.instance.moves.map((m) => m.id)).toEqual(["scratch", "flamethrower"]);
+    // **続きが無い** ―― 選ぶことが何も無いので UI を通さない
+    expect(result.then).toBeUndefined();
+  });
+
+  it("4つ埋まっていたら、入れ替えは UI に渡す（勝手に消さない）", () => {
+    const before = withMoves(make(), ["scratch", "growl", "ember", "smokescreen"]);
+    const result = useOnInstance(gameData, "tm35", before);
+    expect(refused(result)).toBe(false);
+    if (refused(result)) return;
+    expect(result.then).toEqual({ kind: "learnMove", move: "flamethrower" });
+    // **この時点では何も変わっていない。** 変えるのは選んだあと
+    expect(result.instance.moves.map((m) => m.id)).toEqual(before.moves.map((m) => m.id));
+  });
+
+  it("覚えられない種には、覚えられないと言う", () => {
+    // メタモンはマシンを1本も覚えない（原作どおり・互換表が0件の4種の1つ）
+    const result = useOnInstance(gameData, "tm35", make("ditto"));
+    expect(refused(result)).toBe(true);
+    if (!refused(result)) return;
+    expect(result.reason).toContain("おぼえられない");
+  });
+
+  it("もう覚えている技は、断り方が違う", () => {
+    const result = useOnInstance(gameData, "tm35", withMoves(make(), ["flamethrower"]));
+    expect(refused(result)).toBe(true);
+    if (!refused(result)) return;
+    expect(result.reason).toContain("すでに");
+  });
+
+  it("バトル中には使えない", () => {
+    const battle = createBattle(
+      gameData,
+      [[{ species: "charmander", level: 20, moves: ["scratch"] }],
+       [{ species: "pidgey", level: 5, moves: ["tackle"] }]],
+      1,
+    );
+    const result = useOnBattle(gameData, "tm35", battle.sides[0]!.party[0]!);
+    expect(refused(result)).toBe(true);
+  });
+
+  it("バッグに「つかう」が出るのはマップ上だけ", () => {
+    expect(isUsable(gameData.item("tm35"), "field")).toBe(true);
+    expect(isUsable(gameData.item("tm35"), "battle")).toBe(false);
+  });
+});
+
+describe("進化させる道具", () => {
+  it("石は 進化を提案する（種族はまだ変わらない）", () => {
+    const result = useOnInstance(gameData, "thunder-stone", make("pikachu"));
+    expect(refused(result)).toBe(false);
+    if (refused(result)) return;
+    expect(result.then).toEqual({ kind: "evolve", to: "raichu" });
+    expect(result.instance.species).toBe("pikachu");
+  });
+
+  it("石が合っていなければ こうかが ない", () => {
+    const result = useOnInstance(gameData, "water-stone", make("pikachu"));
+    expect(refused(result)).toBe(true);
+  });
+
+  it("つながりのヒモは、交換で進化する種に効く", () => {
+    const result = useOnInstance(gameData, "linking-cord", make("machoke"));
+    expect(refused(result)).toBe(false);
+    if (refused(result)) return;
+    expect(result.then).toEqual({ kind: "evolve", to: "machamp" });
+  });
+
+  /**
+   * 原作で交換時に持ち物が要る枝は、**その持ち物ごと**でないと成立しない
+   * （progression.md §11 の統合）。持たせ忘れを黙って通すと、
+   * 「メタルコートを持たせる」という原作の手順そのものが消える。
+   */
+  it("持ち物が要る枝は、持たせていないと効かない", () => {
+    const bare = make("scyther");
+    expect(refused(useOnInstance(gameData, "linking-cord", bare))).toBe(true);
+
+    const holding: PokemonInstance = { ...bare, item: "metal-coat" };
+    const result = useOnInstance(gameData, "linking-cord", holding);
+    expect(refused(result)).toBe(false);
+    if (refused(result)) return;
+    expect(result.then).toEqual({ kind: "evolve", to: "scizor" });
+  });
+
+  it("交換で進化しない種には効かない", () => {
+    expect(refused(useOnInstance(gameData, "linking-cord", make("charmander")))).toBe(true);
+  });
+});

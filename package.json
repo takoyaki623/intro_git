@@ -18,6 +18,7 @@
     "fetch:official": "vite-node tools/fetch-official.ts",
     "fetch:numbers": "vite-node tools/fetch-numbers.ts",
     "fetch:encounters": "vite-node tools/fetch-encounters.ts",
+    "fetch:machines": "vite-node tools/fetch-machines.ts",
     "validate": "vite-node tools/validate.ts",
     "scaffold": "vite-node tools/scaffold.ts",
     "playthrough": "vite-node tools/playthrough.mjs",

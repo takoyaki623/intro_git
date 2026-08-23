@@ -1,4 +1,6 @@
 # タマムシシティのフレンドリィショップ。品揃えはバッジの数で変わる。
+# v1.1-b から、しんかの どうぐ の店員が2人目に立つ（原作のデパート4階にあたる）。
+# 階を分けるのは v1.1-i（デパートを建てるとき）。
 id: kanto-celadon-mart
 name: フレンドリィショップ
 region: kanto
@@ -24,3 +26,4 @@ warps:
 
 objects:
 celadon-clerk 2,2 npc:clerk:static kanto.celadon.clerk
+celadon-stone-clerk 6,2 npc:clerk:static kanto.celadon.stone-clerk

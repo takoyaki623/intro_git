@@ -63,5 +63,25 @@
       "antidote",
       "paralyze-heal"
     ]
+  },
+  {
+    "id": "kanto-celadon-stones",
+    "name": "しんかの どうぐ",
+    "items": [
+      "fire-stone",
+      "water-stone",
+      "thunder-stone",
+      "leaf-stone",
+      "moon-stone",
+      "sun-stone",
+      "ice-stone",
+      "linking-cord",
+      "electirizer",
+      "magmarizer",
+      "protector",
+      "dragon-scale",
+      "king-s-rock",
+      "bicycle"
+    ]
   }
 ]

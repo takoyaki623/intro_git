@@ -324,7 +324,22 @@ export type UseEffect =
    * まとめて効かせる（かいふくのくすり = 全回復 + 状態異常）。
    * 1つでも効けば成功。条件（`Condition`）の `and` / `or` と同じ合成。
    */
-  | { kind: "multi"; of: UseEffect[] };
+  | { kind: "multi"; of: UseEffect[] }
+  /**
+   * わざマシン（v1.1-b）。**覚えさせるのはここではない。**
+   * 4つ埋まっているときの入れ替えはプレイヤーの選択なので、
+   * レベルアップの `canLearn` と同じく「提案」を返して UI に渡す。
+   */
+  | { kind: "teachMove"; move: MoveId }
+  /**
+   * 進化させる道具（v1.1-b）。**引数を持たない** ―― どの種が何に進化するかは
+   * `Species.evolutions` が持っていて、道具の側は「自分が鍵になる枝」を探すだけ。
+   *
+   * `via` は探す枝の種類。`item` は進化の石（`Evolution.item` が自分と一致する枝）、
+   * `trade` は通信交換の代替（つながりのヒモ・progression.md §11）で、
+   * 交換時に持たせる道具が要る枝は**その道具を持たせた状態**でだけ成立する。
+   */
+  | { kind: "evolveByItem"; via: "item" | "trade" };
 
 /** その道具をどこで使えるか。 */
 export type UseScope = "battle" | "field" | "both";

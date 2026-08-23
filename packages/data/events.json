@@ -1292,6 +1292,16 @@
         "kind": "message",
         "text": "グレーバッジを うけとってくれ。\nつぎは ハナダシティを めざすといい。",
         "speaker": "タケシ"
+      },
+      {
+        "kind": "giveItem",
+        "item": "tm39",
+        "count": 1
+      },
+      {
+        "kind": "message",
+        "speaker": "タケシ",
+        "text": "それと わざマシン ―― がんせきふうじ だ。\nつかえば その わざを おぼえる。"
       }
     ]
   },
@@ -1892,6 +1902,16 @@
         "kind": "message",
         "text": "ブルーバッジを あげる。\nつぎは クチバシティね。",
         "speaker": "カスミ"
+      },
+      {
+        "kind": "giveItem",
+        "item": "tm03",
+        "count": 1
+      },
+      {
+        "kind": "message",
+        "speaker": "カスミ",
+        "text": "それと わざマシン ―― みずのはどう だ。\nつかえば その わざを おぼえる。"
       }
     ]
   },
@@ -2290,6 +2310,16 @@
         "kind": "message",
         "text": "オレンジバッジを やろう。\nつぎは シオンタウンだな。",
         "speaker": "マチス"
+      },
+      {
+        "kind": "giveItem",
+        "item": "tm24",
+        "count": 1
+      },
+      {
+        "kind": "message",
+        "speaker": "マチス",
+        "text": "それと わざマシン ―― 10まんボルト だ。\nつかえば その わざを おぼえる。"
       }
     ]
   },
@@ -2842,6 +2872,16 @@
         "kind": "message",
         "text": "ゴールドバッジを どうぞ。\nつぎは グレンじまね。",
         "speaker": "ナツメ"
+      },
+      {
+        "kind": "giveItem",
+        "item": "tm04",
+        "count": 1
+      },
+      {
+        "kind": "message",
+        "speaker": "ナツメ",
+        "text": "それと わざマシン ―― めいそう だ。\nつかえば その わざを おぼえる。"
       }
     ]
   },
@@ -3132,6 +3172,16 @@
         "kind": "message",
         "text": "レインボーバッジを どうぞ。\nセキチクへも いってみては?",
         "speaker": "エリカ"
+      },
+      {
+        "kind": "giveItem",
+        "item": "tm19",
+        "count": 1
+      },
+      {
+        "kind": "message",
+        "speaker": "エリカ",
+        "text": "それと わざマシン ―― ギガドレイン だ。\nつかえば その わざを おぼえる。"
       }
     ]
   },
@@ -3422,6 +3472,16 @@
         "kind": "message",
         "text": "ソウルバッジを うけとれ。\nヤマブキの ナツメが まっておるぞ。",
         "speaker": "キョウ"
+      },
+      {
+        "kind": "giveItem",
+        "item": "tm06",
+        "count": 1
+      },
+      {
+        "kind": "message",
+        "speaker": "キョウ",
+        "text": "それと わざマシン ―― どくどく だ。\nつかえば その わざを おぼえる。"
       }
     ]
   },
@@ -3950,6 +4010,16 @@
         "kind": "message",
         "text": "ヴォルケーンバッジを もっていけ。\nのこるは トキワジムだけじゃ。",
         "speaker": "カツラ"
+      },
+      {
+        "kind": "giveItem",
+        "item": "tm38",
+        "count": 1
+      },
+      {
+        "kind": "message",
+        "speaker": "カツラ",
+        "text": "それと わざマシン ―― だいもんじ だ。\nつかえば その わざを おぼえる。"
       }
     ]
   },
@@ -4169,6 +4239,16 @@
         "kind": "message",
         "text": "アースバッジは きみのものだ。\nポケモンリーグへ いくがいい。",
         "speaker": "サカキ"
+      },
+      {
+        "kind": "giveItem",
+        "item": "tm26",
+        "count": 1
+      },
+      {
+        "kind": "message",
+        "speaker": "サカキ",
+        "text": "それと わざマシン ―― じしん だ。\nつかえば その わざを おぼえる。"
       }
     ]
   },
@@ -4811,6 +4891,25 @@
       {
         "kind": "message",
         "text": "でんどうの ひ\n\n 「ちほうを かんそうした ものの きろく」"
+      }
+    ]
+  },
+  {
+    "id": "kanto.celadon.stone-clerk",
+    "commands": [
+      {
+        "kind": "message",
+        "speaker": "てんいん",
+        "text": "こちらは しんかの どうぐの\nコーナーです。"
+      },
+      {
+        "kind": "message",
+        "speaker": "てんいん",
+        "text": "つながりのヒモ は\nこうかんで しんかする ポケモンに。"
+      },
+      {
+        "kind": "shop",
+        "inventory": "kanto-celadon-stones"
       }
     ]
   }

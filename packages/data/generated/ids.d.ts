@@ -3,11 +3,11 @@
  *   再生成: npm run gen:ids
  *
  * 種族 190 / 技 248 / 性格 25 /
- * 特性 68 / 道具 58 /
+ * 特性 68 / 道具 94 /
  * BattleSet 64 / 施設 4 /
  * ネームド 18 / カップ 10 /
- * マップ 71 / イベント 228 / トレーナー 45 /
- * 出現テーブル 78 / ショップ 5 / 地方 9 /
+ * マップ 71 / イベント 229 / トレーナー 45 /
+ * 出現テーブル 78 / ショップ 6 / 地方 9 /
  * フラグ 95
  */
 
@@ -554,6 +554,7 @@ export type GeneratedItemId =
   | "antidote"
   | "assault-vest"
   | "awakening"
+  | "bicycle"
   | "black-belt"
   | "black-glasses"
   | "burn-heal"
@@ -562,11 +563,14 @@ export type GeneratedItemId =
   | "choice-scarf"
   | "choice-specs"
   | "dragon-fang"
+  | "dragon-scale"
   | "dusk-ball"
+  | "electirizer"
   | "elixir"
   | "ether"
   | "expert-belt"
   | "fairy-feather"
+  | "fire-stone"
   | "flame-orb"
   | "focus-sash"
   | "full-heal"
@@ -575,9 +579,14 @@ export type GeneratedItemId =
   | "hard-stone"
   | "hyper-potion"
   | "ice-heal"
+  | "ice-stone"
+  | "king-s-rock"
+  | "leaf-stone"
   | "leftovers"
   | "life-orb"
+  | "linking-cord"
   | "lum-berry"
+  | "magmarizer"
   | "magnet"
   | "master-ball"
   | "max-elixir"
@@ -586,6 +595,7 @@ export type GeneratedItemId =
   | "max-revive"
   | "metal-coat"
   | "miracle-seed"
+  | "moon-stone"
   | "mystic-water"
   | "net-ball"
   | "never-melt-ice"
@@ -593,6 +603,7 @@ export type GeneratedItemId =
   | "poison-barb"
   | "poke-ball"
   | "potion"
+  | "protector"
   | "quick-ball"
   | "repeat-ball"
   | "revive"
@@ -604,11 +615,36 @@ export type GeneratedItemId =
   | "sitrus-berry"
   | "soft-sand"
   | "spell-tag"
+  | "sun-stone"
   | "super-potion"
+  | "thunder-stone"
   | "timer-ball"
+  | "tm02"
+  | "tm03"
+  | "tm04"
+  | "tm06"
+  | "tm09"
+  | "tm13"
+  | "tm14"
+  | "tm19"
+  | "tm23"
+  | "tm24"
+  | "tm25"
+  | "tm26"
+  | "tm29"
+  | "tm30"
+  | "tm31"
+  | "tm32"
+  | "tm35"
+  | "tm36"
+  | "tm38"
+  | "tm39"
+  | "tm40"
+  | "tm50"
   | "toxic-orb"
   | "twisted-spoon"
-  | "ultra-ball";
+  | "ultra-ball"
+  | "water-stone";
 
 export type GeneratedBattleSetId =
   | "g1-arbok"
@@ -816,6 +852,7 @@ export type GeneratedEventId =
   | "kanto.celadon.gym-sign"
   | "kanto.celadon.nurse"
   | "kanto.celadon.sign-gym"
+  | "kanto.celadon.stone-clerk"
   | "kanto.celadon.woman"
   | "kanto.cerulean.arrive"
   | "kanto.cerulean.center-pc"
@@ -1145,6 +1182,7 @@ export type GeneratedEncounterTableId =
   | "kanto-viridian-forest-grass";
 
 export type GeneratedShopId =
+  | "kanto-celadon-stones"
   | "kanto-mart-1"
   | "kanto-mart-2"
   | "kanto-mart-3"
