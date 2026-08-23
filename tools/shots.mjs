@@ -136,6 +136,11 @@ const SHOOTING_SAVE = (() => {
   for (const flag of [
     "kanto.route11.gambler-beaten", "kanto.route8.lass-beaten",
     "kanto.route7.camper-beaten", "kanto.route16.biker-beaten",
+    // **カビゴンをどかしておく**（v1.1-c で16番道路に置いた）。
+    // 経路探索は条件つきオブジェクトを通れる扱いにするので、
+    // 塞がれていることに気づかないまま8枚が16番道路で止まった ――
+    // 撮りたいのは町であって、道をふさぐポケモンとの戦いではない
+    "kanto.route16.snorlax-woken",
   ]) {
     save.regions.kanto.flags[flag] = true;
   }
