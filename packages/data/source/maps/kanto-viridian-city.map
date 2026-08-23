@@ -24,7 +24,7 @@ T............T
 T..PPPP......T
 T..PPDP......T
 T............T
-T............T
+.............T
 T.......FFFF.T
 T.......FFDF.T
 T............T
@@ -37,6 +37,7 @@ TTTTT.TTTTTTTT
 
 warps:
 6,0 step kanto-route-2 5,14 down
+0,5 step kanto-route-22 10,5 left
 5,3 step kanto-viridian-pokecenter 4,6 up
 9,10 step kanto-viridian-gym 4,8 up
 10,7 step kanto-viridian-mart 4,6 up

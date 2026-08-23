@@ -944,5 +944,565 @@
         ]
       }
     ]
+  },
+  {
+    "id": "kanto-victory-cooltrainer",
+    "name": "ケンジ",
+    "class": "エリートトレーナー",
+    "reward": 4400,
+    "defeatedFlag": "kanto.victory.cooltrainer-beaten",
+    "party": [
+      {
+        "species": "machoke",
+        "level": 44,
+        "moves": [
+          "brick-break",
+          "rock-slide",
+          "take-down"
+        ]
+      },
+      {
+        "species": "graveler",
+        "level": 44,
+        "moves": [
+          "rock-slide",
+          "earthquake",
+          "body-slam"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-rival-r22-bulbasaur",
+    "name": "グリーン",
+    "class": "ライバル",
+    "reward": 4800,
+    "defeatedFlag": "kanto.route22.rival-beaten",
+    "party": [
+      {
+        "species": "pidgeotto",
+        "level": 45,
+        "moves": [
+          "wing-attack",
+          "aerial-ace",
+          "agility"
+        ]
+      },
+      {
+        "species": "kadabra",
+        "level": 44,
+        "moves": [
+          "psychic",
+          "psybeam",
+          "recover"
+        ]
+      },
+      {
+        "species": "rhyhorn",
+        "level": 44,
+        "moves": [
+          "rock-slide",
+          "bulldoze",
+          "horn-attack"
+        ]
+      },
+      {
+        "species": "ivysaur",
+        "level": 47,
+        "moves": [
+          "razor-leaf",
+          "sludge-bomb",
+          "giga-drain"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-rival-r22-charmander",
+    "name": "グリーン",
+    "class": "ライバル",
+    "reward": 4800,
+    "defeatedFlag": "kanto.route22.rival-beaten",
+    "party": [
+      {
+        "species": "pidgeotto",
+        "level": 45,
+        "moves": [
+          "wing-attack",
+          "aerial-ace",
+          "agility"
+        ]
+      },
+      {
+        "species": "kadabra",
+        "level": 44,
+        "moves": [
+          "psychic",
+          "psybeam",
+          "recover"
+        ]
+      },
+      {
+        "species": "rhyhorn",
+        "level": 44,
+        "moves": [
+          "rock-slide",
+          "bulldoze",
+          "horn-attack"
+        ]
+      },
+      {
+        "species": "charmeleon",
+        "level": 47,
+        "moves": [
+          "flamethrower",
+          "slash",
+          "crunch"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-rival-r22-squirtle",
+    "name": "グリーン",
+    "class": "ライバル",
+    "reward": 4800,
+    "defeatedFlag": "kanto.route22.rival-beaten",
+    "party": [
+      {
+        "species": "pidgeotto",
+        "level": 45,
+        "moves": [
+          "wing-attack",
+          "aerial-ace",
+          "agility"
+        ]
+      },
+      {
+        "species": "kadabra",
+        "level": 44,
+        "moves": [
+          "psychic",
+          "psybeam",
+          "recover"
+        ]
+      },
+      {
+        "species": "rhyhorn",
+        "level": 44,
+        "moves": [
+          "rock-slide",
+          "bulldoze",
+          "horn-attack"
+        ]
+      },
+      {
+        "species": "wartortle",
+        "level": 47,
+        "moves": [
+          "waterfall",
+          "ice-beam",
+          "bite"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-lorelei",
+    "name": "カンナ",
+    "class": "してんのう",
+    "reward": 9000,
+    "defeatedFlag": "kanto.league.lorelei-beaten",
+    "party": [
+      {
+        "species": "dewgong",
+        "level": 54,
+        "moves": [
+          "ice-beam",
+          "surf",
+          "body-slam",
+          "aurora-beam"
+        ]
+      },
+      {
+        "species": "cloyster",
+        "level": 53,
+        "moves": [
+          "blizzard",
+          "surf",
+          "iron-tail"
+        ]
+      },
+      {
+        "species": "slowbro",
+        "level": 54,
+        "moves": [
+          "psychic",
+          "surf",
+          "ice-beam"
+        ]
+      },
+      {
+        "species": "jynx",
+        "level": 56,
+        "moves": [
+          "psychic",
+          "ice-beam",
+          "dazzling-gleam"
+        ]
+      },
+      {
+        "species": "lapras",
+        "level": 56,
+        "moves": [
+          "blizzard",
+          "surf",
+          "body-slam",
+          "thunderbolt"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-bruno",
+    "name": "シバ",
+    "class": "してんのう",
+    "reward": 9200,
+    "defeatedFlag": "kanto.league.bruno-beaten",
+    "party": [
+      {
+        "species": "onix",
+        "level": 53,
+        "moves": [
+          "rock-slide",
+          "earthquake",
+          "iron-tail"
+        ]
+      },
+      {
+        "species": "hitmonchan",
+        "level": 55,
+        "moves": [
+          "brick-break",
+          "ice-punch",
+          "thunder-punch",
+          "fire-punch"
+        ]
+      },
+      {
+        "species": "hitmonlee",
+        "level": 55,
+        "moves": [
+          "brick-break",
+          "double-kick",
+          "take-down"
+        ]
+      },
+      {
+        "species": "onix",
+        "level": 56,
+        "moves": [
+          "rock-slide",
+          "earthquake",
+          "screech"
+        ]
+      },
+      {
+        "species": "machamp",
+        "level": 58,
+        "moves": [
+          "brick-break",
+          "earthquake",
+          "body-slam",
+          "crunch"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-agatha",
+    "name": "キクコ",
+    "class": "してんのう",
+    "reward": 9400,
+    "defeatedFlag": "kanto.league.agatha-beaten",
+    "party": [
+      {
+        "species": "gengar",
+        "level": 56,
+        "moves": [
+          "shadow-ball",
+          "sludge-bomb",
+          "hypnosis",
+          "confuse-ray"
+        ]
+      },
+      {
+        "species": "golbat",
+        "level": 56,
+        "moves": [
+          "aerial-ace",
+          "poison-jab",
+          "confuse-ray"
+        ]
+      },
+      {
+        "species": "haunter",
+        "level": 55,
+        "moves": [
+          "shadow-ball",
+          "sludge-bomb",
+          "hypnosis"
+        ]
+      },
+      {
+        "species": "arbok",
+        "level": 58,
+        "moves": [
+          "poison-jab",
+          "crunch",
+          "screech"
+        ]
+      },
+      {
+        "species": "gengar",
+        "level": 60,
+        "moves": [
+          "shadow-ball",
+          "psychic",
+          "sludge-bomb",
+          "thunderbolt"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-lance",
+    "name": "ワタル",
+    "class": "してんのう",
+    "reward": 9800,
+    "defeatedFlag": "kanto.league.lance-beaten",
+    "party": [
+      {
+        "species": "gyarados",
+        "level": 58,
+        "moves": [
+          "waterfall",
+          "crunch",
+          "ice-beam",
+          "body-slam"
+        ]
+      },
+      {
+        "species": "dragonair",
+        "level": 56,
+        "moves": [
+          "dragon-claw",
+          "thunderbolt",
+          "iron-tail"
+        ]
+      },
+      {
+        "species": "dragonair",
+        "level": 56,
+        "moves": [
+          "dragon-claw",
+          "ice-beam",
+          "body-slam"
+        ]
+      },
+      {
+        "species": "aerodactyl",
+        "level": 60,
+        "moves": [
+          "rock-slide",
+          "aerial-ace",
+          "crunch"
+        ]
+      },
+      {
+        "species": "dragonite",
+        "level": 62,
+        "moves": [
+          "dragon-claw",
+          "thunderbolt",
+          "ice-beam",
+          "extreme-speed"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-champion-bulbasaur",
+    "name": "グリーン",
+    "class": "チャンピオン",
+    "reward": 12000,
+    "defeatedFlag": "kanto.league.champion-beaten",
+    "party": [
+      {
+        "species": "pidgeot",
+        "level": 59,
+        "moves": [
+          "aerial-ace",
+          "wing-attack",
+          "agility",
+          "take-down"
+        ]
+      },
+      {
+        "species": "alakazam",
+        "level": 57,
+        "moves": [
+          "psychic",
+          "psycho-cut",
+          "calm-mind",
+          "recover"
+        ]
+      },
+      {
+        "species": "rhydon",
+        "level": 59,
+        "moves": [
+          "earthquake",
+          "rock-slide",
+          "horn-attack",
+          "body-slam"
+        ]
+      },
+      {
+        "species": "arcanine",
+        "level": 58,
+        "moves": [
+          "flare-blitz",
+          "crunch",
+          "body-slam"
+        ]
+      },
+      {
+        "species": "venusaur",
+        "level": 63,
+        "moves": [
+          "razor-leaf",
+          "sludge-bomb",
+          "giga-drain",
+          "petal-blizzard"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-champion-charmander",
+    "name": "グリーン",
+    "class": "チャンピオン",
+    "reward": 12000,
+    "defeatedFlag": "kanto.league.champion-beaten",
+    "party": [
+      {
+        "species": "pidgeot",
+        "level": 59,
+        "moves": [
+          "aerial-ace",
+          "wing-attack",
+          "agility",
+          "take-down"
+        ]
+      },
+      {
+        "species": "alakazam",
+        "level": 57,
+        "moves": [
+          "psychic",
+          "psycho-cut",
+          "calm-mind",
+          "recover"
+        ]
+      },
+      {
+        "species": "rhydon",
+        "level": 59,
+        "moves": [
+          "earthquake",
+          "rock-slide",
+          "horn-attack",
+          "body-slam"
+        ]
+      },
+      {
+        "species": "exeggutor",
+        "level": 58,
+        "moves": [
+          "giga-drain",
+          "psychic",
+          "razor-leaf"
+        ]
+      },
+      {
+        "species": "charizard",
+        "level": 63,
+        "moves": [
+          "flamethrower",
+          "aerial-ace",
+          "crunch",
+          "fire-blast"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-champion-squirtle",
+    "name": "グリーン",
+    "class": "チャンピオン",
+    "reward": 12000,
+    "defeatedFlag": "kanto.league.champion-beaten",
+    "party": [
+      {
+        "species": "pidgeot",
+        "level": 59,
+        "moves": [
+          "aerial-ace",
+          "wing-attack",
+          "agility",
+          "take-down"
+        ]
+      },
+      {
+        "species": "alakazam",
+        "level": 57,
+        "moves": [
+          "psychic",
+          "psycho-cut",
+          "calm-mind",
+          "recover"
+        ]
+      },
+      {
+        "species": "rhydon",
+        "level": 59,
+        "moves": [
+          "earthquake",
+          "rock-slide",
+          "horn-attack",
+          "body-slam"
+        ]
+      },
+      {
+        "species": "exeggutor",
+        "level": 58,
+        "moves": [
+          "giga-drain",
+          "psychic",
+          "razor-leaf"
+        ]
+      },
+      {
+        "species": "blastoise",
+        "level": 63,
+        "moves": [
+          "waterfall",
+          "ice-beam",
+          "body-slam",
+          "surf"
+        ]
+      }
+    ]
   }
 ]

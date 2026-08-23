@@ -1,0 +1,30 @@
+# 四天王の部屋（カンナ）。**入ったら戻れない** ―― 戻る warp を置いていない。
+# 次の部屋の扉は、勝つまで開かない（扉のオブジェクトが条件で消える）。
+id: kanto-league-lorelei
+name: してんのう カンナ
+region: kanto
+bgm: league
+
+legend:
+. normal
+W !normal
+D normal
+
+grid:
+WWWWDWWWW
+W.......W
+W.......W
+W.......W
+W.......W
+W.......W
+W.......W
+W.......W
+W.......W
+WWWWWWWWW
+
+warps:
+4,0 step kanto-league-bruno 4,8 down
+
+objects:
+league-lorelei 4,2 npc:leader:static kanto.league.lorelei
+league-lorelei-door 4,0 npc:machine:static kanto.league.lorelei-door if:kanto.league.lorelei-beaten=false

@@ -1,0 +1,38 @@
+# チャンピオンロード。**かいりき が無いと抜けられない。**
+# 進行能力の見せ場をここに置いた（world.md §7）。
+# いわくだき の岩は近道で、通らなくても抜けられる。
+id: kanto-victory-road
+name: チャンピオンロード
+region: kanto
+encounters: kanto-victory-road-cave
+bgm: victory-road
+
+legend:
+. cave
+R !cave
+D normal
+
+grid:
+RRRR.RRRRRRRR
+RRRR.RRRRRRRR
+RR.......RRRR
+RR.RRRRR.RRRR
+RR.RRRRR.RRRR
+RR.RR....RRRR
+RR.RR.RRRRRRR
+RR..........R
+RRRRRRRR....R
+RRRRRRRR.RRRR
+RRRRRRRR.RRRR
+RRRRRRRR.RRRR
+RRRRRRRR.RRRR
+
+warps:
+4,0 step kanto-indigo-plateau 4,9 up
+8,12 step kanto-route-23 5,1 down
+
+objects:
+victory-boulder 4,2 obstacle:strength
+victory-rock 5,6 obstacle:rockSmash
+victory-max-revive 3,7 item:max-revive kanto.victory.max-revive if:kanto.victory.max-revive-taken=false
+victory-cooltrainer 8,9 trainer:kanto-victory-cooltrainer:3:down kanto.victory.cooltrainer if:kanto.victory.cooltrainer-beaten=false

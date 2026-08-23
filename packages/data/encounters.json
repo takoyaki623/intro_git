@@ -530,5 +530,119 @@
         "rate": 30
       }
     ]
+  },
+  {
+    "id": "kanto-route-22-grass",
+    "method": "grass",
+    "entries": [
+      {
+        "species": "rattata",
+        "levelRange": [
+          6,
+          9
+        ],
+        "rate": 35
+      },
+      {
+        "species": "nidoran-m",
+        "levelRange": [
+          6,
+          9
+        ],
+        "rate": 25
+      },
+      {
+        "species": "nidoran-f",
+        "levelRange": [
+          6,
+          9
+        ],
+        "rate": 25
+      },
+      {
+        "species": "mankey",
+        "levelRange": [
+          7,
+          10
+        ],
+        "rate": 15
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-23-grass",
+    "method": "grass",
+    "entries": [
+      {
+        "species": "spearow",
+        "levelRange": [
+          32,
+          38
+        ],
+        "rate": 30
+      },
+      {
+        "species": "fearow",
+        "levelRange": [
+          38,
+          44
+        ],
+        "rate": 25
+      },
+      {
+        "species": "mankey",
+        "levelRange": [
+          33,
+          38
+        ],
+        "rate": 20
+      },
+      {
+        "species": "primeape",
+        "levelRange": [
+          38,
+          44
+        ],
+        "rate": 25
+      }
+    ]
+  },
+  {
+    "id": "kanto-victory-road-cave",
+    "method": "cave",
+    "entries": [
+      {
+        "species": "golbat",
+        "levelRange": [
+          40,
+          46
+        ],
+        "rate": 30
+      },
+      {
+        "species": "machoke",
+        "levelRange": [
+          40,
+          44
+        ],
+        "rate": 25
+      },
+      {
+        "species": "graveler",
+        "levelRange": [
+          40,
+          44
+        ],
+        "rate": 25
+      },
+      {
+        "species": "onix",
+        "levelRange": [
+          40,
+          46
+        ],
+        "rate": 20
+      }
+    ]
   }
 ]

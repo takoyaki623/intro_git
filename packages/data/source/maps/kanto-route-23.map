@@ -1,0 +1,32 @@
+# 23番道路。**バッジ8つの検問。** 北がチャンピオンロード。
+id: kanto-route-23
+name: 23ばんどうろ
+region: kanto
+encounters: kanto-route-23-grass
+bgm: route-23
+
+legend:
+. normal
+, grass
+T !normal
+
+grid:
+TTTTT.TTTTTT
+T..........T
+T..........T
+T....,,....T
+T....,,....T
+T...........
+T..........T
+T....,,....T
+T....,,....T
+T..........T
+TTTTTTTTTTTT
+
+warps:
+11,5 step kanto-route-22 1,5 right
+5,0 step kanto-victory-road 8,11 up
+
+objects:
+route23-sign 6,2 sign kanto.route23.sign
+route23-guard 5,1 npc:guard:static kanto.route23.guard if:kanto.league.gate-open=false

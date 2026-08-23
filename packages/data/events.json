@@ -4134,5 +4134,623 @@
         "speaker": "サカキ"
       }
     ]
+  },
+  {
+    "id": "kanto.route22.sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "22ばんどうろ\n\n 「この さきは ポケモンリーグ」"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route22.rival",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "よお! おれも リーグを めざしてる。",
+        "speaker": "グリーン"
+      },
+      {
+        "kind": "message",
+        "text": "ここで きめようぜ!",
+        "speaker": "グリーン"
+      },
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "hasSpecies",
+          "species": "bulbasaur"
+        },
+        "then": [
+          {
+            "kind": "battle",
+            "trainer": "kanto-rival-r22-charmander",
+            "onWin": "kanto.route22.rival-win",
+            "onLose": "kanto.route22.rival-lose"
+          }
+        ],
+        "else": [
+          {
+            "kind": "if",
+            "cond": {
+              "kind": "hasSpecies",
+              "species": "charmander"
+            },
+            "then": [
+              {
+                "kind": "battle",
+                "trainer": "kanto-rival-r22-squirtle",
+                "onWin": "kanto.route22.rival-win",
+                "onLose": "kanto.route22.rival-lose"
+              }
+            ],
+            "else": [
+              {
+                "kind": "battle",
+                "trainer": "kanto-rival-r22-bulbasaur",
+                "onWin": "kanto.route22.rival-win",
+                "onLose": "kanto.route22.rival-lose"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route22.rival-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route22.rival-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "くそっ! さきに いくからな!",
+        "speaker": "グリーン"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route22.rival-lose",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "よわいな。でなおして こい。",
+        "speaker": "グリーン"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route23.sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "23ばんどうろ\n\n 「バッジ 8つで とおれます」"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route23.guard",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "badges",
+          "op": ">=",
+          "count": 8
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "バッジ 8つ、たしかに。\nチャンピオンロードへ どうぞ。",
+            "speaker": "けいび"
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.league.gate-open",
+            "value": true
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "この さきは ポケモンリーグ。\nバッジ 8つが ひつようです。",
+            "speaker": "けいび"
+          },
+          {
+            "kind": "message",
+            "text": "トキワジムの ぬしを たおしましたか?",
+            "speaker": "けいび"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.victory.max-revive",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-revive",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.victory.max-revive-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.victory.cooltrainer",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.victory.cooltrainer-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ここを ぬけられる やつは すくない。",
+            "speaker": "エリートトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-victory-cooltrainer",
+            "onWin": "kanto.victory.cooltrainer-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "いってこい。",
+            "speaker": "エリートトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.victory.cooltrainer-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.victory.cooltrainer-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "いってこい。",
+        "speaker": "エリートトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.indigo.arrive",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.fly.indigo",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.indigo.sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ポケモンリーグ\n\n 「してんのう 4にんと チャンピオン」"
+      }
+    ]
+  },
+  {
+    "id": "kanto.indigo.guide",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.indigo.guide",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "してんのうは 4にん。\nいちど はいったら もどれません。",
+            "speaker": "あんないがかり"
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.indigo.guide",
+            "value": true
+          },
+          {
+            "kind": "message",
+            "text": "かいふくの どうぐを そろえてから\nすすんで ください。",
+            "speaker": "あんないがかり"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "かいふくの どうぐは そろえましたか?",
+            "speaker": "あんないがかり"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.indigo.nurse",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ポケモンを おあずかりします。",
+        "speaker": "ジョーイ"
+      },
+      {
+        "kind": "healParty"
+      },
+      {
+        "kind": "message",
+        "text": "おまたせしました!",
+        "speaker": "ジョーイ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.indigo.center-pc",
+    "commands": [
+      {
+        "kind": "openBox"
+      }
+    ]
+  },
+  {
+    "id": "kanto.league.lorelei",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.league.lorelei-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "わたしは してんのうの カンナ。",
+            "speaker": "カンナ"
+          },
+          {
+            "kind": "message",
+            "text": "こおりの ポケモンに\nかてるかしら?",
+            "speaker": "カンナ"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-lorelei",
+            "onWin": "kanto.league.lorelei-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "...つよいのね。つぎへ どうぞ。",
+            "speaker": "カンナ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.league.lorelei-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.league.lorelei-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "...つよいのね。つぎへ どうぞ。",
+        "speaker": "カンナ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.league.lorelei-door",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "とびらは かたく とじている。\nカンナに かたなければ ひらかない。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.league.bruno",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.league.bruno-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "わたしは してんのうの シバ。",
+            "speaker": "シバ"
+          },
+          {
+            "kind": "message",
+            "text": "わしの ポケモンは かくとうの プロだ!",
+            "speaker": "シバ"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-bruno",
+            "onWin": "kanto.league.bruno-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "むう... とおるが よい。",
+            "speaker": "シバ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.league.bruno-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.league.bruno-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "むう... とおるが よい。",
+        "speaker": "シバ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.league.bruno-door",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "とびらは かたく とじている。\nシバに かたなければ ひらかない。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.league.agatha",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.league.agatha-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "わたしは してんのうの キクコ。",
+            "speaker": "キクコ"
+          },
+          {
+            "kind": "message",
+            "text": "ヒヒヒ! おどろかせて あげようかね。",
+            "speaker": "キクコ"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-agatha",
+            "onWin": "kanto.league.agatha-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "おやおや、まけたよ。おいき。",
+            "speaker": "キクコ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.league.agatha-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.league.agatha-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "おやおや、まけたよ。おいき。",
+        "speaker": "キクコ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.league.agatha-door",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "とびらは かたく とじている。\nキクコに かたなければ ひらかない。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.league.lance",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.league.lance-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "わたしは してんのうの ワタル。",
+            "speaker": "ワタル"
+          },
+          {
+            "kind": "message",
+            "text": "ドラゴンの つよさを おしえよう。",
+            "speaker": "ワタル"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-lance",
+            "onWin": "kanto.league.lance-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "...みごとだ。さいごの ひとりが まっている。",
+            "speaker": "ワタル"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.league.lance-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.league.lance-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "...みごとだ。さいごの ひとりが まっている。",
+        "speaker": "ワタル"
+      }
+    ]
+  },
+  {
+    "id": "kanto.league.lance-door",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "とびらは かたく とじている。\nワタルに かたなければ ひらかない。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.league.champion",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.league.champion-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "やっぱり おまえか。",
+            "speaker": "グリーン"
+          },
+          {
+            "kind": "message",
+            "text": "おれは チャンピオンに なった。\nさいごまで つよいのは おれだ!",
+            "speaker": "グリーン"
+          },
+          {
+            "kind": "if",
+            "cond": {
+              "kind": "hasSpecies",
+              "species": "bulbasaur"
+            },
+            "then": [
+              {
+                "kind": "battle",
+                "trainer": "kanto-champion-charmander",
+                "onWin": "kanto.league.champion-win"
+              }
+            ],
+            "else": [
+              {
+                "kind": "if",
+                "cond": {
+                  "kind": "hasSpecies",
+                  "species": "charmander"
+                },
+                "then": [
+                  {
+                    "kind": "battle",
+                    "trainer": "kanto-champion-squirtle",
+                    "onWin": "kanto.league.champion-win"
+                  }
+                ],
+                "else": [
+                  {
+                    "kind": "battle",
+                    "trainer": "kanto-champion-bulbasaur",
+                    "onWin": "kanto.league.champion-win"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "...おまえの かちだ。またな。",
+            "speaker": "グリーン"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.league.champion-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.league.champion-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "うそだろ... おれが まけるなんて。",
+        "speaker": "グリーン"
+      },
+      {
+        "kind": "message",
+        "text": "カントーの チャンピオンは きみだ。\n（殿堂入りの えんしゅつは v1.0）"
+      },
+      {
+        "kind": "warp",
+        "to": "kanto-indigo-plateau",
+        "x": 6,
+        "y": 3,
+        "facing": "down"
+      }
+    ]
   }
 ]

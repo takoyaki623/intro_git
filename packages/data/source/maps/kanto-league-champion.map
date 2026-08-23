@@ -1,0 +1,28 @@
+# チャンピオンの間。勝つと セキエイこうげん へ戻る（殿堂入りの演出は v1.0）。
+# 次の部屋の扉は、勝つまで開かない（扉のオブジェクトが条件で消える）。
+id: kanto-league-champion
+name: チャンピオンのま
+region: kanto
+bgm: league
+
+legend:
+. normal
+W !normal
+D normal
+
+grid:
+WWWWWWWWW
+W.......W
+W.......W
+W.......W
+W.......W
+W.......W
+W.......W
+W.......W
+W.......W
+WWWWWWWWW
+
+warps:
+
+objects:
+league-champion 4,2 npc:leader:static kanto.league.champion

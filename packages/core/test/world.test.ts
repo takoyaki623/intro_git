@@ -826,3 +826,51 @@ describe("カントーの地図（v0.12-e）", () => {
     expect(withSurf.has("kanto-route-21")).toBe(true);
   });
 });
+
+describe("ポケモンリーグ（v0.12-f）", () => {
+  const ROOMS = [
+    "kanto-league-lorelei",
+    "kanto-league-bruno",
+    "kanto-league-agatha",
+    "kanto-league-lance",
+    "kanto-league-champion",
+  ];
+
+  it("**入ったら戻れない** ―― 部屋から前へ戻る warp が無い", () => {
+    const previous = ["kanto-indigo-plateau", ...ROOMS];
+    ROOMS.forEach((id, i) => {
+      const room = mapById(id);
+      expect(
+        room.warps.some((w) => w.to.map === previous[i]),
+        id,
+      ).toBe(false);
+    });
+  });
+
+  it("次の扉は、勝つまで開かない", () => {
+    for (const id of ROOMS.slice(0, -1)) {
+      const room = mapById(id);
+      const door = room.warps.find((w) => w.trigger === "step")!;
+      const beaten = emptyWorldState();
+      const before = emptyWorldState();
+      // 勝つ前は扉のオブジェクトが乗っていて踏めない
+      expect(isWalkable(room, before, door.at.x, door.at.y), id).toBe(false);
+      // 勝つと消える
+      const blocker = room.objects.find((o) => o.at.x === door.at.x && o.at.y === door.at.y)!;
+      expect(blocker.condition?.kind, id).toBe("flag");
+      if (blocker.condition?.kind === "flag") beaten.flags[blocker.condition.flag] = true;
+      expect(isWalkable(room, beaten, door.at.x, door.at.y), id).toBe(true);
+    }
+  });
+
+  it("チャンピオンロードは かいりき が無いと抜けられない", () => {
+    const road = mapById("kanto-victory-road");
+    const boulder = road.objects.find((o) => o.kind.type === "obstacle" && o.kind.clearedBy === "strength");
+    expect(boulder).toBeDefined();
+    // 岩をどけるまで、北の出口へ続く道が塞がっている
+    const world = emptyWorldState();
+    expect(isWalkable(road, world, boulder!.at.x, boulder!.at.y)).toBe(false);
+    world.cleared.push(obstacleKey(road.id, boulder!));
+    expect(isWalkable(road, world, boulder!.at.x, boulder!.at.y)).toBe(true);
+  });
+});

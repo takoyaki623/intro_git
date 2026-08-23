@@ -35,7 +35,15 @@ const blocked = (m, x, y) =>
   x < 0 || y < 0 || x >= m.size.width || y >= m.size.height ||
   (m.collision[y * m.size.width + x] === true &&
     m.terrain[y * m.size.width + x] !== "water") ||
-  m.objects.some((o) => o.at.x === x && o.at.y === y && o.kind.type !== "item" && o.condition === undefined);
+  m.objects.some(
+    (o) =>
+      o.at.x === x &&
+      o.at.y === y &&
+      o.kind.type !== "item" &&
+      // フィールド技で どけられるものは壁として数えない（撮影用セーブは全部持っている）
+      o.kind.type !== "obstacle" &&
+      o.condition === undefined,
+  );
 
 const warpAt = (m, x, y) =>
   m.warps.find((w) => w.at.x === x && w.at.y === y && w.trigger === "step") ?? null;
@@ -113,6 +121,10 @@ const SHOOTING_SAVE = (() => {
     // 視線に入ると戦いになり、負ければ復活地点へ飛ぶ ―― 実際そうなって、
     // 「トキワジム」の絵としてマサラタウンが保存された
     "kanto.viridian.gym-jr-beaten", "kanto.cinnabar.gym-jr-beaten",
+    // リーグまで撮る（v0.12-f）。**扉は勝つまで開かない**ので、
+    // 開けておかないとワタルの部屋に一生たどり着けない
+    "kanto.league.gate-open", "kanto.victory.cooltrainer-beaten",
+    "kanto.league.lorelei-beaten", "kanto.league.bruno-beaten", "kanto.league.agatha-beaten",
   ]) {
     save.regions.kanto.flags[flag] = true;
   }
@@ -183,6 +195,9 @@ const PLACES = [
   { file: "fuchsia-city", name: "セキチクシティ", note: "ジム5（キョウ）。サファリゾーンはまだ閉まっている", to: ["kanto-fuchsia-city", 6, 5] },
   { file: "route-19", name: "19ばんすいどう", note: "なみのり の海。砂州だけが陸", to: ["kanto-route-19", 5, 5] },
   { file: "cinnabar-island", name: "グレンじま", note: "ジム7（カツラ）。なみのり でしか来られない島", to: ["kanto-cinnabar-island", 6, 4] },
+  { file: "victory-road", name: "チャンピオンロード", note: "洞窟。かいりき の岩が道を塞ぐ", to: ["kanto-victory-road", 8, 8] },
+  { file: "indigo-plateau", name: "セキエイこうげん", note: "ポケモンリーグの入口", to: ["kanto-indigo-plateau", 6, 4] },
+  { file: "league-lance", name: "してんのう ワタル", note: "入ったら戻れない部屋。扉は勝つまで開かない", to: ["kanto-league-lance", 4, 5] },
   { file: "hub-plaza", name: "拠点の広場", note: "施設・大会・保管庫・地方ゲートが並ぶ", to: ["hub-plaza", 8, 9] },
   { file: "hub-depot", name: "保管庫のなか", note: "共通ボックスと BP交換所", to: ["hub-depot", 4, 3] },
 ];
@@ -229,19 +244,37 @@ for (const size of [
   // 新規データのままだと、**オーキドがマサラタウンの北を塞いでいる**（御三家の前）。
   // 進行を作るために長い台本を書くより、**開通済みのセーブを1つ読ませる**方が
   // 速いし、撮れる絵も「遊んでいる途中」らしくなる。
-  await page.click("#open-settings");
-  await page.waitForSelector("#save-text");
-  await page.fill("#save-text", JSON.stringify(SHOOTING_SAVE));
-  await page.click("#save-import");
-  await page.waitForTimeout(800);
-  await page.click("#settings-back");
-  await page.waitForSelector("#field-canvas");
-  await page.waitForTimeout(400);
+  async function loadShootingSave() {
+    await page.click("#open-settings");
+    await page.waitForSelector("#save-text");
+    await page.fill("#save-text", JSON.stringify(SHOOTING_SAVE));
+    await page.click("#save-import");
+    await page.waitForTimeout(800);
+    await page.click("#settings-back");
+    await page.waitForSelector("#field-canvas");
+    await page.waitForTimeout(400);
+    // 会話が出ていたら消す
+    for (let i = 0; i < 6 && (await page.isVisible("#field-text")); i += 1) {
+      await page.keyboard.press("z");
+      await page.waitForTimeout(200);
+    }
+  }
+  await loadShootingSave();
 
-  // 会話が出ていたら消す
-  for (let i = 0; i < 6 && (await page.isVisible("#field-text")); i += 1) {
+  /** 目の前の障害物に フィールド技を使う（v0.12-f）。 */
+  async function useAbility(direction) {
+    for (let i = 0; i < 2; i += 1) {
+      await page.keyboard.press(direction);
+      await page.waitForTimeout(220);
+    }
     await page.keyboard.press("z");
-    await page.waitForTimeout(200);
+    await page.waitForTimeout(400);
+    for (let i = 0; i < 8 && (await page.isVisible("#field-text")); i += 1) {
+      const buttons = await page.$$("#field-text .choices button");
+      if (buttons.length > 0) await buttons[0].click();
+      else await page.keyboard.press("z");
+      await page.waitForTimeout(250);
+    }
   }
 
   /**
@@ -349,6 +382,14 @@ for (const size of [
   for (const place of PLACES) {
     const [map, x, y] = place.to;
     const want = map.startsWith("hub-") ? "hub" : "kanto";
+    // **リーグの部屋からは歩いて出られない**（v0.12-f・戻る warp が無い）。
+    // 次の場所へ動く前に、セーブを読み直してマサラへ戻す。
+    // **`want !== region` の判定より先**にやる ―― あとにすると、
+    // 出られない部屋から拠点へ歩こうとして失敗したあとに読み直すことになる
+    if ((await spot()).map.startsWith("kanto-league-")) {
+      await loadShootingSave();
+      region = "kanto";
+    }
     if (want !== region) {
       if (want === "hub") await backToHub();
       else await enterKanto();
@@ -365,6 +406,13 @@ for (const size of [
         : `  △ ${place.name}（${size.label}）… ねらい ${map} ${x},${y} / いま ${where}`,
     );
     if (size.label === "phone") shots.push({ ...place, group: "マップ", file: place.file });
+
+    // チャンピオンロードは **かいりき の岩** で北へ抜けられない。
+    // 台本と同じで、撮影も能力を使って通る
+    if (place.file === "victory-road") {
+      await goTo("kanto-victory-road", 3, 2);
+      await useAbility("ArrowRight");
+    }
   }
 
   // ── 画面（マップ以外）──

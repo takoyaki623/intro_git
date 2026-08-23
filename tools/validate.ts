@@ -1327,6 +1327,29 @@ function checkWorld(): void {
   // ── #55・#56 到達不能な区画と、話しかけられないオブジェクト ──
   for (const map of allMaps) checkReachability(map, mapById);
 
+  // ── #86 warp のマスを、消えないオブジェクトで塞いでいないこと（v0.12-f）──
+  //
+  // 条件つきなら「勝つまで開かない扉」として正しい使い方（四天王の部屋）。
+  // **条件が無いと、その出入口は永久に死んでいる。**
+  for (const map of allMaps) {
+    for (const warp of map.warps) {
+      if (warp.trigger !== "step") continue;
+      const blocker = map.objects.find(
+        (o) =>
+          o.at.x === warp.at.x &&
+          o.at.y === warp.at.y &&
+          o.kind.type !== "item" &&
+          o.condition === undefined,
+      );
+      if (blocker !== undefined) {
+        fail(
+          "warp-blocked",
+          `${map.id} (${warp.at.x},${warp.at.y}): 出入口に "${blocker.id}" が無条件で乗っている`,
+        );
+      }
+    }
+  }
+
   // ── #85 warp の往復がずれていないこと（v0.12-e）──
   //
   // **入って出たら、入口の前に立っている。** これが崩れていても

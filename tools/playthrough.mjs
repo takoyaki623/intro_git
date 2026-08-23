@@ -370,13 +370,25 @@ note("バトル開始", (await page.textContent("#log")).trim().split("\n")[0]);
 await shot("5-rival");
 
 /** 攻撃技を優先して押す（最初のボタンが変化技のことがある）。 */
+/**
+ * 技を選ぶ。**1つずつ順番に押す。**
+ *
+ * 先頭から押していた頃は、相手に無効な技を延々と撃ち続けた ――
+ * ワタル（ひこう5匹中3匹）に じしん を撃って3連敗している。
+ * 台本に相性判断を持たせるのは本末転倒なので、**順番に回す。**
+ * 4つで型を散らしてあれば、4回に3回は効く技が当たる。
+ */
+let moveTurn = 0;
 async function pickMove() {
   const buttons = await page.$$("#controls .move");
+  const usable = [];
   for (const b of buttons) {
     const meta = (await b.textContent()) ?? "";
-    if (!meta.includes("— ・")) return b;
+    if (!meta.includes("— ・")) usable.push(b);
   }
-  return buttons[0];
+  if (usable.length === 0) return buttons[0];
+  moveTurn += 1;
+  return usable[moveTurn % usable.length];
 }
 
 /**
@@ -387,9 +399,15 @@ async function fight(limit = 240) {
   for (let i = 0; i < limit; i += 1) {
     if (await page.isHidden("#battle")) return "決着してマップに戻った";
     const move = await pickMove();
-    const swap = await page.$("#controls .switch");
-    if (move) await move.click();
-    else if (swap) await swap.click();
+    if (move) {
+      await move.click().catch(() => {});
+    } else {
+      // **技のボタンが無い場面がある。** ひんしの入れ替え、捕獲の確認、
+      // 決着後の後片付け ―― `.switch` だけを見ていたので、そこで止まって
+      // 240ターン空回りし、「負けなかった」と誤報していた
+      const any = (await page.$$("#controls button"))[0];
+      if (any) await any.click().catch(() => {});
+    }
     await page.waitForTimeout(200);
   }
   return "終わらなかった";
@@ -432,11 +450,18 @@ if (run) {
 
 // ── 6. 野生戦で消耗するか（v0.8 の眼目）──
 note("遭遇前のてもち", hpBefore);
+// **経験値は画面に出ていない。** 手持ちの行はレベルとHPしか見せないので、
+// 無傷で勝ってレベルも上がらなかった1戦は「何も起きなかった」と同じ字面になる。
+// 実際それで落ちたので、経験値はセーブから読む（測る対象を合わせる）
+const expBefore = await partyExp();
 // 1戦では無傷で終わることもある（コラッタが しっぽをふる だけで倒れる等）。
 // **戦った跡が手持ちに残るか**を見たいので、変わるまで何戦かする
 let battles = 0;
 let hpAfter = hpBefore;
-for (let i = 0; i < 40 && hpAfter === hpBefore; i += 1) {
+// **「1戦した」では足りない。** 逃げられた・変化技しか当たらなかった等で
+// 何も残らない1戦がある。**跡が残るまで**戦う（最大4戦）
+let expAfter = expBefore;
+for (let i = 0; i < 40 && hpAfter === hpBefore && expAfter === expBefore && battles < 4; i += 1) {
   await key(i % 2 === 0 ? "ArrowLeft" : "ArrowRight", 2, 200);
   if (await page.isVisible("#battle")) {
     battles += 1;
@@ -448,13 +473,14 @@ for (let i = 0; i < 40 && hpAfter === hpBefore; i += 1) {
     await drain();
     const settled = (await page.textContent("#field-party")).trim();
     hpAfter = justAfter !== hpBefore ? justAfter : settled;
+    expAfter = await partyExp();
   }
 }
 note("野生と戦った回数", String(battles));
-note("たたかった後のてもち", hpAfter);
+note("たたかった後のてもち", `${hpAfter} / けいけんち ${expBefore} → ${expAfter}`);
 expect(
   "戦った跡が手持ちに残る（HPか経験値）",
-  hpAfter === hpBefore ? "残っていない" : "残った",
+  hpAfter !== hpBefore || expAfter > expBefore ? "残った" : "残っていない",
   "残った",
 );
 await shot("8-end");
@@ -678,7 +704,7 @@ for (let i = 0; i < 80 && !lost; i += 1) {
     // **1回見て終わりにしない。** 全滅のあとは会話とマップ移動が続くので、
     // 800ms 後に覗くと、まだ道路に立っている瞬間を掴むことがある
     // ―― これで「負けなかった」と誤報していた
-    for (let w = 0; w < 20 && !lost; w += 1) {
+    for (let w = 0; w < 40 && !lost; w += 1) {
       lost = (await spot()).map === respawn.map;
       if (!lost) {
         await drain(4);
@@ -911,8 +937,8 @@ await shot("21-three-badges");
  * そこから先の判定が全部連鎖で崩れた。台本が確かめたいのは機構なので、
  * **ジムの直前ごとに満タンに戻す**（人で言えば「ちゃんと準備してから行く」）。
  */
-/** セーブを読み出して、今のバッジ数を見る。 */
-async function badgeCount() {
+/** セーブを読み出す。画面に出ていない値（経験値など）はここからしか見えない。 */
+async function readSave() {
   await page.click("#open-settings");
   await page.waitForSelector("#save-export");
   await page.click("#save-export");
@@ -920,7 +946,17 @@ async function badgeCount() {
   await page.click("#settings-back");
   await page.waitForSelector("#field-canvas");
   await page.waitForTimeout(300);
-  return save.regions.kanto.badges;
+  return save;
+}
+
+async function badgeCount() {
+  return (await readSave()).regions.kanto.badges;
+}
+
+/** 手持ちの経験値の合計。 */
+async function partyExp() {
+  const save = await readSave();
+  return save.regions.kanto.partyUids.reduce((sum, uid) => sum + save.pokemon[uid].exp, 0);
 }
 
 async function powerUp() {
@@ -929,22 +965,33 @@ async function powerUp() {
   await page.click("#save-export");
   const save = JSON.parse(await page.inputValue("#save-text"));
   for (const mon of Object.values(save.pokemon)) {
-    mon.exp = 900000;
+    mon.exp = 1250000; // Lv100（900000 は Lv94 で、キョウの どくどく に押し切られた）
     mon.currentHp = 999;
     mon.status = null;
+    // **1つめは「無効になりえない技」にする。**
+    // `pickMove()` は PP の残っている先頭の技を押し続けるだけなので、
+    // 相手に無効な技を先頭に置くと、そのまま0ダメージを撃ち続けて負ける。
+    // 実際、じしん（ひこうに無効）を先頭にしていてワタルに3連敗した。
+    //   あく … 無効になる相手が居ない
+    //   いわ … 無効になる相手が居ない
+    //   じしん … ひこうに無効 ／ でんき … じめんに無効
+    // **とくしゅ技で揃える。** ヒトカゲの最終形は こうげき 84 / とくこう 109 で、
+    // 物理技で殴っていたぶんだけ損をしていた。型は4つに散らす（`pickMove` が順に回す）
     mon.moves = [
-      { id: "earthquake", pp: 10 }, // どく・でんきに2倍
-      { id: "crunch", pp: 15 }, // エスパー・ゴーストに2倍
-      { id: "brick-break", pp: 15 }, // いわ・ノーマルに2倍
+      { id: "flamethrower", pp: 15 }, // くさ・こおり・むしに2倍（タイプ一致）
+      { id: "ice-beam", pp: 10 }, // ドラゴン・ひこう・じめん・くさに2倍
+      { id: "thunderbolt", pp: 15 }, // みず・ひこうに2倍
+      { id: "psychic", pp: 10 }, // どく・かくとうに2倍
     ];
   }
-  // **手持ちを3匹にする。**
-  // 1匹だと、キョウの どくどく + えんまく で削り切られて負ける（実際に負けた）。
-  // 台本が確かめたいのは機構であって腕前ではないので、控えを用意する ――
+  // **手持ちを6匹にする。**
+  // 1匹だと、キョウの どくどく + えんまく で削り切られて負けた。
+  // 3匹にしても、四天王カンナ（5匹・みず/こおり）に3回とも負けた。
+  // 台本が確かめたいのは機構であって腕前ではないので、正面から揃える ――
   // 人がやることと同じ
   const party = save.regions.kanto.partyUids;
   const first = save.pokemon[party[0]];
-  while (party.length < 3) {
+  while (party.length < 6) {
     const uid = `f${party.length}`.padEnd(16, "0");
     save.pokemon[uid] = { ...structuredClone(first), uid };
     party.push(uid);
@@ -982,7 +1029,9 @@ await powerUp();
  * ここで確かめたいのは「勝てるか」ではなく「勝つとバッジが増えるか」。
  */
 async function challengeGym(label, map, x, y, want) {
-  for (let attempt = 1; attempt <= 3; attempt += 1) {
+  // **5回まで。** 台本の戦い方は「上から順に技を押す」だけなので、
+  // えんまく で命中を下げてくる相手には素で負ける（キョウで3連敗した）
+  for (let attempt = 1; attempt <= 5; attempt += 1) {
     await powerUp();
     await goToMap(map, x, y, 80);
     if ((await spot()).map !== map) {
@@ -1135,6 +1184,101 @@ expect(
 );
 expect("バッジが 8つに なる", await badgeCount(), 8);
 await shot("30-eight-badges");
+
+// ── 17. ポケモンリーグ（v0.12-f）──
+//
+// **かいりき の見せ場と、戻れない部屋。**
+await goToMap("kanto-viridian-city", 1, 5, 120);
+expect("トキワの 西に 出口が できた", (await spot()).map, "kanto-viridian-city");
+
+// 22番道路のライバル。視線ではなく話しかけ（原作どおり道の真ん中に立っている）
+await powerUp();
+await goToMap("kanto-route-22", 3, 6, 60);
+expect("22ばんどうろへ 行ける", (await spot()).map, "kanto-route-22");
+await talk("ArrowUp");
+await drain(8);
+if (await page.isVisible("#battle")) {
+  await fight();
+  await page.waitForTimeout(800);
+  await drain(30);
+}
+await shot("31-rival");
+
+// 23番道路の検問。バッジ8つで開く
+await goToMap("kanto-route-23", 5, 2, 60);
+expect("23ばんどうろへ 行ける", (await spot()).map, "kanto-route-23");
+// **ここでは「入れない」を試さない。** もう バッジが8つあるので、
+// ぶつかった台本が話しかけた時点で けいびは通してしまう ―― 条件が満たされて
+// いるのだから正しい。塞がる側は #86 とヤマブキ（§14）で見ている
+await talk("ArrowUp");
+await drain(8);
+await goToMap("kanto-victory-road", 8, 11, 30);
+expect("バッジ8つで チャンピオンロードに 入れる", (await spot()).map, "kanto-victory-road");
+
+// かいりき の岩。どけないと北の出口へ行けない
+expect(
+  "かいりき の岩を どけるまで 抜けられない",
+  (await goToMap("kanto-indigo-plateau", 4, 9, 4)).map,
+  "kanto-victory-road",
+);
+// 岩は横道の途中（4,2）にある。立てるのは左どなりだけ
+await goToMap("kanto-victory-road", 3, 2, 30);
+await useAbility("ArrowRight", "kanto-victory-road:victory-boulder");
+await goToMap("kanto-indigo-plateau", 4, 9, 60);
+expect("かいりき で セキエイこうげんに つく", (await spot()).map, "kanto-indigo-plateau");
+await shot("32-indigo");
+
+// 四天王。**入ったら戻れない**
+await goToMap("kanto-indigo-pokecenter", 4, 3, 30);
+await talk("ArrowUp");
+await drain();
+await powerUp();
+const FOUR = [
+  ["カンナ", "kanto-league-lorelei"],
+  ["シバ", "kanto-league-bruno"],
+  ["キクコ", "kanto-league-agatha"],
+  ["ワタル", "kanto-league-lance"],
+  ["グリーン", "kanto-league-champion"],
+];
+for (const [name, map] of FOUR) {
+  let won = false;
+  for (let attempt = 1; attempt <= 3 && !won; attempt += 1) {
+    if ((await spot()).map !== map) {
+      // 負けたら復活地点からもう一度歩いて入る。**部屋に着けなくても諦めない**
+      await goToMap(map, 4, 3, 80);
+      if ((await spot()).map !== map) continue;
+    }
+    await talk("ArrowUp");
+    await drain(8);
+    if (await page.isVisible("#battle")) {
+      await fight();
+      await page.waitForTimeout(1000);
+      await drain(30);
+    }
+    // 勝てば次の扉が開く（＝次の部屋へ歩ける）。負ければ復活地点に戻る
+    const here = await spot();
+    won = here.map === map || here.map === "kanto-indigo-plateau";
+    if (!won) {
+      note(name, `${attempt}回目は 負けた（いま ${here.map}）`);
+      await powerUp();
+    }
+  }
+  expect(`${name} に 勝てる`, won ? "勝った" : "勝てない", "勝った");
+  if (!won) break;
+  if (map !== "kanto-league-champion") {
+    // **勝った直後は、まだ会話枠が開いていることがある。**
+    // 開いたままだと以降のキーは全部そちらに吸われ、扉の前で足踏みする
+    await drain(40);
+    await clear();
+    const next = FOUR[FOUR.findIndex((f) => f[1] === map) + 1][1];
+    note(`${name} のあと`, await at());
+    await goToMap(next, 4, 3, 40);
+    expect(`${name} に 勝つと つぎの とびらが ひらく`, (await spot()).map, next);
+  }
+}
+await drain(20);
+expect("チャンピオンに 勝つと セキエイこうげんへ 戻る", (await spot()).map, "kanto-indigo-plateau");
+await shot("33-champion");
 
 console.log(`\nスクリーンショット: ${SHOTS}`);
 console.log(errors.length === 0 ? "JS エラーなし" : `JS エラー ${errors.length} 件:\n${errors.join("\n")}`);

@@ -1,0 +1,30 @@
+# 四天王の部屋（キクコ）。**入ったら戻れない** ―― 戻る warp を置いていない。
+# 次の部屋の扉は、勝つまで開かない（扉のオブジェクトが条件で消える）。
+id: kanto-league-agatha
+name: してんのう キクコ
+region: kanto
+bgm: league
+
+legend:
+. normal
+W !normal
+D normal
+
+grid:
+WWWWDWWWW
+W.......W
+W.......W
+W.......W
+W.......W
+W.......W
+W.......W
+W.......W
+W.......W
+WWWWWWWWW
+
+warps:
+4,0 step kanto-league-lance 4,8 down
+
+objects:
+league-agatha 4,2 npc:leader:static kanto.league.agatha
+league-agatha-door 4,0 npc:machine:static kanto.league.agatha-door if:kanto.league.agatha-beaten=false
