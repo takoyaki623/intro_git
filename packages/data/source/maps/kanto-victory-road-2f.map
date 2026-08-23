@@ -1,0 +1,27 @@
+# チャンピオンロード 2階。
+id: kanto-victory-road-2f
+name: チャンピオンロード
+region: kanto
+encounters: kanto-victory-road-2f-cave
+bgm: victory-road
+
+legend:
+. normal
+R !normal
+: cave
+
+grid:
+RRRRRRRRRRRRR
+R:::::::::::R
+R:RRRRRRRRR:R
+R:RRRRRRRRR:R
+R:RRRRRRRRR:R
+R:::::::::::R
+RRRRRRRRRRRRR
+
+warps:
+1,5 step kanto-victory-road 1,2 down
+11,1 step kanto-victory-road-3f 2,1 up
+
+objects:
+victory-2f-boulder 6,1 obstacle:strength

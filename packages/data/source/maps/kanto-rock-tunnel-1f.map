@@ -1,0 +1,34 @@
+# イワヤマトンネル 1階。**原作の該当地**（v1.1-e）。
+# ここで いわくだき の野生が意味を持つ ―― v1.1-c で機構だけ先に入れて、
+# 表を持つマップが1枚も無いと検証が毎回警告していた。
+id: kanto-rock-tunnel-1f
+name: イワヤマトンネル
+region: kanto
+encounters: kanto-rock-tunnel-1f-cave
+bgm: cave
+
+legend:
+. normal
+R !normal
+: cave
+
+grid:
+RRRRRRRRRRRRR
+R:::RRRRR:::R
+R:R:RRRRR:R:R
+R:R:::::::R:R
+R:RRRRRRRRR:R
+::RRRRRRRRR::
+R:RRRRRRRRR:R
+R:::::::::::R
+RRRRR:::RRRRR
+RRRRRRRRRRRRR
+
+warps:
+0,5 step kanto-route-9 11,1 left
+12,5 step kanto-rock-tunnel-b1f 1,2 right
+6,8 step kanto-rock-tunnel-b1f 6,2 down
+
+objects:
+rock-tunnel-1f-rock 3,3 obstacle:rockSmash
+rock-tunnel-1f-item 11,1 item:elixir kanto.rocktunnel.item1 if:kanto.rocktunnel.item1-taken=false

@@ -16,7 +16,7 @@ D normal
 
 grid:
 TTTTT.TTTTTT
-T..........T
+...........T
 T..VVVV....T
 T..VVDV....T
 T..........T
@@ -30,11 +30,12 @@ T..........T
 TTTTTTT.TTTT
 
 warps:
-5,0 step kanto-route-11 12,9 up
+5,0 step kanto-route-10 5,8 up
 5,3 step kanto-pokemon-tower 4,7 up
 5,7 step kanto-lavender-pokecenter 4,5 up
 4,10 step kanto-lavender-house 3,4 up
-7,12 step kanto-route-8 5,1 down
+0,1 step kanto-route-8 11,8 left
+7,12 step kanto-route-12 5,1 down
 
 objects:
 lavender-sign-tower 4,4 sign kanto.lavender.sign-tower

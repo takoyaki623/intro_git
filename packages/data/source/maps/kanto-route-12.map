@@ -1,0 +1,34 @@
+# 12番道路。シオンタウンの南。**東の海沿いを南へ**（v1.1-e）。
+# 原作では ここにも カビゴン が寝ている（16番と2匹）。
+id: kanto-route-12
+name: 12ばんどうろ
+region: kanto
+encounters: kanto-route-12-fishing-good kanto-route-12-fishing-old kanto-route-12-fishing-super kanto-route-12-grass kanto-route-12-surf
+bgm: route-12
+
+legend:
+. normal
+, grass
+T !normal
+~ water
+
+grid:
+TTTTT.TTTTTTT
+T....,....~~T
+T..,,,....~~T
+T.........~~T
+T.........~~T
+T....,,,..~~T
+T....,,,..~~T
+T.........~~T
+............T
+T.........~~T
+TTTTT.TTTTTTT
+
+warps:
+5,0 step kanto-lavender-town 7,11 up
+5,10 step kanto-route-13 5,1 down
+0,8 step kanto-route-11 13,1 left
+
+objects:
+route12-sign 3,4 sign kanto.route12.sign

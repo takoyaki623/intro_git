@@ -1,41 +1,37 @@
-# おつきみやま。**洞窟**なので出現テーブルの method が grass ではなく cave。
-# 曲がり角で視線が切れる ―― 視線の規則（壁で途切れる）がそのまま迷路の設計になる。
-#
-# 最初に書いたときは**南半分が繋がっていなかった**（7行目の壁が右まで届いていた）。
-# 検証は「到達できないマスがある」を warp の外までは見ていなかったので、
-# 台本が「経路なし」と言うまで気づかなかった。
+# おつきみやま 1階。ニビとハナダのあいだ。**地下2階まである**（v1.1-e）。
+# v1.0 まで1枚だけで、しかもチャンピオンロードと同じ迷路を使い回していた。
 id: kanto-mt-moon
 name: おつきみやま
 region: kanto
 encounters: kanto-mt-moon-cave
-bgm: mt-moon
+bgm: cave
 
 legend:
-. cave
-R !cave
-D normal
+. normal
+R !normal
+: cave
 
 grid:
-RRRRRRRRRRRRR
-RRRR.RRRRRRRR
-RR.......RRRR
-RR.RRRRR.RRRR
-RR.RRRRR.RRRR
-RR.RR....RRRR
-RR.RR.RRRRRRR
-RR..........R
-RRRRRRRR....R
-RRRRRRRR.RRRR
-RRRRRRRR.RRRR
-RRRRRRRR.RRRR
-RRRRRRRR.RRRR
+RRRR:RRRRRRRR
+RRRR:RRRRRRRR
+RR::::::RRRRR
+RR:RRRR:RRRRR
+RR:RRRR::::RR
+RR:RR::::R:RR
+RR::::RRRR:RR
+RRRR:RRRRR:RR
+RRRR::::::::R
+RRRRRRRRRR:RR
+RRRRRRRRRR:RR
+RRRRRRRRRR:RR
+RRRRRRRRRR:RR
 
 warps:
-4,1 step kanto-route-3 14,9 up
-8,12 step kanto-route-4 6,1 down
+4,0 step kanto-route-3 14,9 up
+10,12 step kanto-route-4 6,1 down
+10,4 step kanto-mt-moon-b1f 2,3 down
 
 objects:
-moon-hiker 5,5 trainer:kanto-moon-hiker:3:left kanto.moon.hiker if:kanto.moon.hiker-beaten=false
-moon-rocket 8,8 trainer:kanto-moon-rocket:2:down kanto.moon.rocket if:kanto.moon.rocket-beaten=false
-moon-great-ball 3,7 item:great-ball kanto.moon.great-ball if:kanto.moon.great-ball-taken=false
 moon-rock 5,6 obstacle:rockSmash
+moon-hiker 3,2 trainer:kanto-moon-hiker:2:down kanto.moon.hiker if:kanto.moon.hiker-beaten=false
+moon-rocket 6,8 trainer:kanto-moon-rocket:2:left kanto.moon.rocket if:kanto.moon.rocket-beaten=false

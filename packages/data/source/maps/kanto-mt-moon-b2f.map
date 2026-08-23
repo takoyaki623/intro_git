@@ -1,0 +1,25 @@
+# おつきみやま 地下2階。原作では ここに 化石が2つ ある（v1.1-g でロケット団の筋と一緒に）。
+id: kanto-mt-moon-b2f
+name: おつきみやま
+region: kanto
+encounters: kanto-mt-moon-b2f-cave
+bgm: cave
+
+legend:
+. normal
+R !normal
+: cave
+
+grid:
+RRRRRRRRRRRRR
+RR::::::::::R
+RR:RRRRRRRR:R
+RR:RRRRRRRR:R
+RR::::::::::R
+RRRRRRRRRRRRR
+
+warps:
+2,1 step kanto-mt-moon-b1f 11,5 up
+
+objects:
+moon-b2f-item 6,4 item:max-ether kanto.moon.b2f-item if:kanto.moon.b2f-item-taken=false

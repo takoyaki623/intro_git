@@ -1,0 +1,28 @@
+# 15番道路。セキチクシティの東。ここで腕がつながる。
+id: kanto-route-15
+name: 15ばんどうろ
+region: kanto
+encounters: kanto-route-15-grass
+bgm: route-15
+
+legend:
+. normal
+, grass
+T !normal
+
+grid:
+TTTTTTTTTTTTT
+...........,T
+T..,,,.....,T
+T..,,,......T
+T...........T
+T......,,,..T
+T...........T
+TTTTTTTTTTTTT
+
+warps:
+11,1 step kanto-route-14 5,7 up
+0,1 step kanto-fuchsia-city 11,1 left
+
+objects:
+route15-sign 3,5 sign kanto.route15.sign

@@ -11,7 +11,7 @@ legend:
 T !normal
 
 grid:
-TTTTT.TTTTTTT
+TTTTTTTTTTTTT
 T...........T
 T..,,,......T
 T..,,,......T
@@ -23,7 +23,7 @@ T...........T
 TTTTTTTTTTTTT
 
 warps:
-5,0 step kanto-lavender-town 7,11 up
+12,8 step kanto-lavender-town 1,1 right
 0,8 step kanto-saffron-gate-east 5,2 left
 
 objects:

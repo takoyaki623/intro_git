@@ -5272,5 +5272,135 @@
         "value": true
       }
     ]
+  },
+  {
+    "id": "kanto.route9.sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "9ばんどうろ\nひがしは イワヤマトンネル"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route10.sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "10ばんどうろ\nみなみは シオンタウン"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route12.sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "12ばんどうろ\nみなみへ つづく うみぞい"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route13.sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "13ばんどうろ\nにしへ おれる"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route14.sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "14ばんどうろ\nみなみへ つづく"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route15.sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "15ばんどうろ\nにしは セキチクシティ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocktunnel.item1",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ピーピーエイダー を みつけた!"
+      },
+      {
+        "kind": "giveItem",
+        "item": "elixir",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.rocktunnel.item1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocktunnel.item2",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ピーピーリカバー を みつけた!"
+      },
+      {
+        "kind": "giveItem",
+        "item": "max-ether",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.rocktunnel.item2-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.moon.stone",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "つきのいし を みつけた!"
+      },
+      {
+        "kind": "giveItem",
+        "item": "moon-stone",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.moon.stone-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.moon.b2f-item",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ピーピーリカバー を みつけた!"
+      },
+      {
+        "kind": "giveItem",
+        "item": "max-ether",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.moon.b2f-item-taken",
+        "value": true
+      }
+    ]
   }
 ]

@@ -1,0 +1,28 @@
+# おつきみやま 地下1階。
+id: kanto-mt-moon-b1f
+name: おつきみやま
+region: kanto
+encounters: kanto-mt-moon-b1f-cave
+bgm: cave
+
+legend:
+. normal
+R !normal
+: cave
+
+grid:
+RRRRRRRRRRRRR
+RR::::::::::R
+RR:RRRRRRRR:R
+RR:RRRRRRRR:R
+RR:RR::::RR:R
+RR:RR:RR:RR:R
+RR::::RR::::R
+RRRRRRRRRRRRR
+
+warps:
+2,2 step kanto-mt-moon 10,5 up
+11,6 step kanto-mt-moon-b2f 3,1 down
+
+objects:
+moon-b1f-item 6,4 item:moon-stone kanto.moon.stone if:kanto.moon.stone-taken=false

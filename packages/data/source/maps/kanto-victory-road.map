@@ -1,6 +1,5 @@
-# チャンピオンロード。**かいりき が無いと抜けられない。**
-# 進行能力の見せ場をここに置いた（world.md §7）。
-# いわくだき の岩は近道で、通らなくても抜けられる。
+# チャンピオンロード 1階。バッジ8つで入れる。
+# v1.0 まで、おつきみやまと**13行中12行が同じ迷路**だった（v1.1-e で作り直した）。
 id: kanto-victory-road
 name: チャンピオンロード
 region: kanto
@@ -8,31 +7,30 @@ encounters: kanto-victory-road-cave
 bgm: victory-road
 
 legend:
-. cave
-R !cave
-D normal
+. normal
+R !normal
+: cave
 
 grid:
-RRRR.RRRRRRRR
-RRRR.RRRRRRRR
-RR.......RRRR
-RR.RRRRR.RRRR
-RR.RRRRR.RRRR
-RR.RR....RRRR
-RR.RR.RRRRRRR
-RR..........R
-RRRRRRRR....R
-RRRRRRRR.RRRR
-RRRRRRRR.RRRR
-RRRRRRRR.RRRR
-RRRRRRRR.RRRR
+RRRRRRRRRRRRR
+R:::::RRRRRRR
+R:RRR:RRRRRRR
+R:R:::::::::R
+R:R:RRRRRRR:R
+R:::RRRRRRR:R
+RRRRRRRRRRR:R
+RRR:::::::::R
+RRR:RRRRRRRRR
+RRR:RRRRRRRRR
+RRR:RRRRRRRRR
+RRR:RRRRRRRRR
+RRR:RRRRRRRRR
 
 warps:
-4,0 step kanto-indigo-plateau 4,9 up
-8,12 step kanto-route-23 5,1 down
+3,12 step kanto-route-23 5,1 down
+1,1 step kanto-victory-road-2f 2,5 up
 
 objects:
-victory-boulder 4,2 obstacle:strength
-victory-rock 5,6 obstacle:rockSmash
-victory-max-revive 3,7 item:max-revive kanto.victory.max-revive if:kanto.victory.max-revive-taken=false
-victory-cooltrainer 8,9 trainer:kanto-victory-cooltrainer:3:down kanto.victory.cooltrainer if:kanto.victory.cooltrainer-beaten=false
+victory-boulder 1,4 obstacle:strength
+victory-rock 2,5 obstacle:rockSmash
+victory-cooltrainer 8,7 trainer:kanto-victory-cooltrainer:3:left kanto.victory.cooltrainer if:kanto.victory.cooltrainer-beaten=false

@@ -45,8 +45,13 @@ const SOURCE: Record<string, { location: string; area?: string }> = {
   "kanto-fuchsia-city": { location: "fuchsia-city" },
   "kanto-cinnabar-island": { location: "cinnabar-island" },
   "kanto-viridian-forest": { location: "viridian-forest" },
-  "kanto-mt-moon": { location: "mt-moon" },
-  "kanto-victory-road": { location: "kanto-victory-road-2" },
+  // **階ごとに引く**（v1.1-e）。まとめて引くと1階に地下の種が混ざる
+  "kanto-mt-moon": { location: "mt-moon", area: "1f" },
+  "kanto-mt-moon-b1f": { location: "mt-moon", area: "b1f" },
+  "kanto-mt-moon-b2f": { location: "mt-moon", area: "b2f" },
+  "kanto-victory-road": { location: "kanto-victory-road-2", area: "1f" },
+  "kanto-victory-road-2f": { location: "kanto-victory-road-2", area: "2f" },
+  "kanto-victory-road-3f": { location: "kanto-victory-road-2", area: "3f" },
   "kanto-pokemon-tower": { location: "pokemon-tower" },
   "kanto-route-1": { location: "kanto-route-1" },
   "kanto-route-2": { location: "kanto-route-2" },
@@ -57,13 +62,34 @@ const SOURCE: Record<string, { location: string; area?: string }> = {
   "kanto-route-6": { location: "kanto-route-6" },
   "kanto-route-7": { location: "kanto-route-7" },
   "kanto-route-8": { location: "kanto-route-8" },
+  "kanto-route-9": { location: "kanto-route-9" },
+  "kanto-route-10": { location: "kanto-route-10" },
   "kanto-route-11": { location: "kanto-route-11" },
+  "kanto-route-12": { location: "kanto-route-12" },
+  "kanto-route-13": { location: "kanto-route-13" },
+  "kanto-route-14": { location: "kanto-route-14" },
+  "kanto-route-15": { location: "kanto-route-15" },
+  // **階ごとに分かれている**（v1.1-e）。まとめて引くと、1階に地下の種が混ざる
+  "kanto-rock-tunnel-1f": { location: "rock-tunnel", area: "1f" },
+  "kanto-rock-tunnel-b1f": { location: "rock-tunnel", area: "b1f" },
   "kanto-route-16": { location: "kanto-route-16" },
   "kanto-route-19": { location: "kanto-sea-route-19" },
   "kanto-route-20": { location: "kanto-sea-route-20" },
   "kanto-route-21": { location: "kanto-sea-route-21" },
   "kanto-route-22": { location: "kanto-route-22" },
   "kanto-route-23": { location: "kanto-route-23" },
+};
+
+/**
+ * 野生に出さない種と、その理由（v1.1-e）。
+ *
+ * **公式データを黙って書き換えない。** 落とすなら理由を残す ――
+ * `fetch-official.ts` の `MANUAL_REJECT`、`machines.tsv` の `skip` 列と同じ運用。
+ * 機構が入った日にここから外せば、次の取り込みで戻ってくる。
+ */
+const NOT_YET: Record<string, string> = {
+  ditto: "へんしん が未実装。メタモンは原作でもこの技しか覚えない ―― " +
+    "技を1つも持てない個体を野生に出すと、戦いが成立しない（検証 wild-usable）",
 };
 
 /** 公式の引き方 → 本作の引き方。`walk` だけは地形で分かれるので後で決める。 */
@@ -138,6 +164,7 @@ function main(): void {
 
   const out: EncounterTable[] = [];
   const missingSpecies = new Set<string>();
+  const notYet = new Set<string>();
   const report: string[] = [];
 
   for (const map of maps) {
@@ -164,6 +191,10 @@ function main(): void {
       const id = byNo.get(Number(e["pokemon_id"]));
       if (id === undefined) {
         missingSpecies.add(e["pokemon_id"]!);
+        continue;
+      }
+      if (NOT_YET[id] !== undefined) {
+        notYet.add(id);
         continue;
       }
       const lo = Number(e["min_level"]);
@@ -200,6 +231,9 @@ function main(): void {
   }
   if (missingSpecies.size > 0) {
     console.log(`  ! species.json に無い種（図鑑番号）: ${[...missingSpecies].join(" ")}`);
+  }
+  for (const id of notYet) {
+    console.log(`  ! ${id} は まだ野生に出さない: ${NOT_YET[id]}`);
   }
   for (const line of report) console.log(line);
 }

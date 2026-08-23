@@ -1,0 +1,31 @@
+# 10番道路。イワヤマトンネルの南口とシオンタウンをつなぐ（v1.1-e）。
+id: kanto-route-10
+name: 10ばんどうろ
+region: kanto
+encounters: kanto-route-10-fishing-good kanto-route-10-fishing-old kanto-route-10-fishing-super kanto-route-10-grass kanto-route-10-surf
+bgm: route-10
+
+legend:
+. normal
+, grass
+T !normal
+~ water
+
+grid:
+TTTTTTTTTTTTT
+.............
+T..,,,......T
+T..,,,....~~T
+T.........~~T
+T.....,,,.~~T
+T.....,,,.~~T
+T...........T
+T.....,,,...T
+TTTTT.TTTTTTT
+
+warps:
+0,1 step kanto-rock-tunnel-b1f 11,3 left
+5,9 step kanto-lavender-town 5,1 down
+
+objects:
+route10-sign 3,7 sign kanto.route10.sign

@@ -25,7 +25,7 @@ TTTTTTTTTTTT
 
 warps:
 11,5 step kanto-route-22 1,5 right
-5,0 step kanto-victory-road 8,11 up
+5,0 step kanto-victory-road 3,11 up
 
 objects:
 route23-sign 6,2 sign kanto.route23.sign
