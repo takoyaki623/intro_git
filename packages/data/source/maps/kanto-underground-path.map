@@ -1,0 +1,32 @@
+# ちかつうろ。5番道路と6番道路を地下でつなぐ**任意の近道**。
+# ヤマブキを通らずに南北へ抜けられるが、原作でもここが本道ではない。
+id: kanto-underground-path
+name: ちかつうろ
+region: kanto
+bgm: cave
+
+legend:
+. normal
+W !normal
+S normal
+
+grid:
+WWWWW
+WWSWW
+WW.WW
+WW.WW
+WW.WW
+WW.WW
+WW.WW
+WW.WW
+WW.WW
+WW.WW
+WWSWW
+WWWWW
+
+warps:
+2,1 step kanto-underground-north 5,3 down
+2,10 step kanto-underground-south 5,3 down
+
+objects:
+underground-item 2,5 item:elixir kanto.underground.item if:kanto.underground.item-taken=false

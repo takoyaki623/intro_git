@@ -21,7 +21,7 @@ W.......W
 WWWWDWWWW
 
 warps:
-4,6 step kanto-saffron-city 10,10 down
+4,6 step kanto-saffron-city 5,10 down
 
 objects:
 saffron-nurse 4,2 npc:nurse:static kanto.saffron.nurse

@@ -1,0 +1,25 @@
+# ちかつうろ 北の入口（5番道路）。
+id: kanto-underground-north
+name: ちかつうろ いりぐち
+region: kanto
+bgm: house
+
+legend:
+. normal
+W !normal
+S normal
+D normal
+
+grid:
+WWWWWWW
+W.....W
+W....SW
+W.....W
+WWWDWWW
+
+warps:
+3,4 step kanto-route-5 9,5 down
+5,2 step kanto-underground-path 2,2 down
+
+objects:
+underground-n-man 2,2 npc:oldman:static kanto.underground.north-man

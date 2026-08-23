@@ -27,6 +27,7 @@ const page = await browser.newPage({ viewport: { width: 900, height: 1000 } });
 const errors = [];
 page.on("pageerror", (e) => errors.push(String(e)));
 
+const startedAt = Date.now();
 const log = [];
 const note = (label, value) => {
   log.push(`${label}: ${value}`);
@@ -47,6 +48,19 @@ async function key(k, n = 1, wait = 200) {
     await page.waitForTimeout(wait);
   }
 }
+
+/**
+ * 1歩ぶんの待ち時間（v1.1-d）。
+ *
+ * **原作の尺度に広げるとタイル数が2〜3倍になる**ので、先に台本を速くしておく。
+ * 速くできる根拠は じてんしゃ（v1.1-b）で、歩行アニメが 130ms → 62ms になる ――
+ * アニメより短く待つと、次のキーが歩行中に飛んで捨てられる。
+ *
+ * **1入力＝1マスは変えない。** 速さは待ち時間だけの話にしてある
+ * （2マス進む実装にすると台本と撮影が同時に、しかも黙ってずれる・world.md §9.9）。
+ */
+let stepWait = 175;
+const RIDING_MS = 95;
 async function clear(limit = 14) {
   for (let i = 0; i < limit && (await talking()); i += 1) {
     await page.keyboard.press("z");
@@ -211,7 +225,7 @@ async function goToMap(map, x, y, tries = 20) {
     let drifted = false;
     let before = from;
     for (const step of path) {
-      await key(step.key, 1, 175);
+      await key(step.key, 1, stepWait);
       // **視線バトルは会話から始まる**（v0.12）。会話が開いたままだと
       // 以降のキーは全部そちらに吸われ、歩いていないのに歩いたことになる
       if (await talking()) {
@@ -622,12 +636,17 @@ await page.waitForSelector("#save-export");
 await page.click("#save-export");
 const cheat = JSON.parse(await page.inputValue("#save-text"));
 cheat.global.bp = 100;
+// **ここから じてんしゃ に乗る**（v1.1-d）。歩行アニメが半分以下になるので、
+// 1歩ぶんの待ち時間も詰められる ―― 広げたマップを歩き切るための前提
+cheat.global.bag = { ...cheat.global.bag, bicycle: 1 };
 await page.fill("#save-text", JSON.stringify(cheat));
 await page.click("#save-import");
 await page.waitForTimeout(900);
 await page.click("#settings-back");
 await page.waitForSelector("#field-canvas");
 await page.waitForTimeout(400);
+stepWait = RIDING_MS;
+note("じてんしゃ", `ここから 1歩 ${stepWait}ms（それまでは 175ms）`);
 
 // 施設は拠点にある。**ゲートを通らないと行けない**（v0.10 でタブが消えた）
 await backToHub();
@@ -1025,11 +1044,28 @@ async function powerUp() {
 
 await powerUp();
 
-await goToMap("kanto-saffron-city", 5, 8, 80);
+// ── ヤマブキは4叉路（v1.1-d）──
+//
+// **北門から入り、南門から出る。** v1.0 まで出入口は西と東の2つだけで、
+// 5番と6番道路が町を迂回して直結していた ―― 原作では迂回するのは ちかつうろ。
+await goToMap("kanto-route-5", 5, 2, 80);
+expect("5番道路に 出られる", (await spot()).map, "kanto-route-5");
+await goToMap("kanto-saffron-city", 11, 3, 60);
+expect("5番道路から 北門で ヤマブキに 入れる", (await spot()).map, "kanto-saffron-city");
+await goToMap("kanto-route-6", 5, 2, 60);
+expect("南門から 6番道路に 抜けられる", (await spot()).map, "kanto-route-6");
+
+// **ちかつうろ は近道であって本道ではない。** 通れることだけ確かめる
+await goToMap("kanto-underground-path", 2, 5, 40);
+expect("ちかつうろ に 入れる", (await spot()).map, "kanto-underground-path");
+await goToMap("kanto-route-5", 9, 6, 40);
+expect("ちかつうろ で 5番道路へ 戻れる", (await spot()).map, "kanto-route-5");
+
+await goToMap("kanto-saffron-city", 5, 5, 80);
 expect("ヤマブキまで 行ける", (await spot()).map, "kanto-saffron-city");
 await talk("ArrowUp");
 await drain(6);
-await goToMap("kanto-saffron-city", 5, 8, 20);
+await goToMap("kanto-saffron-city", 5, 5, 20);
 expect(
   "バッジ3つでは ヤマブキジムに 入れない",
   (await goToMap("kanto-saffron-gym", 4, 8, 6)).map,
@@ -1325,10 +1361,10 @@ expect(
 await shot("23-five-badges");
 
 // バッジ5つになったので、警備員が通す
-await goToMap("kanto-saffron-city", 5, 8, 80);
+await goToMap("kanto-saffron-city", 5, 5, 80);
 await talk("ArrowUp");
 await drain(6);
-await goToMap("kanto-saffron-city", 5, 8, 40);
+await goToMap("kanto-saffron-city", 5, 5, 40);
 await talk("ArrowUp");
 await drain(6);
 expect(
@@ -1579,7 +1615,11 @@ await shot("34-hall-monument");
 await page.click("#panel-close").catch(() => {});
 await drain();
 
-console.log(`\nスクリーンショット: ${SHOTS}`);
+console.log(
+  `\n所要 ${((Date.now() - startedAt) / 60000).toFixed(1)} 分 / 検査 ${log.length} 件` +
+    `（1歩 ${stepWait}ms）`,
+);
+console.log(`スクリーンショット: ${SHOTS}`);
 console.log(errors.length === 0 ? "JS エラーなし" : `JS エラー ${errors.length} 件:\n${errors.join("\n")}`);
 if (errors.length > 0) process.exitCode = 1;
 await browser.close();

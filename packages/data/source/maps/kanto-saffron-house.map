@@ -1,0 +1,25 @@
+# ヤマブキシティの民家。
+id: kanto-saffron-house
+name: ヤマブキシティの いえ
+region: kanto
+bgm: house
+
+legend:
+. normal
+W !normal
+B !normal
+D normal
+
+grid:
+WWWWWWW
+WB....W
+W.....W
+W.....W
+W.....W
+WWWDWWW
+
+warps:
+3,5 step kanto-saffron-city 17,10 down
+
+objects:
+saffron-house-man 4,2 npc:oldman:static kanto.saffron.house-man

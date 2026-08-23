@@ -1,4 +1,5 @@
-# 5番道路。ハナダシティの南。**段差で一方通行**になっていて、北へ戻るには町を回る。
+# 5番道路。ハナダシティとヤマブキシティ北門をつなぐ（v1.1-d で原作に戻した）。
+# **6番道路へ直接は行けない。** 直通は ちかつうろ だけ ―― あれは任意の近道。
 id: kanto-route-5
 name: 5ばんどうろ
 region: kanto
@@ -10,22 +11,25 @@ legend:
 , grass
 T !normal
 = ledge
+U !normal
+D normal
 
 grid:
 TTTTT.TTTTT
 T.........T
 T..,,,....T
-T..,,,....T
+T..,,,..UUT
+T...====UDT
 T.........T
-T...====..T
 T.........T
 T.........T
 TTTTT.TTTTT
 
 warps:
 5,0 step kanto-cerulean-city 7,14 up
-5,8 step kanto-route-6 5,1 down
+5,8 step kanto-saffron-gate-north 3,1 down
+9,4 step kanto-underground-north 3,3 up
 
 objects:
 route5-sign 3,7 sign kanto.route5.sign
-route5-hiker 8,3 trainer:kanto-route5-hiker:2:left kanto.route5.hiker if:kanto.route5.hiker-beaten=false
+route5-hiker 8,6 trainer:kanto-route5-hiker:2:left kanto.route5.hiker if:kanto.route5.hiker-beaten=false

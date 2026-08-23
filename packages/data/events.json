@@ -5173,5 +5173,104 @@
         "value": true
       }
     ]
+  },
+  {
+    "id": "kanto.saffron.gate-north",
+    "commands": [
+      {
+        "kind": "message",
+        "speaker": "けいび",
+        "text": "ヤマブキシティへ ようこそ。\nきたは 5ばんどうろ です。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.saffron.gate-south",
+    "commands": [
+      {
+        "kind": "message",
+        "speaker": "けいび",
+        "text": "みなみは 6ばんどうろ。\nそのさきは クチバシティ です。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.saffron.gate-west",
+    "commands": [
+      {
+        "kind": "message",
+        "speaker": "けいび",
+        "text": "にしは 7ばんどうろ。\nタマムシシティへ つづきます。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.saffron.gate-east",
+    "commands": [
+      {
+        "kind": "message",
+        "speaker": "けいび",
+        "text": "ひがしは 8ばんどうろ。\nシオンタウンへ つづきます。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.saffron.silph-guard",
+    "commands": [
+      {
+        "kind": "message",
+        "speaker": "けいび",
+        "text": "シルフカンパニーは\nただいま とじております。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.saffron.house-man",
+    "commands": [
+      {
+        "kind": "message",
+        "speaker": "おじさん",
+        "text": "ヤマブキは 4つの もんが ある。\nカントーの まんなか だからな。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.underground.north-man",
+    "commands": [
+      {
+        "kind": "message",
+        "speaker": "おじさん",
+        "text": "この したは ちかつうろ。\n6ばんどうろ まで ぬけられる。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.underground.south-man",
+    "commands": [
+      {
+        "kind": "message",
+        "speaker": "おんなのこ",
+        "text": "ちかつうろ は ちかみち。\nヤマブキを とおらずに すむの。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.underground.item",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ピーピーエイダー を みつけた!"
+      },
+      {
+        "kind": "giveItem",
+        "item": "elixir",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.underground.item-taken",
+        "value": true
+      }
+    ]
   }
 ]

@@ -6,9 +6,9 @@
  * 特性 68 / 道具 98 /
  * BattleSet 64 / 施設 4 /
  * ネームド 18 / カップ 10 /
- * マップ 71 / イベント 237 / トレーナー 45 /
+ * マップ 79 / イベント 246 / トレーナー 45 /
  * 出現テーブル 78 / ショップ 6 / 地方 9 /
- * フラグ 103
+ * フラグ 104
  */
 
 export type GeneratedSpeciesId =
@@ -812,9 +812,17 @@ export type GeneratedMapId =
   | "kanto-route-7"
   | "kanto-route-8"
   | "kanto-saffron-city"
+  | "kanto-saffron-gate-east"
+  | "kanto-saffron-gate-north"
+  | "kanto-saffron-gate-south"
+  | "kanto-saffron-gate-west"
   | "kanto-saffron-gym"
+  | "kanto-saffron-house"
   | "kanto-saffron-mart"
   | "kanto-saffron-pokecenter"
+  | "kanto-underground-north"
+  | "kanto-underground-path"
+  | "kanto-underground-south"
   | "kanto-vermilion-city"
   | "kanto-vermilion-gym"
   | "kanto-vermilion-mart"
@@ -1014,18 +1022,27 @@ export type GeneratedEventId =
   | "kanto.saffron.boy"
   | "kanto.saffron.center-pc"
   | "kanto.saffron.clerk"
+  | "kanto.saffron.gate-east"
+  | "kanto.saffron.gate-north"
+  | "kanto.saffron.gate-south"
+  | "kanto.saffron.gate-west"
   | "kanto.saffron.guard"
   | "kanto.saffron.gym-jr"
   | "kanto.saffron.gym-jr-win"
   | "kanto.saffron.gym-sign"
+  | "kanto.saffron.house-man"
   | "kanto.saffron.nurse"
   | "kanto.saffron.sabrina"
   | "kanto.saffron.sabrina-win"
   | "kanto.saffron.sign-gym"
+  | "kanto.saffron.silph-guard"
   | "kanto.tower.channeler"
   | "kanto.tower.channeler-win"
   | "kanto.tower.old"
   | "kanto.tower.sign"
+  | "kanto.underground.item"
+  | "kanto.underground.north-man"
+  | "kanto.underground.south-man"
   | "kanto.vermilion.arrive"
   | "kanto.vermilion.boy"
   | "kanto.vermilion.captain"
@@ -1299,6 +1316,7 @@ export type GeneratedFlagId =
   | "kanto.saffron.sabrina-beaten"
   | "kanto.tower.channeler-beaten"
   | "kanto.tower.old"
+  | "kanto.underground.item-taken"
   | "kanto.vermilion.boy"
   | "kanto.vermilion.captain"
   | "kanto.vermilion.fisher"

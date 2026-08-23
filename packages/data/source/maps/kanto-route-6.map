@@ -1,4 +1,4 @@
-# 6番道路。クチバシティの北。ここを抜けると港町に出る。
+# 6番道路。ヤマブキシティ南門とクチバシティをつなぐ（v1.1-d で原作に戻した）。
 id: kanto-route-6
 name: 6ばんどうろ
 region: kanto
@@ -9,22 +9,25 @@ legend:
 . normal
 , grass
 T !normal
+U !normal
+D normal
 
 grid:
 TTTTT.TTTTT
 T.........T
 T....,,,..T
-T....,,,..T
-T.........T
+T....,,,UUT
+T.......UDT
 T..,,,....T
 T..,,,....T
 T.........T
 TTTTT.TTTTT
 
 warps:
-5,0 step kanto-route-5 5,7 up
+5,0 step kanto-saffron-gate-south 3,3 up
 5,8 step kanto-vermilion-city 7,1 down
+9,4 step kanto-underground-south 3,3 up
 
 objects:
 route6-sign 3,1 sign kanto.route6.sign
-route6-camper 5,4 trainer:kanto-route6-camper:3:down kanto.route6.camper if:kanto.route6.camper-beaten=false
+route6-camper 5,6 trainer:kanto-route6-camper:3:down kanto.route6.camper if:kanto.route6.camper-beaten=false

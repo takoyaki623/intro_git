@@ -11,20 +11,20 @@ legend:
 T !normal
 
 grid:
-TTTTT.TTTTT
+TTTTTTTTTTT
 T.........T
 T..,,,....T
 T..,,,....T
 T.........T
-..........T
+...........
 T.........T
 T....,,,..T
 T.........T
 TTTTTTTTTTT
 
 warps:
-5,0 step kanto-saffron-city 5,13 up
 0,5 step kanto-celadon-city 11,6 left
+10,5 step kanto-saffron-gate-west 1,2 right
 
 objects:
 route7-sign 3,1 sign kanto.route7.sign

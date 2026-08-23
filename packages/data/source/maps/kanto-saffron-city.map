@@ -1,9 +1,13 @@
-# ヤマブキシティ。カントーの中央。**ジム6（ナツメ）はバッジ5つまで開かない**
-# ―― 開けるのはイベントの条件（badges）だけで、コードは要らない。
+# ヤマブキシティ。カントーの中央で、**4方向に門がある**（v1.1-d で原作に戻した）。
+# v1.0 まで出入口は西と東の2つだけで、5番と6番道路が町を迂回して直結していた
+# ―― 原作では迂回するのは ちかつうろ のほうで、あれは任意の近道。
+#
+# シルフカンパニーは**ドアを置いていない。** 中に入れるようになるのは
+# ロケット団の筋を作る v1.1-g で、**機構が無いまま形だけ作らない**（world.md §9.7）。
 id: kanto-saffron-city
 name: ヤマブキシティ
 region: kanto
-fly: 6,1 kanto.fly.saffron
+fly: 11,1 kanto.fly.saffron
 onEnter: kanto.saffron.arrive
 bgm: saffron-city
 
@@ -13,34 +17,42 @@ T !normal
 G !normal
 P !normal
 F !normal
-X !normal
+S !normal
+H !normal
 D normal
 
 grid:
-TTTTTTTTTTTTTT
-T............T
-T..XXXX......T
-T..XXXX......T
-T............T
-T..GGGG......T
-T..GGDG......T
-T.............
-T.......PPPP.T
-T.......PPDP.T
-T............T
-T.......FFFF.T
-T.......FFDF.T
-T............T
-TTTTT.TTTTTTTT
+TTTTTTTTTTT.TTTTTTTTTTTT
+T......................T
+T..GGGG.......SSSSSS...T
+T..GGDG.......SSSSSS...T
+T.............SSSSSS...T
+T......................T
+........................
+T......................T
+T..PPPP........HHHH....T
+T..PPDP........HHDH....T
+T......................T
+T..FFFF................T
+T..FFDF................T
+T......................T
+T......................T
+T......................T
+T......................T
+TTTTTTTTTTT.TTTTTTTTTTTT
 
 warps:
-5,6 step kanto-saffron-gym 4,8 up
-10,9 step kanto-saffron-pokecenter 4,5 up
-10,12 step kanto-saffron-mart 4,5 up
-12,7 step kanto-route-8 1,8 right
-5,14 step kanto-route-7 5,1 down
+11,0 step kanto-saffron-gate-north 3,3 up
+11,17 step kanto-saffron-gate-south 3,1 down
+0,6 step kanto-saffron-gate-west 5,2 left
+23,6 step kanto-saffron-gate-east 1,2 right
+5,3 step kanto-saffron-gym 4,8 up
+5,9 step kanto-saffron-pokecenter 4,5 up
+5,12 step kanto-saffron-mart 4,5 up
+17,9 step kanto-saffron-house 3,4 up
 
 objects:
-saffron-sign-gym 3,7 sign kanto.saffron.sign-gym
-saffron-guard 5,7 npc:guard:static kanto.saffron.guard if:kanto.saffron.gym-open=false
-saffron-boy 9,3 npc:youngster:static kanto.saffron.boy
+saffron-sign-gym 3,4 sign kanto.saffron.sign-gym
+saffron-guard 5,4 npc:guard:static kanto.saffron.guard if:kanto.saffron.gym-open=false
+saffron-boy 9,7 npc:youngster:static kanto.saffron.boy
+saffron-silph-guard 16,5 npc:guard:static kanto.saffron.silph-guard
