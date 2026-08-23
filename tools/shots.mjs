@@ -141,6 +141,10 @@ const SHOOTING_SAVE = (() => {
     // 塞がれていることに気づかないまま8枚が16番道路で止まった ――
     // 撮りたいのは町であって、道をふさぐポケモンとの戦いではない
     "kanto.route16.snorlax-woken",
+    // **チャンピオンロードのシャッターを開けておく**（v1.1-f）。
+    // 押した岩は `world.moved` にしか残らず、撮影の道具は岩を押さない ――
+    // 開けておかないと3階へ一生たどり着けない（カビゴンで踏んだのと同じ形）
+    "kanto.victory.switch-2f", "kanto.victory.switch-3f",
   ]) {
     save.regions.kanto.flags[flag] = true;
   }
@@ -198,7 +202,8 @@ const PLACES = [
   { file: "victory-road", name: "チャンピオンロード", note: "洞窟。かいりき の岩が道を塞ぐ", to: ["kanto-victory-road", 3, 7] },
   // **1階のすぐ後に置く。** どけた岩は `world.cleared` にしか残らず、
   // マップを出入りすると元に戻る（v0.12-d の決定）―― 離すと2階へ行けない
-  { file: "victory-road-2f", name: "チャンピオンロード 2階", note: "かいりき の岩をどけないと ここへ来られない（v1.1-e で3階建てに）", to: ["kanto-victory-road-2f", 6, 5] },
+  { file: "victory-road-2f", name: "チャンピオンロード 2階", note: "岩をスイッチに乗せてシャッターを開ける（v1.1-f）", to: ["kanto-victory-road-2f", 5, 4] },
+  { file: "victory-road-3f", name: "チャンピオンロード 3階", note: "同じ仕掛けをもう1つ。増えたコードは0行", to: ["kanto-victory-road-3f", 5, 3] },
   { file: "indigo-plateau", name: "セキエイこうげん", note: "ポケモンリーグの入口", to: ["kanto-indigo-plateau", 6, 4] },
   { file: "league-lance", name: "してんのう ワタル", note: "入ったら戻れない部屋。扉は勝つまで開かない", to: ["kanto-league-lance", 4, 5] },
   { file: "hub-plaza", name: "拠点の広場", note: "施設・大会・保管庫・地方ゲートが並ぶ", to: ["hub-plaza", 8, 9] },

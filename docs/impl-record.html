@@ -221,18 +221,18 @@ a:focus-visible, summary:focus-visible {
     設計文書は <code>docs/design/</code>、上位方針は <code>docs/game-plan.md</code>。
   </p>
   <p class="meta">
-    テスト 388件 ／ 検証項目 102 ／ マップ 91枚 ／ 種族 190 ／ 技 248 ／ 道具 98
-    ―― 型チェック・検証スクリプト・通し確認（173項目）・撮影（37か所）すべて緑
+    テスト 396件 ／ 検証項目 106 ／ マップ 91枚 ／ 種族 190 ／ 技 248 ／ 道具 98
+    ―― 型チェック・検証スクリプト・通し確認（179項目）・撮影（38か所）すべて緑
   </p>
 </header>
 
 <div class="figures">
-  <div class="fig"><b class="num">388</b><span>テスト</span></div>
+  <div class="fig"><b class="num">396</b><span>テスト</span></div>
   <div class="fig"><b class="num">190</b><span>種族</span></div>
   <div class="fig"><b class="num">248</b><span>技</span></div>
   <div class="fig"><b class="num">18</b><span>ネームド</span></div>
   <div class="fig"><b class="num">91</b><span>マップ</span></div>
-  <div class="fig"><b class="num">102</b><span>検証項目</span></div>
+  <div class="fig"><b class="num">106</b><span>検証項目</span></div>
   <div class="fig"><b class="num">13,267</b><span>実装行 (TS)</span></div>
   <div class="fig"><b class="num">5,329</b><span>テスト行</span></div>
 </div>
@@ -266,7 +266,7 @@ tools/    一括投入・公式データ取得・マップ変換・ID生成・�
     <table>
       <thead><tr><th>モジュール</th><th>役割</th><th class="n">行</th><th>導入</th></tr></thead>
       <tbody>
-        <tr><td class="mono">tools/validate.ts</td><td>全<strong>102項目</strong>の検証。CI で回す</td><td class="n">1,969</td><td><span class="pill done">v0.4</span></td></tr>
+        <tr><td class="mono">tools/validate.ts</td><td>全<strong>106項目</strong>の検証。CI で回す</td><td class="n">2,041</td><td><span class="pill done">v0.4</span></td></tr>
         <tr><td class="mono">game/field.ts</td><td>マップ探索画面（描画・入力・会話・捕獲・バッグ・ボックス・図鑑・ショップ・釣り・殿堂）</td><td class="n">1,834</td><td><span class="pill done">v0.7</span></td></tr>
         <tr><td class="mono">tools/playthrough.mjs</td><td><strong>ブラウザ操作の台本</strong>。core の <code>neighborsOf</code> で経路探索する</td><td class="n">1,658</td><td><span class="pill done">v0.7</span></td></tr>
         <tr><td class="mono">tools/import.ts</td><td>TSV → JSON の一括投入。<code>--check</code> で鮮度も見る</td><td class="n">1,058</td><td><span class="pill done">v0.4</span></td></tr>
@@ -764,7 +764,7 @@ pokemon … 個体の実体。uid が主キー</code></pre>
   </article>
 
   <article class="release">
-    <header><span class="ver">v1.1-a 〜 v1.1-e</span><h2>カントーを原作に寄せる（進行中）</h2></header>
+    <header><span class="ver">v1.1-a 〜 v1.1-f</span><h2>カントーを原作に寄せる（進行中）</h2></header>
     <p class="goal">v1.0 で通ったのは<strong>筋</strong>であって、中身は骨組みだった。
     実測すると<strong>カントー151種のうち82種はどうやっても手に入らなかった</strong> ――
     図鑑を埋める進行軸が実質死んでいた。完了条件は<strong>「151種すべてに入手経路がある」</strong>。</p>
@@ -778,6 +778,7 @@ pokemon … 個体の実体。uid が主キー</code></pre>
           <tr><td><span class="ver">v1.1-c</span></td><td>釣り3段・いわくだき の野生・隠しアイテム・固定シンボル</td><td>レジストリ5行</td><td>―（引ける方式が増えた）</td></tr>
           <tr><td><span class="ver">v1.1-d</span></td><td><strong>ヤマブキを4叉路に戻す</strong>・けんもんじょ4棟・ちかつうろ</td><td><strong>0行</strong></td><td>88</td></tr>
           <tr><td><span class="ver">v1.1-e</span></td><td>東の腕（9・10・12〜15番＋イワヤマトンネル）・ダンジョンの階層</td><td><strong>0行</strong></td><td>88 → <strong>92</strong></td></tr>
+          <tr><td><span class="ver">v1.1-f</span></td><td><strong>押せる岩とスイッチ</strong>・チャンピオンロード2階/3階をパズルに</td><td><code>MapObjectKind</code> 2種</td><td>92</td></tr>
         </tbody>
       </table>
     </div>
@@ -807,6 +808,36 @@ pokemon … 個体の実体。uid が主キー</code></pre>
     <p>広げる前に <code>playthrough</code> を速くしてある ――
     じてんしゃ（v1.1-b）で歩行アニメが 130ms → 62ms になるので、1歩の待ちも詰められる。
     <strong>約35分 → 13.5分。</strong> 逆順だと1時間を超えていた。</p>
+    <h3>v1.1-f ―― 世界が「消える」だけでなく「動く」ようになった</h3>
+    <p>ここまで世界の変化はすべて<strong>消える</strong>ものだった（どけた岩・見つけた隠しアイテム・
+    条件で入れ替わるオブジェクト）。消えるものは<strong>どこへ消えたかを持たなくてよい</strong>。
+    押せる岩は行き先を持つので、初めて「動いた位置」という状態が要った ――
+    <code>WorldState.moved</code>。<strong>これも保存しない</strong>（<code>cleared</code> と同じ扱い。
+    保存すると「岩を隅に押し込んで二度と解けないダンジョン」がセーブに固定される）。</p>
+    <p>差し替えは <code>visibleObjects()</code> の1箇所だけ。この関数はすでに
+    「消えるものを落とす唯一の場所」だったので、<strong>当たり判定・描画・視線・調べる が勝手に揃った</strong>
+    ―― 押した岩の当たり判定を別に書く必要は無かった。</p>
+    <p><strong>新しい <code>Condition</code> は作らなかった。</strong>
+    「岩がスイッチに乗っているか」は条件になりかけたが、岩の位置は保存しない派生値なので、
+    条件に載せると保存する / しないの境界が濁る。岩が乗る → スイッチのイベントが <code>setFlag</code> →
+    以降は既存のフラグ機構、と迂回した。<code>Condition</code> の種類は v0.7 から<strong>5つのまま</strong>。</p>
+
+    <div class="note warn">
+      <strong>2階の岩も飾りだった ―― v1.1-e の教訓を、見つけた1枚にしか使っていなかった。</strong><br>
+      v1.1-e で「関門は<em>そこしか通れない</em>で初めて関門になる」と学んで1階の迂回路を閉じたが、
+      <strong>2階を見ていなかった。</strong> 2階も部屋が輪になっていて、置いた かいりき の岩を通らずに階段へ行けた。
+      <strong>教訓を得た版の中で、同じ構造の場所を全部数えないといけない。</strong>
+    </div>
+
+    <div class="note">
+      <strong>氷の床は入れていない ―― カントーに1枚も無いから。</strong><br>
+      計画では v1.1-f を「氷の床<em>と</em>押せる岩」としていた。調べると
+      ふたごじま は水流と穴、チャンピオンロードは岩とスイッチで、
+      <strong>氷の床が出てくるのは ジョウトの こおりのぬけみち 以降</strong>だった。
+      機構だけ先に入れると<strong>使うマップが1枚も無い機構</strong>ができる ――
+      v1.1-a で消費者のいないデータを足して検証に落とされたのと同じ形なので、ジョウトの版へ送った。
+    </div>
+
     <div class="note warn">
       <strong>1入力＝1マスは変えていない。</strong>
       2マス進む実装にすると、<code>playthrough</code> と <code>shots</code> が同時に、しかも黙ってずれる。
@@ -878,6 +909,7 @@ pokemon … 個体の実体。uid が主キー</code></pre>
         <tr><td><span class="ver">v1.1-c</span></td><td><strong><code>core</code> が特定の地形と能力の名前を知っていた</strong>（<code>canSwimTo</code> に "water" と "surf"）</td><td>データに置くべきもの</td></tr>
         <tr><td><span class="ver">v1.1-d</span></td><td><strong>通っているのに間違っている接続があった</strong>（ヤマブキが2叉路で、近道のほうが本道）</td><td>地図の嘘</td></tr>
         <tr><td><span class="ver">v1.1-d</span></td><td><strong>地理を直すと難易度が変わる</strong>（道が2倍になり、消耗してジム3に負けるようになった）</td><td>原作に寄せた結果</td></tr>
+        <tr><td><span class="ver">v1.1-f</span></td><td><strong>教訓を得た版の中で、同じ構造の場所を全部数えなかった</strong>（1階の迂回路は閉じたが、2階の岩は飾りのままだった）</td><td>直し方の射程</td></tr>
         <tr><td><span class="ver">v1.1-e</span></td><td><strong>関門は「置いた」だけでは関門にならない</strong>（迷路に輪があり、岩を通らずに階段へ行けた）</td><td>検証が言えないこと</td></tr>
       </tbody>
     </table>
@@ -1656,7 +1688,7 @@ packages/data/*.json
         │  npm run gen:ids          … ID のユニオン型を生成
         ▼
 packages/data/generated/ids.d.ts
-        │  npm run validate         … 102項目の検証（下記）
+        │  npm run validate         … 106項目の検証（下記）
         ▼
                                    CI ―― 生成物が古ければ落ちる</code></pre>
 </section>
@@ -1723,6 +1755,10 @@ packages/data/generated/ids.d.ts
         <tr><td>釣りの方式ごとに、その表を持つマップが1枚以上ある</td><td><span class="pill done">v1.1-c</span></td></tr>
         <tr><td>隠しアイテムがあるなら、探す能力がある</td><td><span class="pill done">v1.1-c</span></td></tr>
         <tr><td><strong>能力の鍵になる道具は、必ず世界のどこかで手に入る</strong></td><td><span class="pill done">v1.1-c</span></td></tr>
+        <tr><td><strong>押せる岩は初期位置から最低1方向へ押せる</strong>（動かせない岩はただの壁）</td><td><span class="pill done">v1.1-f</span></td></tr>
+        <tr><td>岩の初期位置にスイッチを置かない（最初から押されている）／踏む warp の上に置かない</td><td><span class="pill done">v1.1-f</span></td></tr>
+        <tr><td><strong>スイッチのイベントは必ずフラグを立てる</strong>（乗せても世界が変わらないスイッチを禁じる）</td><td><span class="pill done">v1.1-f</span></td></tr>
+        <tr><td>スイッチのあるマップには、乗せる岩が1つ以上ある</td><td><span class="pill done">v1.1-f</span></td></tr>
       </tbody>
     </table>
   </div>
@@ -1829,7 +1865,7 @@ packages/data/generated/ids.d.ts
     <div class="card">
       <h3><code>tools/playthrough.mjs</code> — 画面の番人</h3>
       <p>ブラウザを実際に操作して同じ道行きを通す。<strong>型検査もテストも素通りする層</strong>（渡し忘れた技指定、描き分けられていないタイル、リロードで消える進行）がここでしか見つからないと分かって常設した。
-      v0.9 で 44項目、v1.1-e で <strong>173項目</strong>まで増え、経路探索は <code>core</code> の <code>neighborsOf</code> をそのまま呼ぶ形になっている。</p>
+      v0.9 で 44項目、v1.1-f で <strong>179項目</strong>まで増え、経路探索は <code>core</code> の <code>neighborsOf</code> をそのまま呼ぶ形になっている。</p>
     </div>
   </div>
 </section>
@@ -1860,7 +1896,7 @@ packages/data/generated/ids.d.ts
         </tr>
         <tr>
           <td>規律を人間の注意力に預けない</td>
-          <td>102項目の判定を CI で回す。<strong>「遊ぶと成立しない」種類の誤りも検証項目に落とす</strong></td>
+          <td>106項目の判定を CI で回す。<strong>「遊ぶと成立しない」種類の誤りも検証項目に落とす</strong></td>
         </tr>
         <tr>
           <td>強さは情報量ではなく思考の深さで作る</td>
@@ -1904,7 +1940,7 @@ packages/data/generated/ids.d.ts
       <tbody>
         <tr><td><strong>へんしん</strong></td><td><span class="pill warn">借り</span></td><td>メタモンは原作でもこの技しか覚えない。13〜15番道路の公式データに居るのに<strong>野生に出せない</strong> ―― 取り込み器に理由つきで除外</td></tr>
         <tr><td><strong>ポケモンタワー 2〜7階</strong></td><td><span class="pill warn">借り</span></td><td>機構（ゴースト＝条件で入れ替わる2つのオブジェクト＋<code>hasItem</code>）は v1.1-c で揃った。<strong>シルフスコープの入手元</strong>が無いだけ（v1.1-g）</td></tr>
-        <tr><td>氷の床・押せる岩</td><td><span class="pill pending">v1.1-f</span></td><td><strong>「一歩＝1マス」を変える唯一の機構。</strong> <code>neighborsOf</code> を一本化してあるのはこの日のため</td></tr>
+        <tr><td><strong>氷の床</strong></td><td><span class="pill pending">v1.3〜</span></td><td><strong>カントーに1枚も無い。</strong> ふたごじま は水流と穴、チャンピオンロードは岩とスイッチ ―― 氷の床は ジョウトの こおりのぬけみち 以降。使うマップが無い機構を先に作らない（v1.1-f で判断）</td></tr>
         <tr><td>サファリゾーン</td><td><span class="pill pending">v1.1-h</span></td><td><code>MapData.rules</code> ＋ <code>field-rules.json</code>。<strong><code>Ruleset</code> には寄せない</strong>（4施設すべてが無視する任意欄が8個増える）</td></tr>
         <tr><td>天候・フィールド</td><td><span class="pill pending">v1.2</span></td><td>該当特性は <code>inert</code> で理由つきに待機中（31種）</td></tr>
         <tr><td>AI <code>smart</code>・連勝上限の解除</td><td><span class="pill pending">v1.2</span></td><td><code>AiConfig.policy</code> と <code>AiView</code>。検証が <code>smart</code> をまだ弾いている</td></tr>
@@ -1925,22 +1961,21 @@ packages/data/generated/ids.d.ts
     <table>
       <thead><tr><th>最初の3つの希望</th><th>現在地</th></tr></thead>
       <tbody>
-        <tr><td>全てのポケモンが出る</td><td>カントー151種のうち<strong>92種に入手経路がある</strong>（v1.1-e 実測）。151種すべてが v1.1 の完了条件</td></tr>
+        <tr><td>全てのポケモンが出る</td><td>カントー151種のうち<strong>92種に入手経路がある</strong>（v1.1-f 時点）。151種すべてが v1.1 の完了条件</td></tr>
         <tr><td>今までの全てのトレーナーが出る</td><td>ネームド18人 × 2ティア（v0.11）＋道中45人。<strong>原作は約180人</strong>（v1.1-i）。極ティアは v1.2</td></tr>
-        <tr><td>原作のマップを再現</td><td><strong>91枚・出入口184か所。</strong> ヤマブキは4叉路、シオンは行き止まりでない、ダンジョンは階層つき（v1.1-d/-e）</td></tr>
+        <tr><td>原作のマップを再現</td><td><strong>91枚・出入口184か所。</strong> ヤマブキは4叉路、シオンは行き止まりでない、ダンジョンは階層つきで、チャンピオンロードは岩とスイッチのパズル（v1.1-d/-e/-f）</td></tr>
       </tbody>
     </table>
   </div>
 
   <article class="release">
-    <header><span class="ver">v1.1-f 〜 v1.1-i</span><h2>カントー再現の残り</h2></header>
+    <header><span class="ver">v1.1-g 〜 v1.1-i</span><h2>カントー再現の残り</h2></header>
     <p class="goal">完了条件は<strong>「カントー151種すべてに入手経路があり、検証 #102 が通ること」</strong>
     ―― v2.0 の「全1,025種で通る」の<strong>1地方ぶんの予行</strong>でもある。</p>
     <div class="scroll">
       <table>
         <thead><tr><th>版</th><th>入れるもの</th><th>危ないところ</th></tr></thead>
         <tbody>
-          <tr><td><span class="ver">v1.1-f</span></td><td>氷の床・押せる岩</td><td><strong>「一歩＝1マス」を変える唯一の機構。</strong> 台本2本を同時に直す必要がある</td></tr>
           <tr><td><span class="ver">v1.1-g</span></td><td>ロケット団の筋・見えない壁・クイズ扉・テレポート床・ポケモンタワー7階</td><td>仕掛けは<strong>どれも既存の型で書ける</strong>（コード0行）</td></tr>
           <tr><td><span class="ver">v1.1-h</span></td><td>サファリゾーン</td><td><code>Ruleset</code> に寄せない判断が効くか</td></tr>
           <tr><td><span class="ver">v1.1-i</span></td><td>トレーナー約180人・地面の道具・デパート</td><td>入力作業。<strong>最後に回す</strong>のは、広げると何が起きるかが実測で分かってからにするため</td></tr>
@@ -1948,10 +1983,12 @@ packages/data/generated/ids.d.ts
       </table>
     </div>
     <div class="note" style="margin-bottom:0">
-      <strong>v1.1-f がこの版でいちばん危ない。</strong>
-      <code>goToMap</code> は1キーごとに予測ノードと突き合わせるので、
-      滑走は毎回ずれて経路を引き直すループに入る ――
-      v1.1-a で <code>neighborsOf</code> を <code>core</code> に一本化したのは、この日のためだった。
+      <strong>いちばん危ないと見ていた v1.1-f は、半分が消えた。</strong>
+      危険の中身は<strong>氷の滑走</strong>のほうで（<code>goToMap</code> は1キーごとに予測ノードと
+      突き合わせるので、滑走は毎回ずれて引き直しループに入る）、押せる岩は
+      <em>安全側に壊れる</em>（岩を壁と見なすので「経路なし」で止まる）。
+      その氷はカントーに1枚も無いと分かったのでジョウトの版へ送った ――
+      <strong>危険は消えていない。使う場所ができる日まで先送りになっただけ。</strong>
     </div>
   </article>
 
@@ -1987,7 +2024,7 @@ packages/data/generated/ids.d.ts
 </section>
 
 <footer>
-  ポケモン風RPG ／ v0.1 → v1.1-e ／ 個人利用・非配布 ／ 設計文書は <span class="mono">docs/design/</span> を参照
+  ポケモン風RPG ／ v0.1 → v1.1-f ／ 個人利用・非配布 ／ 設計文書は <span class="mono">docs/design/</span> を参照
 </footer>
 
 </div>

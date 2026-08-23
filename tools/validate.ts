@@ -25,6 +25,7 @@ import {
   canEnter,
   inBounds,
   neighborsOf,
+  pushableDirections,
   walkableTerrains,
   terrainAt,
   FIELD_ABILITIES,
@@ -34,6 +35,7 @@ import {
   walkCommands,
   type Condition,
   type EventCommand,
+  type FieldAbilityId,
   type HeldEffect,
   type MapData,
   type MapObject,
@@ -1271,8 +1273,11 @@ function checkWorld(): void {
         for (const flag of flagsUsedBy(object.condition)) usedFlags.add(flag);
         checkCondition(object.condition, where);
       }
-      // 看板・NPCは調べるだけの存在。イベントが無いと置いた意味が無い
-      if (object.event === undefined && object.kind.type !== "obstacle") {
+      // 看板・NPCは調べるだけの存在。イベントが無いと置いた意味が無い。
+      // 障害物と押せる岩は**そこに在ること自体が仕事**なので黙っている
+      // （スイッチは違う ―― 押しても何も起きないなら置いた意味が無いので、下の #104 が見る）
+      const SILENT = new Set(["obstacle", "boulder"]);
+      if (object.event === undefined && !SILENT.has(object.kind.type)) {
         warn("map-object", `${where}: イベントが無い`);
       }
     }
@@ -1609,6 +1614,62 @@ function checkWorld(): void {
     }
   }
 
+  // ── #103〜#106 押せる岩とスイッチ（v1.1-f）──
+  //
+  // **岩は「置いた」だけでは仕掛けにならない。** v1.1-e で1階の
+  // かいりき の岩が迷路の輪に迂回されていたのと同じで、動かせない岩・
+  // 何も起こさないスイッチは、ただの通れないマスにしかならない。
+  {
+    const boulders = allMaps.flatMap((m) =>
+      m.objects
+        .filter((o) => o.kind.type === "boulder")
+        .map((o) => ({ map: m, object: o, pushedBy: (o.kind as { pushedBy: string }).pushedBy })),
+    );
+    const switches = allMaps.flatMap((m) =>
+      m.objects.filter((o) => o.kind.type === "switch").map((o) => ({ map: m, object: o })),
+    );
+
+    for (const { map, object, pushedBy } of boulders) {
+      const where = `${map.id}/${object.id}`;
+
+      // #103 初期位置から最低1方向へ押せる（判定は `core` の関数をそのまま呼ぶ ――
+      //      ここで書き直すと、検証だけが通る岩ができる）
+      const dirs = pushableDirections(map, ABLE, object, pushedBy as FieldAbilityId);
+      if (dirs.length === 0) {
+        fail("boulder", `${where}: どの向きにも押せない（ただの通れないマス）`);
+      }
+
+      // #104 岩の初期位置にスイッチを置かない ―― 最初から押されている
+      if (map.objects.some((o) => o.kind.type === "switch" && sameSpot(o, object))) {
+        fail("boulder", `${where}: 最初からスイッチの上に乗っている`);
+      }
+
+      // #105 踏む warp の上に置かない ―― その出入口が永久に使えなくなる
+      if (map.warps.some((w) => w.trigger === "step" && sameSpot({ at: w.at }, object))) {
+        fail("boulder", `${where}: 踏む warp の上。その出入口へ入れなくなる`);
+      }
+    }
+
+    for (const { map, object } of switches) {
+      const where = `${map.id}/${object.id}`;
+
+      // #106 スイッチは押されたら必ず何かする。中身がフラグを立てることまで見る ――
+      //      「イベントはあるが setFlag が無い」スイッチは押しても世界が変わらない
+      const event = allEvents.find((e) => e.id === object.event);
+      if (object.event === undefined || event === undefined) {
+        fail("switch", `${where}: イベントが無い（乗せても何も起きない）`);
+        continue;
+      }
+      if (![...walkCommands(event.commands)].some((c) => c.kind === "setFlag")) {
+        fail("switch", `${where}: イベントがフラグを立てない（乗せても世界が変わらない）`);
+      }
+      // 乗せる岩が同じマップに無いと、押しに行く相手が居ない
+      if (!boulders.some((b) => b.map.id === map.id)) {
+        fail("switch", `${where}: 同じマップに押せる岩が無い`);
+      }
+    }
+  }
+
   // ── #97 バッジをくれるイベントは わざマシンもくれる（v1.1-b）──
   //
   // 原作では**どの世代でも、ジムリーダーはバッジと一緒にわざマシンを渡す。**
@@ -1779,6 +1840,10 @@ function checkWorld(): void {
  * だからフィールド技は全部持っている扱いにし、進行で消えるもの・
  * どけられるものは壁として数えない。
  */
+/** 同じマスか。岩・スイッチ・warp を突き合わせるのに使う（v1.1-f）。 */
+const sameSpot = (a: { at: { x: number; y: number } }, b: { at: { x: number; y: number } }): boolean =>
+  a.at.x === b.at.x && a.at.y === b.at.y;
+
 const ABLE: WorldState = {
   ...emptyWorldState(),
   abilities: [...FIELD_ABILITIES],
@@ -1786,7 +1851,14 @@ const ABLE: WorldState = {
   // 「なみのり は使えるのに水に入れない」世界になる（v1.1-c で実際にそうなった）
   walkable: walkableTerrains(allFieldAbilities, [...FIELD_ABILITIES]),
 };
-const IN_PRINCIPLE = { ignoreConditional: true, ignoreObstacles: true } as const;
+// 押せる岩も「原理的には どかせる」側（v1.1-f）。壁として数えると、
+// 岩の向こうにしか無い部屋を「到達できない」と誤報する ―― #55 が
+// v0.12-d で障害物を壁と数えて2回誤報したのと同じ形
+const IN_PRINCIPLE = {
+  ignoreConditional: true,
+  ignoreObstacles: true,
+  ignorePushable: true,
+} as const;
 
 /**
  * 地方まるごとの到達可能性（v0.12-b）。

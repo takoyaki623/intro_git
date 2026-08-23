@@ -103,7 +103,26 @@ export type MapObjectKind =
   | { type: "trainer"; trainer: TrainerId; sight: number; direction: Direction }
   | { type: "item"; item: ItemId; hidden: boolean }
   | { type: "sign" }
-  | { type: "obstacle"; clearedBy: FieldAbilityId };
+  | { type: "obstacle"; clearedBy: FieldAbilityId }
+  /**
+   * 押せる岩（v1.1-f）。
+   *
+   * **`obstacle` と紛らわしいが、別物として分ける。**
+   * どちらも「能力で対処する通れないもの」だが、消えるか動くかが違う ――
+   * `obstacle` は `world.cleared` に id を1件足せば済むのに対し、
+   * こちらは**どこへ動いたか**を持たないといけない（`world.moved`）。
+   * 1つの kind にまとめると「消えた岩の座標」という無意味な状態が表現できてしまう。
+   */
+  | { type: "boulder"; pushedBy: FieldAbilityId }
+  /**
+   * 岩を乗せるスイッチ（v1.1-f）。**床なので通行を妨げない。**
+   *
+   * 岩が乗った瞬間に `event` が走る ―― その中身は `setFlag` で、
+   * 以降の扉は既存のフラグ機構で開く。**新しい `Condition` は作らない**：
+   * 岩の位置は保存しない派生値なので、条件に載せると
+   * 保存するもの / しないものの境界が濁る（world.md §7.1）。
+   */
+  | { type: "switch" };
 
 export type MapObject = {
   id: string;

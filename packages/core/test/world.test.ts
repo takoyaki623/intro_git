@@ -17,7 +17,7 @@ import {
   fieldAbilitiesFor,
   syncAbilities,
   walkableTerrains,
-  obstacleKey,
+  objectKey,
   tableFor,
   tableForTerrain,
   interact,
@@ -722,7 +722,7 @@ describe("フィールド技（v0.12-d）", () => {
     const after = worldWith(2, ["kanto.ability.cut"]);
     // **能力があるだけでは消えない。** どけて初めて通れる
     expect(isWalkable(map, after, 5, 10)).toBe(false);
-    after.cleared.push(obstacleKey(VERMILION, objectAt(map, after, 5, 10)!));
+    after.cleared.push(objectKey(VERMILION, objectAt(map, after, 5, 10)!));
     expect(isWalkable(map, after, 5, 10)).toBe(true);
   });
 
@@ -731,7 +731,7 @@ describe("フィールド技（v0.12-d）", () => {
     const world = worldWith(4, ["kanto.ability.strength"]);
     world.cleared.push("kanto-somewhere-else:fuchsia-boulder");
     expect(isWalkable(map, world, 10, 5)).toBe(false);
-    world.cleared.push(obstacleKey(FUCHSIA, objectAt(map, world, 10, 5)!));
+    world.cleared.push(objectKey(FUCHSIA, objectAt(map, world, 10, 5)!));
     expect(isWalkable(map, world, 10, 5)).toBe(true);
   });
 
@@ -920,7 +920,7 @@ describe("ポケモンリーグ（v0.12-f）", () => {
     // 岩をどけるまで、北の出口へ続く道が塞がっている
     const world = emptyWorldState();
     expect(isWalkable(road, world, boulder!.at.x, boulder!.at.y)).toBe(false);
-    world.cleared.push(obstacleKey(road.id, boulder!));
+    world.cleared.push(objectKey(road.id, boulder!));
     expect(isWalkable(road, world, boulder!.at.x, boulder!.at.y)).toBe(true);
   });
 });
@@ -1029,5 +1029,141 @@ describe("フィールド行動（v1.1-c）", () => {
     const world = emptyWorldState();
     syncAbilities(allFieldAbilities, world);
     expect(world.walkable).toEqual([]);
+  });
+});
+
+/**
+ * 押せる岩とスイッチ（v1.1-f）。
+ *
+ * この版で初めて**世界が動く**。今までの「消える」（`cleared`・隠しアイテム）は
+ * どこへ消えたかを持たなくてよかったが、岩は行き先を持つ。
+ * 確かめたいのは押した結果そのものより、
+ * **`world.moved` を1箇所差し替えるだけで、当たり判定・描画・視線が揃う**こと。
+ */
+describe("押せる岩とスイッチ（v1.1-f）", () => {
+  const ROAD_2F = "kanto-victory-road-2f";
+  const mapOf = (id: string) => allMaps.find((m) => m.id === id)!;
+
+  /** かいりき が使える世界。 */
+  const able = (): WorldState => {
+    const world = emptyWorldState();
+    world.abilities = ["strength"];
+    return world;
+  };
+
+  const boulderOf = (map: MapData) => map.objects.find((o) => o.kind.type === "boulder")!;
+  const switchOf = (map: MapData) => map.objects.find((o) => o.kind.type === "switch")!;
+
+  /** 岩の左隣に立ち、右を向いた状態。 */
+  const leftOf = (map: MapData): PlayerPosition => {
+    const b = boulderOf(map);
+    return { map: map.id, x: b.at.x - 1, y: b.at.y, facing: "right" };
+  };
+
+  it("岩を押すと、岩とプレイヤーが1マスずつ動く", () => {
+    const map = mapOf(ROAD_2F);
+    const world = able();
+    const boulder = boulderOf(map);
+    const result = stepPlayer(map, world, leftOf(map), emptyEncounterState(), "right", rng(), []);
+
+    expect(result.outcome.kind).toBe("pushed");
+    if (result.outcome.kind !== "pushed") return;
+    // 岩は1マス先へ、プレイヤーは岩の居たマスへ
+    expect(result.outcome.to).toEqual({ x: boulder.at.x + 1, y: boulder.at.y });
+    expect({ x: result.position.x, y: result.position.y }).toEqual(boulder.at);
+  });
+
+  it("かいりき が無いと押せない ―― ただの壁として振る舞う", () => {
+    const map = mapOf(ROAD_2F);
+    const world = emptyWorldState();
+    const result = stepPlayer(map, world, leftOf(map), emptyEncounterState(), "right", rng(), []);
+    expect(result.outcome.kind).toBe("blocked");
+    expect(result.position).toEqual(leftOf(map));
+  });
+
+  it("押した先が壁なら押せない", () => {
+    const map = mapOf(ROAD_2F);
+    const world = able();
+    const boulder = boulderOf(map);
+    // 岩の上（北）は部屋の壁。北へ押そうとすると南に立つことになる
+    const below: PlayerPosition = { map: map.id, x: boulder.at.x, y: boulder.at.y + 1, facing: "up" };
+    const result = stepPlayer(map, world, below, emptyEncounterState(), "up", rng(), []);
+    expect(result.outcome.kind).toBe("blocked");
+  });
+
+  it("`world.moved` を書くと、当たり判定・描画・調べる がまとめて追従する", () => {
+    const map = mapOf(ROAD_2F);
+    const world = able();
+    const boulder = boulderOf(map);
+    const to = { x: boulder.at.x + 1, y: boulder.at.y };
+
+    // 押す前: 岩の居るマスに入れず、隣は入れる
+    expect(isWalkable(map, world, boulder.at.x, boulder.at.y)).toBe(false);
+    expect(isWalkable(map, world, to.x, to.y)).toBe(true);
+
+    world.moved[objectKey(map.id, boulder)] = to;
+
+    // 押したあと: **1箇所しか書いていないのに両方が入れ替わる**
+    expect(isWalkable(map, world, boulder.at.x, boulder.at.y)).toBe(true);
+    expect(isWalkable(map, world, to.x, to.y)).toBe(false);
+    expect(objectAt(map, world, to.x, to.y)?.id).toBe(boulder.id);
+    expect(visibleObjects(map, world).find((o) => o.id === boulder.id)?.at).toEqual(to);
+  });
+
+  it("元データは書き換わらない ―― 同じマップを2回読んでも岩は戻る", () => {
+    const map = mapOf(ROAD_2F);
+    const world = able();
+    const boulder = boulderOf(map);
+    const start = { ...boulder.at };
+    world.moved[objectKey(map.id, boulder)] = { x: boulder.at.x + 1, y: boulder.at.y };
+    visibleObjects(map, world);
+    expect(boulderOf(mapOf(ROAD_2F)).at).toEqual(start);
+    // 出入りすれば元の位置（`moved` は保存しない派生値）
+    expect(visibleObjects(map, emptyWorldState()).find((o) => o.id === boulder.id)?.at).toEqual(start);
+  });
+
+  it("スイッチは床 ―― 通行も視線も妨げない", () => {
+    const map = mapOf(ROAD_2F);
+    const sw = switchOf(map);
+    expect(isWalkable(map, able(), sw.at.x, sw.at.y)).toBe(true);
+  });
+
+  it("岩をスイッチまで押し切ると、イベントが返る", () => {
+    const map = mapOf(ROAD_2F);
+    const world = able();
+    const sw = switchOf(map);
+    let position = leftOf(map);
+    let last: ReturnType<typeof stepPlayer> | null = null;
+
+    // 岩がスイッチに乗るまで、同じ入力を繰り返す
+    for (let i = 0; i < 8; i += 1) {
+      const result = stepPlayer(map, world, position, emptyEncounterState(), "right", rng(), []);
+      if (result.outcome.kind !== "pushed") break;
+      world.moved[objectKey(map.id, result.outcome.object)] = result.outcome.to;
+      position = result.position;
+      last = result;
+      if (result.outcome.event !== undefined) break;
+    }
+
+    expect(last?.outcome.kind).toBe("pushed");
+    if (last?.outcome.kind !== "pushed") return;
+    expect(last.outcome.to).toEqual(sw.at);
+    // **スイッチに乗ったときだけイベントが付く**（途中の1歩には付かない）
+    expect(last.outcome.event).toBe(sw.event);
+  });
+
+  it("スイッチのイベントはフラグを立て、シャッターが消える", () => {
+    const map = mapOf(ROAD_2F);
+    const sw = switchOf(map);
+    const shutter = map.objects.find((o) => o.kind.type === "sign" && o.condition !== undefined)!;
+    const world = able();
+
+    expect(isWalkable(map, world, shutter.at.x, shutter.at.y)).toBe(false);
+
+    // スイッチのイベントを最後まで流す
+    let runner = startEvent(allEvents.find((e) => e.id === sw.event)!.commands);
+    for (let i = 0; i < 20 && !runner.done; i += 1) runner = stepEvent(runner, world).runner;
+
+    expect(isWalkable(map, world, shutter.at.x, shutter.at.y)).toBe(true);
   });
 });

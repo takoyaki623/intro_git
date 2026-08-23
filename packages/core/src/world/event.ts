@@ -40,7 +40,7 @@ export type WorldState = {
    */
   abilities: FieldAbilityId[];
   /**
-   * この訪問でどけた障害物（v0.12-d）。`obstacleKey()` の文字列。
+   * この訪問でどけた障害物（v0.12-d）。`objectKey()` の文字列。
    * これもセーブに載せない ―― 出入りすれば元に戻る（原作と同じ）。
    */
   cleared: string[];
@@ -53,6 +53,19 @@ export type WorldState = {
    * `abilities` と同じ「条件から導く・保存しない」の扱い。
    */
   walkable: TerrainId[];
+  /**
+   * この訪問で押した岩の現在地（v1.1-f）。`objectKey()` → 座標。
+   *
+   * **`cleared` と同じくセーブに載せない。** 出入りすれば元の位置に戻る。
+   * 原作の岩も同じ挙動で、詰ませ防止としても要る ――
+   * 保存すると「岩を隅に押し込んで二度と解けないダンジョン」が
+   * セーブデータの中に固定されてしまう。
+   *
+   * 一方、岩がスイッチを踏んで立てたフラグは**保存される**。
+   * つまり出入りすると岩は戻るが扉は開いたまま ―― 原作より緩いが、
+   * 「解いた手応えを取り上げない」側に倒す（`cleared` の判断と同じ向き）。
+   */
+  moved: Record<string, { x: number; y: number }>;
 };
 
 export const emptyWorldState = (): WorldState => ({
@@ -64,6 +77,7 @@ export const emptyWorldState = (): WorldState => ({
   abilities: [],
   cleared: [],
   walkable: [],
+  moved: {},
 });
 
 /** 条件の評価。用途をまたいで1つだけ持つ（分岐の仕組みを3つに分けない）。 */

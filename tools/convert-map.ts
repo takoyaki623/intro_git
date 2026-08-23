@@ -111,6 +111,13 @@ function parseWarps(file: string, lines: string[]): Warp[] {
   });
 }
 
+function parseAbility(file: string, ability: string | undefined): FieldAbilityId {
+  if (ability === undefined || !(FIELD_ABILITIES as readonly string[]).includes(ability)) {
+    throw new Error(`${file}: 未知のフィールド技 "${ability}"`);
+  }
+  return ability as FieldAbilityId;
+}
+
 function parseKind(file: string, spec: string): MapObjectKind {
   const [type, ...rest] = spec.split(":");
   switch (type) {
@@ -128,12 +135,15 @@ function parseKind(file: string, spec: string): MapObjectKind {
     case "item":
       return { type: "item", item: rest[0]!, hidden: rest[1] === "hidden" };
     case "obstacle": {
-      const ability = rest[0];
-      if (ability === undefined || !(FIELD_ABILITIES as readonly string[]).includes(ability)) {
-        throw new Error(`${file}: 未知のフィールド技 "${ability}"`);
-      }
-      return { type: "obstacle", clearedBy: ability as FieldAbilityId };
+      return { type: "obstacle", clearedBy: parseAbility(file, rest[0]) };
     }
+    // 押せる岩とスイッチ（v1.1-f）。**文法は obstacle と同じ形**にしてある ――
+    // 岩は「能力で対処する障害」という同じ読み方で書ける
+    case "boulder": {
+      return { type: "boulder", pushedBy: parseAbility(file, rest[0]) };
+    }
+    case "switch":
+      return { type: "switch" };
     default:
       throw new Error(`${file}: 未知のオブジェクト種別 "${type}"`);
   }

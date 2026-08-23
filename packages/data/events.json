@@ -5421,5 +5421,77 @@
         "value": true
       }
     ]
+  },
+  {
+    "id": "kanto.victory.press-2f",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.victory.switch-2f",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "playSe"
+          },
+          {
+            "kind": "message",
+            "text": "ゴゴゴ… どこかで シャッターが ひらく おとが した!"
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.victory.switch-2f",
+            "value": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.victory.shutter-2f",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "がんじょうな シャッターが みちを ふさいでいる。\nどこかに スイッチが あるようだ…"
+      }
+    ]
+  },
+  {
+    "id": "kanto.victory.press-3f",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.victory.switch-3f",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "playSe"
+          },
+          {
+            "kind": "message",
+            "text": "ゴゴゴ… どこかで シャッターが ひらく おとが した!"
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.victory.switch-3f",
+            "value": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.victory.shutter-3f",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "がんじょうな シャッターが みちを ふさいでいる。\nどこかに スイッチが あるようだ…"
+      }
+    ]
   }
 ]

@@ -52,7 +52,7 @@ export function syncAbilities(all: readonly FieldAbility[], world: WorldState): 
  * **マップIDまで含める。** オブジェクトIDはマップの中でしか一意でないので、
  * 名前だけで覚えると「別の町の岩が最初から消えている」ことが起きる。
  */
-export const obstacleKey = (map: MapId, object: MapObject): string => `${map}:${object.id}`;
+export const objectKey = (map: MapId, object: MapObject): string => `${map}:${object.id}`;
 
 /**
  * 障害物をどけられるか。

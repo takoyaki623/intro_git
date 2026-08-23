@@ -147,6 +147,14 @@ const KEY = { up: "ArrowUp", down: "ArrowDown", left: "ArrowLeft", right: "Arrow
  * `neighborsOf` が一手に決めるので、台本は**できることを申告するだけ**でよい。
  */
 const cleared = new Set();
+/**
+ * 台本が押した岩の現在地（v1.1-f）。`objectKey()` → 座標。
+ *
+ * **`cleared` と同じ理由で台本にも要る。** どけた岩を経路探索が知らないと
+ * 「入れるのに行けない」と報告するのと同じで、押した岩を知らないと
+ * **押して空いたマスを壁だと思い込む** ―― 岩の向こうへ行く手順が引けない。
+ */
+const pushedAt = {};
 let canSurf = false;
 const able = () => {
   const abilities = canSurf ? ["surf"] : [];
@@ -157,6 +165,7 @@ const able = () => {
     // 「なみのり は使えるのに水に入れない」経路探索になる
     walkable: walkableTerrains(allFieldAbilities, abilities),
     cleared: [...cleared],
+    moved: { ...pushedAt },
   };
 };
 
@@ -296,6 +305,40 @@ async function useAbility(direction, key2) {
   await accept();
   await clear();
   cleared.add(key2);
+}
+
+/**
+ * 岩をスイッチまで押す（v1.1-f）。
+ *
+ * **押すのは「歩く」と同じ入力**なので、専用の操作は無い ――
+ * 岩の反対側に立って、同じ向きへ歩き続けるだけ。
+ * 台本がやることは2つだけ:
+ *   1. 立つ位置を計算する（岩の1マス手前。ここは `goToMap` に任せる）
+ *   2. 押した結果を `moved` に書いて、**経路探索に世界の変化を教える**
+ *
+ * 2 を忘れると、押した直後から「経路なし」で止まる。
+ * `cleared` で一度踏んだ穴（v0.12-d）と同じ形。
+ */
+async function pushBoulder(mapId, objectId, direction, times) {
+  const map = MAPS.get(mapId);
+  const object = map.objects.find((o) => o.id === objectId);
+  const step = { ArrowUp: [0, -1], ArrowDown: [0, 1], ArrowLeft: [-1, 0], ArrowRight: [1, 0] }[direction];
+  let at = pushedAt[`${mapId}:${objectId}`] ?? { ...object.at };
+
+  // 岩の反対側へ回り込む。**押す向きの逆隣にしか立てない**
+  await goToMap(mapId, at.x - step[0], at.y - step[1], 30);
+  for (let i = 0; i < times; i += 1) {
+    await key(direction, 1, 260);
+    at = { x: at.x + step[0], y: at.y + step[1] };
+    pushedAt[`${mapId}:${objectId}`] = at;
+  }
+  const now = await spot();
+  expect(
+    `岩を ${times}マス 押すと プレイヤーも ${times}マス 進む`,
+    `${now.x},${now.y}`,
+    `${at.x - step[0]},${at.y - step[1]}`,
+  );
+  return at;
 }
 
 /** ゲートからカントーへ。**warp ではなくイベント**なので経路探索では跨げない。 */
@@ -1543,10 +1586,34 @@ expect(
 // 岩は1階の縦道（1,4）にある。立てるのは下どなり（1,5）だけ
 await goToMap("kanto-victory-road", 1, 5, 30);
 await useAbility("ArrowUp", "kanto-victory-road:victory-boulder");
-await goToMap("kanto-victory-road-2f", 2, 5, 40);
+await goToMap("kanto-victory-road-2f", 2, 6, 40);
 expect("2階へ のぼれる", (await spot()).map, "kanto-victory-road-2f");
+
+// ── 押せる岩とスイッチ（v1.1-f）──
+//
+// **2階と3階は「岩をスイッチに乗せる」以外の道が無い。** v1.1-e の時点では
+// 2階も部屋が輪になっていて、岩を通らずに階段へ行けた（＝飾りだった）。
+expect(
+  "スイッチを 押すまで シャッターは 開かない",
+  (await goToMap("kanto-victory-road-3f", 2, 1, 8)).map,
+  "kanto-victory-road-2f",
+);
+await pushBoulder("kanto-victory-road-2f", "victory-2f-boulder", "ArrowRight", 2);
+note("スイッチ", ((await page.textContent("#field-text")) ?? "（何も出ない）").trim().replace(/\s+/g, " "));
+await accept();
+await clear();
 await goToMap("kanto-victory-road-3f", 2, 1, 40);
-expect("3階へ のぼれる", (await spot()).map, "kanto-victory-road-3f");
+expect("シャッターが 開いて 3階へ のぼれる", (await spot()).map, "kanto-victory-road-3f");
+
+// 3階も同じ仕掛け。**ここで増えたコードは0行**（マップの3行だけ）
+expect(
+  "3階にも 同じ仕掛けがある",
+  (await goToMap("kanto-indigo-plateau", 4, 9, 8)).map,
+  "kanto-victory-road-3f",
+);
+await pushBoulder("kanto-victory-road-3f", "victory-3f-boulder", "ArrowRight", 2);
+await accept();
+await clear();
 await goToMap("kanto-indigo-plateau", 4, 9, 60);
 expect("チャンピオンロードを 抜けて セキエイこうげんに つく", (await spot()).map, "kanto-indigo-plateau");
 await shot("32-indigo");
@@ -1621,6 +1688,8 @@ note(
 // **チャンピオンロードは歩いて戻らない** ―― どけた岩は出入りで元に戻るので
 // （world.md §7.1）、帰りにもう一度 かいりき が要る。そらをとぶ のほうが早い
 cleared.clear();
+// 押した岩も同じ（v1.1-f）。**フラグだけが残り、岩は初期位置に戻る**
+for (const k of Object.keys(pushedAt)) delete pushedAt[k];
 await page.click("#open-fly");
 await page.waitForSelector('#field-panel [data-fly="kanto-pallet-town"]');
 await page.click('#field-panel [data-fly="kanto-pallet-town"]');

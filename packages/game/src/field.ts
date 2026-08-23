@@ -27,7 +27,7 @@ import {
   evolutionFor,
   fieldAbilitiesFor,
   syncAbilities,
-  obstacleKey,
+  objectKey,
   evolve,
   healParty,
   instanceToSpec,
@@ -133,6 +133,8 @@ const OBJECT_COLOR: Record<string, string> = {
   item: "#e0b33a",
   sign: "#8b6d4a",
   obstacle: "#6b5a3a",
+  boulder: "#7d7266",
+  switch: "#5a6b7d",
 };
 
 // ─────────────────────────────────────────────
@@ -388,14 +390,20 @@ export function playField(rebuild: () => void): FieldHandle {
         const sy = object.at.y + dy * step;
         if (sx < 0 || sy < 0 || sx >= on.size.width || sy >= on.size.height) break;
         if (on.collision[sy * on.size.width + sx] === true) break;
-        if (objectAt(on, world, sx, sy) !== null) break;
+        const between = objectAt(on, world, sx, sy);
+        if (between !== null && between.kind.type !== "switch") break;
         ctx.fillRect(toScreenX(sx) + 4, toScreenY(sy) + 4, TILE - 8, TILE - 8);
       }
       ctx.restore();
     }
 
     // ── オブジェクト ──
-    for (const object of visibleObjects(map, world)) {
+    // **スイッチを先に描く**（v1.1-f）。床なので、乗っている岩に隠れる側でないと
+    // 「岩の上に板が浮いている」絵になる
+    const drawn = [...visibleObjects(map, world)].sort(
+      (a, b) => Number(a.kind.type !== "switch") - Number(b.kind.type !== "switch"),
+    );
+    for (const object of drawn) {
       const x = toScreenX(object.at.x);
       const y = toScreenY(object.at.y);
       if (x < -TILE || y < -TILE || x > canvas.width || y > canvas.height) continue;
@@ -406,6 +414,27 @@ export function playField(rebuild: () => void): FieldHandle {
         ctx.fillStyle = color;
         ctx.beginPath();
         ctx.arc(x + TILE / 2, y + TILE / 2, 6, 0, Math.PI * 2);
+        ctx.fill();
+        continue;
+      }
+      if (object.kind.type === "switch") {
+        // 床の板。岩が乗ると沈んで見えるように、上に岩があれば枠だけにする
+        ctx.fillStyle = color;
+        ctx.fillRect(x + 4, y + 4, TILE - 8, TILE - 8);
+        ctx.fillStyle = shade(color, 0.3);
+        ctx.fillRect(x + 7, y + 7, TILE - 14, TILE - 14);
+        continue;
+      }
+      if (object.kind.type === "boulder") {
+        dropShadow(x + TILE / 2, y + TILE * 0.82, TILE * 0.3);
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.arc(x + TILE / 2, y + TILE / 2, TILE * 0.36, 0, Math.PI * 2);
+        ctx.fill();
+        // 削れた面。ただの丸だと道具のボールと見分けがつかない
+        ctx.fillStyle = shade(color, 0.22);
+        ctx.beginPath();
+        ctx.arc(x + TILE * 0.4, y + TILE * 0.4, TILE * 0.16, 0, Math.PI * 2);
         ctx.fill();
         continue;
       }
@@ -1019,6 +1048,14 @@ export function playField(rebuild: () => void): FieldHandle {
     const result = stepPlayer(map, world, player.position, encounter, direction, rng, allEncounterTables);
     player.position = result.position;
     encounter = result.encounter;
+    // **岩の移動を世界に書くのはここだけ**（v1.1-f）。`core` は
+    // 「押せた・押した先はここ」としか言わない ―― `cleared` と同じ受け渡しで、
+    // 保存しない状態を1箇所に集める。
+    // **draw() より前**に置くのは、あとにすると押した瞬間の1フレームだけ
+    // 岩とプレイヤーが同じマスに重なって見えるから
+    if (result.outcome.kind === "pushed") {
+      world.moved[objectKey(before.map, result.outcome.object)] = result.outcome.to;
+    }
 
     if (result.outcome.kind === "moved" || result.outcome.kind === "jumped") {
       await animateWalk(before, player.position);
@@ -1048,6 +1085,15 @@ export function playField(rebuild: () => void): FieldHandle {
         draw();
         await flash("！");
         await runEvent(result.outcome.event);
+        return;
+      }
+      case "pushed": {
+        // 岩は上（draw() の前）で動かしてある。ここでやるのは演出だけ ――
+        // 歩きを見せて、スイッチに乗ったときだけイベントを流す
+        const { event } = result.outcome;
+        await animateWalk(before, player.position);
+        // スイッチに乗ったときだけイベント（中身は setFlag）
+        if (event !== undefined) await runEvent(event);
         return;
       }
       case "turned":
@@ -1104,8 +1150,9 @@ export function playField(rebuild: () => void): FieldHandle {
     for (let guard = 0; guard < 8; guard += 1) {
       if (player.position.map === lastMap) break;
       lastMap = player.position.map;
-      // どけた障害物は出入りで元に戻る（原作と同じ）
+      // どけた障害物と押した岩は出入りで元に戻る（原作と同じ）
       world.cleared = [];
+      world.moved = {};
       const script = currentMap().onEnter;
       if (script === undefined) break;
       await runEvent(script);
@@ -1177,7 +1224,7 @@ export function playField(rebuild: () => void): FieldHandle {
       await say(spec.lockedText);
       if (!world.abilities.includes(ability)) return;
       if ((await ask(`${spec.name} を つかいますか?`, ["はい", "いいえ"])) !== 0) return;
-      world.cleared.push(obstacleKey(player.position.map, object));
+      world.cleared.push(objectKey(player.position.map, object));
       await say(spec.useText.replace("{name}", spec.name));
 
       // **どけた先から野生が出る**（いわくだき・v1.1-c）。

@@ -9,7 +9,7 @@
 
 import type { Rng } from "../rng.js";
 import type { SpeciesId } from "../types.js";
-import { fieldActionAt, obstacleKey, type FieldAction } from "./ability.js";
+import { fieldActionAt, objectKey, type FieldAction } from "./ability.js";
 import { evaluate, type WorldState } from "./event.js";
 import type {
   Direction,
@@ -119,6 +119,8 @@ export type NeighborOptions = {
   ignoreConditional?: boolean;
   /** 障害物を塞いでいない扱いにする（`world.cleared` を1件ずつ数える代わり）。 */
   ignoreObstacles?: boolean;
+  /** 押せる岩を塞いでいない扱いにする（v1.1-f）。`ignoreObstacles` の岩版。 */
+  ignorePushable?: boolean;
   /** 踏む warp を辿るか。既定 true。1枚のマップの中だけを塗るときは false。 */
   followWarps?: boolean;
 };
@@ -137,6 +139,7 @@ export function canEnter(
     if (o.at.x !== x || o.at.y !== y || !blocksMovement(o)) return false;
     if (options.ignoreConditional === true && o.condition !== undefined) return false;
     if (options.ignoreObstacles === true && o.kind.type === "obstacle") return false;
+    if (options.ignorePushable === true && o.kind.type === "boulder") return false;
     return true;
   });
 }
@@ -203,20 +206,37 @@ function canSwimTo(map: MapData, world: WorldState, x: number, y: number): boole
   return world.walkable.includes(terrainAt(map, x, y));
 }
 
-/** 看板・NPC・障害物は通れない。落ちている道具は踏める。 */
-const blocksMovement = (object: MapObject): boolean => object.kind.type !== "item";
+/**
+ * 看板・NPC・障害物・押せる岩は通れない。
+ * 落ちている道具とスイッチ（v1.1-f）は床なので踏める。
+ */
+const blocksMovement = (object: MapObject): boolean =>
+  object.kind.type !== "item" && object.kind.type !== "switch";
 
-/** 条件を満たして今そこに居るオブジェクトだけ。 */
+/**
+ * 条件を満たして今そこに居るオブジェクトだけ。
+ *
+ * **世界の「今の見え方」を作る唯一の場所。** 消えたもの（どけた障害物・
+ * まだ見つかっていない隠しアイテム・条件を満たさないもの）をここで落とし、
+ * 動いたもの（押した岩・v1.1-f）の座標をここで差し替える。
+ * 当たり判定・描画・視線・調べる がすべてこの関数を通るので、
+ * **1箇所直せば4つが勝手に揃う** ―― 別々に判定を足すとどれか1つを忘れる。
+ */
 export function visibleObjects(map: MapData, world: WorldState): MapObject[] {
   return map.objects.filter((o) => {
     // どけた障害物はもう居ない。**ここ1箇所で消す**ので、
     // 当たり判定・描画・視線が勝手に揃う（別々に判定を足すとどれか1つ忘れる）
-    if (o.kind.type === "obstacle" && world.cleared.includes(obstacleKey(map.id, o))) return false;
+    if (o.kind.type === "obstacle" && world.cleared.includes(objectKey(map.id, o))) return false;
     // 隠しアイテムは**まだ そこに無い**（v1.1-c）。同じ1箇所で消すので、
     // 描いてしまう・踏んで拾えてしまう、が起きない ――
     // 見つける道は `interact` が別に持っている（探す能力があるときだけ）
     if (o.kind.type === "item" && o.kind.hidden) return false;
     return o.condition === undefined || evaluate(o.condition, world);
+  }).map((o) => {
+    // 押した岩は今そこに無い（v1.1-f）。**座標だけを差し替えた別物を返す** ――
+    // 元データを書き換えると、同じマップを2回読んだときに岩が戻らない
+    const at = world.moved[objectKey(map.id, o)];
+    return at === undefined ? o : { ...o, at };
   });
 }
 
@@ -269,6 +289,14 @@ export type StepOutcome =
   | { kind: "warp"; warp: Warp }
   /** 段差を飛び降りた。着地は2マス先。 */
   | { kind: "jumped" }
+  /**
+   * 岩を押した（v1.1-f）。プレイヤーは岩が居たマスへ1歩進む。
+   *
+   * **`core` は世界を書き換えない。** 岩の新しい位置は `to` で返すだけで、
+   * `world.moved` に入れるのは呼び出し側 ―― `cleared` と同じ受け渡し方。
+   * `event` はスイッチに乗ったときだけ入る。
+   */
+  | { kind: "pushed"; object: MapObject; to: { x: number; y: number }; event?: EventId }
   | { kind: "encounter"; species: SpeciesId; level: number }
   | { kind: "event"; event: EventId; object: MapObject };
 
@@ -312,7 +340,10 @@ export function spotterAt(
       // 壁の向こうは見えない。他のオブジェクトも視線を遮る
       if (!inBounds(map, sx, sy)) break;
       if (map.collision[indexOf(map, sx, sy)] === true) break;
-      if (objectAt(map, world, sx, sy) !== null) break;
+      // 床のスイッチは視線を遮らない（v1.1-f）。遮ると、岩を置いた瞬間に
+      // 奥のトレーナーが見えなくなるという説明のつかない挙動になる
+      const between = objectAt(map, world, sx, sy);
+      if (between !== null && between.kind.type !== "switch") break;
     }
   }
   return best?.object ?? null;
@@ -359,6 +390,21 @@ export function stepPlayer(
     };
   }
 
+  // 押せる岩（v1.1-f）。**壁の判定より先。** あとに置くと
+  // 「通れないので blocked」で終わってしまい、押す機会が来ない
+  const boulder = objectAt(map, world, nx, ny);
+  if (boulder !== null && boulder.kind.type === "boulder") {
+    const push = tryPush(map, world, boulder, boulder.kind.pushedBy, dx, dy);
+    if (push === null) return { position, encounter, outcome: { kind: "blocked" } };
+    return {
+      position: { ...position, x: nx, y: ny },
+      // 押した歩は野生を抽選しない。パズルの最中に割り込まれると、
+      // 戻ってきたとき岩がどこまで動いたか分からなくなる
+      encounter: { ...encounter, stepsSince: encounter.stepsSince + 1 },
+      outcome: push,
+    };
+  }
+
   if (!isWalkable(map, world, nx, ny)) {
     return { position, encounter, outcome: { kind: "blocked" } };
   }
@@ -399,6 +445,59 @@ export function stepPlayer(
   }
 
   return { position: moved, encounter: next, outcome: { kind: "moved" } };
+}
+
+/**
+ * 岩を1マス押せるか。押せるなら結果を、押せないなら null を返す（v1.1-f）。
+ *
+ * **押した先の条件は3つとも「入れるマス」より厳しい:**
+ *   - 段差の上には乗らない（飛び降り専用の一方通行なので、乗ると降りられない）
+ *   - 踏む warp の上には乗らない（岩だけが別の階に落ちることになる）
+ *   - 他のオブジェクトの上には乗らない ―― ただし**スイッチだけは例外**。
+ *     そこに乗せるための床なので、乗せられないと道具として意味を成さない
+ *
+ * 検証 #103（初期位置から最低1方向へ押せる）もこの関数を呼ぶ。
+ * **判定を2箇所に書くと、検証だけが通る岩ができる。**
+ */
+export function tryPush(
+  map: MapData,
+  world: WorldState,
+  boulder: MapObject,
+  pushedBy: FieldAbilityId,
+  dx: number,
+  dy: number,
+): { kind: "pushed"; object: MapObject; to: { x: number; y: number }; event?: EventId } | null {
+  if (!world.abilities.includes(pushedBy)) return null;
+
+  const to = { x: boulder.at.x + dx, y: boulder.at.y + dy };
+  if (!inBounds(map, to.x, to.y)) return null;
+  if (terrainAt(map, to.x, to.y) === "ledge") return null;
+  if (warpAt(map, to.x, to.y, "step") !== null) return null;
+  if (!canEnter(map, world, to.x, to.y, {})) return null;
+
+  const onto = objectAt(map, world, to.x, to.y);
+  if (onto !== null && onto.kind.type !== "switch") return null;
+
+  // スイッチに乗ったら、その場でイベント（中身は setFlag）
+  const event = onto !== null && onto.kind.type === "switch" ? onto.event : undefined;
+  return event === undefined
+    ? { kind: "pushed", object: boulder, to }
+    : { kind: "pushed", object: boulder, to, event };
+}
+
+/** その岩を今の状態から押せる向き（v1.1-f）。検証 #103 が数える。 */
+export function pushableDirections(
+  map: MapData,
+  world: WorldState,
+  boulder: MapObject,
+  pushedBy: FieldAbilityId,
+): Direction[] {
+  return DIRECTIONS.filter((dir) => {
+    const { dx, dy } = STEP[dir];
+    // 押すには、岩の反対側に立てないといけない
+    if (!canEnter(map, world, boulder.at.x - dx, boulder.at.y - dy, {})) return false;
+    return tryPush(map, world, boulder, pushedBy, dx, dy) !== null;
+  });
 }
 
 function advanceEncounterState(state: EncounterState, terrain: TerrainId): EncounterState {
