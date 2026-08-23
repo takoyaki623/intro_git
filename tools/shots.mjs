@@ -189,10 +189,14 @@ const PLACES = [
   { file: "saffron-city", name: "ヤマブキシティ", note: "**4方向に門がある**（v1.1-d）。カントーの中央", to: ["kanto-saffron-city", 11, 6] },
   { file: "saffron-gate", name: "けんもんじょ", note: "町と道路のあいだに必ず1棟。ポケセンと同じ「2つ warp を持つ小マップ」", to: ["kanto-saffron-gate-north", 3, 2] },
   { file: "underground-path", name: "ちかつうろ", note: "5番⇄6番の**任意の近道**。本道はヤマブキを通る", to: ["kanto-underground-path", 2, 5] },
+  { file: "rock-tunnel", name: "イワヤマトンネル", note: "東の腕（v1.1-e）。**いわくだき の野生がここで意味を持つ**", to: ["kanto-rock-tunnel-1f", 6, 7] },
+  { file: "route-12", name: "12番道路", note: "シオンの南。海沿いを南へ ―― シオンは行き止まりでなくなった", to: ["kanto-route-12", 5, 5] },
+  { file: "mt-moon-b1f", name: "おつきみやま 地下", note: "**3階になった**（v1.1-e）。チャンピオンロードとの使い回しをやめた", to: ["kanto-mt-moon-b1f", 6, 1] },
+  { file: "victory-road-2f", name: "チャンピオンロード 2階", note: "かいりき の岩をどけないと ここへ来られない", to: ["kanto-victory-road-2f", 6, 5] },
   { file: "fuchsia-city", name: "セキチクシティ", note: "ジム5（キョウ）。サファリゾーンはまだ閉まっている", to: ["kanto-fuchsia-city", 6, 5] },
   { file: "route-19", name: "19ばんすいどう", note: "なみのり の海。砂州だけが陸", to: ["kanto-route-19", 5, 5] },
   { file: "cinnabar-island", name: "グレンじま", note: "ジム7（カツラ）。なみのり でしか来られない島", to: ["kanto-cinnabar-island", 6, 4] },
-  { file: "victory-road", name: "チャンピオンロード", note: "洞窟。かいりき の岩が道を塞ぐ", to: ["kanto-victory-road", 8, 8] },
+  { file: "victory-road", name: "チャンピオンロード", note: "洞窟。かいりき の岩が道を塞ぐ", to: ["kanto-victory-road", 3, 7] },
   { file: "indigo-plateau", name: "セキエイこうげん", note: "ポケモンリーグの入口", to: ["kanto-indigo-plateau", 6, 4] },
   { file: "league-lance", name: "してんのう ワタル", note: "入ったら戻れない部屋。扉は勝つまで開かない", to: ["kanto-league-lance", 4, 5] },
   { file: "hub-plaza", name: "拠点の広場", note: "施設・大会・保管庫・地方ゲートが並ぶ", to: ["hub-plaza", 8, 9] },
@@ -407,8 +411,9 @@ for (const size of [
     // チャンピオンロードは **かいりき の岩** で北へ抜けられない。
     // 台本と同じで、撮影も能力を使って通る
     if (place.file === "victory-road") {
-      await goTo("kanto-victory-road", 3, 2);
-      await useAbility("ArrowRight");
+      // 岩は1階の縦道（1,3）。立てるのは下どなり（1,4）だけ（v1.1-e で作り直した）
+      await goTo("kanto-victory-road", 1, 4);
+      await useAbility("ArrowUp");
     }
   }
 
