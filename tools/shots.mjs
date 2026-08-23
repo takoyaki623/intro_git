@@ -192,11 +192,13 @@ const PLACES = [
   { file: "rock-tunnel", name: "イワヤマトンネル", note: "東の腕（v1.1-e）。**いわくだき の野生がここで意味を持つ**", to: ["kanto-rock-tunnel-1f", 6, 7] },
   { file: "route-12", name: "12番道路", note: "シオンの南。海沿いを南へ ―― シオンは行き止まりでなくなった", to: ["kanto-route-12", 5, 5] },
   { file: "mt-moon-b1f", name: "おつきみやま 地下", note: "**3階になった**（v1.1-e）。チャンピオンロードとの使い回しをやめた", to: ["kanto-mt-moon-b1f", 6, 1] },
-  { file: "victory-road-2f", name: "チャンピオンロード 2階", note: "かいりき の岩をどけないと ここへ来られない", to: ["kanto-victory-road-2f", 6, 5] },
   { file: "fuchsia-city", name: "セキチクシティ", note: "ジム5（キョウ）。サファリゾーンはまだ閉まっている", to: ["kanto-fuchsia-city", 6, 5] },
   { file: "route-19", name: "19ばんすいどう", note: "なみのり の海。砂州だけが陸", to: ["kanto-route-19", 5, 5] },
   { file: "cinnabar-island", name: "グレンじま", note: "ジム7（カツラ）。なみのり でしか来られない島", to: ["kanto-cinnabar-island", 6, 4] },
   { file: "victory-road", name: "チャンピオンロード", note: "洞窟。かいりき の岩が道を塞ぐ", to: ["kanto-victory-road", 3, 7] },
+  // **1階のすぐ後に置く。** どけた岩は `world.cleared` にしか残らず、
+  // マップを出入りすると元に戻る（v0.12-d の決定）―― 離すと2階へ行けない
+  { file: "victory-road-2f", name: "チャンピオンロード 2階", note: "かいりき の岩をどけないと ここへ来られない（v1.1-e で3階建てに）", to: ["kanto-victory-road-2f", 6, 5] },
   { file: "indigo-plateau", name: "セキエイこうげん", note: "ポケモンリーグの入口", to: ["kanto-indigo-plateau", 6, 4] },
   { file: "league-lance", name: "してんのう ワタル", note: "入ったら戻れない部屋。扉は勝つまで開かない", to: ["kanto-league-lance", 4, 5] },
   { file: "hub-plaza", name: "拠点の広場", note: "施設・大会・保管庫・地方ゲートが並ぶ", to: ["hub-plaza", 8, 9] },
