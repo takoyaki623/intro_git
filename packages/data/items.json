@@ -769,6 +769,26 @@
     "price": 5000
   },
   {
+    "id": "old-rod",
+    "name": "ボロのつりざお",
+    "category": "key"
+  },
+  {
+    "id": "good-rod",
+    "name": "いいつりざお",
+    "category": "key"
+  },
+  {
+    "id": "super-rod",
+    "name": "スーパーロッド",
+    "category": "key"
+  },
+  {
+    "id": "itemfinder",
+    "name": "ダウジングマシン",
+    "category": "key"
+  },
+  {
     "id": "tm02",
     "name": "わざマシン02 ドラゴンクロー",
     "category": "tm",

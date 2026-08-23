@@ -26,11 +26,15 @@ import {
   emptyWorldState,
   evolutionFor,
   fieldAbilitiesFor,
+  syncAbilities,
   obstacleKey,
   evolve,
   healParty,
   instanceToSpec,
   interact,
+  pickEncounter,
+  tableFor,
+  type InteractResult,
   levelOf,
   maxHpOf,
   withdraw,
@@ -106,6 +110,14 @@ const WALK_MS = 130;
  * `core` は時間を持たないので、影響はこの定数1つに閉じる。
  */
 const BIKE_MS = 62;
+/**
+ * いわくだき の岩から野生が出る確率（v1.1-c）。
+ *
+ * 原作は割ると必ず何か出るわけではない。**毎回出ると作業になり、
+ * 出なさすぎると岩を割る意味が消える** ―― 半々から始めて、
+ * 実測（world.md §5.1）を取り直すときに一緒に見直す。
+ */
+const ROCK_ENCOUNTER_RATE = 0.5;
 const BICYCLE = "bicycle";
 
 // ─────────────────────────────────────────────
@@ -154,7 +166,7 @@ export function playField(rebuild: () => void): FieldHandle {
     world.partySpecies = party().map((p) => p.species);
     // **フラグ・バッジを写したあとで導く。** 順番を逆にすると、
     // ジムに勝った直後の1回だけ、まだ使えないことになる
-    world.abilities = fieldAbilitiesFor(allFieldAbilities, world);
+    syncAbilities(allFieldAbilities, world);
   };
   const syncPlayer = () => {
     player.badges = world.badges;
@@ -662,6 +674,12 @@ export function playField(rebuild: () => void): FieldHandle {
       case "openHall":
         showHall(null);
         return;
+      case "wildBattle":
+        // 固定シンボル（v1.1-c）。**逃げても倒しても終わり**にするのは
+        // イベント側の仕事 ―― 直後の `setFlag` でシンボルが消える
+        hideText();
+        await wildBattle(effect.species, effect.level);
+        return;
       case "wait":
       case "playSe":
       case "faceObject":
@@ -1098,11 +1116,49 @@ export function playField(rebuild: () => void): FieldHandle {
 
   async function tryInteract(): Promise<void> {
     syncWorld();
-    const found = interact(currentMap(), world, player.position);
+    const found = interact(currentMap(), world, player.position, allFieldAbilities);
     if (found === null) return;
     if (found.kind === "warp") await doWarp(found.warp);
     else if (found.kind === "obstacle") await tryClear(found.object, found.ability);
+    else if (found.kind === "field") await tryFieldAction(found);
     else await runEvent(found.event);
+  }
+
+  /**
+   * 地形に働きかける（v1.1-c）―― 釣りと探知。
+   *
+   * **どちらも「何も置いていないマス」に向かって起きる。**
+   * 岩や木のように置いてあるものをどける `tryClear` とは分けてある。
+   */
+  async function tryFieldAction(
+    found: Extract<InteractResult, { kind: "field" }>,
+  ): Promise<void> {
+    const { ability, action } = found;
+    try {
+      await say(ability.useText.replace("{name}", ability.name));
+      if (action.kind === "reveal") {
+        const event = found.object?.event;
+        if (event === undefined) {
+          await say("なにも みつからなかった。");
+          return;
+        }
+        hideText();
+        await runEvent(event);
+        return;
+      }
+      const table = tableFor(currentMap(), action.method, allEncounterTables);
+      // **表が無ければ何も釣れない。** 空振りを黙って無かったことにせず、文を出す
+      if (table === null || table.entries.length === 0) {
+        await say("...なにも かからない。");
+        return;
+      }
+      const picked = pickEncounter(table, rng);
+      hideText();
+      await wildBattle(picked.species, picked.level);
+    } finally {
+      hideText();
+      draw();
+    }
   }
 
   /**
@@ -1123,6 +1179,20 @@ export function playField(rebuild: () => void): FieldHandle {
       if ((await ask(`${spec.name} を つかいますか?`, ["はい", "いいえ"])) !== 0) return;
       world.cleared.push(obstacleKey(player.position.map, object));
       await say(spec.useText.replace("{name}", spec.name));
+
+      // **どけた先から野生が出る**（いわくだき・v1.1-c）。
+      // 「どける」と「出る」を1つの能力に持たせてあるので、
+      // データに `then` を1行足すだけで別の能力にも付けられる
+      const then = (spec.effect?.kind === "clear" ? spec.effect.then : undefined) ?? null;
+      if (then !== null) {
+        const table = tableFor(currentMap(), then.method, allEncounterTables);
+        if (table !== null && table.entries.length > 0 && rng.chance(ROCK_ENCOUNTER_RATE)) {
+          const picked = pickEncounter(table, rng);
+          hideText();
+          draw();
+          await wildBattle(picked.species, picked.level);
+        }
+      }
     } finally {
       hideText();
       draw();

@@ -18,8 +18,40 @@ export type EncounterTableId = string;
 export type EventId = string;
 export type ShopId = string;
 /** 進行能力。秘伝技を廃止し、道具・フラグで解放する（world.md §7）。 */
-export const FIELD_ABILITIES = ["cut", "surf", "strength", "rockSmash", "fly"] as const;
+export const FIELD_ABILITIES = [
+  "cut",
+  "surf",
+  "strength",
+  "rockSmash",
+  "fly",
+  "oldRod",
+  "goodRod",
+  "superRod",
+  "itemfinder",
+] as const;
 export type FieldAbilityId = (typeof FIELD_ABILITIES)[number];
+
+/**
+ * フィールド行動が何をするか（v1.1-c）。
+ *
+ * v0.12-d の5つは**どれも「障害物をどける」**だったので、
+ * `FieldAbility` は「解放条件」しか持っていなかった。
+ * 釣り・探知が入ると種類が要る ―― **足りなかったのは
+ * 「何をする能力か」だけ**で、条件のしくみはそのまま使える。
+ *
+ * 省略したら `clear` にしてある。既存の5件はデータを1文字も変えずに済む。
+ */
+export type FieldEffect =
+  /** 障害物をどける。`then` があると、どけた先で野生が出る（いわくだき）。 */
+  | { kind: "clear"; then?: { method: EncounterTable["method"] } }
+  /** その地形の上を移動できる（なみのり）。 */
+  | { kind: "walk"; terrain: TerrainId }
+  /** 水面を調べて釣る。さおの種類で出る表が変わる。 */
+  | { kind: "fish"; method: EncounterTable["method"] }
+  /** 隠れているものを見つける（ダウジングマシン）。 */
+  | { kind: "reveal" }
+  /** 行ったことのある町へ飛ぶ（そらをとぶ）。 */
+  | { kind: "travel" };
 
 /**
  * フィールド技の定義（v0.12-d）。
@@ -33,6 +65,8 @@ export type FieldAbility = {
   /** 「いあいぎり」。表示にだけ使う。 */
   name: string;
   requires: Condition;
+  /** 何をする能力か（v1.1-c）。省略すると障害物をどける。 */
+  effect?: FieldEffect;
   /** まだ使えないときに障害物を調べて出す文。 */
   lockedText: string;
   /** 使ったときに出す文。`{name}` は能力名に置き換わる。 */
@@ -230,7 +264,17 @@ export type EventCommand =
    */
   | { kind: "hallOfFame" }
   /** 殿堂の記録を見る（v1.0）。**残すのではなく見るだけ。** */
-  | { kind: "openHall" };
+  | { kind: "openHall" }
+  /**
+   * その場で野生と戦う（v1.1-c）。**固定シンボル**（カビゴン・三鳥・ミュウツー）。
+   *
+   * `battle` はトレーナー戦で、勝てば終わる。こちらは**捕まえるための戦い**で、
+   * 逃げても倒しても「もう そこには居ない」ことをフラグで表す ――
+   * だから `battle` に相乗りさせず、別のコマンドにしてある。
+   * `EncounterTable.method: "static"` が v0.7 から宣言だけされていたのは、
+   * この日のためだった。
+   */
+  | { kind: "wildBattle"; species: SpeciesId; level: number };
 
 /**
  * ショップの品揃え（v0.9）。

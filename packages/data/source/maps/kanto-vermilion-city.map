@@ -47,3 +47,5 @@ vermilion-boy 9,1 npc:youngster:static kanto.vermilion.boy
 vermilion-tree 5,10 obstacle:cut
 vermilion-captain 3,4 npc:sailor:static kanto.vermilion.captain
 vermilion-island 9,12 item:hyper-potion kanto.vermilion.island if:kanto.vermilion.island-taken=false
+vermilion-fisher 11,10 npc:fisher:static kanto.vermilion.fisher
+vermilion-hidden 2,7 item:great-ball:hidden kanto.vermilion.hidden if:kanto.vermilion.hidden-taken=false

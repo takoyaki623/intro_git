@@ -1641,16 +1641,32 @@
         "then": [
           {
             "kind": "message",
-            "text": "この かわには みずポケモンが\nたくさん いるんだ。",
-            "speaker": "つりびと"
+            "speaker": "つりびと",
+            "text": "この かわには みずポケモンが\nたくさん いるんだ。"
+          },
+          {
+            "kind": "giveItem",
+            "item": "old-rod",
+            "count": 1
           },
           {
             "kind": "setFlag",
             "flag": "kanto.cerulean.fisher",
             "value": true
+          },
+          {
+            "kind": "message",
+            "speaker": "つりびと",
+            "text": "ボロのつりざお を あげよう。\nみずべで しらべて みなさい。"
           }
         ],
-        "else": []
+        "else": [
+          {
+            "kind": "message",
+            "speaker": "つりびと",
+            "text": "みずの ある ところなら\nどこでも つれる はずだ。"
+          }
+        ]
       }
     ]
   },
@@ -4910,6 +4926,251 @@
       {
         "kind": "shop",
         "inventory": "kanto-celadon-stones"
+      }
+    ]
+  },
+  {
+    "id": "kanto.vermilion.fisher",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.vermilion.fisher",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "speaker": "つりびと",
+            "text": "ボロのつりざお では\nコイキングばかり だろう?"
+          },
+          {
+            "kind": "giveItem",
+            "item": "good-rod",
+            "count": 1
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.vermilion.fisher",
+            "value": true
+          },
+          {
+            "kind": "message",
+            "speaker": "つりびと",
+            "text": "いいつりざお を あげよう。\nすこしは まともなのが かかる。"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "speaker": "つりびと",
+            "text": "いいつりざお なら\nもう すこし ふかくまで とどく。"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.fuchsia.fisher",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.fuchsia.fisher",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "speaker": "つりの めいじん",
+            "text": "わしは つりの めいじん。\nうみの ぬしを しっておるか?"
+          },
+          {
+            "kind": "giveItem",
+            "item": "super-rod",
+            "count": 1
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.fuchsia.fisher",
+            "value": true
+          },
+          {
+            "kind": "message",
+            "speaker": "つりの めいじん",
+            "text": "スーパーロッド を さずけよう!\nふかい みずべで つかうのだ。"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "speaker": "つりの めいじん",
+            "text": "うみの ぬし は\nふかい みずべに いる。"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route11.aide",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route11.aide",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "speaker": "オーキドの じょしゅ",
+            "text": "はかせから ことづけです。\nずかんの ちょうし どうですか?"
+          },
+          {
+            "kind": "giveItem",
+            "item": "itemfinder",
+            "count": 1
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.route11.aide",
+            "value": true
+          },
+          {
+            "kind": "message",
+            "speaker": "オーキドの じょしゅ",
+            "text": "ダウジングマシン を どうぞ。\nうまっている どうぐに はんのう します。"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "speaker": "オーキドの じょしゅ",
+            "text": "あやしい ばしょで しらべて みてください。"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route16.snorlax",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "おおきな ポケモンが\nみちを ふさいで ねむっている!"
+      },
+      {
+        "kind": "choice",
+        "prompt": "おこしますか?",
+        "options": [
+          {
+            "text": "おこす",
+            "then": [
+              {
+                "kind": "setFlag",
+                "flag": "kanto.route16.snorlax-woken",
+                "value": true
+              },
+              {
+                "kind": "message",
+                "text": "カビゴンが めを さました!"
+              },
+              {
+                "kind": "wildBattle",
+                "species": "snorlax",
+                "level": 30
+              }
+            ]
+          },
+          {
+            "text": "やめる",
+            "then": [
+              {
+                "kind": "message",
+                "text": "きもちよさそうに ねむっている。"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route16.hidden",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "なんでもなおし を みつけた!"
+      },
+      {
+        "kind": "giveItem",
+        "item": "full-heal",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route16.hidden-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.celadon.hidden",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ピーピーエイダー を みつけた!"
+      },
+      {
+        "kind": "giveItem",
+        "item": "elixir",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.celadon.hidden-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.vermilion.hidden",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "スーパーボール を みつけた!"
+      },
+      {
+        "kind": "giveItem",
+        "item": "great-ball",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.vermilion.hidden-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route11.hidden",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "いいキズぐすり を みつけた!"
+      },
+      {
+        "kind": "giveItem",
+        "item": "super-potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route11.hidden-taken",
+        "value": true
       }
     ]
   }

@@ -21,6 +21,7 @@ import type {
   FlagId,
   MapId,
   ShopId,
+  TerrainId,
   TrainerId,
 } from "./types.js";
 
@@ -43,6 +44,15 @@ export type WorldState = {
    * これもセーブに載せない ―― 出入りすれば元に戻る（原作と同じ）。
    */
   cleared: string[];
+  /**
+   * 今の能力で上を移動できる地形（v1.1-c）。これも派生値。
+   *
+   * v0.12-d では `canSwimTo` が `terrain === "water" && abilities.includes("surf")` と
+   * **ペアを直接書いていた。** 地形と能力の対応は `field-abilities.json` の
+   * `{ kind: "walk", terrain }` にあるので、そちらから毎回導く ――
+   * `abilities` と同じ「条件から導く・保存しない」の扱い。
+   */
+  walkable: TerrainId[];
 };
 
 export const emptyWorldState = (): WorldState => ({
@@ -53,6 +63,7 @@ export const emptyWorldState = (): WorldState => ({
   partySpecies: [],
   abilities: [],
   cleared: [],
+  walkable: [],
 });
 
 /** 条件の評価。用途をまたいで1つだけ持つ（分岐の仕組みを3つに分けない）。 */
@@ -101,6 +112,7 @@ export type EventEffect =
   | { kind: "openStorage" }
   | { kind: "hallOfFame" }
   | { kind: "openHall" }
+  | { kind: "wildBattle"; species: SpeciesId; level: number }
   | { kind: "gotItem"; item: ItemId; count: number }
   | { kind: "gotPokemon"; species: SpeciesId; level: number; moves: MoveId[] }
   | { kind: "moneyChanged"; delta: number }
@@ -126,6 +138,8 @@ const BLOCKING = new Set<EventEffect["kind"]>([
   // 殿堂入りの演出は長い。閉じるまでイベントを止める（v1.0）
   "hallOfFame",
   "openHall",
+  // 固定シンボルとの戦い（v1.1-c）。決着するまでイベントを止める
+  "wildBattle",
 ]);
 
 /**
@@ -312,6 +326,11 @@ const handlers: { [K in EventCommand["kind"]]: Handler } = {
 
   openHall: (_c, _w, _r, effects) => {
     effects.push({ kind: "openHall" });
+  },
+
+  wildBattle: (c, _w, _r, effects) => {
+    if (c.kind !== "wildBattle") return;
+    effects.push({ kind: "wildBattle", species: c.species, level: c.level });
   },
 };
 

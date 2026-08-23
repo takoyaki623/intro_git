@@ -12,7 +12,8 @@
  */
 
 import { chromium } from "playwright";
-import { FIELD_ABILITIES, emptyWorldState, neighborsOf } from "@pkmn/core";
+import { FIELD_ABILITIES, emptyWorldState, neighborsOf, walkableTerrains } from "@pkmn/core";
+import { allFieldAbilities } from "@pkmn/data";
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
@@ -40,7 +41,11 @@ const KEY = { up: "ArrowUp", down: "ArrowDown", left: "ArrowLeft", right: "Arrow
  *
  * 「隣とは何か」は core の `neighborsOf` が持つ（v1.1-a）。
  */
-const able = { ...emptyWorldState(), abilities: [...FIELD_ABILITIES] };
+const able = {
+  ...emptyWorldState(),
+  abilities: [...FIELD_ABILITIES],
+  walkable: walkableTerrains(allFieldAbilities, [...FIELD_ABILITIES]),
+};
 const SEEING = { ignoreConditional: true, ignoreObstacles: true };
 
 function neighbors(id, x, y) {

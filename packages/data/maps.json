@@ -2594,6 +2594,24 @@
           "movement": "static"
         },
         "event": "kanto.celadon.fly-girl"
+      },
+      {
+        "id": "celadon-hidden",
+        "at": {
+          "x": 2,
+          "y": 2
+        },
+        "kind": {
+          "type": "item",
+          "item": "elixir",
+          "hidden": true
+        },
+        "event": "kanto.celadon.hidden",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.celadon.hidden-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -7511,6 +7529,19 @@
           "flag": "kanto.fuchsia.nugget-taken",
           "value": false
         }
+      },
+      {
+        "id": "fuchsia-fisher",
+        "at": {
+          "x": 2,
+          "y": 11
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "fisher",
+          "movement": "static"
+        },
+        "event": "kanto.fuchsia.fisher"
       }
     ],
     "encounters": [
@@ -17007,6 +17038,37 @@
           "flag": "kanto.route11.gambler-beaten",
           "value": false
         }
+      },
+      {
+        "id": "route11-aide",
+        "at": {
+          "x": 3,
+          "y": 7
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "oldman",
+          "movement": "static"
+        },
+        "event": "kanto.route11.aide"
+      },
+      {
+        "id": "route11-hidden",
+        "at": {
+          "x": 12,
+          "y": 8
+        },
+        "kind": {
+          "type": "item",
+          "item": "super-potion",
+          "hidden": true
+        },
+        "event": "kanto.route11.hidden",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route11.hidden-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -17482,6 +17544,42 @@
         "condition": {
           "kind": "flag",
           "flag": "kanto.route16.biker-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route16-snorlax",
+        "at": {
+          "x": 6,
+          "y": 8
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "snorlax",
+          "movement": "static"
+        },
+        "event": "kanto.route16.snorlax",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route16.snorlax-woken",
+          "value": false
+        }
+      },
+      {
+        "id": "route16-hidden",
+        "at": {
+          "x": 2,
+          "y": 6
+        },
+        "kind": {
+          "type": "item",
+          "item": "full-heal",
+          "hidden": true
+        },
+        "event": "kanto.route16.hidden",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route16.hidden-taken",
           "value": false
         }
       }
@@ -25818,6 +25916,37 @@
         "condition": {
           "kind": "flag",
           "flag": "kanto.vermilion.island-taken",
+          "value": false
+        }
+      },
+      {
+        "id": "vermilion-fisher",
+        "at": {
+          "x": 11,
+          "y": 10
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "fisher",
+          "movement": "static"
+        },
+        "event": "kanto.vermilion.fisher"
+      },
+      {
+        "id": "vermilion-hidden",
+        "at": {
+          "x": 2,
+          "y": 7
+        },
+        "kind": {
+          "type": "item",
+          "item": "great-ball",
+          "hidden": true
+        },
+        "event": "kanto.vermilion.hidden",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.vermilion.hidden-taken",
           "value": false
         }
       }

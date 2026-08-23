@@ -15,8 +15,11 @@ import {
   emptyWorldState,
   evaluate,
   fieldAbilitiesFor,
+  syncAbilities,
+  walkableTerrains,
   obstacleKey,
   tableFor,
+  tableForTerrain,
   interact,
   isWalkable,
   legalActions,
@@ -696,7 +699,7 @@ describe("フィールド技（v0.12-d）", () => {
     const world = emptyWorldState();
     world.badges = badges;
     for (const flag of flags) world.flags[flag] = true;
-    world.abilities = fieldAbilitiesFor(allFieldAbilities, world);
+    syncAbilities(allFieldAbilities, world);
     return world;
   };
 
@@ -743,9 +746,22 @@ describe("フィールド技（v0.12-d）", () => {
 
   it("水の上で引く表は なみのり用（地形が方式を決める）", () => {
     const map = mapById(VERMILION);
-    expect(tableFor(map, "water", allEncounterTables)?.method).toBe("surf");
+    expect(tableForTerrain(map, "water", allEncounterTables)?.method).toBe("surf");
     // 同じマップの草むら用の表は無いので、陸では何も出ない
-    expect(tableFor(map, "grass", allEncounterTables)).toBe(null);
+    expect(tableForTerrain(map, "grass", allEncounterTables)).toBe(null);
+  });
+
+  /**
+   * v1.1-c で `tableFor` は**引き方**で引くようになった（地形ではなく）。
+   * 釣りは地形が同じ「水」でも、さおによって出る表が違う。
+   */
+  it("同じ水面でも、さおの種類で別の表を引く", () => {
+    const map = mapById(VERMILION);
+    const old = tableFor(map, "fishing-old", allEncounterTables);
+    const sup = tableFor(map, "fishing-super", allEncounterTables);
+    expect(old).not.toBe(null);
+    expect(sup).not.toBe(null);
+    expect(old!.id).not.toBe(sup!.id);
   });
 
   it("障害物に使う技は、必ずどこかで手に入る", () => {
@@ -829,8 +845,10 @@ describe("カントーの地図（v0.12-e）", () => {
     const world = emptyWorldState();
     world.badges = 8;
     for (const flag of allFlags) world.flags[flag] = true;
-    world.abilities = fieldAbilitiesFor(allFieldAbilities, world);
-    return { ...world, abilities: world.abilities.filter((a) => abilities.includes(a)) };
+    syncAbilities(allFieldAbilities, world);
+    const kept = world.abilities.filter((a) => abilities.includes(a));
+    // 能力を削ったら、通れる地形も導き直す（派生値は片方だけ持たない）
+    return { ...world, abilities: kept, walkable: walkableTerrains(allFieldAbilities, kept) };
   };
 
   it("**一直線ではない** ―― 21番水道で輪になっている", () => {
@@ -904,5 +922,112 @@ describe("ポケモンリーグ（v0.12-f）", () => {
     expect(isWalkable(road, world, boulder!.at.x, boulder!.at.y)).toBe(false);
     world.cleared.push(obstacleKey(road.id, boulder!));
     expect(isWalkable(road, world, boulder!.at.x, boulder!.at.y)).toBe(true);
+  });
+});
+
+/**
+ * フィールド行動（v1.1-c）。
+ *
+ * v0.12-d の5つは**どれも「障害物をどける」**だったので、
+ * 「何をする能力か」という欄が要らなかった。釣りと探知が入って初めて要る。
+ * ここで確かめたいのは効果ではなく、**能力を1つ足すのがデータ1件で済む**こと。
+ */
+describe("フィールド行動（v1.1-c）", () => {
+  const VERMILION = "kanto-vermilion-city";
+  const mapOf = (id: string) => allMaps.find((m) => m.id === id)!;
+
+  /**
+   * 道具を持った世界。
+   *
+   * **フラグは立てない。** 全部立てると「もう拾った」フラグまで立ってしまい、
+   * 隠しアイテムが条件で消える（実際そうしてテストが落ちた）。
+   * 能力の鍵が道具だけのもの（さお・ダウジングマシン）はこれで足りる。
+   */
+  const withItems = (items: string[], flags: string[] = [], badges = 8): WorldState => {
+    const world = emptyWorldState();
+    world.badges = badges;
+    for (const flag of flags) world.flags[flag] = true;
+    for (const item of items) world.bag[item] = 1;
+    syncAbilities(allFieldAbilities, world);
+    return world;
+  };
+
+  it("さおを持っていないと、水を調べても何も起きない", () => {
+    const map = mapOf(VERMILION);
+    const world = withItems([]);
+    // (6,11) は水。**能力が無いので調べても null**
+    expect(terrainAt(map, 6, 11)).toBe("water");
+    const found = interact(map, world, { map: VERMILION, x: 6, y: 10, facing: "down" }, allFieldAbilities);
+    expect(found).toBe(null);
+  });
+
+  it("さおを持つと、水を調べて釣りになる", () => {
+    const map = mapOf(VERMILION);
+    const world = withItems(["old-rod"]);
+    const found = interact(map, world, { map: VERMILION, x: 6, y: 10, facing: "down" }, allFieldAbilities);
+    expect(found?.kind).toBe("field");
+    if (found?.kind !== "field") return;
+    expect(found.action).toEqual({ kind: "encounter", method: "fishing-old" });
+  });
+
+  /**
+   * **良いさおが先に当たる。** 選ばせないのは原作にも無い操作だから
+   * （選択肢が1つ増えるたびに歩みが遅くなる）。
+   */
+  it("さおを3本持っていたら、いちばん良いものを使う", () => {
+    const map = mapOf(VERMILION);
+    const world = withItems(["old-rod", "good-rod", "super-rod"]);
+    const found = interact(map, world, { map: VERMILION, x: 6, y: 10, facing: "down" }, allFieldAbilities);
+    if (found?.kind !== "field") throw new Error("釣りにならなかった");
+    expect(found.action).toEqual({ kind: "encounter", method: "fishing-super" });
+  });
+
+  it("陸を調べても釣りにはならない", () => {
+    const map = mapOf(VERMILION);
+    const world = withItems(["super-rod"]);
+    const found = interact(map, world, { map: VERMILION, x: 6, y: 7, facing: "up" }, allFieldAbilities);
+    expect(found?.kind).not.toBe("field");
+  });
+
+  /**
+   * 隠しアイテムは `visibleObjects()` の1箇所で消える。
+   * **描画・踏みつけ・視線が勝手に揃う**（v0.12-d の障害物と同じ場所）。
+   */
+  it("隠しアイテムは見えないし、踏んでも起きない", () => {
+    const map = allMaps.find((m) => m.objects.some((o) => o.kind.type === "item" && o.kind.hidden))!;
+    const buried = map.objects.find((o) => o.kind.type === "item" && o.kind.hidden)!;
+    const world = withItems([]);
+    expect(visibleObjects(map, world).some((o) => o.id === buried.id)).toBe(false);
+    expect(objectAt(map, world, buried.at.x, buried.at.y)).toBe(null);
+  });
+
+  it("探す能力があれば、調べて見つかる", () => {
+    const map = allMaps.find((m) => m.objects.some((o) => o.kind.type === "item" && o.kind.hidden))!;
+    const buried = map.objects.find((o) => o.kind.type === "item" && o.kind.hidden)!;
+
+    const at = { map: map.id, x: buried.at.x, y: buried.at.y + 1, facing: "up" as const };
+    expect(interact(map, withItems([]), at, allFieldAbilities)).toBe(null);
+
+    const found = interact(map, withItems(["itemfinder"]), at, allFieldAbilities);
+    expect(found?.kind).toBe("field");
+    if (found?.kind !== "field") return;
+    expect(found.action).toEqual({ kind: "reveal" });
+    expect(found.object?.id).toBe(buried.id);
+  });
+
+  /**
+   * v0.12-d は `canSwimTo` に `"water"` と `"surf"` を**直接書いていた。**
+   * 地形と能力の対応はデータにしかないので、派生値から引くようにした。
+   */
+  it("なみのり で通れる地形は、データから導かれる", () => {
+    expect(withItems([], ["kanto.ability.surf"]).walkable).toEqual(["water"]);
+    const surf = allFieldAbilities.find((a) => a.id === "surf")!;
+    expect(surf.effect).toEqual({ kind: "walk", terrain: "water" });
+  });
+
+  it("能力を持っていなければ、通れる地形も無い", () => {
+    const world = emptyWorldState();
+    syncAbilities(allFieldAbilities, world);
+    expect(world.walkable).toEqual([]);
   });
 });

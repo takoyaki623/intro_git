@@ -3,12 +3,12 @@
  *   再生成: npm run gen:ids
  *
  * 種族 190 / 技 248 / 性格 25 /
- * 特性 68 / 道具 94 /
+ * 特性 68 / 道具 98 /
  * BattleSet 64 / 施設 4 /
  * ネームド 18 / カップ 10 /
- * マップ 71 / イベント 229 / トレーナー 45 /
+ * マップ 71 / イベント 237 / トレーナー 45 /
  * 出現テーブル 78 / ショップ 6 / 地方 9 /
- * フラグ 95
+ * フラグ 103
  */
 
 export type GeneratedSpeciesId =
@@ -575,11 +575,13 @@ export type GeneratedItemId =
   | "focus-sash"
   | "full-heal"
   | "full-restore"
+  | "good-rod"
   | "great-ball"
   | "hard-stone"
   | "hyper-potion"
   | "ice-heal"
   | "ice-stone"
+  | "itemfinder"
   | "king-s-rock"
   | "leaf-stone"
   | "leftovers"
@@ -599,6 +601,7 @@ export type GeneratedItemId =
   | "mystic-water"
   | "net-ball"
   | "never-melt-ice"
+  | "old-rod"
   | "paralyze-heal"
   | "poison-barb"
   | "poke-ball"
@@ -617,6 +620,7 @@ export type GeneratedItemId =
   | "spell-tag"
   | "sun-stone"
   | "super-potion"
+  | "super-rod"
   | "thunder-stone"
   | "timer-ball"
   | "tm02"
@@ -850,6 +854,7 @@ export type GeneratedEventId =
   | "kanto.celadon.gym-jr"
   | "kanto.celadon.gym-jr-win"
   | "kanto.celadon.gym-sign"
+  | "kanto.celadon.hidden"
   | "kanto.celadon.nurse"
   | "kanto.celadon.sign-gym"
   | "kanto.celadon.stone-clerk"
@@ -889,6 +894,7 @@ export type GeneratedEventId =
   | "kanto.fuchsia.arrive"
   | "kanto.fuchsia.center-pc"
   | "kanto.fuchsia.clerk"
+  | "kanto.fuchsia.fisher"
   | "kanto.fuchsia.gym-jr"
   | "kanto.fuchsia.gym-jr-win"
   | "kanto.fuchsia.gym-sign"
@@ -962,12 +968,16 @@ export type GeneratedEventId =
   | "kanto.route1.boy"
   | "kanto.route1.potion"
   | "kanto.route1.sign-north"
+  | "kanto.route11.aide"
   | "kanto.route11.gambler"
   | "kanto.route11.gambler-win"
+  | "kanto.route11.hidden"
   | "kanto.route11.sign"
   | "kanto.route16.biker"
   | "kanto.route16.biker-win"
+  | "kanto.route16.hidden"
   | "kanto.route16.sign"
+  | "kanto.route16.snorlax"
   | "kanto.route2.bug-catcher"
   | "kanto.route2.bug-catcher-win"
   | "kanto.route2.potion"
@@ -1021,9 +1031,11 @@ export type GeneratedEventId =
   | "kanto.vermilion.captain"
   | "kanto.vermilion.center-pc"
   | "kanto.vermilion.clerk"
+  | "kanto.vermilion.fisher"
   | "kanto.vermilion.gym-jr"
   | "kanto.vermilion.gym-jr-win"
   | "kanto.vermilion.gym-sign"
+  | "kanto.vermilion.hidden"
   | "kanto.vermilion.island"
   | "kanto.vermilion.mart-sailor"
   | "kanto.vermilion.nurse"
@@ -1209,6 +1221,7 @@ export type GeneratedFlagId =
   | "kanto.celadon.erika-beaten"
   | "kanto.celadon.fly-girl"
   | "kanto.celadon.gym-jr-beaten"
+  | "kanto.celadon.hidden-taken"
   | "kanto.celadon.woman"
   | "kanto.cerulean.fisher"
   | "kanto.cerulean.girl"
@@ -1233,6 +1246,7 @@ export type GeneratedFlagId =
   | "kanto.forest.antidote-taken"
   | "kanto.forest.bug-1-beaten"
   | "kanto.forest.bug-2-beaten"
+  | "kanto.fuchsia.fisher"
   | "kanto.fuchsia.gym-jr-beaten"
   | "kanto.fuchsia.koga-beaten"
   | "kanto.fuchsia.nugget-taken"
@@ -1262,8 +1276,12 @@ export type GeneratedFlagId =
   | "kanto.pewter.museum-guide"
   | "kanto.route1.potion-taken"
   | "kanto.route1.talked-boy"
+  | "kanto.route11.aide"
   | "kanto.route11.gambler-beaten"
+  | "kanto.route11.hidden-taken"
   | "kanto.route16.biker-beaten"
+  | "kanto.route16.hidden-taken"
+  | "kanto.route16.snorlax-woken"
   | "kanto.route2.bug-catcher-beaten"
   | "kanto.route2.potion-taken"
   | "kanto.route22.rival-beaten"
@@ -1283,7 +1301,9 @@ export type GeneratedFlagId =
   | "kanto.tower.old"
   | "kanto.vermilion.boy"
   | "kanto.vermilion.captain"
+  | "kanto.vermilion.fisher"
   | "kanto.vermilion.gym-jr-beaten"
+  | "kanto.vermilion.hidden-taken"
   | "kanto.vermilion.island-taken"
   | "kanto.vermilion.mart-sailor"
   | "kanto.vermilion.sailor"

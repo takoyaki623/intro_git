@@ -9,12 +9,13 @@
 
 import type { Rng } from "../rng.js";
 import type { SpeciesId } from "../types.js";
-import { obstacleKey } from "./ability.js";
+import { fieldActionAt, obstacleKey, type FieldAction } from "./ability.js";
 import { evaluate, type WorldState } from "./event.js";
 import type {
   Direction,
   EncounterTable,
   EventId,
+  FieldAbility,
   FieldAbilityId,
   MapData,
   MapId,
@@ -188,14 +189,18 @@ export function neighborsOf(
 }
 
 /**
- * なみのり で入れる水面か（v0.12-d）。
+ * 能力で入れる地形か（v0.12-d、v1.1-c で一般化）。
  *
- * **水は通行不可のまま置き、能力で例外にする。** 逆（水を通行可にして
+ * **通行不可のまま置き、能力で例外にする。** 逆（水を通行可にして
  * 能力が無いときだけ塞ぐ）にすると、能力の実装を消した瞬間に
  * 海の上を歩けるマップができあがる。既定は塞がっている側に倒す。
+ *
+ * v0.12-d は `terrain === "water" && abilities.includes("surf")` と
+ * **ペアを直接書いていた。** どの能力がどの地形を開けるかは
+ * `field-abilities.json` にあるので、`world.walkable`（派生値）から引く。
  */
 function canSwimTo(map: MapData, world: WorldState, x: number, y: number): boolean {
-  return terrainAt(map, x, y) === "water" && world.abilities.includes("surf");
+  return world.walkable.includes(terrainAt(map, x, y));
 }
 
 /** 看板・NPC・障害物は通れない。落ちている道具は踏める。 */
@@ -207,8 +212,31 @@ export function visibleObjects(map: MapData, world: WorldState): MapObject[] {
     // どけた障害物はもう居ない。**ここ1箇所で消す**ので、
     // 当たり判定・描画・視線が勝手に揃う（別々に判定を足すとどれか1つ忘れる）
     if (o.kind.type === "obstacle" && world.cleared.includes(obstacleKey(map.id, o))) return false;
+    // 隠しアイテムは**まだ そこに無い**（v1.1-c）。同じ1箇所で消すので、
+    // 描いてしまう・踏んで拾えてしまう、が起きない ――
+    // 見つける道は `interact` が別に持っている（探す能力があるときだけ）
+    if (o.kind.type === "item" && o.kind.hidden) return false;
     return o.condition === undefined || evaluate(o.condition, world);
   });
+}
+
+/** そのマスに埋まっている道具（v1.1-c）。**見えないので `objectAt` には出てこない。** */
+export function hiddenItemAt(
+  map: MapData,
+  world: WorldState,
+  x: number,
+  y: number,
+): MapObject | null {
+  return (
+    map.objects.find(
+      (o) =>
+        o.at.x === x &&
+        o.at.y === y &&
+        o.kind.type === "item" &&
+        o.kind.hidden &&
+        (o.condition === undefined || evaluate(o.condition, world)),
+    ) ?? null
+  );
 }
 
 export function objectAt(
@@ -395,16 +423,25 @@ export const METHOD_BY_TERRAIN: Partial<Record<TerrainId, EncounterTable["method
 /** その地形で引く表。無ければ null（＝その地形では出ない）。 */
 export function tableFor(
   map: MapData,
-  terrain: TerrainId,
+  method: EncounterTable["method"],
   tables: readonly EncounterTable[],
 ): EncounterTable | null {
-  const method = METHOD_BY_TERRAIN[terrain];
-  if (method === undefined || map.encounters === undefined) return null;
+  if (map.encounters === undefined) return null;
   for (const id of map.encounters) {
     const table = tables.find((t) => t.id === id);
     if (table !== undefined && table.method === method) return table;
   }
   return null;
+}
+
+/** 歩いたときに引く表（`METHOD_BY_TERRAIN` を通す）。 */
+export function tableForTerrain(
+  map: MapData,
+  terrain: TerrainId,
+  tables: readonly EncounterTable[],
+): EncounterTable | null {
+  const method = METHOD_BY_TERRAIN[terrain];
+  return method === undefined ? null : tableFor(map, method, tables);
 }
 
 /** 1歩ぶんのエンカウント抽選。出なければ null。 */
@@ -421,7 +458,7 @@ export function rollEncounter(
 
   // **抽選より先に表を決める。** 表が無い地形で乱数を回すと、
   // 「出るはずだったのに何も起きなかった」ぶんだけ乱数がずれ、再生が合わなくなる
-  const table = tableFor(map, terrain, tables);
+  const table = tableForTerrain(map, terrain, tables);
   if (table === null || table.entries.length === 0) return null;
 
   // 出なさすぎの救済。歩くほど確率が上がる
@@ -456,13 +493,28 @@ export type InteractResult =
    * **どけられるかどうかの判定はここでしない** ―― UI が文章を出し分ける都合上、
    * 「何が要るか」だけ返して、可否は `canClear` に一本化する。
    */
-  | { kind: "obstacle"; object: MapObject; ability: FieldAbilityId };
+  | { kind: "obstacle"; object: MapObject; ability: FieldAbilityId }
+  /**
+   * フィールド行動（v1.1-c）。釣り・探知のように**何も置いていないマス**に
+   * 向かって起きるもの。障害物（`obstacle`）と分けてあるのは、
+   * あちらが「置いてあるものをどける」で、こちらが「地形に働きかける」だから。
+   */
+  | {
+      kind: "field";
+      ability: FieldAbility;
+      action: FieldAction;
+      /** `reveal` のときの隠しアイテム。それ以外は null。 */
+      object: MapObject | null;
+      at: { x: number; y: number };
+    };
 
 /** 目の前を調べる。話しかけ・看板・調べる warp・障害物。 */
 export function interact(
   map: MapData,
   world: WorldState,
   position: PlayerPosition,
+  /** 使えるフィールド行動の定義（v1.1-c）。省略すると釣りも探知も起きない。 */
+  abilities: readonly FieldAbility[] = [],
 ): InteractResult | null {
   const { dx, dy } = STEP[position.facing];
   const x = position.x + dx;
@@ -472,10 +524,28 @@ export function interact(
   if (warp !== null) return { kind: "warp", warp };
 
   const object = objectAt(map, world, x, y);
-  if (object === null) return null;
-  if (object.kind.type === "obstacle") {
-    return { kind: "obstacle", object, ability: object.kind.clearedBy };
+  if (object !== null) {
+    if (object.kind.type === "obstacle") {
+      return { kind: "obstacle", object, ability: object.kind.clearedBy };
+    }
+    if (object.event !== undefined) return { kind: "event", event: object.event, object };
+    return null;
   }
-  if (object.event !== undefined) return { kind: "event", event: object.event, object };
-  return null;
+
+  // **見えているものが先。** 何も無いマスに向かって初めて、地形に働きかける
+  // （水面に釣り糸を垂らす・地面を探る）。順番を逆にすると、
+  // 水の上に置いた道具を調べたときに釣りが始まる
+  const buried = hiddenItemAt(map, world, x, y);
+  const found = fieldActionAt(abilities, world, {
+    terrain: terrainAt(map, x, y),
+    hidden: buried !== null,
+  });
+  if (found === null) return null;
+  return {
+    kind: "field",
+    ability: found.ability,
+    action: found.action,
+    object: found.action.kind === "reveal" ? buried : null,
+    at: { x, y },
+  };
 }

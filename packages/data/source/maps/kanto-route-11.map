@@ -31,3 +31,5 @@ warps:
 objects:
 route11-sign 2,4 sign kanto.route11.sign
 route11-gambler 6,7 trainer:kanto-route11-gambler:3:left kanto.route11.gambler if:kanto.route11.gambler-beaten=false
+route11-aide 3,7 npc:oldman:static kanto.route11.aide
+route11-hidden 12,8 item:super-potion:hidden kanto.route11.hidden if:kanto.route11.hidden-taken=false

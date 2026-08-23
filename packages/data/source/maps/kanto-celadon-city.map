@@ -44,3 +44,4 @@ objects:
 celadon-sign-gym 4,7 sign kanto.celadon.sign-gym
 celadon-woman 9,3 npc:lass:static kanto.celadon.woman
 celadon-fly-girl 3,10 npc:lass:static kanto.celadon.fly-girl
+celadon-hidden 2,2 item:elixir:hidden kanto.celadon.hidden if:kanto.celadon.hidden-taken=false

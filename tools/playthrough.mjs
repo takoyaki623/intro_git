@@ -12,7 +12,8 @@
  */
 
 import { chromium } from "playwright";
-import { emptyWorldState, neighborsOf } from "@pkmn/core";
+import { emptyWorldState, neighborsOf, walkableTerrains } from "@pkmn/core";
+import { allFieldAbilities } from "@pkmn/data";
 import { mkdtempSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -133,11 +134,17 @@ const KEY = { up: "ArrowUp", down: "ArrowDown", left: "ArrowLeft", right: "Arrow
  */
 const cleared = new Set();
 let canSurf = false;
-const able = () => ({
-  ...emptyWorldState(),
-  abilities: canSurf ? ["surf"] : [],
-  cleared: [...cleared],
-});
+const able = () => {
+  const abilities = canSurf ? ["surf"] : [];
+  return {
+    ...emptyWorldState(),
+    abilities,
+    // 通れる地形は能力から導く（v1.1-c）。片方だけ持つと
+    // 「なみのり は使えるのに水に入れない」経路探索になる
+    walkable: walkableTerrains(allFieldAbilities, abilities),
+    cleared: [...cleared],
+  };
+};
 
 /**
  * 1歩で行ける先。マップをまたぐ。**規則は core が持っている**（v1.1-a）。
@@ -1212,6 +1219,98 @@ expect(
   );
   await closeBag();
   await shot("22b-items");
+}
+
+// ── 15.6 地形に働きかける（v1.1-c）──
+//
+// 釣り・探知・固定シンボル。**どれも「調べる」から始まる**ので、
+// 確かめるのは「持っていないと何も起きない／持つと起きる」の対。
+{
+  /** セーブを書き換えて道具を持たせ、その場に立たせる。 */
+  const standAt = async (map, x, y, facing, bag) => {
+    await page.click("#open-settings");
+    await page.waitForSelector("#save-export");
+    await page.click("#save-export");
+    const save = JSON.parse(await page.inputValue("#save-text"));
+    save.regions.kanto.position = { map, x, y, facing };
+    save.global.bag = { ...save.global.bag, ...bag };
+    await page.fill("#save-text", JSON.stringify(save));
+    await page.click("#save-import");
+    await page.waitForTimeout(900);
+    await page.click("#settings-back");
+    await page.waitForSelector("#field-canvas");
+    await page.waitForTimeout(400);
+  };
+  const said = async () =>
+    ((await page.textContent("#field-text").catch(() => "")) ?? "").replace(/\s+/g, " ").trim();
+
+  // ── 釣り ──
+  await standAt("kanto-vermilion-city", 6, 10, "down", {});
+  await key("z", 1, 500);
+  expect(
+    "さおが 無いと 水を しらべても 何も おきない",
+    (await talking()) ? await said() : "なにも おきない",
+    "なにも おきない",
+  );
+
+  await standAt("kanto-vermilion-city", 6, 10, "down", { "old-rod": 1 });
+  await key("z", 1, 600);
+  expect("さおを もつと 水を しらべて つれる", await said(), (v) => v.includes("みずに たらした"));
+  await clear(6);
+  await page.waitForTimeout(1200);
+  expect("釣りから 野生バトルに なる", (await page.isVisible("#battle")) ? "なった" : "ならない", "なった");
+  note("つれたもの", ((await page.textContent("#log")) ?? "").trim().split("\n")[0]);
+  await fight();
+  await page.waitForTimeout(800);
+  await drain();
+
+  // ── 隠しアイテム ──
+  await standAt("kanto-route-16", 2, 7, "up", {});
+  await key("z", 1, 500);
+  expect(
+    "ダウジングマシンが 無いと 何も みつからない",
+    (await talking()) ? await said() : "なにも おきない",
+    "なにも おきない",
+  );
+
+  await standAt("kanto-route-16", 2, 7, "up", { itemfinder: 1 });
+  await key("z", 1, 600);
+  expect("ダウジングマシンで しらべると はんのう する", await said(), (v) => v.includes("はんのう"));
+  await drain();
+  await page.click("#open-bag");
+  await page.waitForTimeout(400);
+  const afterFind = (await page.textContent("#field-panel")) ?? "";
+  expect(
+    "うまっていた どうぐを ひろえた",
+    afterFind.includes("なんでもなおし") ? "ひろえた" : "ひろえない",
+    "ひろえた",
+  );
+  await page.click("#panel-close");
+  await page.waitForTimeout(200);
+
+  // ── 固定シンボル（カビゴン）──
+  await standAt("kanto-route-16", 6, 7, "down", {});
+  await key("z", 1, 600);
+  expect("カビゴンが みちを ふさいでいる", await said(), (v) => v.includes("ねむっている"));
+  await clear(6);
+  const wake = await page.$$eval("#field-text .choices button", (b) => b.map((x) => x.textContent));
+  expect("おこすか どうか えらべる", wake.join("/"), (v) => v.includes("おこす"));
+  await page.click("#field-text .choices button:nth-child(1)");
+  await page.waitForTimeout(600);
+  await clear(6);
+  await page.waitForTimeout(1500);
+  expect("カビゴンと 野生戦に なる", (await page.isVisible("#battle")) ? "なった" : "ならない", "なった");
+  note("あいて", ((await page.textContent("#log")) ?? "").trim().split("\n")[0]);
+  await fight();
+  await page.waitForTimeout(800);
+  await drain();
+  const gone = await readSave();
+  expect(
+    "戦ったあとは もう そこに 居ない",
+    gone.regions.kanto.flags["kanto.route16.snorlax-woken"] === true ? "居ない" : "まだ 居る",
+    "居ない",
+  );
+  await shot("22c-field");
 }
 
 // キョウ（ジム5）。**ジムの前にポケモンセンターへ寄る** ―― 人がやることと同じ

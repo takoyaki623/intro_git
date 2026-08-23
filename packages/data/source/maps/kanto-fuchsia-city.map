@@ -44,3 +44,4 @@ fuchsia-strength-man 3,8 npc:oldman:static kanto.fuchsia.strength-man
 fuchsia-surf-teacher 3,5 npc:fisher:static kanto.fuchsia.surf-teacher
 fuchsia-boulder 10,5 obstacle:strength
 fuchsia-nugget 11,5 item:max-ether kanto.fuchsia.nugget if:kanto.fuchsia.nugget-taken=false
+fuchsia-fisher 2,11 npc:fisher:static kanto.fuchsia.fisher

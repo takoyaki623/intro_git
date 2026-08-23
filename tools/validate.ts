@@ -16,6 +16,7 @@ import {
   effectHandlers,
   heldHandlers,
   useHandlers,
+  fieldActions,
   REBUILDS_INSTANCE,
   assertAllEventCommandsHandled,
   flagsUsedBy,
@@ -24,6 +25,7 @@ import {
   canEnter,
   inBounds,
   neighborsOf,
+  walkableTerrains,
   terrainAt,
   FIELD_ABILITIES,
   METHOD_BY_TERRAIN,
@@ -1513,6 +1515,100 @@ function checkWorld(): void {
     }
   }
 
+  // ── #98〜#102 フィールド行動（v1.1-c）──
+  {
+    /** `Condition` が要求している道具（`hasItem` を掘る）。 */
+    const itemsUsedBy = (cond: Condition): string[] => {
+      if (cond.kind === "hasItem") return [cond.item];
+      if (cond.kind === "and" || cond.kind === "or") return cond.of.flatMap(itemsUsedBy);
+      return [];
+    };
+    /** 世界のどこかで配られる道具（ショップ・イベント）。 */
+    const givenItems = new Set<string>();
+    for (const shop of allShops) for (const item of shop.items) givenItems.add(item);
+    for (const event of allEvents) {
+      for (const c of walkCommands(event.commands)) {
+        if (c.kind === "giveItem") givenItems.add(c.item);
+      }
+    }
+
+    // #98 全 FieldEffect.kind にハンドラがある（#21・#24・#61・#94 と同型）
+    for (const kind of Object.keys(fieldActions)) {
+      if (fieldActions[kind as keyof typeof fieldActions] === undefined) {
+        fail("field-effect", `フィールド行動 "${kind}" に処理が無い`);
+      }
+    }
+    for (const ability of allFieldAbilities) {
+      const effect = ability.effect;
+      if (effect === undefined) continue;
+      if (!(effect.kind in fieldActions)) {
+        fail("field-effect", `${ability.id}: 未知のフィールド行動 "${effect.kind}"`);
+      }
+    }
+
+    /** その方式の表を持つマップ。 */
+    const mapsWith = (method: string) =>
+      allMaps.filter((m) =>
+        (m.encounters ?? []).some(
+          (id) => allEncounterTables.find((t) => t.id === id)?.method === method,
+        ),
+      );
+
+    for (const ability of allFieldAbilities) {
+      const effect = ability.effect;
+      if (effect === undefined) continue;
+
+      // #99 釣りの方式ごとに、その表を持つマップが1枚以上ある
+      //     ―― さおを配ったのに一生かからない、を止める
+      if (effect.kind === "fish" && mapsWith(effect.method).length === 0) {
+        fail("field-effect", `${ability.id}: "${effect.method}" の表を持つマップが1枚も無い`);
+      }
+
+      // #100 いわくだき の野生は、割れる岩のあるマップに表がある
+      if (effect.kind === "clear" && effect.then !== undefined) {
+        const withRock = allMaps.filter((m) =>
+          m.objects.some((o) => o.kind.type === "obstacle" && o.kind.clearedBy === ability.id),
+        );
+        const withTable = new Set(mapsWith(effect.then.method).map((m) => m.id));
+        if (withRock.length > 0 && !withRock.some((m) => withTable.has(m.id))) {
+          warn(
+            "field-effect",
+            `${ability.id}: 割れる岩が ${withRock.length} 個あるが、` +
+              `"${effect.then.method}" の表を持つマップが1枚も無い（原作の該当地はまだ作っていない）`,
+          );
+        }
+      }
+    }
+
+    // #101 隠しアイテムがあるなら、探す能力を解放するイベントがある
+    const buried = allMaps.flatMap((m) =>
+      m.objects.filter((o) => o.kind.type === "item" && o.kind.hidden).map((o) => `${m.id}/${o.id}`),
+    );
+    if (buried.length > 0) {
+      const finders = allFieldAbilities.filter((a) => a.effect?.kind === "reveal");
+      if (finders.length === 0) {
+        fail("field-effect", `隠しアイテムが ${buried.length} 個あるが、探す能力が1つも無い`);
+      }
+      for (const finder of finders) {
+        // 解放条件が要求する道具・フラグが、どこかで手に入るか
+        for (const item of itemsUsedBy(finder.requires)) {
+          if (!givenItems.has(item)) {
+            fail("field-effect", `${finder.id}: 要る道具 "${item}" が世界のどこでも手に入らない`);
+          }
+        }
+      }
+    }
+
+    // #102 さおも同じ ―― 能力の鍵になる道具は必ず配られている
+    for (const ability of allFieldAbilities) {
+      for (const item of itemsUsedBy(ability.requires)) {
+        if (!givenItems.has(item)) {
+          fail("field-ability", `${ability.id}: 要る道具 "${item}" が世界のどこでも手に入らない`);
+        }
+      }
+    }
+  }
+
   // ── #97 バッジをくれるイベントは わざマシンもくれる（v1.1-b）──
   //
   // 原作では**どの世代でも、ジムリーダーはバッジと一緒にわざマシンを渡す。**
@@ -1580,7 +1676,17 @@ function checkWorld(): void {
   // 黙って置いておくと「引けないのか、引く処理を書き忘れたのか」が
   // 区別できなくなる。警告として毎回名乗らせ、v1.1-c で消えるようにする。
   {
+    // 引ける方式は2つの出どころから来る（v1.1-c）:
+    //   歩いたとき  … `METHOD_BY_TERRAIN`（地形が決める）
+    //   調べたとき  … フィールド行動（さお・いわくだき）
+    // **どちらか片方だけ見ていると、釣りを実装しても警告が消えない。**
     const drawable = new Set<string>(Object.values(METHOD_BY_TERRAIN));
+    for (const ability of allFieldAbilities) {
+      const effect = ability.effect;
+      if (effect === undefined) continue;
+      if (effect.kind === "fish") drawable.add(effect.method);
+      if (effect.kind === "clear" && effect.then !== undefined) drawable.add(effect.then.method);
+    }
     const waiting = new Map<string, number>();
     for (const map of allMaps) {
       for (const id of map.encounters ?? []) {
@@ -1592,8 +1698,7 @@ function checkWorld(): void {
     if (waiting.size > 0) {
       warn(
         "encounter-method",
-        `まだ引く手段の無い出現表: ${[...waiting].sort().map(([m, n]) => `${m} ${n}表`).join(" / ")}` +
-          `（釣り・いわくだき は v1.1-c）`,
+        `まだ引く手段の無い出現表: ${[...waiting].sort().map(([m, n]) => `${m} ${n}表`).join(" / ")}`,
       );
     }
   }
@@ -1674,7 +1779,13 @@ function checkWorld(): void {
  * だからフィールド技は全部持っている扱いにし、進行で消えるもの・
  * どけられるものは壁として数えない。
  */
-const ABLE: WorldState = { ...emptyWorldState(), abilities: [...FIELD_ABILITIES] };
+const ABLE: WorldState = {
+  ...emptyWorldState(),
+  abilities: [...FIELD_ABILITIES],
+  // **`walkable` も入れる。** 派生値を片方だけ入れると
+  // 「なみのり は使えるのに水に入れない」世界になる（v1.1-c で実際にそうなった）
+  walkable: walkableTerrains(allFieldAbilities, [...FIELD_ABILITIES]),
+};
 const IN_PRINCIPLE = { ignoreConditional: true, ignoreObstacles: true } as const;
 
 /**
