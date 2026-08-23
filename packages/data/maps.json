@@ -33911,19 +33911,7 @@
         }
       }
     ],
-    "objects": [
-      {
-        "id": "victory-3f-boulder",
-        "at": {
-          "x": 8,
-          "y": 3
-        },
-        "kind": {
-          "type": "obstacle",
-          "clearedBy": "strength"
-        }
-      }
-    ],
+    "objects": [],
     "encounters": [
       "kanto-victory-road-3f-cave"
     ],
@@ -33970,7 +33958,7 @@
         "R",
         "R",
         "R",
-        ":",
+        "R",
         "R",
         "R",
         "R",
@@ -34144,7 +34132,7 @@
       true,
       true,
       true,
-      false,
+      true,
       true,
       true,
       true,
@@ -34315,7 +34303,7 @@
       "normal",
       "normal",
       "normal",
-      "cave",
+      "normal",
       "normal",
       "normal",
       "normal",
@@ -34487,22 +34475,11 @@
         "id": "victory-boulder",
         "at": {
           "x": 1,
-          "y": 4
+          "y": 3
         },
         "kind": {
           "type": "obstacle",
           "clearedBy": "strength"
-        }
-      },
-      {
-        "id": "victory-rock",
-        "at": {
-          "x": 2,
-          "y": 5
-        },
-        "kind": {
-          "type": "obstacle",
-          "clearedBy": "rockSmash"
         }
       },
       {
@@ -34521,6 +34498,24 @@
         "condition": {
           "kind": "flag",
           "flag": "kanto.victory.cooltrainer-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "victory-1f-item",
+        "at": {
+          "x": 4,
+          "y": 1
+        },
+        "kind": {
+          "type": "item",
+          "item": "full-restore",
+          "hidden": false
+        },
+        "event": "kanto.victory.item",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.victory.item-taken",
           "value": false
         }
       }

@@ -14,7 +14,7 @@ R !normal
 grid:
 RRRRRRRRRRRRR
 R:::::RRRRRRR
-R:RRR:RRRRRRR
+R:RRRRRRRRRRR
 R:R:::::::::R
 R:R:RRRRRRR:R
 R:::RRRRRRR:R
@@ -31,6 +31,6 @@ warps:
 1,1 step kanto-victory-road-2f 2,5 up
 
 objects:
-victory-boulder 1,4 obstacle:strength
-victory-rock 2,5 obstacle:rockSmash
+victory-boulder 1,3 obstacle:strength
 victory-cooltrainer 8,7 trainer:kanto-victory-cooltrainer:3:left kanto.victory.cooltrainer if:kanto.victory.cooltrainer-beaten=false
+victory-1f-item 4,1 item:full-restore kanto.victory.item if:kanto.victory.item-taken=false

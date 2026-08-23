@@ -5402,5 +5402,24 @@
         "value": true
       }
     ]
+  },
+  {
+    "id": "kanto.victory.item",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "かいふくのくすり を みつけた!"
+      },
+      {
+        "kind": "giveItem",
+        "item": "full-restore",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.victory.item-taken",
+        "value": true
+      }
+    ]
   }
 ]

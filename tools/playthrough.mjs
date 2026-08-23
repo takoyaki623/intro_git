@@ -1531,20 +1531,24 @@ expect("23ばんどうろへ 行ける", (await spot()).map, "kanto-route-23");
 // いるのだから正しい。塞がる側は #86 とヤマブキ（§14）で見ている
 await talk("ArrowUp");
 await drain(8);
-await goToMap("kanto-victory-road", 8, 11, 30);
+await goToMap("kanto-victory-road", 3, 11, 30);
 expect("バッジ8つで チャンピオンロードに 入れる", (await spot()).map, "kanto-victory-road");
 
-// かいりき の岩。どけないと北の出口へ行けない
+// **3階建てになった**（v1.1-e）。1階の かいりき の岩をどけないと上の階へ行けない
 expect(
   "かいりき の岩を どけるまで 抜けられない",
-  (await goToMap("kanto-indigo-plateau", 4, 9, 4)).map,
+  (await goToMap("kanto-indigo-plateau", 4, 9, 6)).map,
   "kanto-victory-road",
 );
-// 岩は横道の途中（4,2）にある。立てるのは左どなりだけ
-await goToMap("kanto-victory-road", 3, 2, 30);
-await useAbility("ArrowRight", "kanto-victory-road:victory-boulder");
+// 岩は1階の縦道（1,4）にある。立てるのは下どなり（1,5）だけ
+await goToMap("kanto-victory-road", 1, 5, 30);
+await useAbility("ArrowUp", "kanto-victory-road:victory-boulder");
+await goToMap("kanto-victory-road-2f", 2, 5, 40);
+expect("2階へ のぼれる", (await spot()).map, "kanto-victory-road-2f");
+await goToMap("kanto-victory-road-3f", 2, 1, 40);
+expect("3階へ のぼれる", (await spot()).map, "kanto-victory-road-3f");
 await goToMap("kanto-indigo-plateau", 4, 9, 60);
-expect("かいりき で セキエイこうげんに つく", (await spot()).map, "kanto-indigo-plateau");
+expect("チャンピオンロードを 抜けて セキエイこうげんに つく", (await spot()).map, "kanto-indigo-plateau");
 await shot("32-indigo");
 
 // 四天王。**入ったら戻れない**

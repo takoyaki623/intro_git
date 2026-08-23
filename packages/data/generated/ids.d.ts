@@ -6,9 +6,9 @@
  * 特性 68 / 道具 98 /
  * BattleSet 64 / 施設 4 /
  * ネームド 18 / カップ 10 /
- * マップ 91 / イベント 256 / トレーナー 45 /
+ * マップ 91 / イベント 257 / トレーナー 45 /
  * 出現テーブル 103 / ショップ 6 / 地方 9 /
- * フラグ 108
+ * フラグ 109
  */
 
 export type GeneratedSpeciesId =
@@ -1084,6 +1084,7 @@ export type GeneratedEventId =
   | "kanto.vermilion.surge-win"
   | "kanto.victory.cooltrainer"
   | "kanto.victory.cooltrainer-win"
+  | "kanto.victory.item"
   | "kanto.victory.max-revive"
   | "kanto.viridian.arrive"
   | "kanto.viridian.center-chat"
@@ -1378,6 +1379,7 @@ export type GeneratedFlagId =
   | "kanto.vermilion.sailor"
   | "kanto.vermilion.surge-beaten"
   | "kanto.victory.cooltrainer-beaten"
+  | "kanto.victory.item-taken"
   | "kanto.victory.max-revive-taken"
   | "kanto.viridian.giovanni-beaten"
   | "kanto.viridian.got-sample-potion"
