@@ -111,6 +111,9 @@ const SHOOTING_SAVE = (() => {
     // 視線に入ると戦いになり、負ければ復活地点へ飛ぶ ―― 実際そうなって、
     // 「トキワジム」の絵としてマサラタウンが保存された
     "kanto.viridian.gym-jr-beaten", "kanto.cinnabar.gym-jr-beaten",
+    // v1.1-g で3つのジムが仕掛けつきになった。中を撮るには、
+    // **中のトレーナーを片付けておかないと視線でバトルが割り込む**
+    "kanto.fuchsia.gym-jr-beaten", "kanto.saffron.gym-jr-beaten",
     // リーグまで撮る（v0.12-f）。**扉は勝つまで開かない**ので、
     // 開けておかないとワタルの部屋に一生たどり着けない
     "kanto.league.gate-open", "kanto.victory.cooltrainer-beaten",
@@ -187,6 +190,9 @@ const PLACES = [
   { file: "mt-moon", name: "おつきみやま", note: "洞窟。曲がり角で視線が切れる", to: ["kanto-mt-moon", 4, 2] },
   { file: "cerulean-city", name: "ハナダシティ", note: "ジム2。町の東に川", to: ["kanto-cerulean-city", 7, 5] },
   { file: "cerulean-gym", name: "ハナダジム", note: "水路で通路が細い。奥にカスミ", to: ["kanto-cerulean-gym", 4, 7] },
+  { file: "fuchsia-gym", name: "セキチクジム", note: "見えない壁の迷路。床にしか見えないのにぶつかる（v1.1-g）", to: ["kanto-fuchsia-gym", 4, 9] },
+  { file: "cinnabar-gym", name: "グレンジム", note: "クイズ扉。正解するまで開かない条件つきオブジェクト（v1.1-g）", to: ["kanto-cinnabar-gym", 4, 10] },
+  { file: "saffron-gym", name: "ヤマブキジム", note: "テレポート床。9つの小部屋は床を踏む以外に行き来できない（v1.1-g）", to: ["kanto-saffron-gym", 6, 7] },
   { file: "vermilion-city", name: "クチバシティ", note: "港町。南が海。ジム3", to: ["kanto-vermilion-city", 7, 7] },
   { file: "lavender-town", name: "シオンタウン", note: "ポケモンタワーのある町。ジムは無い", to: ["kanto-lavender-town", 7, 5] },
   { file: "celadon-city", name: "タマムシシティ", note: "ジム4（エリカ）。カントーで一番大きい町", to: ["kanto-celadon-city", 7, 7] },

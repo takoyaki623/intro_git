@@ -563,6 +563,32 @@ async function talk(direction) {
   await drain();
 }
 
+/**
+ * 選択肢を**文字で選ぶ**（v1.1-g）。
+ *
+ * `drain()` は最後のボタンを押す ―― 会話を閉じるための「やめる」が
+ * だいたい最後にあるからで、それでよかった。
+ * だがクイズ扉では**どちらを選んだかが結果を変える**ので、
+ * 「最後を押す」では正解にも不正解にもならない。
+ */
+async function choose(text) {
+  // 選択肢の前に本文がある。**読み終わるまで進めてから**選ぶ
+  for (let i = 0; i < 12; i += 1) {
+    if (await page.isVisible("#field-text .choices")) break;
+    await page.keyboard.press("z");
+    await page.waitForTimeout(230);
+  }
+  const buttons = await page.$$("#field-text .choices button");
+  for (const button of buttons) {
+    if (((await button.textContent()) ?? "").trim() === text) {
+      await button.click();
+      await page.waitForTimeout(260);
+      return true;
+    }
+  }
+  return false;
+}
+
 // **演出を短くしてから歩き出す。**
 // カントーが53枚になって完走が20分を超えたので、台本は高速モードで走る。
 // 飛ばしても結果が変わらないことは core の分担が保証している（ui-flow.md §4）
@@ -1154,7 +1180,7 @@ await powerUp();
  * 人がやることと同じで、全回復してもう一度行く。
  * ここで確かめたいのは「勝てるか」ではなく「勝つとバッジが増えるか」。
  */
-async function challengeGym(label, map, x, y, want) {
+async function challengeGym(label, map, x, y, want, dir = "ArrowUp") {
   // **5回まで。** 台本の戦い方は「上から順に技を押す」だけなので、
   // えんまく で命中を下げてくる相手には素で負ける（キョウで3連敗した）
   for (let attempt = 1; attempt <= 5; attempt += 1) {
@@ -1164,7 +1190,7 @@ async function challengeGym(label, map, x, y, want) {
       note(`${label}`, `ジムに 入れない（いま ${await at()}）`);
       return 0;
     }
-    await talk("ArrowUp");
+    await talk(dir);
     await drain(8);
     if (await page.isVisible("#battle")) {
       await fight();
@@ -1425,9 +1451,31 @@ expect(
 await goToMap("kanto-fuchsia-pokecenter", 4, 3, 80);
 await talk("ArrowUp");
 await drain();
+// ── 見えない壁（v1.1-g）──
+//
+// **床にしか見えないのに通れない。** 検証はこれを見つけられない ――
+// 「通れないマスがある」のは正しい状態でしかないので、
+// *見た目と規則が食い違っている*ことは、遊んでしか確かめられない。
+// **先にジムの中のトレーナーを片付ける。** 視線に入ったまま調べると
+// バトルが割り込み、「動けなかった」のか「戦っていた」のか区別できない
+await powerUp();
+await goToMap("kanto-fuchsia-gym", 4, 9, 80);
+{
+  const before = await spot();
+  // ここから真上（4,8）は床に見えるが**見えない壁**
+  await key("ArrowUp", 3, 200);
+  const after = await spot();
+  expect(
+    "床に 見えるのに 通れない（見えない壁）",
+    `${after.x},${after.y}`,
+    `${before.x},${before.y}`,
+  );
+}
+await shot("22d-invisible-wall");
+
 expect(
   "キョウに 勝つと バッジが 5つに なる",
-  await challengeGym("キョウ", "kanto-fuchsia-gym", 4, 2, 5),
+  await challengeGym("キョウ", "kanto-fuchsia-gym", 6, 1, 5, "ArrowRight"),
   (v) => v > 0,
 );
 await shot("23-five-badges");
@@ -1439,9 +1487,32 @@ await drain(6);
 await goToMap("kanto-saffron-city", 5, 5, 40);
 await talk("ArrowUp");
 await drain(6);
+// ── テレポート床（v1.1-g）──
+//
+// 9つの小部屋は壁で完全に切れていて、**床を踏む以外に行き来する道が無い。**
+// 仕掛けはコード0行 ―― `Warp.to.map` に自分自身のマップIDを書いただけ。
+await powerUp();
+await goToMap("kanto-saffron-gym", 6, 11, 80);
+{
+  const before = await spot();
+  await goToMap("kanto-saffron-gym", 6, 7, 20);
+  const after = await spot();
+  expect(
+    "テレポート床を 踏むと 別の部屋に 飛ぶ",
+    `${after.map} ${after.x},${after.y}`,
+    `kanto-saffron-gym 6,7`,
+  );
+  expect(
+    "飛んだ先は 歩いて来られない部屋",
+    Math.abs(after.y - before.y) > 2 ? "はなれている" : "となり",
+    "はなれている",
+  );
+}
+await shot("24b-teleport");
+
 expect(
   "バッジ5つで ヤマブキジムに 入れて、勝つと 6つに なる",
-  await challengeGym("ナツメ", "kanto-saffron-gym", 4, 2, 6),
+  await challengeGym("ナツメ", "kanto-saffron-gym", 6, 3, 6),
   (v) => v > 0,
 );
 expect("バッジが 6つに なる", await badgeCount(), 6);
@@ -1524,9 +1595,39 @@ await goToMap("kanto-cinnabar-island", 6, 1, 200);
 expect("なみのり で グレンじまに つく", (await spot()).map, "kanto-cinnabar-island");
 await shot("28-cinnabar");
 
+// ── クイズ扉（v1.1-g）──
+//
+// **間違えたら開かない**ところまで確かめる。正解だけ試すと、
+// 「どちらを選んでも開く扉」を通してしまう ―― v1.1-e の
+// 「置いただけの関門」と同じ形の見落としになる。
+await powerUp();
+await goToMap("kanto-cinnabar-gym", 4, 8, 80);
+{
+  // わざと間違える（クイズ1の正解は ○）
+  await key("ArrowUp", 2, 200);
+  await key("z", 1, 400);
+  await choose("×");
+  await drain(6);
+  await goToMap("kanto-cinnabar-gym", 4, 6, 6);
+  expect("まちがえると 扉は 開かない", `${(await spot()).y}`, "8");
+
+  // 3つとも正解する
+  const ANSWERS = ["○", "×", "○"];
+  for (const [i, answer] of ANSWERS.entries()) {
+    await goToMap("kanto-cinnabar-gym", 4, [8, 5, 3][i], 20);
+    await key("ArrowUp", 2, 200);
+    await key("z", 1, 400);
+    await choose(answer);
+    await drain(6);
+  }
+  await goToMap("kanto-cinnabar-gym", 4, 1, 20);
+  expect("3つとも 正解すると カツラの部屋に 着く", `${(await spot()).y}`, "1");
+}
+await shot("28b-quiz");
+
 expect(
   "カツラに 勝つと バッジが 7つに なる",
-  await challengeGym("カツラ", "kanto-cinnabar-gym", 4, 2, 7),
+  await challengeGym("カツラ", "kanto-cinnabar-gym", 6, 1, 7, "ArrowRight"),
   (v) => v > 0,
 );
 

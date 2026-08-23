@@ -14,6 +14,8 @@ import {
   emptyEncounterState,
   emptyWorldState,
   evaluate,
+  neighborsOf,
+  FIELD_ABILITIES,
   fieldAbilitiesFor,
   syncAbilities,
   walkableTerrains,
@@ -1165,5 +1167,150 @@ describe("押せる岩とスイッチ（v1.1-f）", () => {
     for (let i = 0; i < 20 && !runner.done; i += 1) runner = stepEvent(runner, world).runner;
 
     expect(isWalkable(map, world, shutter.at.x, shutter.at.y)).toBe(true);
+  });
+});
+
+/**
+ * ジムの仕掛け3つ（v1.1-g）。
+ *
+ * **どれも新しい概念を1つも足していない。** 見えない壁は凡例、
+ * クイズ扉は `choice` + `setFlag` + 条件つきオブジェクト、
+ * テレポート床は `Warp.to.map` に自分自身。
+ * ここで確かめたいのは仕掛けの中身より、**既存の型でちゃんと成立している**こと。
+ */
+describe("ジムの仕掛け（v1.1-g）", () => {
+  const mapOf = (id: string) => allMaps.find((m) => m.id === id)!;
+  const able = (): WorldState => {
+    const world = emptyWorldState();
+    world.abilities = [...FIELD_ABILITIES];
+    return world;
+  };
+
+  /** そのマップの中だけを、warp を辿らずに塗る。 */
+  const floodFrom = (map: MapData, world: WorldState, from: { x: number; y: number }) => {
+    const seen = new Set([`${from.x},${from.y}`]);
+    const stack = [from];
+    while (stack.length > 0) {
+      const here = stack.pop()!;
+      for (const next of neighborsOf(map, world, here.x, here.y, {}, undefined)) {
+        const key = `${next.x},${next.y}`;
+        if (next.map !== map.id || seen.has(key)) continue;
+        seen.add(key);
+        stack.push({ x: next.x, y: next.y });
+      }
+    }
+    return seen;
+  };
+
+  it("見えない壁は、床として描かれるのに通れない", () => {
+    const gym = mapOf("kanto-fuchsia-gym");
+    const world = able();
+    // 見えない壁のマスは「地形は normal」なのに通れない ――
+    // 描画は地形と凡例の文字を見るので、**規則と見た目が食い違っている**のが正しい
+    const hidden: { x: number; y: number }[] = [];
+    for (let y = 0; y < gym.size.height; y += 1) {
+      for (let x = 0; x < gym.size.width; x += 1) {
+        if (gym.layers.ground[y * gym.size.width + x] === "I") hidden.push({ x, y });
+      }
+    }
+    expect(hidden.length).toBeGreaterThan(10);
+    for (const at of hidden) {
+      expect(terrainAt(gym, at.x, at.y), `${at.x},${at.y}`).toBe("normal");
+      expect(isWalkable(gym, world, at.x, at.y), `${at.x},${at.y}`).toBe(false);
+    }
+  });
+
+  it("見えない壁は迷路として効いている ―― まっすぐは行けない", () => {
+    const gym = mapOf("kanto-fuchsia-gym");
+    const door = gym.warps.find((w) => w.trigger === "step")!;
+    const koga = gym.objects.find((o) => o.id === "fuchsia-koga")!;
+    const start = { x: door.at.x, y: door.at.y - 1 };
+
+    // 最短距離を測る。壁があるぶん、直線距離より必ず長くなる
+    const steps = (world: WorldState): number => {
+      const dist = new Map([[`${start.x},${start.y}`, 0]]);
+      const queue = [start];
+      while (queue.length > 0) {
+        const here = queue.shift()!;
+        const d = dist.get(`${here.x},${here.y}`)!;
+        for (const next of neighborsOf(gym, world, here.x, here.y, {}, undefined)) {
+          const key = `${next.x},${next.y}`;
+          if (next.map !== gym.id || dist.has(key)) continue;
+          dist.set(key, d + 1);
+          queue.push({ x: next.x, y: next.y });
+        }
+      }
+      // キョウの隣まで（本人のマスには立てない）
+      return Math.min(
+        ...[[1, 0], [-1, 0], [0, 1], [0, -1]]
+          .map(([dx, dy]) => dist.get(`${koga.at.x + dx!},${koga.at.y + dy!}`))
+          .filter((d): d is number => d !== undefined),
+      );
+    };
+
+    const straight = Math.abs(koga.at.x - start.x) + Math.abs(koga.at.y - start.y);
+    expect(steps(able())).toBeGreaterThan(straight);
+  });
+
+  it("クイズ扉は、正解のフラグが立つまで道を塞ぐ", () => {
+    const gym = mapOf("kanto-cinnabar-gym");
+    const gates = gym.objects.filter((o) => o.id.startsWith("cinnabar-quiz-"));
+    expect(gates.length).toBe(3);
+
+    const world = able();
+    for (const gate of gates) {
+      expect(isWalkable(gym, world, gate.at.x, gate.at.y), gate.id).toBe(false);
+      // 正解のイベントを最後まで流すと開く（分岐の1本目＝○が正解とは限らない）
+      const event = allEvents.find((e) => e.id === gate.event)!;
+      const choice = event.commands.find((c) => c.kind === "choice")!;
+      if (choice.kind !== "choice") continue;
+      const right = choice.options.find((o) =>
+        o.then.some((c) => c.kind === "setFlag"),
+      )!;
+      let runner = startEvent(right.then);
+      for (let i = 0; i < 20 && !runner.done; i += 1) runner = stepEvent(runner, world).runner;
+      expect(isWalkable(gym, world, gate.at.x, gate.at.y), gate.id).toBe(true);
+    }
+  });
+
+  it("テレポート床は、踏まないと部屋から出られない", () => {
+    const gym = mapOf("kanto-saffron-gym");
+    const panels = gym.warps.filter((w) => w.trigger === "step" && w.to.map === gym.id);
+    expect(panels.length).toBeGreaterThan(8);
+
+    // 入口の部屋から歩けるのは、その部屋のぶんだけ
+    const door = gym.warps.find((w) => w.to.map !== gym.id)!;
+    const inside = floodFrom(gym, able(), { x: door.at.x, y: door.at.y - 1 });
+    let walkable = 0;
+    for (let y = 0; y < gym.size.height; y += 1) {
+      for (let x = 0; x < gym.size.width; x += 1) {
+        if (isWalkable(gym, able(), x, y)) walkable += 1;
+      }
+    }
+    expect(inside.size).toBeLessThan(walkable);
+  });
+
+  it("テレポート床を辿ると ナツメ の部屋に着く", () => {
+    const gym = mapOf("kanto-saffron-gym");
+    const sabrina = gym.objects.find((o) => o.id === "saffron-sabrina")!;
+    const door = gym.warps.find((w) => w.to.map !== gym.id)!;
+    const world = able();
+
+    // warp を辿る探索（`neighborsOf` の既定）。同じマップの中を飛ぶ
+    const byId = new Map([[gym.id, gym]]);
+    const start = { x: door.at.x, y: door.at.y - 1 };
+    const seen = new Set([`${start.x},${start.y}`]);
+    const stack = [start];
+    while (stack.length > 0) {
+      const here = stack.pop()!;
+      for (const next of neighborsOf(gym, world, here.x, here.y, {}, byId)) {
+        const key = `${next.x},${next.y}`;
+        if (next.map !== gym.id || seen.has(key)) continue;
+        seen.add(key);
+        stack.push({ x: next.x, y: next.y });
+      }
+    }
+    // ナツメの隣に立てる
+    expect(seen.has(`${sabrina.at.x},${sabrina.at.y + 1}`)).toBe(true);
   });
 });

@@ -94,7 +94,7 @@ import {
 } from "./player.js";
 import { openExchangeScreen, openFacilityScreen, openTournamentScreen } from "./screens.js";
 import { buildingsOf, drawBuilding } from "./art/buildings.js";
-import { drawTile, shade, type TileView } from "./art/tiles.js";
+import { drawTile, shade, TILE_ALIAS, type TileView } from "./art/tiles.js";
 import { STATUS_LABEL, TYPE_COLOR, TYPE_LABEL } from "./view.js";
 
 const TILE = 28;
@@ -292,11 +292,18 @@ export function playField(rebuild: () => void): FieldHandle {
     const lastX = Math.min(map.size.width - 1, firstX + cols);
     const lastY = Math.min(map.size.height - 1, firstY + rows);
 
-    /** そのマスの「種類」。同じ種類どうしは境目を描かない。 */
+    /**
+     * そのマスの「種類」。同じ種類どうしは境目を描かない。
+     *
+     * `TILE_ALIAS` を通すので、**見えない壁は床と同じ種類**になる（v1.1-g）――
+     * 通さないと、通行不可のマスの周りにだけ縁が出て、床の上に格子が浮かぶ。
+     */
     const kindAt = (mx: number, my: number): string | null => {
       if (mx < 0 || my < 0 || mx >= map.size.width || my >= map.size.height) return null;
       const i = my * map.size.width + mx;
-      return map.layers.ground[i] ?? map.terrain[i] ?? "normal";
+      const ground = map.layers.ground[i];
+      const drawn = ground === undefined ? undefined : (TILE_ALIAS[ground] ?? ground);
+      return drawn ?? map.terrain[i] ?? "normal";
     };
 
     // 建物のマスは後でまとめて描くので、地面の段では飛ばす

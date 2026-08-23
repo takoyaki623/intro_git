@@ -1614,6 +1614,84 @@ function checkWorld(): void {
     }
   }
 
+  // ── #107 テレポート床が飾りでないこと（v1.1-g）──
+  //
+  // 自分自身へ飛ぶ warp（`to.map` が自分）は、ヤマブキジムの床のための書き方。
+  // **床を踏まなくても全部歩けてしまうなら、それは仕掛けではなく模様。**
+  // v1.1-e の岩・v1.1-f の2階と同じ形の間違いなので、今度は先に検査を置く。
+  for (const map of allMaps) {
+    const panels = map.warps.filter((w) => w.trigger === "step" && w.to.map === map.id);
+    if (panels.length === 0) continue;
+
+    // 外から入ってくる口（自分自身への warp は数えない）
+    const doors: { x: number; y: number }[] = [];
+    for (const source of mapById.values()) {
+      if (source.id === map.id) continue;
+      for (const warp of source.warps) {
+        if (warp.to.map === map.id) doors.push({ x: warp.to.x, y: warp.to.y });
+      }
+    }
+    if (doors.length === 0) continue;
+
+    // **床を1枚も踏まずに**どこまで行けるか
+    const onFoot = { ...IN_PRINCIPLE, followWarps: false } as const;
+    const seen = new Set(doors.map((d) => `${d.x},${d.y}`));
+    const stack = [...doors];
+    while (stack.length > 0) {
+      const here = stack.pop()!;
+      for (const next of neighborsOf(map, ABLE, here.x, here.y, onFoot)) {
+        const key = `${next.x},${next.y}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        stack.push({ x: next.x, y: next.y });
+      }
+    }
+    let walkable = 0;
+    for (let y = 0; y < map.size.height; y += 1) {
+      for (let x = 0; x < map.size.width; x += 1) {
+        if (canEnter(map, ABLE, x, y, IN_PRINCIPLE)) walkable += 1;
+      }
+    }
+    if (seen.size >= walkable) {
+      fail(
+        "teleport",
+        `${map.id}: テレポート床が ${panels.length} 枚あるが、` +
+          `1枚も踏まずに全 ${walkable} マスへ歩いて行ける（床が飾りになっている）`,
+      );
+    }
+  }
+
+  // ── #108 条件で道を塞ぐものは、その条件が満たせること（v1.1-g）──
+  //
+  // #86 は「無条件で warp を塞いでいないか」を見ている。こちらは**その先**――
+  // 条件つきで塞ぐのは正しい使い方（勝つまで開かない扉・クイズ扉）だが、
+  // **そのフラグを立てるイベントがどこにも無ければ、扉は永久に閉じたまま。**
+  // フィールド技の解放条件には同じ検査があったのに、
+  // 「道を塞ぐオブジェクト」には無かった。
+  {
+    const setFlags = new Set<string>();
+    for (const event of allEvents) {
+      for (const c of walkCommands(event.commands)) {
+        if (c.kind === "setFlag") setFlags.add(c.flag);
+      }
+    }
+    for (const map of allMaps) {
+      for (const object of map.objects) {
+        // 塞ぐもの（道具とスイッチは床なので通れる）だけが対象
+        if (object.kind.type === "item" || object.kind.type === "switch") continue;
+        if (object.condition === undefined) continue;
+        for (const flag of flagsUsedBy(object.condition)) {
+          if (!setFlags.has(flag)) {
+            fail(
+              "blocked-forever",
+              `${map.id}/${object.id}: 条件の "${flag}" を立てるイベントが無い（消えないので永久に塞ぐ）`,
+            );
+          }
+        }
+      }
+    }
+  }
+
   // ── #103〜#106 押せる岩とスイッチ（v1.1-f）──
   //
   // **岩は「置いた」だけでは仕掛けにならない。** v1.1-e で1階の

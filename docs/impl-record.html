@@ -764,7 +764,7 @@ pokemon … 個体の実体。uid が主キー</code></pre>
   </article>
 
   <article class="release">
-    <header><span class="ver">v1.1-a 〜 v1.1-f</span><h2>カントーを原作に寄せる（進行中）</h2></header>
+    <header><span class="ver">v1.1-a 〜 v1.1-g</span><h2>カントーを原作に寄せる（進行中）</h2></header>
     <p class="goal">v1.0 で通ったのは<strong>筋</strong>であって、中身は骨組みだった。
     実測すると<strong>カントー151種のうち82種はどうやっても手に入らなかった</strong> ――
     図鑑を埋める進行軸が実質死んでいた。完了条件は<strong>「151種すべてに入手経路がある」</strong>。</p>
@@ -779,6 +779,7 @@ pokemon … 個体の実体。uid が主キー</code></pre>
           <tr><td><span class="ver">v1.1-d</span></td><td><strong>ヤマブキを4叉路に戻す</strong>・けんもんじょ4棟・ちかつうろ</td><td><strong>0行</strong></td><td>88</td></tr>
           <tr><td><span class="ver">v1.1-e</span></td><td>東の腕（9・10・12〜15番＋イワヤマトンネル）・ダンジョンの階層</td><td><strong>0行</strong></td><td>88 → <strong>92</strong></td></tr>
           <tr><td><span class="ver">v1.1-f</span></td><td><strong>押せる岩とスイッチ</strong>・チャンピオンロード2階/3階をパズルに</td><td><code>MapObjectKind</code> 2種</td><td>92</td></tr>
+          <tr><td><span class="ver">v1.1-g-1</span></td><td>見えない壁・クイズ扉・<strong>テレポート床</strong>（ジム3つが仕掛けつきに）</td><td><strong>描画に5行だけ</strong></td><td>92</td></tr>
         </tbody>
       </table>
     </div>
@@ -836,6 +837,38 @@ pokemon … 個体の実体。uid が主キー</code></pre>
       <strong>氷の床が出てくるのは ジョウトの こおりのぬけみち 以降</strong>だった。
       機構だけ先に入れると<strong>使うマップが1枚も無い機構</strong>ができる ――
       v1.1-a で消費者のいないデータを足して検証に落とされたのと同じ形なので、ジョウトの版へ送った。
+    </div>
+
+    <h3>v1.1-g-1 ―― 「既存の型で書ける」の答え合わせ</h3>
+    <p>原作の仕掛けを14個並べたとき、<strong>6個はゲームのコードが1行も要らない</strong>と見積もった。
+    そのうち3個をまとめて実装した結果:</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>仕掛け</th><th>どう書いたか</th><th>見積もり</th><th>実際</th></tr></thead>
+        <tbody>
+          <tr><td><strong>クイズ扉</strong>（グレンジム）</td><td><code>choice</code> + <code>if</code> + <code>setFlag</code> + 条件つきオブジェクト</td><td>0行</td><td><strong>0行</strong></td></tr>
+          <tr><td><strong>テレポート床</strong>（ヤマブキジム）</td><td><code>Warp.to.map</code> に<strong>自分自身のマップID</strong></td><td>0行</td><td><strong>0行</strong></td></tr>
+          <tr><td><strong>見えない壁</strong>（セキチクジム）</td><td>凡例に <code>I !normal</code> を1つ。描画では床として扱う</td><td><code>TILE_HINT</code> に1行</td><td>2箇所・<strong>5行</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>テレポート床は <strong>v0.7 から型としては通っていたのに、前例が1件も無かった</strong>書き方だった。
+    9つの小部屋を壁で完全に切り、床を踏む以外に行き来できなくしてある ――
+    <code>neighborsOf</code> は踏む warp を「同じ1歩の中で」辿るので、
+    <strong>経路探索も台本も何も知らずに解ける。</strong></p>
+
+    <div class="note warn">
+      <strong>見えない壁だけ見積もりを外した ―― 見た目の規則が2つに分かれていた。</strong><br>
+      色は <code>TILE_HINT</code> に1行で合った。だが<strong>オートタイルの縁は「隣が同じ文字か」で決まる</strong>ので、
+      色だけ合わせると見えない壁の周りにだけ縁が出て、<strong>床の上に格子が浮かんだ。</strong>
+      片方だけ直すと「ほとんど正しい」絵ができる。
+    </div>
+
+    <div class="note">
+      <strong>台本は「間違える」ほうも試す。</strong><br>
+      クイズ扉は正解だけ試すと<strong>どちらを選んでも開く扉</strong>を通してしまう ――
+      v1.1-e の「置いただけの関門」と同じ形の見落としになる。
+      まず わざと間違えて開かないことを見てから、3問とも正解する。
     </div>
 
     <div class="note warn">
@@ -909,6 +942,8 @@ pokemon … 個体の実体。uid が主キー</code></pre>
         <tr><td><span class="ver">v1.1-c</span></td><td><strong><code>core</code> が特定の地形と能力の名前を知っていた</strong>（<code>canSwimTo</code> に "water" と "surf"）</td><td>データに置くべきもの</td></tr>
         <tr><td><span class="ver">v1.1-d</span></td><td><strong>通っているのに間違っている接続があった</strong>（ヤマブキが2叉路で、近道のほうが本道）</td><td>地図の嘘</td></tr>
         <tr><td><span class="ver">v1.1-d</span></td><td><strong>地理を直すと難易度が変わる</strong>（道が2倍になり、消耗してジム3に負けるようになった）</td><td>原作に寄せた結果</td></tr>
+        <tr><td><span class="ver">v1.1-g</span></td><td><strong>同じ不変条件が、置き場所によって片方だけ守られていた</strong>（フィールド技の解放条件にはあった検査が、道を塞ぐオブジェクトには無かった）</td><td>検査の置き忘れ</td></tr>
+        <tr><td><span class="ver">v1.1-g</span></td><td><strong>見た目の規則が2つに分かれていた</strong>（色と、隣接による縁）。片方だけ直して「ほとんど正しい」絵ができた</td><td>見積もりの外し方</td></tr>
         <tr><td><span class="ver">v1.1-f</span></td><td><strong>教訓を得た版の中で、同じ構造の場所を全部数えなかった</strong>（1階の迂回路は閉じたが、2階の岩は飾りのままだった）</td><td>直し方の射程</td></tr>
         <tr><td><span class="ver">v1.1-e</span></td><td><strong>関門は「置いた」だけでは関門にならない</strong>（迷路に輪があり、岩を通らずに階段へ行けた）</td><td>検証が言えないこと</td></tr>
       </tbody>
@@ -1759,6 +1794,8 @@ packages/data/generated/ids.d.ts
         <tr><td>岩の初期位置にスイッチを置かない（最初から押されている）／踏む warp の上に置かない</td><td><span class="pill done">v1.1-f</span></td></tr>
         <tr><td><strong>スイッチのイベントは必ずフラグを立てる</strong>（乗せても世界が変わらないスイッチを禁じる）</td><td><span class="pill done">v1.1-f</span></td></tr>
         <tr><td>スイッチのあるマップには、乗せる岩が1つ以上ある</td><td><span class="pill done">v1.1-f</span></td></tr>
+        <tr><td><strong>テレポート床が飾りでない</strong>（1枚も踏まずに全マスへ歩けてしまわない）</td><td><span class="pill done">v1.1-g</span></td></tr>
+        <tr><td><strong>条件で道を塞ぐものは、その条件を満たせる</strong>（フラグを立てるイベントが実在する）</td><td><span class="pill done">v1.1-g</span></td></tr>
       </tbody>
     </table>
   </div>
@@ -2024,7 +2061,7 @@ packages/data/generated/ids.d.ts
 </section>
 
 <footer>
-  ポケモン風RPG ／ v0.1 → v1.1-f ／ 個人利用・非配布 ／ 設計文書は <span class="mono">docs/design/</span> を参照
+  ポケモン風RPG ／ v0.1 → v1.1-g ／ 個人利用・非配布 ／ 設計文書は <span class="mono">docs/design/</span> を参照
 </footer>
 
 </div>

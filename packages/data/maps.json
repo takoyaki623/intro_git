@@ -5354,7 +5354,7 @@
     "region": "kanto",
     "size": {
       "width": 9,
-      "height": 10
+      "height": 13
     },
     "layers": {
       "ground": [
@@ -5377,12 +5377,39 @@
         ".",
         "W",
         "W",
+        "W",
+        "W",
+        "W",
         ".",
-        "X",
-        "X",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
         ".",
-        "X",
-        "X",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        ".",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
         ".",
         "W",
         "W",
@@ -5395,21 +5422,21 @@
         ".",
         "W",
         "W",
-        ".",
-        ".",
-        ".",
-        ".",
-        ".",
-        ".",
-        ".",
+        "W",
         "W",
         "W",
         ".",
-        "X",
-        "X",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
         ".",
-        "X",
-        "X",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
         ".",
         "W",
         "W",
@@ -5472,22 +5499,13 @@
       false,
       true,
       true,
-      false,
       true,
-      true,
-      false,
       true,
       true,
       false,
       true,
       true,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
+      true,
       true,
       true,
       false,
@@ -5499,12 +5517,48 @@
       false,
       true,
       true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
       false,
       true,
       true,
       false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
       true,
       true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
       false,
       true,
       true,
@@ -5634,13 +5688,40 @@
       "normal",
       "normal",
       "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
       "normal"
     ],
     "warps": [
       {
         "at": {
           "x": 4,
-          "y": 9
+          "y": 12
         },
         "trigger": "step",
         "to": {
@@ -5653,10 +5734,58 @@
     ],
     "objects": [
       {
+        "id": "cinnabar-quiz-1",
+        "at": {
+          "x": 4,
+          "y": 7
+        },
+        "kind": {
+          "type": "sign"
+        },
+        "event": "kanto.cinnabar.quiz-1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.cinnabar.quiz-1-open",
+          "value": false
+        }
+      },
+      {
+        "id": "cinnabar-quiz-2",
+        "at": {
+          "x": 4,
+          "y": 4
+        },
+        "kind": {
+          "type": "sign"
+        },
+        "event": "kanto.cinnabar.quiz-2",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.cinnabar.quiz-2-open",
+          "value": false
+        }
+      },
+      {
+        "id": "cinnabar-quiz-3",
+        "at": {
+          "x": 4,
+          "y": 2
+        },
+        "kind": {
+          "type": "sign"
+        },
+        "event": "kanto.cinnabar.quiz-3",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.cinnabar.quiz-3-open",
+          "value": false
+        }
+      },
+      {
         "id": "cinnabar-gym-jr",
         "at": {
           "x": 1,
-          "y": 7
+          "y": 10
         },
         "kind": {
           "type": "trainer",
@@ -5674,7 +5803,7 @@
       {
         "id": "cinnabar-blaine",
         "at": {
-          "x": 4,
+          "x": 7,
           "y": 1
         },
         "kind": {
@@ -5688,7 +5817,7 @@
         "id": "cinnabar-gym-sign",
         "at": {
           "x": 7,
-          "y": 8
+          "y": 11
         },
         "kind": {
           "type": "sign"
@@ -6285,7 +6414,7 @@
         "to": {
           "map": "kanto-cinnabar-gym",
           "x": 4,
-          "y": 8,
+          "y": 11,
           "facing": "up"
         }
       },
@@ -7432,7 +7561,7 @@
         "to": {
           "map": "kanto-fuchsia-gym",
           "x": 4,
-          "y": 8,
+          "y": 10,
           "facing": "up"
         }
       },
@@ -7577,7 +7706,7 @@
     "region": "kanto",
     "size": {
       "width": 9,
-      "height": 10
+      "height": 12
     },
     "layers": {
       "ground": [
@@ -7600,13 +7729,13 @@
         ".",
         "W",
         "W",
+        "I",
+        "I",
+        "I",
         ".",
-        "X",
-        ".",
-        ".",
-        ".",
-        "X",
-        ".",
+        "I",
+        "I",
+        "I",
         "W",
         "W",
         ".",
@@ -7619,12 +7748,12 @@
         "W",
         "W",
         ".",
-        "X",
-        ".",
-        "X",
-        ".",
-        "X",
-        ".",
+        "I",
+        "I",
+        "I",
+        "I",
+        "I",
+        "I",
         "W",
         "W",
         ".",
@@ -7636,12 +7765,30 @@
         ".",
         "W",
         "W",
+        "I",
+        "I",
+        "I",
+        ".",
+        "I",
+        "I",
+        "I",
+        "W",
+        "W",
         ".",
         ".",
         ".",
         ".",
         ".",
         ".",
+        ".",
+        "W",
+        "W",
+        "I",
+        "I",
+        "I",
+        "I",
+        "I",
+        "I",
         ".",
         "W",
         "W",
@@ -7695,31 +7842,13 @@
       false,
       true,
       true,
-      false,
       true,
-      false,
-      false,
-      false,
+      true,
       true,
       false,
       true,
       true,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
       true,
-      true,
-      false,
-      true,
-      false,
-      true,
-      false,
-      true,
-      false,
       true,
       true,
       false,
@@ -7732,11 +7861,47 @@
       true,
       true,
       false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
       false,
       false,
       false,
       false,
       false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
       false,
       true,
       true,
@@ -7857,13 +8022,31 @@
       "normal",
       "normal",
       "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
       "normal"
     ],
     "warps": [
       {
         "at": {
           "x": 4,
-          "y": 9
+          "y": 11
         },
         "trigger": "step",
         "to": {
@@ -7879,7 +8062,7 @@
         "id": "fuchsia-gym-jr",
         "at": {
           "x": 1,
-          "y": 7
+          "y": 9
         },
         "kind": {
           "type": "trainer",
@@ -7897,7 +8080,7 @@
       {
         "id": "fuchsia-koga",
         "at": {
-          "x": 4,
+          "x": 7,
           "y": 1
         },
         "kind": {
@@ -7911,7 +8094,7 @@
         "id": "fuchsia-gym-sign",
         "at": {
           "x": 7,
-          "y": 8
+          "y": 10
         },
         "kind": {
           "type": "sign"
@@ -29258,8 +29441,8 @@
         "trigger": "step",
         "to": {
           "map": "kanto-saffron-gym",
-          "x": 4,
-          "y": 8,
+          "x": 6,
+          "y": 11,
           "facing": "up"
         }
       },
@@ -30045,8 +30228,8 @@
     "name": "ヤマブキジム",
     "region": "kanto",
     "size": {
-      "width": 9,
-      "height": 10
+      "width": 13,
+      "height": 13
     },
     "layers": {
       "ground": [
@@ -30060,46 +30243,18 @@
         "W",
         "W",
         "W",
-        ".",
-        ".",
-        ".",
-        ".",
-        ".",
-        ".",
-        ".",
         "W",
         "W",
-        ".",
-        ".",
-        "X",
-        ".",
-        "X",
-        ".",
-        ".",
         "W",
         "W",
         ".",
         ".",
         ".",
-        ".",
-        ".",
-        ".",
-        ".",
-        "W",
-        "W",
-        ".",
-        "X",
-        "X",
-        ".",
-        "X",
-        "X",
-        ".",
-        "W",
         "W",
         ".",
         ".",
         ".",
-        ".",
+        "W",
         ".",
         ".",
         ".",
@@ -30108,7 +30263,11 @@
         ".",
         ".",
         ".",
+        "W",
         ".",
+        ".",
+        ".",
+        "W",
         ".",
         ".",
         ".",
@@ -30117,7 +30276,37 @@
         ".",
         ".",
         ".",
+        "W",
         ".",
+        ".",
+        ".",
+        "W",
+        ".",
+        ".",
+        ".",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        ".",
+        ".",
+        ".",
+        "W",
+        ".",
+        ".",
+        ".",
+        "W",
         ".",
         ".",
         ".",
@@ -30126,16 +30315,89 @@
         ".",
         ".",
         ".",
+        "W",
         ".",
         ".",
         ".",
+        "W",
         ".",
+        ".",
+        ".",
+        "W",
+        "W",
+        ".",
+        ".",
+        ".",
+        "W",
+        ".",
+        ".",
+        ".",
+        "W",
+        ".",
+        ".",
+        ".",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        ".",
+        ".",
+        ".",
+        "W",
+        ".",
+        ".",
+        ".",
+        "W",
+        ".",
+        ".",
+        ".",
+        "W",
+        "W",
+        ".",
+        ".",
+        ".",
+        "W",
+        ".",
+        ".",
+        ".",
+        "W",
+        ".",
+        ".",
+        ".",
+        "W",
+        "W",
+        ".",
+        ".",
+        ".",
+        "W",
+        ".",
+        ".",
+        ".",
+        "W",
+        ".",
+        ".",
+        ".",
+        "W",
+        "W",
         "W",
         "W",
         "W",
         "W",
         "W",
         "D",
+        "W",
+        "W",
         "W",
         "W",
         "W",
@@ -30155,46 +30417,18 @@
       true,
       true,
       true,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
-      false,
       true,
       true,
-      false,
-      false,
-      true,
-      false,
-      true,
-      false,
-      false,
       true,
       true,
       false,
       false,
       false,
-      false,
-      false,
-      false,
-      false,
-      true,
-      true,
-      false,
-      true,
-      true,
-      false,
-      true,
-      true,
-      false,
-      true,
       true,
       false,
       false,
       false,
-      false,
+      true,
       false,
       false,
       false,
@@ -30203,7 +30437,11 @@
       false,
       false,
       false,
+      true,
       false,
+      false,
+      false,
+      true,
       false,
       false,
       false,
@@ -30212,16 +30450,11 @@
       false,
       false,
       false,
-      false,
-      false,
-      false,
-      false,
-      true,
       true,
       false,
       false,
       false,
-      false,
+      true,
       false,
       false,
       false,
@@ -30230,7 +30463,115 @@
       true,
       true,
       true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
       false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
       true,
       true,
       true,
@@ -30326,13 +30667,92 @@
       "normal",
       "normal",
       "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
       "normal"
     ],
     "warps": [
       {
         "at": {
-          "x": 4,
-          "y": 9
+          "x": 6,
+          "y": 12
         },
         "trigger": "step",
         "to": {
@@ -30341,20 +30761,254 @@
           "y": 4,
           "facing": "down"
         }
+      },
+      {
+        "at": {
+          "x": 5,
+          "y": 9
+        },
+        "trigger": "step",
+        "to": {
+          "map": "kanto-saffron-gym",
+          "x": 6,
+          "y": 7,
+          "facing": "down"
+        }
+      },
+      {
+        "at": {
+          "x": 7,
+          "y": 9
+        },
+        "trigger": "step",
+        "to": {
+          "map": "kanto-saffron-gym",
+          "x": 10,
+          "y": 11,
+          "facing": "down"
+        }
+      },
+      {
+        "at": {
+          "x": 5,
+          "y": 5
+        },
+        "trigger": "step",
+        "to": {
+          "map": "kanto-saffron-gym",
+          "x": 10,
+          "y": 7,
+          "facing": "down"
+        }
+      },
+      {
+        "at": {
+          "x": 7,
+          "y": 5
+        },
+        "trigger": "step",
+        "to": {
+          "map": "kanto-saffron-gym",
+          "x": 2,
+          "y": 11,
+          "facing": "down"
+        }
+      },
+      {
+        "at": {
+          "x": 9,
+          "y": 5
+        },
+        "trigger": "step",
+        "to": {
+          "map": "kanto-saffron-gym",
+          "x": 10,
+          "y": 3,
+          "facing": "down"
+        }
+      },
+      {
+        "at": {
+          "x": 11,
+          "y": 5
+        },
+        "trigger": "step",
+        "to": {
+          "map": "kanto-saffron-gym",
+          "x": 6,
+          "y": 11,
+          "facing": "down"
+        }
+      },
+      {
+        "at": {
+          "x": 9,
+          "y": 1
+        },
+        "trigger": "step",
+        "to": {
+          "map": "kanto-saffron-gym",
+          "x": 6,
+          "y": 3,
+          "facing": "down"
+        }
+      },
+      {
+        "at": {
+          "x": 11,
+          "y": 1
+        },
+        "trigger": "step",
+        "to": {
+          "map": "kanto-saffron-gym",
+          "x": 2,
+          "y": 7,
+          "facing": "down"
+        }
+      },
+      {
+        "at": {
+          "x": 9,
+          "y": 9
+        },
+        "trigger": "step",
+        "to": {
+          "map": "kanto-saffron-gym",
+          "x": 6,
+          "y": 11,
+          "facing": "down"
+        }
+      },
+      {
+        "at": {
+          "x": 11,
+          "y": 9
+        },
+        "trigger": "step",
+        "to": {
+          "map": "kanto-saffron-gym",
+          "x": 6,
+          "y": 11,
+          "facing": "down"
+        }
+      },
+      {
+        "at": {
+          "x": 1,
+          "y": 9
+        },
+        "trigger": "step",
+        "to": {
+          "map": "kanto-saffron-gym",
+          "x": 2,
+          "y": 7,
+          "facing": "down"
+        }
+      },
+      {
+        "at": {
+          "x": 3,
+          "y": 9
+        },
+        "trigger": "step",
+        "to": {
+          "map": "kanto-saffron-gym",
+          "x": 6,
+          "y": 11,
+          "facing": "down"
+        }
+      },
+      {
+        "at": {
+          "x": 1,
+          "y": 5
+        },
+        "trigger": "step",
+        "to": {
+          "map": "kanto-saffron-gym",
+          "x": 2,
+          "y": 3,
+          "facing": "down"
+        }
+      },
+      {
+        "at": {
+          "x": 3,
+          "y": 5
+        },
+        "trigger": "step",
+        "to": {
+          "map": "kanto-saffron-gym",
+          "x": 6,
+          "y": 11,
+          "facing": "down"
+        }
+      },
+      {
+        "at": {
+          "x": 1,
+          "y": 1
+        },
+        "trigger": "step",
+        "to": {
+          "map": "kanto-saffron-gym",
+          "x": 6,
+          "y": 11,
+          "facing": "down"
+        }
+      },
+      {
+        "at": {
+          "x": 3,
+          "y": 1
+        },
+        "trigger": "step",
+        "to": {
+          "map": "kanto-saffron-gym",
+          "x": 6,
+          "y": 11,
+          "facing": "down"
+        }
+      },
+      {
+        "at": {
+          "x": 5,
+          "y": 1
+        },
+        "trigger": "step",
+        "to": {
+          "map": "kanto-saffron-gym",
+          "x": 6,
+          "y": 11,
+          "facing": "down"
+        }
+      },
+      {
+        "at": {
+          "x": 7,
+          "y": 1
+        },
+        "trigger": "step",
+        "to": {
+          "map": "kanto-saffron-gym",
+          "x": 6,
+          "y": 11,
+          "facing": "down"
+        }
       }
     ],
     "objects": [
       {
         "id": "saffron-gym-jr",
         "at": {
-          "x": 1,
-          "y": 7
+          "x": 6,
+          "y": 5
         },
         "kind": {
           "type": "trainer",
           "trainer": "kanto-saffron-gym-jr",
-          "sight": 3,
-          "direction": "right"
+          "sight": 2,
+          "direction": "down"
         },
         "event": "kanto.saffron.gym-jr",
         "condition": {
@@ -30366,8 +31020,8 @@
       {
         "id": "saffron-sabrina",
         "at": {
-          "x": 4,
-          "y": 1
+          "x": 6,
+          "y": 2
         },
         "kind": {
           "type": "npc",
@@ -30379,8 +31033,8 @@
       {
         "id": "saffron-gym-sign",
         "at": {
-          "x": 7,
-          "y": 8
+          "x": 6,
+          "y": 10
         },
         "kind": {
           "type": "sign"

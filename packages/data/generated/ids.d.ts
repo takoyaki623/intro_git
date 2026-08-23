@@ -6,9 +6,9 @@
  * 特性 68 / 道具 98 /
  * BattleSet 64 / 施設 4 /
  * ネームド 18 / カップ 10 /
- * マップ 91 / イベント 261 / トレーナー 45 /
+ * マップ 91 / イベント 264 / トレーナー 45 /
  * 出現テーブル 103 / ショップ 6 / 地方 9 /
- * フラグ 111
+ * フラグ 114
  */
 
 export type GeneratedSpeciesId =
@@ -902,6 +902,9 @@ export type GeneratedEventId =
   | "kanto.cinnabar.gym-jr-win"
   | "kanto.cinnabar.gym-sign"
   | "kanto.cinnabar.nurse"
+  | "kanto.cinnabar.quiz-1"
+  | "kanto.cinnabar.quiz-2"
+  | "kanto.cinnabar.quiz-3"
   | "kanto.cinnabar.scientist"
   | "kanto.cinnabar.sign-gym"
   | "kanto.cinnabar.sign-mansion"
@@ -1300,6 +1303,9 @@ export type GeneratedFlagId =
   | "kanto.cerulean.misty-beaten"
   | "kanto.cinnabar.blaine-beaten"
   | "kanto.cinnabar.gym-jr-beaten"
+  | "kanto.cinnabar.quiz-1-open"
+  | "kanto.cinnabar.quiz-2-open"
+  | "kanto.cinnabar.quiz-3-open"
   | "kanto.cinnabar.scientist"
   | "kanto.fly.celadon"
   | "kanto.fly.cerulean"

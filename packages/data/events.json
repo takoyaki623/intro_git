@@ -5493,5 +5493,137 @@
         "text": "がんじょうな シャッターが みちを ふさいでいる。\nどこかに スイッチが あるようだ…"
       }
     ]
+  },
+  {
+    "id": "kanto.cinnabar.quiz-1",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "クイズ その1!\nポケモンは にんげんの ともだち だ。○か ×か!",
+        "speaker": "カツラ"
+      },
+      {
+        "kind": "choice",
+        "prompt": "ポケモンは にんげんの ともだち だ。○か ×か!",
+        "options": [
+          {
+            "text": "○",
+            "then": [
+              {
+                "kind": "message",
+                "text": "せいかい! おまえ ものしり だな!",
+                "speaker": "カツラ"
+              },
+              {
+                "kind": "playSe"
+              },
+              {
+                "kind": "setFlag",
+                "flag": "kanto.cinnabar.quiz-1-open",
+                "value": true
+              }
+            ]
+          },
+          {
+            "text": "×",
+            "then": [
+              {
+                "kind": "message",
+                "text": "ざんねん! とびらは あかない!",
+                "speaker": "カツラ"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.cinnabar.quiz-2",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "クイズ その2!\nピッピは そらを とぶ。○か ×か!",
+        "speaker": "カツラ"
+      },
+      {
+        "kind": "choice",
+        "prompt": "ピッピは そらを とぶ。○か ×か!",
+        "options": [
+          {
+            "text": "○",
+            "then": [
+              {
+                "kind": "message",
+                "text": "ざんねん! とびらは あかない!",
+                "speaker": "カツラ"
+              }
+            ]
+          },
+          {
+            "text": "×",
+            "then": [
+              {
+                "kind": "message",
+                "text": "せいかい! ピッピは そらを とべない!",
+                "speaker": "カツラ"
+              },
+              {
+                "kind": "playSe"
+              },
+              {
+                "kind": "setFlag",
+                "flag": "kanto.cinnabar.quiz-2-open",
+                "value": true
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.cinnabar.quiz-3",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "クイズ その3!\nわざマシンは いちど つかうと きえる。○か ×か!",
+        "speaker": "カツラ"
+      },
+      {
+        "kind": "choice",
+        "prompt": "わざマシンは いちど つかうと きえる。○か ×か!",
+        "options": [
+          {
+            "text": "○",
+            "then": [
+              {
+                "kind": "message",
+                "text": "せいかい! よく しっているな!",
+                "speaker": "カツラ"
+              },
+              {
+                "kind": "playSe"
+              },
+              {
+                "kind": "setFlag",
+                "flag": "kanto.cinnabar.quiz-3-open",
+                "value": true
+              }
+            ]
+          },
+          {
+            "text": "×",
+            "then": [
+              {
+                "kind": "message",
+                "text": "ざんねん! とびらは あかない!",
+                "speaker": "カツラ"
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]
