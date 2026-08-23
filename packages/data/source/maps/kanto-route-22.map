@@ -2,7 +2,7 @@
 id: kanto-route-22
 name: 22ばんどうろ
 region: kanto
-encounters: kanto-route-22-grass
+encounters: kanto-route-22-grass kanto-route-22-surf kanto-route-22-fishing-old kanto-route-22-fishing-good kanto-route-22-fishing-super
 bgm: route-22
 
 legend:

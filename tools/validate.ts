@@ -18,6 +18,13 @@ import {
   assertAllEventCommandsHandled,
   flagsUsedBy,
   evolutionLine,
+  emptyWorldState,
+  canEnter,
+  inBounds,
+  neighborsOf,
+  terrainAt,
+  FIELD_ABILITIES,
+  METHOD_BY_TERRAIN,
   JUDGE_CRITERIA,
   selectParty,
   walkCommands,
@@ -27,6 +34,7 @@ import {
   type MapData,
   type MapObject,
   type Warp,
+  type WorldState,
   type Move,
   type Species,
   type TierId,
@@ -690,7 +698,7 @@ function checkEndgame(): void {
         warn("set-variety", `${where}: grade ${band.grade} が ${count} 件しかなく顔ぶれが偏る`);
       }
       if (band.policy === "smart") {
-        fail("unimplemented-mechanic", `${where}: AI smart は未実装（v1.1）`);
+        fail("unimplemented-mechanic", `${where}: AI smart は未実装（v1.2）`);
       }
       if (DEFAULT_IVS_BY_GRADE[band.grade] === undefined) {
         fail("set-grade", `${where}: 未知の grade ${band.grade}`);
@@ -917,7 +925,7 @@ function checkTournaments(): void {
         continue;
       }
       if (tier === "ultimate") {
-        fail("unimplemented-mechanic", `${where}: 極ティアは AI smart と同時（v1.1）`);
+        fail("unimplemented-mechanic", `${where}: 極ティアは AI smart と同時（v1.2）`);
       }
       const eligible = allNamed.filter(
         (c) => cup.entrantPool.includes(c.id) && c.tiers[tier] !== undefined,
@@ -1457,6 +1465,72 @@ function checkWorld(): void {
     }
   }
 
+  // ── #92 同じ品揃えは同じ条件で開く（v1.1-a）──
+  //
+  // 町のフレンドリィショップは6軒とも同じ命令の木を持っている。
+  // **同じものを6回書けば、いつか1回だけ違う形で書く。**
+  // 実際グレンじまだけ `if` が抜けていて、バッジ0個でも
+  // バッジ4つぶんの品揃えが開いていた ―― 遊んでも気づけない種類の間違いで、
+  // 気づけるのは「6軒を並べて見比べたとき」だけ。だから機械に見比べさせる。
+  //
+  // 見るのは「その `shop` に辿り着くまでに通った `if` の条件」。
+  // 文面や順番が違うのは構わないが、**開く条件が違うなら理由が要る。**
+  {
+    /** その命令に辿り着くまでの条件を、通った順に集める。 */
+    const gates = new Map<string, Set<string>>();
+    const walk = (commands: readonly EventCommand[], guard: string[]): void => {
+      for (const c of commands) {
+        if (c.kind === "shop") {
+          const key = c.inventory;
+          if (!gates.has(key)) gates.set(key, new Set());
+          gates.get(key)!.add(JSON.stringify([...guard].sort()));
+        }
+        if (c.kind === "if") {
+          walk(c.then, [...guard, JSON.stringify(c.cond)]);
+          walk(c.else ?? [], [...guard, `!${JSON.stringify(c.cond)}`]);
+        }
+        if (c.kind === "choice") {
+          for (const option of c.options) walk(option.then, guard);
+        }
+      }
+    };
+    for (const event of allEvents) walk(event.commands, []);
+
+    for (const [inventory, conditions] of gates) {
+      if (conditions.size <= 1) continue;
+      fail(
+        "shop-gate",
+        `品揃え "${inventory}" を開く条件が ${conditions.size} 通りある。` +
+          `どれかが書き忘れの可能性が高い`,
+      );
+    }
+  }
+
+  // ── #93 まだ引く手段の無い出現表（v1.1-a・警告）──
+  //
+  // 出現表は公式データからの取り込みなので、**釣り3段と いわくだき の表が
+  // 実装より先に揃う。** これは入れ忘れではなく順序（種→表→機構）の結果だが、
+  // 黙って置いておくと「引けないのか、引く処理を書き忘れたのか」が
+  // 区別できなくなる。警告として毎回名乗らせ、v1.1-c で消えるようにする。
+  {
+    const drawable = new Set<string>(Object.values(METHOD_BY_TERRAIN));
+    const waiting = new Map<string, number>();
+    for (const map of allMaps) {
+      for (const id of map.encounters ?? []) {
+        const table = allEncounterTables.find((t) => t.id === id);
+        if (table === undefined || drawable.has(table.method)) continue;
+        waiting.set(table.method, (waiting.get(table.method) ?? 0) + 1);
+      }
+    }
+    if (waiting.size > 0) {
+      warn(
+        "encounter-method",
+        `まだ引く手段の無い出現表: ${[...waiting].sort().map(([m, n]) => `${m} ${n}表`).join(" / ")}` +
+          `（釣り・いわくだき は v1.1-c）`,
+      );
+    }
+  }
+
   // ── #81 マップに入った瞬間のイベント（v0.12-d）──
   for (const map of allMaps) {
     if (map.onEnter === undefined) continue;
@@ -1526,6 +1600,17 @@ function checkWorld(): void {
 }
 
 /**
+ * 検証が使う「見立て」（v1.1-a）。
+ *
+ * 検証が見るのは **地形として繋がっているか**であって、
+ * 「今の進行度で行けるか」ではない ―― 能力の入手順は #84 が別に見る。
+ * だからフィールド技は全部持っている扱いにし、進行で消えるもの・
+ * どけられるものは壁として数えない。
+ */
+const ABLE: WorldState = { ...emptyWorldState(), abilities: [...FIELD_ABILITIES] };
+const IN_PRINCIPLE = { ignoreConditional: true, ignoreObstacles: true } as const;
+
+/**
  * 地方まるごとの到達可能性（v0.12-b）。
  *
  * #55 は**1枚のマップの中**しか見ていなかった。
@@ -1558,51 +1643,11 @@ function checkRegionConnectivity(): void {
       const here = queue.shift()!;
       reached.add(here.map);
       const map = mapOf(here.map);
-      for (const [dx, dy] of [[0, -1], [0, 1], [-1, 0], [1, 0]] as const) {
-        let nx = here.x + dx;
-        let ny = here.y + dy;
-        if (nx < 0 || ny < 0 || nx >= map.size.width || ny >= map.size.height) continue;
-        // 段差は下方向にしか越えられない
-        if (map.terrain[ny * map.size.width + nx] === "ledge") {
-          if (dy !== 1) continue;
-          nx += dx;
-          ny += dy;
-          if (nx < 0 || ny < 0 || nx >= map.size.width || ny >= map.size.height) continue;
-        }
-        // 水は なみのり で越えられる（v0.12-d）。
-        // **ここは「地形として繋がっているか」を見る場所**であって、
-        // 「今の進行度で行けるか」ではない。能力の入手順は #84 が別に見る
-        if (
-          map.collision[ny * map.size.width + nx] === true &&
-          map.terrain[ny * map.size.width + nx] !== "water"
-        ) {
-          continue;
-        }
-        // **条件つきのオブジェクトは塞いでいないものとして扱う。**
-        // 進行で消えるものを壁として数えると、開通済みの道まで閉じてしまう。
-        // 障害物も同じ（どければ通れる・v0.12-d）
-        if (
-          map.objects.some(
-            (o: MapObject) =>
-              o.at.x === nx &&
-              o.at.y === ny &&
-              o.kind.type !== "item" &&
-              o.kind.type !== "obstacle" &&
-              o.condition === undefined,
-          )
-        ) {
-          continue;
-        }
-        const warp = map.warps.find(
-          (w: Warp) => w.at.x === nx && w.at.y === ny && w.trigger === "step",
-        );
-        const next = warp === undefined
-          ? { map: here.map, x: nx, y: ny }
-          : { map: warp.to.map, x: warp.to.x, y: warp.to.y };
+      for (const next of neighborsOf(map, ABLE, here.x, here.y, IN_PRINCIPLE, byId)) {
         const id = key(next.map, next.x, next.y);
         if (seen.has(id)) continue;
         seen.add(id);
-        queue.push(next);
+        queue.push({ map: next.map, x: next.x, y: next.y });
       }
     }
 
@@ -1626,25 +1671,12 @@ function checkRegionConnectivity(): void {
 function checkReachability(map: MapData, mapById: ReadonlyMap<string, MapData>): void {
   const { width, height } = map.size;
   const at = (x: number, y: number) => y * width + x;
-  const inside = (x: number, y: number) => x >= 0 && y >= 0 && x < width && y < height;
 
-  // 条件付きオブジェクトは消えうるので、塞いでいるとは見なさない。
-  // **障害物も塞いでいない扱い**（v0.12-d）―― どければ通れるので、
-  // ここで壁と見なすと「いあいぎりの先に置いた道具」が全部エラーになる。
-  const blockedByObject = new Set(
-    map.objects
-      .filter(
-        (o) => o.condition === undefined && o.kind.type !== "item" && o.kind.type !== "obstacle",
-      )
-      .map((o) => at(o.at.x, o.at.y)),
-  );
-  // 水は通行不可のままだが、**なみのり で越えられる**ので床として数える（v0.12-d）。
-  // 数えないと、海の向こうの砂州が「到達できないマス」に見える。
+  // 立てるマス。「入れるマス」から段差を除いたもの ―― 段差は飛び越える対象で、
+  // そこに留まることはできない。入れるかどうかの判定そのものは core に置いてある
+  // （条件つきオブジェクト・障害物・なみのり の扱いはこの1箇所で決まる）
   const standable = (x: number, y: number) =>
-    inside(x, y) &&
-    (map.collision[at(x, y)] !== true || map.terrain[at(x, y)] === "water") &&
-    map.terrain[at(x, y)] !== "ledge" &&
-    !blockedByObject.has(at(x, y));
+    canEnter(map, ABLE, x, y, IN_PRINCIPLE) && terrainAt(map, x, y) !== "ledge";
 
   const seeds: number[] = [];
   for (const source of mapById.values()) {
@@ -1661,28 +1693,17 @@ function checkReachability(map: MapData, mapById: ReadonlyMap<string, MapData>):
 
   const seen = new Set(seeds);
   const stack = [...seeds];
-  const steps = [
-    { dx: 0, dy: -1 },
-    { dx: 0, dy: 1 },
-    { dx: -1, dy: 0 },
-    { dx: 1, dy: 0 },
-  ];
+  // **warp は辿らない。** ここは1枚の中の塗りつぶしで、
+  // 「入れるが出られない区画」を探している
+  const inMap = { ...IN_PRINCIPLE, followWarps: false } as const;
   while (stack.length > 0) {
     const index = stack.pop()!;
     const x = index % width;
     const y = Math.floor(index / width);
-    for (const { dx, dy } of steps) {
-      let nx = x + dx;
-      let ny = y + dy;
-      // 段差は下向きにだけ飛び降りられる。着地は2マス先
-      if (inside(nx, ny) && map.terrain[at(nx, ny)] === "ledge") {
-        if (dy !== 1) continue;
-        nx += dx;
-        ny += dy;
-      }
-      if (!standable(nx, ny) || seen.has(at(nx, ny))) continue;
-      seen.add(at(nx, ny));
-      stack.push(at(nx, ny));
+    for (const next of neighborsOf(map, ABLE, x, y, inMap)) {
+      if (!standable(next.x, next.y) || seen.has(at(next.x, next.y))) continue;
+      seen.add(at(next.x, next.y));
+      stack.push(at(next.x, next.y));
     }
   }
 
@@ -1715,7 +1736,7 @@ function checkReachability(map: MapData, mapById: ReadonlyMap<string, MapData>):
     // 落ちている道具は踏んで起動するので、そのマス自体に立てればよい
     const spots =
       object.kind.type === "item" ? [object.at, ...sides] : sides;
-    if (!spots.some((s) => inside(s.x, s.y) && seen.has(at(s.x, s.y)))) {
+    if (!spots.some((s) => inBounds(map, s.x, s.y) && seen.has(at(s.x, s.y)))) {
       fail(
         "map-object-reach",
         `${map.id}/${object.id}: 隣に立てるマスが無い。置いてあるが起動できない`,

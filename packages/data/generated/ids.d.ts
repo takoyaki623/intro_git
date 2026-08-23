@@ -2,12 +2,12 @@
  * 自動生成ファイル。直接編集しないこと。
  *   再生成: npm run gen:ids
  *
- * 種族 190 / 技 247 / 性格 25 /
+ * 種族 190 / 技 248 / 性格 25 /
  * 特性 68 / 道具 58 /
  * BattleSet 64 / 施設 4 /
  * ネームド 18 / カップ 10 /
  * マップ 71 / イベント 228 / トレーナー 45 /
- * 出現テーブル 17 / ショップ 5 / 地方 9 /
+ * 出現テーブル 78 / ショップ 5 / 地方 9 /
  * フラグ 95
  */
 
@@ -406,6 +406,7 @@ export type GeneratedMoveId =
   | "smokescreen"
   | "soft-boiled"
   | "spark"
+  | "splash"
   | "spore"
   | "stomp"
   | "stomping-tantrum"
@@ -1064,22 +1065,83 @@ export type GeneratedTrainerId =
   | "kanto-viridian-gym-jr";
 
 export type GeneratedEncounterTableId =
+  | "kanto-celadon-city-fishing-good"
+  | "kanto-celadon-city-fishing-old"
+  | "kanto-celadon-city-fishing-super"
+  | "kanto-celadon-city-surf"
+  | "kanto-cerulean-city-fishing-good"
+  | "kanto-cerulean-city-fishing-old"
+  | "kanto-cerulean-city-fishing-super"
+  | "kanto-cerulean-city-surf"
+  | "kanto-cinnabar-island-fishing-good"
+  | "kanto-cinnabar-island-fishing-old"
+  | "kanto-cinnabar-island-fishing-super"
+  | "kanto-cinnabar-island-surf"
+  | "kanto-fuchsia-city-fishing-good"
+  | "kanto-fuchsia-city-fishing-old"
+  | "kanto-fuchsia-city-fishing-super"
+  | "kanto-fuchsia-city-surf"
   | "kanto-mt-moon-cave"
-  | "kanto-pond-surf"
+  | "kanto-pallet-town-fishing-good"
+  | "kanto-pallet-town-fishing-old"
+  | "kanto-pallet-town-fishing-super"
+  | "kanto-pallet-town-surf"
+  | "kanto-pokemon-tower-grass"
   | "kanto-route-1-grass"
+  | "kanto-route-11-fishing-good"
+  | "kanto-route-11-fishing-old"
+  | "kanto-route-11-fishing-super"
   | "kanto-route-11-grass"
+  | "kanto-route-11-surf"
   | "kanto-route-16-grass"
+  | "kanto-route-19-fishing-good"
+  | "kanto-route-19-fishing-old"
+  | "kanto-route-19-fishing-super"
+  | "kanto-route-19-surf"
   | "kanto-route-2-grass"
+  | "kanto-route-2-north-grass"
+  | "kanto-route-20-fishing-good"
+  | "kanto-route-20-fishing-old"
+  | "kanto-route-20-fishing-super"
+  | "kanto-route-20-surf"
+  | "kanto-route-21-fishing-good"
+  | "kanto-route-21-fishing-old"
+  | "kanto-route-21-fishing-super"
+  | "kanto-route-21-grass"
+  | "kanto-route-21-surf"
+  | "kanto-route-22-fishing-good"
+  | "kanto-route-22-fishing-old"
+  | "kanto-route-22-fishing-super"
   | "kanto-route-22-grass"
+  | "kanto-route-22-surf"
+  | "kanto-route-23-fishing-good"
+  | "kanto-route-23-fishing-old"
+  | "kanto-route-23-fishing-super"
   | "kanto-route-23-grass"
+  | "kanto-route-23-surf"
   | "kanto-route-3-grass"
+  | "kanto-route-4-fishing-good"
+  | "kanto-route-4-fishing-old"
+  | "kanto-route-4-fishing-super"
   | "kanto-route-4-grass"
+  | "kanto-route-4-surf"
   | "kanto-route-5-grass"
+  | "kanto-route-6-fishing-good"
+  | "kanto-route-6-fishing-old"
+  | "kanto-route-6-fishing-super"
   | "kanto-route-6-grass"
+  | "kanto-route-6-surf"
   | "kanto-route-7-grass"
   | "kanto-route-8-grass"
-  | "kanto-sea-surf"
+  | "kanto-vermilion-city-fishing-good"
+  | "kanto-vermilion-city-fishing-old"
+  | "kanto-vermilion-city-fishing-super"
+  | "kanto-vermilion-city-surf"
   | "kanto-victory-road-cave"
+  | "kanto-viridian-city-fishing-good"
+  | "kanto-viridian-city-fishing-old"
+  | "kanto-viridian-city-fishing-super"
+  | "kanto-viridian-city-surf"
   | "kanto-viridian-forest-grass";
 
 export type GeneratedShopId =

@@ -2,7 +2,7 @@
 id: kanto-route-11
 name: 11ばんどうろ
 region: kanto
-encounters: kanto-route-11-grass
+encounters: kanto-route-11-grass kanto-route-11-surf kanto-route-11-fishing-old kanto-route-11-fishing-good kanto-route-11-fishing-super
 bgm: route-11
 
 legend:

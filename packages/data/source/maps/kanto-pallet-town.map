@@ -4,7 +4,7 @@ name: マサラタウン
 region: kanto
 fly: 6,1 kanto.fly.pallet
 onEnter: kanto.pallet.arrive
-encounters: kanto-sea-surf
+encounters: kanto-pallet-town-surf kanto-pallet-town-fishing-old kanto-pallet-town-fishing-good kanto-pallet-town-fishing-super
 bgm: pallet-town
 
 legend:

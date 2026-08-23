@@ -3962,13 +3962,50 @@
         "speaker": "てんいん"
       },
       {
-        "kind": "message",
-        "speaker": "てんいん",
-        "text": "バッジを 4つも!\nとっておきの しなを だしますね。"
-      },
-      {
-        "kind": "shop",
-        "inventory": "kanto-mart-3"
+        "kind": "if",
+        "cond": {
+          "kind": "badges",
+          "op": ">=",
+          "count": 4
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "バッジを 4つも!\nとっておきの しなを だしますね。",
+            "speaker": "てんいん"
+          },
+          {
+            "kind": "shop",
+            "inventory": "kanto-mart-3"
+          }
+        ],
+        "else": [
+          {
+            "kind": "if",
+            "cond": {
+              "kind": "badges",
+              "op": ">=",
+              "count": 2
+            },
+            "then": [
+              {
+                "kind": "message",
+                "text": "バッジ 2つ ですね。\nいい ボールも ありますよ。",
+                "speaker": "てんいん"
+              },
+              {
+                "kind": "shop",
+                "inventory": "kanto-mart-2"
+              }
+            ],
+            "else": [
+              {
+                "kind": "shop",
+                "inventory": "kanto-mart-1"
+              }
+            ]
+          }
+        ]
       }
     ]
   },

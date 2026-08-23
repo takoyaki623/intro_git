@@ -2,7 +2,7 @@
 id: kanto-route-23
 name: 23ばんどうろ
 region: kanto
-encounters: kanto-route-23-grass
+encounters: kanto-route-23-grass kanto-route-23-surf kanto-route-23-fishing-old kanto-route-23-fishing-good kanto-route-23-fishing-super
 bgm: route-23
 
 legend:

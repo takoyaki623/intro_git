@@ -4,7 +4,7 @@
 id: kanto-route-19
 name: 19ばんすいどう
 region: kanto
-encounters: kanto-sea-surf
+encounters: kanto-route-19-surf kanto-route-19-fishing-old kanto-route-19-fishing-good kanto-route-19-fishing-super
 bgm: route-19
 
 legend:

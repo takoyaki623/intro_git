@@ -66,6 +66,9 @@ const secondaryBlocked = (ctx: EffectContext): boolean =>
   ctx.isSecondary && blocksSecondary(ctx.data, activeOf(ctx, ctx.defender));
 
 export const effectHandlers: Registry = {
+  /** はねる。**何も起きないことが効果**（書き忘れと区別するために要る）。 */
+  nothing: () => {},
+
   /** 与ダメージの一定割合を自分が受ける。 */
   recoil: (effect, ctx) => {
     if (ctx.damageDealt <= 0) return;

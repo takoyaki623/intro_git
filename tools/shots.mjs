@@ -12,6 +12,7 @@
  */
 
 import { chromium } from "playwright";
+import { FIELD_ABILITIES, emptyWorldState, neighborsOf } from "@pkmn/core";
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
@@ -23,48 +24,32 @@ const CHROME = process.env["CHROMIUM_PATH"] ?? "/opt/pw-browsers/chromium";
 const MAPS = new Map(
   JSON.parse(readFileSync("packages/data/maps.json", "utf8")).map((m) => [m.id, m]),
 );
-const STEPS = { ArrowUp: [0, -1], ArrowDown: [0, 1], ArrowLeft: [-1, 0], ArrowRight: [1, 0] };
+const KEY = { up: "ArrowUp", down: "ArrowDown", left: "ArrowLeft", right: "ArrowRight" };
 
 /**
  * 撮影用のセーブは**フィールド技を全部持っている**（v0.12-e）ので、
  * 経路探索も水の上を通れる扱いにする。知らないままだと、グレンじまへ
  * 「経路なし」と言いながら**その場でシャッターを切って別の町の絵を保存する。**
- * 障害物は壁のまま ―― 撮りたい場所はどれも岩の手前にある。
+ *
+ * 障害物も壁として数えない。台本は岩をどける操作をしないが、
+ * どの岩も「持っていれば必ずどけられる」ものなので、
+ * 壁として数えるとチャンピオンロードから先が全部撮れなくなる
+ * ―― v1.1-a で `neighborsOf` に寄せたとき、ここのコメントだけが
+ * 「障害物は壁のまま」と書いてあってコードと食い違っていた。
+ * 一本化して初めて食い違いが見えた（`△` が2件出た）。
+ *
+ * 「隣とは何か」は core の `neighborsOf` が持つ（v1.1-a）。
  */
-const blocked = (m, x, y) =>
-  x < 0 || y < 0 || x >= m.size.width || y >= m.size.height ||
-  (m.collision[y * m.size.width + x] === true &&
-    m.terrain[y * m.size.width + x] !== "water") ||
-  m.objects.some(
-    (o) =>
-      o.at.x === x &&
-      o.at.y === y &&
-      o.kind.type !== "item" &&
-      // フィールド技で どけられるものは壁として数えない（撮影用セーブは全部持っている）
-      o.kind.type !== "obstacle" &&
-      o.condition === undefined,
-  );
-
-const warpAt = (m, x, y) =>
-  m.warps.find((w) => w.at.x === x && w.at.y === y && w.trigger === "step") ?? null;
+const able = { ...emptyWorldState(), abilities: [...FIELD_ABILITIES] };
+const SEEING = { ignoreConditional: true, ignoreObstacles: true };
 
 function neighbors(id, x, y) {
-  const m = MAPS.get(id);
-  const out = [];
-  for (const [key, [dx, dy]] of Object.entries(STEPS)) {
-    let nx = x + dx;
-    let ny = y + dy;
-    if (nx < 0 || ny < 0 || nx >= m.size.width || ny >= m.size.height) continue;
-    if (m.terrain[ny * m.size.width + nx] === "ledge") {
-      if (key !== "ArrowDown") continue;
-      nx += dx;
-      ny += dy;
-    }
-    if (blocked(m, nx, ny)) continue;
-    const w = warpAt(m, nx, ny);
-    out.push(w === null ? { key, map: id, x: nx, y: ny } : { key, map: w.to.map, x: w.to.x, y: w.to.y });
-  }
-  return out;
+  return neighborsOf(MAPS.get(id), able, x, y, SEEING, MAPS).map((n) => ({
+    key: KEY[n.dir],
+    map: n.map,
+    x: n.x,
+    y: n.y,
+  }));
 }
 
 function route(from, to) {

@@ -60,6 +60,23 @@
         "move": "power-whip"
       }
     ],
+    "tmMoves": [
+      "acid-spray",
+      "body-slam",
+      "bullet-seed",
+      "charm",
+      "double-edge",
+      "false-swipe",
+      "giga-drain",
+      "knock-off",
+      "leaf-storm",
+      "seed-bomb",
+      "sludge-bomb",
+      "swords-dance",
+      "take-down",
+      "toxic",
+      "venoshock"
+    ],
     "evolutions": [
       {
         "to": "ivysaur",
@@ -138,6 +155,23 @@
         "level": 45,
         "move": "power-whip"
       }
+    ],
+    "tmMoves": [
+      "acid-spray",
+      "body-slam",
+      "bullet-seed",
+      "charm",
+      "double-edge",
+      "false-swipe",
+      "giga-drain",
+      "knock-off",
+      "leaf-storm",
+      "seed-bomb",
+      "sludge-bomb",
+      "swords-dance",
+      "take-down",
+      "toxic",
+      "venoshock"
     ],
     "evolutions": [
       {
@@ -223,6 +257,31 @@
         "move": "power-whip"
       }
     ],
+    "tmMoves": [
+      "acid-spray",
+      "amnesia",
+      "body-slam",
+      "bulldoze",
+      "bullet-seed",
+      "charm",
+      "double-edge",
+      "earth-power",
+      "earthquake",
+      "false-swipe",
+      "giga-drain",
+      "knock-off",
+      "leaf-storm",
+      "petal-blizzard",
+      "poison-jab",
+      "scary-face",
+      "seed-bomb",
+      "sludge-bomb",
+      "stomping-tantrum",
+      "swords-dance",
+      "take-down",
+      "toxic",
+      "venoshock"
+    ],
     "evolutions": [],
     "baseExp": 236,
     "catchRate": 45,
@@ -295,6 +354,30 @@
         "level": 40,
         "move": "flare-blitz"
       }
+    ],
+    "tmMoves": [
+      "body-slam",
+      "brick-break",
+      "crunch",
+      "dragon-claw",
+      "dragon-pulse",
+      "false-swipe",
+      "fire-blast",
+      "fire-punch",
+      "flame-charge",
+      "flamethrower",
+      "flare-blitz",
+      "heat-wave",
+      "metal-claw",
+      "overheat",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "swift",
+      "swords-dance",
+      "take-down",
+      "thunder-punch",
+      "will-o-wisp"
     ],
     "evolutions": [
       {
@@ -373,6 +456,29 @@
         "level": 54,
         "move": "flare-blitz"
       }
+    ],
+    "tmMoves": [
+      "body-slam",
+      "brick-break",
+      "crunch",
+      "dragon-claw",
+      "dragon-pulse",
+      "false-swipe",
+      "fire-blast",
+      "fire-punch",
+      "flame-charge",
+      "flamethrower",
+      "flare-blitz",
+      "heat-wave",
+      "overheat",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "swift",
+      "swords-dance",
+      "take-down",
+      "thunder-punch",
+      "will-o-wisp"
     ],
     "evolutions": [
       {
@@ -466,6 +572,35 @@
         "move": "flare-blitz"
       }
     ],
+    "tmMoves": [
+      "aerial-ace",
+      "air-cutter",
+      "air-slash",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "crunch",
+      "double-edge",
+      "dragon-claw",
+      "dragon-pulse",
+      "earthquake",
+      "fire-blast",
+      "fire-punch",
+      "flame-charge",
+      "flamethrower",
+      "flare-blitz",
+      "heat-wave",
+      "hurricane",
+      "overheat",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "swift",
+      "swords-dance",
+      "take-down",
+      "thunder-punch",
+      "will-o-wisp"
+    ],
     "evolutions": [],
     "baseExp": 240,
     "catchRate": 45,
@@ -541,6 +676,24 @@
         "level": 36,
         "move": "wave-crash"
       }
+    ],
+    "tmMoves": [
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "double-edge",
+      "hydro-pump",
+      "ice-beam",
+      "ice-punch",
+      "icy-wind",
+      "iron-defense",
+      "liquidation",
+      "mud-shot",
+      "muddy-water",
+      "surf",
+      "take-down",
+      "water-pulse",
+      "zen-headbutt"
     ],
     "evolutions": [
       {
@@ -623,6 +776,24 @@
         "level": 50,
         "move": "wave-crash"
       }
+    ],
+    "tmMoves": [
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "double-edge",
+      "hydro-pump",
+      "ice-beam",
+      "ice-punch",
+      "icy-wind",
+      "iron-defense",
+      "liquidation",
+      "mud-shot",
+      "muddy-water",
+      "surf",
+      "take-down",
+      "water-pulse",
+      "zen-headbutt"
     ],
     "evolutions": [
       {
@@ -711,6 +882,33 @@
         "move": "wave-crash"
       }
     ],
+    "tmMoves": [
+      "aura-sphere",
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "crunch",
+      "dark-pulse",
+      "double-edge",
+      "dragon-pulse",
+      "earthquake",
+      "flash-cannon",
+      "hydro-pump",
+      "ice-beam",
+      "ice-punch",
+      "icy-wind",
+      "iron-defense",
+      "liquidation",
+      "mud-shot",
+      "muddy-water",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "surf",
+      "take-down",
+      "water-pulse",
+      "zen-headbutt"
+    ],
     "evolutions": [],
     "baseExp": 239,
     "catchRate": 45,
@@ -755,6 +953,7 @@
         "move": "bug-bite"
       }
     ],
+    "tmMoves": [],
     "evolutions": [
       {
         "to": "metapod",
@@ -796,6 +995,9 @@
         "level": 1,
         "move": "harden"
       }
+    ],
+    "tmMoves": [
+      "iron-defense"
     ],
     "evolutions": [
       {
@@ -888,6 +1090,19 @@
         "move": "bug-buzz"
       }
     ],
+    "tmMoves": [
+      "air-slash",
+      "bug-buzz",
+      "draining-kiss",
+      "giga-drain",
+      "hurricane",
+      "iron-defense",
+      "psychic",
+      "round",
+      "shadow-ball",
+      "swift",
+      "venoshock"
+    ],
     "evolutions": [],
     "baseExp": 178,
     "catchRate": 45,
@@ -934,6 +1149,7 @@
         "move": "bug-bite"
       }
     ],
+    "tmMoves": [],
     "evolutions": [
       {
         "to": "kakuna",
@@ -977,6 +1193,7 @@
         "move": "harden"
       }
     ],
+    "tmMoves": [],
     "evolutions": [
       {
         "to": "beedrill",
@@ -1047,6 +1264,20 @@
         "level": 44,
         "move": "fell-stinger"
       }
+    ],
+    "tmMoves": [
+      "aerial-ace",
+      "brick-break",
+      "double-team",
+      "false-swipe",
+      "payback",
+      "poison-jab",
+      "round",
+      "sludge-bomb",
+      "swords-dance",
+      "toxic",
+      "venoshock",
+      "x-scissor"
     ],
     "evolutions": [],
     "baseExp": 178,
@@ -1121,6 +1352,12 @@
         "level": 53,
         "move": "hurricane"
       }
+    ],
+    "tmMoves": [
+      "aerial-ace",
+      "double-team",
+      "round",
+      "toxic"
     ],
     "evolutions": [
       {
@@ -1201,6 +1438,12 @@
         "move": "hurricane"
       }
     ],
+    "tmMoves": [
+      "aerial-ace",
+      "double-team",
+      "round",
+      "toxic"
+    ],
     "evolutions": [
       {
         "to": "pidgeot",
@@ -1280,6 +1523,12 @@
         "move": "air-slash"
       }
     ],
+    "tmMoves": [
+      "aerial-ace",
+      "double-team",
+      "round",
+      "toxic"
+    ],
     "evolutions": [],
     "baseExp": 216,
     "catchRate": 45,
@@ -1343,6 +1592,18 @@
         "level": 31,
         "move": "double-edge"
       }
+    ],
+    "tmMoves": [
+      "blizzard",
+      "charge-beam",
+      "double-team",
+      "ice-beam",
+      "round",
+      "shadow-ball",
+      "thunder",
+      "thunder-wave",
+      "thunderbolt",
+      "toxic"
     ],
     "evolutions": [
       {
@@ -1422,6 +1683,19 @@
         "move": "double-edge"
       }
     ],
+    "tmMoves": [
+      "blizzard",
+      "charge-beam",
+      "double-team",
+      "ice-beam",
+      "round",
+      "shadow-ball",
+      "swords-dance",
+      "thunder",
+      "thunder-wave",
+      "thunderbolt",
+      "toxic"
+    ],
     "evolutions": [],
     "baseExp": 145,
     "catchRate": 127,
@@ -1486,6 +1760,13 @@
         "level": 36,
         "move": "drill-peck"
       }
+    ],
+    "tmMoves": [
+      "aerial-ace",
+      "double-team",
+      "false-swipe",
+      "round",
+      "toxic"
     ],
     "evolutions": [
       {
@@ -1566,6 +1847,13 @@
         "move": "drill-peck"
       }
     ],
+    "tmMoves": [
+      "aerial-ace",
+      "double-team",
+      "false-swipe",
+      "round",
+      "toxic"
+    ],
     "evolutions": [],
     "baseExp": 155,
     "catchRate": 90,
@@ -1633,6 +1921,29 @@
         "level": 49,
         "move": "gunk-shot"
       }
+    ],
+    "tmMoves": [
+      "acid-spray",
+      "crunch",
+      "dark-pulse",
+      "double-edge",
+      "earthquake",
+      "giga-drain",
+      "gunk-shot",
+      "knock-off",
+      "leech-life",
+      "mud-shot",
+      "mud-slap",
+      "poison-jab",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "seed-bomb",
+      "sludge-bomb",
+      "sludge-wave",
+      "take-down",
+      "toxic",
+      "venoshock"
     ],
     "evolutions": [
       {
@@ -1711,6 +2022,32 @@
         "level": 63,
         "move": "gunk-shot"
       }
+    ],
+    "tmMoves": [
+      "acid-spray",
+      "body-slam",
+      "bulldoze",
+      "crunch",
+      "dark-pulse",
+      "double-edge",
+      "earthquake",
+      "giga-drain",
+      "gunk-shot",
+      "knock-off",
+      "leech-life",
+      "mud-shot",
+      "mud-slap",
+      "poison-jab",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "seed-bomb",
+      "sludge-bomb",
+      "sludge-wave",
+      "stomping-tantrum",
+      "take-down",
+      "toxic",
+      "venoshock"
     ],
     "evolutions": [],
     "baseExp": 157,
@@ -1815,6 +2152,27 @@
         "level": 44,
         "move": "thunder"
       }
+    ],
+    "tmMoves": [
+      "agility",
+      "body-slam",
+      "brick-break",
+      "charge-beam",
+      "charm",
+      "disarming-voice",
+      "draining-kiss",
+      "eerie-impulse",
+      "fake-tears",
+      "knock-off",
+      "nasty-plot",
+      "play-rough",
+      "surf",
+      "swift",
+      "take-down",
+      "thunder",
+      "thunder-punch",
+      "thunder-wave",
+      "thunderbolt"
     ],
     "evolutions": [
       {
@@ -1930,6 +2288,27 @@
         "move": "thunderbolt"
       }
     ],
+    "tmMoves": [
+      "agility",
+      "body-slam",
+      "brick-break",
+      "charge-beam",
+      "charm",
+      "disarming-voice",
+      "draining-kiss",
+      "eerie-impulse",
+      "fake-tears",
+      "knock-off",
+      "nasty-plot",
+      "play-rough",
+      "surf",
+      "swift",
+      "take-down",
+      "thunder",
+      "thunder-punch",
+      "thunder-wave",
+      "thunderbolt"
+    ],
     "evolutions": [],
     "baseExp": 218,
     "catchRate": 75,
@@ -2005,6 +2384,33 @@
         "level": 45,
         "move": "earthquake"
       }
+    ],
+    "tmMoves": [
+      "aerial-ace",
+      "agility",
+      "amnesia",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "double-edge",
+      "earth-power",
+      "earthquake",
+      "false-swipe",
+      "high-horsepower",
+      "knock-off",
+      "leech-life",
+      "metal-claw",
+      "mud-shot",
+      "mud-slap",
+      "poison-jab",
+      "rock-slide",
+      "rock-tomb",
+      "stomping-tantrum",
+      "stone-edge",
+      "swift",
+      "swords-dance",
+      "take-down",
+      "x-scissor"
     ],
     "evolutions": [
       {
@@ -2084,6 +2490,35 @@
         "move": "earthquake"
       }
     ],
+    "tmMoves": [
+      "aerial-ace",
+      "agility",
+      "amnesia",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "double-edge",
+      "drill-run",
+      "earth-power",
+      "earthquake",
+      "false-swipe",
+      "gunk-shot",
+      "high-horsepower",
+      "knock-off",
+      "leech-life",
+      "metal-claw",
+      "mud-shot",
+      "mud-slap",
+      "poison-jab",
+      "rock-slide",
+      "rock-tomb",
+      "stomping-tantrum",
+      "stone-edge",
+      "swift",
+      "swords-dance",
+      "take-down",
+      "x-scissor"
+    ],
     "evolutions": [],
     "baseExp": 158,
     "catchRate": 90,
@@ -2155,6 +2590,21 @@
         "level": 55,
         "move": "earth-power"
       }
+    ],
+    "tmMoves": [
+      "blizzard",
+      "body-slam",
+      "charm",
+      "crunch",
+      "earth-power",
+      "ice-beam",
+      "iron-tail",
+      "poison-jab",
+      "round",
+      "sludge-bomb",
+      "thunder",
+      "thunderbolt",
+      "venoshock"
     ],
     "evolutions": [
       {
@@ -2233,6 +2683,22 @@
         "level": 71,
         "move": "earth-power"
       }
+    ],
+    "tmMoves": [
+      "blizzard",
+      "body-slam",
+      "charm",
+      "crunch",
+      "earth-power",
+      "ice-beam",
+      "iron-tail",
+      "poison-jab",
+      "round",
+      "sludge-bomb",
+      "stomping-tantrum",
+      "thunder",
+      "thunderbolt",
+      "venoshock"
     ],
     "evolutions": [
       {
@@ -2313,6 +2779,46 @@
         "move": "toxic"
       }
     ],
+    "tmMoves": [
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "charm",
+      "crunch",
+      "dragon-pulse",
+      "drill-run",
+      "earth-power",
+      "earthquake",
+      "fire-blast",
+      "fire-punch",
+      "flamethrower",
+      "hex",
+      "high-horsepower",
+      "ice-beam",
+      "ice-punch",
+      "icy-wind",
+      "iron-tail",
+      "mega-kick",
+      "mega-punch",
+      "mud-shot",
+      "pay-day",
+      "poison-jab",
+      "rock-blast",
+      "rock-slide",
+      "rock-tomb",
+      "round",
+      "shadow-ball",
+      "sludge-bomb",
+      "sludge-wave",
+      "stomping-tantrum",
+      "stone-edge",
+      "surf",
+      "thunder",
+      "thunder-punch",
+      "thunderbolt",
+      "venoshock"
+    ],
     "evolutions": [],
     "baseExp": 227,
     "catchRate": 45,
@@ -2380,6 +2886,22 @@
         "level": 55,
         "move": "earth-power"
       }
+    ],
+    "tmMoves": [
+      "amnesia",
+      "blizzard",
+      "body-slam",
+      "drill-run",
+      "earth-power",
+      "ice-beam",
+      "iron-tail",
+      "poison-jab",
+      "round",
+      "sludge-bomb",
+      "smart-strike",
+      "thunder",
+      "thunderbolt",
+      "venoshock"
     ],
     "evolutions": [
       {
@@ -2454,6 +2976,23 @@
         "level": 71,
         "move": "earth-power"
       }
+    ],
+    "tmMoves": [
+      "amnesia",
+      "blizzard",
+      "body-slam",
+      "drill-run",
+      "earth-power",
+      "ice-beam",
+      "iron-tail",
+      "poison-jab",
+      "round",
+      "sludge-bomb",
+      "smart-strike",
+      "stomping-tantrum",
+      "thunder",
+      "thunderbolt",
+      "venoshock"
     ],
     "evolutions": [
       {
@@ -2534,6 +3073,47 @@
         "move": "toxic"
       }
     ],
+    "tmMoves": [
+      "amnesia",
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "dragon-pulse",
+      "drill-run",
+      "earth-power",
+      "earthquake",
+      "fire-blast",
+      "fire-punch",
+      "flamethrower",
+      "hex",
+      "high-horsepower",
+      "ice-beam",
+      "ice-punch",
+      "icy-wind",
+      "iron-tail",
+      "mega-kick",
+      "mega-punch",
+      "megahorn",
+      "mud-shot",
+      "pay-day",
+      "poison-jab",
+      "rock-blast",
+      "rock-slide",
+      "rock-tomb",
+      "round",
+      "shadow-ball",
+      "sludge-bomb",
+      "sludge-wave",
+      "smart-strike",
+      "stomping-tantrum",
+      "stone-edge",
+      "surf",
+      "thunder",
+      "thunder-punch",
+      "thunderbolt",
+      "venoshock"
+    ],
     "evolutions": [],
     "baseExp": 227,
     "catchRate": 45,
@@ -2587,6 +3167,10 @@
       },
       {
         "level": 1,
+        "move": "splash"
+      },
+      {
+        "level": 1,
         "move": "sweet-kiss"
       },
       {
@@ -2605,6 +3189,43 @@
         "level": 44,
         "move": "moonblast"
       }
+    ],
+    "tmMoves": [
+      "amnesia",
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "calm-mind",
+      "charge-beam",
+      "charm",
+      "dazzling-gleam",
+      "disarming-voice",
+      "double-edge",
+      "drain-punch",
+      "draining-kiss",
+      "fake-tears",
+      "fire-blast",
+      "fire-punch",
+      "flamethrower",
+      "hyper-voice",
+      "ice-beam",
+      "ice-punch",
+      "icy-wind",
+      "knock-off",
+      "play-rough",
+      "psybeam",
+      "psychic",
+      "psyshock",
+      "shadow-ball",
+      "stored-power",
+      "swift",
+      "take-down",
+      "thunder",
+      "thunder-punch",
+      "thunder-wave",
+      "thunderbolt",
+      "water-pulse",
+      "zen-headbutt"
     ],
     "evolutions": [
       {
@@ -2677,12 +3298,53 @@
       },
       {
         "level": 1,
+        "move": "splash"
+      },
+      {
+        "level": 1,
         "move": "stored-power"
       },
       {
         "level": 1,
         "move": "sweet-kiss"
       }
+    ],
+    "tmMoves": [
+      "amnesia",
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "calm-mind",
+      "charge-beam",
+      "charm",
+      "dazzling-gleam",
+      "disarming-voice",
+      "double-edge",
+      "drain-punch",
+      "draining-kiss",
+      "fake-tears",
+      "fire-blast",
+      "fire-punch",
+      "flamethrower",
+      "hyper-voice",
+      "ice-beam",
+      "ice-punch",
+      "icy-wind",
+      "knock-off",
+      "play-rough",
+      "psybeam",
+      "psychic",
+      "psyshock",
+      "shadow-ball",
+      "stored-power",
+      "swift",
+      "take-down",
+      "thunder",
+      "thunder-punch",
+      "thunder-wave",
+      "thunderbolt",
+      "water-pulse",
+      "zen-headbutt"
     ],
     "evolutions": [],
     "baseExp": 217,
@@ -2755,6 +3417,26 @@
         "level": 52,
         "move": "fire-blast"
       }
+    ],
+    "tmMoves": [
+      "agility",
+      "body-slam",
+      "charm",
+      "confuse-ray",
+      "dark-pulse",
+      "double-edge",
+      "fire-blast",
+      "flame-charge",
+      "flamethrower",
+      "flare-blitz",
+      "heat-wave",
+      "hex",
+      "nasty-plot",
+      "overheat",
+      "swift",
+      "take-down",
+      "will-o-wisp",
+      "zen-headbutt"
     ],
     "evolutions": [
       {
@@ -2838,6 +3520,31 @@
         "move": "will-o-wisp"
       }
     ],
+    "tmMoves": [
+      "agility",
+      "body-slam",
+      "calm-mind",
+      "charm",
+      "confuse-ray",
+      "dark-pulse",
+      "double-edge",
+      "fake-tears",
+      "fire-blast",
+      "flame-charge",
+      "flamethrower",
+      "flare-blitz",
+      "heat-wave",
+      "hex",
+      "nasty-plot",
+      "overheat",
+      "psyshock",
+      "shadow-ball",
+      "stored-power",
+      "swift",
+      "take-down",
+      "will-o-wisp",
+      "zen-headbutt"
+    ],
     "evolutions": [],
     "baseExp": 177,
     "catchRate": 75,
@@ -2911,6 +3618,43 @@
         "level": 44,
         "move": "double-edge"
       }
+    ],
+    "tmMoves": [
+      "amnesia",
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "calm-mind",
+      "charm",
+      "dark-pulse",
+      "dazzling-gleam",
+      "disarming-voice",
+      "double-edge",
+      "drain-punch",
+      "draining-kiss",
+      "fake-tears",
+      "fire-blast",
+      "fire-punch",
+      "flamethrower",
+      "hyper-voice",
+      "ice-beam",
+      "ice-punch",
+      "icy-wind",
+      "knock-off",
+      "nasty-plot",
+      "play-rough",
+      "psychic",
+      "psyshock",
+      "shadow-ball",
+      "stored-power",
+      "swift",
+      "take-down",
+      "thunder",
+      "thunder-punch",
+      "thunder-wave",
+      "thunderbolt",
+      "water-pulse",
+      "zen-headbutt"
     ],
     "evolutions": [
       {
@@ -2995,6 +3739,43 @@
         "move": "play-rough"
       }
     ],
+    "tmMoves": [
+      "amnesia",
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "calm-mind",
+      "charm",
+      "dark-pulse",
+      "dazzling-gleam",
+      "disarming-voice",
+      "double-edge",
+      "drain-punch",
+      "draining-kiss",
+      "fake-tears",
+      "fire-blast",
+      "fire-punch",
+      "flamethrower",
+      "hyper-voice",
+      "ice-beam",
+      "ice-punch",
+      "icy-wind",
+      "knock-off",
+      "nasty-plot",
+      "play-rough",
+      "psychic",
+      "psyshock",
+      "shadow-ball",
+      "stored-power",
+      "swift",
+      "take-down",
+      "thunder",
+      "thunder-punch",
+      "thunder-wave",
+      "thunderbolt",
+      "water-pulse",
+      "zen-headbutt"
+    ],
     "evolutions": [],
     "baseExp": 196,
     "catchRate": 50,
@@ -3067,6 +3848,24 @@
         "level": 55,
         "move": "leech-life"
       }
+    ],
+    "tmMoves": [
+      "agility",
+      "air-slash",
+      "assurance",
+      "brave-bird",
+      "crunch",
+      "giga-drain",
+      "heat-wave",
+      "leech-life",
+      "nasty-plot",
+      "payback",
+      "round",
+      "shadow-ball",
+      "sludge-bomb",
+      "swift",
+      "venoshock",
+      "zen-headbutt"
     ],
     "evolutions": [
       {
@@ -3151,6 +3950,25 @@
         "move": "leech-life"
       }
     ],
+    "tmMoves": [
+      "agility",
+      "air-slash",
+      "assurance",
+      "brave-bird",
+      "crunch",
+      "giga-drain",
+      "heat-wave",
+      "leech-life",
+      "nasty-plot",
+      "payback",
+      "round",
+      "screech",
+      "shadow-ball",
+      "sludge-bomb",
+      "swift",
+      "venoshock",
+      "zen-headbutt"
+    ],
     "evolutions": [
       {
         "to": "crobat",
@@ -3228,6 +4046,18 @@
         "level": 28,
         "move": "moonblast"
       }
+    ],
+    "tmMoves": [
+      "acid-spray",
+      "bullet-seed",
+      "charm",
+      "giga-drain",
+      "leaf-storm",
+      "seed-bomb",
+      "sludge-bomb",
+      "swords-dance",
+      "toxic",
+      "venoshock"
     ],
     "evolutions": [
       {
@@ -3307,6 +4137,19 @@
         "level": 32,
         "move": "moonblast"
       }
+    ],
+    "tmMoves": [
+      "acid-spray",
+      "bullet-seed",
+      "charm",
+      "giga-drain",
+      "leaf-storm",
+      "petal-blizzard",
+      "seed-bomb",
+      "sludge-bomb",
+      "swords-dance",
+      "toxic",
+      "venoshock"
     ],
     "evolutions": [
       {
@@ -3396,6 +4239,22 @@
         "move": "toxic"
       }
     ],
+    "tmMoves": [
+      "acid-spray",
+      "body-slam",
+      "bullet-seed",
+      "charm",
+      "dazzling-gleam",
+      "giga-drain",
+      "leaf-storm",
+      "petal-blizzard",
+      "seed-bomb",
+      "sludge-bomb",
+      "sludge-wave",
+      "swords-dance",
+      "toxic",
+      "venoshock"
+    ],
     "evolutions": [],
     "baseExp": 221,
     "catchRate": 45,
@@ -3460,6 +4319,19 @@
         "level": 54,
         "move": "x-scissor"
       }
+    ],
+    "tmMoves": [
+      "aerial-ace",
+      "brick-break",
+      "double-team",
+      "false-swipe",
+      "leech-life",
+      "round",
+      "sludge-bomb",
+      "swords-dance",
+      "toxic",
+      "venoshock",
+      "x-scissor"
     ],
     "evolutions": [
       {
@@ -3535,6 +4407,19 @@
         "level": 66,
         "move": "x-scissor"
       }
+    ],
+    "tmMoves": [
+      "aerial-ace",
+      "brick-break",
+      "double-team",
+      "false-swipe",
+      "leech-life",
+      "round",
+      "sludge-bomb",
+      "swords-dance",
+      "toxic",
+      "venoshock",
+      "x-scissor"
     ],
     "evolutions": [],
     "baseExp": 142,
@@ -3617,6 +4502,23 @@
         "level": 47,
         "move": "psychic"
       }
+    ],
+    "tmMoves": [
+      "acid-spray",
+      "agility",
+      "bug-bite",
+      "bug-buzz",
+      "confuse-ray",
+      "giga-drain",
+      "leech-life",
+      "psybeam",
+      "psychic",
+      "sludge-bomb",
+      "swift",
+      "take-down",
+      "toxic",
+      "venoshock",
+      "zen-headbutt"
     ],
     "evolutions": [
       {
@@ -3709,6 +4611,27 @@
         "move": "psychic"
       }
     ],
+    "tmMoves": [
+      "acid-spray",
+      "agility",
+      "air-cutter",
+      "air-slash",
+      "bug-bite",
+      "bug-buzz",
+      "confuse-ray",
+      "double-edge",
+      "giga-drain",
+      "leech-life",
+      "psybeam",
+      "psychic",
+      "sludge-bomb",
+      "sludge-wave",
+      "swift",
+      "take-down",
+      "toxic",
+      "venoshock",
+      "zen-headbutt"
+    ],
     "evolutions": [],
     "baseExp": 158,
     "catchRate": 75,
@@ -3777,6 +4700,25 @@
         "level": 40,
         "move": "earthquake"
       }
+    ],
+    "tmMoves": [
+      "agility",
+      "body-slam",
+      "bulldoze",
+      "charm",
+      "double-edge",
+      "earth-power",
+      "earthquake",
+      "mud-shot",
+      "mud-slap",
+      "rock-blast",
+      "rock-slide",
+      "rock-tomb",
+      "sludge-bomb",
+      "stomping-tantrum",
+      "stone-edge",
+      "swords-dance",
+      "take-down"
     ],
     "evolutions": [
       {
@@ -3860,6 +4802,27 @@
         "move": "earthquake"
       }
     ],
+    "tmMoves": [
+      "agility",
+      "body-slam",
+      "bulldoze",
+      "charm",
+      "double-edge",
+      "earth-power",
+      "earthquake",
+      "mud-shot",
+      "mud-slap",
+      "rock-blast",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "sludge-bomb",
+      "sludge-wave",
+      "stomping-tantrum",
+      "stone-edge",
+      "swords-dance",
+      "take-down"
+    ],
     "evolutions": [],
     "baseExp": 149,
     "catchRate": 50,
@@ -3935,6 +4898,32 @@
         "level": 44,
         "move": "play-rough"
       }
+    ],
+    "tmMoves": [
+      "aerial-ace",
+      "agility",
+      "amnesia",
+      "body-slam",
+      "charm",
+      "dark-pulse",
+      "double-edge",
+      "fake-tears",
+      "false-swipe",
+      "gunk-shot",
+      "hyper-voice",
+      "icy-wind",
+      "knock-off",
+      "metal-claw",
+      "nasty-plot",
+      "play-rough",
+      "power-gem",
+      "seed-bomb",
+      "shadow-ball",
+      "swift",
+      "take-down",
+      "thunder",
+      "thunder-wave",
+      "thunderbolt"
     ],
     "evolutions": [
       {
@@ -4022,6 +5011,32 @@
         "move": "play-rough"
       }
     ],
+    "tmMoves": [
+      "aerial-ace",
+      "agility",
+      "amnesia",
+      "body-slam",
+      "charm",
+      "dark-pulse",
+      "double-edge",
+      "fake-tears",
+      "false-swipe",
+      "gunk-shot",
+      "hyper-voice",
+      "icy-wind",
+      "knock-off",
+      "metal-claw",
+      "nasty-plot",
+      "play-rough",
+      "power-gem",
+      "seed-bomb",
+      "shadow-ball",
+      "swift",
+      "take-down",
+      "thunder",
+      "thunder-wave",
+      "thunderbolt"
+    ],
     "evolutions": [],
     "baseExp": 154,
     "catchRate": 90,
@@ -4093,6 +5108,35 @@
         "level": 34,
         "move": "amnesia"
       }
+    ],
+    "tmMoves": [
+      "amnesia",
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "calm-mind",
+      "confuse-ray",
+      "double-edge",
+      "hydro-pump",
+      "ice-beam",
+      "ice-punch",
+      "icy-wind",
+      "knock-off",
+      "liquidation",
+      "low-sweep",
+      "mud-shot",
+      "muddy-water",
+      "nasty-plot",
+      "psybeam",
+      "psychic",
+      "psyshock",
+      "surf",
+      "swift",
+      "take-down",
+      "vacuum-wave",
+      "water-pulse",
+      "waterfall",
+      "zen-headbutt"
     ],
     "evolutions": [
       {
@@ -4180,6 +5224,36 @@
         "move": "hydro-pump"
       }
     ],
+    "tmMoves": [
+      "amnesia",
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "calm-mind",
+      "confuse-ray",
+      "double-edge",
+      "hydro-pump",
+      "ice-beam",
+      "ice-punch",
+      "icy-wind",
+      "knock-off",
+      "liquidation",
+      "low-sweep",
+      "mud-shot",
+      "muddy-water",
+      "nasty-plot",
+      "power-gem",
+      "psybeam",
+      "psychic",
+      "psyshock",
+      "surf",
+      "swift",
+      "take-down",
+      "vacuum-wave",
+      "water-pulse",
+      "waterfall",
+      "zen-headbutt"
+    ],
     "evolutions": [],
     "baseExp": 175,
     "catchRate": 75,
@@ -4243,6 +5317,30 @@
         "level": 40,
         "move": "stomping-tantrum"
       }
+    ],
+    "tmMoves": [
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "double-edge",
+      "drain-punch",
+      "earthquake",
+      "fire-punch",
+      "gunk-shot",
+      "ice-punch",
+      "low-sweep",
+      "overheat",
+      "poison-jab",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "seed-bomb",
+      "stomping-tantrum",
+      "stone-edge",
+      "swift",
+      "take-down",
+      "thunder-punch",
+      "thunderbolt"
     ],
     "evolutions": [
       {
@@ -4313,6 +5411,32 @@
         "level": 48,
         "move": "stomping-tantrum"
       }
+    ],
+    "tmMoves": [
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "double-edge",
+      "drain-punch",
+      "earthquake",
+      "fire-punch",
+      "gunk-shot",
+      "ice-punch",
+      "low-sweep",
+      "overheat",
+      "poison-jab",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "seed-bomb",
+      "stomping-tantrum",
+      "stone-edge",
+      "swift",
+      "take-down",
+      "thunder",
+      "thunder-punch",
+      "thunderbolt",
+      "vacuum-wave"
     ],
     "evolutions": [],
     "baseExp": 159,
@@ -4393,6 +5517,24 @@
         "level": 56,
         "move": "flare-blitz"
       }
+    ],
+    "tmMoves": [
+      "agility",
+      "body-slam",
+      "charm",
+      "crunch",
+      "double-edge",
+      "fire-blast",
+      "flame-charge",
+      "flamethrower",
+      "flare-blitz",
+      "heat-wave",
+      "overheat",
+      "play-rough",
+      "scary-face",
+      "swift",
+      "take-down",
+      "will-o-wisp"
     ],
     "evolutions": [
       {
@@ -4484,6 +5626,29 @@
         "move": "flamethrower"
       }
     ],
+    "tmMoves": [
+      "aerial-ace",
+      "agility",
+      "body-slam",
+      "bulldoze",
+      "charm",
+      "crunch",
+      "double-edge",
+      "dragon-pulse",
+      "fire-blast",
+      "flame-charge",
+      "flamethrower",
+      "flare-blitz",
+      "heat-wave",
+      "hyper-voice",
+      "iron-head",
+      "overheat",
+      "play-rough",
+      "scary-face",
+      "swift",
+      "take-down",
+      "will-o-wisp"
+    ],
     "evolutions": [],
     "baseExp": 194,
     "catchRate": 75,
@@ -4551,6 +5716,27 @@
         "level": 54,
         "move": "double-edge"
       }
+    ],
+    "tmMoves": [
+      "amnesia",
+      "blizzard",
+      "body-slam",
+      "bulldoze",
+      "double-edge",
+      "earth-power",
+      "hydro-pump",
+      "ice-beam",
+      "icy-wind",
+      "liquidation",
+      "mud-shot",
+      "mud-slap",
+      "muddy-water",
+      "psychic",
+      "surf",
+      "swift",
+      "take-down",
+      "water-pulse",
+      "waterfall"
     ],
     "evolutions": [
       {
@@ -4625,6 +5811,31 @@
         "level": 66,
         "move": "double-edge"
       }
+    ],
+    "tmMoves": [
+      "amnesia",
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "double-edge",
+      "earth-power",
+      "earthquake",
+      "hydro-pump",
+      "ice-beam",
+      "ice-punch",
+      "icy-wind",
+      "liquidation",
+      "low-sweep",
+      "mud-shot",
+      "mud-slap",
+      "muddy-water",
+      "psychic",
+      "surf",
+      "swift",
+      "take-down",
+      "water-pulse",
+      "waterfall"
     ],
     "evolutions": [
       {
@@ -4705,6 +5916,39 @@
         "move": "water-gun"
       }
     ],
+    "tmMoves": [
+      "amnesia",
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "double-edge",
+      "drain-punch",
+      "earth-power",
+      "earthquake",
+      "high-horsepower",
+      "hydro-pump",
+      "ice-beam",
+      "ice-punch",
+      "icy-wind",
+      "knock-off",
+      "liquidation",
+      "low-sweep",
+      "mud-shot",
+      "mud-slap",
+      "muddy-water",
+      "poison-jab",
+      "psychic",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "surf",
+      "swift",
+      "take-down",
+      "vacuum-wave",
+      "water-pulse",
+      "waterfall"
+    ],
     "evolutions": [],
     "baseExp": 230,
     "catchRate": 45,
@@ -4736,6 +5980,26 @@
       "synchronize"
     ],
     "learnset": [],
+    "tmMoves": [
+      "body-slam",
+      "calm-mind",
+      "dazzling-gleam",
+      "drain-punch",
+      "fire-punch",
+      "ice-punch",
+      "iron-tail",
+      "mega-kick",
+      "mega-punch",
+      "psychic",
+      "psyshock",
+      "round",
+      "shadow-ball",
+      "swift",
+      "thunder-punch",
+      "thunder-wave",
+      "tri-attack",
+      "zen-headbutt"
+    ],
     "evolutions": [
       {
         "to": "kadabra",
@@ -4806,6 +6070,27 @@
         "move": "calm-mind"
       }
     ],
+    "tmMoves": [
+      "body-slam",
+      "calm-mind",
+      "dazzling-gleam",
+      "drain-punch",
+      "fire-punch",
+      "ice-punch",
+      "iron-tail",
+      "mega-kick",
+      "mega-punch",
+      "psychic",
+      "psycho-cut",
+      "psyshock",
+      "round",
+      "shadow-ball",
+      "swift",
+      "thunder-punch",
+      "thunder-wave",
+      "tri-attack",
+      "zen-headbutt"
+    ],
     "evolutions": [
       {
         "to": "alakazam",
@@ -4874,6 +6159,29 @@
         "level": 50,
         "move": "calm-mind"
       }
+    ],
+    "tmMoves": [
+      "body-slam",
+      "calm-mind",
+      "dazzling-gleam",
+      "drain-punch",
+      "fire-punch",
+      "ice-punch",
+      "iron-tail",
+      "mega-kick",
+      "mega-punch",
+      "nasty-plot",
+      "psychic",
+      "psycho-cut",
+      "psyshock",
+      "round",
+      "shadow-ball",
+      "stored-power",
+      "swift",
+      "thunder-punch",
+      "thunder-wave",
+      "tri-attack",
+      "zen-headbutt"
     ],
     "evolutions": [],
     "baseExp": 225,
@@ -4950,6 +6258,28 @@
         "level": 52,
         "move": "double-edge"
       }
+    ],
+    "tmMoves": [
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "earthquake",
+      "fire-blast",
+      "fire-punch",
+      "flamethrower",
+      "ice-punch",
+      "low-sweep",
+      "mega-kick",
+      "mega-punch",
+      "payback",
+      "poison-jab",
+      "retaliate",
+      "revenge",
+      "rock-slide",
+      "rock-tomb",
+      "round",
+      "scary-face",
+      "thunder-punch"
     ],
     "evolutions": [
       {
@@ -5033,6 +6363,29 @@
         "move": "double-edge"
       }
     ],
+    "tmMoves": [
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "earthquake",
+      "fire-blast",
+      "fire-punch",
+      "flamethrower",
+      "ice-punch",
+      "low-sweep",
+      "mega-kick",
+      "mega-punch",
+      "payback",
+      "poison-jab",
+      "retaliate",
+      "revenge",
+      "rock-slide",
+      "rock-tomb",
+      "round",
+      "scary-face",
+      "stomping-tantrum",
+      "thunder-punch"
+    ],
     "evolutions": [
       {
         "to": "machamp",
@@ -5114,6 +6467,34 @@
         "move": "double-edge"
       }
     ],
+    "tmMoves": [
+      "assurance",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "cross-poison",
+      "earthquake",
+      "fire-blast",
+      "fire-punch",
+      "flamethrower",
+      "high-horsepower",
+      "ice-punch",
+      "low-sweep",
+      "mega-kick",
+      "mega-punch",
+      "payback",
+      "poison-jab",
+      "retaliate",
+      "revenge",
+      "rock-blast",
+      "rock-slide",
+      "rock-tomb",
+      "round",
+      "scary-face",
+      "stomping-tantrum",
+      "stone-edge",
+      "thunder-punch"
+    ],
     "evolutions": [],
     "baseExp": 227,
     "catchRate": 45,
@@ -5190,6 +6571,21 @@
         "level": 52,
         "move": "power-whip"
       }
+    ],
+    "tmMoves": [
+      "acid-spray",
+      "bullet-seed",
+      "giga-drain",
+      "knock-off",
+      "leaf-storm",
+      "leech-life",
+      "poison-jab",
+      "seed-bomb",
+      "sludge-bomb",
+      "sludge-wave",
+      "swords-dance",
+      "toxic",
+      "venoshock"
     ],
     "evolutions": [
       {
@@ -5274,6 +6670,24 @@
         "move": "power-whip"
       }
     ],
+    "tmMoves": [
+      "acid-spray",
+      "body-slam",
+      "bug-bite",
+      "bullet-seed",
+      "giga-drain",
+      "knock-off",
+      "leaf-storm",
+      "leech-life",
+      "poison-jab",
+      "seed-bomb",
+      "sludge-bomb",
+      "sludge-wave",
+      "swift",
+      "swords-dance",
+      "toxic",
+      "venoshock"
+    ],
     "evolutions": [
       {
         "to": "victreebel",
@@ -5340,6 +6754,25 @@
         "level": 44,
         "move": "leaf-blade"
       }
+    ],
+    "tmMoves": [
+      "acid-spray",
+      "body-slam",
+      "bug-bite",
+      "bullet-seed",
+      "giga-drain",
+      "knock-off",
+      "leaf-storm",
+      "leech-life",
+      "poison-jab",
+      "scary-face",
+      "seed-bomb",
+      "sludge-bomb",
+      "sludge-wave",
+      "swift",
+      "swords-dance",
+      "toxic",
+      "venoshock"
     ],
     "evolutions": [],
     "baseExp": 221,
@@ -5425,6 +6858,31 @@
         "level": 48,
         "move": "hydro-pump"
       }
+    ],
+    "tmMoves": [
+      "acid-spray",
+      "blizzard",
+      "confuse-ray",
+      "dazzling-gleam",
+      "giga-drain",
+      "gunk-shot",
+      "hex",
+      "hydro-pump",
+      "ice-beam",
+      "icy-wind",
+      "knock-off",
+      "liquidation",
+      "mud-shot",
+      "muddy-water",
+      "poison-jab",
+      "sludge-bomb",
+      "sludge-wave",
+      "surf",
+      "swift",
+      "swords-dance",
+      "toxic",
+      "venoshock",
+      "water-pulse"
     ],
     "evolutions": [
       {
@@ -5517,6 +6975,32 @@
         "move": "hydro-pump"
       }
     ],
+    "tmMoves": [
+      "acid-spray",
+      "blizzard",
+      "confuse-ray",
+      "dazzling-gleam",
+      "giga-drain",
+      "gunk-shot",
+      "hex",
+      "hydro-pump",
+      "ice-beam",
+      "icy-wind",
+      "knock-off",
+      "liquidation",
+      "mud-shot",
+      "muddy-water",
+      "poison-jab",
+      "scary-face",
+      "sludge-bomb",
+      "sludge-wave",
+      "surf",
+      "swift",
+      "swords-dance",
+      "toxic",
+      "venoshock",
+      "water-pulse"
+    ],
     "evolutions": [],
     "baseExp": 180,
     "catchRate": 60,
@@ -5581,6 +7065,30 @@
         "level": 42,
         "move": "stone-edge"
       }
+    ],
+    "tmMoves": [
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "double-edge",
+      "earth-power",
+      "earthquake",
+      "fire-blast",
+      "fire-punch",
+      "flamethrower",
+      "high-horsepower",
+      "iron-defense",
+      "mega-punch",
+      "mud-shot",
+      "mud-slap",
+      "rock-blast",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "stomping-tantrum",
+      "stone-edge",
+      "take-down",
+      "thunder-punch"
     ],
     "evolutions": [
       {
@@ -5653,6 +7161,30 @@
         "move": "stone-edge"
       }
     ],
+    "tmMoves": [
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "double-edge",
+      "earth-power",
+      "earthquake",
+      "fire-blast",
+      "fire-punch",
+      "flamethrower",
+      "high-horsepower",
+      "iron-defense",
+      "iron-head",
+      "mud-shot",
+      "mud-slap",
+      "rock-blast",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "stomping-tantrum",
+      "stone-edge",
+      "take-down",
+      "thunder-punch"
+    ],
     "evolutions": [
       {
         "to": "golem",
@@ -5722,6 +7254,30 @@
         "level": 54,
         "move": "stone-edge"
       }
+    ],
+    "tmMoves": [
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "double-edge",
+      "earth-power",
+      "earthquake",
+      "fire-blast",
+      "fire-punch",
+      "flamethrower",
+      "high-horsepower",
+      "iron-defense",
+      "iron-head",
+      "mud-shot",
+      "mud-slap",
+      "rock-blast",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "stomping-tantrum",
+      "stone-edge",
+      "take-down",
+      "thunder-punch"
     ],
     "evolutions": [],
     "baseExp": 223,
@@ -5802,6 +7358,22 @@
         "level": 55,
         "move": "flare-blitz"
       }
+    ],
+    "tmMoves": [
+      "agility",
+      "body-slam",
+      "charm",
+      "fire-blast",
+      "flamethrower",
+      "flare-blitz",
+      "heat-wave",
+      "high-horsepower",
+      "iron-tail",
+      "overheat",
+      "play-rough",
+      "round",
+      "swift",
+      "will-o-wisp"
     ],
     "evolutions": [
       {
@@ -5905,6 +7477,28 @@
         "move": "flare-blitz"
       }
     ],
+    "tmMoves": [
+      "agility",
+      "body-slam",
+      "charm",
+      "drill-run",
+      "fire-blast",
+      "flamethrower",
+      "flare-blitz",
+      "heat-wave",
+      "high-horsepower",
+      "iron-tail",
+      "megahorn",
+      "overheat",
+      "pay-day",
+      "play-rough",
+      "poison-jab",
+      "round",
+      "smart-strike",
+      "swift",
+      "swords-dance",
+      "will-o-wisp"
+    ],
     "evolutions": [],
     "baseExp": 175,
     "catchRate": 60,
@@ -5981,6 +7575,33 @@
         "level": 36,
         "move": "psychic"
       }
+    ],
+    "tmMoves": [
+      "amnesia",
+      "blizzard",
+      "body-slam",
+      "bulldoze",
+      "calm-mind",
+      "earthquake",
+      "fire-blast",
+      "flamethrower",
+      "hydro-pump",
+      "ice-beam",
+      "icy-wind",
+      "liquidation",
+      "mud-shot",
+      "psybeam",
+      "psychic",
+      "psyshock",
+      "shadow-ball",
+      "stored-power",
+      "surf",
+      "swift",
+      "take-down",
+      "thunder-wave",
+      "water-pulse",
+      "waterfall",
+      "zen-headbutt"
     ],
     "evolutions": [
       {
@@ -6074,6 +7695,39 @@
         "move": "psychic"
       }
     ],
+    "tmMoves": [
+      "amnesia",
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "calm-mind",
+      "drain-punch",
+      "earthquake",
+      "fire-blast",
+      "flamethrower",
+      "hydro-pump",
+      "ice-beam",
+      "ice-punch",
+      "icy-wind",
+      "iron-defense",
+      "liquidation",
+      "mud-shot",
+      "muddy-water",
+      "nasty-plot",
+      "psybeam",
+      "psychic",
+      "psyshock",
+      "shadow-ball",
+      "stored-power",
+      "surf",
+      "swift",
+      "take-down",
+      "thunder-wave",
+      "water-pulse",
+      "waterfall",
+      "zen-headbutt"
+    ],
     "evolutions": [],
     "baseExp": 172,
     "catchRate": 75,
@@ -6146,6 +7800,20 @@
         "level": 52,
         "move": "zap-cannon"
       }
+    ],
+    "tmMoves": [
+      "charge-beam",
+      "confuse-ray",
+      "eerie-impulse",
+      "flash-cannon",
+      "iron-defense",
+      "iron-head",
+      "metal-sound",
+      "swift",
+      "take-down",
+      "thunder",
+      "thunder-wave",
+      "thunderbolt"
     ],
     "evolutions": [
       {
@@ -6229,6 +7897,20 @@
         "level": 64,
         "move": "zap-cannon"
       }
+    ],
+    "tmMoves": [
+      "charge-beam",
+      "confuse-ray",
+      "eerie-impulse",
+      "flash-cannon",
+      "iron-defense",
+      "iron-head",
+      "metal-sound",
+      "swift",
+      "take-down",
+      "thunder",
+      "thunder-wave",
+      "thunderbolt"
     ],
     "evolutions": [],
     "baseExp": 163,
@@ -6319,6 +8001,22 @@
         "move": "brave-bird"
       }
     ],
+    "tmMoves": [
+      "agility",
+      "air-slash",
+      "body-slam",
+      "brave-bird",
+      "false-swipe",
+      "heat-wave",
+      "iron-tail",
+      "leaf-blade",
+      "poison-jab",
+      "retaliate",
+      "revenge",
+      "round",
+      "swift",
+      "swords-dance"
+    ],
     "evolutions": [],
     "baseExp": 132,
     "catchRate": 45,
@@ -6387,6 +8085,19 @@
         "level": 36,
         "move": "drill-peck"
       }
+    ],
+    "tmMoves": [
+      "aerial-ace",
+      "agility",
+      "body-slam",
+      "brave-bird",
+      "double-edge",
+      "feather-dance",
+      "knock-off",
+      "mud-slap",
+      "swift",
+      "swords-dance",
+      "take-down"
     ],
     "evolutions": [
       {
@@ -6467,6 +8178,22 @@
         "move": "drill-peck"
       }
     ],
+    "tmMoves": [
+      "aerial-ace",
+      "agility",
+      "body-slam",
+      "brave-bird",
+      "double-edge",
+      "drill-run",
+      "feather-dance",
+      "knock-off",
+      "mud-slap",
+      "scary-face",
+      "stomping-tantrum",
+      "swift",
+      "swords-dance",
+      "take-down"
+    ],
     "evolutions": [],
     "baseExp": 165,
     "catchRate": 45,
@@ -6542,6 +8269,23 @@
         "level": 47,
         "move": "ice-beam"
       }
+    ],
+    "tmMoves": [
+      "blizzard",
+      "body-slam",
+      "charm",
+      "double-edge",
+      "drill-run",
+      "hydro-pump",
+      "ice-beam",
+      "icicle-spear",
+      "icy-wind",
+      "muddy-water",
+      "smart-strike",
+      "surf",
+      "take-down",
+      "water-pulse",
+      "waterfall"
     ],
     "evolutions": [
       {
@@ -6622,6 +8366,26 @@
         "move": "ice-beam"
       }
     ],
+    "tmMoves": [
+      "blizzard",
+      "body-slam",
+      "charm",
+      "double-edge",
+      "drill-run",
+      "hydro-pump",
+      "ice-beam",
+      "icicle-spear",
+      "icy-wind",
+      "knock-off",
+      "liquidation",
+      "muddy-water",
+      "play-rough",
+      "smart-strike",
+      "surf",
+      "take-down",
+      "water-pulse",
+      "waterfall"
+    ],
     "evolutions": [],
     "baseExp": 166,
     "catchRate": 75,
@@ -6701,6 +8465,35 @@
         "level": 43,
         "move": "acid-armor"
       }
+    ],
+    "tmMoves": [
+      "acid-spray",
+      "body-slam",
+      "confuse-ray",
+      "drain-punch",
+      "fire-blast",
+      "fire-punch",
+      "flamethrower",
+      "giga-drain",
+      "gunk-shot",
+      "hex",
+      "ice-punch",
+      "mud-shot",
+      "mud-slap",
+      "poison-jab",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "shadow-ball",
+      "sludge-bomb",
+      "sludge-wave",
+      "take-down",
+      "thunder",
+      "thunder-punch",
+      "thunderbolt",
+      "toxic",
+      "venoshock",
+      "zen-headbutt"
     ],
     "evolutions": [
       {
@@ -6788,6 +8581,39 @@
         "move": "acid-armor"
       }
     ],
+    "tmMoves": [
+      "acid-spray",
+      "body-slam",
+      "brick-break",
+      "confuse-ray",
+      "dark-pulse",
+      "drain-punch",
+      "fire-blast",
+      "fire-punch",
+      "flamethrower",
+      "giga-drain",
+      "gunk-shot",
+      "hex",
+      "ice-punch",
+      "knock-off",
+      "mud-shot",
+      "mud-slap",
+      "poison-jab",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "shadow-ball",
+      "sludge-bomb",
+      "sludge-wave",
+      "swift",
+      "take-down",
+      "thunder",
+      "thunder-punch",
+      "thunderbolt",
+      "toxic",
+      "venoshock",
+      "zen-headbutt"
+    ],
     "evolutions": [],
     "baseExp": 175,
     "catchRate": 75,
@@ -6864,6 +8690,22 @@
         "level": 48,
         "move": "hydro-pump"
       }
+    ],
+    "tmMoves": [
+      "blizzard",
+      "hydro-pump",
+      "ice-beam",
+      "icicle-spear",
+      "icy-wind",
+      "iron-defense",
+      "liquidation",
+      "mud-shot",
+      "rock-blast",
+      "surf",
+      "swift",
+      "take-down",
+      "water-pulse",
+      "waterfall"
     ],
     "evolutions": [
       {
@@ -6956,6 +8798,27 @@
         "move": "razor-shell"
       }
     ],
+    "tmMoves": [
+      "blizzard",
+      "body-slam",
+      "drill-run",
+      "hydro-pump",
+      "ice-beam",
+      "icicle-spear",
+      "icy-wind",
+      "iron-defense",
+      "liquidation",
+      "mud-shot",
+      "poison-jab",
+      "rock-blast",
+      "scary-face",
+      "smart-strike",
+      "surf",
+      "swift",
+      "take-down",
+      "water-pulse",
+      "waterfall"
+    ],
     "evolutions": [],
     "baseExp": 184,
     "catchRate": 60,
@@ -7016,6 +8879,31 @@
         "level": 40,
         "move": "shadow-ball"
       }
+    ],
+    "tmMoves": [
+      "acid-spray",
+      "confuse-ray",
+      "dark-pulse",
+      "dazzling-gleam",
+      "fire-punch",
+      "giga-drain",
+      "gunk-shot",
+      "hex",
+      "ice-punch",
+      "icy-wind",
+      "nasty-plot",
+      "poison-jab",
+      "psychic",
+      "scary-face",
+      "shadow-ball",
+      "sludge-bomb",
+      "sludge-wave",
+      "thunder",
+      "thunder-punch",
+      "thunderbolt",
+      "toxic",
+      "venoshock",
+      "will-o-wisp"
     ],
     "evolutions": [
       {
@@ -7088,6 +8976,31 @@
         "move": "shadow-ball"
       }
     ],
+    "tmMoves": [
+      "acid-spray",
+      "confuse-ray",
+      "dark-pulse",
+      "dazzling-gleam",
+      "fire-punch",
+      "giga-drain",
+      "gunk-shot",
+      "hex",
+      "ice-punch",
+      "icy-wind",
+      "nasty-plot",
+      "poison-jab",
+      "psychic",
+      "scary-face",
+      "shadow-ball",
+      "sludge-bomb",
+      "sludge-wave",
+      "thunder",
+      "thunder-punch",
+      "thunderbolt",
+      "toxic",
+      "venoshock",
+      "will-o-wisp"
+    ],
     "evolutions": [
       {
         "to": "gengar",
@@ -7157,6 +9070,36 @@
         "level": 48,
         "move": "shadow-ball"
       }
+    ],
+    "tmMoves": [
+      "acid-spray",
+      "body-slam",
+      "brick-break",
+      "confuse-ray",
+      "dark-pulse",
+      "dazzling-gleam",
+      "drain-punch",
+      "fire-punch",
+      "giga-drain",
+      "gunk-shot",
+      "hex",
+      "ice-punch",
+      "icy-wind",
+      "knock-off",
+      "nasty-plot",
+      "poison-jab",
+      "psychic",
+      "scary-face",
+      "shadow-ball",
+      "sludge-bomb",
+      "sludge-wave",
+      "thunder",
+      "thunder-punch",
+      "thunder-wave",
+      "thunderbolt",
+      "toxic",
+      "venoshock",
+      "will-o-wisp"
     ],
     "evolutions": [],
     "baseExp": 225,
@@ -7234,6 +9177,27 @@
         "level": 56,
         "move": "double-edge"
       }
+    ],
+    "tmMoves": [
+      "body-slam",
+      "bulldoze",
+      "dragon-pulse",
+      "drill-run",
+      "earth-power",
+      "earthquake",
+      "flash-cannon",
+      "high-horsepower",
+      "iron-head",
+      "iron-tail",
+      "payback",
+      "rock-blast",
+      "rock-slide",
+      "rock-tomb",
+      "round",
+      "scary-face",
+      "screech",
+      "stomping-tantrum",
+      "stone-edge"
     ],
     "evolutions": [
       {
@@ -7313,6 +9277,31 @@
         "move": "psyshock"
       }
     ],
+    "tmMoves": [
+      "body-slam",
+      "brick-break",
+      "calm-mind",
+      "dazzling-gleam",
+      "double-edge",
+      "drain-punch",
+      "draining-kiss",
+      "fire-punch",
+      "ice-punch",
+      "knock-off",
+      "low-sweep",
+      "nasty-plot",
+      "psybeam",
+      "psychic",
+      "psyshock",
+      "shadow-ball",
+      "stored-power",
+      "swift",
+      "take-down",
+      "thunder-punch",
+      "thunder-wave",
+      "toxic",
+      "zen-headbutt"
+    ],
     "evolutions": [
       {
         "to": "hypno",
@@ -7391,6 +9380,34 @@
         "move": "psyshock"
       }
     ],
+    "tmMoves": [
+      "body-slam",
+      "brick-break",
+      "calm-mind",
+      "confuse-ray",
+      "dazzling-gleam",
+      "double-edge",
+      "drain-punch",
+      "draining-kiss",
+      "fire-punch",
+      "hex",
+      "ice-punch",
+      "knock-off",
+      "low-sweep",
+      "nasty-plot",
+      "psybeam",
+      "psychic",
+      "psyshock",
+      "scary-face",
+      "shadow-ball",
+      "stored-power",
+      "swift",
+      "take-down",
+      "thunder-punch",
+      "thunder-wave",
+      "toxic",
+      "zen-headbutt"
+    ],
     "evolutions": [],
     "baseExp": 169,
     "catchRate": 75,
@@ -7466,6 +9483,27 @@
         "level": 44,
         "move": "crabhammer"
       }
+    ],
+    "tmMoves": [
+      "agility",
+      "amnesia",
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "brine",
+      "false-swipe",
+      "ice-beam",
+      "icy-wind",
+      "iron-defense",
+      "liquidation",
+      "mud-shot",
+      "razor-shell",
+      "rock-slide",
+      "rock-tomb",
+      "round",
+      "surf",
+      "swords-dance",
+      "x-scissor"
     ],
     "evolutions": [
       {
@@ -7553,6 +9591,30 @@
         "move": "crabhammer"
       }
     ],
+    "tmMoves": [
+      "agility",
+      "amnesia",
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "brine",
+      "false-swipe",
+      "high-horsepower",
+      "hydro-pump",
+      "ice-beam",
+      "icy-wind",
+      "iron-defense",
+      "liquidation",
+      "mud-shot",
+      "razor-shell",
+      "rock-slide",
+      "rock-tomb",
+      "round",
+      "stomping-tantrum",
+      "surf",
+      "swords-dance",
+      "x-scissor"
+    ],
     "evolutions": [],
     "baseExp": 166,
     "catchRate": 60,
@@ -7616,6 +9678,18 @@
         "level": 37,
         "move": "discharge"
       }
+    ],
+    "tmMoves": [
+      "agility",
+      "charge-beam",
+      "double-edge",
+      "eerie-impulse",
+      "metal-sound",
+      "swift",
+      "take-down",
+      "thunder",
+      "thunder-wave",
+      "thunderbolt"
     ],
     "evolutions": [
       {
@@ -7687,6 +9761,19 @@
         "move": "discharge"
       }
     ],
+    "tmMoves": [
+      "agility",
+      "charge-beam",
+      "double-edge",
+      "eerie-impulse",
+      "metal-sound",
+      "scary-face",
+      "swift",
+      "take-down",
+      "thunder",
+      "thunder-wave",
+      "thunderbolt"
+    ],
     "evolutions": [],
     "baseExp": 172,
     "catchRate": 60,
@@ -7747,6 +9834,19 @@
         "level": 40,
         "move": "extrasensory"
       }
+    ],
+    "tmMoves": [
+      "bullet-seed",
+      "giga-drain",
+      "leaf-storm",
+      "psybeam",
+      "psychic",
+      "psyshock",
+      "seed-bomb",
+      "sludge-bomb",
+      "stored-power",
+      "swords-dance",
+      "zen-headbutt"
     ],
     "evolutions": [
       {
@@ -7835,6 +9935,26 @@
         "move": "wood-hammer"
       }
     ],
+    "tmMoves": [
+      "body-slam",
+      "bulldoze",
+      "bullet-seed",
+      "calm-mind",
+      "double-edge",
+      "earthquake",
+      "giga-drain",
+      "leaf-storm",
+      "psybeam",
+      "psychic",
+      "psyshock",
+      "seed-bomb",
+      "sludge-bomb",
+      "stomping-tantrum",
+      "stored-power",
+      "swords-dance",
+      "take-down",
+      "zen-headbutt"
+    ],
     "evolutions": [],
     "baseExp": 186,
     "catchRate": 45,
@@ -7906,6 +10026,34 @@
         "level": 48,
         "move": "double-edge"
       }
+    ],
+    "tmMoves": [
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "earth-power",
+      "earthquake",
+      "false-swipe",
+      "fire-blast",
+      "fire-punch",
+      "flamethrower",
+      "ice-beam",
+      "icy-wind",
+      "iron-defense",
+      "iron-head",
+      "iron-tail",
+      "mega-kick",
+      "mega-punch",
+      "retaliate",
+      "rock-slide",
+      "rock-tomb",
+      "round",
+      "screech",
+      "stomping-tantrum",
+      "swift",
+      "swords-dance",
+      "thunder-punch"
     ],
     "evolutions": [
       {
@@ -7985,6 +10133,35 @@
         "move": "double-edge"
       }
     ],
+    "tmMoves": [
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "earth-power",
+      "earthquake",
+      "false-swipe",
+      "fire-blast",
+      "fire-punch",
+      "flamethrower",
+      "ice-beam",
+      "icy-wind",
+      "iron-defense",
+      "iron-head",
+      "iron-tail",
+      "mega-kick",
+      "mega-punch",
+      "retaliate",
+      "rock-slide",
+      "rock-tomb",
+      "round",
+      "screech",
+      "stomping-tantrum",
+      "stone-edge",
+      "swift",
+      "swords-dance",
+      "thunder-punch"
+    ],
     "evolutions": [],
     "baseExp": 149,
     "catchRate": 75,
@@ -8044,6 +10221,27 @@
         "level": 32,
         "move": "mega-kick"
       }
+    ],
+    "tmMoves": [
+      "aura-sphere",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "double-edge",
+      "earthquake",
+      "knock-off",
+      "low-sweep",
+      "mud-slap",
+      "poison-jab",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "stomping-tantrum",
+      "stone-edge",
+      "swift",
+      "swords-dance",
+      "take-down",
+      "vacuum-wave"
     ],
     "evolutions": [],
     "baseExp": 159,
@@ -8121,6 +10319,32 @@
         "move": "mega-punch"
       }
     ],
+    "tmMoves": [
+      "agility",
+      "aura-sphere",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "double-edge",
+      "drain-punch",
+      "earthquake",
+      "fire-punch",
+      "ice-punch",
+      "knock-off",
+      "low-sweep",
+      "mega-punch",
+      "mud-slap",
+      "poison-jab",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "stone-edge",
+      "swift",
+      "swords-dance",
+      "take-down",
+      "thunder-punch",
+      "vacuum-wave"
+    ],
     "evolutions": [],
     "baseExp": 159,
     "catchRate": 45,
@@ -8180,6 +10404,39 @@
         "level": 54,
         "move": "power-whip"
       }
+    ],
+    "tmMoves": [
+      "amnesia",
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "earthquake",
+      "fire-blast",
+      "fire-punch",
+      "flamethrower",
+      "hydro-pump",
+      "ice-beam",
+      "ice-punch",
+      "icy-wind",
+      "iron-tail",
+      "mega-kick",
+      "mega-punch",
+      "muddy-water",
+      "power-whip",
+      "retaliate",
+      "rock-slide",
+      "rock-tomb",
+      "round",
+      "screech",
+      "shadow-ball",
+      "stomping-tantrum",
+      "surf",
+      "swords-dance",
+      "thunder",
+      "thunder-punch",
+      "thunderbolt",
+      "zen-headbutt"
     ],
     "evolutions": [],
     "baseExp": 77,
@@ -8248,6 +10505,25 @@
         "level": 36,
         "move": "toxic"
       }
+    ],
+    "tmMoves": [
+      "acid-spray",
+      "body-slam",
+      "dark-pulse",
+      "fire-blast",
+      "flamethrower",
+      "gunk-shot",
+      "psybeam",
+      "scary-face",
+      "shadow-ball",
+      "sludge-bomb",
+      "sludge-wave",
+      "take-down",
+      "thunder",
+      "thunderbolt",
+      "toxic",
+      "venoshock",
+      "will-o-wisp"
     ],
     "evolutions": [
       {
@@ -8331,6 +10607,26 @@
         "move": "toxic"
       }
     ],
+    "tmMoves": [
+      "acid-spray",
+      "body-slam",
+      "dark-pulse",
+      "fire-blast",
+      "flamethrower",
+      "gunk-shot",
+      "heat-wave",
+      "psybeam",
+      "scary-face",
+      "shadow-ball",
+      "sludge-bomb",
+      "sludge-wave",
+      "take-down",
+      "thunder",
+      "thunderbolt",
+      "toxic",
+      "venoshock",
+      "will-o-wisp"
+    ],
     "evolutions": [],
     "baseExp": 172,
     "catchRate": 60,
@@ -8411,6 +10707,36 @@
         "level": 55,
         "move": "megahorn"
       }
+    ],
+    "tmMoves": [
+      "blizzard",
+      "body-slam",
+      "bulldoze",
+      "crunch",
+      "double-edge",
+      "dragon-pulse",
+      "drill-run",
+      "earth-power",
+      "earthquake",
+      "fire-blast",
+      "flamethrower",
+      "high-horsepower",
+      "ice-beam",
+      "icy-wind",
+      "mud-shot",
+      "mud-slap",
+      "poison-jab",
+      "rock-blast",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "smart-strike",
+      "stomping-tantrum",
+      "stone-edge",
+      "swords-dance",
+      "take-down",
+      "thunder",
+      "thunderbolt"
     ],
     "evolutions": [
       {
@@ -8503,6 +10829,43 @@
         "move": "megahorn"
       }
     ],
+    "tmMoves": [
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "crunch",
+      "double-edge",
+      "dragon-pulse",
+      "drill-run",
+      "earth-power",
+      "earthquake",
+      "fire-blast",
+      "fire-punch",
+      "flamethrower",
+      "high-horsepower",
+      "hydro-pump",
+      "ice-beam",
+      "ice-punch",
+      "icy-wind",
+      "iron-defense",
+      "mud-shot",
+      "mud-slap",
+      "poison-jab",
+      "rock-blast",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "smart-strike",
+      "stomping-tantrum",
+      "stone-edge",
+      "surf",
+      "swords-dance",
+      "take-down",
+      "thunder",
+      "thunder-punch",
+      "thunderbolt"
+    ],
     "evolutions": [
       {
         "to": "rhyperior",
@@ -8585,6 +10948,40 @@
         "move": "soft-boiled"
       }
     ],
+    "tmMoves": [
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "calm-mind",
+      "charm",
+      "dazzling-gleam",
+      "disarming-voice",
+      "double-edge",
+      "drain-punch",
+      "earthquake",
+      "fire-blast",
+      "fire-punch",
+      "flamethrower",
+      "hyper-voice",
+      "ice-beam",
+      "ice-punch",
+      "icy-wind",
+      "psychic",
+      "rock-slide",
+      "rock-tomb",
+      "shadow-ball",
+      "stomping-tantrum",
+      "stored-power",
+      "swift",
+      "take-down",
+      "thunder",
+      "thunder-punch",
+      "thunder-wave",
+      "thunderbolt",
+      "water-pulse",
+      "zen-headbutt"
+    ],
     "evolutions": [
       {
         "to": "blissey",
@@ -8662,6 +11059,18 @@
         "move": "power-whip"
       }
     ],
+    "tmMoves": [
+      "amnesia",
+      "body-slam",
+      "bullet-seed",
+      "giga-drain",
+      "leaf-storm",
+      "power-whip",
+      "round",
+      "seed-bomb",
+      "sludge-bomb",
+      "swords-dance"
+    ],
     "evolutions": [
       {
         "to": "tangrowth",
@@ -8730,6 +11139,35 @@
         "level": 36,
         "move": "crunch"
       }
+    ],
+    "tmMoves": [
+      "assurance",
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "crunch",
+      "drain-punch",
+      "earthquake",
+      "fire-blast",
+      "fire-punch",
+      "flamethrower",
+      "hydro-pump",
+      "ice-beam",
+      "ice-punch",
+      "icy-wind",
+      "iron-tail",
+      "mega-kick",
+      "mega-punch",
+      "retaliate",
+      "rock-slide",
+      "rock-tomb",
+      "round",
+      "shadow-ball",
+      "surf",
+      "thunder",
+      "thunder-punch",
+      "thunderbolt"
     ],
     "evolutions": [],
     "baseExp": 172,
@@ -8802,6 +11240,21 @@
         "level": 45,
         "move": "hydro-pump"
       }
+    ],
+    "tmMoves": [
+      "agility",
+      "blizzard",
+      "dragon-pulse",
+      "flash-cannon",
+      "hydro-pump",
+      "ice-beam",
+      "icy-wind",
+      "liquidation",
+      "muddy-water",
+      "surf",
+      "swift",
+      "water-pulse",
+      "waterfall"
     ],
     "evolutions": [
       {
@@ -8881,6 +11334,22 @@
         "move": "hydro-pump"
       }
     ],
+    "tmMoves": [
+      "agility",
+      "blizzard",
+      "dragon-pulse",
+      "flash-cannon",
+      "hydro-pump",
+      "ice-beam",
+      "icy-wind",
+      "liquidation",
+      "muddy-water",
+      "scary-face",
+      "surf",
+      "swift",
+      "water-pulse",
+      "waterfall"
+    ],
     "evolutions": [
       {
         "to": "kingdra",
@@ -8952,6 +11421,25 @@
         "move": "megahorn"
       }
     ],
+    "tmMoves": [
+      "agility",
+      "blizzard",
+      "body-slam",
+      "drill-run",
+      "hydro-pump",
+      "ice-beam",
+      "icy-wind",
+      "megahorn",
+      "mud-shot",
+      "muddy-water",
+      "poison-jab",
+      "round",
+      "smart-strike",
+      "surf",
+      "swift",
+      "swords-dance",
+      "waterfall"
+    ],
     "evolutions": [
       {
         "to": "seaking",
@@ -9021,6 +11509,25 @@
         "level": 51,
         "move": "megahorn"
       }
+    ],
+    "tmMoves": [
+      "agility",
+      "blizzard",
+      "body-slam",
+      "drill-run",
+      "hydro-pump",
+      "ice-beam",
+      "icy-wind",
+      "megahorn",
+      "mud-shot",
+      "muddy-water",
+      "poison-jab",
+      "round",
+      "smart-strike",
+      "surf",
+      "swift",
+      "swords-dance",
+      "waterfall"
     ],
     "evolutions": [],
     "baseExp": 158,
@@ -9105,6 +11612,25 @@
         "level": 56,
         "move": "hydro-pump"
       }
+    ],
+    "tmMoves": [
+      "blizzard",
+      "brine",
+      "dazzling-gleam",
+      "flash-cannon",
+      "hydro-pump",
+      "ice-beam",
+      "icy-wind",
+      "power-gem",
+      "psychic",
+      "round",
+      "surf",
+      "swift",
+      "thunder",
+      "thunder-wave",
+      "thunderbolt",
+      "tri-attack",
+      "waterfall"
     ],
     "evolutions": [
       {
@@ -9197,6 +11723,28 @@
         "move": "water-gun"
       }
     ],
+    "tmMoves": [
+      "agility",
+      "blizzard",
+      "brine",
+      "dazzling-gleam",
+      "flash-cannon",
+      "hydro-pump",
+      "ice-beam",
+      "icy-wind",
+      "power-gem",
+      "psychic",
+      "psycho-cut",
+      "psyshock",
+      "round",
+      "surf",
+      "swift",
+      "thunder",
+      "thunder-wave",
+      "thunderbolt",
+      "tri-attack",
+      "waterfall"
+    ],
     "evolutions": [],
     "baseExp": 182,
     "catchRate": 60,
@@ -9253,6 +11801,32 @@
         "level": 52,
         "move": "teeter-dance"
       }
+    ],
+    "tmMoves": [
+      "body-slam",
+      "brick-break",
+      "calm-mind",
+      "charm",
+      "dazzling-gleam",
+      "drain-punch",
+      "fire-punch",
+      "ice-punch",
+      "icy-wind",
+      "iron-defense",
+      "mega-kick",
+      "mega-punch",
+      "nasty-plot",
+      "payback",
+      "psychic",
+      "psyshock",
+      "round",
+      "shadow-ball",
+      "stored-power",
+      "thunder",
+      "thunder-punch",
+      "thunder-wave",
+      "thunderbolt",
+      "zen-headbutt"
     ],
     "evolutions": [],
     "baseExp": 161,
@@ -9330,6 +11904,22 @@
         "level": 44,
         "move": "swords-dance"
       }
+    ],
+    "tmMoves": [
+      "aerial-ace",
+      "agility",
+      "air-cutter",
+      "air-slash",
+      "brick-break",
+      "bug-bite",
+      "bug-buzz",
+      "false-swipe",
+      "scary-face",
+      "swift",
+      "swords-dance",
+      "take-down",
+      "vacuum-wave",
+      "x-scissor"
     ],
     "evolutions": [
       {
@@ -9418,6 +12008,32 @@
         "move": "blizzard"
       }
     ],
+    "tmMoves": [
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "calm-mind",
+      "charm",
+      "drain-punch",
+      "draining-kiss",
+      "fake-tears",
+      "hyper-voice",
+      "ice-beam",
+      "ice-punch",
+      "icicle-spear",
+      "icy-wind",
+      "mega-kick",
+      "mega-punch",
+      "nasty-plot",
+      "payback",
+      "psychic",
+      "psycho-cut",
+      "psyshock",
+      "round",
+      "shadow-ball",
+      "stored-power",
+      "zen-headbutt"
+    ],
     "evolutions": [],
     "baseExp": 159,
     "catchRate": 45,
@@ -9493,6 +12109,25 @@
         "level": 58,
         "move": "thunder"
       }
+    ],
+    "tmMoves": [
+      "body-slam",
+      "brick-break",
+      "charge-beam",
+      "double-edge",
+      "eerie-impulse",
+      "fire-punch",
+      "ice-punch",
+      "knock-off",
+      "low-sweep",
+      "metal-sound",
+      "psychic",
+      "swift",
+      "take-down",
+      "thunder",
+      "thunder-punch",
+      "thunder-wave",
+      "thunderbolt"
     ],
     "evolutions": [
       {
@@ -9580,6 +12215,28 @@
         "move": "fire-blast"
       }
     ],
+    "tmMoves": [
+      "acid-spray",
+      "body-slam",
+      "brick-break",
+      "confuse-ray",
+      "double-edge",
+      "fire-blast",
+      "fire-punch",
+      "flame-charge",
+      "flamethrower",
+      "flare-blitz",
+      "heat-wave",
+      "knock-off",
+      "low-sweep",
+      "overheat",
+      "poison-jab",
+      "psychic",
+      "scary-face",
+      "take-down",
+      "thunder-punch",
+      "will-o-wisp"
+    ],
     "evolutions": [
       {
         "to": "magmortar",
@@ -9658,6 +12315,22 @@
         "move": "submission"
       }
     ],
+    "tmMoves": [
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "earthquake",
+      "false-swipe",
+      "high-horsepower",
+      "iron-defense",
+      "revenge",
+      "rock-slide",
+      "rock-tomb",
+      "round",
+      "stone-edge",
+      "swords-dance",
+      "x-scissor"
+    ],
     "evolutions": [],
     "baseExp": 175,
     "catchRate": 45,
@@ -9726,6 +12399,31 @@
         "move": "double-edge"
       }
     ],
+    "tmMoves": [
+      "blizzard",
+      "body-slam",
+      "bulldoze",
+      "double-edge",
+      "earthquake",
+      "fire-blast",
+      "flamethrower",
+      "high-horsepower",
+      "ice-beam",
+      "icy-wind",
+      "iron-head",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "shadow-ball",
+      "smart-strike",
+      "stomping-tantrum",
+      "stone-edge",
+      "surf",
+      "take-down",
+      "thunder",
+      "thunderbolt",
+      "zen-headbutt"
+    ],
     "evolutions": [],
     "baseExp": 172,
     "catchRate": 45,
@@ -9759,9 +12457,16 @@
     ],
     "learnset": [
       {
+        "level": 1,
+        "move": "splash"
+      },
+      {
         "level": 15,
         "move": "tackle"
       }
+    ],
+    "tmMoves": [
+      "hydro-pump"
     ],
     "evolutions": [
       {
@@ -9811,6 +12516,10 @@
       },
       {
         "level": 1,
+        "move": "splash"
+      },
+      {
+        "level": 1,
         "move": "tackle"
       },
       {
@@ -9845,6 +12554,33 @@
         "level": 44,
         "move": "hurricane"
       }
+    ],
+    "tmMoves": [
+      "blizzard",
+      "body-slam",
+      "bulldoze",
+      "crunch",
+      "dark-pulse",
+      "double-edge",
+      "dragon-pulse",
+      "earthquake",
+      "fire-blast",
+      "flamethrower",
+      "hurricane",
+      "hydro-pump",
+      "ice-beam",
+      "icy-wind",
+      "iron-head",
+      "muddy-water",
+      "scary-face",
+      "stone-edge",
+      "surf",
+      "take-down",
+      "thunder",
+      "thunder-wave",
+      "thunderbolt",
+      "water-pulse",
+      "waterfall"
     ],
     "evolutions": [],
     "baseExp": 189,
@@ -9923,6 +12659,35 @@
         "move": "hydro-pump"
       }
     ],
+    "tmMoves": [
+      "blizzard",
+      "body-slam",
+      "bulldoze",
+      "charm",
+      "confuse-ray",
+      "disarming-voice",
+      "double-edge",
+      "dragon-pulse",
+      "drill-run",
+      "earthquake",
+      "hydro-pump",
+      "hyper-voice",
+      "ice-beam",
+      "icicle-spear",
+      "icy-wind",
+      "iron-head",
+      "liquidation",
+      "muddy-water",
+      "psychic",
+      "smart-strike",
+      "surf",
+      "take-down",
+      "thunder",
+      "thunderbolt",
+      "water-pulse",
+      "waterfall",
+      "zen-headbutt"
+    ],
     "evolutions": [],
     "baseExp": 187,
     "catchRate": 45,
@@ -9954,6 +12719,7 @@
       "limber"
     ],
     "learnset": [],
+    "tmMoves": [],
     "evolutions": [],
     "baseExp": 101,
     "catchRate": 35,
@@ -10033,6 +12799,19 @@
         "level": 50,
         "move": "double-edge"
       }
+    ],
+    "tmMoves": [
+      "body-slam",
+      "calm-mind",
+      "charm",
+      "double-edge",
+      "fake-tears",
+      "hyper-voice",
+      "mud-slap",
+      "shadow-ball",
+      "stored-power",
+      "swift",
+      "take-down"
     ],
     "evolutions": [
       {
@@ -10179,6 +12958,28 @@
         "move": "hydro-pump"
       }
     ],
+    "tmMoves": [
+      "blizzard",
+      "body-slam",
+      "calm-mind",
+      "charm",
+      "double-edge",
+      "fake-tears",
+      "hydro-pump",
+      "hyper-voice",
+      "ice-beam",
+      "icy-wind",
+      "liquidation",
+      "mud-slap",
+      "muddy-water",
+      "shadow-ball",
+      "stored-power",
+      "surf",
+      "swift",
+      "take-down",
+      "water-pulse",
+      "waterfall"
+    ],
     "evolutions": [],
     "baseExp": 184,
     "catchRate": 45,
@@ -10287,6 +13088,26 @@
         "move": "thunder"
       }
     ],
+    "tmMoves": [
+      "agility",
+      "body-slam",
+      "calm-mind",
+      "charm",
+      "double-edge",
+      "eerie-impulse",
+      "fake-tears",
+      "false-swipe",
+      "hyper-voice",
+      "metal-sound",
+      "mud-slap",
+      "shadow-ball",
+      "stored-power",
+      "swift",
+      "take-down",
+      "thunder",
+      "thunder-wave",
+      "thunderbolt"
+    ],
     "evolutions": [],
     "baseExp": 184,
     "catchRate": 45,
@@ -10387,6 +13208,27 @@
         "move": "flare-blitz"
       }
     ],
+    "tmMoves": [
+      "body-slam",
+      "calm-mind",
+      "charm",
+      "double-edge",
+      "fake-tears",
+      "fire-blast",
+      "flame-charge",
+      "flamethrower",
+      "flare-blitz",
+      "heat-wave",
+      "hyper-voice",
+      "mud-slap",
+      "overheat",
+      "scary-face",
+      "shadow-ball",
+      "stored-power",
+      "swift",
+      "take-down",
+      "will-o-wisp"
+    ],
     "evolutions": [],
     "baseExp": 184,
     "catchRate": 45,
@@ -10454,6 +13296,25 @@
         "level": 60,
         "move": "zap-cannon"
       }
+    ],
+    "tmMoves": [
+      "agility",
+      "blizzard",
+      "charge-beam",
+      "double-edge",
+      "eerie-impulse",
+      "ice-beam",
+      "icy-wind",
+      "psybeam",
+      "psychic",
+      "psyshock",
+      "shadow-ball",
+      "swift",
+      "take-down",
+      "thunder",
+      "thunder-wave",
+      "thunderbolt",
+      "zen-headbutt"
     ],
     "evolutions": [],
     "baseExp": 79,
@@ -10523,6 +13384,24 @@
         "level": 60,
         "move": "hydro-pump"
       }
+    ],
+    "tmMoves": [
+      "blizzard",
+      "body-slam",
+      "brine",
+      "earth-power",
+      "hydro-pump",
+      "ice-beam",
+      "icy-wind",
+      "iron-defense",
+      "mud-shot",
+      "muddy-water",
+      "rock-blast",
+      "rock-slide",
+      "rock-tomb",
+      "round",
+      "surf",
+      "waterfall"
     ],
     "evolutions": [
       {
@@ -10602,6 +13481,28 @@
         "level": 70,
         "move": "hydro-pump"
       }
+    ],
+    "tmMoves": [
+      "blizzard",
+      "body-slam",
+      "brine",
+      "crunch",
+      "earth-power",
+      "hydro-pump",
+      "ice-beam",
+      "icy-wind",
+      "iron-defense",
+      "liquidation",
+      "mud-shot",
+      "muddy-water",
+      "pin-missile",
+      "rock-blast",
+      "rock-slide",
+      "rock-tomb",
+      "round",
+      "stone-edge",
+      "surf",
+      "waterfall"
     ],
     "evolutions": [],
     "baseExp": 173,
@@ -10683,6 +13584,28 @@
         "level": 60,
         "move": "stone-edge"
       }
+    ],
+    "tmMoves": [
+      "blizzard",
+      "body-slam",
+      "brine",
+      "earth-power",
+      "giga-drain",
+      "hydro-pump",
+      "ice-beam",
+      "icy-wind",
+      "iron-defense",
+      "leech-life",
+      "liquidation",
+      "mud-shot",
+      "rock-blast",
+      "rock-slide",
+      "rock-tomb",
+      "round",
+      "screech",
+      "stone-edge",
+      "surf",
+      "waterfall"
     ],
     "evolutions": [
       {
@@ -10783,6 +13706,35 @@
         "move": "stone-edge"
       }
     ],
+    "tmMoves": [
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "brine",
+      "cross-poison",
+      "earth-power",
+      "giga-drain",
+      "hydro-pump",
+      "ice-beam",
+      "icy-wind",
+      "iron-defense",
+      "leech-life",
+      "liquidation",
+      "mega-kick",
+      "mud-shot",
+      "psycho-cut",
+      "razor-shell",
+      "rock-blast",
+      "rock-slide",
+      "rock-tomb",
+      "round",
+      "screech",
+      "stone-edge",
+      "surf",
+      "swords-dance",
+      "waterfall",
+      "x-scissor"
+    ],
     "evolutions": [],
     "baseExp": 173,
     "catchRate": 45,
@@ -10856,6 +13808,30 @@
         "move": "agility"
       }
     ],
+    "tmMoves": [
+      "agility",
+      "assurance",
+      "bulldoze",
+      "crunch",
+      "dragon-claw",
+      "dragon-pulse",
+      "earth-power",
+      "earthquake",
+      "fire-blast",
+      "flamethrower",
+      "heat-wave",
+      "hurricane",
+      "iron-head",
+      "iron-tail",
+      "payback",
+      "rock-blast",
+      "rock-slide",
+      "rock-tomb",
+      "round",
+      "scary-face",
+      "stone-edge",
+      "swift"
+    ],
     "evolutions": [],
     "baseExp": 180,
     "catchRate": 45,
@@ -10928,6 +13904,39 @@
         "move": "hammer-arm"
       }
     ],
+    "tmMoves": [
+      "amnesia",
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "charm",
+      "crunch",
+      "double-edge",
+      "earthquake",
+      "fire-blast",
+      "fire-punch",
+      "flamethrower",
+      "gunk-shot",
+      "high-horsepower",
+      "hyper-voice",
+      "ice-beam",
+      "ice-punch",
+      "icy-wind",
+      "iron-head",
+      "mud-slap",
+      "rock-slide",
+      "rock-tomb",
+      "seed-bomb",
+      "shadow-ball",
+      "stomping-tantrum",
+      "surf",
+      "take-down",
+      "thunder",
+      "thunder-punch",
+      "thunderbolt",
+      "zen-headbutt"
+    ],
     "evolutions": [],
     "baseExp": 189,
     "catchRate": 25,
@@ -10992,6 +14001,23 @@
         "level": 65,
         "move": "blizzard"
       }
+    ],
+    "tmMoves": [
+      "aerial-ace",
+      "agility",
+      "air-cutter",
+      "air-slash",
+      "blizzard",
+      "brave-bird",
+      "double-edge",
+      "feather-dance",
+      "hurricane",
+      "ice-beam",
+      "icicle-spear",
+      "icy-wind",
+      "swift",
+      "take-down",
+      "water-pulse"
     ],
     "evolutions": [],
     "baseExp": 261,
@@ -11061,6 +14087,21 @@
         "level": 70,
         "move": "zap-cannon"
       }
+    ],
+    "tmMoves": [
+      "aerial-ace",
+      "agility",
+      "air-cutter",
+      "brave-bird",
+      "eerie-impulse",
+      "heat-wave",
+      "hurricane",
+      "metal-sound",
+      "swift",
+      "take-down",
+      "thunder",
+      "thunder-wave",
+      "thunderbolt"
     ],
     "evolutions": [],
     "baseExp": 261,
@@ -11135,6 +14176,24 @@
         "move": "overheat"
       }
     ],
+    "tmMoves": [
+      "aerial-ace",
+      "agility",
+      "air-cutter",
+      "air-slash",
+      "brave-bird",
+      "double-edge",
+      "fire-blast",
+      "flame-charge",
+      "flamethrower",
+      "flare-blitz",
+      "heat-wave",
+      "hurricane",
+      "overheat",
+      "swift",
+      "take-down",
+      "will-o-wisp"
+    ],
     "evolutions": [],
     "baseExp": 261,
     "catchRate": 3,
@@ -11194,6 +14253,26 @@
         "level": 35,
         "move": "dragon-rush"
       }
+    ],
+    "tmMoves": [
+      "agility",
+      "blizzard",
+      "body-slam",
+      "dragon-pulse",
+      "fire-blast",
+      "flamethrower",
+      "hydro-pump",
+      "ice-beam",
+      "icy-wind",
+      "iron-head",
+      "surf",
+      "swift",
+      "take-down",
+      "thunder",
+      "thunder-wave",
+      "thunderbolt",
+      "water-pulse",
+      "waterfall"
     ],
     "evolutions": [
       {
@@ -11260,6 +14339,26 @@
         "level": 39,
         "move": "dragon-rush"
       }
+    ],
+    "tmMoves": [
+      "agility",
+      "blizzard",
+      "body-slam",
+      "dragon-pulse",
+      "fire-blast",
+      "flamethrower",
+      "hydro-pump",
+      "ice-beam",
+      "icy-wind",
+      "iron-head",
+      "surf",
+      "swift",
+      "take-down",
+      "thunder",
+      "thunder-wave",
+      "thunderbolt",
+      "water-pulse",
+      "waterfall"
     ],
     "evolutions": [
       {
@@ -11348,6 +14447,43 @@
         "move": "dragon-rush"
       }
     ],
+    "tmMoves": [
+      "aerial-ace",
+      "agility",
+      "air-cutter",
+      "air-slash",
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "dragon-claw",
+      "dragon-pulse",
+      "earthquake",
+      "fire-blast",
+      "fire-punch",
+      "flamethrower",
+      "heat-wave",
+      "hurricane",
+      "hydro-pump",
+      "ice-beam",
+      "ice-punch",
+      "icy-wind",
+      "iron-head",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "stomping-tantrum",
+      "stone-edge",
+      "surf",
+      "swift",
+      "take-down",
+      "thunder",
+      "thunder-punch",
+      "thunder-wave",
+      "thunderbolt",
+      "water-pulse",
+      "waterfall"
+    ],
     "evolutions": [],
     "baseExp": 270,
     "catchRate": 45,
@@ -11416,6 +14552,53 @@
         "move": "recover"
       }
     ],
+    "tmMoves": [
+      "agility",
+      "amnesia",
+      "aura-sphere",
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "calm-mind",
+      "confuse-ray",
+      "dark-pulse",
+      "double-edge",
+      "drain-punch",
+      "earth-power",
+      "earthquake",
+      "fire-blast",
+      "fire-punch",
+      "flamethrower",
+      "hex",
+      "hurricane",
+      "ice-beam",
+      "ice-punch",
+      "icy-wind",
+      "knock-off",
+      "low-sweep",
+      "nasty-plot",
+      "poison-jab",
+      "power-gem",
+      "psybeam",
+      "psychic",
+      "psyshock",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "shadow-ball",
+      "stomping-tantrum",
+      "stone-edge",
+      "stored-power",
+      "swift",
+      "take-down",
+      "thunder",
+      "thunder-punch",
+      "thunder-wave",
+      "thunderbolt",
+      "will-o-wisp",
+      "zen-headbutt"
+    ],
     "evolutions": [],
     "baseExp": 306,
     "catchRate": 3,
@@ -11471,6 +14654,110 @@
         "level": 100,
         "move": "psychic"
       }
+    ],
+    "tmMoves": [
+      "acid-spray",
+      "aerial-ace",
+      "agility",
+      "air-cutter",
+      "air-slash",
+      "amnesia",
+      "aura-sphere",
+      "blizzard",
+      "body-slam",
+      "brave-bird",
+      "brick-break",
+      "bug-bite",
+      "bug-buzz",
+      "bulldoze",
+      "bullet-seed",
+      "calm-mind",
+      "charge-beam",
+      "charm",
+      "confuse-ray",
+      "crunch",
+      "dark-pulse",
+      "dazzling-gleam",
+      "disarming-voice",
+      "double-edge",
+      "dragon-claw",
+      "dragon-pulse",
+      "drain-punch",
+      "draining-kiss",
+      "drill-run",
+      "earth-power",
+      "earthquake",
+      "eerie-impulse",
+      "fake-tears",
+      "false-swipe",
+      "feather-dance",
+      "fire-blast",
+      "fire-punch",
+      "flame-charge",
+      "flamethrower",
+      "flare-blitz",
+      "flash-cannon",
+      "giga-drain",
+      "gunk-shot",
+      "heat-wave",
+      "hex",
+      "high-horsepower",
+      "hurricane",
+      "hydro-pump",
+      "hyper-voice",
+      "ice-beam",
+      "ice-punch",
+      "icicle-spear",
+      "icy-wind",
+      "iron-defense",
+      "iron-head",
+      "knock-off",
+      "leaf-storm",
+      "leech-life",
+      "liquidation",
+      "low-sweep",
+      "metal-claw",
+      "metal-sound",
+      "mud-shot",
+      "mud-slap",
+      "muddy-water",
+      "nasty-plot",
+      "overheat",
+      "petal-blizzard",
+      "play-rough",
+      "poison-jab",
+      "power-gem",
+      "psybeam",
+      "psychic",
+      "psyshock",
+      "rock-blast",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "seed-bomb",
+      "shadow-ball",
+      "sludge-bomb",
+      "sludge-wave",
+      "smart-strike",
+      "stomping-tantrum",
+      "stone-edge",
+      "stored-power",
+      "surf",
+      "swift",
+      "swords-dance",
+      "take-down",
+      "thunder",
+      "thunder-punch",
+      "thunder-wave",
+      "thunderbolt",
+      "toxic",
+      "vacuum-wave",
+      "venoshock",
+      "water-pulse",
+      "waterfall",
+      "will-o-wisp",
+      "x-scissor",
+      "zen-headbutt"
     ],
     "evolutions": [],
     "baseExp": 270,
@@ -11553,6 +14840,30 @@
         "level": 56,
         "move": "double-edge"
       }
+    ],
+    "tmMoves": [
+      "body-slam",
+      "bulldoze",
+      "crunch",
+      "dark-pulse",
+      "dragon-pulse",
+      "drill-run",
+      "earth-power",
+      "earthquake",
+      "flash-cannon",
+      "high-horsepower",
+      "iron-defense",
+      "iron-head",
+      "iron-tail",
+      "payback",
+      "rock-blast",
+      "rock-slide",
+      "rock-tomb",
+      "round",
+      "scary-face",
+      "screech",
+      "stomping-tantrum",
+      "stone-edge"
     ],
     "evolutions": [],
     "baseExp": 179,
@@ -11643,6 +14954,47 @@
         "move": "stone-edge"
       }
     ],
+    "tmMoves": [
+      "aerial-ace",
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "crunch",
+      "dark-pulse",
+      "double-edge",
+      "dragon-claw",
+      "dragon-pulse",
+      "earth-power",
+      "earthquake",
+      "fire-blast",
+      "fire-punch",
+      "flamethrower",
+      "high-horsepower",
+      "hydro-pump",
+      "ice-beam",
+      "ice-punch",
+      "icy-wind",
+      "iron-defense",
+      "iron-head",
+      "knock-off",
+      "mud-shot",
+      "mud-slap",
+      "muddy-water",
+      "power-gem",
+      "rock-blast",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "stomping-tantrum",
+      "stone-edge",
+      "surf",
+      "take-down",
+      "thunder",
+      "thunder-punch",
+      "thunder-wave",
+      "thunderbolt"
+    ],
     "evolutions": [],
     "baseExp": 270,
     "catchRate": 45,
@@ -11721,6 +15073,27 @@
         "move": "wave-crash"
       }
     ],
+    "tmMoves": [
+      "agility",
+      "blizzard",
+      "body-slam",
+      "double-edge",
+      "dragon-pulse",
+      "flash-cannon",
+      "hurricane",
+      "hydro-pump",
+      "ice-beam",
+      "icy-wind",
+      "iron-head",
+      "liquidation",
+      "muddy-water",
+      "scary-face",
+      "surf",
+      "swift",
+      "take-down",
+      "water-pulse",
+      "waterfall"
+    ],
     "evolutions": [],
     "baseExp": 243,
     "catchRate": 45,
@@ -11798,6 +15171,22 @@
         "level": 1,
         "move": "toxic"
       }
+    ],
+    "tmMoves": [
+      "acid-spray",
+      "bullet-seed",
+      "charm",
+      "dazzling-gleam",
+      "drain-punch",
+      "giga-drain",
+      "leaf-storm",
+      "petal-blizzard",
+      "play-rough",
+      "seed-bomb",
+      "sludge-bomb",
+      "swords-dance",
+      "toxic",
+      "venoshock"
     ],
     "evolutions": [],
     "baseExp": 221,
@@ -11890,6 +15279,28 @@
         "level": 40,
         "move": "psychic"
       }
+    ],
+    "tmMoves": [
+      "body-slam",
+      "calm-mind",
+      "charm",
+      "confuse-ray",
+      "dazzling-gleam",
+      "double-edge",
+      "draining-kiss",
+      "fake-tears",
+      "hyper-voice",
+      "mud-slap",
+      "power-gem",
+      "psybeam",
+      "psychic",
+      "psyshock",
+      "shadow-ball",
+      "stored-power",
+      "swift",
+      "take-down",
+      "thunder-wave",
+      "zen-headbutt"
     ],
     "evolutions": [],
     "baseExp": 184,
@@ -11987,6 +15398,26 @@
         "move": "screech"
       }
     ],
+    "tmMoves": [
+      "body-slam",
+      "calm-mind",
+      "charm",
+      "confuse-ray",
+      "crunch",
+      "dark-pulse",
+      "double-edge",
+      "fake-tears",
+      "hyper-voice",
+      "mud-slap",
+      "psychic",
+      "scary-face",
+      "shadow-ball",
+      "stored-power",
+      "swift",
+      "take-down",
+      "thunder-wave",
+      "toxic"
+    ],
     "evolutions": [],
     "baseExp": 184,
     "catchRate": 45,
@@ -12069,6 +15500,44 @@
         "move": "psychic"
       }
     ],
+    "tmMoves": [
+      "amnesia",
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "calm-mind",
+      "drain-punch",
+      "earthquake",
+      "fire-blast",
+      "fire-punch",
+      "flamethrower",
+      "hydro-pump",
+      "ice-beam",
+      "ice-punch",
+      "icy-wind",
+      "iron-defense",
+      "liquidation",
+      "mud-shot",
+      "muddy-water",
+      "nasty-plot",
+      "power-gem",
+      "psybeam",
+      "psychic",
+      "psyshock",
+      "rock-slide",
+      "rock-tomb",
+      "shadow-ball",
+      "stored-power",
+      "surf",
+      "swift",
+      "take-down",
+      "thunder-punch",
+      "thunder-wave",
+      "water-pulse",
+      "waterfall",
+      "zen-headbutt"
+    ],
     "evolutions": [],
     "baseExp": 172,
     "catchRate": 70,
@@ -12143,6 +15612,28 @@
         "move": "inferno"
       }
     ],
+    "tmMoves": [
+      "body-slam",
+      "crunch",
+      "dark-pulse",
+      "double-edge",
+      "fire-blast",
+      "flame-charge",
+      "flamethrower",
+      "flare-blitz",
+      "heat-wave",
+      "hyper-voice",
+      "mud-shot",
+      "mud-slap",
+      "nasty-plot",
+      "overheat",
+      "scary-face",
+      "shadow-ball",
+      "sludge-bomb",
+      "take-down",
+      "toxic",
+      "will-o-wisp"
+    ],
     "evolutions": [],
     "baseExp": 175,
     "catchRate": 45,
@@ -12195,6 +15686,22 @@
         "level": 28,
         "move": "agility"
       }
+    ],
+    "tmMoves": [
+      "aerial-ace",
+      "agility",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "double-edge",
+      "drill-run",
+      "earthquake",
+      "low-sweep",
+      "rock-slide",
+      "stone-edge",
+      "swift",
+      "take-down",
+      "vacuum-wave"
     ],
     "evolutions": [],
     "baseExp": 159,
@@ -12290,6 +15797,28 @@
         "move": "swords-dance"
       }
     ],
+    "tmMoves": [
+      "aerial-ace",
+      "agility",
+      "air-cutter",
+      "air-slash",
+      "brick-break",
+      "bug-bite",
+      "bug-buzz",
+      "double-edge",
+      "false-swipe",
+      "flash-cannon",
+      "iron-defense",
+      "iron-head",
+      "knock-off",
+      "metal-claw",
+      "scary-face",
+      "swift",
+      "swords-dance",
+      "take-down",
+      "vacuum-wave",
+      "x-scissor"
+    ],
     "evolutions": [],
     "baseExp": 175,
     "catchRate": 25,
@@ -12366,6 +15895,40 @@
         "level": 44,
         "move": "soft-boiled"
       }
+    ],
+    "tmMoves": [
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "calm-mind",
+      "charm",
+      "dazzling-gleam",
+      "disarming-voice",
+      "double-edge",
+      "drain-punch",
+      "earthquake",
+      "fire-blast",
+      "fire-punch",
+      "flamethrower",
+      "hyper-voice",
+      "ice-beam",
+      "ice-punch",
+      "icy-wind",
+      "psychic",
+      "rock-slide",
+      "rock-tomb",
+      "shadow-ball",
+      "stomping-tantrum",
+      "stored-power",
+      "swift",
+      "take-down",
+      "thunder",
+      "thunder-punch",
+      "thunder-wave",
+      "thunderbolt",
+      "water-pulse",
+      "zen-headbutt"
     ],
     "evolutions": [],
     "baseExp": 608,
@@ -12452,6 +16015,30 @@
         "move": "leech-life"
       }
     ],
+    "tmMoves": [
+      "agility",
+      "air-slash",
+      "assurance",
+      "brave-bird",
+      "cross-poison",
+      "crunch",
+      "dark-pulse",
+      "giga-drain",
+      "heat-wave",
+      "hex",
+      "hurricane",
+      "leech-life",
+      "nasty-plot",
+      "payback",
+      "round",
+      "screech",
+      "shadow-ball",
+      "sludge-bomb",
+      "swift",
+      "venoshock",
+      "x-scissor",
+      "zen-headbutt"
+    ],
     "evolutions": [],
     "baseExp": 241,
     "catchRate": 90,
@@ -12484,6 +16071,10 @@
       "competitive"
     ],
     "learnset": [
+      {
+        "level": 1,
+        "move": "splash"
+      },
       {
         "level": 1,
         "move": "tackle"
@@ -12524,6 +16115,27 @@
         "level": 52,
         "move": "hydro-pump"
       }
+    ],
+    "tmMoves": [
+      "blizzard",
+      "body-slam",
+      "bulldoze",
+      "confuse-ray",
+      "disarming-voice",
+      "double-edge",
+      "dragon-pulse",
+      "draining-kiss",
+      "hydro-pump",
+      "ice-beam",
+      "icy-wind",
+      "iron-head",
+      "mud-shot",
+      "muddy-water",
+      "surf",
+      "swift",
+      "take-down",
+      "water-pulse",
+      "waterfall"
     ],
     "evolutions": [],
     "baseExp": 189,
@@ -12593,6 +16205,22 @@
         "level": 54,
         "move": "thunder"
       }
+    ],
+    "tmMoves": [
+      "agility",
+      "body-slam",
+      "crunch",
+      "eerie-impulse",
+      "flamethrower",
+      "hyper-voice",
+      "iron-tail",
+      "overheat",
+      "round",
+      "scary-face",
+      "swift",
+      "thunder",
+      "thunder-wave",
+      "thunderbolt"
     ],
     "evolutions": [],
     "baseExp": 166,
@@ -12680,6 +16308,34 @@
         "move": "moonblast"
       }
     ],
+    "tmMoves": [
+      "aura-sphere",
+      "body-slam",
+      "calm-mind",
+      "charge-beam",
+      "charm",
+      "confuse-ray",
+      "dazzling-gleam",
+      "disarming-voice",
+      "draining-kiss",
+      "fire-punch",
+      "hyper-voice",
+      "ice-punch",
+      "icy-wind",
+      "knock-off",
+      "psybeam",
+      "psychic",
+      "psyshock",
+      "shadow-ball",
+      "stored-power",
+      "swift",
+      "thunder-punch",
+      "thunder-wave",
+      "thunderbolt",
+      "vacuum-wave",
+      "will-o-wisp",
+      "zen-headbutt"
+    ],
     "evolutions": [],
     "baseExp": 233,
     "catchRate": 45,
@@ -12728,6 +16384,33 @@
         "level": 19,
         "move": "knock-off"
       }
+    ],
+    "tmMoves": [
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "double-edge",
+      "drain-punch",
+      "earthquake",
+      "fire-punch",
+      "ice-punch",
+      "iron-head",
+      "knock-off",
+      "low-sweep",
+      "mud-shot",
+      "mud-slap",
+      "poison-jab",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "stomping-tantrum",
+      "stone-edge",
+      "surf",
+      "swift",
+      "take-down",
+      "thunder-punch",
+      "vacuum-wave",
+      "zen-headbutt"
     ],
     "evolutions": [],
     "baseExp": 166,
@@ -12781,6 +16464,27 @@
         "level": 30,
         "move": "shadow-ball"
       }
+    ],
+    "tmMoves": [
+      "calm-mind",
+      "charge-beam",
+      "confuse-ray",
+      "dark-pulse",
+      "dazzling-gleam",
+      "gunk-shot",
+      "hex",
+      "icy-wind",
+      "knock-off",
+      "nasty-plot",
+      "psybeam",
+      "psychic",
+      "scary-face",
+      "shadow-ball",
+      "swords-dance",
+      "thunder",
+      "thunder-wave",
+      "thunderbolt",
+      "will-o-wisp"
     ],
     "evolutions": [],
     "baseExp": 159,
@@ -12858,6 +16562,34 @@
         "level": 73,
         "move": "double-edge"
       }
+    ],
+    "tmMoves": [
+      "aerial-ace",
+      "air-slash",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "crunch",
+      "double-edge",
+      "dragon-claw",
+      "dragon-pulse",
+      "earthquake",
+      "fire-blast",
+      "flamethrower",
+      "heat-wave",
+      "hurricane",
+      "hydro-pump",
+      "hyper-voice",
+      "iron-defense",
+      "iron-head",
+      "mud-slap",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "stone-edge",
+      "swift",
+      "take-down",
+      "zen-headbutt"
     ],
     "evolutions": [],
     "baseExp": 270,
@@ -12943,6 +16675,36 @@
         "level": 72,
         "move": "agility"
       }
+    ],
+    "tmMoves": [
+      "aerial-ace",
+      "agility",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "double-edge",
+      "earthquake",
+      "flash-cannon",
+      "ice-punch",
+      "icy-wind",
+      "iron-defense",
+      "iron-head",
+      "knock-off",
+      "metal-claw",
+      "mud-slap",
+      "psychic",
+      "psyshock",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "shadow-ball",
+      "sludge-bomb",
+      "stomping-tantrum",
+      "stone-edge",
+      "swift",
+      "take-down",
+      "thunder-punch",
+      "zen-headbutt"
     ],
     "evolutions": [],
     "baseExp": 270,
@@ -13030,6 +16792,46 @@
         "move": "megahorn"
       }
     ],
+    "tmMoves": [
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "crunch",
+      "double-edge",
+      "dragon-pulse",
+      "drill-run",
+      "earth-power",
+      "earthquake",
+      "fire-blast",
+      "fire-punch",
+      "flamethrower",
+      "flash-cannon",
+      "high-horsepower",
+      "hydro-pump",
+      "ice-beam",
+      "ice-punch",
+      "icy-wind",
+      "iron-defense",
+      "iron-head",
+      "metal-claw",
+      "mud-shot",
+      "mud-slap",
+      "poison-jab",
+      "rock-blast",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "smart-strike",
+      "stomping-tantrum",
+      "stone-edge",
+      "surf",
+      "swords-dance",
+      "take-down",
+      "thunder",
+      "thunder-punch",
+      "thunderbolt"
+    ],
     "evolutions": [],
     "baseExp": 241,
     "catchRate": 30,
@@ -13095,6 +16897,23 @@
         "level": 1,
         "move": "toxic"
       }
+    ],
+    "tmMoves": [
+      "body-slam",
+      "bullet-seed",
+      "dazzling-gleam",
+      "giga-drain",
+      "leaf-storm",
+      "pin-missile",
+      "poison-jab",
+      "power-whip",
+      "round",
+      "seed-bomb",
+      "shadow-ball",
+      "sludge-bomb",
+      "swift",
+      "swords-dance",
+      "venoshock"
     ],
     "evolutions": [],
     "baseExp": 232,
@@ -13169,6 +16988,26 @@
         "move": "power-whip"
       }
     ],
+    "tmMoves": [
+      "amnesia",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "bullet-seed",
+      "earthquake",
+      "giga-drain",
+      "leaf-storm",
+      "payback",
+      "poison-jab",
+      "power-whip",
+      "rock-slide",
+      "rock-tomb",
+      "round",
+      "seed-bomb",
+      "sludge-bomb",
+      "stomping-tantrum",
+      "swords-dance"
+    ],
     "evolutions": [],
     "baseExp": 187,
     "catchRate": 30,
@@ -13234,6 +17073,38 @@
         "level": 48,
         "move": "sludge-bomb"
       }
+    ],
+    "tmMoves": [
+      "acid-spray",
+      "aerial-ace",
+      "brick-break",
+      "bulldoze",
+      "dark-pulse",
+      "drain-punch",
+      "earthquake",
+      "gunk-shot",
+      "ice-punch",
+      "icy-wind",
+      "knock-off",
+      "low-sweep",
+      "mud-shot",
+      "mud-slap",
+      "nasty-plot",
+      "poison-jab",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "shadow-ball",
+      "sludge-bomb",
+      "sludge-wave",
+      "stone-edge",
+      "swords-dance",
+      "take-down",
+      "thunder-punch",
+      "toxic",
+      "vacuum-wave",
+      "venoshock",
+      "x-scissor"
     ],
     "evolutions": [],
     "baseExp": 172,
@@ -13315,6 +17186,35 @@
         "move": "fire-blast"
       }
     ],
+    "tmMoves": [
+      "acid-spray",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "confuse-ray",
+      "double-edge",
+      "earthquake",
+      "fire-blast",
+      "fire-punch",
+      "flame-charge",
+      "flamethrower",
+      "flare-blitz",
+      "heat-wave",
+      "hyper-voice",
+      "knock-off",
+      "low-sweep",
+      "overheat",
+      "poison-jab",
+      "psychic",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "stomping-tantrum",
+      "take-down",
+      "thunder-punch",
+      "thunderbolt",
+      "will-o-wisp"
+    ],
     "evolutions": [],
     "baseExp": 243,
     "catchRate": 30,
@@ -13391,6 +17291,31 @@
         "move": "thunder"
       }
     ],
+    "tmMoves": [
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "charge-beam",
+      "double-edge",
+      "earthquake",
+      "eerie-impulse",
+      "fire-punch",
+      "flamethrower",
+      "ice-punch",
+      "knock-off",
+      "low-sweep",
+      "metal-sound",
+      "psychic",
+      "rock-slide",
+      "rock-tomb",
+      "stomping-tantrum",
+      "swift",
+      "take-down",
+      "thunder",
+      "thunder-punch",
+      "thunder-wave",
+      "thunderbolt"
+    ],
     "evolutions": [],
     "baseExp": 243,
     "catchRate": 30,
@@ -13464,6 +17389,36 @@
         "move": "dragon-rush"
       }
     ],
+    "tmMoves": [
+      "aerial-ace",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "crunch",
+      "double-edge",
+      "dragon-claw",
+      "dragon-pulse",
+      "earth-power",
+      "earthquake",
+      "false-swipe",
+      "fire-blast",
+      "flamethrower",
+      "iron-head",
+      "liquidation",
+      "metal-claw",
+      "mud-shot",
+      "poison-jab",
+      "power-gem",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "stomping-tantrum",
+      "stone-edge",
+      "surf",
+      "swift",
+      "swords-dance",
+      "take-down"
+    ],
     "evolutions": [],
     "baseExp": 270,
     "catchRate": 45,
@@ -13528,6 +17483,31 @@
         "level": 49,
         "move": "blizzard"
       }
+    ],
+    "tmMoves": [
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "bullet-seed",
+      "double-edge",
+      "earth-power",
+      "earthquake",
+      "giga-drain",
+      "ice-beam",
+      "ice-punch",
+      "icicle-spear",
+      "icy-wind",
+      "leaf-storm",
+      "mud-slap",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "seed-bomb",
+      "stomping-tantrum",
+      "swords-dance",
+      "take-down",
+      "water-pulse"
     ],
     "evolutions": [],
     "baseExp": 173,
@@ -13603,6 +17583,31 @@
         "level": 58,
         "move": "blizzard"
       }
+    ],
+    "tmMoves": [
+      "amnesia",
+      "blizzard",
+      "body-slam",
+      "bulldoze",
+      "charm",
+      "double-edge",
+      "earth-power",
+      "earthquake",
+      "high-horsepower",
+      "ice-beam",
+      "icicle-spear",
+      "icy-wind",
+      "iron-head",
+      "knock-off",
+      "mud-shot",
+      "mud-slap",
+      "rock-blast",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "stomping-tantrum",
+      "stone-edge",
+      "take-down"
     ],
     "evolutions": [],
     "baseExp": 239,
@@ -13700,6 +17705,25 @@
         "move": "blizzard"
       }
     ],
+    "tmMoves": [
+      "blizzard",
+      "body-slam",
+      "calm-mind",
+      "charm",
+      "double-edge",
+      "fake-tears",
+      "hyper-voice",
+      "ice-beam",
+      "icicle-spear",
+      "icy-wind",
+      "mud-shot",
+      "mud-slap",
+      "shadow-ball",
+      "stored-power",
+      "swift",
+      "take-down",
+      "water-pulse"
+    ],
     "evolutions": [],
     "baseExp": 184,
     "catchRate": 45,
@@ -13796,6 +17820,28 @@
         "move": "leaf-blade"
       }
     ],
+    "tmMoves": [
+      "aerial-ace",
+      "body-slam",
+      "bullet-seed",
+      "calm-mind",
+      "charm",
+      "double-edge",
+      "fake-tears",
+      "giga-drain",
+      "hyper-voice",
+      "knock-off",
+      "leaf-storm",
+      "mud-shot",
+      "mud-slap",
+      "seed-bomb",
+      "shadow-ball",
+      "stored-power",
+      "swift",
+      "swords-dance",
+      "take-down",
+      "x-scissor"
+    ],
     "evolutions": [],
     "baseExp": 184,
     "catchRate": 45,
@@ -13839,6 +17885,32 @@
         "level": 1,
         "move": "power-gem"
       }
+    ],
+    "tmMoves": [
+      "calm-mind",
+      "charge-beam",
+      "charm",
+      "confuse-ray",
+      "dark-pulse",
+      "dazzling-gleam",
+      "draining-kiss",
+      "fake-tears",
+      "hex",
+      "hyper-voice",
+      "icy-wind",
+      "nasty-plot",
+      "power-gem",
+      "psybeam",
+      "psychic",
+      "psyshock",
+      "scary-face",
+      "shadow-ball",
+      "stored-power",
+      "swift",
+      "thunder",
+      "thunder-wave",
+      "thunderbolt",
+      "will-o-wisp"
     ],
     "evolutions": [],
     "baseExp": 173,
@@ -13916,6 +17988,29 @@
         "level": 42,
         "move": "shadow-ball"
       }
+    ],
+    "tmMoves": [
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "calm-mind",
+      "charge-beam",
+      "confuse-ray",
+      "dark-pulse",
+      "earthquake",
+      "fire-punch",
+      "hex",
+      "ice-beam",
+      "ice-punch",
+      "icy-wind",
+      "leech-life",
+      "psychic",
+      "rock-slide",
+      "rock-tomb",
+      "shadow-ball",
+      "swift",
+      "thunder-punch",
+      "will-o-wisp"
     ],
     "evolutions": [],
     "baseExp": 236,
@@ -14012,6 +18107,36 @@
         "move": "crunch"
       }
     ],
+    "tmMoves": [
+      "agility",
+      "assurance",
+      "brick-break",
+      "bug-buzz",
+      "bulldoze",
+      "cross-poison",
+      "crunch",
+      "dark-pulse",
+      "earthquake",
+      "false-swipe",
+      "iron-defense",
+      "iron-tail",
+      "leech-life",
+      "payback",
+      "pin-missile",
+      "poison-jab",
+      "retaliate",
+      "rock-slide",
+      "rock-tomb",
+      "round",
+      "scary-face",
+      "screech",
+      "shadow-ball",
+      "sludge-bomb",
+      "stomping-tantrum",
+      "swords-dance",
+      "venoshock",
+      "x-scissor"
+    ],
     "evolutions": [],
     "baseExp": 175,
     "catchRate": 45,
@@ -14090,6 +18215,36 @@
         "move": "tri-attack"
       }
     ],
+    "tmMoves": [
+      "air-slash",
+      "amnesia",
+      "aura-sphere",
+      "body-slam",
+      "brick-break",
+      "charm",
+      "dazzling-gleam",
+      "drain-punch",
+      "draining-kiss",
+      "fire-blast",
+      "flamethrower",
+      "heat-wave",
+      "hyper-voice",
+      "mega-kick",
+      "mega-punch",
+      "nasty-plot",
+      "play-rough",
+      "psychic",
+      "psyshock",
+      "retaliate",
+      "round",
+      "shadow-ball",
+      "smart-strike",
+      "stored-power",
+      "swift",
+      "thunder-wave",
+      "tri-attack",
+      "zen-headbutt"
+    ],
     "evolutions": [],
     "baseExp": 245,
     "catchRate": 30,
@@ -14165,6 +18320,30 @@
         "move": "megahorn"
       }
     ],
+    "tmMoves": [
+      "agility",
+      "assurance",
+      "bulldoze",
+      "cross-poison",
+      "earthquake",
+      "hex",
+      "iron-defense",
+      "iron-tail",
+      "megahorn",
+      "payback",
+      "pin-missile",
+      "poison-jab",
+      "rock-slide",
+      "rock-tomb",
+      "round",
+      "screech",
+      "sludge-bomb",
+      "smart-strike",
+      "stomping-tantrum",
+      "swords-dance",
+      "venoshock",
+      "x-scissor"
+    ],
     "evolutions": [],
     "baseExp": 218,
     "catchRate": 45,
@@ -14234,6 +18413,21 @@
         "level": 1,
         "move": "will-o-wisp"
       }
+    ],
+    "tmMoves": [
+      "calm-mind",
+      "confuse-ray",
+      "dark-pulse",
+      "fire-blast",
+      "flame-charge",
+      "flamethrower",
+      "flare-blitz",
+      "heat-wave",
+      "hex",
+      "overheat",
+      "psychic",
+      "shadow-ball",
+      "will-o-wisp"
     ],
     "evolutions": [],
     "baseExp": 234,
@@ -14305,6 +18499,33 @@
         "move": "earthquake"
       }
     ],
+    "tmMoves": [
+      "aerial-ace",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "double-edge",
+      "drill-run",
+      "earth-power",
+      "earthquake",
+      "high-horsepower",
+      "iron-defense",
+      "iron-head",
+      "metal-claw",
+      "metal-sound",
+      "mud-shot",
+      "mud-slap",
+      "poison-jab",
+      "rock-blast",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "smart-strike",
+      "stomping-tantrum",
+      "swords-dance",
+      "take-down",
+      "x-scissor"
+    ],
     "evolutions": [],
     "baseExp": 178,
     "catchRate": 60,
@@ -14373,6 +18594,28 @@
         "level": 48,
         "move": "stone-edge"
       }
+    ],
+    "tmMoves": [
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "double-edge",
+      "drain-punch",
+      "earthquake",
+      "fire-punch",
+      "high-horsepower",
+      "ice-punch",
+      "knock-off",
+      "low-sweep",
+      "poison-jab",
+      "rock-blast",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "stomping-tantrum",
+      "stone-edge",
+      "take-down",
+      "thunder-punch"
     ],
     "evolutions": [],
     "baseExp": 227,
@@ -14465,6 +18708,25 @@
         "level": 50,
         "move": "moonblast"
       }
+    ],
+    "tmMoves": [
+      "body-slam",
+      "calm-mind",
+      "charm",
+      "dazzling-gleam",
+      "disarming-voice",
+      "double-edge",
+      "draining-kiss",
+      "fake-tears",
+      "hyper-voice",
+      "mud-slap",
+      "play-rough",
+      "psychic",
+      "psyshock",
+      "shadow-ball",
+      "stored-power",
+      "swift",
+      "take-down"
     ],
     "evolutions": [],
     "baseExp": 184,

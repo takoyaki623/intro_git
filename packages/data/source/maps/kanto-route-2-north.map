@@ -3,6 +3,7 @@
 id: kanto-route-2-north
 name: 2ばんどうろ きた
 region: kanto
+encounters: kanto-route-2-north-grass
 bgm: route-2
 
 legend:

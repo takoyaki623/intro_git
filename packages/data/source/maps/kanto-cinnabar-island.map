@@ -3,6 +3,7 @@
 id: kanto-cinnabar-island
 name: グレンじま
 region: kanto
+encounters: kanto-cinnabar-island-surf kanto-cinnabar-island-fishing-old kanto-cinnabar-island-fishing-good kanto-cinnabar-island-fishing-super
 fly: 6,1 kanto.fly.cinnabar
 onEnter: kanto.cinnabar.arrive
 bgm: cinnabar-island

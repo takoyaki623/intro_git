@@ -2,6 +2,7 @@
 id: kanto-celadon-city
 name: タマムシシティ
 region: kanto
+encounters: kanto-celadon-city-surf kanto-celadon-city-fishing-old kanto-celadon-city-fishing-good kanto-celadon-city-fishing-super
 fly: 6,1 kanto.fly.celadon
 onEnter: kanto.celadon.arrive
 bgm: celadon-city

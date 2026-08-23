@@ -5,7 +5,7 @@ name: トキワシティ
 region: kanto
 fly: 7,1 kanto.fly.viridian
 onEnter: kanto.viridian.arrive
-encounters: kanto-pond-surf
+encounters: kanto-viridian-city-surf kanto-viridian-city-fishing-old kanto-viridian-city-fishing-good kanto-viridian-city-fishing-super
 bgm: viridian-city
 
 legend:

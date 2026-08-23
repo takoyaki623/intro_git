@@ -3,6 +3,7 @@
 id: kanto-pokemon-tower
 name: ポケモンタワー
 region: kanto
+encounters: kanto-pokemon-tower-grass
 bgm: pokemon-tower
 
 legend:

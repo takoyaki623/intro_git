@@ -52,7 +52,7 @@ export type Facility = {
   /**
    * v0.5 の上限。ここに達したら一度終了する。
    * AI が basic しかないため、無限連戦にすると強さが頭打ちになる。
-   * 上限の解除は smart と同時（v1.1）。
+   * 上限の解除は smart と同時（v1.2）。
    */
   streakCap: number;
 };

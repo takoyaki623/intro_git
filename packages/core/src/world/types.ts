@@ -139,7 +139,22 @@ export type MapData = {
 
 export type EncounterTable = {
   id: EncounterTableId;
-  method: "grass" | "surf" | "fishing" | "cave" | "static" | "gift";
+  /**
+   * 引き方（v1.1-a）。
+   *
+   * **`fishing` は v0.7 から宣言だけされて一度も使われていなかった。**
+   * 原作の さお は3段階で出るものが違うので、3つに割って実際に使う。
+   */
+  method:
+    | "grass"
+    | "cave"
+    | "surf"
+    | "fishing-old"
+    | "fishing-good"
+    | "fishing-super"
+    | "rock-smash"
+    | "static"
+    | "gift";
   entries: { species: SpeciesId; levelRange: [number, number]; rate: number }[];
 };
 

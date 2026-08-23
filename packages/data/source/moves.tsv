@@ -246,3 +246,4 @@ twineedle	ダブルニードル	bug	physical	25	100	20	0	0	0	multiHit:2:2	foe
 vacuum-wave	しんくうは	fighting	special	40	100	30	1	0	0		foe
 vise-grip	はさむ	normal	physical	55	100	30	0	0	1		foe
 wood-hammer	ウッドハンマー	grass	physical	120	100	15	0	0	1	recoil:0.33	foe
+splash	はねる	normal	status	-	-	40	0	0	0	nothing	self

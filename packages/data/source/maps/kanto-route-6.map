@@ -2,7 +2,7 @@
 id: kanto-route-6
 name: 6ばんどうろ
 region: kanto
-encounters: kanto-route-6-grass
+encounters: kanto-route-6-grass kanto-route-6-surf kanto-route-6-fishing-old kanto-route-6-fishing-good kanto-route-6-fishing-super
 bgm: route-6
 
 legend:

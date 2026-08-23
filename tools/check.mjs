@@ -41,6 +41,11 @@ const STEPS = [
     },
   },
   {
+    name: "データ",
+    run: ["npx", ["vite-node", "tools/import.ts", "--check"]],
+    summary: (out) => (out.includes("最新") ? "最新（原本と JSON が一致）" : out.trim()),
+  },
+  {
     name: "マップ",
     run: ["npx", ["vite-node", "tools/convert-map.ts", "--check"]],
     summary: (out) => (out.includes("最新") ? "最新（原本と JSON が一致）" : out.trim()),

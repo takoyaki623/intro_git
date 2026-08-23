@@ -51,6 +51,9 @@ function parseEffect(src: string, where: string): unknown {
   const num = (i: number) => Number(args[i]);
 
   switch (kind) {
+    // はねる。**書き忘れではなく「何も起きない」**（types.ts の `nothing`）
+    case "nothing":
+      return { kind };
     case "status":
       return { kind, status: args[0], chance: num(1) };
     case "confuse":
@@ -329,6 +332,7 @@ type SpeciesOut = {
   baseStats: Record<string, number>;
   abilities: string[];
   learnset: { level: number; move: string }[];
+  tmMoves: string[];
   catchRate: number; expType: string;
   evYield: Record<string, number>;
   genderRatio: number | null;
@@ -392,8 +396,15 @@ function speciesNumbers(): Map<string, SpeciesNumbers> {
   return out;
 }
 
-function officialLearnsets(): Map<string, { gen: number; learnset: { level: number; move: string }[] }> {
-  const out = new Map<string, { gen: number; learnset: { level: number; move: string }[] }>();
+type OfficialLearnset = {
+  gen: number;
+  learnset: { level: number; move: string }[];
+  /** わざマシンで覚えられる技（v1.1-a）。fetch-official.ts が `'M'` を選って書く。 */
+  tm: string[];
+};
+
+function officialLearnsets(): Map<string, OfficialLearnset> {
+  const out = new Map<string, OfficialLearnset>();
   let rows: Record<string, string>[];
   try {
     rows = readTsv("learnsets.tsv");
@@ -409,7 +420,8 @@ function officialLearnsets(): Map<string, { gen: number; learnset: { level: numb
         return { level: Number(level), move: move! };
       })
       .sort((a, b) => a.level - b.level || a.move.localeCompare(b.move));
-    out.set(r["species"]!, { gen: Number(r["gen"]), learnset });
+    const tm = (r["tm"] ?? "").split(",").filter(Boolean).sort();
+    out.set(r["species"]!, { gen: Number(r["gen"]), learnset, tm });
   }
   return out;
 }
@@ -591,6 +603,15 @@ function buildSpecies(moves: MoveOut[]): SpeciesOut[] {
     }
     const learnset = found?.learnset ?? provisionalLearnset(types, moves, baseStats);
 
+    // ── わざマシン互換表 ──
+    // **空になる理由は2つある**（公式データがまだ無い／原作でも0本）。
+    // 見分けるのは `learnsetSource` の仕事なので、ここでは埋めない ――
+    // キャタピー・ビードル・コクーン・メタモンは本当に0本で、
+    // `fetch-official.ts` がその4件を名指しで報告する
+    for (const move of found?.tm ?? []) {
+      if (!known.has(move)) err(where, `learnsets.tsv の tm "${move}" が moves.tsv に無い`);
+    }
+
     return {
       id: r["id"]!,
       dexNo: Number(r["dex"]),
@@ -599,6 +620,7 @@ function buildSpecies(moves: MoveOut[]): SpeciesOut[] {
       baseStats,
       abilities: (r["abilities"] ?? "").split(",").filter(Boolean),
       learnset,
+      tmMoves: found?.tm ?? [],
       evolutions: evolutions.get(r["id"]!) ?? [],
       baseExp: num?.baseExp ?? 0, // 無ければ進化段階から推定（importSpecies の第2周）
       catchRate: num?.catchRate ?? 255,
@@ -727,6 +749,63 @@ function importNamedParties(): Map<string, Map<string, unknown[]>> {
   return out;
 }
 
+/**
+ * 本編のトレーナー（v1.1-a）。
+ *
+ * v1.0 まで `trainers.json` だけが**原本の無い主要データ**だった ――
+ * 45人ぶんの入れ子 JSON を人が直接書いていた。約180人へ増やす前に器を直す。
+ * 読み方はネームドと同じ（親の表＋1体1行の表）。
+ */
+function importTrainers(): unknown[] {
+  const parties = new Map<string, Record<string, unknown>[]>();
+  for (const r of readTsv("trainer-parties.tsv")) {
+    const where = `trainer-parties.tsv/${r["trainer"]}/${r["species"]}`;
+    const moves = (r["moves"] ?? "").split("/").filter(Boolean);
+    if (moves.length === 0 || moves.length > 4) err(where, `技が ${moves.length} 個（1〜4 個）`);
+    if (new Set(moves).size !== moves.length) err(where, "技が重複している");
+
+    const member: Record<string, unknown> = {
+      species: r["species"],
+      level: Number(r["level"]),
+      moves,
+    };
+    const item = r["item"] ?? "";
+    if (item !== "" && item !== "-") member["item"] = item;
+
+    const trainer = r["trainer"]!;
+    if (!parties.has(trainer)) parties.set(trainer, []);
+    parties.get(trainer)!.push(member);
+  }
+
+  const seen = new Set<string>();
+  const out = readTsv("trainers.tsv").map((r) => {
+    const id = r["id"]!;
+    const where = `trainers.tsv/${id}`;
+    if (seen.has(id)) err(where, "ID が重複している");
+    seen.add(id);
+    const party = parties.get(id);
+    // **手持ちが空のトレーナーを黙って作らない。** 戦いが始まった瞬間に終わる
+    if (party === undefined || party.length === 0) err(where, "手持ちが1体も無い");
+    if ((party?.length ?? 0) > 6) err(where, `手持ちが ${party!.length} 体（6体まで）`);
+    return {
+      id,
+      name: r["name"]!,
+      class: r["class"]!,
+      reward: Number(r["reward"]),
+      defeatedFlag: r["defeatedFlag"]!,
+      party: party ?? [],
+    };
+  });
+
+  // 表にいないトレーナーの手持ちが残っていたら、消し忘れか綴り間違い
+  for (const trainer of parties.keys()) {
+    if (!seen.has(trainer)) {
+      err("trainer-parties.tsv", `トレーナー "${trainer}" が trainers.tsv に無い`);
+    }
+  }
+  return out;
+}
+
 function importNamed(): NamedOut[] {
   const parties = importNamedParties();
   return readTsv("named.tsv").map((r) => {
@@ -820,6 +899,7 @@ function main(): void {
   const balls = importBalls();
   const battleSets = importBattleSets();
   const named = importNamed();
+  const trainers = importTrainers();
   const art = importArt();
 
   // **全種にレシピがあるか**をここで見る（検証 #87 と同じことを投入時にも）
@@ -834,8 +914,29 @@ function main(): void {
     process.exit(1);
   }
 
-  const write = (file: string, value: unknown) =>
-    writeFileSync(resolve(OUT, file), JSON.stringify(value, null, 2) + "\n");
+  // --check: TSV を直して import を回し忘れていないか（CI 用・v1.1-a）
+  //
+  // v1.0 まで、生成物の鮮度を見ていたのはマップと ID 型だけだった。
+  // **原本を直して import を忘れると、検証は古い JSON を見て通ってしまう。**
+  // trainers.json が TSV に移ったことで、その穴が約180人ぶんに広がる
+  const checking = process.argv.includes("--check");
+  const stale: string[] = [];
+  const write = (file: string, value: unknown) => {
+    const text = JSON.stringify(value, null, 2) + "\n";
+    const path = resolve(OUT, file);
+    if (!checking) {
+      writeFileSync(path, text);
+      return;
+    }
+    let current = "";
+    try {
+      current = readFileSync(path, "utf8");
+    } catch {
+      stale.push(`${file}（まだ無い）`);
+      return;
+    }
+    if (current !== text) stale.push(file);
+  };
 
   write("moves.json", moves);
   write("species.json", species);
@@ -844,11 +945,23 @@ function main(): void {
   write("balls.json", balls);
   write("battle-sets.json", battleSets);
   write("named.json", named);
+  write("trainers.json", trainers);
   write("art.json", art);
 
   const inert = abilities.filter(
     (a) => (a.effect as { kind?: string } | undefined)?.kind === "inert",
   ).length;
+
+  if (checking) {
+    if (stale.length > 0) {
+      console.error(
+        `生成物が古くなっています: npm run import を実行してコミットしてください（${stale.join(" / ")}）`,
+      );
+      process.exit(1);
+    }
+    console.log("投入された JSON は最新です（原本と一致）");
+    return;
+  }
 
   console.log(`投入完了: 種族 ${species.length} / 技 ${moves.length}`);
   console.log(`  種族値のチェックサム ${species.length} 件すべて一致`);
@@ -862,6 +975,12 @@ function main(): void {
   } else {
     console.log(`  learnset: 公式 ${official.length} 種 / 暫定 ${species.length - official.length} 種`);
   }
+  const tmTotal = species.reduce((n, s) => n + s.tmMoves.length, 0);
+  const tmNone = species.filter((s) => s.tmMoves.length === 0).length;
+  console.log(
+    `  わざマシン互換 のべ ${tmTotal} 件（1種あたり ${(tmTotal / species.length).toFixed(1)} 技` +
+      `${tmNone === 0 ? "" : ` / 0件の種 ${tmNone}`}）`,
+  );
   console.log(`  特性 ${abilities.length}（うち ${inert} 件は機構未実装のため inert）`);
   const evoCount = species.reduce((n, s) => n + s.evolutions.length, 0);
   const evoNow = species.reduce(
@@ -877,6 +996,9 @@ function main(): void {
   );
   console.log(`  持ち物 ${items.length}（うちボール ${balls.length}）/ BattleSet ${battleSets.length}`);
   const parties = named.reduce((n, c) => n + Object.keys(c.tiers).length, 0);
+  console.log(
+    `  トレーナー ${trainers.length} 人 / 手持ち ${(trainers as { party: unknown[] }[]).reduce((n, t) => n + t.party.length, 0)} 体`,
+  );
   console.log(`  ネームド ${named.length} 人 / パーティ ${parties} 件`);
 }
 

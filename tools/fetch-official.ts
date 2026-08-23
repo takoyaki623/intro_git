@@ -44,6 +44,21 @@ function levelUpMoves(sources: readonly string[], gen: number): number[] {
   return out;
 }
 
+/**
+ * わざマシンで覚える技（v1.1-a）。
+ *
+ * Showdown は習得元を `9L12`（レベル12）・`9M`（マシン）・`9T`（教え技）・`9E`（タマゴ）で
+ * 区別している。**`'L'` を選っている隣に `'M'` を1列足すだけ**で
+ * TM 互換表が公式データで揃う ―― どのマシンが何番かは veekun `machines.csv` の仕事で、
+ * ここが持つのは「この種はこの技を機械で覚えるか」だけ。
+ *
+ * 教え技（`T`）は入れない。原作では別の入手経路（技教え人）で、
+ * 道具として存在しない ―― **機構が無いまま形だけ作らない**（world.md §9.7）。
+ */
+function machineMoves(sources: readonly string[], gen: number): boolean {
+  return sources.some((source) => source === `${gen}M`);
+}
+
 async function main(): Promise<void> {
   const species = JSON.parse(readFileSync(`${DATA}/species.json`, "utf8")) as {
     id: string;
@@ -66,6 +81,10 @@ async function main(): Promise<void> {
   const missing = new Map<string, number>();
   let total = 0;
   let kept = 0;
+  let tmTotal = 0;
+  let tmKept = 0;
+  /** マシン技が1つも無い種。「入れ忘れ」と区別が付くよう名前で出す。 */
+  const tmEmpty: string[] = [];
 
   for (const s of species) {
     const learnset = await dex.learnsets.get(s.id);
@@ -85,6 +104,25 @@ async function main(): Promise<void> {
     if (picked === null) {
       throw new Error(`${s.id}: どの世代にもレベル技が無い`);
     }
+
+    // マシン技は採用世代に合わせる。その世代に1件も無いときだけ下の世代へ降りる
+    // （レベル技と別の世代を混ぜると「第9世代の技を第3世代の種が覚える」が起きる）
+    let machineGen = picked.gen;
+    let machine: string[] = entries.filter(([, src]) => machineMoves(src, machineGen)).map(([m]) => m);
+    if (machine.length === 0) {
+      for (const gen of GENS) {
+        const found = entries.filter(([, src]) => machineMoves(src, gen)).map(([m]) => m);
+        if (found.length > 0) {
+          machineGen = gen;
+          machine = found;
+          break;
+        }
+      }
+    }
+    tmTotal += machine.length;
+    const tm = [...new Set(machine.map((m) => byFlat.get(m)).filter((m): m is string => m !== undefined))].sort();
+    tmKept += tm.length;
+    if (tm.length === 0) tmEmpty.push(s.id);
 
     usedGen.set(picked.gen, (usedGen.get(picked.gen) ?? 0) + 1);
     total += picked.moves.length;
@@ -110,15 +148,23 @@ async function main(): Promise<void> {
       .map(([move, level]) => ({ move, level }))
       .sort((a, b) => a.level - b.level || a.move.localeCompare(b.move));
 
-    rows.push(`${s.id}\t${picked.gen}\t${list.map((l) => `${l.level}:${l.move}`).join(",")}`);
+    rows.push(
+      `${s.id}\t${picked.gen}\t${list.map((l) => `${l.level}:${l.move}`).join(",")}\t${tm.join(",")}`,
+    );
   }
 
-  writeFileSync(OUT, `species\tgen\tlearnset\n${rows.join("\n")}\n`, "utf8");
+  writeFileSync(OUT, `species\tgen\tlearnset\ttm\n${rows.join("\n")}\n`, "utf8");
   console.log(`${OUT} … ${rows.length} 種`);
   console.log(
     `  採用世代: ${[...usedGen].sort((a, b) => b[0] - a[0]).map(([g, n]) => `第${g}世代 ${n}種`).join(" / ")}`,
   );
   console.log(`  レベル技 のべ ${total} 件 / 当プロジェクトに存在 ${kept} 件 (${((kept / total) * 100).toFixed(0)}%)`);
+  console.log(
+    `  マシン技 のべ ${tmTotal} 件 / 当プロジェクトに存在 ${tmKept} 件 (${((tmKept / tmTotal) * 100).toFixed(0)}%)`,
+  );
+  if (tmEmpty.length > 0) {
+    console.log(`  ⚠ マシン技が0件の種 ${tmEmpty.length} 件: ${tmEmpty.slice(0, 8).join(" ")}`);
+  }
 
   writeCandidates(dex, missing);
   writeEvolutions(dex, new Set(species.map((s) => s.id)));

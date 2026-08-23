@@ -11,7 +11,7 @@ import {
   TYPES, calcDamage, createBattle, createRng, createRngState, legalActions, step,
   toBattlePokemon,
 } from "@pkmn/core";
-import { allArt, allMoves, allNamed, allSpecies, gameData } from "@pkmn/data";
+import { allArt, allEncounterTables, allMoves, allNamed, allSpecies, gameData } from "@pkmn/data";
 
 describe("種族値が原作と一致する", () => {
   const EXPECTED: Record<string, [number, number, number, number, number, number]> = {
@@ -132,9 +132,16 @@ describe("データ全体の整合", () => {
     expect(nums.size, "図鑑番号の重複").toBe(allSpecies.length);
   });
 
-  it("カントーの外の種は、ネームドが使うためだけに居る（v0.11）", () => {
-    // 出現テーブルには入れない ―― 地方チャレンジは現地の種で攻略する（capture.md §4）。
-    // 図鑑では「みつけた」止まりになる（原作と同じ挙動）
+  /**
+   * v0.11 では「ネームドが使うためだけに居る」で正しかった。
+   * v1.1 で原作のカントーに寄せると、**カントーの外の種でも野生に出るものがある**
+   * ―― ソーナンス は ハナダのどうくつ に居る（第2世代の種だが FRLG に出る）。
+   *
+   * それでも守りたいのは元の意図の方で、**消費者の居ない種を置かない**こと。
+   * 「使われていない」と「まだ足していない」を混ぜないために、
+   * 逃げ道は「ネームドが使う」か「野生に出る」の2つだけにしておく。
+   */
+  it("カントーの外の種には必ず出番がある（ネームドが使うか、野生に出るか）", () => {
     const outside = allSpecies.filter((s) => s.dexNo > 151);
     expect(outside.length).toBeGreaterThan(0);
     const used = new Set(
@@ -142,8 +149,9 @@ describe("データ全体の整合", () => {
         Object.values(c.tiers).flatMap((party) => party.map((m) => m.species)),
       ),
     );
+    const wild = new Set(allEncounterTables.flatMap((t) => t.entries.map((e) => e.species)));
     for (const s of outside) {
-      expect(used.has(s.id), `${s.name} を使うネームドが居ない`).toBe(true);
+      expect(used.has(s.id) || wild.has(s.id), `${s.name} に出番が無い`).toBe(true);
     }
   });
 

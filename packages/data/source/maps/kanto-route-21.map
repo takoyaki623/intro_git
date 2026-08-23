@@ -3,7 +3,7 @@
 id: kanto-route-21
 name: 21ばんすいどう
 region: kanto
-encounters: kanto-sea-surf
+encounters: kanto-route-21-grass kanto-route-21-surf kanto-route-21-fishing-old kanto-route-21-fishing-good kanto-route-21-fishing-super
 bgm: route-21
 
 legend:

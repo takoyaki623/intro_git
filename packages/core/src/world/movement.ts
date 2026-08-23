@@ -17,11 +17,12 @@ import type {
   EventId,
   FieldAbilityId,
   MapData,
+  MapId,
   MapObject,
   TerrainId,
   Warp,
 } from "./types.js";
-import { STEP } from "./types.js";
+import { DIRECTIONS, STEP } from "./types.js";
 
 export type PlayerPosition = {
   map: string;
@@ -95,11 +96,95 @@ export function isWalkable(
   x: number,
   y: number,
 ): boolean {
+  return canEnter(map, world, x, y, {});
+}
+
+/**
+ * 経路探索の「見立て」（v1.1-a）。
+ *
+ * ゲーム本体は常に既定（どちらも false）で歩く ―― `isWalkable` がそれ。
+ * **道具だけが見立てを変える**:
+ *
+ *   - 検証は「原理的に繋がっているか」を見る。進行で消える門番や、
+ *     どければ通れる岩を壁として数えると、開通済みの道まで閉じてしまう
+ *   - 台本は「今どけた岩」を `world.cleared` で知っているので、
+ *     障害物は既定のまま（壁）でよい
+ *
+ * ここを options で分けずに各ツールが自前で書いていたのが v1.1-a 以前で、
+ * 同じ判定が3箇所にあった。**見立ての差だけをここに集める。**
+ */
+export type NeighborOptions = {
+  /** 条件つきオブジェクトを塞いでいない扱いにする。 */
+  ignoreConditional?: boolean;
+  /** 障害物を塞いでいない扱いにする（`world.cleared` を1件ずつ数える代わり）。 */
+  ignoreObstacles?: boolean;
+  /** 踏む warp を辿るか。既定 true。1枚のマップの中だけを塗るときは false。 */
+  followWarps?: boolean;
+};
+
+/** そのマスに入れるか。見立てつき（`isWalkable` は見立て無しの呼び出し）。 */
+export function canEnter(
+  map: MapData,
+  world: WorldState,
+  x: number,
+  y: number,
+  options: NeighborOptions,
+): boolean {
   if (!inBounds(map, x, y)) return false;
   if (map.collision[indexOf(map, x, y)] === true && !canSwimTo(map, world, x, y)) return false;
-  return !visibleObjects(map, world).some(
-    (o) => o.at.x === x && o.at.y === y && blocksMovement(o),
-  );
+  return !visibleObjects(map, world).some((o) => {
+    if (o.at.x !== x || o.at.y !== y || !blocksMovement(o)) return false;
+    if (options.ignoreConditional === true && o.condition !== undefined) return false;
+    if (options.ignoreObstacles === true && o.kind.type === "obstacle") return false;
+    return true;
+  });
+}
+
+export type Neighbor = { dir: Direction; map: MapId; x: number; y: number };
+
+/**
+ * 1歩で行ける先（v1.1-a）。**「隣とは何か」の唯一の定義。**
+ *
+ *   - 段差は南向きの飛び降りとしてだけ繋がる。着地は2マス先（原作どおりの一方通行）
+ *   - 踏む warp のマスに入ると、その場で接続先へ移る ―― **同じ1歩の中で起きる**
+ *
+ * `stepPlayer` と同じ規則をなぞっているが、あちらは「1歩の結果」を返し、
+ * こちらは「行き先の集合」を返す。氷の床（v1.1-f）で規則が増えたとき、
+ * **直すのはこの2つだけで済む**ようにしてある。
+ */
+export function neighborsOf(
+  map: MapData,
+  world: WorldState,
+  x: number,
+  y: number,
+  options: NeighborOptions = {},
+  mapById?: ReadonlyMap<MapId, MapData>,
+): Neighbor[] {
+  const out: Neighbor[] = [];
+  for (const dir of DIRECTIONS) {
+    const { dx, dy } = STEP[dir];
+    let nx = x + dx;
+    let ny = y + dy;
+    if (!inBounds(map, nx, ny)) continue;
+
+    if (terrainAt(map, nx, ny) === "ledge") {
+      if (dir !== LEDGE_DIRECTION) continue;
+      nx += dx;
+      ny += dy;
+    }
+    if (!canEnter(map, world, nx, ny, options)) continue;
+
+    const warp = options.followWarps === false ? null : warpAt(map, nx, ny, "step");
+    if (warp === null) {
+      out.push({ dir, map: map.id, x: nx, y: ny });
+      continue;
+    }
+    // 接続先が手元に無いなら、その1歩は無かったことにする。
+    // **黙って「同じマップの中を歩いた」ことにしない** ―― 経路が嘘になる
+    if (mapById !== undefined && !mapById.has(warp.to.map)) continue;
+    out.push({ dir, map: warp.to.map, x: warp.to.x, y: warp.to.y });
+  }
+  return out;
 }
 
 /**

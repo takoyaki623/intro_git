@@ -2,6 +2,7 @@
 id: kanto-fuchsia-city
 name: セキチクシティ
 region: kanto
+encounters: kanto-fuchsia-city-surf kanto-fuchsia-city-fishing-old kanto-fuchsia-city-fishing-good kanto-fuchsia-city-fishing-super
 fly: 6,1 kanto.fly.fuchsia
 onEnter: kanto.fuchsia.arrive
 bgm: fuchsia-city

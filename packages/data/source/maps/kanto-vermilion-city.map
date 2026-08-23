@@ -4,7 +4,7 @@ name: クチバシティ
 region: kanto
 fly: 6,1 kanto.fly.vermilion
 onEnter: kanto.vermilion.arrive
-encounters: kanto-sea-surf
+encounters: kanto-vermilion-city-surf kanto-vermilion-city-fishing-old kanto-vermilion-city-fishing-good kanto-vermilion-city-fishing-super
 bgm: vermilion-city
 
 legend:

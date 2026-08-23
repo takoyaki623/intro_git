@@ -1,7 +1,7 @@
 /**
  * 基本型。
  *
- * v0.5 で特性・持ち物が入った。天候・フィールドは未実装（v1.1）。
+ * v0.5 で特性・持ち物が入った。天候・フィールドは未実装（v1.2）。
  * 型の側だけ先に用意しておくものは、その旨をコメントで示す。
  * 設計: docs/design/battle-system.md
  */
@@ -43,7 +43,7 @@ export type ItemId = string;
 export type NamedId = string;
 export type CupId = string;
 export type RegionId = string;
-/** キャラの戦術。AI が読んで遂行する（v1.1）。今は重複検出のための札。 */
+/** キャラの戦術。AI が読んで遂行する（v1.2）。今は重複検出のための札。 */
 export type TacticId = string;
 
 // ─────────────────────────────────────────────
@@ -59,6 +59,16 @@ export type Species = {
   /** 通常特性1〜2種。先頭が既定。隠れ特性は v0.8 以降。 */
   abilities: AbilityId[];
   learnset: { level: number; move: MoveId }[];
+  /**
+   * わざマシンで覚えられる技（v1.1-a）。
+   *
+   * **レベル技と別枠にする。** `learnset` は「いつ覚えるか」の表で、
+   * こちらは「覚えられるか」だけの集合 ―― 一緒にすると
+   * 「Lv0 で覚える技」という嘘のレベルを書くことになる。
+   * わざマシンそのもの（何番が何の技か・どこで買えるか）は道具側の話で、
+   * ここは互換表だけを持つ。
+   */
+  tmMoves: MoveId[];
   /** 進化の枝（v0.8）。条件が未実装の枝も、無視される形で残す。 */
   evolutions: Evolution[];
   catchRate: number;
@@ -163,7 +173,15 @@ export type MoveEffect =
       stages: number;
       chance: number;
     }
-  | { kind: "multiHit"; min: number; max: number };
+  | { kind: "multiHit"; min: number; max: number }
+  /**
+   * 何も起きない（v1.1-a）。
+   *
+   * **「効果を書き忘れた」と「本当に何も起きない」を区別するために要る。**
+   * 検証は「変化技に効果が無い」を落とすので、はねる のような技は
+   * 効果が無いのではなく「何も起きない効果」を持つ、と書く。
+   */
+  | { kind: "nothing" };
 
 // ─────────────────────────────────────────────
 // 特性・持ち物（v0.5）
@@ -253,7 +271,7 @@ export type HeldEffect =
   /**
    * バトル中は何もしない特性・持ち物。
    * 「未実装の機構を必要とする」ものを黙って無効にせず、理由を明示して持つ。
-   * 天候（v1.1）やメロメロのように、機構が入った時点でここから外れる。
+   * 天候（v1.2）やメロメロのように、機構が入った時点でここから外れる。
    */
   | { kind: "inert"; reason: string };
 

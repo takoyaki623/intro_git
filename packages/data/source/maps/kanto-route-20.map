@@ -2,7 +2,7 @@
 id: kanto-route-20
 name: 20ばんすいどう
 region: kanto
-encounters: kanto-sea-surf
+encounters: kanto-route-20-surf kanto-route-20-fishing-old kanto-route-20-fishing-good kanto-route-20-fishing-super
 bgm: route-20
 
 legend:

@@ -2596,6 +2596,12 @@
         "event": "kanto.celadon.fly-girl"
       }
     ],
+    "encounters": [
+      "kanto-celadon-city-surf",
+      "kanto-celadon-city-fishing-old",
+      "kanto-celadon-city-fishing-good",
+      "kanto-celadon-city-fishing-super"
+    ],
     "flyPoint": {
       "x": 6,
       "y": 1,
@@ -4255,7 +4261,10 @@
       }
     ],
     "encounters": [
-      "kanto-pond-surf"
+      "kanto-cerulean-city-surf",
+      "kanto-cerulean-city-fishing-old",
+      "kanto-cerulean-city-fishing-good",
+      "kanto-cerulean-city-fishing-super"
     ],
     "flyPoint": {
       "x": 6,
@@ -6313,6 +6322,12 @@
         "event": "kanto.cinnabar.scientist"
       }
     ],
+    "encounters": [
+      "kanto-cinnabar-island-surf",
+      "kanto-cinnabar-island-fishing-old",
+      "kanto-cinnabar-island-fishing-good",
+      "kanto-cinnabar-island-fishing-super"
+    ],
     "flyPoint": {
       "x": 6,
       "y": 1,
@@ -7484,6 +7499,12 @@
           "value": false
         }
       }
+    ],
+    "encounters": [
+      "kanto-fuchsia-city-surf",
+      "kanto-fuchsia-city-fishing-old",
+      "kanto-fuchsia-city-fishing-good",
+      "kanto-fuchsia-city-fishing-super"
     ],
     "flyPoint": {
       "x": 6,
@@ -13385,7 +13406,10 @@
       }
     ],
     "encounters": [
-      "kanto-sea-surf"
+      "kanto-pallet-town-surf",
+      "kanto-pallet-town-fishing-old",
+      "kanto-pallet-town-fishing-good",
+      "kanto-pallet-town-fishing-super"
     ],
     "flyPoint": {
       "x": 6,
@@ -15651,6 +15675,9 @@
         "event": "kanto.tower.old"
       }
     ],
+    "encounters": [
+      "kanto-pokemon-tower-grass"
+    ],
     "bgm": "pokemon-tower"
   },
   {
@@ -16970,7 +16997,11 @@
       }
     ],
     "encounters": [
-      "kanto-route-11-grass"
+      "kanto-route-11-grass",
+      "kanto-route-11-surf",
+      "kanto-route-11-fishing-old",
+      "kanto-route-11-fishing-good",
+      "kanto-route-11-fishing-super"
     ],
     "bgm": "route-11"
   },
@@ -17891,7 +17922,10 @@
     ],
     "objects": [],
     "encounters": [
-      "kanto-sea-surf"
+      "kanto-route-19-surf",
+      "kanto-route-19-fishing-old",
+      "kanto-route-19-fishing-good",
+      "kanto-route-19-fishing-super"
     ],
     "bgm": "route-19"
   },
@@ -18169,6 +18203,9 @@
         },
         "event": "kanto.route2n.sign"
       }
+    ],
+    "encounters": [
+      "kanto-route-2-north-grass"
     ],
     "bgm": "route-2"
   },
@@ -19245,7 +19282,10 @@
     ],
     "objects": [],
     "encounters": [
-      "kanto-sea-surf"
+      "kanto-route-20-surf",
+      "kanto-route-20-fishing-old",
+      "kanto-route-20-fishing-good",
+      "kanto-route-20-fishing-super"
     ],
     "bgm": "route-20"
   },
@@ -19693,7 +19733,11 @@
     ],
     "objects": [],
     "encounters": [
-      "kanto-sea-surf"
+      "kanto-route-21-grass",
+      "kanto-route-21-surf",
+      "kanto-route-21-fishing-old",
+      "kanto-route-21-fishing-good",
+      "kanto-route-21-fishing-super"
     ],
     "bgm": "route-21"
   },
@@ -20171,7 +20215,11 @@
       }
     ],
     "encounters": [
-      "kanto-route-22-grass"
+      "kanto-route-22-grass",
+      "kanto-route-22-surf",
+      "kanto-route-22-fishing-old",
+      "kanto-route-22-fishing-good",
+      "kanto-route-22-fishing-super"
     ],
     "bgm": "route-22"
   },
@@ -20649,7 +20697,11 @@
       }
     ],
     "encounters": [
-      "kanto-route-23-grass"
+      "kanto-route-23-grass",
+      "kanto-route-23-surf",
+      "kanto-route-23-fishing-old",
+      "kanto-route-23-fishing-good",
+      "kanto-route-23-fishing-super"
     ],
     "bgm": "route-23"
   },
@@ -21737,7 +21789,11 @@
       }
     ],
     "encounters": [
-      "kanto-route-4-grass"
+      "kanto-route-4-grass",
+      "kanto-route-4-surf",
+      "kanto-route-4-fishing-old",
+      "kanto-route-4-fishing-good",
+      "kanto-route-4-fishing-super"
     ],
     "bgm": "route-4"
   },
@@ -22497,7 +22553,11 @@
       }
     ],
     "encounters": [
-      "kanto-route-6-grass"
+      "kanto-route-6-grass",
+      "kanto-route-6-surf",
+      "kanto-route-6-fishing-old",
+      "kanto-route-6-fishing-good",
+      "kanto-route-6-fishing-super"
     ],
     "bgm": "route-6"
   },
@@ -25750,7 +25810,10 @@
       }
     ],
     "encounters": [
-      "kanto-sea-surf"
+      "kanto-vermilion-city-surf",
+      "kanto-vermilion-city-fishing-old",
+      "kanto-vermilion-city-fishing-good",
+      "kanto-vermilion-city-fishing-super"
     ],
     "flyPoint": {
       "x": 6,
@@ -28059,7 +28122,10 @@
       }
     ],
     "encounters": [
-      "kanto-pond-surf"
+      "kanto-viridian-city-surf",
+      "kanto-viridian-city-fishing-old",
+      "kanto-viridian-city-fishing-good",
+      "kanto-viridian-city-fishing-super"
     ],
     "flyPoint": {
       "x": 7,

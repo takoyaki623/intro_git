@@ -33,6 +33,7 @@ import {
   type Condition,
   type Direction,
   type EncounterState,
+  type EncounterTable,
   type EventEffect,
   type MapData,
   type PlayerPosition,
@@ -267,22 +268,53 @@ describe("エンカウント", () => {
     expect(worst).toBeLessThan(45);
   });
 
+  /**
+   * 測る対象は **`pickEncounter` の挙動**であって、特定の道路の中身ではない。
+   * 以前ここは 1番道路を「50:50 の2件表」と決め打ちしていて、公式データを
+   * 取り込んだ瞬間に落ちた ―― 通っていても意味が無い検査だった。
+   * 比を測るなら比を作る。表は手で組む。
+   */
   it("出現テーブルの抽選が rate の比に従う", () => {
-    const table = allEncounterTables.find((t) => t.id === "kanto-route-1-grass")!;
+    const table: EncounterTable = {
+      id: "test-ratio",
+      method: "grass",
+      entries: [
+        { species: "pidgey", levelRange: [2, 4], rate: 60 },
+        { species: "rattata", levelRange: [3, 3], rate: 30 },
+        { species: "caterpie", levelRange: [5, 7], rate: 10 },
+      ],
+    };
     const r = createRng({ s: 7, calls: 0 });
     const count: Record<string, number> = {};
-    for (let i = 0; i < 4000; i += 1) {
+    for (let i = 0; i < 8000; i += 1) {
       const picked = pickEncounter(table, r);
       count[picked.species] = (count[picked.species] ?? 0) + 1;
-      const entry = table.entries.find((e) => e.species === picked.species)!;
-      expect(picked.level).toBeGreaterThanOrEqual(entry.levelRange[0]);
-      expect(picked.level).toBeLessThanOrEqual(entry.levelRange[1]);
     }
-    // 50:50 のテーブル。4000 回なら 45%〜55% に収まる
     for (const entry of table.entries) {
-      const ratio = (count[entry.species] ?? 0) / 4000;
-      expect(ratio, entry.species).toBeGreaterThan(0.45);
-      expect(ratio, entry.species).toBeLessThan(0.55);
+      const ratio = (count[entry.species] ?? 0) / 8000;
+      const want = entry.rate / 100;
+      expect(Math.abs(ratio - want), entry.species).toBeLessThan(0.02);
+    }
+  });
+
+  /**
+   * 公式の表は **同じ種を複数のレベル帯で並べる**（1番道路のポッポは 2-2 / 3-3 / 4-4 / 5-5 の4件）。
+   * だから「種で entry を1件引いてレベル帯を照らす」書き方は成り立たない。
+   * 抽選結果は「**どれか**の entry と辻褄が合う」ことだけが言える。
+   */
+  it("抽選結果は必ずどれかの entry と辻褄が合う", () => {
+    const r = createRng({ s: 11, calls: 0 });
+    for (const table of allEncounterTables) {
+      for (let i = 0; i < 50; i += 1) {
+        const picked = pickEncounter(table, r);
+        const ok = table.entries.some(
+          (e) =>
+            e.species === picked.species &&
+            picked.level >= e.levelRange[0] &&
+            picked.level <= e.levelRange[1],
+        );
+        expect(ok, `${table.id} / ${picked.species} Lv${picked.level}`).toBe(true);
+      }
     }
   });
 });

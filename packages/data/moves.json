@@ -3710,5 +3710,19 @@
       "kind": "recoil",
       "ratio": 0.33
     }
+  },
+  {
+    "id": "splash",
+    "name": "はねる",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 40,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "nothing"
+    }
   }
 ]

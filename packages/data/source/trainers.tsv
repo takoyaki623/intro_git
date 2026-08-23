@@ -1,0 +1,54 @@
+# 本編のトレーナー（docs/design/world.md §6）。
+#
+# ネームド（named.tsv）と分けてある。あちらは**キャラクター**で、
+# ティアごとに構築が3つあり、台詞と戦術を持つ。こちらは**道中の1戦**で、
+# 1人1構築・台詞はイベント側にある。
+#
+# reward は勝ったときの賞金。defeatedFlag は「もう戦った」印で、
+# flags.json に宣言が要る（検証 #52）。
+id	name	class	reward	defeatedFlag
+kanto-rival-bulbasaur	グリーン	ライバル	175	kanto.pallet.rival-battled
+kanto-rival-charmander	グリーン	ライバル	175	kanto.pallet.rival-battled
+kanto-rival-squirtle	グリーン	ライバル	175	kanto.pallet.rival-battled
+kanto-route2-bug-catcher	リョウ	むしとりしょうねん	112	kanto.route2.bug-catcher-beaten
+kanto-forest-bug-1	サトシ	むしとりしょうねん	144	kanto.forest.bug-1-beaten
+kanto-forest-bug-2	ケンジ	むしとりしょうねん	160	kanto.forest.bug-2-beaten
+kanto-pewter-gym-jr	ジロウ	ジムトレーナー	240	kanto.pewter.gym-jr-beaten
+kanto-brock	タケシ	ジムリーダー	1386	kanto.pewter.brock-beaten
+kanto-route3-lass	ミナミ	ミニスカート	192	kanto.route3.lass-beaten
+kanto-route3-youngster	タカシ	たんぱんこぞう	208	kanto.route3.youngster-beaten
+kanto-moon-hiker	イワオ	やまおとこ	352	kanto.moon.hiker-beaten
+kanto-moon-rocket	ロケットだん	したっぱ	432	kanto.moon.rocket-beaten
+kanto-route4-bug	ユウジ	むしとりしょうねん	240	kanto.route4.bug-beaten
+kanto-cerulean-gym-jr	サチコ	ジムトレーナー	600	kanto.cerulean.gym-jr-beaten
+kanto-misty	カスミ	ジムリーダー	2079	kanto.cerulean.misty-beaten
+kanto-route5-hiker	ゴロウ	やまおとこ	480	kanto.route5.hiker-beaten
+kanto-route6-camper	ケイタ	キャンプボーイ	512	kanto.route6.camper-beaten
+kanto-vermilion-gym-jr	デンジ	ジムトレーナー	800	kanto.vermilion.gym-jr-beaten
+kanto-surge	マチス	ジムリーダー	2772	kanto.vermilion.surge-beaten
+kanto-route11-gambler	マサル	ギャンブラー	1080	kanto.route11.gambler-beaten
+kanto-tower-channeler	ミキ	れいばいし	1104	kanto.tower.channeler-beaten
+kanto-route8-lass	ユカリ	ミニスカート	960	kanto.route8.lass-beaten
+kanto-route7-camper	ススム	キャンプボーイ	1024	kanto.route7.camper-beaten
+kanto-celadon-gym-jr	アヤ	ジムトレーナー	1120	kanto.celadon.gym-jr-beaten
+kanto-erika	エリカ	ジムリーダー	3861	kanto.celadon.erika-beaten
+kanto-route16-biker	ゲンジ	ライダー	1200	kanto.route16.biker-beaten
+kanto-fuchsia-gym-jr	タツヤ	ジムトレーナー	1360	kanto.fuchsia.gym-jr-beaten
+kanto-koga	キョウ	ジムリーダー	5049	kanto.fuchsia.koga-beaten
+kanto-saffron-gym-jr	レイコ	ジムトレーナー	1520	kanto.saffron.gym-jr-beaten
+kanto-sabrina	ナツメ	ジムリーダー	5643	kanto.saffron.sabrina-beaten
+kanto-cinnabar-gym-jr	ヒロシ	かえんむすめ	2000	kanto.cinnabar.gym-jr-beaten
+kanto-blaine	カツラ	ジムリーダー	6237	kanto.cinnabar.blaine-beaten
+kanto-viridian-gym-jr	タカシ	ボスの したっぱ	2400	kanto.viridian.gym-jr-beaten
+kanto-giovanni	サカキ	ジムリーダー	7425	kanto.viridian.giovanni-beaten
+kanto-victory-cooltrainer	ケンジ	エリートトレーナー	4400	kanto.victory.cooltrainer-beaten
+kanto-rival-r22-bulbasaur	グリーン	ライバル	4800	kanto.route22.rival-beaten
+kanto-rival-r22-charmander	グリーン	ライバル	4800	kanto.route22.rival-beaten
+kanto-rival-r22-squirtle	グリーン	ライバル	4800	kanto.route22.rival-beaten
+kanto-lorelei	カンナ	してんのう	9000	kanto.league.lorelei-beaten
+kanto-bruno	シバ	してんのう	9200	kanto.league.bruno-beaten
+kanto-agatha	キクコ	してんのう	9400	kanto.league.agatha-beaten
+kanto-lance	ワタル	してんのう	9800	kanto.league.lance-beaten
+kanto-champion-bulbasaur	グリーン	チャンピオン	12000	kanto.league.champion-beaten
+kanto-champion-charmander	グリーン	チャンピオン	12000	kanto.league.champion-beaten
+kanto-champion-squirtle	グリーン	チャンピオン	12000	kanto.league.champion-beaten

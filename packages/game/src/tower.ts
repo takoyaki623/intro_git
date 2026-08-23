@@ -252,7 +252,7 @@ export async function playFacility(
     </table>
     <p class="lead">${
       run.state === "won"
-        ? `${facility.streakCap} れんしょう で うちどめです。上限の かいじょは AI smart と どうじ（v1.1）。`
+        ? `${facility.streakCap} れんしょう で うちどめです。上限の かいじょは AI smart と どうじ（v1.2）。`
         : "れんしょうは リセットされますが、てにいれた BP は なくなりません。"
     }</p>
     <div class="menu-actions"><button id="back">もどる</button></div>`);

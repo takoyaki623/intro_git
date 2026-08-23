@@ -2,7 +2,7 @@
  * ブラウザで v0.7〜v0.9 の完了条件をひと続きに通す煙テスト。
  *
  *   npm run dev            （別のターミナルで）
- *   node tools/playthrough.mjs [URL]
+ *   npm run playthrough  [-- URL]
  *
  * 単体テスト（packages/core/test/world.test.ts）は同じ道行きを core だけで通す。
  * こちらが見るのは **描画と入力が繋がっているか** ―― 型検査では絶対に落ちない層。
@@ -12,6 +12,7 @@
  */
 
 import { chromium } from "playwright";
+import { emptyWorldState, neighborsOf } from "@pkmn/core";
 import { mkdtempSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -83,6 +84,31 @@ const spot = async () => {
   return { map, x, y, facing, raw: `${map} ${pos} ${facing}` };
 };
 
+/**
+ * 割り込んだバトルを片付けてから戻る（v1.1-a）。
+ *
+ * `#field-canvas` はバトル中に消える。海に出現表が付いたことで
+ * **なみのり の1歩の直後にバトルが割り込む**ようになり、
+ * `spot()` が30秒待って落ちた ―― クチバの海には v1.0 まで表が無く、
+ * **この道は一度も通っていなかった。**
+ *
+ * **`spot()` の中でやってはいけない。** 野生戦の回数を数える区間が
+ * いくつもあり、そこで黙って戦うと「0回」になって検査が意味を失う
+ * （実際1回そうした）。**歩く関数の中だけ**に閉じる。
+ */
+async function settle() {
+  for (let i = 0; i < 4; i += 1) {
+    if (await page.isVisible("#field-canvas")) return;
+    if (await page.isVisible("#battle")) {
+      await fight();
+      await page.waitForTimeout(800);
+      await drain();
+      continue;
+    }
+    await page.waitForTimeout(400);
+  }
+}
+
 // ── 経路探索 ──
 //
 // **押した回数を数える台本は、この規模のマップでは必ず壊れる。**
@@ -92,9 +118,8 @@ const spot = async () => {
 const MAPS = new Map(
   JSON.parse(readFileSync("packages/data/maps.json", "utf8")).map((m) => [m.id, m]),
 );
-const STEPS = {
-  ArrowUp: [0, -1], ArrowDown: [0, 1], ArrowLeft: [-1, 0], ArrowRight: [1, 0],
-};
+/** core の向き → 押すキー。 */
+const KEY = { up: "ArrowUp", down: "ArrowDown", left: "ArrowLeft", right: "ArrowRight" };
 
 /**
  * 台本がどけた障害物と、なみのり を覚えたかどうか（v0.12-d）。
@@ -102,59 +127,33 @@ const STEPS = {
  * **経路探索は「今できること」を知らないと役に立たない。**
  * き を切ったのに経路探索が塞がったままだと、
  * ジムに入れたのに「行けない」と報告する台本ができあがる。
+ *
+ * v1.1-a からは `WorldState` そのものの形で持つ ―― 「隣とは何か」は
+ * `neighborsOf` が一手に決めるので、台本は**できることを申告するだけ**でよい。
  */
 const cleared = new Set();
 let canSurf = false;
-
-function blocked(map, x, y) {
-  if (x < 0 || y < 0 || x >= map.size.width || y >= map.size.height) return true;
-  const i = y * map.size.width + x;
-  if (map.collision[i] === true && !(canSurf && map.terrain[i] === "water")) return true;
-  // **条件つきのオブジェクトは通れる扱いにする。**
-  // 消える前提のもの（進行を塞ぐオーキドなど）を壁として扱うと、
-  // 本来の道が丸ごと消える ―― 実際、これで1番道路へ一生行けなかった。
-  // 条件が残っていれば実際に進めず、goToMap が経路を引き直す。
-  return map.objects.some((o) => {
-    if (o.at.x !== x || o.at.y !== y || o.kind.type === "item") return false;
-    if (o.kind.type === "obstacle") return !cleared.has(`${map.id}:${o.id}`);
-    return o.condition === undefined;
-  });
-}
-
-const terrainAt = (map, x, y) => map.terrain[y * map.size.width + x];
-
-const warpAt = (map, x, y) =>
-  map.warps.find((w) => w.at.x === x && w.at.y === y && w.trigger === "step") ?? null;
+const able = () => ({
+  ...emptyWorldState(),
+  abilities: canSurf ? ["surf"] : [],
+  cleared: [...cleared],
+});
 
 /**
- * 1歩で行ける先。マップをまたぐ。
+ * 1歩で行ける先。マップをまたぐ。**規則は core が持っている**（v1.1-a）。
  *
- *   - 段差は南向きの飛び降りとしてだけ繋がる（原作どおりの一方通行）
- *   - 踏む warp のマスに入ると、その場で接続先へ移る。**同じ1歩の中で起きる**
+ * 条件つきオブジェクトだけは通れる扱いにする ―― 消える前提のもの
+ * （進行を塞ぐオーキドなど）を壁として扱うと本来の道が丸ごと消える。
+ * 実際、これで1番道路へ一生行けなかった。条件が残っていれば実際に進めず、
+ * `goToMap` が経路を引き直す。
  */
 function neighbors(mapId, x, y) {
-  const map = MAPS.get(mapId);
-  const out = [];
-  for (const [key, [dx, dy]] of Object.entries(STEPS)) {
-    let nx = x + dx;
-    let ny = y + dy;
-    if (nx < 0 || ny < 0 || nx >= map.size.width || ny >= map.size.height) continue;
-
-    if (terrainAt(map, nx, ny) === "ledge") {
-      if (key !== "ArrowDown") continue;
-      nx += dx;
-      ny += dy;
-    }
-    if (blocked(map, nx, ny)) continue;
-
-    const warp = warpAt(map, nx, ny);
-    out.push(
-      warp === null
-        ? { key, map: mapId, x: nx, y: ny }
-        : { key, map: warp.to.map, x: warp.to.x, y: warp.to.y },
-    );
-  }
-  return out;
+  return neighborsOf(MAPS.get(mapId), able(), x, y, { ignoreConditional: true }, MAPS).map((n) => ({
+    key: KEY[n.dir],
+    map: n.map,
+    x: n.x,
+    y: n.y,
+  }));
 }
 
 /** 目的地までの手順。マップをまたいで探す。 */
@@ -193,6 +192,7 @@ function route(from, to) {
  */
 async function goToMap(map, x, y, tries = 20) {
   for (let attempt = 0; attempt < tries; attempt += 1) {
+    await settle();
     const from = await spot();
     if (from.map === map && from.x === x && from.y === y) return from;
 
@@ -218,6 +218,7 @@ async function goToMap(map, x, y, tries = 20) {
         drifted = true;
         break;
       }
+      await settle();
       const now = await spot();
       // 全滅で飛ばされた・向き直りで進まなかった等。引き直す
       if (now.map !== step.node.map || now.x !== step.node.x || now.y !== step.node.y) {
@@ -239,8 +240,12 @@ async function goToMap(map, x, y, tries = 20) {
       }
       before = now;
     }
-    if (!drifted) return spot();
+    if (!drifted) {
+      await settle();
+      return spot();
+    }
   }
+  await settle();
   return spot();
 }
 
