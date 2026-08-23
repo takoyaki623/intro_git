@@ -1436,6 +1436,27 @@ function checkWorld(): void {
     }
   }
 
+  // ── #90・#91 殿堂入り（v1.0）──
+  //
+  // **地方は「終われる」ようになっていて初めて地方になる。**
+  // 遊べる地方を足したのに終点を書き忘れると、8つ目のバッジのあとに何も無い ――
+  // 遊んで気づくには、いちばん遠い場所にある間違いになる。
+  {
+    const runs = (kind: string) =>
+      allEvents.filter((e) => walkCommands(e.commands).some((c) => c.kind === kind));
+    for (const region of allRegions) {
+      if (!region.available) continue;
+      // イベントIDは地方ごとに接頭辞をつける約束（world.md §6）
+      const ending = runs("hallOfFame").filter((e) => e.id.startsWith(`${region.id}.`));
+      if (ending.length === 0) {
+        fail("hall-of-fame", `${region.id}: 殿堂入りするイベントが無い（終われない地方）`);
+      }
+    }
+    if (runs("openHall").length === 0) {
+      warn("hall-of-fame", "殿堂の記録を見られる場所がどこにも無い");
+    }
+  }
+
   // ── #81 マップに入った瞬間のイベント（v0.12-d）──
   for (const map of allMaps) {
     if (map.onEnter === undefined) continue;

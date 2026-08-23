@@ -47,5 +47,7 @@ plaza-arena-sign 11,4 sign hub.plaza.sign-arena
 plaza-depot-sign 4,13 sign hub.plaza.sign-depot
 plaza-gate-kanto 8,14 npc:gate:static hub.gate.kanto
 plaza-gate-johto 9,14 npc:gate:static hub.gate.johto
+plaza-hall 8,6 npc:machine:static hub.plaza.hall
+plaza-hall-sign 7,6 sign hub.plaza.sign-hall
 plaza-guide 11,10 npc:guide:static hub.plaza.guide
 plaza-sparring 14,11 npc:trainer:static hub.plaza.free-battle

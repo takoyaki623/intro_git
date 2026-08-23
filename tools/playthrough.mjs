@@ -1276,9 +1276,54 @@ for (const [name, map] of FOUR) {
     expect(`${name} に 勝つと つぎの とびらが ひらく`, (await spot()).map, next);
   }
 }
+// **殿堂入りの画面が出る。** 閉じるまで先へ進まない
+await page.waitForSelector("#field-panel", { state: "visible", timeout: 15000 }).catch(() => {});
+const hall = (await page.textContent("#field-panel")) ?? "";
+expect("でんどういり の画面が 出る", hall.includes("でんどういり") ? "出た" : "出ない", "出た");
+await shot("33-hall-of-fame");
+await page.click("#panel-close").catch(() => {});
 await drain(20);
-expect("チャンピオンに 勝つと セキエイこうげんへ 戻る", (await spot()).map, "kanto-indigo-plateau");
-await shot("33-champion");
+expect("とじると セキエイこうげんへ 戻る", (await spot()).map, "kanto-indigo-plateau");
+
+// **記録はセーブに残る。** 画面を閉じたら消えた、では殿堂の意味が無い
+const crowned = await readSave();
+expect("でんどういりが セーブに 残る", crowned.global.hallOfFame.length, 1);
+expect("スキーマが v5 に なる", crowned.schemaVersion, 5);
+note(
+  "きろくされた 手持ち",
+  crowned.global.hallOfFame[0].party.map((p) => `${p.species} Lv${p.level}`).join(" ・ "),
+);
+
+// 拠点の「でんどうの ひ」で読み返せる。
+// **チャンピオンロードは歩いて戻らない** ―― どけた岩は出入りで元に戻るので
+// （world.md §7.1）、帰りにもう一度 かいりき が要る。そらをとぶ のほうが早い
+cleared.clear();
+await page.click("#open-fly");
+await page.waitForSelector('#field-panel [data-fly="kanto-pallet-town"]');
+await page.click('#field-panel [data-fly="kanto-pallet-town"]');
+await drain();
+await page.waitForTimeout(800);
+expect("そらをとぶ で マサラへ 戻れる", (await spot()).map, "kanto-pallet-town");
+// **`talk()` は使わない** ―― あれは最後に `drain()` するが、`drain()` は
+// 選択肢のいちばん下（＝「やめる」）を押すので、ゲートの前で引き返してしまう
+await backToHub();
+await drain();
+expect("拠点に 戻れる", (await spot()).map, "hub-plaza");
+await goToMap("hub-plaza", 8, 7, 40);
+await key("ArrowUp", 2, 220);
+await key("z", 1, 400);
+// **石碑は先に一言しゃべる。** 会話を送らないと `openHall` まで進まない
+await drain(10);
+await page.waitForSelector("#field-panel", { state: "visible", timeout: 8000 }).catch(() => {});
+const monument = (await page.textContent("#field-panel")) ?? "";
+expect(
+  "拠点の でんどうの ひ で 読み返せる",
+  monument.includes("カントー") ? "読めた" : "読めない",
+  "読めた",
+);
+await shot("34-hall-monument");
+await page.click("#panel-close").catch(() => {});
+await drain();
 
 console.log(`\nスクリーンショット: ${SHOTS}`);
 console.log(errors.length === 0 ? "JS エラーなし" : `JS エラー ${errors.length} 件:\n${errors.join("\n")}`);

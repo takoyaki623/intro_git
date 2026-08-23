@@ -1513,6 +1513,30 @@
         "event": "hub.gate.johto"
       },
       {
+        "id": "plaza-hall",
+        "at": {
+          "x": 8,
+          "y": 6
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "machine",
+          "movement": "static"
+        },
+        "event": "hub.plaza.hall"
+      },
+      {
+        "id": "plaza-hall-sign",
+        "at": {
+          "x": 7,
+          "y": 6
+        },
+        "kind": {
+          "type": "sign"
+        },
+        "event": "hub.plaza.sign-hall"
+      },
+      {
         "id": "plaza-guide",
         "at": {
           "x": 11,

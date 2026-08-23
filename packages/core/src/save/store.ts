@@ -23,7 +23,7 @@ import type { CupId, PokemonInstance } from "../types.js";
  * v3 → v4: **共通ボックスと「今どの地方に居るか」**（v0.10）。
  *          地方が並列に9つある構造を、セーブが初めて表現する。
  */
-export const CURRENT_SCHEMA_VERSION = 4;
+export const CURRENT_SCHEMA_VERSION = 5;
 
 export type FacilityRecord = {
   bestStreak: number;
@@ -74,6 +74,21 @@ export type RegionProgress = {
 /** 図鑑の状態。 */
 export type DexEntryState = "seen" | "caught";
 
+/**
+ * 殿堂入りの記録（v1.0）。
+ *
+ * **そのときの手持ちを写して残す。** `uid` で参照しないのは、
+ * 逃がしたり進化させたりしたあとに殿堂の記録が変わってしまうため ――
+ * 殿堂は「そのとき何を連れていたか」の記録なので、あとから動いてはいけない。
+ */
+export type HallOfFameEntry = {
+  region: string;
+  /** 何回目の殿堂入りか（1から）。 */
+  count: number;
+  at: number;
+  party: { species: string; nickname: string | null; level: number; shiny: boolean }[];
+};
+
 export type SaveData = {
   /** 必ず最初のフィールド。読み込み時に必ず確認する。 */
   schemaVersion: number;
@@ -100,6 +115,11 @@ export type SaveData = {
       facilityRecords: Record<FacilityId, FacilityRecord>;
       tournamentRecords: Record<CupId, TournamentRecord>;
     };
+    /**
+     * 殿堂入りの記録（v1.0）。**新しいものが先頭。**
+     * 地方をまたぐので `global` に置く（regions.md §2 の「地方は独立」の外側）。
+     */
+    hallOfFame: HallOfFameEntry[];
   };
   /**
    * 個体の実体。**器（手持ち・ボックス）は uid しか持たない。**
@@ -153,6 +173,7 @@ export function emptySave(): SaveData {
       dex: {},
       bag: {},
       boxUids: [],
+      hallOfFame: [],
       currentRegion: null,
       endgame: { facilityRecords: {}, tournamentRecords: {} },
     },
@@ -199,6 +220,16 @@ const migrations: Record<number, (data: SaveData) => SaveData> = {
     schemaVersion: 4,
     global: { ...v3.global, boxUids: [], currentRegion: "kanto" },
     settings: { ...v3.settings, artSource: "drawn" },
+  }),
+
+  // v1.0: 殿堂入りの記録。
+  // **既存のセーブは「まだ殿堂入りしていない」から始める。**
+  // バッジ8つで四天王を倒していても、記録は残っていないので空にするしかない ――
+  // 後から作った記録を「あったこと」にはしない
+  5: (v4) => ({
+    ...v4,
+    schemaVersion: 5,
+    global: { ...v4.global, hallOfFame: [] },
   }),
 };
 
@@ -320,6 +351,7 @@ function normalize(data: SaveData): SaveData {
       dex,
       bag,
       boxUids,
+      hallOfFame: Array.isArray(data.global?.hallOfFame) ? data.global.hallOfFame : [],
       // 知らない地方が入っていたら拠点に落とす（存在しない地方で立ち往生させない）
       currentRegion: typeof region === "string" && region in regions ? region : null,
       endgame: { facilityRecords: clean, tournamentRecords: cleanCups },

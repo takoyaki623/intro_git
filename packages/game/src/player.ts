@@ -22,6 +22,7 @@ import {
   createMemorySaveStore,
   emptySave,
   emptyStorage,
+  levelOf,
   resolveCommonBox,
   resolveParty,
   sendToCommonBox,
@@ -30,11 +31,12 @@ import {
   type DexEntryState,
   type DexState,
   type Direction,
+  type HallOfFameEntry,
   type SaveData,
   type SaveStore,
   type Storage,
 } from "@pkmn/core";
-import { mapId, regionById } from "@pkmn/data";
+import { gameData, mapId, regionById } from "@pkmn/data";
 
 export type Place = { map: string; x: number; y: number; facing: Direction };
 
@@ -201,6 +203,31 @@ export function toSave(): SaveData {
     position: { ...player.position },
     respawn: { ...player.respawn },
   });
+}
+
+/**
+ * 殿堂入りを記録する（v1.0）。
+ *
+ * **そのときの手持ちを写す。** uid で参照すると、逃がしたり進化させたりした
+ * あとに殿堂の記録が変わってしまう ―― 殿堂は「そのとき何を連れていたか」なので、
+ * あとから動いてはいけない。
+ */
+export function recordHallOfFame(region: string): HallOfFameEntry {
+  const past = save.global.hallOfFame.filter((e) => e.region === region).length;
+  const entry: HallOfFameEntry = {
+    region,
+    count: past + 1,
+    at: Date.now(),
+    party: player.storage.party.map((p) => ({
+      species: p.species,
+      nickname: p.nickname ?? null,
+      level: levelOf(gameData, p),
+      shiny: p.shiny,
+    })),
+  };
+  // 新しいものが先頭
+  save = { ...save, global: { ...save.global, hallOfFame: [entry, ...save.global.hallOfFame] } };
+  return entry;
 }
 
 /** スロットは1つだけ（複数スロットは調整項目・save-data.md §10）。 */

@@ -99,6 +99,8 @@ export type EventEffect =
   | { kind: "openExchange" }
   | { kind: "openTournament" }
   | { kind: "openStorage" }
+  | { kind: "hallOfFame" }
+  | { kind: "openHall" }
   | { kind: "gotItem"; item: ItemId; count: number }
   | { kind: "gotPokemon"; species: SpeciesId; level: number; moves: MoveId[] }
   | { kind: "moneyChanged"; delta: number }
@@ -121,6 +123,9 @@ const BLOCKING = new Set<EventEffect["kind"]>([
   "openExchange",
   "openTournament",
   "openStorage",
+  // 殿堂入りの演出は長い。閉じるまでイベントを止める（v1.0）
+  "hallOfFame",
+  "openHall",
 ]);
 
 /**
@@ -299,6 +304,14 @@ const handlers: { [K in EventCommand["kind"]]: Handler } = {
 
   openStorage: (_c, _w, _r, effects) => {
     effects.push({ kind: "openStorage" });
+  },
+
+  hallOfFame: (_c, _w, _r, effects) => {
+    effects.push({ kind: "hallOfFame" });
+  },
+
+  openHall: (_c, _w, _r, effects) => {
+    effects.push({ kind: "openHall" });
   },
 };
 

@@ -49,6 +49,7 @@ import {
   type EventEffect,
   type EventId,
   type FieldAbilityId,
+  type HallOfFameEntry,
   type MapData,
   type MapObject,
   type BattlePokemon,
@@ -78,7 +79,15 @@ import {
 } from "@pkmn/data";
 import { $, runBattle, type BattleOutcome } from "./battle-screen.js";
 import { escape } from "./team-select.js";
-import { autosave, enterRegion, player, returnToHub, save, sendToStorage } from "./player.js";
+import {
+  autosave,
+  enterRegion,
+  player,
+  recordHallOfFame,
+  returnToHub,
+  save,
+  sendToStorage,
+} from "./player.js";
 import { openExchangeScreen, openFacilityScreen, openTournamentScreen } from "./screens.js";
 import { buildingsOf, drawBuilding } from "./art/buildings.js";
 import { drawTile, shade, type TileView } from "./art/tiles.js";
@@ -633,6 +642,12 @@ export function playField(rebuild: () => void): FieldHandle {
         return;
       case "openStorage":
         showStorage();
+        return;
+      case "hallOfFame":
+        await enterHallOfFame();
+        return;
+      case "openHall":
+        showHall(null);
         return;
       case "wait":
       case "playSe":
@@ -1279,6 +1294,69 @@ export function playField(rebuild: () => void): FieldHandle {
         });
       };
     }
+  }
+
+  /**
+   * 殿堂入り（v1.0）。
+   *
+   * **記録を残してから見せる。** 見せてから残すと、途中で閉じたときに
+   * 「殿堂入りしたのに記録が無い」状態になる。
+   */
+  async function enterHallOfFame(): Promise<void> {
+    const region = player.region;
+    if (region === null) return;
+    const entry = recordHallOfFame(region);
+    await autosave();
+    await new Promise<void>((resolve) => {
+      showHall(entry, resolve);
+    });
+  }
+
+  /** 殿堂の記録を見る。`entry` があればその1件を大きく出す（殿堂入りの直後）。 */
+  function showHall(entry: HallOfFameEntry | null, onClose?: () => void): void {
+    const all = save.global.hallOfFame;
+    const shown = entry === null ? all : [entry];
+    const date = (at: number) => new Date(at).toLocaleDateString("ja-JP");
+    panel.classList.remove("hidden");
+    panel.innerHTML = `
+      <div class="panel-head">
+        <strong>${entry === null ? "でんどういり の きろく" : "でんどういり!"}</strong>
+        <button class="ghost" id="panel-close">とじる</button>
+      </div>
+      ${
+        entry !== null
+          ? `<p class="dim">${escape(regionById(entry.region).name)}チャンピオン。
+             つれていた ${entry.party.length}ひきを きろくしました。</p>`
+          : ""
+      }
+      ${
+        shown.length === 0
+          ? `<p class="dim">まだ 1つも ありません。</p>`
+          : shown
+              .map(
+                (e) => `
+                <div class="panel-head">
+                  <strong>${escape(regionById(e.region).name)} ${e.count}かいめ</strong>
+                  <span class="dim">${date(e.at)}</span>
+                </div>
+                <ul class="mon-list">
+                  ${e.party
+                    .map(
+                      (m) => `<li>
+                        ${iconOf(m.species)}
+                        <strong>${escape(m.nickname ?? gameData.species(m.species).name)}</strong>
+                        <span class="meta">Lv${m.level}${m.shiny ? " ・ ✦" : ""}</span>
+                      </li>`,
+                    )
+                    .join("")}
+                </ul>`,
+              )
+              .join("")
+      }`;
+    $("#panel-close").onclick = () => {
+      closePanel();
+      onClose?.();
+    };
   }
 
   function showStorage(): void {

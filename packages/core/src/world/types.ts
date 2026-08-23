@@ -206,7 +206,16 @@ export type EventCommand =
   | { kind: "openExchange" }
   | { kind: "openTournament" }
   /** 共通ボックス。地方ボックス（`openBox`）とは**別物**（capture.md §4）。 */
-  | { kind: "openStorage" };
+  | { kind: "openStorage" }
+  /**
+   * 殿堂入り（v1.0）。**その地方のチャレンジが終わったことの記録。**
+   *
+   * 実際に何を書くかは UI の仕事（そのときの手持ちを写す）。
+   * `core` は「殿堂入りした」という出来事だけを返す ―― バトルと同じ分担。
+   */
+  | { kind: "hallOfFame" }
+  /** 殿堂の記録を見る（v1.0）。**残すのではなく見るだけ。** */
+  | { kind: "openHall" };
 
 /**
  * ショップの品揃え（v0.9）。

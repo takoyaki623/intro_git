@@ -4742,7 +4742,10 @@
       },
       {
         "kind": "message",
-        "text": "カントーの チャンピオンは きみだ。\n（殿堂入りの えんしゅつは v1.0）"
+        "text": "カントーの チャンピオンは きみだ。"
+      },
+      {
+        "kind": "hallOfFame"
       },
       {
         "kind": "warp",
@@ -4750,6 +4753,27 @@
         "x": 6,
         "y": 3,
         "facing": "down"
+      }
+    ]
+  },
+  {
+    "id": "hub.plaza.hall",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "でんどういりの きろくが きざまれている。"
+      },
+      {
+        "kind": "openHall"
+      }
+    ]
+  },
+  {
+    "id": "hub.plaza.sign-hall",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "でんどうの ひ\n\n 「ちほうを かんそうした ものの きろく」"
       }
     ]
   }

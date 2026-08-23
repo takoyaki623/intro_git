@@ -374,3 +374,37 @@ describe("現在地方", () => {
     expect(migrate(JSON.parse(JSON.stringify(data)))!.global.currentRegion).toBeNull();
   });
 });
+
+// ─────────────────────────────────────────────
+// v1.0 殿堂入り
+// ─────────────────────────────────────────────
+
+describe("殿堂入りの記録（v1.0・スキーマv5）", () => {
+  it("v4 のセーブは「まだ殿堂入りしていない」から始まる", () => {
+    const data = migrate(JSON.parse(readFileSync("fixtures/saves/v4.json", "utf8")))!;
+    expect(data.schemaVersion).toBe(5);
+    // **後から作った記録を「あったこと」にはしない。**
+    // バッジ8つでも、記録が残っていなければ殿堂は空
+    expect(data.global.hallOfFame).toEqual([]);
+  });
+
+  it("v5 のサンプルは記録を保ったまま読める", () => {
+    const data = migrate(JSON.parse(readFileSync("fixtures/saves/v5.json", "utf8")))!;
+    expect(data.global.hallOfFame).toHaveLength(1);
+    const entry = data.global.hallOfFame[0]!;
+    expect(entry.region).toBe("kanto");
+    expect(entry.count).toBe(1);
+    expect(entry.party.map((p) => p.species)).toEqual(["charmander", "pidgey"]);
+    // **個体そのものではなく写し。** ニックネームも色違いもそのとき固定
+    expect(entry.party[1]!.nickname).toBe("ポポ");
+    expect(entry.party[1]!.shiny).toBe(true);
+  });
+
+  it("壊れた記録は空として読む（進行不能にしない）", () => {
+    const raw = JSON.parse(readFileSync("fixtures/saves/v5.json", "utf8")) as {
+      global: { hallOfFame: unknown };
+    };
+    raw.global.hallOfFame = "こわれている";
+    expect(migrate(raw)!.global.hallOfFame).toEqual([]);
+  });
+});

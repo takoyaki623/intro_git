@@ -6,7 +6,7 @@
  * 特性 68 / 道具 58 /
  * BattleSet 64 / 施設 4 /
  * ネームド 18 / カップ 10 /
- * マップ 71 / イベント 226 / トレーナー 45 /
+ * マップ 71 / イベント 228 / トレーナー 45 /
  * 出現テーブル 17 / ショップ 5 / 地方 9 /
  * フラグ 95
  */
@@ -796,9 +796,11 @@ export type GeneratedEventId =
   | "hub.gate.kanto"
   | "hub.plaza.free-battle"
   | "hub.plaza.guide"
+  | "hub.plaza.hall"
   | "hub.plaza.sign"
   | "hub.plaza.sign-arena"
   | "hub.plaza.sign-depot"
+  | "hub.plaza.sign-hall"
   | "hub.plaza.sign-tower"
   | "hub.tower.board"
   | "hub.tower.clerk"
