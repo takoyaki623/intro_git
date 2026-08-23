@@ -942,19 +942,48 @@ await shot("20b-cut");
 
 await goToMap("kanto-vermilion-gym", 4, 8, 60);
 expect("いあいぎり で ジムに 入れる", (await spot()).map, "kanto-vermilion-gym");
-await goToMap("kanto-vermilion-gym", 4, 2);
+
+// **ジムの前にポケモンセンターへ寄る** ―― 人がやることと同じ。
+// v1.1-d でヤマブキ経由になり、クチバまでの道が2倍近くなった。
+// 着くころには削れていて、マチスに負けるようになった
+// （「決着してマップに戻った」は勝敗を含まない ―― バッジの数で気づいた）
+await goToMap("kanto-vermilion-pokecenter", 4, 3, 60);
 await talk("ArrowUp");
-await drain(8);
-expect("マチスに いどめる", (await page.isVisible("#battle")) ? "いどめた" : "いどめない", "いどめた");
-expect("マチス戦の 決着", await fight(), "決着してマップに戻った");
-await page.waitForTimeout(800);
-await drain(30);
+await drain();
+note("マチスの前に 回復", (await page.textContent("#field-party")).trim());
+
+// **`challengeGym` は使わない。** あれは先頭で powerUp（Lv100）するので、
+// 序盤の実戦がまるごと消える ―― ここは「育てた手持ちで勝てるか」を見る場所。
+// 回復して挑み直すだけにする
+let surge = 0;
+for (let attempt = 1; attempt <= 3 && surge === 0; attempt += 1) {
+  await goToMap("kanto-vermilion-gym", 4, 2, 40);
+  await talk("ArrowUp");
+  await drain(8);
+  if (attempt === 1) {
+    expect("マチスに いどめる", (await page.isVisible("#battle")) ? "いどめた" : "いどめない", "いどめた");
+  }
+  if (await page.isVisible("#battle")) {
+    await fight();
+    await page.waitForTimeout(800);
+    await drain(30);
+  }
+  if ((await badgeCount()) >= 3) {
+    surge = attempt;
+    break;
+  }
+  note("マチス", `${attempt}回目は 負けた（バッジ ${await badgeCount()}）`);
+  await goToMap("kanto-vermilion-pokecenter", 4, 3, 60);
+  await talk("ArrowUp");
+  await drain();
+}
+expect("マチスに 勝つと バッジが 3つに なる", surge, (v) => v > 0);
 
 await page.click("#open-settings");
 await page.waitForSelector("#save-export");
 await page.click("#save-export");
 const threeBadges = JSON.parse(await page.inputValue("#save-text"));
-expect("バッジが 3つに なる", threeBadges.regions.kanto.badges, 3);
+expect("バッジが セーブにも 3つ 入る", threeBadges.regions.kanto.badges, 3);
 await page.click("#settings-back");
 await page.waitForSelector("#field-canvas");
 await shot("21-three-badges");
