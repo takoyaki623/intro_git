@@ -1070,9 +1070,25 @@ expect(
 // だから確かめるのは効果ではなく、**選ばせているか**と**やめたら減らないか。**
 // タマムシに居るこの時点でやる ―― しんかの どうぐ の店がここにある。
 {
+  /**
+   * バッグを開く。**「押す」ではなく「開いていることにする」。**
+   *
+   * `#open-bag` は開閉の切り替えで、道具を使うとパネルが開いたまま描き直される。
+   * そこでもう一度押すと**閉じる** ―― 台本は空のパネルを読んで
+   * 「わざマシンが 0こ になった」と誤報した（実際は減っていない）。
+   */
+  const openBag = async () => {
+    if (!(await page.isVisible("#field-panel"))) await page.click("#open-bag");
+    await page.waitForTimeout(300);
+  };
+  /** パネルは歩く前に閉じる（開いたままだと画面を覆っている）。 */
+  const closeBag = async () => {
+    if (await page.isVisible("#field-panel")) await page.click("#panel-close");
+    await page.waitForTimeout(200);
+  };
+
   // タケシがくれた わざマシン（がんせきふうじ）。原作どおり、ジムの報酬で手に入る
-  await page.click("#open-bag");
-  await page.waitForTimeout(300);
+  await openBag();
   const bagText = (await page.textContent("#field-panel")) ?? "";
   expect(
     "ジムでもらった わざマシンが バッグに ある",
@@ -1104,8 +1120,7 @@ expect(
   await page.click(`#field-text .choices button:nth-child(${slots.length})`); // 「おぼえない」
   await page.waitForTimeout(500);
   await drain();
-  await page.click("#open-bag");
-  await page.waitForTimeout(300);
+  await openBag();
   expect("やめたら わざマシンは 減らない", await countOf("わざマシン39"), before);
 
   // 2回目 ―― 実際に入れ替える
@@ -1124,6 +1139,7 @@ expect(
   expect("わざマシンで 技を おぼえた", learned ? "おぼえた" : "おぼえていない", "おぼえた");
 
   // しんかの どうぐ の店（原作のデパート4階にあたる）
+  await closeBag();
   await goToMap("kanto-celadon-mart", 5, 2, 60);
   expect("タマムシの 店に 入れた", (await spot()).map, "kanto-celadon-mart");
   await key("ArrowUp", 2, 200);
@@ -1160,8 +1176,7 @@ expect(
 
   /** 道具を1匹目に使い、出た選択肢の1つ目を押す（「しんかさせる」）。 */
   const useOnFirst = async (id, member) => {
-    await page.click("#open-bag");
-    await page.waitForTimeout(300);
+    await openBag();
     await page.click(`[data-use="${id}"]`);
     await page.waitForTimeout(400);
     await page.click(`#field-text .choices button:nth-child(${member})`);
@@ -1187,6 +1202,7 @@ expect(
     traded.pokemon[uids[1]].species,
     "machamp",
   );
+  await closeBag();
   await shot("22b-items");
 }
 
