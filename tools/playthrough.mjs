@@ -674,6 +674,13 @@ await page.waitForTimeout(200);
 // ── 10. 全滅したら復活地点へ戻る（v0.9-c）──
 //
 // **どこへ戻るかはセーブに入っている。** 家ではなく、最後に回復した場所。
+//
+// **弱くするのは草むらに着いてから**（v1.1-b で順番を入れ替えた）。
+// v1.1-a で `goToMap` が「割り込んだバトルを片付ける」ようになったので、
+// 先に HP を1にすると**道中で全滅し、そこで回復してしまう** ――
+// 草むらに着いた時点では満タンに戻っていて、確かめたい状態が消えていた。
+// 台本を強くした変更が、別の台本の前提を壊した形。
+await goToMap("kanto-route-1", 4, 3);
 await page.click("#open-settings");
 await page.waitForSelector("#save-export");
 await page.click("#save-export");
@@ -695,8 +702,7 @@ await page.waitForTimeout(900);
 await page.click("#settings-back");
 await page.waitForSelector("#field-canvas");
 await page.waitForTimeout(300);
-// 1番道路の草むらへ戻り、負けるまで戦う
-await goToMap("kanto-route-1", 4, 3);
+// もう草むらに立っている。あとは負けるまで歩く
 // HP1 でも勝ってしまうことがある（相手が変化技しか撃たない等）。
 // **負けるまで粘る**ので、歩数は多めに取る
 let lost = false;
@@ -1142,17 +1148,19 @@ expect(
   await closeBag();
   await goToMap("kanto-celadon-mart", 5, 2, 60);
   expect("タマムシの 店に 入れた", (await spot()).map, "kanto-celadon-mart");
-  await key("ArrowUp", 2, 200);
+  // **石の店員は右**（6,2）。トキワの店員が左だったので向きを写して間違えた
+  await key("ArrowRight", 2, 200);
   await key("z", 1, 400);
   await clear();
   const stones = await page.$$eval("#field-text .choices button", (b) => b.map((x) => x.textContent));
-  note("しんかの どうぐ", stones.slice(0, 4).join(" / "));
+  note("しんかの どうぐ", stones.slice(0, 4).join(" / ") || "（品が出ていない）");
   expect(
     "つながりのヒモが 売っている",
     stones.some((t) => t.includes("つながりのヒモ")) ? "ある" : "ない",
     "ある",
   );
-  await page.click(`#field-text .choices button:nth-child(${stones.length})`); // やめる
+  // **買わずに閉じる。** 品が出ていなければ会話を流すだけにする
+  // （nth-child(0) は必ず見つからず、30秒待って落ちる）
   await drain();
 
   // **石とヒモの相手を用意する。** 手持ちはヒトカゲの系統しか居ないので、
