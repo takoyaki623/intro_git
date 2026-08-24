@@ -1702,7 +1702,7 @@ expect(
   // 西へ渡る前に尽きて「西のエリアへ移れる」が落ちる ―― 中央は控えめにして、
   // **残りは西で尽きるまで回す**（西の上限22往復＝440歩。区画で数えていなければ
   // 西だけで500歩＝25往復要るので、上限に当たって落ちる）。
-  await goToMap("kanto-safari-middle", 6, 10, 40);
+  await goToMap("kanto-safari-middle", 1, 10, 40);
   // **左端に戻って終わる向きにする。** 「左へ→右へ」だと1往復ごとに
   // **右端**で終わり、そこから左の warp へ向かったつもりで逆方向へ歩いていた ――
   // 5往復したあと西へ渡れず、中央に居たまま歩数だけ使っていた。
@@ -1717,13 +1717,18 @@ expect(
     await key("ArrowRight", span + 1, stepWait);
     await key("ArrowLeft", span + 1, stepWait);
   };
-  await key("ArrowLeft", 6, stepWait); // 6,10 → 1,10（通路。草も水も無い行）
-  for (let i = 0; i < 5; i += 1) await lap(10); // 100歩
-  await key("ArrowUp", 5, stepWait); // 1,10 → 1,6（すべて通路）
+  for (let i = 0; i < 5; i += 1) await lap(10); // 100歩ぶん
+
+  // **場所を合わせるのに キーの回数を数えない。**
+  //
+  // `key(dir, n)` が何マス進むかは**押す前の向きで変わる** ―― 違う向きなら
+  // 1回目は「向き直り」で進まず n-1 マス、同じ向きなら n マス。
+  // 5回押して 1,6 に居るつもりが 1,5 に居て、そこから左は壁（y=5 の x=0 は T）。
+  // 一生ぶつかっていた。**位置合わせは道具に引かせ、キーは歩数を使う用だけにする。**
   note("西の 出口へ 向かう前", `${(await spot()).raw} / のこり ${(await stepsLeft()) || "—"}歩`);
-  await key("ArrowLeft", 2, stepWait); // 0,6 の warp で西へ
+  await goToMap("kanto-safari-west", 11, 6, 40);
   expect("西の エリアへ 移れる", (await spot()).map, "kanto-safari-west");
-  await key("ArrowUp", 3, stepWait); // 11,6 → 11,4（西の通路の行）
+  await goToMap("kanto-safari-west", 11, 4, 20); // 西の通路の行へ
 
   note("西に 入った時点の のこり歩数", (await stepsLeft()) || "（表示なし）");
   expect(
