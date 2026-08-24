@@ -221,7 +221,7 @@ a:focus-visible, summary:focus-visible {
     設計文書は <code>docs/design/</code>、上位方針は <code>docs/game-plan.md</code>。
   </p>
   <p class="meta">
-    テスト 408件 ／ 検証項目 113 ／ マップ 107枚 ／ 種族 190 ／ 技 248 ／ 道具 99
+    テスト 408件 ／ 検証項目 114 ／ マップ 107枚 ／ 種族 190 ／ 技 248 ／ 道具 99
     ―― 型チェック・検証スクリプト・通し確認（191項目）・撮影（47か所）すべて緑
   </p>
 </header>
@@ -232,7 +232,7 @@ a:focus-visible, summary:focus-visible {
   <div class="fig"><b class="num">248</b><span>技</span></div>
   <div class="fig"><b class="num">18</b><span>ネームド</span></div>
   <div class="fig"><b class="num">107</b><span>マップ</span></div>
-  <div class="fig"><b class="num">113</b><span>検証項目</span></div>
+  <div class="fig"><b class="num">114</b><span>検証項目</span></div>
   <div class="fig"><b class="num">13,267</b><span>実装行 (TS)</span></div>
   <div class="fig"><b class="num">5,329</b><span>テスト行</span></div>
 </div>
@@ -823,7 +823,7 @@ pokemon … 個体の実体。uid が主キー</code></pre>
     <p><strong>新しい <code>Condition</code> は作らなかった。</strong>
     「岩がスイッチに乗っているか」は条件になりかけたが、岩の位置は保存しない派生値なので、
     条件に載せると保存する / しないの境界が濁る。岩が乗る → スイッチのイベントが <code>setFlag</code> →
-    以降は既存のフラグ機構、と迂回した。<code>Condition</code> の種類は v0.7 から<strong>5つのまま</strong>。</p>
+    以降は既存のフラグ機構、と迂回した。<code>Condition</code> の種類は v0.7 から<strong>5つのまま</strong> ―― <strong>v1.1-h で6つ目（<code>money</code>）を足すまでは</strong>。</p>
 
     <div class="note warn">
       <strong>2階の岩も飾りだった ―― v1.1-e の教訓を、見つけた1枚にしか使っていなかった。</strong><br>
@@ -939,6 +939,68 @@ pokemon … 個体の実体。uid が主キー</code></pre>
     出入りでまた満タンに戻る。<strong>数え方は直したのに、制限がまた効かなくなる。</strong>
     台本も同じところを見ていて、中央を歩いてから西へ移り<strong>そこで尽きる</strong>まで回す ――
     西だけでは足りない歩数（上限22往復＝440歩）にしてあるので、エリアを跨いだ時点で数え直していたら上限に当たって落ちる。</p>
+
+    <h3>v1.1-h ―― 置いた場所が寿命を決める（同じ間違いを、違う軸でもう一度）</h3>
+    <p>区画で数えるように直したあとも、歩数はまだ戻っていた。今度は<strong>メニュー</strong>で。</p>
+    <p><code>#open-settings</code> は <code>field?.stop()</code> のあと <code>playField()</code> を呼び直す。
+    歩数を <code>playField</code> の閉包に持たせていたので、<strong>セーブ画面を開いて閉じるだけで500歩に戻る</strong> ――
+    <strong>歩数制限を無効にする手順が、遊ぶ側の手元にあった。</strong></p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th></th><th>1度目</th><th>2度目</th></tr></thead>
+        <tbody>
+          <tr><td>戻る操作</td><td>隣のエリアへ1歩</td><td>メニューを開いて閉じる</td></tr>
+          <tr><td>原因</td><td><code>cleared</code>・<code>moved</code> と同じ場所に並べた</td><td><code>playField</code> の閉包に置いた</td></tr>
+          <tr><td>直し方</td><td>数え直す単位を<strong>区画</strong>に</td><td>持ち主を <strong><code>player</code></strong> に</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <strong>保存しないと決めても、それだけでは寿命は決まらない。どこに置いたかが決める。</strong><br>
+      <code>cleared</code> / <code>moved</code> にも同じことは起きる（メニューを開くと切った木が生え直る）が、
+      あちらは<strong>遊ぶ側が損をする向き</strong>なので穴ではない。歩数だけが得をする向きだった ――
+      同じ挙動でも、<strong>どちらに転ぶかで「仕様」か「穴」かが変わる。</strong>
+    </div>
+
+    <h3>v1.1-h ―― 道具として在ることと、道具として働くことは別だった</h3>
+    <p>サファリボールは <code>items.json</code> にも <code>giveItem</code> にも在り、30個ちゃんと配られる。
+    だが <code>balls.json</code> に無いので <code>allBalls</code> に載らず、<strong>投げるボタンが1つも出なかった</strong> ――
+    30個もらって1つも投げられない、ゾーンごと遊べない状態を、検証 #112 は「通過」と言っていた。
+    <strong>道具として在ることだけを見ていて、ボールとして働くことを見ていなかった。</strong></p>
+
+    <h3>v1.1-h ―― 「全部数えた」の確からしさは、数えた軸の数で決まる</h3>
+    <p>設計時に、さお・探知・シルフスコープ・自転車・サファリ入場・クイズ扉・ゲートの通行止めを
+    7つ並べて<strong>「新しい <code>Condition</code> は1つも作らない」</strong>と結論した。
+    <strong>入場料だけ数え漏らした。</strong></p>
+    <p>「サファリ入場は <code>hasItem</code> で足りる」と書いたとき見ていたのは<em>入れるかどうか</em>で、
+    <strong>払えるかどうか</strong>ではなかった。<code>takeMoney</code> は足りなければ有るぶんだけ取って黙って通すので、
+    払えないと言える場所は払う前しか無い。0円でサファリに入れていた。
+    <code>Condition</code> に6つ目（<code>money</code>）を足した ―― v0.7 以来はじめて。</p>
+    <div class="note">
+      7つの仕掛けを漏れなく並べても、「持っているか」だけ見て「払えるか」を見ていなければ、
+      <strong>漏れは仕掛けの数では見つからない。</strong>
+    </div>
+
+    <h3>v1.1-h ―― 末尾しか見ていなかったので、緑だと思っていた区間が落ちていた</h3>
+    <p>台本の出力を <code>tail -45</code> で見ていた。全部残して回したら、<strong>末尾に隠れていた失敗が4件</strong>出た ――
+    そのうち3件は本物の欠陥だった（ショップに入れない・払ったお金が戻る・木が生え直る）。</p>
+    <p>ほかに<strong>「通っているのに何も測っていない」検査が3件</strong>あった。</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>検査</th><th>通っていた理由</th></tr></thead>
+        <tbody>
+          <tr><td>投げたぶんだけボールが減る</td><td>イシで逃げられて<strong>1つも投げないまま</strong>終わり、<code>0 == 0</code> で通っていた</td></tr>
+          <tr><td>イシを なげたあと</td><td><code>:nth-child(2)</code> で押していたので、回によって<strong>エサ</strong>が飛んで「イシを なげた」と記録していた</td></tr>
+          <tr><td>戦った跡が手持ちに残る</td><td>2マスの往復が<strong>草を1マスも踏まない</strong>立ち位置で、40回ぶん空振りしていた</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note warn">
+      <strong>道具が黙って諦めるのは、落ちるより悪い。</strong><br>
+      <code>goToMap</code> は「経路なし」は言うのに、試行を使い切ったときは黙って現在地を返していた。
+      マチスに挑めなかった回、ログに手がかりが何も残らず、原因の切り分けに1周（16分）かかった。
+      「たどりつけなかった」と言わせた次の1周で、原因が3つとも一度に見えた。
+    </div>
 
     <div class="note warn">
       <strong>1入力＝1マスは変えていない。</strong>
@@ -1869,6 +1931,7 @@ packages/data/generated/ids.d.ts
         <tr><td><strong>追い出すイベントに warp がある</strong>（歩数が尽きても外へ出られない、を防ぐ）</td><td><span class="pill done">v1.1-h</span></td></tr>
         <tr><td>投げられる唯一のボールが世界のどこかで手に入る</td><td><span class="pill done">v1.1-h</span></td></tr>
         <tr><td><strong>同じ規則のマップが一続きである</strong>（区画が2つの島に割れていない）</td><td><span class="pill done">v1.1-h</span></td></tr>
+        <tr><td><strong>条件つきの関門が、2つ以上の行き先を同時に塞いでいない</strong>（塞ぐつもりのない道の巻き添え）</td><td><span class="pill done">v1.1-h</span></td></tr>
       </tbody>
     </table>
   </div>
@@ -2006,7 +2069,7 @@ packages/data/generated/ids.d.ts
         </tr>
         <tr>
           <td>規律を人間の注意力に預けない</td>
-          <td>113項目の判定を CI で回す。<strong>「遊ぶと成立しない」種類の誤りも検証項目に落とす</strong></td>
+          <td>114項目の判定を CI で回す。<strong>「遊ぶと成立しない」種類の誤りも検証項目に落とす</strong></td>
         </tr>
         <tr>
           <td>強さは情報量ではなく思考の深さで作る</td>
