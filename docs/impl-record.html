@@ -222,7 +222,7 @@ a:focus-visible, summary:focus-visible {
   </p>
   <p class="meta">
     テスト 396件 ／ 検証項目 106 ／ マップ 102枚 ／ 種族 190 ／ 技 248 ／ 道具 98
-    ―― 型チェック・検証スクリプト・通し確認（179項目）・撮影（38か所）すべて緑
+    ―― 型チェック・検証スクリプト・通し確認（191項目）・撮影（47か所）すべて緑
   </p>
 </header>
 
@@ -883,6 +883,14 @@ pokemon … 個体の実体。uid が主キー</code></pre>
     <div class="note">
       <strong>「マップを足したから前進した」と思い込まずに済んだのは、物差しがあったから。</strong><br>
       入手経路を数える計測がなければ、道路4本ぶんの作業を成果として数えていた。
+    </div>
+
+    <div class="note warn">
+      <strong>道具の前提が3回壊れた ―― 2つは世界のせい、1つは自分のせい。</strong><br>
+      ① 撮影用の手持ちが<strong>素の PP</strong> だったので、増えた野生で尽きて自滅していた（見えていたのは「復活演出の最中に撮ろうとして落ちた」だけ）。
+      ② ヤマブキジムの<strong>警備員のフラグを立て忘れ</strong>ていた。
+      ③ ②を<strong>推測で「テレポート床の見逃し」と決めつけて</strong>経路実行を作り替え、関係ない5件を壊した ――
+      報告の <span class="mono">いま kanto-saffron-city 4,4</span> は「扉の1マス手前」で、<strong>最初から答えを持っていた。</strong>
     </div>
 
     <div class="note warn">
@@ -1916,7 +1924,7 @@ packages/data/generated/ids.d.ts
     <div class="card">
       <h3><code>tools/playthrough.mjs</code> — 画面の番人</h3>
       <p>ブラウザを実際に操作して同じ道行きを通す。<strong>型検査もテストも素通りする層</strong>（渡し忘れた技指定、描き分けられていないタイル、リロードで消える進行）がここでしか見つからないと分かって常設した。
-      v0.9 で 44項目、v1.1-f で <strong>179項目</strong>まで増え、経路探索は <code>core</code> の <code>neighborsOf</code> をそのまま呼ぶ形になっている。</p>
+      v0.9 で 44項目、v1.1-g で <strong>191項目</strong>まで増え、経路探索は <code>core</code> の <code>neighborsOf</code> をそのまま呼ぶ形になっている。</p>
     </div>
   </div>
 </section>
