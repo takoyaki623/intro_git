@@ -229,6 +229,8 @@ async function goToMap(map, x, y, tries = 20) {
   // 試行を使い切る ―― 実際、ショップまで40回ためして1歩も近づかなかった。
   // 人は2回ぶつかったら回り道を探す。道具にも同じことをさせる。
   const walls = new Set();
+  // ぶつかった回数。**1回で壁と決めない** ―― 下の理由参照
+  const bumps = new Map();
   for (let attempt = 0; attempt < tries; attempt += 1) {
     await settle();
     const from = await spot();
@@ -283,11 +285,20 @@ async function goToMap(map, x, y, tries = 20) {
             await page.waitForTimeout(800);
             await drain();
           }
-          // それでも動けなかったマスは、次から壁として扱う
+          // **2回ぶつかって初めて壁にする。**
+          //
+          // 1回で決めていたら、視線を持つトレーナーの居るマスが全部壁になった ――
+          // 話しかけて勝っても**プレイヤーはその場から動かない**ので、
+          // 「ぶつかって動けなかった」と見分けがつかない。
+          // 実際おつきみやまの唯一の廊下が塞がり、ニビへ一生行けなくなった。
+          // 相手が消えていれば次の試行で普通に通れる ―― 通れなければ本物の壁。
           await settle();
           const still = await spot();
           if (still.map === before.map && still.x === before.x && still.y === before.y) {
-            walls.add(`${step.node.map}|${step.node.x},${step.node.y}`);
+            const key = `${step.node.map}|${step.node.x},${step.node.y}`;
+            const n = (bumps.get(key) ?? 0) + 1;
+            bumps.set(key, n);
+            if (n >= 2) walls.add(key);
           }
         }
         drifted = true;
