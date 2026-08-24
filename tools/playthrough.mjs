@@ -995,6 +995,10 @@ expect("警備員に 話すと 北が ひらく", (await spot()).map, "kanto-rou
 // そこから自分で1歩踏み込む（でないと「入った瞬間」を掴めない）
 await goToMap("kanto-route-2", 5, 11);
 note("視線の手前", await at());
+// **向きを合わせてから踏み込む。** 1回押しただけでは、向きが違えば
+// 「向き直り」で終わって1歩も入らない ―― goToMap の経路が変わった日に
+// 「視線に入っても何も起きない」と誤報した（v1.1-g-3）
+if ((await spot()).facing !== "up") await key("ArrowUp", 1, 250);
 // 「！」は押さなくても消える（v0.12）ので、その時間ぶん待つ
 await key("ArrowUp", 1, 1400);
 // **話しかけていないのに向こうから始まる**のが視線。まず会話が開く
@@ -1601,7 +1605,6 @@ expect(
 // 手持ちが満杯ならボックス）。
 {
   await powerUp();
-  const caught = async () => Object.keys((await readSave()).global.dex ?? {});
   const owns = async (id) => {
     const save = await readSave();
     return Object.values(save.pokemon ?? {}).some((p) => p.species === id);
@@ -1617,9 +1620,11 @@ expect(
   await shot("35-museum");
 
   // ── おつきみやま B2F の かせき ―― 2つのうち1つだけ ──
-  await goToMap("kanto-mt-moon-b2f", 8, 2, 200);
+  // **かせきは 8,1 に置いてある。立てるのは その左右だけ**
+  // （8,2 は岩・調べる相手の上には立てない）
+  await goToMap("kanto-mt-moon-b2f", 7, 1, 200);
   expect("おつきみやま 地下2階に 着く", (await spot()).map, "kanto-mt-moon-b2f");
-  await talk("ArrowUp");
+  await talk("ArrowRight");
   await drain(6);
   await choose("かいのかせき");
   await drain(10);
@@ -1638,21 +1643,6 @@ expect(
     "消えた",
   );
   await drain(10);
-
-  // ── グレンけんきゅうじょ ―― 復元 ──
-  await goToMap("kanto-cinnabar-lab", 4, 2, 200);
-  expect("グレンけんきゅうじょに 入れる", (await spot()).map, "kanto-cinnabar-lab");
-  await talk("ArrowUp");
-  await drain(20);
-  expect("かいのかせき が オムナイトに もどる", (await owns("omanyte")) ? "もどった" : "もどらない", "もどった");
-  expect("ひみつのコハク が プテラに もどる", (await owns("aerodactyl")) ? "もどった" : "もどらない", "もどった");
-  await shot("36-lab");
-  // **2回目は起きない。** かせきはバッグに残る（takeItem が無い）ので、
-  // 止めているのはフラグ。そこが効いているかを見る
-  const before2 = (await caught()).length;
-  await talk("ArrowUp");
-  await drain(20);
-  expect("もう 一度 話しても 増えない", `${(await caught()).length}`, `${before2}`);
 
   // ── タマムシマンション ―― イーブイ ──
   await goToMap("kanto-celadon-mansion", 4, 2, 200);
@@ -2094,6 +2084,32 @@ expect(
   await challengeGym("カツラ", "kanto-cinnabar-gym", 6, 1, 7, "ArrowRight"),
   (v) => v > 0,
 );
+
+// ── グレンけんきゅうじょ ―― かせきを もどす（v1.1-g-3）──
+//
+// **ここに置くのは、グレンじまが 島だから。** なみのり を覚えるまで
+// 辿りつけないので、かせきを拾う区間（おつきみやま）とは離れる ――
+// 拾う場所と使う場所が地図の端と端にあるのは、原作もそう。
+{
+  const owns = async (id) => {
+    const save = await readSave();
+    return Object.values(save.pokemon ?? {}).some((p) => p.species === id);
+  };
+  const caught = async () => Object.keys((await readSave()).global.dex ?? {});
+  await goToMap("kanto-cinnabar-lab", 4, 2, 120);
+  expect("グレンけんきゅうじょに 入れる", (await spot()).map, "kanto-cinnabar-lab");
+  await talk("ArrowUp");
+  await drain(24);
+  expect("かいのかせき が オムナイトに もどる", (await owns("omanyte")) ? "もどった" : "もどらない", "もどった");
+  expect("ひみつのコハク が プテラに もどる", (await owns("aerodactyl")) ? "もどった" : "もどらない", "もどった");
+  await shot("36-lab");
+  // **2回目は起きない。** かせきはバッグに残る（takeItem が無い）ので、
+  // 止めているのはフラグ。そこが効いているかを見る
+  const before2 = (await caught()).length;
+  await talk("ArrowUp");
+  await drain(24);
+  expect("もう 一度 話しても 増えない", `${(await caught()).length}`, `${before2}`);
+}
 
 // **輪を歩いて確かめる。** グレン → 21番水道 → マサラ
 await goToMap("kanto-pallet-town", 5, 11, 200);
