@@ -1569,6 +1569,10 @@ expect(
 {
   await powerUp();
   await goToMap("kanto-safari-gate", 3, 3, 120);
+  // **サファリの中では歩数を数えるので、自転車をやめて歩きに戻す。**
+  // 台本の待ち時間（`stepWait`）と歩行アニメを合わせておかないと、
+  // 押した回数と歩いた歩数がずれる
+  stepWait = 175;
   expect("セキチクの北に サファリゾーンの ゲートがある", (await spot()).map, "kanto-safari-gate");
   // **所持金を既知の額に揃えてから測る。** ここまでの買い物で0円になっていると
   // `takeMoney` は有るぶんだけ取って通す（`Math.min`）ので、
@@ -1640,9 +1644,13 @@ expect(
       }
     }
 
-    // イシ（捕まえやすく・逃げやすく）を1回投げる
-    if (await page.isVisible("#controls .moves .move:nth-child(2)")) {
-      await page.click("#controls .moves .move:nth-child(2)");
+    // イシ（捕まえやすく・逃げやすく）を1回投げる。
+    // **並び順ではなく名前で押す。** `:nth-child(2)` で押していたら、
+    // 回によって エサ が飛んで「イシを なげた」と記録していた ――
+    // 押した物と記録が食い違う検査は、通っても意味が無い
+    const throwRock = page.locator("#controls .move", { hasText: "イシ" }).first();
+    if ((await throwRock.count()) > 0) {
+      await throwRock.click();
       await page.waitForTimeout(900);
       await drain(8);
       note("イシを なげたあと", ((await page.textContent("#log")) ?? "").trim().split("\n").at(-1) ?? "");
@@ -1658,7 +1666,16 @@ expect(
       await page.waitForTimeout(1400);
       await drain(10);
     }
-    expect("戦いは 終わる（捕るか 逃げられるか）", (await page.isHidden("#battle")) ? "終わった" : "終わらない", "終わった");
+    // **捕れないまま終わらないことがある。** 満タンの相手に エサ を当てると
+    // 捕獲率が半分になり、10回投げても捕れずに残る ―― そこで台本が
+    // バトル中に `readSave()` を呼んで画面を壊していた。
+    // にげる もサファリの正当な手なので、最後はそれで畳む
+    if (await page.isVisible("#battle")) {
+      await page.click("#controls .run").catch(() => {});
+      await page.waitForTimeout(1500);
+      await drain(10);
+    }
+    expect("戦いは 終わる（捕るか 逃げるか 逃げられるか）", (await page.isHidden("#battle")) ? "終わった" : "終わらない", "終わった");
     await drain(10);
     const ballsAfter = (await readSave()).global.bag["safari-ball"] ?? 0;
     expect("投げたぶんだけ サファリボールが 減る", `${ballsBefore - ballsAfter}`, `${thrown}`);
@@ -1687,25 +1704,41 @@ expect(
   // **右端**で終わり、そこから左の warp へ向かったつもりで逆方向へ歩いていた ――
   // 5往復したあと西へ渡れず、中央に居たまま歩数だけ使っていた。
   // 往復の向きは、次にどちらへ行くかとセットで決めないといけない
+  //
+  // **待ち時間は歩きに合わせる。** `RIDING_MS`(95ms) は自転車の歩行アニメ(62ms)
+  // に合わせた値で、歩き(130ms)より短い ―― 乗っていない場所で使うと
+  // 次のキーが歩行中に飛んで捨てられ、押した回数ぶん歩かない。
+  // **歩数を数える区間で、歩数が入力回数と合わないのは致命的。**
   const lap = async (span) => {
     // 向きが違う1回目は「向き直り」で歩数を使わない（movement.ts）ので +1 押す
-    await key("ArrowRight", span + 1, RIDING_MS);
-    await key("ArrowLeft", span + 1, RIDING_MS);
+    await key("ArrowRight", span + 1, stepWait);
+    await key("ArrowLeft", span + 1, stepWait);
   };
-  await key("ArrowLeft", 6, RIDING_MS); // 6,10 → 1,10（通路。草も水も無い行）
+  await key("ArrowLeft", 6, stepWait); // 6,10 → 1,10（通路。草も水も無い行）
   for (let i = 0; i < 5; i += 1) await lap(10); // 100歩
-  await key("ArrowUp", 5, RIDING_MS); // 1,10 → 1,6（すべて通路）
-  await key("ArrowLeft", 2, RIDING_MS); // 0,6 の warp で西へ
+  await key("ArrowUp", 5, stepWait); // 1,10 → 1,6（すべて通路）
+  await key("ArrowLeft", 2, stepWait); // 0,6 の warp で西へ
   expect("西の エリアへ 移れる", (await spot()).map, "kanto-safari-west");
-  await key("ArrowUp", 3, RIDING_MS); // 11,6 → 11,4（西の通路の行）
+  await key("ArrowUp", 3, stepWait); // 11,6 → 11,4（西の通路の行）
 
+  const stepsLeft = async () =>
+    (await page.getAttribute("#field-canvas", "data-steps").catch(() => null)) ?? "";
+  note("西に 入った時点の のこり歩数", (await stepsLeft()) || "（表示なし）");
+  expect(
+    "エリアを跨いでも 数え直さない（500歩から 減ったまま）",
+    (await stepsLeft()) === "" ? "表示なし" : Number(await stepsLeft()) < 500 ? "減っている" : "500に戻った",
+    "減っている",
+  );
+
+  // 上限は緩めでよい ―― **「数え直さない」は歩数を直接読んで見ている**ので、
+  // ここで見たいのは「いつかは尽きる」だけ
   let laps = 0;
-  while (laps < 22 && (await spot()).map === "kanto-safari-west") {
+  while (laps < 40 && (await spot()).map === "kanto-safari-west") {
     await lap(10);
     laps += 1;
     await drain(8);
   }
-  note("西で 歩いた 往復", `${laps}往復（1往復 20歩）`);
+  note("西で 歩いた 往復", `${laps}往復 / のこり歩数 ${(await stepsLeft()) || "—"}`);
   expect(
     "500歩で 追い出される（エリアを跨いでも 数え直さない）",
     (await spot()).map,
@@ -1717,6 +1750,8 @@ expect(
     out.regions.kanto.flags["kanto.safari.inside"] === true ? "まだ 中" : "外に 出た",
     "外に 出た",
   );
+  expect("外では のこり歩数を 出さない", (await stepsLeft()) || "表示なし", "表示なし");
+  stepWait = RIDING_MS; // サファリを出たら、また自転車の速さに戻す
 }
 
 // ── サイクリングロード（v1.1-g-2）──

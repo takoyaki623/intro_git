@@ -528,7 +528,15 @@ export function playField(rebuild: () => void): FieldHandle {
 
     // 自動テストから現在地を読むための印（画面には出ない）
     canvas.dataset["at"] = `${player.position.map} ${player.position.x},${player.position.y} ${player.position.facing}`;
-    $("#field-place").textContent = map.name;
+    // **のこり歩数は見せる**（v1.1-h）。
+    //
+    // 見せないと「あと何歩か分からないまま追い出される」＝理不尽になる。
+    // 原作のサファリも歩数を表示している。
+    // 同時に、台本が歩数を読む唯一の口でもある ―― 500歩あるいたつもりで
+    // 追い出されない回に、**減っていないのか数え直されたのかを画面から言えなかった。**
+    canvas.dataset["steps"] = stepsLeft === null ? "" : `${stepsLeft}`;
+    $("#field-place").textContent =
+      stepsLeft === null ? map.name : `${map.name}（のこり ${stepsLeft}歩）`;
     // 使えないうちは出さない。**押せるのに何も起きないボタン**を置くより、
     // 覚えた瞬間に増える方が「手に入った」ことが伝わる
     $("#open-fly").classList.toggle("hidden", !world.abilities.includes("fly"));
