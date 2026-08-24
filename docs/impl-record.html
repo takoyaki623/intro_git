@@ -595,7 +595,7 @@ tools/    一括投入・公式データ取得・マップ変換・ID生成・�
         <thead><tr><th>測ったもの</th><th>結果</th><th>したこと</th></tr></thead>
         <tbody>
           <tr><td>最初のライバル戦の勝率</td><td><strong>1.5%</strong>（ヒトカゲ）</td><td>原因は<strong>しっぽをふる1つ</strong>。Lv5 では −1 Def が一撃ぶん増える。攻撃技だけにして 36〜50% へ</td></tr>
-          <tr><td>レベル技を1つも覚えない種</td><td><strong>実在する</strong>（アブラ・メタモン）</td><td>「技0は例外」を外し、わるあがきしかできない個体として成立させた</td></tr>
+          <tr><td>レベル技を1つも覚えない種</td><td><strong>実在する</strong>（ケーシィ・メタモン）</td><td>「技0は例外」を外し、わるあがきしかできない個体として成立させた</td></tr>
           <tr><td>撃破フラグを立てる位置</td><td>バトル<strong>前</strong>だった</td><td>負けた瞬間にその相手が消える。勝利イベント側へ移動</td></tr>
         </tbody>
       </table>
@@ -1120,7 +1120,7 @@ pokemon … 個体の実体。uid が主キー</code></pre>
         <tr><td><span class="ver">v0.7</span></td><td><strong>生成した ID 型を4バージョン誰も import していなかった</strong></td><td>未解決</td></tr>
         <tr><td><span class="ver">v0.8</span></td><td>暫定データ用に書いた検証が、<strong>公式データを入れると落ちる</strong></td><td>規則と事実の混同</td></tr>
         <tr><td><span class="ver">v0.8</span></td><td>律速は learnset ではなく<strong>技の数</strong>だった（充足率39%）</td><td>入れて分かった</td></tr>
-        <tr><td><span class="ver">v0.8</span></td><td><strong>レベル技を1つも覚えない種が実在する</strong>（アブラ・メタモン）</td><td>原作の事実</td></tr>
+        <tr><td><span class="ver">v0.8</span></td><td><strong>レベル技を1つも覚えない種が実在する</strong>（ケーシィ・メタモン）</td><td>原作の事実</td></tr>
         <tr><td><span class="ver">v0.8</span></td><td>最序盤では<strong>変化技1つが勝率を 36% → 1.5% に落とす</strong></td><td>測って分かった</td></tr>
         <tr><td><span class="ver">v0.8</span></td><td>撃破フラグをバトル前に立てると、<strong>負けた瞬間にその相手が消える</strong></td><td>順序の罠</td></tr>
         <tr><td><span class="ver">v0.8</span></td><td><strong>歩けるマスの「調べる」warp は起動できない</strong>（建物に入れなかった）</td><td>ユーザ報告</td></tr>
@@ -2050,7 +2050,7 @@ packages/data/generated/ids.d.ts
     <strong>v0.8 ―― 検証を書き換える側になったこともある。</strong>
     公式 learnset を入れた結果、<strong>暫定データ用に書いた品質条件が原作の事実とぶつかった。</strong>
     「Lv5 までに攻撃技を覚える」「攻撃技のタイプが2種類以上」はエラーだったが、
-    メタポッド・アブラ・コイキングは原作でそうなっていない。<br>
+    メタポッド・ケーシィ・コイキングは原作でそうなっていない。<br>
     <strong>規則が守るべき品質条件と、事実を写しただけのデータは扱いが違う。</strong>
     前者は生成器のバグなのでエラーにしてよい。後者をエラーにすると
     「正しいデータを入れられない」状態になる。<br>

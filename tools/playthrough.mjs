@@ -739,9 +739,9 @@ async function choose(text) {
   const labels = [];
   for (const button of buttons) labels.push(((await button.textContent()) ?? "").trim());
   // まず完全一致。**次に「含んでいる」ものが1つだけなら、それ。**
-  // 景品の選択肢は「アブラ（1800円）」のように値段まで書いてあり、
+  // 景品の選択肢は「ケーシィ（1800円）」のように値段まで書いてあり、
   // 完全一致だけだと**値段を変えた日に台本が黙って選べなくなる** ――
-  // 選びたいのは アブラ であって、値段はその日の設定でしかない
+  // 選びたいのは ケーシィ であって、値段はその日の設定でしかない
   let index = labels.indexOf(text);
   if (index < 0) {
     const hits = labels.map((l, i) => (l.includes(text) ? i : -1)).filter((i) => i >= 0);
@@ -2190,9 +2190,9 @@ expect(
   expect("ゲームコーナーに 入れる", (await spot()).map, "kanto-celadon-gamecorner");
   await talkToObject("kanto-celadon-gamecorner", "gamecorner-clerk");
   await drain(8);
-  await choose("アブラ");
+  await choose("ケーシィ");
   await drain(12);
-  expect("けいひんの アブラ を おかねで もらえる", (await owns("abra")) ? "もらった" : "もらえない", "もらった");
+  expect("けいひんの ケーシィ を おかねで もらえる", (await owns("abra")) ? "もらった" : "もらえない", "もらった");
   await shot("40-gamecorner");
 
   // **ポスターを押すまで、階段は塞がっている。**

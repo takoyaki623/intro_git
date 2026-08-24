@@ -253,7 +253,7 @@ export async function runBattle(options: BattleOptions): Promise<BattleOutcome> 
         if (action.kind !== "move") continue;
         const slot = active.moves[action.moveIndex];
         if (slot === undefined) {
-          // 技を1つも持たない個体（アブラ・メタモン）。わるあがきしかできない
+          // 技を1つも持たない個体（ケーシィ・メタモン）。わるあがきしかできない
           const btn = document.createElement("button");
           btn.className = "move";
           btn.innerHTML = `<span class="mname">わるあがき</span>

@@ -154,7 +154,7 @@ function checkSpecies(): void {
       fail("species-ev", `${s.id}: 獲得努力値が空`);
     }
     // learnset が空でも誤りではない（v0.8）。
-    // アブラは テレポート、メタモンは へんしん しかレベルで覚えず、
+    // ケーシィは テレポート、メタモンは へんしん しかレベルで覚えず、
     // どちらも当プロジェクトにまだ無い機構を要する技。原作の事実をそのまま残す
     if (s.learnset.length === 0) warn("species-learnset", `${s.id}: レベルで覚える技が無い`);
 
@@ -293,7 +293,7 @@ function checkBattleReady(): void {
   // その生成規則が守るべき品質条件として書いたもので、エラーにしていた。
   //
   // 公式データを入れた今、これらは**原作の事実**になった ――
-  // メタモンは へんしん しか覚えないし、アブラは テレポート だけ。
+  // メタモンは へんしん しか覚えないし、ケーシィは テレポート だけ。
   // データの誤りではないので、**エラーではなく一覧の報告**にする。
   const cantFight: string[] = [];
   const oneType: string[] = [];
@@ -1800,6 +1800,41 @@ function checkWorld(): void {
             );
           }
         }
+      }
+    }
+  }
+
+  // ── #118 ポケモンを渡すイベントは、その種の名前を言う（v1.1-i）──
+  //
+  // **`species.json` は最初から正しい名前を持っていた。** それを読まずに、
+  // id（`abra`）から名前を作って「アブラ」と書いた ―― 日本語では油のこと。
+  // 種族データを見れば1秒で分かることを、19か所に書き写していた。
+  //
+  // 文の中身は自由文なので「正しい名前か」は機械で見られないが、
+  // **「その種の名前が1度も出てこない」なら見られる。**
+  // 名前を id から作れば、まず一致しない ―― 実際これで4件見つかった
+  // （ケーシィ1件と、化石の復元3件。後者は遊ぶ側にも
+  //   「何が戻ったのか」が伝わっていなかった）。
+  for (const event of allEvents) {
+    const commands = [...walkCommands(event.commands)];
+    const given = commands.filter((c) => c.kind === "givePokemon");
+    if (given.length === 0) continue;
+    const text = commands
+      .map((c) =>
+        c.kind === "message"
+          ? c.text
+          : c.kind === "choice"
+            ? c.prompt + c.options.map((o) => o.text).join("")
+            : "",
+      )
+      .join("");
+    for (const give of given) {
+      const name = allSpecies.find((sp) => sp.id === give.species)?.name;
+      if (name !== undefined && !text.includes(name)) {
+        fail(
+          "gift-unnamed",
+          `${event.id}: ${give.species}（${name}）を渡すのに、その名前が文に出てこない`,
+        );
       }
     }
   }
