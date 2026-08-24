@@ -670,6 +670,50 @@ await shot("8-end");
 // ── 6.5 トキワシティ。ショップで買い、道具を使う（v0.9-b の眼目）──
 
 /** その場で向きだけ変えて話しかける。 */
+/**
+ * そのオブジェクトに話しかける（v1.1-g-3）。
+ *
+ * **立つマスと向きを、地図から出す。**
+ * 決め打ちすると、台や壁や「その相手自身」の上に立とうとして
+ * 「経路なし」で止まる ―― この版だけで3回踏んだ:
+ *   かせきの真上（岩）・景品の店員の真下（スロット台）・ポスターの真下（階段）。
+ * どれも「隣に立って向く」という同じ動作なのに、座標だけが毎回ちがう。
+ */
+async function talkToObject(mapId, objectId) {
+  const map = MAPS.get(mapId);
+  const target = map?.objects?.find((o) => o.id === objectId);
+  if (target === undefined) {
+    note("居ない相手", `${mapId}/${objectId}`);
+    return false;
+  }
+  const blocked = new Set(
+    map.objects
+      .filter((o) => o.kind.type !== "item" && o.kind.type !== "switch")
+      .map((o) => `${o.at.x},${o.at.y}`),
+  );
+  const open = (x, y) =>
+    x >= 0 &&
+    y >= 0 &&
+    x < map.size.width &&
+    y < map.size.height &&
+    map.collision[y * map.size.width + x] !== true &&
+    !blocked.has(`${x},${y}`);
+  const spots = [
+    { x: target.at.x, y: target.at.y + 1, dir: "ArrowUp" },
+    { x: target.at.x, y: target.at.y - 1, dir: "ArrowDown" },
+    { x: target.at.x - 1, y: target.at.y, dir: "ArrowRight" },
+    { x: target.at.x + 1, y: target.at.y, dir: "ArrowLeft" },
+  ].filter((s) => open(s.x, s.y));
+  for (const spot0 of spots) {
+    const here = await goToMap(mapId, spot0.x, spot0.y, 40);
+    if (here.map !== mapId || here.x !== spot0.x || here.y !== spot0.y) continue;
+    await talk(spot0.dir);
+    return true;
+  }
+  note("話しかけられなかった", `${mapId}/${objectId}（立てる隣 ${spots.length}マス）`);
+  return false;
+}
+
 async function talk(direction) {
   await key(direction, 2, 200);
   await key("z", 1, 400);
@@ -2134,8 +2178,7 @@ expect(
   await setMoney(20000);
   await goToMap("kanto-celadon-gamecorner", 5, 7, 200);
   expect("ゲームコーナーに 入れる", (await spot()).map, "kanto-celadon-gamecorner");
-  await goTo(3, 2);
-  await talk("ArrowUp");
+  await talkToObject("kanto-celadon-gamecorner", "gamecorner-clerk");
   await drain(8);
   await choose("アブラ");
   await drain(12);
@@ -2149,9 +2192,7 @@ expect(
     (await goToMap("kanto-rocket-b1f", 5, 1, 6)).map,
     "kanto-celadon-gamecorner",
   );
-  await goTo(9, 3);
-  await key("ArrowUp", 2, 220);
-  await key("z", 1, 400);
+  await talkToObject("kanto-celadon-gamecorner", "gamecorner-poster");
   await drain(10);
   await goToMap("kanto-rocket-b1f", 5, 1, 20);
   expect("ポスターを 押すと アジトへ 降りられる", (await spot()).map, "kanto-rocket-b1f");
@@ -2164,15 +2205,14 @@ expect(
     (await goToMap("kanto-rocket-b4f", 2, 1, 6)).map,
     "kanto-rocket-b3f",
   );
-  await goToMap("kanto-rocket-b3f", 3, 4, 20);
-  await talk("ArrowUp");
+  // カギは 3,3 に落ちている道具 ―― **踏めば拾う**（話しかけるものではない）
+  await goToMap("kanto-rocket-b3f", 3, 3, 20);
   await drain(10);
   expect("エレベーターのカギ を ひろう", `${(await bag())["lift-key"] ?? 0}`, "1");
   await goToMap("kanto-rocket-b4f", 2, 1, 40);
   expect("カギを 取ると 地下4階へ 行ける", (await spot()).map, "kanto-rocket-b4f");
 
-  await goToMap("kanto-rocket-b4f", 4, 5, 20);
-  await talk("ArrowUp");
+  await talkToObject("kanto-rocket-b4f", "rocket-boss");
   await drain(10);
   expect("サカキに いどめる", (await page.isVisible("#battle")) ? "いどめた" : "いどめない", "いどめた");
   await fight();
@@ -2184,9 +2224,7 @@ expect(
   // ── ポケモンタワー ―― 見えなかったものが 見える ──
   await goToMap("kanto-pokemon-tower-3f", 4, 4, 200);
   expect("タワーの 3階まで 登れる", (await spot()).map, "kanto-pokemon-tower-3f");
-  await goTo(4, 4);
-  await key("ArrowUp", 2, 220);
-  await key("z", 1, 500);
+  await talkToObject("kanto-pokemon-tower-3f", "tower-3f-ghost-seen");
   await drain(8);
   expect(
     "シルフスコープが あると ゆうれいと 戦える",
@@ -2200,7 +2238,7 @@ expect(
 
   await goToMap("kanto-pokemon-tower-7f", 4, 2, 120);
   expect("さいじょうかいに 着く", (await spot()).map, "kanto-pokemon-tower-7f");
-  await talk("ArrowUp");
+  await talkToObject("kanto-pokemon-tower-7f", "tower-fuji");
   await drain(20);
   expect("フジろうじんが ポケモンのふえ を くれる", `${(await bag())["poke-flute"] ?? 0}`, "1");
 
@@ -2212,26 +2250,23 @@ expect(
     (await goToMap("kanto-silph-7f", 2, 1, 6)).map,
     "kanto-silph-5f",
   );
-  await goToMap("kanto-silph-5f", 3, 2, 20);
-  await talk("ArrowUp");
+  // カードキーは 3,1 に落ちている道具 ―― 踏めば拾う
+  await goToMap("kanto-silph-5f", 3, 1, 20);
   await drain(10);
   expect("カードキー を ひろう", `${(await bag())["card-key"] ?? 0}`, "1");
   await goToMap("kanto-silph-7f", 2, 1, 40);
   expect("カードキーを 取ると 7階へ 行ける", (await spot()).map, "kanto-silph-7f");
-  await goToMap("kanto-silph-7f", 3, 4, 20);
-  await talk("ArrowUp");
+  await talkToObject("kanto-silph-7f", "silph-7f-staff");
   await drain(12);
   expect("しゃいんが ラプラス を くれる", (await owns("lapras")) ? "もらった" : "もらえない", "もらった");
 
-  await goToMap("kanto-silph-11f", 4, 4, 60);
-  await talk("ArrowUp");
+  await talkToObject("kanto-silph-11f", "silph-boss");
   await drain(10);
   expect("シルフで サカキに 再戦できる", (await page.isVisible("#battle")) ? "いどめた" : "いどめない", "いどめた");
   await fight();
   await page.waitForTimeout(800);
   await drain(24);
-  await goToMap("kanto-silph-11f", 4, 2, 20);
-  await talk("ArrowUp");
+  await talkToObject("kanto-silph-11f", "silph-president");
   await drain(16);
   expect("しゃちょうが マスターボール を くれる", `${(await bag())["master-ball"] ?? 0}`, "1");
   await shot("43-silph");
