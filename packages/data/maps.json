@@ -23831,8 +23831,8 @@
       {
         "id": "rocket-b3f-key",
         "at": {
-          "x": 3,
-          "y": 3
+          "x": 1,
+          "y": 7
         },
         "kind": {
           "type": "item",
@@ -44778,8 +44778,8 @@
       {
         "id": "silph-5f-key",
         "at": {
-          "x": 3,
-          "y": 1
+          "x": 1,
+          "y": 3
         },
         "kind": {
           "type": "item",

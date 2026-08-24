@@ -736,14 +736,24 @@ async function choose(text) {
     await page.waitForTimeout(230);
   }
   const buttons = await page.$$("#field-text .choices button");
-  for (const button of buttons) {
-    if (((await button.textContent()) ?? "").trim() === text) {
-      await button.click();
-      await page.waitForTimeout(260);
-      return true;
-    }
+  const labels = [];
+  for (const button of buttons) labels.push(((await button.textContent()) ?? "").trim());
+  // まず完全一致。**次に「含んでいる」ものが1つだけなら、それ。**
+  // 景品の選択肢は「アブラ（1800円）」のように値段まで書いてあり、
+  // 完全一致だけだと**値段を変えた日に台本が黙って選べなくなる** ――
+  // 選びたいのは アブラ であって、値段はその日の設定でしかない
+  let index = labels.indexOf(text);
+  if (index < 0) {
+    const hits = labels.map((l, i) => (l.includes(text) ? i : -1)).filter((i) => i >= 0);
+    if (hits.length === 1) index = hits[0];
   }
-  return false;
+  if (index < 0) {
+    note("選べなかった", `${text}（出ていたのは ${labels.join(" / ") || "なし"}）`);
+    return false;
+  }
+  await buttons[index].click();
+  await page.waitForTimeout(260);
+  return true;
 }
 
 // **演出を短くしてから歩き出す。**
@@ -2206,7 +2216,7 @@ expect(
     "kanto-rocket-b3f",
   );
   // カギは 3,3 に落ちている道具 ―― **踏めば拾う**（話しかけるものではない）
-  await goToMap("kanto-rocket-b3f", 3, 3, 20);
+  await goToMap("kanto-rocket-b3f", 1, 7, 20);
   await drain(10);
   expect("エレベーターのカギ を ひろう", `${(await bag())["lift-key"] ?? 0}`, "1");
   await goToMap("kanto-rocket-b4f", 2, 1, 40);
@@ -2251,7 +2261,7 @@ expect(
     "kanto-silph-5f",
   );
   // カードキーは 3,1 に落ちている道具 ―― 踏めば拾う
-  await goToMap("kanto-silph-5f", 3, 1, 20);
+  await goToMap("kanto-silph-5f", 1, 3, 20);
   await drain(10);
   expect("カードキー を ひろう", `${(await bag())["card-key"] ?? 0}`, "1");
   await goToMap("kanto-silph-7f", 2, 1, 40);

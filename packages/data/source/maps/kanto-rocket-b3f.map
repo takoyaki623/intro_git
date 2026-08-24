@@ -26,5 +26,5 @@ warps:
 
 objects:
 rocket-b3f-grunt 5,5 trainer:kanto-rocket-b3f:2:up kanto.rocket.b3f-grunt if:kanto.rocket.b3f-beaten=false
-rocket-b3f-key 3,3 item:lift-key kanto.rocket.lift-key if:kanto.rocket.lift-key-taken=false
+rocket-b3f-key 1,7 item:lift-key kanto.rocket.lift-key if:kanto.rocket.lift-key-taken=false
 rocket-b3f-lift 7,7 sign kanto.rocket.locked if:kanto.rocket.lift-key-taken=false

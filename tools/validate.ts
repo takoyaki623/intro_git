@@ -1819,7 +1819,7 @@ function checkWorld(): void {
   // 見るべきは島の数ではなく**壊れ方そのもの** ―― 入ってきた場所から出口へ行けるか。
   {
     // 各マップの「着地マス」＝よそから飛んでくる warp の行き先
-    const landings = new Map<MapId, { x: number; y: number; from: MapId }[]>();
+    const landings = new Map<string, { x: number; y: number; from: string }[]>();
     for (const map of allMaps) {
       for (const warp of map.warps) {
         if (warp.to.map === map.id) continue;
