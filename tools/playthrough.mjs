@@ -187,7 +187,7 @@ function neighbors(mapId, x, y) {
 }
 
 /** 目的地までの手順。マップをまたいで探す。 */
-function route(from, to) {
+function route(from, to, walls = new Set()) {
   const id = (n) => `${n.map}|${n.x},${n.y}`;
   const prev = new Map([[id(from), null]]);
   const queue = [from];
@@ -204,7 +204,7 @@ function route(from, to) {
       return path;
     }
     for (const next of neighbors(here.map, here.x, here.y)) {
-      if (prev.has(id(next))) continue;
+      if (prev.has(id(next)) || walls.has(id(next))) continue;
       prev.set(id(next), { key: next.key, node: next, from: here });
       queue.push(next);
     }
@@ -221,12 +221,20 @@ function route(from, to) {
  * 洞窟のような長い道では既定では足りない（v0.12-b でおつきみやまが越えられなかった）。
  */
 async function goToMap(map, x, y, tries = 20) {
+  // **一度ぶつかったマスは、次からは壁として引き直す。**
+  //
+  // 経路探索は条件つきのオブジェクトを素通りできるものとして扱う（消える前提）。
+  // 開く扉ならそれで合っているが、ハナダのどうくつの けいび のように
+  // **当分どかないもの**だと、同じ最短路を引いてはぶつかるのを繰り返して
+  // 試行を使い切る ―― 実際、ショップまで40回ためして1歩も近づかなかった。
+  // 人は2回ぶつかったら回り道を探す。道具にも同じことをさせる。
+  const walls = new Set();
   for (let attempt = 0; attempt < tries; attempt += 1) {
     await settle();
     const from = await spot();
     if (from.map === map && from.x === x && from.y === y) return from;
 
-    const path = route(from, { map, x, y });
+    const path = route(from, { map, x, y }, walls);
     if (path === null) {
       note("経路なし", `${from.raw} → ${map} ${x},${y}`);
       return from;
@@ -258,11 +266,23 @@ async function goToMap(map, x, y, tries = 20) {
         if (now.map === before.map && now.x === before.x && now.y === before.y) {
           await page.keyboard.press("z");
           await page.waitForTimeout(300);
-          if (await talking()) await drain();
+          // **`drain` ではなく `accept`。** ふさいでいるのが き なら
+          // 「いあいぎり を つかいますか?」の選択肢が出る ―― `drain` は
+          // z を押すだけなので選べず、木は永久に切られない。
+          // クチバジムの前の き は出入りのたびに生え直る（`cleared` は保存しない）ので、
+          // ポケモンセンターに寄って戻った瞬間、ジムに入れなくなっていた。
+          // **人がやること（はい を押す）を道具にもさせる。**
+          if (await talking()) await accept();
           if (await page.isVisible("#battle")) {
             await fight();
             await page.waitForTimeout(800);
             await drain();
+          }
+          // それでも動けなかったマスは、次から壁として扱う
+          await settle();
+          const still = await spot();
+          if (still.map === before.map && still.x === before.x && still.y === before.y) {
+            walls.add(`${step.node.map}|${step.node.x},${step.node.y}`);
           }
         }
         drifted = true;
@@ -536,7 +556,13 @@ let hpAfter = hpBefore;
 // **「1戦した」では足りない。** 逃げられた・変化技しか当たらなかった等で
 // 何も残らない1戦がある。**跡が残るまで**戦う（最大4戦）
 let expAfter = expBefore;
+// **草むらの上に居ることを、毎回たしかめ直す。**
+// 2マスを往復するだけの見張りだと、逃げたあとの立ち位置しだいで
+// 草を1マスも踏まずに40回ぶん空振りする ―― 実際0戦で1回落ちた。
+// 1番道路の草は 3〜5列・12〜13行なので、その帯を端から端まで歩く
+await goToMap("kanto-route-1", 4, 12, 20);
 for (let i = 0; i < 40 && hpAfter === hpBefore && expAfter === expBefore && battles < 4; i += 1) {
+  if (i % 8 === 0) await goToMap("kanto-route-1", 4, 12, 10);
   await key(i % 2 === 0 ? "ArrowLeft" : "ArrowRight", 2, 200);
   if (await page.isVisible("#battle")) {
     battles += 1;
@@ -551,7 +577,7 @@ for (let i = 0; i < 40 && hpAfter === hpBefore && expAfter === expBefore && batt
     expAfter = await partyExp();
   }
 }
-note("野生と戦った回数", String(battles));
+note("野生と戦った回数", `${battles}（さいごに 居た場所 ${(await spot()).raw}）`);
 note("たたかった後のてもち", `${hpAfter} / けいけんち ${expBefore} → ${expAfter}`);
 expect(
   "戦った跡が手持ちに残る（HPか経験値）",

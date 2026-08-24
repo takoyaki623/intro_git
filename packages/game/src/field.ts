@@ -681,6 +681,20 @@ export function playField(rebuild: () => void): FieldHandle {
         await say(`バッジを てにいれた! いま ${effect.count}こ もっている。`);
         return;
       case "moneyChanged":
+        // **ここで `player` に写す**（v1.1-h の訂正）。
+        //
+        // `takeMoney` が減らすのは `world.money` で、`player` に戻るのは
+        // イベントが終わったあとの `syncPlayer()` ―― のはずだった。
+        // ところが `syncWorld()`（`draw()` と `arrive()` が呼ぶ）は
+        // `player.money` を `world` に**上書き**するので、同じイベントの中で
+        // warp や描画が起きた瞬間に、払ったお金が丸ごと戻ってくる。
+        // サファリの受付は最後に warp するので、500円はらった表示のまま
+        // 財布が減らなかった。
+        //
+        // すぐ隣の `giveBadge` は最初から `player` を直接いじっていて、
+        // **同じ形の効果なのに片方だけ写していなかった。**
+        player.money = Math.max(0, player.money + effect.delta);
+        draw();
         await say(effect.delta >= 0 ? `${effect.delta}円 てにいれた!` : `${-effect.delta}円 はらった。`);
         return;
       case "battle":
