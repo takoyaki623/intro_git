@@ -257,6 +257,14 @@ export type EncounterTable = {
 export type Condition =
   | { kind: "flag"; flag: FlagId; value: boolean }
   | { kind: "badges"; op: ">="; count: number }
+  /**
+   * 所持金（v1.1-h）。
+   *
+   * **`takeMoney` は足りなければ有るぶんだけ取って黙って通す**（`Math.min`）ので、
+   * 払えないことを「払えない」と言えるのは、払う前に見るここだけ。
+   * サファリの受付が0円で入れてしまっていた。
+   */
+  | { kind: "money"; op: ">="; amount: number }
   | { kind: "hasItem"; item: ItemId }
   | { kind: "hasSpecies"; species: SpeciesId }
   | { kind: "and"; of: Condition[] }

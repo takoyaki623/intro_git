@@ -30,8 +30,8 @@ T............T
 T..HHH.......T
 T..HDH....~~~T
 T.........~~~T
-T..FFFF...~~~T
-T..FFDF...~~~T
+T.FFFF....~~~T
+T.FFDF....~~~T
 T............T
 TTTTT.T.TTTTTT
 
@@ -41,7 +41,7 @@ warps:
 13,1 step kanto-route-9 1,1 right
 5,3 step kanto-cerulean-gym 4,8 up
 10,7 step kanto-cerulean-pokecenter 4,5 up
-5,13 step kanto-cerulean-mart 4,5 up
+4,13 step kanto-cerulean-mart 4,5 up
 4,10 step kanto-cerulean-house 3,4 up
 7,15 step kanto-route-5 5,1 down
 5,15 step kanto-cerulean-cave 6,7 up

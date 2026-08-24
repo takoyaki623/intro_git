@@ -87,6 +87,8 @@ export function evaluate(cond: Condition, world: WorldState): boolean {
       return (world.flags[cond.flag] ?? false) === cond.value;
     case "badges":
       return world.badges >= cond.count;
+    case "money":
+      return world.money >= cond.amount;
     case "hasItem":
       return (world.bag[cond.item] ?? 0) > 0;
     case "hasSpecies":

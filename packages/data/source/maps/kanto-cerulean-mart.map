@@ -20,7 +20,7 @@ W.......W
 WWWWDWWWW
 
 warps:
-4,6 step kanto-cerulean-city 5,14 down
+4,6 step kanto-cerulean-city 4,14 down
 
 objects:
 cerulean-clerk 2,2 npc:clerk:static kanto.cerulean.clerk

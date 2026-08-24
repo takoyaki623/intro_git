@@ -6282,30 +6282,47 @@
             "text": "はいる",
             "then": [
               {
-                "kind": "takeMoney",
-                "amount": 500
-              },
-              {
-                "kind": "giveItem",
-                "item": "safari-ball",
-                "count": 30
-              },
-              {
-                "kind": "setFlag",
-                "flag": "kanto.safari.inside",
-                "value": true
-              },
-              {
-                "kind": "message",
-                "text": "サファリボールを 30こ どうぞ!\nボールが なくなるか、あるきすぎると おわりです。",
-                "speaker": "うけつけ"
-              },
-              {
-                "kind": "warp",
-                "to": "kanto-safari-middle",
-                "x": 6,
-                "y": 10,
-                "facing": "up"
+                "kind": "if",
+                "cond": {
+                  "kind": "money",
+                  "op": ">=",
+                  "amount": 500
+                },
+                "then": [
+                  {
+                    "kind": "takeMoney",
+                    "amount": 500
+                  },
+                  {
+                    "kind": "giveItem",
+                    "item": "safari-ball",
+                    "count": 30
+                  },
+                  {
+                    "kind": "setFlag",
+                    "flag": "kanto.safari.inside",
+                    "value": true
+                  },
+                  {
+                    "kind": "message",
+                    "text": "サファリボールを 30こ どうぞ!\nボールが なくなるか、あるきすぎると おわりです。",
+                    "speaker": "うけつけ"
+                  },
+                  {
+                    "kind": "warp",
+                    "to": "kanto-safari-middle",
+                    "x": 6,
+                    "y": 10,
+                    "facing": "up"
+                  }
+                ],
+                "else": [
+                  {
+                    "kind": "message",
+                    "text": "おかねが たりないようですね。\nまた どうぞ。",
+                    "speaker": "うけつけ"
+                  }
+                ]
               }
             ]
           },

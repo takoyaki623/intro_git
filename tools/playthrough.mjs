@@ -276,7 +276,13 @@ async function goToMap(map, x, y, tries = 20) {
     }
   }
   await settle();
-  return spot();
+  // **諦めたことを言う。** 「経路なし」は言うのに、試行を使い切ったときは
+  // 黙って今いる場所を返していた ―― マチスに挑めなかった回、
+  // ログには何の手がかりも残らず、原因を突き止めるのに1周（16分）かかった。
+  // 道具が黙って諦めるのは、落ちるより悪い
+  const gaveUp = await spot();
+  note("たどりつけなかった", `${gaveUp.raw} → ${map} ${x},${y}（${tries}回ためした）`);
+  return gaveUp;
 }
 
 /** 同じマップの中で歩く。 */
@@ -1040,7 +1046,12 @@ note("マチスの前に 回復", (await page.textContent("#field-party")).trim(
 // 回復して挑み直すだけにする
 let surge = 0;
 for (let attempt = 1; attempt <= 3 && surge === 0; attempt += 1) {
-  await goToMap("kanto-vermilion-gym", 4, 2, 40);
+  await goToMap("kanto-vermilion-gym", 4, 2, 80);
+  if (attempt === 1) {
+    // **挑めなかったとき、届いていないのか話しかけ損ねたのかを分ける。**
+    // 前は「いどめない」しか出ず、どちらか分からなかった
+    expect("マチスの まえに 立てる", (await spot()).raw, "kanto-vermilion-gym 4,2 up");
+  }
   await talk("ArrowUp");
   await drain(8);
   if (attempt === 1) {
@@ -1055,7 +1066,10 @@ for (let attempt = 1; attempt <= 3 && surge === 0; attempt += 1) {
     surge = attempt;
     break;
   }
-  note("マチス", `${attempt}回目は 負けた（バッジ ${await badgeCount()}）`);
+  note(
+    "マチス",
+    `${attempt}回目は だめだった（バッジ ${await badgeCount()} / いま ${(await spot()).raw} / ${((await page.textContent("#field-party")) ?? "").trim()}）`,
+  );
   await goToMap("kanto-vermilion-pokecenter", 4, 3, 60);
   await talk("ArrowUp");
   await drain();
@@ -1106,6 +1120,22 @@ async function badgeCount() {
 async function partyExp() {
   const save = await readSave();
   return save.regions.kanto.partyUids.reduce((sum, uid) => sum + save.pokemon[uid].exp, 0);
+}
+
+/** 所持金を決め打ちにする（v1.1-h）。財布の中身に検査を左右させないため。 */
+async function setMoney(amount) {
+  await page.click("#open-settings");
+  await page.waitForSelector("#save-export");
+  await page.click("#save-export");
+  const save = JSON.parse(await page.inputValue("#save-text"));
+  save.regions.kanto.money = amount;
+  await page.fill("#save-text", JSON.stringify(save));
+  await page.click("#save-import");
+  await page.waitForTimeout(900);
+  await page.click("#settings-back");
+  await page.waitForSelector("#field-canvas");
+  await page.waitForTimeout(400);
+  await drain();
 }
 
 async function powerUp() {
@@ -1470,7 +1500,14 @@ expect(
   await powerUp();
   await goToMap("kanto-safari-gate", 3, 3, 120);
   expect("セキチクの北に サファリゾーンの ゲートがある", (await spot()).map, "kanto-safari-gate");
+  // **所持金を既知の額に揃えてから測る。** ここまでの買い物で0円になっていると
+  // `takeMoney` は有るぶんだけ取って通す（`Math.min`）ので、
+  // 「500円 はらった」の検査が財布の中身しだいで通ったり落ちたりする ――
+  // 測りたいのは入場料の機構であって、道中いくら使ったかではない。
+  // 実際0円で1回落ちて、そのとき**0円でも入れてしまう**穴も見つかった
+  await setMoney(2000);
   const before = (await readSave()).regions.kanto.money;
+  expect("所持金を そろえられた", `${before}`, "2000");
   await key("ArrowUp", 2, 220);
   await key("z", 1, 400);
   await choose("はいる");

@@ -10,3 +10,4 @@ quick-ball	turnAtMost	5	1	1
 timer-ball	turnAtLeast	4	1	10
 dusk-ball	terrain	3	1	cave
 repeat-ball	alreadyCaught	3.5	1	
+safari-ball	flat	1.5		

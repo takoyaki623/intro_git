@@ -48,6 +48,7 @@ import {
 } from "@pkmn/core";
 import {
   allAbilities,
+  allBalls,
   allBattleSets,
   allFacilities,
   allItems,
@@ -1698,9 +1699,20 @@ function checkWorld(): void {
       }
 
       // #112 投げられる唯一のボールが実在し、世界のどこかで配られる
+      //
+      // **道具として在るだけでは足りない。** サファリボールは items にも
+      // giveItem にも在ったのに `balls.json` に無く、`allBalls` に載らないので
+      // **投げるボタンが1つも出なかった** ―― 30個もらえるのに1つも投げられない、
+      // ゾーンごと遊べない状態を、この検査は「通過」と言っていた。
+      // 「機構が無いまま形だけ作らない」の、いちばん小さい形。
       if (rule.ball !== undefined) {
         if (!itemIds.has(rule.ball)) {
           fail("field-rule", `${rule.id}: ボール "${rule.ball}" が道具として無い`);
+        } else if (!allBalls.some((b) => b.id === rule.ball)) {
+          fail(
+            "field-rule",
+            `${rule.id}: "${rule.ball}" は道具には在るが balls に無い（投げるボタンが出ない）`,
+          );
         } else {
           const given = allEvents.some((e) =>
             [...walkCommands(e.commands)].some((c) => c.kind === "giveItem" && c.item === rule.ball),
@@ -1787,6 +1799,58 @@ function checkWorld(): void {
               `${map.id}/${object.id}: 条件の "${flag}" を立てるイベントが無い（消えないので永久に塞ぐ）`,
             );
           }
+        }
+      }
+    }
+  }
+
+  // ── #114 条件つきの関門が、塞ぐつもりのない道まで塞いでいないか（v1.1-h）──
+  //
+  // ハナダのどうくつの けいび（`champion-beaten=false` のあいだ居る）は、
+  // どうくつの入口 5,15 の唯一の足場 5,14 に立っていた。**そこが同時に
+  // ショップの扉 5,13 の唯一の足場でもあった** ―― 殿堂入りするまで
+  // 店に入れない世界になっていて、台本は「品ぞろえが空」としか言わなかった。
+  //
+  // #86 は「無条件で warp を塞いでいないか」、#108 は「条件が満たせるか」を見る。
+  // どちらも**塞ぐつもりのところ**しか見ていない。ここで見るのはその巻き添え。
+  //
+  // **1つなら「そこを塞ぐつもり」**（関門として正しい）。
+  // **2つ目からは必ず巻き添え** ―― 1人の門番が2つの行き先を同時に閉じる設計は無い。
+  {
+    for (const map of allMaps) {
+      const solid = (x: number, y: number) =>
+        x >= 0 &&
+        y >= 0 &&
+        x < map.size.width &&
+        y < map.size.height &&
+        map.collision[y * map.size.width + x] !== true;
+      for (const object of map.objects) {
+        if (object.kind.type === "item" || object.kind.type === "switch") continue;
+        if (object.condition === undefined) continue;
+        // ほかの塞ぐものも壁として数える（門番だけが原因とは限らない）
+        const blocked = new Set(
+          map.objects
+            .filter((o) => o.kind.type !== "item" && o.kind.type !== "switch")
+            .map((o) => `${o.at.x},${o.at.y}`),
+        );
+        const sealed: string[] = [];
+        for (const warp of map.warps) {
+          const ways = [
+            { x: warp.at.x + 1, y: warp.at.y },
+            { x: warp.at.x - 1, y: warp.at.y },
+            { x: warp.at.x, y: warp.at.y + 1 },
+            { x: warp.at.x, y: warp.at.y - 1 },
+          ].filter((n) => solid(n.x, n.y) && !blocked.has(`${n.x},${n.y}`));
+          // 足場が全部ふさがっていて、そのうち1つがこのオブジェクトなら封じている
+          if (ways.length === 0 && Math.abs(warp.at.x - object.at.x) + Math.abs(warp.at.y - object.at.y) === 1) {
+            sealed.push(`${warp.to.map}(${warp.at.x},${warp.at.y})`);
+          }
+        }
+        if (sealed.length > 1) {
+          fail(
+            "gate-collateral",
+            `${map.id}/${object.id}: 1つの関門が ${sealed.length} つの行き先を同時に塞いでいる（${sealed.join(" ")}）`,
+          );
         }
       }
     }
