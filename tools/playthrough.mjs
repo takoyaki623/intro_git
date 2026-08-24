@@ -382,8 +382,39 @@ async function enterKanto() {
 }
 
 /** マサラタウンのゲートから拠点へ戻る。ゲートの南は海なので北から近づく。 */
+/**
+ * 建物の中に居たら外へ出る（v1.1-h）。**そらをとぶ は屋外でしか押せない。**
+ * `#open-fly` が見えるまで、そのマップの出口を辿る。
+ */
+async function outdoors(limit = 3) {
+  for (let i = 0; i < limit; i += 1) {
+    if (await page.isVisible("#open-fly")) return;
+    const here = MAPS.get((await spot()).map);
+    const door = here?.warps?.[0]?.to;
+    if (door === undefined) return;
+    await goToMap(door.map, door.x, door.y, 20);
+  }
+}
+
+/** そらをとぶ で町へ飛ぶ。中に居たら先に外へ出る。 */
+async function flyTo(town) {
+  await outdoors();
+  if (!(await page.isVisible("#open-fly"))) return;
+  await page.click("#open-fly");
+  await page.waitForSelector(`#field-panel [data-fly="${town}"]`, { timeout: 8000 }).catch(() => {});
+  await page.click(`#field-panel [data-fly="${town}"]`).catch(() => {});
+  await drain();
+  await page.waitForTimeout(800);
+}
+
 async function backToHub() {
-  await goToMap("kanto-pallet-town", 9, 10);
+  // **どこから呼ばれても帰れるようにする。**
+  // ミュウツーに負けてポケモンセンターに飛ばされた回、セキエイからマサラまで
+  // 歩く経路を引こうとして「経路なし」で止まった ―― チャンピオンロードの岩は
+  // 出入りで初期位置に戻るので、歩いて帰る道は最初から無い。
+  // 人と同じで、まず外へ出て そらをとぶ
+  if ((await spot()).map !== "kanto-pallet-town") await flyTo("kanto-pallet-town");
+  await goToMap("kanto-pallet-town", 9, 10, 60);
   await key("ArrowDown", 2, 200);
   await key("z", 1, 400);
   await accept();
@@ -1594,15 +1625,31 @@ expect(
     const ballsBefore = await ballCount();
     expect("ボタンに のこり数が 出る", `${ballsBefore}`, "30");
 
-    // イシ（捕まえやすく・逃げやすく）を1回投げる
-    await page.click("#controls .moves .move:nth-child(2)");
-    await page.waitForTimeout(900);
-    await drain(8);
-    note("イシを なげたあと", ((await page.textContent("#log")) ?? "").trim().split("\n").at(-1) ?? "");
-
-    // ボールを投げる。**捕れるか逃げられるかは運**なので、そこは判定にしない ――
-    // 判定にするのは「投げたぶんだけ確実に減る」ほう（サファリボールの経路そのもの）
+    // **ボールを先に1つ投げる。** イシを先にすると、逃げられた回に
+    // ボールを1つも投げないまま戦いが終わり、「投げたぶんだけ減る」が
+    // 0 == 0 で通ってしまう ―― 通っているのに何も測っていない。
+    // 実際1回そうなった（イシ → おこった → にげられた）
     let thrown = 0;
+    {
+      const ball = await page.$("#controls .ball");
+      if (ball !== null) {
+        await ball.click();
+        thrown += 1;
+        await page.waitForTimeout(1400);
+        await drain(10);
+      }
+    }
+
+    // イシ（捕まえやすく・逃げやすく）を1回投げる
+    if (await page.isVisible("#controls .moves .move:nth-child(2)")) {
+      await page.click("#controls .moves .move:nth-child(2)");
+      await page.waitForTimeout(900);
+      await drain(8);
+      note("イシを なげたあと", ((await page.textContent("#log")) ?? "").trim().split("\n").at(-1) ?? "");
+    }
+
+    // 残りを投げる。**捕れるか逃げられるかは運**なので、そこは判定にしない ――
+    // 判定にするのは「投げたぶんだけ確実に減る」ほう（サファリボールの経路そのもの）
     for (let i = 0; i < 10 && (await page.isVisible("#battle")); i += 1) {
       const ball = await page.$("#controls .ball");
       if (ball === null) break;
@@ -1615,6 +1662,7 @@ expect(
     await drain(10);
     const ballsAfter = (await readSave()).global.bag["safari-ball"] ?? 0;
     expect("投げたぶんだけ サファリボールが 減る", `${ballsBefore - ballsAfter}`, `${thrown}`);
+    expect("すくなくとも 1つは 投げている", `${thrown}`, (v) => Number(v) >= 1);
     note("投げた回数", `${thrown}回 / のこり ${ballsAfter}こ`);
   }
 
@@ -1635,10 +1683,14 @@ expect(
   // **残りは西で尽きるまで回す**（西の上限22往復＝440歩。区画で数えていなければ
   // 西だけで500歩＝25往復要るので、上限に当たって落ちる）。
   await goToMap("kanto-safari-middle", 6, 10, 40);
+  // **左端に戻って終わる向きにする。** 「左へ→右へ」だと1往復ごとに
+  // **右端**で終わり、そこから左の warp へ向かったつもりで逆方向へ歩いていた ――
+  // 5往復したあと西へ渡れず、中央に居たまま歩数だけ使っていた。
+  // 往復の向きは、次にどちらへ行くかとセットで決めないといけない
   const lap = async (span) => {
     // 向きが違う1回目は「向き直り」で歩数を使わない（movement.ts）ので +1 押す
-    await key("ArrowLeft", span + 1, RIDING_MS);
     await key("ArrowRight", span + 1, RIDING_MS);
+    await key("ArrowLeft", span + 1, RIDING_MS);
   };
   await key("ArrowLeft", 6, RIDING_MS); // 6,10 → 1,10（通路。草も水も無い行）
   for (let i = 0; i < 5; i += 1) await lap(10); // 100歩
