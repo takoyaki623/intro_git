@@ -1484,55 +1484,90 @@ expect(
 
   // ── 戦えない場所の戦い ──
   //
-  // **「技が出ない」だけでは足りない。** 出ないのか、出し忘れているのかは
-  // 画面から見分けがつかないので、**代わりに何が出ているか**まで見る。
+  // **草の列まで歩いてから上下する。** 降りた 6,10 から真上は y=8,9 とも
+  // 通路（`.`）で、そこで上下しても草を1マスも踏まない ―― 実際それで
+  // 1回、野生に出会わないまま素通りした。**座標は地図を数えて決める。**
+  //   y=8,9 の草は x=3,4,5 と x=8,9,10
+  await key("ArrowLeft", 3, RIDING_MS); // 6,10 → 4,10
+  await key("ArrowUp", 3, RIDING_MS); // 4,10 → 4,8（草）
   let wild = false;
-  for (let i = 0; i < 30 && !wild; i += 1) {
-    await key(i % 2 === 0 ? "ArrowUp" : "ArrowDown", 2, RIDING_MS);
+  for (let i = 0; i < 40 && !wild; i += 1) {
+    await key(i % 2 === 0 ? "ArrowDown" : "ArrowUp", 2, RIDING_MS); // 4,9 ⇄ 4,8 どちらも草
     wild = await page.isVisible("#battle");
   }
   expect("くさむらで 野生に 出会う", wild ? "出会った" : "出会わない", "出会った");
   if (wild) {
-    // 技のボタンの場所（.move）に並ぶのが エサ と イシ だけ＝技は1つも無い
+    // **「技が出ない」だけでは足りない。** 出ないのか出し忘れているのかは
+    // 画面から見分けがつかないので、**代わりに何が出ているか**まで見る
     const slots = await page.$$eval("#controls .move .mname", (b) => b.map((x) => x.textContent));
     expect("技のかわりに エサと イシだけが 並ぶ", slots.join("/"), "エサ/イシ");
     expect("こうたいは 選べない", (await page.$$("#controls .switch")).length === 0 ? "選べない" : "選べる", "選べない");
     const balls = await page.$$eval("#controls .ball .mname", (b) => b.map((x) => x.textContent));
     expect("投げられるのは サファリボールだけ", balls.join("/"), "サファリボール");
     await shot("30b-safari-battle");
-    await page.click("#controls .run");
-    await page.waitForTimeout(1500);
-    await drain();
+
+    const ballsBefore = (await readSave()).global.bag["safari-ball"] ?? 0;
+
+    // イシ（捕まえやすく・逃げやすく）を1回投げる
+    await page.click("#controls .moves .move:nth-child(2)");
+    await page.waitForTimeout(900);
+    await drain(8);
+    note("イシを なげたあと", ((await page.textContent("#log")) ?? "").trim().split("\n").at(-1) ?? "");
+
+    // ボールを投げる。**捕れるか逃げられるかは運**なので、そこは判定にしない ――
+    // 判定にするのは「投げたぶんだけ確実に減る」ほう（サファリボールの経路そのもの）
+    let thrown = 0;
+    for (let i = 0; i < 10 && (await page.isVisible("#battle")); i += 1) {
+      const ball = await page.$("#controls .ball");
+      if (ball === null) break;
+      await ball.click();
+      thrown += 1;
+      await page.waitForTimeout(1400);
+      await drain(10);
+    }
+    const ballsAfter = (await readSave()).global.bag["safari-ball"] ?? 0;
+    expect("投げたぶんだけ サファリボールが 減る", `${ballsBefore - ballsAfter}`, `${thrown}`);
+    expect("戦いは 終わる（捕るか 逃げられるか）", (await page.isHidden("#battle")) ? "終わった" : "終わらない", "終わった");
+    const dex = (await readSave()).global.pokedex;
+    note("投げた回数", `${thrown}回 / のこり ${ballsAfter}こ`);
+    note("図鑑の つかまえた数", `${Object.values(dex ?? {}).filter((v) => v === "caught" || v?.caught === true).length}`);
+    await drain(10);
   }
 
   // ── 歩数（v1.1-h の眼目）──
   //
   // **数え直す単位はマップではなく区画。** 中央を歩き、西へ移り、また歩いて
-  // 500歩で追い出される ―― マップが変わるたびに数え直していたら、西へ入った
-  // 時点で満タンに戻り、いつまでも追い出されない。
+  // 合計500歩で追い出される ―― マップが変わるたびに数え直していたら、西へ入った
+  // 時点で満タンに戻り、上限まで回しても追い出されない。
   // **「そこしか通れない」で初めて関門になる**のと同じで、
   // 歩数制限は**尽きて初めて**制限になる。だから確かめるのは「尽きること」。
   //
   // 歩くのは草も水も無い行だけ（中央 y=10 ／ 西 y=4）―― 野生戦が挟まると
   // 何歩あるいたのか分からなくなる。
+  //
+  // **歩数の会計に、ここまで歩いたぶんも入っている。** 野生を探して上下した
+  // ぶんも goToMap の経路もサファリの歩数を食うので、中央で使いすぎると
+  // 西へ渡る前に尽きて「西のエリアへ移れる」が落ちる ―― 中央は控えめにして、
+  // **残りは西で尽きるまで回す**（西の上限22往復＝440歩。区画で数えていなければ
+  // 西だけで500歩＝25往復要るので、上限に当たって落ちる）。
   await goToMap("kanto-safari-middle", 6, 10, 40);
   const lap = async (span) => {
     // 向きが違う1回目は「向き直り」で歩数を使わない（movement.ts）ので +1 押す
     await key("ArrowLeft", span + 1, RIDING_MS);
     await key("ArrowRight", span + 1, RIDING_MS);
   };
-  await key("ArrowLeft", 6, RIDING_MS); // 6,10 → 1,10（5歩）
-  for (let i = 0; i < 10; i += 1) await lap(10); // 205歩
-  await key("ArrowUp", 5, RIDING_MS); // 1,10 → 1,6（4歩）
-  await key("ArrowLeft", 2, RIDING_MS); // 西へ（209歩）
+  await key("ArrowLeft", 6, RIDING_MS); // 6,10 → 1,10（通路。草も水も無い行）
+  for (let i = 0; i < 5; i += 1) await lap(10); // 100歩
+  await key("ArrowUp", 5, RIDING_MS); // 1,10 → 1,6（すべて通路）
+  await key("ArrowLeft", 2, RIDING_MS); // 0,6 の warp で西へ
   expect("西の エリアへ 移れる", (await spot()).map, "kanto-safari-west");
-  await key("ArrowUp", 3, RIDING_MS); // 11,6 → 11,4（211歩）
+  await key("ArrowUp", 3, RIDING_MS); // 11,6 → 11,4（西の通路の行）
 
   let laps = 0;
-  while (laps < 20 && (await spot()).map === "kanto-safari-west") {
+  while (laps < 22 && (await spot()).map === "kanto-safari-west") {
     await lap(10);
     laps += 1;
-    await drain(4);
+    await drain(8);
   }
   note("西で 歩いた 往復", `${laps}往復（1往復 20歩）`);
   expect(
