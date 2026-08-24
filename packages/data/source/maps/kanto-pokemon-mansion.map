@@ -1,0 +1,32 @@
+# ポケモンやしき 1階。グレンじまの西。研究の跡が残っている。
+id: kanto-pokemon-mansion
+name: ポケモンやしき
+region: kanto
+encounters: kanto-pokemon-mansion-cave
+bgm: cave
+
+legend:
+. normal
+W !normal
+: cave
+
+grid:
+WWWWWWWWWWWWW
+W:::::::::::W
+W:WWW:WWW:W:W
+W:::::::::::W
+W:W:W:W:W:W:W
+W:::::::::::W
+W:WWW:WWW:W:W
+W:::::::::::W
+W:::::::::::W
+W:::::::::::W
+WWWWWW.WWWWWW
+
+warps:
+6,10 step kanto-cinnabar-island 4,7 down
+11,1 step kanto-pokemon-mansion-2f 1,2 down
+
+objects:
+mansion-diary 5,5 sign kanto.mansion.diary
+mansion-item 1,9 item:max-elixir kanto.mansion.item if:kanto.mansion.item-taken=false

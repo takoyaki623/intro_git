@@ -12,7 +12,7 @@ T !normal
 ~ water
 
 grid:
-TTTTTTTTTTTTT
+TTTTTTTTTTT.T
 .............
 T..,,,......T
 T..,,,....~~T
@@ -25,6 +25,7 @@ TTTTT.TTTTTTT
 
 warps:
 0,1 step kanto-rock-tunnel-b1f 11,3 left
+11,0 step kanto-power-plant 6,9 up
 5,9 step kanto-lavender-town 5,1 down
 
 objects:

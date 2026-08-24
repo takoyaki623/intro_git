@@ -1,0 +1,25 @@
+# マサキ の家。25番道路の突きあたり。
+id: kanto-bill-house
+name: マサキの いえ
+region: kanto
+bgm: house
+
+legend:
+. normal
+W !normal
+C !normal
+D normal
+
+grid:
+WWWWWWW
+WC...CW
+W.....W
+W.....W
+W.....W
+WWWDWWW
+
+warps:
+3,5 step kanto-route-25 9,4 down
+
+objects:
+bill 4,2 npc:oldman:static kanto.bill.talk

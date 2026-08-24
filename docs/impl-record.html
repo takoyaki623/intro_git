@@ -221,7 +221,7 @@ a:focus-visible, summary:focus-visible {
     設計文書は <code>docs/design/</code>、上位方針は <code>docs/game-plan.md</code>。
   </p>
   <p class="meta">
-    テスト 396件 ／ 検証項目 106 ／ マップ 91枚 ／ 種族 190 ／ 技 248 ／ 道具 98
+    テスト 396件 ／ 検証項目 106 ／ マップ 102枚 ／ 種族 190 ／ 技 248 ／ 道具 98
     ―― 型チェック・検証スクリプト・通し確認（179項目）・撮影（38か所）すべて緑
   </p>
 </header>
@@ -231,7 +231,7 @@ a:focus-visible, summary:focus-visible {
   <div class="fig"><b class="num">190</b><span>種族</span></div>
   <div class="fig"><b class="num">248</b><span>技</span></div>
   <div class="fig"><b class="num">18</b><span>ネームド</span></div>
-  <div class="fig"><b class="num">91</b><span>マップ</span></div>
+  <div class="fig"><b class="num">102</b><span>マップ</span></div>
   <div class="fig"><b class="num">106</b><span>検証項目</span></div>
   <div class="fig"><b class="num">13,267</b><span>実装行 (TS)</span></div>
   <div class="fig"><b class="num">5,329</b><span>テスト行</span></div>
@@ -780,6 +780,7 @@ pokemon … 個体の実体。uid が主キー</code></pre>
           <tr><td><span class="ver">v1.1-e</span></td><td>東の腕（9・10・12〜15番＋イワヤマトンネル）・ダンジョンの階層</td><td><strong>0行</strong></td><td>88 → <strong>92</strong></td></tr>
           <tr><td><span class="ver">v1.1-f</span></td><td><strong>押せる岩とスイッチ</strong>・チャンピオンロード2階/3階をパズルに</td><td><code>MapObjectKind</code> 2種</td><td>92</td></tr>
           <tr><td><span class="ver">v1.1-g-1</span></td><td>見えない壁・クイズ扉・<strong>テレポート床</strong>（ジム3つが仕掛けつきに）</td><td><strong>描画に5行だけ</strong></td><td>92</td></tr>
+          <tr><td><span class="ver">v1.1-g-2</span></td><td>むじんはつでんしょ・ふたごじま・ポケモンやしき・<strong>ハナダのどうくつ</strong>・17/18/24/25番（マップ 91→102）</td><td><strong>0行</strong></td><td>92 → <strong>101</strong></td></tr>
         </tbody>
       </table>
     </div>
@@ -869,6 +870,19 @@ pokemon … 個体の実体。uid が主キー</code></pre>
       クイズ扉は正解だけ試すと<strong>どちらを選んでも開く扉</strong>を通してしまう ――
       v1.1-e の「置いただけの関門」と同じ形の見落としになる。
       まず わざと間違えて開かないことを見てから、3問とも正解する。
+    </div>
+
+    <h3>v1.1-g-2 ―― 図鑑を動かすのは道路ではなくダンジョン</h3>
+    <p>v1.1-d・v1.1-e・v1.1-g-1 は「地理は直ったが図鑑は動かない」版が続いていた。
+    17・18・24・25番を足して出現表を取り込んでも、<strong>増えた種は0</strong> ――
+    そこに出るのは スピアロー・ドードー・コラッタ・キャタピー・ナゾノクサ で、全部よそにも出る。</p>
+    <p>動いたのは<strong>ダンジョンを足したとき</strong>だった。
+    むじんはつでんしょ（サンダー）・ふたごじま（フリーザー）・ハナダのどうくつ（ミュウツー）
+    ・ポケモンやしき ―― <strong>入手経路のある種が 92 → 101。</strong>
+    原作の固有種は、たいてい行き止まりの奥に置いてある。</p>
+    <div class="note">
+      <strong>「マップを足したから前進した」と思い込まずに済んだのは、物差しがあったから。</strong><br>
+      入手経路を数える計測がなければ、道路4本ぶんの作業を成果として数えていた。
     </div>
 
     <div class="note warn">
@@ -1998,9 +2012,9 @@ packages/data/generated/ids.d.ts
     <table>
       <thead><tr><th>最初の3つの希望</th><th>現在地</th></tr></thead>
       <tbody>
-        <tr><td>全てのポケモンが出る</td><td>カントー151種のうち<strong>92種に入手経路がある</strong>（v1.1-f 時点）。151種すべてが v1.1 の完了条件</td></tr>
+        <tr><td>全てのポケモンが出る</td><td>カントー151種のうち<strong>101種に入手経路がある</strong>（v1.1-g-2 時点）。151種すべてが v1.1 の完了条件</td></tr>
         <tr><td>今までの全てのトレーナーが出る</td><td>ネームド18人 × 2ティア（v0.11）＋道中45人。<strong>原作は約180人</strong>（v1.1-i）。極ティアは v1.2</td></tr>
-        <tr><td>原作のマップを再現</td><td><strong>91枚・出入口184か所。</strong> ヤマブキは4叉路、シオンは行き止まりでない、ダンジョンは階層つきで、チャンピオンロードは岩とスイッチのパズル（v1.1-d/-e/-f）</td></tr>
+        <tr><td>原作のマップを再現</td><td><strong>102枚。</strong> ヤマブキは4叉路、シオンは行き止まりでない、ダンジョンは階層つきで、チャンピオンロードは岩とスイッチのパズル（v1.1-d/-e/-f）</td></tr>
       </tbody>
     </table>
   </div>

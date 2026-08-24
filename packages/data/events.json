@@ -5625,5 +5625,620 @@
         ]
       }
     ]
+  },
+  {
+    "id": "kanto.route17.sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "17ばんどうろ\nサイクリングロード\n\n きた 16ばんどうろ\n みなみ 18ばんどうろ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route17.biker",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route17.biker-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ここは くだり ざかだ!\nついてこれるか!",
+            "speaker": "ライダー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route17-biker",
+            "onWin": "kanto.route17.biker-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "はやいな\nみとめてやる。",
+            "speaker": "ライダー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route17.biker-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route17.biker-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "はやいな\nみとめてやる。",
+        "speaker": "ライダー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route17.item",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ふしぎなアメ… ではなく ピーピーマックス を みつけた!"
+      },
+      {
+        "kind": "giveItem",
+        "item": "max-ether",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route17.item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route18.sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "18ばんどうろ\n\n きた サイクリングロード\n みなみ セキチクシティ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route18.birdkeeper",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route18.birdkeeper-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "とりポケモンは はやいぞ!",
+            "speaker": "とりつかい"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route18-birdkeeper",
+            "onWin": "kanto.route18.birdkeeper-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "はねが おれた きぶんだ…",
+            "speaker": "とりつかい"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route18.birdkeeper-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route18.birdkeeper-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "はねが おれた きぶんだ…",
+        "speaker": "とりつかい"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route24.sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "24ばんどうろ\nナゲツリばし\n\n みなみ ハナダシティ\n きた 25ばんどうろ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route24.camper",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route24.camper-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "はしの うえは わたさないぞ!",
+            "speaker": "キャンプボーイ"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route24-camper",
+            "onWin": "kanto.route24.camper-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "むこうに いっても いいよ。",
+            "speaker": "キャンプボーイ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route24.camper-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route24.camper-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "むこうに いっても いいよ。",
+        "speaker": "キャンプボーイ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route25.sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "25ばんどうろ\n\n この さきは マサキ の いえ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route25.hiker",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route25.hiker-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "この みちは とおさんぞ!",
+            "speaker": "やまおとこ"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route25-hiker",
+            "onWin": "kanto.route25.hiker-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "マサキ の いえは この さきだ。",
+            "speaker": "やまおとこ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route25.hiker-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route25.hiker-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "マサキ の いえは この さきだ。",
+        "speaker": "やまおとこ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.bill.talk",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.bill.helped",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "やあ! ぼくは マサキ。\nポケモンの けんきゅうを している。",
+            "speaker": "マサキ"
+          },
+          {
+            "kind": "message",
+            "text": "おれいに これを あげよう。\nピーピーマックス だ!",
+            "speaker": "マサキ"
+          },
+          {
+            "kind": "giveItem",
+            "item": "max-ether",
+            "count": 1
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.bill.helped",
+            "value": true
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ポケモンは いいぞ!\nもっと あつめるといい。",
+            "speaker": "マサキ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.power.zapdos",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "でんきが はじける おとが する!\nおおきな とりポケモンが とまっている!"
+      },
+      {
+        "kind": "choice",
+        "prompt": "ちかづきますか?",
+        "options": [
+          {
+            "text": "ちかづく",
+            "then": [
+              {
+                "kind": "setFlag",
+                "flag": "kanto.power.zapdos-caught",
+                "value": true
+              },
+              {
+                "kind": "playSe"
+              },
+              {
+                "kind": "message",
+                "text": "サンダー が おそいかかってきた!"
+              },
+              {
+                "kind": "wildBattle",
+                "species": "zapdos",
+                "level": 50
+              }
+            ]
+          },
+          {
+            "text": "やめる",
+            "then": [
+              {
+                "kind": "message",
+                "text": "いまは やめておこう。"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.seafoam.articuno",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "つめたい かぜが ふきぬける。\nこおりの とりポケモンが いる!"
+      },
+      {
+        "kind": "choice",
+        "prompt": "ちかづきますか?",
+        "options": [
+          {
+            "text": "ちかづく",
+            "then": [
+              {
+                "kind": "setFlag",
+                "flag": "kanto.seafoam.articuno-caught",
+                "value": true
+              },
+              {
+                "kind": "playSe"
+              },
+              {
+                "kind": "message",
+                "text": "フリーザー が おそいかかってきた!"
+              },
+              {
+                "kind": "wildBattle",
+                "species": "articuno",
+                "level": 50
+              }
+            ]
+          },
+          {
+            "text": "やめる",
+            "then": [
+              {
+                "kind": "message",
+                "text": "いまは やめておこう。"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.victory.moltres",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "どうくつの おくが あかるい。\nほのおの とりポケモンが いる!"
+      },
+      {
+        "kind": "choice",
+        "prompt": "ちかづきますか?",
+        "options": [
+          {
+            "text": "ちかづく",
+            "then": [
+              {
+                "kind": "setFlag",
+                "flag": "kanto.victory.moltres-caught",
+                "value": true
+              },
+              {
+                "kind": "playSe"
+              },
+              {
+                "kind": "message",
+                "text": "ファイヤー が おそいかかってきた!"
+              },
+              {
+                "kind": "wildBattle",
+                "species": "moltres",
+                "level": 50
+              }
+            ]
+          },
+          {
+            "text": "やめる",
+            "then": [
+              {
+                "kind": "message",
+                "text": "いまは やめておこう。"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.cave.mewtwo",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "しずかだ… なにかが こちらを みている。"
+      },
+      {
+        "kind": "choice",
+        "prompt": "ちかづきますか?",
+        "options": [
+          {
+            "text": "ちかづく",
+            "then": [
+              {
+                "kind": "setFlag",
+                "flag": "kanto.cave.mewtwo-caught",
+                "value": true
+              },
+              {
+                "kind": "playSe"
+              },
+              {
+                "kind": "message",
+                "text": "ミュウツー が おそいかかってきた!"
+              },
+              {
+                "kind": "wildBattle",
+                "species": "mewtwo",
+                "level": 70
+              }
+            ]
+          },
+          {
+            "text": "やめる",
+            "then": [
+              {
+                "kind": "message",
+                "text": "いまは やめておこう。"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.power.sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "はつでんしょ あとち\n\nきけん! ちかよるな!"
+      }
+    ]
+  },
+  {
+    "id": "kanto.power.item",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ピーピーマックス を みつけた!"
+      },
+      {
+        "kind": "giveItem",
+        "item": "max-elixir",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.power.item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.seafoam.sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ふたごじま\n\nみなみは グレンじま"
+      }
+    ]
+  },
+  {
+    "id": "kanto.seafoam.item",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "げんきのかたまり を みつけた!"
+      },
+      {
+        "kind": "giveItem",
+        "item": "max-revive",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.seafoam.item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.mansion.diary",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "にっき: あたらしい ポケモンを\nみつけた。ミュウ と なづけた。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.mansion.diary-2",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "にっき: ミュウの こどもが うまれた。\nミュウツー と なづけよう。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.mansion.item",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ピーピーマックス を みつけた!"
+      },
+      {
+        "kind": "giveItem",
+        "item": "max-elixir",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.mansion.item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.mansion.item-2",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "げんきのかたまり を みつけた!"
+      },
+      {
+        "kind": "giveItem",
+        "item": "max-revive",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.mansion.item-2-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.cave.item",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "げんきのかたまり を みつけた!"
+      },
+      {
+        "kind": "giveItem",
+        "item": "max-revive",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.cave.item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.cerulean.cave-guard",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "この さきの どうくつは\nつよい ポケモンばかり だ。",
+        "speaker": "けいび"
+      },
+      {
+        "kind": "message",
+        "text": "チャンピオンに なるまでは\nとおすわけには いかない。",
+        "speaker": "けいび"
+      }
+    ]
   }
 ]

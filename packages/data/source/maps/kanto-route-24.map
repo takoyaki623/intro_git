@@ -1,0 +1,34 @@
+# 24番道路（ナゲツリばし）。ハナダの北。
+id: kanto-route-24
+name: 24ばんどうろ
+region: kanto
+encounters: kanto-route-24-grass kanto-route-24-surf kanto-route-24-fishing-old kanto-route-24-fishing-good kanto-route-24-fishing-super
+bgm: route-1
+
+legend:
+. normal
+, grass
+T !normal
+~ !water
+
+grid:
+TTTTT.TTTTT
+T....,....T
+T...,,,...T
+T....,....T
+T.........T
+T~~~...~~~T
+T~~~...~~~T
+T.........T
+T...,,,,..T
+T.........T
+T.........T
+TTTTT.TTTTT
+
+warps:
+5,0 step kanto-route-25 2,7 up
+5,11 step kanto-cerulean-city 6,1 down
+
+objects:
+route24-sign 3,10 sign kanto.route24.sign
+route24-camper 7,2 trainer:kanto-route24-camper:3:left kanto.route24.camper if:kanto.route24.camper-beaten=false

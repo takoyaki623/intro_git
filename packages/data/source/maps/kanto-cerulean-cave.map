@@ -1,0 +1,30 @@
+# ハナダのどうくつ。**殿堂入りするまで入れない**（入口にけいびが立つ）。奥に ミュウツー。
+id: kanto-cerulean-cave
+name: ハナダのどうくつ
+region: kanto
+encounters: kanto-cerulean-cave-cave kanto-cerulean-cave-surf kanto-cerulean-cave-fishing-old kanto-cerulean-cave-fishing-good kanto-cerulean-cave-fishing-super
+bgm: cave
+
+legend:
+. normal
+R !normal
+: cave
+~ !water
+
+grid:
+RRRRRRRRRRRRR
+R:::::::::::R
+R:RRR:RRR:R:R
+R:::::::::::R
+R:~~~~~~~~~:R
+R:::::::::::R
+R:RRR:RRR:R:R
+R:::::::::::R
+RRRRRR.RRRRRR
+
+warps:
+6,8 step kanto-cerulean-city 5,14 down
+
+objects:
+cerulean-cave-mewtwo 6,1 npc:mewtwo:static kanto.cave.mewtwo if:kanto.cave.mewtwo-caught=false
+cerulean-cave-item 11,3 item:max-revive kanto.cave.item if:kanto.cave.item-taken=false

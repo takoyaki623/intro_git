@@ -966,6 +966,20 @@ await shot("19-misty");
 // **`talk()` は使わない** ―― あれは最後に `drain()` するが、`drain()` は
 // 選択肢の**いちばん下**（＝「やめる」）を押すので、開いた瞬間に店を閉じてしまう。
 // 品揃えは `#menu` ではなく**会話枠の選択肢**として出る（field.ts の openShop）
+// ── ハナダのどうくつ（v1.1-g-2）──
+//
+// **殿堂入りするまで入口にけいびが立っている。** 条件つきオブジェクトなので、
+// 経路探索は通れる扱いで道を引く ―― だから「行けない」ことは
+// *歩いてみないと分からない*（カビゴンで踏んだのと同じ形）。
+//
+// **測るのはハナダに居るあいだ。** これを終盤に置いたら、23番道路から
+// ハナダまで歩いて戻ることになり、次の区間の歩数の予算が足りなくなった。
+expect(
+  "殿堂入りするまで ハナダのどうくつには 入れない",
+  (await goToMap("kanto-cerulean-cave", 6, 7, 12)).map,
+  (v) => v !== "kanto-cerulean-cave",
+);
+
 await goToMap("kanto-cerulean-mart", 2, 3, 40);
 note("ショップの前", await at());
 await key("ArrowUp", 2, 200);
@@ -1447,6 +1461,15 @@ expect(
   await shot("22c-field");
 }
 
+// ── サイクリングロード（v1.1-g-2）──
+//
+// 16番からセキチクへは、**17番・18番を通らないと行けない**ようになった
+// （それまでは16番が直接セキチクに繋がっていた ―― 原作より1本短かった）。
+await goToMap("kanto-route-17", 5, 6, 120);
+expect("16番の南は サイクリングロード（17番）", (await spot()).map, "kanto-route-17");
+await goToMap("kanto-route-18", 5, 4, 60);
+expect("17番の南は 18番どうろ", (await spot()).map, "kanto-route-18");
+
 // キョウ（ジム5）。**ジムの前にポケモンセンターへ寄る** ―― 人がやることと同じ
 await goToMap("kanto-fuchsia-pokecenter", 4, 3, 80);
 await talk("ArrowUp");
@@ -1797,6 +1820,23 @@ await page.click('#field-panel [data-fly="kanto-pallet-town"]');
 await drain();
 await page.waitForTimeout(800);
 expect("そらをとぶ で マサラへ 戻れる", (await spot()).map, "kanto-pallet-town");
+
+// ── 殿堂入りのあと ―― ハナダのどうくつが開く（v1.1-g-2）──
+{
+  await goToMap("kanto-cerulean-cave", 6, 7, 200);
+  expect("殿堂入りすると けいびが どく", (await spot()).map, "kanto-cerulean-cave");
+  await goToMap("kanto-cerulean-cave", 6, 2, 20);
+  await key("ArrowUp", 2, 220);
+  await key("z", 1, 400);
+  note("ミュウツー", ((await page.textContent("#field-text")) ?? "（何も出ない）").trim().replace(/\s+/g, " "));
+  await choose("ちかづく");
+  await drain(8);
+  expect("ミュウツーと 野生戦に なる", (await page.isVisible("#battle")) ? "なった" : "ならない", "なった");
+  await fight();
+  await page.waitForTimeout(900);
+  await drain(30);
+  await shot("33-mewtwo");
+}
 // **`talk()` は使わない** ―― あれは最後に `drain()` するが、`drain()` は
 // 選択肢のいちばん下（＝「やめる」）を押すので、ゲートの前で引き返してしまう
 await backToHub();

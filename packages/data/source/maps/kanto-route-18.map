@@ -1,0 +1,31 @@
+# 18番道路。サイクリングロードの南端からセキチクへ。
+id: kanto-route-18
+name: 18ばんどうろ
+region: kanto
+encounters: kanto-route-18-grass
+bgm: route-16
+
+legend:
+. normal
+, grass
+T !normal
+= ledge
+
+grid:
+TTTTT.TTTTTTT
+T...........T
+T..,,,......T
+T..,,,......T
+T...........T
+T......===..T
+T...........T
+T.......,,,.T
+TTTTTT.TTTTTT
+
+warps:
+5,0 step kanto-route-17 5,12 up
+6,8 step kanto-fuchsia-city 6,1 down
+
+objects:
+route18-sign 2,6 sign kanto.route18.sign
+route18-birdkeeper 9,3 trainer:kanto-route18-birdkeeper:3:left kanto.route18.birdkeeper if:kanto.route18.birdkeeper-beaten=false

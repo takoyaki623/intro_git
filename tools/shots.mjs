@@ -148,6 +148,9 @@ const SHOOTING_SAVE = (() => {
     // 押した岩は `world.moved` にしか残らず、撮影の道具は岩を押さない ――
     // 開けておかないと3階へ一生たどり着けない（カビゴンで踏んだのと同じ形）
     "kanto.victory.switch-2f", "kanto.victory.switch-3f",
+    // ハナダのどうくつのけいびは**殿堂入りで どく**（v1.1-g-2）。
+    // 撮影はリーグを通らないので、勝ったことにしておかないと入口で止まる
+    "kanto.league.champion-beaten",
   ]) {
     save.regions.kanto.flags[flag] = true;
   }
@@ -205,6 +208,12 @@ const PLACES = [
   { file: "fuchsia-city", name: "セキチクシティ", note: "ジム5（キョウ）。サファリゾーンはまだ閉まっている", to: ["kanto-fuchsia-city", 6, 5] },
   { file: "route-19", name: "19ばんすいどう", note: "なみのり の海。砂州だけが陸", to: ["kanto-route-19", 5, 5] },
   { file: "cinnabar-island", name: "グレンじま", note: "ジム7（カツラ）。なみのり でしか来られない島", to: ["kanto-cinnabar-island", 6, 4] },
+  { file: "route-17", name: "サイクリングロード（17ばん）", note: "段差だらけの下り坂。16番とセキチクのあいだ（v1.1-g-2）", to: ["kanto-route-17", 5, 6] },
+  { file: "route-24", name: "24ばんどうろ（ナゲツリばし）", note: "ハナダの北。この先は マサキ の家", to: ["kanto-route-24", 5, 4] },
+  { file: "power-plant", name: "むじんはつでんしょ", note: "10番道路の北のはずれ。奥に サンダー（v1.1-g-2）", to: ["kanto-power-plant", 6, 5] },
+  { file: "seafoam", name: "ふたごじま", note: "19番と20番のあいだの島。地下に フリーザー", to: ["kanto-seafoam-1f", 6, 5] },
+  { file: "pokemon-mansion", name: "ポケモンやしき", note: "グレンじまの西。ミュウツー の生まれた場所", to: ["kanto-pokemon-mansion", 6, 5] },
+  { file: "cerulean-cave", name: "ハナダのどうくつ", note: "殿堂入りするまで入れない。奥に ミュウツー", to: ["kanto-cerulean-cave", 6, 5] },
   { file: "victory-road", name: "チャンピオンロード", note: "洞窟。かいりき の岩が道を塞ぐ", to: ["kanto-victory-road", 3, 7] },
   // **1階のすぐ後に置く。** どけた岩は `world.cleared` にしか残らず、
   // マップを出入りすると元に戻る（v0.12-d の決定）―― 離すと2階へ行けない

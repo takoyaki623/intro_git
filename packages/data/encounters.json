@@ -104,6 +104,250 @@
     ]
   },
   {
+    "id": "kanto-cerulean-cave-cave",
+    "method": "cave",
+    "entries": [
+      {
+        "species": "magneton",
+        "levelRange": [
+          49,
+          49
+        ],
+        "rate": 20
+      },
+      {
+        "species": "parasect",
+        "levelRange": [
+          49,
+          49
+        ],
+        "rate": 20
+      },
+      {
+        "species": "golbat",
+        "levelRange": [
+          46,
+          46
+        ],
+        "rate": 10
+      },
+      {
+        "species": "machoke",
+        "levelRange": [
+          46,
+          46
+        ],
+        "rate": 10
+      },
+      {
+        "species": "primeape",
+        "levelRange": [
+          52,
+          52
+        ],
+        "rate": 10
+      },
+      {
+        "species": "electrode",
+        "levelRange": [
+          58,
+          58
+        ],
+        "rate": 5
+      },
+      {
+        "species": "parasect",
+        "levelRange": [
+          58,
+          58
+        ],
+        "rate": 5
+      },
+      {
+        "species": "golbat",
+        "levelRange": [
+          55,
+          55
+        ],
+        "rate": 4
+      },
+      {
+        "species": "primeape",
+        "levelRange": [
+          61,
+          61
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
+    "id": "kanto-cerulean-cave-fishing-good",
+    "method": "fishing-good",
+    "entries": [
+      {
+        "species": "poliwag",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 60
+      },
+      {
+        "species": "goldeen",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 20
+      },
+      {
+        "species": "magikarp",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 20
+      }
+    ]
+  },
+  {
+    "id": "kanto-cerulean-cave-fishing-old",
+    "method": "fishing-old",
+    "entries": [
+      {
+        "species": "magikarp",
+        "levelRange": [
+          5,
+          5
+        ],
+        "rate": 100
+      }
+    ]
+  },
+  {
+    "id": "kanto-cerulean-cave-fishing-super",
+    "method": "fishing-super",
+    "entries": [
+      {
+        "species": "poliwag",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 40
+      },
+      {
+        "species": "poliwhirl",
+        "levelRange": [
+          20,
+          30
+        ],
+        "rate": 40
+      },
+      {
+        "species": "gyarados",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 15
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 4
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
+    "id": "kanto-cerulean-cave-rock-smash",
+    "method": "rock-smash",
+    "entries": [
+      {
+        "species": "geodude",
+        "levelRange": [
+          30,
+          40
+        ],
+        "rate": 60
+      },
+      {
+        "species": "graveler",
+        "levelRange": [
+          40,
+          50
+        ],
+        "rate": 30
+      },
+      {
+        "species": "geodude",
+        "levelRange": [
+          40,
+          50
+        ],
+        "rate": 5
+      },
+      {
+        "species": "graveler",
+        "levelRange": [
+          45,
+          55
+        ],
+        "rate": 5
+      }
+    ]
+  },
+  {
+    "id": "kanto-cerulean-cave-surf",
+    "method": "surf",
+    "entries": [
+      {
+        "species": "psyduck",
+        "levelRange": [
+          30,
+          40
+        ],
+        "rate": 60
+      },
+      {
+        "species": "golduck",
+        "levelRange": [
+          40,
+          50
+        ],
+        "rate": 30
+      },
+      {
+        "species": "golduck",
+        "levelRange": [
+          45,
+          55
+        ],
+        "rate": 5
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          40,
+          50
+        ],
+        "rate": 5
+      }
+    ]
+  },
+  {
     "id": "kanto-cerulean-city-fishing-good",
     "method": "fishing-good",
     "entries": [
@@ -850,6 +1094,178 @@
     ]
   },
   {
+    "id": "kanto-pokemon-mansion-2f-cave",
+    "method": "cave",
+    "entries": [
+      {
+        "species": "koffing",
+        "levelRange": [
+          28,
+          28
+        ],
+        "rate": 20
+      },
+      {
+        "species": "raticate",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 20
+      },
+      {
+        "species": "growlithe",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 10
+      },
+      {
+        "species": "koffing",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 10
+      },
+      {
+        "species": "raticate",
+        "levelRange": [
+          36,
+          36
+        ],
+        "rate": 10
+      },
+      {
+        "species": "rattata",
+        "levelRange": [
+          28,
+          28
+        ],
+        "rate": 10
+      },
+      {
+        "species": "grimer",
+        "levelRange": [
+          28,
+          28
+        ],
+        "rate": 5
+      },
+      {
+        "species": "growlithe",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 5
+      },
+      {
+        "species": "rattata",
+        "levelRange": [
+          26,
+          26
+        ],
+        "rate": 5
+      },
+      {
+        "species": "weezing",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 5
+      }
+    ]
+  },
+  {
+    "id": "kanto-pokemon-mansion-cave",
+    "method": "cave",
+    "entries": [
+      {
+        "species": "koffing",
+        "levelRange": [
+          28,
+          28
+        ],
+        "rate": 20
+      },
+      {
+        "species": "raticate",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 20
+      },
+      {
+        "species": "growlithe",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 10
+      },
+      {
+        "species": "koffing",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 10
+      },
+      {
+        "species": "raticate",
+        "levelRange": [
+          36,
+          36
+        ],
+        "rate": 10
+      },
+      {
+        "species": "rattata",
+        "levelRange": [
+          28,
+          28
+        ],
+        "rate": 10
+      },
+      {
+        "species": "grimer",
+        "levelRange": [
+          28,
+          28
+        ],
+        "rate": 5
+      },
+      {
+        "species": "growlithe",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 5
+      },
+      {
+        "species": "rattata",
+        "levelRange": [
+          26,
+          26
+        ],
+        "rate": 5
+      },
+      {
+        "species": "weezing",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 5
+      }
+    ]
+  },
+  {
     "id": "kanto-pokemon-tower-grass",
     "method": "grass",
     "entries": [
@@ -962,6 +1378,100 @@
         "levelRange": [
           25,
           25
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
+    "id": "kanto-power-plant-cave",
+    "method": "cave",
+    "entries": [
+      {
+        "species": "magnemite",
+        "levelRange": [
+          22,
+          22
+        ],
+        "rate": 20
+      },
+      {
+        "species": "voltorb",
+        "levelRange": [
+          22,
+          22
+        ],
+        "rate": 20
+      },
+      {
+        "species": "magnemite",
+        "levelRange": [
+          25,
+          25
+        ],
+        "rate": 10
+      },
+      {
+        "species": "pikachu",
+        "levelRange": [
+          22,
+          22
+        ],
+        "rate": 10
+      },
+      {
+        "species": "pikachu",
+        "levelRange": [
+          24,
+          24
+        ],
+        "rate": 10
+      },
+      {
+        "species": "voltorb",
+        "levelRange": [
+          25,
+          25
+        ],
+        "rate": 10
+      },
+      {
+        "species": "magneton",
+        "levelRange": [
+          31,
+          31
+        ],
+        "rate": 5
+      },
+      {
+        "species": "magneton",
+        "levelRange": [
+          34,
+          34
+        ],
+        "rate": 5
+      },
+      {
+        "species": "pikachu",
+        "levelRange": [
+          26,
+          26
+        ],
+        "rate": 5
+      },
+      {
+        "species": "electabuzz",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 4
+      },
+      {
+        "species": "electabuzz",
+        "levelRange": [
+          35,
+          35
         ],
         "rate": 1
       }
@@ -2354,6 +2864,194 @@
     ]
   },
   {
+    "id": "kanto-route-17-grass",
+    "method": "grass",
+    "entries": [
+      {
+        "species": "doduo",
+        "levelRange": [
+          24,
+          24
+        ],
+        "rate": 20
+      },
+      {
+        "species": "spearow",
+        "levelRange": [
+          20,
+          20
+        ],
+        "rate": 20
+      },
+      {
+        "species": "doduo",
+        "levelRange": [
+          26,
+          26
+        ],
+        "rate": 10
+      },
+      {
+        "species": "raticate",
+        "levelRange": [
+          25,
+          25
+        ],
+        "rate": 10
+      },
+      {
+        "species": "raticate",
+        "levelRange": [
+          27,
+          27
+        ],
+        "rate": 10
+      },
+      {
+        "species": "spearow",
+        "levelRange": [
+          22,
+          22
+        ],
+        "rate": 10
+      },
+      {
+        "species": "doduo",
+        "levelRange": [
+          28,
+          28
+        ],
+        "rate": 5
+      },
+      {
+        "species": "raticate",
+        "levelRange": [
+          29,
+          29
+        ],
+        "rate": 5
+      },
+      {
+        "species": "rattata",
+        "levelRange": [
+          22,
+          22
+        ],
+        "rate": 5
+      },
+      {
+        "species": "fearow",
+        "levelRange": [
+          25,
+          25
+        ],
+        "rate": 4
+      },
+      {
+        "species": "fearow",
+        "levelRange": [
+          27,
+          27
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-18-grass",
+    "method": "grass",
+    "entries": [
+      {
+        "species": "doduo",
+        "levelRange": [
+          24,
+          24
+        ],
+        "rate": 20
+      },
+      {
+        "species": "spearow",
+        "levelRange": [
+          20,
+          20
+        ],
+        "rate": 20
+      },
+      {
+        "species": "doduo",
+        "levelRange": [
+          26,
+          26
+        ],
+        "rate": 10
+      },
+      {
+        "species": "fearow",
+        "levelRange": [
+          25,
+          25
+        ],
+        "rate": 10
+      },
+      {
+        "species": "raticate",
+        "levelRange": [
+          25,
+          25
+        ],
+        "rate": 10
+      },
+      {
+        "species": "spearow",
+        "levelRange": [
+          22,
+          22
+        ],
+        "rate": 10
+      },
+      {
+        "species": "doduo",
+        "levelRange": [
+          28,
+          28
+        ],
+        "rate": 5
+      },
+      {
+        "species": "raticate",
+        "levelRange": [
+          29,
+          29
+        ],
+        "rate": 5
+      },
+      {
+        "species": "rattata",
+        "levelRange": [
+          22,
+          22
+        ],
+        "rate": 5
+      },
+      {
+        "species": "fearow",
+        "levelRange": [
+          27,
+          27
+        ],
+        "rate": 4
+      },
+      {
+        "species": "fearow",
+        "levelRange": [
+          29,
+          29
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
     "id": "kanto-route-19-fishing-good",
     "method": "fishing-good",
     "entries": [
@@ -3480,6 +4178,418 @@
     ]
   },
   {
+    "id": "kanto-route-24-fishing-good",
+    "method": "fishing-good",
+    "entries": [
+      {
+        "species": "horsea",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 60
+      },
+      {
+        "species": "krabby",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 20
+      },
+      {
+        "species": "magikarp",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 20
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-24-fishing-old",
+    "method": "fishing-old",
+    "entries": [
+      {
+        "species": "magikarp",
+        "levelRange": [
+          5,
+          5
+        ],
+        "rate": 100
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-24-fishing-super",
+    "method": "fishing-super",
+    "entries": [
+      {
+        "species": "horsea",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 80
+      },
+      {
+        "species": "gyarados",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 15
+      },
+      {
+        "species": "horsea",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 4
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-24-grass",
+    "method": "grass",
+    "entries": [
+      {
+        "species": "caterpie",
+        "levelRange": [
+          7,
+          7
+        ],
+        "rate": 20
+      },
+      {
+        "species": "weedle",
+        "levelRange": [
+          7,
+          7
+        ],
+        "rate": 20
+      },
+      {
+        "species": "oddish",
+        "levelRange": [
+          12,
+          12
+        ],
+        "rate": 10
+      },
+      {
+        "species": "oddish",
+        "levelRange": [
+          13,
+          13
+        ],
+        "rate": 10
+      },
+      {
+        "species": "pidgey",
+        "levelRange": [
+          11,
+          11
+        ],
+        "rate": 10
+      },
+      {
+        "species": "oddish",
+        "levelRange": [
+          14,
+          14
+        ],
+        "rate": 5
+      },
+      {
+        "species": "pidgey",
+        "levelRange": [
+          13,
+          13
+        ],
+        "rate": 5
+      },
+      {
+        "species": "kakuna",
+        "levelRange": [
+          8,
+          8
+        ],
+        "rate": 4
+      },
+      {
+        "species": "metapod",
+        "levelRange": [
+          8,
+          8
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-24-surf",
+    "method": "surf",
+    "entries": [
+      {
+        "species": "tentacool",
+        "levelRange": [
+          5,
+          10
+        ],
+        "rate": 60
+      },
+      {
+        "species": "tentacool",
+        "levelRange": [
+          10,
+          20
+        ],
+        "rate": 30
+      },
+      {
+        "species": "tentacool",
+        "levelRange": [
+          20,
+          30
+        ],
+        "rate": 5
+      },
+      {
+        "species": "tentacool",
+        "levelRange": [
+          30,
+          35
+        ],
+        "rate": 4
+      },
+      {
+        "species": "tentacool",
+        "levelRange": [
+          35,
+          40
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-25-fishing-good",
+    "method": "fishing-good",
+    "entries": [
+      {
+        "species": "poliwag",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 60
+      },
+      {
+        "species": "goldeen",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 20
+      },
+      {
+        "species": "magikarp",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 20
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-25-fishing-old",
+    "method": "fishing-old",
+    "entries": [
+      {
+        "species": "magikarp",
+        "levelRange": [
+          5,
+          5
+        ],
+        "rate": 100
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-25-fishing-super",
+    "method": "fishing-super",
+    "entries": [
+      {
+        "species": "poliwag",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 40
+      },
+      {
+        "species": "poliwhirl",
+        "levelRange": [
+          20,
+          30
+        ],
+        "rate": 40
+      },
+      {
+        "species": "gyarados",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 15
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 4
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-25-grass",
+    "method": "grass",
+    "entries": [
+      {
+        "species": "caterpie",
+        "levelRange": [
+          8,
+          8
+        ],
+        "rate": 20
+      },
+      {
+        "species": "weedle",
+        "levelRange": [
+          8,
+          8
+        ],
+        "rate": 20
+      },
+      {
+        "species": "oddish",
+        "levelRange": [
+          14,
+          14
+        ],
+        "rate": 10
+      },
+      {
+        "species": "oddish",
+        "levelRange": [
+          13,
+          13
+        ],
+        "rate": 10
+      },
+      {
+        "species": "pidgey",
+        "levelRange": [
+          13,
+          13
+        ],
+        "rate": 10
+      },
+      {
+        "species": "oddish",
+        "levelRange": [
+          12,
+          12
+        ],
+        "rate": 5
+      },
+      {
+        "species": "pidgey",
+        "levelRange": [
+          11,
+          11
+        ],
+        "rate": 5
+      },
+      {
+        "species": "kakuna",
+        "levelRange": [
+          9,
+          9
+        ],
+        "rate": 4
+      },
+      {
+        "species": "metapod",
+        "levelRange": [
+          9,
+          9
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-25-surf",
+    "method": "surf",
+    "entries": [
+      {
+        "species": "psyduck",
+        "levelRange": [
+          20,
+          25
+        ],
+        "rate": 90
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          25,
+          30
+        ],
+        "rate": 5
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          30,
+          35
+        ],
+        "rate": 4
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          35,
+          40
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
     "id": "kanto-route-3-grass",
     "method": "grass",
     "entries": [
@@ -4364,6 +5474,194 @@
         "levelRange": [
           17,
           17
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
+    "id": "kanto-seafoam-1f-cave",
+    "method": "cave",
+    "entries": [
+      {
+        "species": "psyduck",
+        "levelRange": [
+          27,
+          27
+        ],
+        "rate": 20
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          29,
+          29
+        ],
+        "rate": 20
+      },
+      {
+        "species": "zubat",
+        "levelRange": [
+          22,
+          22
+        ],
+        "rate": 20
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          31,
+          31
+        ],
+        "rate": 10
+      },
+      {
+        "species": "zubat",
+        "levelRange": [
+          24,
+          24
+        ],
+        "rate": 10
+      },
+      {
+        "species": "golbat",
+        "levelRange": [
+          26,
+          26
+        ],
+        "rate": 5
+      },
+      {
+        "species": "golbat",
+        "levelRange": [
+          28,
+          28
+        ],
+        "rate": 5
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          33,
+          33
+        ],
+        "rate": 4
+      },
+      {
+        "species": "zubat",
+        "levelRange": [
+          26,
+          26
+        ],
+        "rate": 4
+      },
+      {
+        "species": "golbat",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 1
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          26,
+          26
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
+    "id": "kanto-seafoam-b1f-cave",
+    "method": "cave",
+    "entries": [
+      {
+        "species": "psyduck",
+        "levelRange": [
+          29,
+          29
+        ],
+        "rate": 20
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          31,
+          31
+        ],
+        "rate": 20
+      },
+      {
+        "species": "zubat",
+        "levelRange": [
+          22,
+          22
+        ],
+        "rate": 20
+      },
+      {
+        "species": "seel",
+        "levelRange": [
+          28,
+          28
+        ],
+        "rate": 10
+      },
+      {
+        "species": "zubat",
+        "levelRange": [
+          24,
+          24
+        ],
+        "rate": 10
+      },
+      {
+        "species": "golbat",
+        "levelRange": [
+          26,
+          26
+        ],
+        "rate": 5
+      },
+      {
+        "species": "golbat",
+        "levelRange": [
+          28,
+          28
+        ],
+        "rate": 5
+      },
+      {
+        "species": "golduck",
+        "levelRange": [
+          33,
+          33
+        ],
+        "rate": 4
+      },
+      {
+        "species": "zubat",
+        "levelRange": [
+          26,
+          26
+        ],
+        "rate": 4
+      },
+      {
+        "species": "golbat",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 1
+      },
+      {
+        "species": "golduck",
+        "levelRange": [
+          35,
+          35
         ],
         "rate": 1
       }

@@ -24,7 +24,7 @@ T..GGGG.....T
 T..GGDG.....T
 T...........T
 T..MMMM.....T
-T..MMMM.....T
+T..MDMM.....T
 T.......PPPPT
 T.......PPDPT
 T...........T
@@ -35,6 +35,7 @@ TTTTTT.TTTTTT
 
 warps:
 6,0 step kanto-route-20 5,10 up
+4,6 step kanto-pokemon-mansion 6,9 up
 5,3 step kanto-cinnabar-gym 4,11 up
 10,8 step kanto-cinnabar-pokecenter 4,5 up
 10,11 step kanto-cinnabar-mart 4,5 up
@@ -42,5 +43,5 @@ warps:
 
 objects:
 cinnabar-sign-gym 4,4 sign kanto.cinnabar.sign-gym
-cinnabar-sign-mansion 4,7 sign kanto.cinnabar.sign-mansion
+cinnabar-sign-mansion 2,7 sign kanto.cinnabar.sign-mansion
 cinnabar-scientist 9,4 npc:scientist:static kanto.cinnabar.scientist

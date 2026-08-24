@@ -73,9 +73,21 @@ const SOURCE: Record<string, { location: string; area?: string }> = {
   "kanto-rock-tunnel-1f": { location: "rock-tunnel", area: "1f" },
   "kanto-rock-tunnel-b1f": { location: "rock-tunnel", area: "b1f" },
   "kanto-route-16": { location: "kanto-route-16" },
+  // サイクリングロードと、ハナダの北の腕（v1.1-g-2）
+  "kanto-route-17": { location: "kanto-route-17" },
+  "kanto-route-18": { location: "kanto-route-18" },
+  "kanto-route-24": { location: "kanto-route-24" },
+  "kanto-route-25": { location: "kanto-route-25" },
   "kanto-route-19": { location: "kanto-sea-route-19" },
   "kanto-route-20": { location: "kanto-sea-route-20" },
   "kanto-route-21": { location: "kanto-sea-route-21" },
+  // ダンジョンと伝説の居場所（v1.1-g-2）
+  "kanto-power-plant": { location: "power-plant" },
+  "kanto-seafoam-1f": { location: "seafoam-islands", area: "1f" },
+  "kanto-seafoam-b1f": { location: "seafoam-islands", area: "b1f" },
+  "kanto-pokemon-mansion": { location: "pokemon-mansion", area: "1f" },
+  "kanto-pokemon-mansion-2f": { location: "pokemon-mansion", area: "2f" },
+  "kanto-cerulean-cave": { location: "cerulean-cave", area: "1f" },
   "kanto-route-22": { location: "kanto-route-22" },
   "kanto-route-23": { location: "kanto-route-23" },
 };
@@ -90,6 +102,12 @@ const SOURCE: Record<string, { location: string; area?: string }> = {
 const NOT_YET: Record<string, string> = {
   ditto: "へんしん が未実装。メタモンは原作でもこの技しか覚えない ―― " +
     "技を1つも持てない個体を野生に出すと、戦いが成立しない（検証 wild-usable）",
+  // 24・25番道路を足した v1.1-g-2 で2件目が出た。**メタモンと同じ形の借り。**
+  // ケーシィは原作でも Lv16 まで テレポート しか覚えず、
+  // あれは「野生戦から逃げる」効果で、まだ機構が無い。
+  // 除いても今より減らない（ケーシィは今もトレーナーの手持ちにしか居ない）が、
+  // **テレポートを入れれば3種ぶん開く**ので、借りとして残す。
+  abra: "テレポート（野生戦から逃げる）が未実装。ケーシィは Lv16 までこの技しか覚えない",
 };
 
 /** 公式の引き方 → 本作の引き方。`walk` だけは地形で分かれるので後で決める。 */

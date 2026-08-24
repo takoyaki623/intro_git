@@ -1504,5 +1504,105 @@
         ]
       }
     ]
+  },
+  {
+    "id": "kanto-route17-biker",
+    "name": "テツヤ",
+    "class": "ライダー",
+    "reward": 1300,
+    "defeatedFlag": "kanto.route17.biker-beaten",
+    "party": [
+      {
+        "species": "weezing",
+        "level": 30,
+        "moves": [
+          "sludge",
+          "smokescreen"
+        ]
+      },
+      {
+        "species": "muk",
+        "level": 30,
+        "moves": [
+          "sludge",
+          "poison-gas"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route18-birdkeeper",
+    "name": "ハヤト",
+    "class": "とりつかい",
+    "reward": 1250,
+    "defeatedFlag": "kanto.route18.birdkeeper-beaten",
+    "party": [
+      {
+        "species": "fearow",
+        "level": 29,
+        "moves": [
+          "drill-run",
+          "aerial-ace"
+        ]
+      },
+      {
+        "species": "dodrio",
+        "level": 29,
+        "moves": [
+          "tri-attack",
+          "fury-attack"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route24-camper",
+    "name": "ススム",
+    "class": "キャンプボーイ",
+    "reward": 900,
+    "defeatedFlag": "kanto.route24.camper-beaten",
+    "party": [
+      {
+        "species": "bellsprout",
+        "level": 14,
+        "moves": [
+          "vine-whip",
+          "sleep-powder"
+        ]
+      },
+      {
+        "species": "oddish",
+        "level": 14,
+        "moves": [
+          "absorb",
+          "poison-powder"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route25-hiker",
+    "name": "イワオ",
+    "class": "やまおとこ",
+    "reward": 1000,
+    "defeatedFlag": "kanto.route25.hiker-beaten",
+    "party": [
+      {
+        "species": "geodude",
+        "level": 16,
+        "moves": [
+          "rock-throw",
+          "tackle"
+        ]
+      },
+      {
+        "species": "onix",
+        "level": 16,
+        "moves": [
+          "rock-throw",
+          "harden"
+        ]
+      }
+    ]
   }
 ]

@@ -16,8 +16,8 @@ T~~~~s~~~~T
 T~~~~~~~~~T
 T~~~~~~~~~T
 T~~~~~~~~~T
-T~~~~~~~~~T
-T~~~~~~~~~T
+T~~~~s~~~~T
+T~~~~s~~~~T
 T~~~~~~~~~T
 T~~~~~~~~~T
 T~~~~~~~~~T
@@ -26,6 +26,7 @@ TTTTTsTTTTT
 
 warps:
 5,0 step kanto-route-19 5,10 up
+5,5 step kanto-seafoam-1f 6,7 up
 5,11 step kanto-cinnabar-island 6,1 down
 
 objects:

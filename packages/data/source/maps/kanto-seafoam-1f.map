@@ -1,0 +1,31 @@
+# ふたごじま 1階。19番と20番のあいだの島。
+# 原作の穴と水流は入れていない（落下の機構が要る）―― ここは階段でつなぐ。
+id: kanto-seafoam-1f
+name: ふたごじま
+region: kanto
+encounters: kanto-seafoam-1f-cave
+bgm: cave
+
+legend:
+. normal
+R !normal
+: cave
+~ !water
+
+grid:
+RRRRRRRRRRRRR
+R:::::::::::R
+R:RRR:RRR:R:R
+R:::::::::::R
+R:~~~~~~~~~:R
+R:::::::::::R
+R:RRR:RRR:R:R
+R:::::::::::R
+RRRRRR.RRRRRR
+
+warps:
+6,8 step kanto-route-20 5,6 up
+11,1 step kanto-seafoam-b1f 1,2 down
+
+objects:
+seafoam-1f-sign 1,7 sign kanto.seafoam.sign

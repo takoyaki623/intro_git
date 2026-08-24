@@ -1,4 +1,4 @@
-# 16番道路。タマムシからセキチクへ向かう道。
+# 16番道路。タマムシから南へ。この先は サイクリングロード（17番）。
 id: kanto-route-16
 name: 16ばんどうろ
 region: kanto
@@ -25,7 +25,7 @@ TTTTTT.TTTTTT
 
 warps:
 0,4 step kanto-celadon-city 12,10 left
-6,9 step kanto-fuchsia-city 6,1 down
+6,9 step kanto-route-17 5,1 down
 
 objects:
 route16-sign 3,6 sign kanto.route16.sign

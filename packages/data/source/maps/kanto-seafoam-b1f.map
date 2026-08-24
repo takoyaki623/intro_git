@@ -1,0 +1,30 @@
+# ふたごじま 地下1階。**フリーザー が奥に居る。**
+id: kanto-seafoam-b1f
+name: ふたごじま
+region: kanto
+encounters: kanto-seafoam-b1f-cave
+bgm: cave
+
+legend:
+. normal
+R !normal
+: cave
+~ !water
+
+grid:
+RRRRRRRRRRRRR
+R:::::::::::R
+R:RRR:RRR:R:R
+R:::::::::::R
+R:~~~~~~~~~:R
+R:::::::::::R
+R:RRR:RRR:R:R
+R:::::::::::R
+RRRRRRRRRRRRR
+
+warps:
+1,1 step kanto-seafoam-1f 11,2 up
+
+objects:
+seafoam-articuno 6,7 npc:articuno:static kanto.seafoam.articuno if:kanto.seafoam.articuno-caught=false
+seafoam-item 11,3 item:max-revive kanto.seafoam.item if:kanto.seafoam.item-taken=false
