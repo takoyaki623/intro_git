@@ -53,6 +53,19 @@ export type PlayerState = {
   /** 全滅したら戻る場所（economy.md §2）。拠点では使わない。 */
   respawn: Place;
   /**
+   * いま効いている場所の規則と、あと何歩あるか（v1.1-h）。
+   *
+   * **セーブしない**（`toSave()` が書き出す欄に入れていない）。
+   * `cleared` / `moved` と同じ派生値。
+   *
+   * **なのに `player` に置くのは、寿命がマップ画面より長いから。**
+   * `playField()` の中に持たせていたら、セーブ画面を開いて閉じるだけで
+   * フィールドが作り直され（`main.ts` の `showField`）、500歩に戻っていた ――
+   * メニューを開くだけで歩数制限が消える。
+   * **保存しないものでも、置いた場所が寿命を決める。**
+   */
+  rule: { id: string; stepsLeft: number } | null;
+  /**
    * 今どの地方に居るか。**`null` は拠点**（v0.10）。
    * `storage.box` が地方ボックスか共通ボックスかも、これで決まる。
    */
@@ -86,6 +99,7 @@ export const player: PlayerState = {
   badges: 0,
   position: { ...HUB },
   respawn: { ...HUB },
+  rule: null,
   region: null,
   started: false,
 };
@@ -115,6 +129,7 @@ function enterHubState(): void {
   player.flags = {};
   player.money = 0;
   player.badges = 0;
+  player.rule = null;
   player.position = { ...HUB };
   player.respawn = { ...HUB };
   player.started = true;
@@ -129,6 +144,7 @@ function enterRegionState(region: string): void {
   player.storage = { party, box };
   player.flags = { ...(progress?.flags ?? {}) };
   player.money = progress?.money ?? 3000;
+  player.rule = null;
   player.badges = progress?.badges ?? 0;
   player.position = progress === undefined ? { ...start } : { ...progress.position };
   player.respawn = progress === undefined ? { ...start } : { ...progress.respawn };

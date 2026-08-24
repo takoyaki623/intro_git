@@ -53,7 +53,6 @@ import {
   type EventEffect,
   type EventId,
   type FieldAbilityId,
-  type FieldRuleId,
   type HallOfFameEntry,
   type MapData,
   type MapObject,
@@ -185,17 +184,10 @@ export function playField(rebuild: () => void): FieldHandle {
    * 規則のある区画へ入るたびに数え直す ―― セーブに「あと何歩」が溜まると、
    * 歩数を変えた日に古いセーブが壊れる（それは規則ではなく事故）。
    */
-  let stepsLeft: number | null = null;
-  /**
-   * いま効いている規則の id（v1.1-h）。
-   *
-   * **数え直す単位はマップではなく区画。** サファリは4枚のマップで1つの
-   * 区画なので、マップが変わるたびに数え直すと、隣のエリアへ移るだけで
-   * 500歩に戻る ―― 歩数制限が制限でなくなる。
-   * 「そこしか通れない」で初めて関門になるのと同じで、
-   * 「尽きる」で初めて歩数制限になる。
-   */
-  let ruleActive: FieldRuleId | null = null;
+  //
+  // **持ち主は `player`**（v1.1-h）。ここ（`playField` の中）に置いていたら、
+  // セーブ画面を開いて閉じるだけでフィールドが作り直され、500歩に戻っていた。
+  const stepsLeft = () => player.rule?.stepsLeft ?? null;
   /** 今いる場所の規則。無ければ null。 */
   const ruleHere = () => {
     const id = currentMap().rules;
@@ -534,9 +526,9 @@ export function playField(rebuild: () => void): FieldHandle {
     // 原作のサファリも歩数を表示している。
     // 同時に、台本が歩数を読む唯一の口でもある ―― 500歩あるいたつもりで
     // 追い出されない回に、**減っていないのか数え直されたのかを画面から言えなかった。**
-    canvas.dataset["steps"] = stepsLeft === null ? "" : `${stepsLeft}`;
-    $("#field-place").textContent =
-      stepsLeft === null ? map.name : `${map.name}（のこり ${stepsLeft}歩）`;
+    const left = stepsLeft();
+    canvas.dataset["steps"] = left === null ? "" : `${left}`;
+    $("#field-place").textContent = left === null ? map.name : `${map.name}（のこり ${left}歩）`;
     // 使えないうちは出さない。**押せるのに何も起きないボタン**を置くより、
     // 覚えた瞬間に増える方が「手に入った」ことが伝わる
     $("#open-fly").classList.toggle("hidden", !world.abilities.includes("fly"));
@@ -1020,7 +1012,7 @@ export function playField(rebuild: () => void): FieldHandle {
     // **ボールが尽きたらそこで終わり**（v1.1-h）。
     // 歩数と並ぶもう1つの終わり方で、原作と同じ
     if (safari && rule !== null && (player.bag[rule.ball ?? ""] ?? 0) <= 0) {
-      stepsLeft = null;
+      player.rule = null;
       await runEvent(rule.expire);
       return;
     }
@@ -1188,12 +1180,15 @@ export function playField(rebuild: () => void): FieldHandle {
    * 減ると、遊ぶ側から見て理由の分からない終わり方になる。
    */
   async function spendStep(): Promise<void> {
-    if (stepsLeft === null) return;
-    stepsLeft -= 1;
-    if (stepsLeft > 0) return;
+    const active = player.rule;
+    if (active === null) return;
+    const left = active.stepsLeft - 1;
+    if (left > 0) {
+      player.rule = { ...active, stepsLeft: left };
+      return;
+    }
     const rule = ruleHere();
-    stepsLeft = null;
-    ruleActive = null;
+    player.rule = null;
     if (rule !== null) await runEvent(rule.expire);
   }
 
@@ -1246,13 +1241,8 @@ export function playField(rebuild: () => void): FieldHandle {
       // **規則が無い場所へ出たら null に戻す** ―― 残したままにすると、
       // サファリの外を歩いて「じかんです」と言われる
       const rule = ruleHere();
-      if (rule === null) {
-        ruleActive = null;
-        stepsLeft = null;
-      } else if (rule.id !== ruleActive) {
-        ruleActive = rule.id;
-        stepsLeft = rule.steps;
-      }
+      if (rule === null) player.rule = null;
+      else if (player.rule?.id !== rule.id) player.rule = { id: rule.id, stepsLeft: rule.steps };
       const script = currentMap().onEnter;
       if (script === undefined) break;
       await runEvent(script);

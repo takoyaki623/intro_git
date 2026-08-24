@@ -1573,6 +1573,9 @@ expect(
   // 台本の待ち時間（`stepWait`）と歩行アニメを合わせておかないと、
   // 押した回数と歩いた歩数がずれる
   stepWait = 175;
+  /** 画面に出ている のこり歩数（v1.1-h）。出ていなければ空文字。 */
+  const stepsLeft = async () =>
+    (await page.getAttribute("#field-canvas", "data-steps").catch(() => null)) ?? "";
   expect("セキチクの北に サファリゾーンの ゲートがある", (await spot()).map, "kanto-safari-gate");
   // **所持金を既知の額に揃えてから測る。** ここまでの買い物で0円になっていると
   // `takeMoney` は有るぶんだけ取って通す（`Math.min`）ので、
@@ -1717,12 +1720,11 @@ expect(
   await key("ArrowLeft", 6, stepWait); // 6,10 → 1,10（通路。草も水も無い行）
   for (let i = 0; i < 5; i += 1) await lap(10); // 100歩
   await key("ArrowUp", 5, stepWait); // 1,10 → 1,6（すべて通路）
+  note("西の 出口へ 向かう前", `${(await spot()).raw} / のこり ${(await stepsLeft()) || "—"}歩`);
   await key("ArrowLeft", 2, stepWait); // 0,6 の warp で西へ
   expect("西の エリアへ 移れる", (await spot()).map, "kanto-safari-west");
   await key("ArrowUp", 3, stepWait); // 11,6 → 11,4（西の通路の行）
 
-  const stepsLeft = async () =>
-    (await page.getAttribute("#field-canvas", "data-steps").catch(() => null)) ?? "";
   note("西に 入った時点の のこり歩数", (await stepsLeft()) || "（表示なし）");
   expect(
     "エリアを跨いでも 数え直さない（500歩から 減ったまま）",
@@ -1732,6 +1734,16 @@ expect(
 
   // 上限は緩めでよい ―― **「数え直さない」は歩数を直接読んで見ている**ので、
   // ここで見たいのは「いつかは尽きる」だけ
+  // **セーブ画面を開いて閉じても、歩数は戻らない。**
+  // `#open-settings` はフィールドを作り直す（`main.ts` の `showField`）ので、
+  // 歩数を `playField` の中に置いていたら、メニューを開くだけで500歩に戻った ――
+  // 歩数制限を無効にする手順が、遊ぶ側の手元にあった
+  {
+    const kept = await stepsLeft();
+    await readSave();
+    expect("メニューを 開いて 閉じても 歩数は 戻らない", await stepsLeft(), kept);
+  }
+
   let laps = 0;
   while (laps < 40 && (await spot()).map === "kanto-safari-west") {
     await lap(10);
