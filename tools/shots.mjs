@@ -306,6 +306,20 @@ for (const size of [
    * 草むらを通るので**必ずエンカウントする**。逃げられるなら逃げ、
    * だめなら殴って終わらせる ―― 撮りたいのはマップなので、勝敗は問わない。
    */
+  /** 地図が見えるようになるまで待つ。戻らなければ false。 */
+  async function backOnMap() {
+    for (let i = 0; i < 40; i += 1) {
+      if (await page.isVisible("#field-canvas")) return true;
+      if (await page.isVisible("#field-text")) {
+        const buttons = await page.$$("#field-text .choices button");
+        if (buttons.length > 0) await buttons[buttons.length - 1].click();
+        else await page.keyboard.press("z");
+      }
+      await page.waitForTimeout(300);
+    }
+    return false;
+  }
+
   async function clearBattle() {
     if (!(await page.isVisible("#battle"))) return;
     for (let i = 0; i < 60; i += 1) {
@@ -418,8 +432,20 @@ for (const size of [
       else await enterKanto();
       region = want;
     }
-    const ok = await goTo(map, x, y);
+    let ok = await goTo(map, x, y);
     await clearBattle();
+    // **撮る前に、地図が戻っているか確かめる**（v1.1-g-2）。
+    // ダンジョンを足して野生が増えたぶん、道中で全滅して復活の演出が
+    // 長引くことが起きるようになった ―― `#field-canvas` が消えたまま
+    // 撮ろうとして道具が落ちた。**道具は落ちるのではなく △ を出す。**
+    if (!(await backOnMap())) {
+      await loadShootingSave();
+      region = "kanto";
+      ok = false;
+      if (want === "kanto") ok = await goTo(map, x, y);
+      await clearBattle();
+      await backOnMap();
+    }
     const file = `${place.file}-${size.label}.png`;
     await page.locator("#field-canvas").screenshot({ path: join(OUT, file) });
     const where = await at();
