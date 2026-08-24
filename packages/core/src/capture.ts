@@ -33,7 +33,57 @@ export type CaptureContext = {
   terrain?: string;
   /** その種を図鑑で捕獲済みか。リピートボール。 */
   alreadyCaught?: boolean;
+  /**
+   * サファリの段階（v1.1-h）。**イシで上がり、エサで下がる。**
+   *
+   * サファリでは技が使えないので、**HP を削る代わりがこれ**になる ――
+   * 捕獲値の式は同じまま、`hpTerm` の代わりに段階が効く。
+   * 逃げやすさは反対に動く（イシで逃げやすく、エサで居座る）ので、
+   * 「当てやすくすると逃げられる」という択になる。
+   *
+   * **道具にはしない。** バッグに入れるとサファリの外へ持ち出せてしまい、
+   * 「その場所だけの規則」という前提が崩れる（`MapData.rules` の意味が消える）。
+   */
+  safari?: { rocks: number; baits: number };
 };
+
+/**
+ * サファリの段階の効き方（v1.1-h）。調整項目。
+ *
+ * 原作は「怒り」と「食事」の2つの状態を別々に持つが、
+ * **1本の軸にまとめた** ―― 2つ持つと「怒りながら食べている」が表現でき、
+ * その意味を決めないといけなくなる。軸1本なら決めなくてよい。
+ */
+export const SAFARI = {
+  /** 1段階あたりの捕獲補正。イシ1つで倍、エサ1つで半分。 */
+  perStage: 2,
+  /** 段階の上限・下限。 */
+  maxStage: 3,
+  /** 逃げる基本確率と、1段階あたりの増減。 */
+  fleeBase: 0.1,
+  fleePerStage: 0.08,
+};
+
+const stageOf = (context: CaptureContext): number => {
+  const s = context.safari;
+  if (s === undefined) return 0;
+  return Math.max(-SAFARI.maxStage, Math.min(SAFARI.maxStage, s.rocks - s.baits));
+};
+
+/** サファリの段階による捕獲補正。サファリの外では 1。 */
+export const safariBonus = (context: CaptureContext): number =>
+  context.safari === undefined ? 1 : SAFARI.perStage ** stageOf(context);
+
+/**
+ * その場から逃げる確率（v1.1-h）。**サファリの外では 0。**
+ *
+ * イシを投げるほど逃げやすく、エサをやるほど居座る ――
+ * 捕獲補正と逆に動くので、「当てやすくすると逃げられる」という択になる。
+ */
+export const safariFleeChance = (context: CaptureContext): number =>
+  context.safari === undefined
+    ? 0
+    : Math.max(0, Math.min(1, SAFARI.fleeBase + SAFARI.fleePerStage * stageOf(context)));
 
 /** ボールの補正倍率。**条件の種類だけがコードで、ボールはデータ。** */
 export function ballBonus(ball: Ball, target: BattlePokemon, context: CaptureContext): number {
@@ -75,7 +125,9 @@ export function catchValue(
   const rate = data.species(target.species).catchRate;
   const hpTerm = (3 * target.maxHp - 2 * Math.max(1, target.currentHp)) / (3 * target.maxHp);
   const status = target.status === null ? 1 : STATUS_BONUS[target.status];
-  return hpTerm * rate * bonus * status;
+  // サファリの段階（v1.1-h）。**式は変えず、係数を1つ足すだけ** ――
+  // 技が使えないぶん、`hpTerm` が動かない代わりにここが動く
+  return hpTerm * rate * bonus * status * safariBonus(context);
 }
 
 export type CaptureResult = {

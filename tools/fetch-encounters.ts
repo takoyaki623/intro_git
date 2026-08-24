@@ -81,6 +81,11 @@ const SOURCE: Record<string, { location: string; area?: string }> = {
   "kanto-route-19": { location: "kanto-sea-route-19" },
   "kanto-route-20": { location: "kanto-sea-route-20" },
   "kanto-route-21": { location: "kanto-sea-route-21" },
+  // サファリゾーン（v1.1-h）。公式は4エリアに分かれている
+  "kanto-safari-middle": { location: "kanto-safari-zone", area: "middle" },
+  "kanto-safari-east": { location: "kanto-safari-zone", area: "area-1-east" },
+  "kanto-safari-north": { location: "kanto-safari-zone", area: "area-2-north" },
+  "kanto-safari-west": { location: "kanto-safari-zone", area: "area-3-west" },
   // ダンジョンと伝説の居場所（v1.1-g-2）
   "kanto-power-plant": { location: "power-plant" },
   "kanto-seafoam-1f": { location: "seafoam-islands", area: "1f" },

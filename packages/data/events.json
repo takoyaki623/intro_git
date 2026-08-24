@@ -6240,5 +6240,177 @@
         "speaker": "けいび"
       }
     ]
+  },
+  {
+    "id": "kanto.safari.gate-enter",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.safari.inside",
+          "value": true
+        },
+        "then": [
+          {
+            "kind": "setFlag",
+            "flag": "kanto.safari.inside",
+            "value": false
+          },
+          {
+            "kind": "message",
+            "text": "おつかれさま でした!",
+            "speaker": "うけつけ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.safari.clerk",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "サファリゾーンへ ようこそ!\nにゅうじょうりょうは 500円 です。",
+        "speaker": "うけつけ"
+      },
+      {
+        "kind": "choice",
+        "prompt": "はいりますか?",
+        "options": [
+          {
+            "text": "はいる",
+            "then": [
+              {
+                "kind": "takeMoney",
+                "amount": 500
+              },
+              {
+                "kind": "giveItem",
+                "item": "safari-ball",
+                "count": 30
+              },
+              {
+                "kind": "setFlag",
+                "flag": "kanto.safari.inside",
+                "value": true
+              },
+              {
+                "kind": "message",
+                "text": "サファリボールを 30こ どうぞ!\nボールが なくなるか、あるきすぎると おわりです。",
+                "speaker": "うけつけ"
+              },
+              {
+                "kind": "warp",
+                "to": "kanto-safari-middle",
+                "x": 6,
+                "y": 10,
+                "facing": "up"
+              }
+            ]
+          },
+          {
+            "text": "やめる",
+            "then": [
+              {
+                "kind": "message",
+                "text": "また どうぞ。",
+                "speaker": "うけつけ"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.safari.time-up",
+    "commands": [
+      {
+        "kind": "playSe"
+      },
+      {
+        "kind": "message",
+        "text": "ピピピ! じかん です!\nゲートまで おおくりします。"
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.safari.inside",
+        "value": false
+      },
+      {
+        "kind": "warp",
+        "to": "kanto-safari-gate",
+        "x": 3,
+        "y": 3,
+        "facing": "down"
+      }
+    ]
+  },
+  {
+    "id": "kanto.safari.sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "サファリゾーン\n\nここでは わざが つかえない。\nエサ と イシ と ボール だけ。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.safari.north-item",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "げんきのかたまり を みつけた!"
+      },
+      {
+        "kind": "giveItem",
+        "item": "max-revive",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.safari.north-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.safari.east-item",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ピーピーマックス を みつけた!"
+      },
+      {
+        "kind": "giveItem",
+        "item": "max-elixir",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.safari.east-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.safari.west-item",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "げんきのかたまり を みつけた!"
+      },
+      {
+        "kind": "giveItem",
+        "item": "max-revive",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.safari.west-item-taken",
+        "value": true
+      }
+    ]
   }
 ]

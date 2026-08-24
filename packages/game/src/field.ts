@@ -53,6 +53,7 @@ import {
   type EventEffect,
   type EventId,
   type FieldAbilityId,
+  type FieldRuleId,
   type HallOfFameEntry,
   type MapData,
   type MapObject,
@@ -70,6 +71,7 @@ import {
   artFor,
   allEncounterTables,
   allFieldAbilities,
+  allFieldRules,
   allMaps,
   allItems,
   allNatures,
@@ -176,6 +178,29 @@ export function playField(rebuild: () => void): FieldHandle {
   };
 
   let encounter: EncounterState = emptyEncounterState();
+  /**
+   * 規則のある場所で、あと何歩あるか（v1.1-h）。
+   *
+   * **保存しない。** `cleared` / `moved` と同じ派生値で、
+   * 規則のある区画へ入るたびに数え直す ―― セーブに「あと何歩」が溜まると、
+   * 歩数を変えた日に古いセーブが壊れる（それは規則ではなく事故）。
+   */
+  let stepsLeft: number | null = null;
+  /**
+   * いま効いている規則の id（v1.1-h）。
+   *
+   * **数え直す単位はマップではなく区画。** サファリは4枚のマップで1つの
+   * 区画なので、マップが変わるたびに数え直すと、隣のエリアへ移るだけで
+   * 500歩に戻る ―― 歩数制限が制限でなくなる。
+   * 「そこしか通れない」で初めて関門になるのと同じで、
+   * 「尽きる」で初めて歩数制限になる。
+   */
+  let ruleActive: FieldRuleId | null = null;
+  /** 今いる場所の規則。無ければ null。 */
+  const ruleHere = () => {
+    const id = currentMap().rules;
+    return id === undefined ? null : (allFieldRules.find((r) => r.id === id) ?? null);
+  };
   // 手持ち・ボックス・図鑑・バッグ・現在地は `player` に置く。
   // マップ画面の中に閉じ込めると、施設に持ち込めず、セーブにも載らない（player.ts）
   const party = () => player.storage.party;
@@ -943,6 +968,11 @@ export function playField(rebuild: () => void): FieldHandle {
     // 見た目だけ同じ別個体を作ると、削ったHPも個体値も引き継がれない
     const target = wildInstance(species, level);
 
+    // サファリでは技も交代も使えず、投げられるボールも1種類だけ（v1.1-h）。
+    // **規則はマップが指しているものをそのまま読む** ―― 場所の名前で分岐しない
+    const rule = ruleHere();
+    const safari = rule !== null && !rule.canFight;
+
     enterBattle();
     const outcome = await runBattle({
       parties: [playable(), [instanceToSpec(gameData, target)]],
@@ -950,17 +980,28 @@ export function playField(rebuild: () => void): FieldHandle {
       ai: { policy: "basic", mistakeRate: 0.35, knowledge: "fair" },
       headline: `あっ! やせいの ${name} が とびだしてきた!`,
       isWild: true,
+      ...(safari ? { safari: true } : {}),
       balls: () =>
         allBalls
           .map((b) => ({ id: b.id, count: player.bag[b.id] ?? 0 }))
-          .filter((b) => b.count > 0),
+          .filter((b) => b.count > 0)
+          // 規則がボールを指定していれば、それ以外は投げられない
+          .filter((b) => rule?.ball === undefined || b.id === rule.ball),
       onBallUsed: (item) => {
         player.bag[item] = Math.max(0, (player.bag[item] ?? 0) - 1);
       },
-      items: () => usableItems("battle"),
+      items: () => (safari ? [] : usableItems("battle")),
       onItemUsed: spendItem,
     });
     leaveBattle();
+
+    // **ボールが尽きたらそこで終わり**（v1.1-h）。
+    // 歩数と並ぶもう1つの終わり方で、原作と同じ
+    if (safari && rule !== null && (player.bag[rule.ball ?? ""] ?? 0) <= 0) {
+      stepsLeft = null;
+      await runEvent(rule.expire);
+      return;
+    }
 
     if (outcome.reason === "caught") {
       await onCaught(target, outcome.state.sides[1].party[0]!, species);
@@ -1066,6 +1107,7 @@ export function playField(rebuild: () => void): FieldHandle {
 
     if (result.outcome.kind === "moved" || result.outcome.kind === "jumped") {
       await animateWalk(before, player.position);
+      await spendStep();
       return;
     }
     draw();
@@ -1117,6 +1159,22 @@ export function playField(rebuild: () => void): FieldHandle {
     }
   }
 
+  /**
+   * 歩数を1つ使う（v1.1-h）。尽きたら追い出しのイベントへ。
+   *
+   * **減らすのは「歩けた」ときだけ。** 壁にぶつかった入力や向き直りで
+   * 減ると、遊ぶ側から見て理由の分からない終わり方になる。
+   */
+  async function spendStep(): Promise<void> {
+    if (stepsLeft === null) return;
+    stepsLeft -= 1;
+    if (stepsLeft > 0) return;
+    const rule = ruleHere();
+    stepsLeft = null;
+    ruleActive = null;
+    if (rule !== null) await runEvent(rule.expire);
+  }
+
   /** そのマスの方を向く。見つかったときに、こちらも相手を見る。 */
   function facingTowards(at: { x: number; y: number }): Direction {
     const dx = at.x - player.position.x;
@@ -1160,6 +1218,19 @@ export function playField(rebuild: () => void): FieldHandle {
       // どけた障害物と押した岩は出入りで元に戻る（原作と同じ）
       world.cleared = [];
       world.moved = {};
+      // 規則のある区画に入ったら歩数を数え直す（v1.1-h）。
+      // **同じ規則の中を歩き回っても数え直さない** ―― サファリの
+      // 4枚は1つの区画で、エリアを跨ぐたびに満タンに戻ったら制限にならない。
+      // **規則が無い場所へ出たら null に戻す** ―― 残したままにすると、
+      // サファリの外を歩いて「じかんです」と言われる
+      const rule = ruleHere();
+      if (rule === null) {
+        ruleActive = null;
+        stepsLeft = null;
+      } else if (rule.id !== ruleActive) {
+        ruleActive = rule.id;
+        stepsLeft = rule.steps;
+      }
       const script = currentMap().onEnter;
       if (script === undefined) break;
       await runEvent(script);

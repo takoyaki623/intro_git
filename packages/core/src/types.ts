@@ -487,6 +487,14 @@ export type BattleState = {
    * v0.7 で追加。
    */
   isWild: boolean;
+  /**
+   * サファリの段階（v1.1-h）。**サファリでなければ null。**
+   *
+   * 「段階を持っているか」がそのまま「サファリか」の判定になるので、
+   * `isSafari` のような真偽値をもう1つ持たずに済む ――
+   * 2つ持つと「サファリなのに段階が無い」状態が表現できてしまう。
+   */
+  safari: { rocks: number; baits: number } | null;
   /** 逃走を試みた回数。試すほど成功しやすくなる（原作準拠）。 */
   runAttempts: number;
   result: {
@@ -523,6 +531,13 @@ export type Action =
    * `target` は自分の手持ちの位置。省略すると場に出ている1体。
    */
   | { kind: "item"; item: ItemId; target?: number }
+  /**
+   * サファリのエサ・イシ（v1.1-h）。**技が使えない場所での「削る」代わり。**
+   *
+   * 道具にしていないのは、バッグに入るとサファリの外へ持ち出せてしまい、
+   * 「その場所だけの規則」という前提が消えるから ―― `MapData.rules` の意味が無くなる。
+   */
+  | { kind: "safari"; throw: "bait" | "rock" }
   | { kind: "run" };
 
 export type Effectiveness = 0 | 0.25 | 0.5 | 1 | 2 | 4;
@@ -602,6 +617,10 @@ export type BattleEvent =
   | { kind: "abilityChanged"; side: SideIndex; ability: AbilityId }
   // ── 逃走（v0.7）──
   | { kind: "runFailed"; side: SideIndex }
+  /** サファリのエサ・イシを投げた（v1.1-h）。 */
+  | { kind: "safariThrown"; throw: "bait" | "rock" }
+  /** サファリで相手が逃げていった（v1.1-h）。こちらが逃げる `escaped` とは別。 */
+  | { kind: "fled" }
   | { kind: "escaped"; side: SideIndex };
 
 export type StepResult = {

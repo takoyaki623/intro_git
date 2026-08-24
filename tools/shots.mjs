@@ -157,6 +157,9 @@ const SHOOTING_SAVE = (() => {
     // 撮影が「ヤマブキジム」を撮れなかった本当の理由はこれで、
     // テレポート床とは関係が無かった。
     "kanto.saffron.gym-open",
+    // サファリの中に居ることにする（v1.1-h）。ゲートで払わないと入れないので、
+    // 撮影は**中に居る状態から始める** ―― 撮りたいのは規則ではなく絵
+    "kanto.safari.inside",
   ]) {
     save.regions.kanto.flags[flag] = true;
   }
@@ -222,6 +225,7 @@ const PLACES = [
   { file: "fuchsia-city", name: "セキチクシティ", note: "ジム5（キョウ）。サファリゾーンはまだ閉まっている", to: ["kanto-fuchsia-city", 6, 5] },
   { file: "route-19", name: "19ばんすいどう", note: "なみのり の海。砂州だけが陸", to: ["kanto-route-19", 5, 5] },
   { file: "cinnabar-island", name: "グレンじま", note: "ジム7（カツラ）。なみのり でしか来られない島", to: ["kanto-cinnabar-island", 6, 4] },
+  { file: "safari", name: "サファリゾーン", note: "その場所だけの規則（v1.1-h）。歩数・エサ/イシ・戦えない", to: ["kanto-safari-middle", 6, 8] },
   { file: "route-17", name: "サイクリングロード（17ばん）", note: "段差だらけの下り坂。16番とセキチクのあいだ（v1.1-g-2）", to: ["kanto-route-17", 5, 6] },
   { file: "route-24", name: "24ばんどうろ（ナゲツリばし）", note: "ハナダの北。この先は マサキ の家", to: ["kanto-route-24", 5, 4] },
   { file: "power-plant", name: "むじんはつでんしょ", note: "10番道路の北のはずれ。奥に サンダー（v1.1-g-2）", to: ["kanto-power-plant", 6, 5] },

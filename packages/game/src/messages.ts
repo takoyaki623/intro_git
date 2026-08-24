@@ -146,6 +146,17 @@ export function messageOf(event: BattleEvent, view: BattleView): string | null {
     case "escaped":
       return `うまく にげきれた!`;
 
+    // ── サファリ（v1.1-h）──
+    // **エサとイシは反対に効く。** どちらを投げたかが一行で分かるようにする
+    case "safariThrown":
+      return event.throw === "bait"
+        ? `エサを なげた!
+あいては むちゅうで たべている。`
+        : `イシを なげた!
+あいては おこっている!`;
+    case "fled":
+      return `あいては にげていった!`;
+
     // ── 捕獲（v0.8）──
     // 揺れる演出そのものは battle-screen が出す。ここは投げた瞬間の一行だけ
     case "ballThrown":

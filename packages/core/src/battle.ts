@@ -6,7 +6,7 @@
  * 設計: docs/design/battle-system.md §1〜§9
  */
 
-import { attemptCapture, isBall, type CaptureContext } from "./capture.js";
+import { attemptCapture, isBall, safariFleeChance, type CaptureContext } from "./capture.js";
 import { calcDamage, rollAccuracy } from "./damage.js";
 import { applyEffect, resolveHitCount, type EffectContext, type HpMutator } from "./effects.js";
 import type { GameData } from "./gamedata.js";
@@ -79,6 +79,11 @@ export function createBattle(
     /** 野生戦なら逃走が選べる（v0.7）。省略時はトレーナー戦。 */
     isWild?: boolean;
     /**
+     * サファリの規則（v1.1-h）。技も交代も使えず、
+     * **エサ・イシ・ボール・逃げるだけ**になる。
+     */
+    safari?: boolean;
+    /**
      * ターン制限（v0.11・バトルアリーナ）。
      * 省略すると「ひんしまで」―― これまでどおりの、決着するまで終わらないバトル。
      */
@@ -94,6 +99,10 @@ export function createBattle(
     turn: 0,
     rng: createRngState(seed),
     isWild: options.isWild ?? false,
+    // サファリの段階（v1.1-h）。**サファリでなければ null。**
+    // 「段階を持っているか」がそのまま「サファリか」の判定になるので、
+    // `isSafari` のような真偽値をもう1つ持たずに済む
+    safari: options.safari === true ? { rocks: 0, baits: 0 } : null,
     runAttempts: 0,
     result: null,
     limit: options.limit ?? null,
@@ -141,6 +150,17 @@ export function legalActions(data: GameData, state: BattleState, side: SideIndex
   // 逃走は野生戦のみ。トレーナー戦では選択肢に出さない（battle-system.md §2）
   const escape: Action[] = state.isWild && side === 0 ? [{ kind: "run" }] : [];
   // ボールは呼び出し側がバッグを見て足す。core は持ち物の在庫を知らない
+
+  // **サファリでは技も交代も選べない**（v1.1-h）。
+  // 「技の選択肢は必ず1つ残す」という下の約束も、ここでは成り立たない ――
+  // わるあがき が出る余地そのものを消す
+  if (state.safari !== null) {
+    return [
+      { kind: "safari", throw: "bait" },
+      { kind: "safari", throw: "rock" },
+      ...escape,
+    ];
+  }
 
   // 使える技が1つも無くてもわるあがきがあるため、技の選択肢は必ず1つ残す
   return [
@@ -570,7 +590,10 @@ function endOfTurn(
  * 素早さが上回っていれば必ず成功する。試すほど成功しやすくなる。
  */
 /** ボールの条件付き補正が読む「今の状況」。地形と図鑑は呼び出し側が足す。 */
-const captureContext = (state: BattleState): CaptureContext => ({ turn: state.turn });
+const captureContext = (state: BattleState): CaptureContext =>
+  state.safari === null
+    ? { turn: state.turn }
+    : { turn: state.turn, safari: { ...state.safari } };
 
 function rollEscape(
   data: GameData,
@@ -702,6 +725,27 @@ export function step(
     }
   }
 
+  // ── 0.5 サファリのエサ・イシ（v1.1-h）──
+  //
+  // **捕まえやすさと逃げやすさが逆に動く。** イシは当てやすくするが逃げられやすく、
+  // エサは居座らせるが捕まえにくい ―― 技が無いぶん、ここが唯一の駆け引きになる。
+  for (const side of [0, 1] as const) {
+    const action = actions[side];
+    if (action?.kind !== "safari") continue;
+    if (draft.safari === null) throw new Error("エサ・イシはサファリでしか投げられない");
+    if (action.throw === "bait") draft.safari.baits += 1;
+    else draft.safari.rocks += 1;
+    events.push({ kind: "safariThrown", throw: action.throw });
+
+    if (rng.chance(safariFleeChance(captureContext(draft)))) {
+      draft.result = { winner: null, reason: "escaped" };
+      events.push({ kind: "fled" });
+      events.push({ kind: "battleEnd", winner: null });
+      draft.rng = rng.state();
+      return { state: draft, events };
+    }
+  }
+
   // ── 0. 逃走（技より先。成功すればその場でバトルが終わる）──
   for (const side of [0, 1] as const) {
     if (actions[side]?.kind !== "run") continue;
@@ -721,11 +765,14 @@ export function step(
     const action = actions[side];
     if (action === null) throw new Error(`side ${side} must act`);
     // ボールを投げた／逃走に失敗した側は、そのターン何もできない
-    if (action.kind === "item" || action.kind === "run") {
+    if (action.kind === "item" || action.kind === "run" || action.kind === "safari") {
       return { kind: "switch", partyIndex: -1 } as const;
     }
     return action;
-  }) as [Exclude<Action, { kind: "item" } | { kind: "run" }>, ...Exclude<Action, { kind: "item" } | { kind: "run" }>[]];
+  }) as [
+    Exclude<Action, { kind: "item" } | { kind: "run" } | { kind: "safari" }>,
+    ...Exclude<Action, { kind: "item" } | { kind: "run" } | { kind: "safari" }>[],
+  ];
 
   // ── 1. 交代（技より常に先）──
   // partyIndex -1 は「逃走に失敗して何もできない」を表す番兵

@@ -1,0 +1,9 @@
+[
+  {
+    "id": "safari",
+    "steps": 500,
+    "expire": "kanto.safari.time-up",
+    "canFight": false,
+    "ball": "safari-ball"
+  }
+]

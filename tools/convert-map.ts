@@ -235,6 +235,9 @@ function convert(file: string, text: string): MapData {
   }
   const onEnter = head.get("onEnter");
   if (onEnter !== undefined && onEnter.trim() !== "") map.onEnter = onEnter.trim();
+  // "rules: safari" ―― その場所だけの規則（v1.1-h）。中身は field-rules.json
+  const rules = head.get("rules");
+  if (rules !== undefined && rules.trim() !== "") map.rules = rules.trim();
   const bgm = head.get("bgm");
   if (bgm !== undefined && bgm !== "") map.bgm = bgm;
   return map;

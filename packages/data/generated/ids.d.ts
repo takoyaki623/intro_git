@@ -3,12 +3,12 @@
  *   再生成: npm run gen:ids
  *
  * 種族 190 / 技 248 / 性格 25 /
- * 特性 68 / 道具 98 /
+ * 特性 68 / 道具 99 /
  * BattleSet 64 / 施設 4 /
  * ネームド 18 / カップ 10 /
- * マップ 102 / イベント 292 / トレーナー 49 /
- * 出現テーブル 126 / ショップ 6 / 地方 9 /
- * フラグ 129
+ * マップ 107 / イベント 299 / トレーナー 49 /
+ * 出現テーブル 146 / ショップ 6 / 地方 9 /
+ * フラグ 133
  */
 
 export type GeneratedSpeciesId =
@@ -611,6 +611,7 @@ export type GeneratedItemId =
   | "repeat-ball"
   | "revive"
   | "rocky-helmet"
+  | "safari-ball"
   | "scope-lens"
   | "sharp-beak"
   | "silk-scarf"
@@ -830,6 +831,11 @@ export type GeneratedMapId =
   | "kanto-route-7"
   | "kanto-route-8"
   | "kanto-route-9"
+  | "kanto-safari-east"
+  | "kanto-safari-gate"
+  | "kanto-safari-middle"
+  | "kanto-safari-north"
+  | "kanto-safari-west"
   | "kanto-saffron-city"
   | "kanto-saffron-gate-east"
   | "kanto-saffron-gate-north"
@@ -1078,6 +1084,13 @@ export type GeneratedEventId =
   | "kanto.route8.lass-win"
   | "kanto.route8.sign"
   | "kanto.route9.sign"
+  | "kanto.safari.clerk"
+  | "kanto.safari.east-item"
+  | "kanto.safari.gate-enter"
+  | "kanto.safari.north-item"
+  | "kanto.safari.sign"
+  | "kanto.safari.time-up"
+  | "kanto.safari.west-item"
   | "kanto.saffron.arrive"
   | "kanto.saffron.boy"
   | "kanto.saffron.center-pc"
@@ -1316,6 +1329,26 @@ export type GeneratedEncounterTableId =
   | "kanto-route-7-grass"
   | "kanto-route-8-grass"
   | "kanto-route-9-grass"
+  | "kanto-safari-east-fishing-good"
+  | "kanto-safari-east-fishing-old"
+  | "kanto-safari-east-fishing-super"
+  | "kanto-safari-east-grass"
+  | "kanto-safari-east-surf"
+  | "kanto-safari-middle-fishing-good"
+  | "kanto-safari-middle-fishing-old"
+  | "kanto-safari-middle-fishing-super"
+  | "kanto-safari-middle-grass"
+  | "kanto-safari-middle-surf"
+  | "kanto-safari-north-fishing-good"
+  | "kanto-safari-north-fishing-old"
+  | "kanto-safari-north-fishing-super"
+  | "kanto-safari-north-grass"
+  | "kanto-safari-north-surf"
+  | "kanto-safari-west-fishing-good"
+  | "kanto-safari-west-fishing-old"
+  | "kanto-safari-west-fishing-super"
+  | "kanto-safari-west-grass"
+  | "kanto-safari-west-surf"
   | "kanto-seafoam-1f-cave"
   | "kanto-seafoam-b1f-cave"
   | "kanto-vermilion-city-fishing-good"
@@ -1450,6 +1483,10 @@ export type GeneratedFlagId =
   | "kanto.route6.camper-beaten"
   | "kanto.route7.camper-beaten"
   | "kanto.route8.lass-beaten"
+  | "kanto.safari.east-item-taken"
+  | "kanto.safari.inside"
+  | "kanto.safari.north-item-taken"
+  | "kanto.safari.west-item-taken"
   | "kanto.saffron.boy"
   | "kanto.saffron.gym-jr-beaten"
   | "kanto.saffron.gym-open"

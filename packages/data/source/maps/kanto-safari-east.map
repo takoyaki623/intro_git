@@ -1,0 +1,33 @@
+# サファリゾーン 東エリア。
+id: kanto-safari-east
+name: サファリゾーン
+region: kanto
+rules: safari
+encounters: kanto-safari-east-grass kanto-safari-east-surf kanto-safari-east-fishing-old kanto-safari-east-fishing-good kanto-safari-east-fishing-super
+bgm: safari
+
+legend:
+. normal
+, grass
+T !normal
+~ !water
+
+grid:
+TTTTTTTTTTTTT
+T...........T
+T..,,,,,,,..T
+T..,,,,,,,..T
+T...........T
+T...,,,,,...T
+.....,,,.....
+T...........T
+T..,,,,,,,..T
+T..,,,,,,,..T
+T...........T
+TTTTTTTTTTTTT
+
+warps:
+0,6 step kanto-safari-middle 11,6 left
+
+objects:
+safari-east-item 11,10 item:max-elixir kanto.safari.east-item if:kanto.safari.east-item-taken=false

@@ -5480,6 +5480,862 @@
     ]
   },
   {
+    "id": "kanto-safari-east-fishing-good",
+    "method": "fishing-good",
+    "entries": [
+      {
+        "species": "goldeen",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 60
+      },
+      {
+        "species": "magikarp",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 20
+      },
+      {
+        "species": "poliwag",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 20
+      }
+    ]
+  },
+  {
+    "id": "kanto-safari-east-fishing-old",
+    "method": "fishing-old",
+    "entries": [
+      {
+        "species": "magikarp",
+        "levelRange": [
+          5,
+          5
+        ],
+        "rate": 100
+      }
+    ]
+  },
+  {
+    "id": "kanto-safari-east-fishing-super",
+    "method": "fishing-super",
+    "entries": [
+      {
+        "species": "goldeen",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 40
+      },
+      {
+        "species": "seaking",
+        "levelRange": [
+          20,
+          30
+        ],
+        "rate": 40
+      },
+      {
+        "species": "dratini",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 15
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          15,
+          35
+        ],
+        "rate": 4
+      },
+      {
+        "species": "dragonair",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
+    "id": "kanto-safari-east-grass",
+    "method": "grass",
+    "entries": [
+      {
+        "species": "doduo",
+        "levelRange": [
+          26,
+          26
+        ],
+        "rate": 20
+      },
+      {
+        "species": "nidoran-m",
+        "levelRange": [
+          24,
+          24
+        ],
+        "rate": 20
+      },
+      {
+        "species": "paras",
+        "levelRange": [
+          22,
+          22
+        ],
+        "rate": 15
+      },
+      {
+        "species": "exeggcute",
+        "levelRange": [
+          23,
+          23
+        ],
+        "rate": 10
+      },
+      {
+        "species": "exeggcute",
+        "levelRange": [
+          25,
+          25
+        ],
+        "rate": 10
+      },
+      {
+        "species": "nidorino",
+        "levelRange": [
+          33,
+          33
+        ],
+        "rate": 10
+      },
+      {
+        "species": "nidoran-f",
+        "levelRange": [
+          24,
+          24
+        ],
+        "rate": 5
+      },
+      {
+        "species": "parasect",
+        "levelRange": [
+          25,
+          25
+        ],
+        "rate": 5
+      },
+      {
+        "species": "kangaskhan",
+        "levelRange": [
+          25,
+          25
+        ],
+        "rate": 4
+      },
+      {
+        "species": "scyther",
+        "levelRange": [
+          28,
+          28
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
+    "id": "kanto-safari-east-surf",
+    "method": "surf",
+    "entries": [
+      {
+        "species": "psyduck",
+        "levelRange": [
+          20,
+          25
+        ],
+        "rate": 90
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          25,
+          30
+        ],
+        "rate": 5
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          30,
+          35
+        ],
+        "rate": 4
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          35,
+          40
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
+    "id": "kanto-safari-middle-fishing-good",
+    "method": "fishing-good",
+    "entries": [
+      {
+        "species": "goldeen",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 60
+      },
+      {
+        "species": "magikarp",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 20
+      },
+      {
+        "species": "poliwag",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 20
+      }
+    ]
+  },
+  {
+    "id": "kanto-safari-middle-fishing-old",
+    "method": "fishing-old",
+    "entries": [
+      {
+        "species": "magikarp",
+        "levelRange": [
+          5,
+          5
+        ],
+        "rate": 100
+      }
+    ]
+  },
+  {
+    "id": "kanto-safari-middle-fishing-super",
+    "method": "fishing-super",
+    "entries": [
+      {
+        "species": "goldeen",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 40
+      },
+      {
+        "species": "seaking",
+        "levelRange": [
+          20,
+          30
+        ],
+        "rate": 40
+      },
+      {
+        "species": "dratini",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 15
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          15,
+          35
+        ],
+        "rate": 4
+      },
+      {
+        "species": "dragonair",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
+    "id": "kanto-safari-middle-grass",
+    "method": "grass",
+    "entries": [
+      {
+        "species": "nidoran-m",
+        "levelRange": [
+          22,
+          22
+        ],
+        "rate": 20
+      },
+      {
+        "species": "rhyhorn",
+        "levelRange": [
+          25,
+          25
+        ],
+        "rate": 20
+      },
+      {
+        "species": "venonat",
+        "levelRange": [
+          22,
+          22
+        ],
+        "rate": 15
+      },
+      {
+        "species": "exeggcute",
+        "levelRange": [
+          24,
+          24
+        ],
+        "rate": 10
+      },
+      {
+        "species": "exeggcute",
+        "levelRange": [
+          25,
+          25
+        ],
+        "rate": 10
+      },
+      {
+        "species": "nidorino",
+        "levelRange": [
+          31,
+          31
+        ],
+        "rate": 10
+      },
+      {
+        "species": "nidorina",
+        "levelRange": [
+          31,
+          31
+        ],
+        "rate": 5
+      },
+      {
+        "species": "parasect",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 5
+      },
+      {
+        "species": "scyther",
+        "levelRange": [
+          23,
+          23
+        ],
+        "rate": 4
+      },
+      {
+        "species": "chansey",
+        "levelRange": [
+          23,
+          23
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
+    "id": "kanto-safari-middle-surf",
+    "method": "surf",
+    "entries": [
+      {
+        "species": "psyduck",
+        "levelRange": [
+          20,
+          25
+        ],
+        "rate": 90
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          25,
+          30
+        ],
+        "rate": 5
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          30,
+          35
+        ],
+        "rate": 4
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          35,
+          40
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
+    "id": "kanto-safari-north-fishing-good",
+    "method": "fishing-good",
+    "entries": [
+      {
+        "species": "goldeen",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 60
+      },
+      {
+        "species": "magikarp",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 20
+      },
+      {
+        "species": "poliwag",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 20
+      }
+    ]
+  },
+  {
+    "id": "kanto-safari-north-fishing-old",
+    "method": "fishing-old",
+    "entries": [
+      {
+        "species": "magikarp",
+        "levelRange": [
+          5,
+          5
+        ],
+        "rate": 100
+      }
+    ]
+  },
+  {
+    "id": "kanto-safari-north-fishing-super",
+    "method": "fishing-super",
+    "entries": [
+      {
+        "species": "goldeen",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 40
+      },
+      {
+        "species": "seaking",
+        "levelRange": [
+          20,
+          30
+        ],
+        "rate": 40
+      },
+      {
+        "species": "dratini",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 15
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          15,
+          35
+        ],
+        "rate": 4
+      },
+      {
+        "species": "dragonair",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
+    "id": "kanto-safari-north-grass",
+    "method": "grass",
+    "entries": [
+      {
+        "species": "nidoran-m",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 20
+      },
+      {
+        "species": "rhyhorn",
+        "levelRange": [
+          26,
+          26
+        ],
+        "rate": 20
+      },
+      {
+        "species": "paras",
+        "levelRange": [
+          23,
+          23
+        ],
+        "rate": 15
+      },
+      {
+        "species": "exeggcute",
+        "levelRange": [
+          25,
+          25
+        ],
+        "rate": 10
+      },
+      {
+        "species": "exeggcute",
+        "levelRange": [
+          27,
+          27
+        ],
+        "rate": 10
+      },
+      {
+        "species": "nidorino",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 10
+      },
+      {
+        "species": "nidorina",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 5
+      },
+      {
+        "species": "venomoth",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 5
+      },
+      {
+        "species": "chansey",
+        "levelRange": [
+          26,
+          26
+        ],
+        "rate": 4
+      },
+      {
+        "species": "tauros",
+        "levelRange": [
+          28,
+          28
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
+    "id": "kanto-safari-north-surf",
+    "method": "surf",
+    "entries": [
+      {
+        "species": "psyduck",
+        "levelRange": [
+          20,
+          25
+        ],
+        "rate": 90
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          25,
+          30
+        ],
+        "rate": 5
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          30,
+          35
+        ],
+        "rate": 4
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          35,
+          40
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
+    "id": "kanto-safari-west-fishing-good",
+    "method": "fishing-good",
+    "entries": [
+      {
+        "species": "goldeen",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 60
+      },
+      {
+        "species": "magikarp",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 20
+      },
+      {
+        "species": "poliwag",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 20
+      }
+    ]
+  },
+  {
+    "id": "kanto-safari-west-fishing-old",
+    "method": "fishing-old",
+    "entries": [
+      {
+        "species": "magikarp",
+        "levelRange": [
+          5,
+          5
+        ],
+        "rate": 100
+      }
+    ]
+  },
+  {
+    "id": "kanto-safari-west-fishing-super",
+    "method": "fishing-super",
+    "entries": [
+      {
+        "species": "goldeen",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 40
+      },
+      {
+        "species": "seaking",
+        "levelRange": [
+          20,
+          30
+        ],
+        "rate": 40
+      },
+      {
+        "species": "dratini",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 15
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          15,
+          35
+        ],
+        "rate": 4
+      },
+      {
+        "species": "dragonair",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
+    "id": "kanto-safari-west-grass",
+    "method": "grass",
+    "entries": [
+      {
+        "species": "doduo",
+        "levelRange": [
+          26,
+          26
+        ],
+        "rate": 20
+      },
+      {
+        "species": "nidoran-m",
+        "levelRange": [
+          22,
+          22
+        ],
+        "rate": 20
+      },
+      {
+        "species": "venonat",
+        "levelRange": [
+          23,
+          23
+        ],
+        "rate": 15
+      },
+      {
+        "species": "exeggcute",
+        "levelRange": [
+          25,
+          25
+        ],
+        "rate": 10
+      },
+      {
+        "species": "exeggcute",
+        "levelRange": [
+          27,
+          27
+        ],
+        "rate": 10
+      },
+      {
+        "species": "nidorino",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 10
+      },
+      {
+        "species": "nidoran-f",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 5
+      },
+      {
+        "species": "venomoth",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 5
+      },
+      {
+        "species": "tauros",
+        "levelRange": [
+          25,
+          25
+        ],
+        "rate": 4
+      },
+      {
+        "species": "kangaskhan",
+        "levelRange": [
+          28,
+          28
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
+    "id": "kanto-safari-west-surf",
+    "method": "surf",
+    "entries": [
+      {
+        "species": "psyduck",
+        "levelRange": [
+          20,
+          25
+        ],
+        "rate": 90
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          25,
+          30
+        ],
+        "rate": 5
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          30,
+          35
+        ],
+        "rate": 4
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          35,
+          40
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
     "id": "kanto-seafoam-1f-cave",
     "method": "cave",
     "entries": [

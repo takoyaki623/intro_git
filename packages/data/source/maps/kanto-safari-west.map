@@ -1,0 +1,33 @@
+# サファリゾーン 西エリア。
+id: kanto-safari-west
+name: サファリゾーン
+region: kanto
+rules: safari
+encounters: kanto-safari-west-grass kanto-safari-west-surf kanto-safari-west-fishing-old kanto-safari-west-fishing-good kanto-safari-west-fishing-super
+bgm: safari
+
+legend:
+. normal
+, grass
+T !normal
+~ !water
+
+grid:
+TTTTTTTTTTTTT
+T...........T
+T..,,,,,,,..T
+T..,,,,,,,..T
+T...........T
+T.~~~.,,,,,.T
+.....,,,,,...
+T.~~~.......T
+T..,,,,,,,..T
+T..,,,,,,,..T
+T...........T
+TTTTTTTTTTTTT
+
+warps:
+12,6 step kanto-safari-middle 1,6 right
+
+objects:
+safari-west-item 1,10 item:max-revive kanto.safari.west-item if:kanto.safari.west-item-taken=false

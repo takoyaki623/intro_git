@@ -1461,6 +1461,93 @@ expect(
   await shot("22c-field");
 }
 
+// ── サファリゾーン（v1.1-h）──
+//
+// **その場所だけの規則**が効いているかを見る。仕掛けは4つ:
+//   入場料を払う ／ サファリボール以外は投げられない ／
+//   技も交代も選べない ／ 歩数が尽きたら追い出される
+{
+  await powerUp();
+  await goToMap("kanto-safari-gate", 3, 3, 120);
+  expect("セキチクの北に サファリゾーンの ゲートがある", (await spot()).map, "kanto-safari-gate");
+  const before = (await readSave()).regions.kanto.money;
+  await key("ArrowUp", 2, 220);
+  await key("z", 1, 400);
+  await choose("はいる");
+  await drain(10);
+  expect("入場料を はらうと 中に 入れる", (await spot()).map, "kanto-safari-middle");
+  const bag = (await readSave()).global.bag;
+  expect("サファリボールを 30こ もらう", `${bag["safari-ball"] ?? 0}`, "30");
+  const after = (await readSave()).regions.kanto.money;
+  expect("入場料 500円 を はらう", `${before - after}`, "500");
+  await shot("30-safari");
+
+  // ── 戦えない場所の戦い ──
+  //
+  // **「技が出ない」だけでは足りない。** 出ないのか、出し忘れているのかは
+  // 画面から見分けがつかないので、**代わりに何が出ているか**まで見る。
+  let wild = false;
+  for (let i = 0; i < 30 && !wild; i += 1) {
+    await key(i % 2 === 0 ? "ArrowUp" : "ArrowDown", 2, RIDING_MS);
+    wild = await page.isVisible("#battle");
+  }
+  expect("くさむらで 野生に 出会う", wild ? "出会った" : "出会わない", "出会った");
+  if (wild) {
+    // 技のボタンの場所（.move）に並ぶのが エサ と イシ だけ＝技は1つも無い
+    const slots = await page.$$eval("#controls .move .mname", (b) => b.map((x) => x.textContent));
+    expect("技のかわりに エサと イシだけが 並ぶ", slots.join("/"), "エサ/イシ");
+    expect("こうたいは 選べない", (await page.$$("#controls .switch")).length === 0 ? "選べない" : "選べる", "選べない");
+    const balls = await page.$$eval("#controls .ball .mname", (b) => b.map((x) => x.textContent));
+    expect("投げられるのは サファリボールだけ", balls.join("/"), "サファリボール");
+    await shot("30b-safari-battle");
+    await page.click("#controls .run");
+    await page.waitForTimeout(1500);
+    await drain();
+  }
+
+  // ── 歩数（v1.1-h の眼目）──
+  //
+  // **数え直す単位はマップではなく区画。** 中央を歩き、西へ移り、また歩いて
+  // 500歩で追い出される ―― マップが変わるたびに数え直していたら、西へ入った
+  // 時点で満タンに戻り、いつまでも追い出されない。
+  // **「そこしか通れない」で初めて関門になる**のと同じで、
+  // 歩数制限は**尽きて初めて**制限になる。だから確かめるのは「尽きること」。
+  //
+  // 歩くのは草も水も無い行だけ（中央 y=10 ／ 西 y=4）―― 野生戦が挟まると
+  // 何歩あるいたのか分からなくなる。
+  await goToMap("kanto-safari-middle", 6, 10, 40);
+  const lap = async (span) => {
+    // 向きが違う1回目は「向き直り」で歩数を使わない（movement.ts）ので +1 押す
+    await key("ArrowLeft", span + 1, RIDING_MS);
+    await key("ArrowRight", span + 1, RIDING_MS);
+  };
+  await key("ArrowLeft", 6, RIDING_MS); // 6,10 → 1,10（5歩）
+  for (let i = 0; i < 10; i += 1) await lap(10); // 205歩
+  await key("ArrowUp", 5, RIDING_MS); // 1,10 → 1,6（4歩）
+  await key("ArrowLeft", 2, RIDING_MS); // 西へ（209歩）
+  expect("西の エリアへ 移れる", (await spot()).map, "kanto-safari-west");
+  await key("ArrowUp", 3, RIDING_MS); // 11,6 → 11,4（211歩）
+
+  let laps = 0;
+  while (laps < 20 && (await spot()).map === "kanto-safari-west") {
+    await lap(10);
+    laps += 1;
+    await drain(4);
+  }
+  note("西で 歩いた 往復", `${laps}往復（1往復 20歩）`);
+  expect(
+    "500歩で 追い出される（エリアを跨いでも 数え直さない）",
+    (await spot()).map,
+    "kanto-safari-gate",
+  );
+  const out = await readSave();
+  expect(
+    "外に 出たので 規則は 効いていない",
+    out.regions.kanto.flags["kanto.safari.inside"] === true ? "まだ 中" : "外に 出た",
+    "外に 出た",
+  );
+}
+
 // ── サイクリングロード（v1.1-g-2）──
 //
 // 16番からセキチクへは、**17番・18番を通らないと行けない**ようになった

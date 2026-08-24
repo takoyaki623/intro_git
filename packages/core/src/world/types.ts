@@ -17,6 +17,7 @@ export type TrainerId = string;
 export type EncounterTableId = string;
 export type EventId = string;
 export type ShopId = string;
+export type FieldRuleId = string;
 /** 進行能力。秘伝技を廃止し、道具・フラグで解放する（world.md §7）。 */
 export const FIELD_ABILITIES = [
   "cut",
@@ -187,7 +188,40 @@ export type MapData = {
    * 四天王の「戻れない部屋」もここで塞ぐ想定。
    */
   onEnter?: EventId;
+  /**
+   * その場所だけの規則（v1.1-h）。**サファリゾーンのために足した1欄。**
+   *
+   * `Ruleset`（施設の編成と連戦の型）には寄せない ―― あちらは
+   * `teamSource` / `levelMode` / `streakCap` で、歩数もエサも入る場所が無く、
+   * 4施設すべてが無視する任意欄が8個増えるだけになる（endgame.md §2）。
+   *
+   * `encounters:` / `onEnter:` と同じで、**マップ側は id を1つ指すだけ。**
+   * 中身は `field-rules.json` が持つので、2つ目のサファリは JSON 1件で増える。
+   */
+  rules?: FieldRuleId;
   bgm?: string;
+};
+
+/**
+ * 場所の規則（v1.1-h）。
+ *
+ * **どれも「その場所に居るあいだだけ」効く。** 歩数は `cleared` / `moved` と
+ * 同じく**保存しない派生値**で、規則のあるマップへ入るたびに数え直す ――
+ * セーブに「あと何歩」が溜まると、規則を変えた日に古いセーブが壊れる。
+ */
+export type FieldRule = {
+  id: FieldRuleId;
+  /** 歩ける歩数。尽きたら `expire` のイベントへ。 */
+  steps: number;
+  /** 歩数が尽きたときに走るイベント（追い出し）。 */
+  expire: EventId;
+  /**
+   * 戦えるか。サファリでは技も交代も使えず、**エサ・イシ・ボール・逃げるだけ。**
+   * `false` のとき、野生戦は捕獲専用の形で始まる。
+   */
+  canFight: boolean;
+  /** そこで投げられる唯一のボール。指定するとバッグの他のボールは選べない。 */
+  ball?: ItemId;
 };
 
 export type EncounterTable = {

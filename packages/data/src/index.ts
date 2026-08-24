@@ -24,6 +24,7 @@ import {
   type FlagId,
   type MapData,
   type FieldAbility,
+  type FieldRule,
   type RegionDefinition,
   type Shop,
   type Trainer,
@@ -47,6 +48,7 @@ import encountersJson from "../encounters.json" with { type: "json" };
 import eventsJson from "../events.json" with { type: "json" };
 import flagsJson from "../flags.json" with { type: "json" };
 import shopsJson from "../shops.json" with { type: "json" };
+import fieldRulesJson from "../field-rules.json" with { type: "json" };
 import regionsJson from "../regions.json" with { type: "json" };
 import mapsJson from "../maps.json" with { type: "json" };
 import fieldAbilitiesJson from "../field-abilities.json" with { type: "json" };
@@ -246,6 +248,11 @@ export const allTrainers = trainersJson as unknown as readonly Trainer[];
 /** 宣言済みフラグ。ここに無いフラグを使うと検証エラーになる（world.md §6）。 */
 export const allFlags = flagsJson as unknown as readonly FlagId[];
 export const allShops = shopsJson as unknown as readonly Shop[];
+/**
+ * 場所ごとの規則（v1.1-h）。**サファリゾーンのために作った1件目。**
+ * マップは `rules:` で id を指すだけなので、2つ目のサファリは JSON 1件で増える。
+ */
+export const allFieldRules = fieldRulesJson as unknown as readonly FieldRule[];
 /** 地方の定義（v0.10）。`available: false` は未実装の印であってロックではない。 */
 export const allRegions = regionsJson as unknown as readonly RegionDefinition[];
 /**

@@ -14,6 +14,9 @@ import {
   emptyEncounterState,
   emptyWorldState,
   evaluate,
+  safariBonus,
+  safariFleeChance,
+  SAFARI,
   neighborsOf,
   FIELD_ABILITIES,
   fieldAbilitiesFor,
@@ -48,6 +51,7 @@ import {
   allEncounterTables,
   allEvents,
   allFieldAbilities,
+  allFieldRules,
   allFlags,
   allMaps,
   allTrainers,
@@ -1312,5 +1316,81 @@ describe("ジムの仕掛け（v1.1-g）", () => {
     }
     // ナツメの隣に立てる
     expect(seen.has(`${sabrina.at.x},${sabrina.at.y + 1}`)).toBe(true);
+  });
+});
+
+/**
+ * サファリゾーン（v1.1-h）。
+ *
+ * **`Ruleset` には寄せなかった。** あれは施設の編成と連戦の型で、
+ * 歩数もエサも入る場所が無い。ここで確かめたいのは、
+ * `MapData.rules` の1欄と `field-rules.json` だけで規則が成立していること。
+ */
+describe("サファリゾーン（v1.1-h）", () => {
+  const rule = allFieldRules.find((r) => r.id === "safari")!;
+  const safariMaps = allMaps.filter((m) => m.rules === "safari");
+
+  it("規則のあるマップは、規則を1つだけ指す", () => {
+    expect(safariMaps.length).toBeGreaterThan(3);
+    expect(rule.canFight).toBe(false);
+    expect(rule.steps).toBeGreaterThan(0);
+  });
+
+  it("戦えない場所にトレーナーは居ない ―― 視線に入った瞬間に詰む", () => {
+    for (const map of safariMaps) {
+      expect(map.objects.filter((o) => o.kind.type === "trainer"), map.id).toEqual([]);
+    }
+  });
+
+  it("イシは捕まえやすく、エサは捕まえにくくする", () => {
+    const plain = safariBonus({ turn: 1 });
+    const rocked = safariBonus({ turn: 1, safari: { rocks: 2, baits: 0 } });
+    const baited = safariBonus({ turn: 1, safari: { rocks: 0, baits: 2 } });
+    expect(plain).toBe(1);
+    expect(rocked).toBeGreaterThan(1);
+    expect(baited).toBeLessThan(1);
+  });
+
+  it("捕まえやすさと逃げやすさは逆に動く ―― そこが唯一の駆け引き", () => {
+    const rocks = { turn: 1, safari: { rocks: 2, baits: 0 } };
+    const baits = { turn: 1, safari: { rocks: 0, baits: 2 } };
+    expect(safariBonus(rocks)).toBeGreaterThan(safariBonus(baits));
+    expect(safariFleeChance(rocks)).toBeGreaterThan(safariFleeChance(baits));
+    // サファリの外では逃げない
+    expect(safariFleeChance({ turn: 1 })).toBe(0);
+  });
+
+  it("段階には上限がある ―― イシを投げ続けても確定にはならない", () => {
+    const many = safariBonus({ turn: 1, safari: { rocks: 99, baits: 0 } });
+    expect(Number.isFinite(many)).toBe(true);
+    expect(many).toBe(SAFARI.perStage ** SAFARI.maxStage);
+  });
+
+  it("サファリの戦いでは、技も交代も選べない", () => {
+    const data = gameData;
+    const party = [
+      { species: "pikachu" as const, level: 20, moves: ["thunder-shock" as const] },
+      { species: "bulbasaur" as const, level: 20, moves: ["tackle" as const] },
+    ];
+    const wild = [{ species: "chansey" as const, level: 20, moves: ["pound" as const] }];
+    const battle = createBattle(data, [party, wild], 1, { isWild: true, safari: true });
+    const kinds = new Set(legalActions(data, battle, 0).map((a) => a.kind));
+    expect(kinds.has("move")).toBe(false);
+    expect(kinds.has("switch")).toBe(false);
+    expect(kinds.has("safari")).toBe(true);
+    expect(kinds.has("run")).toBe(true);
+  });
+
+  it("エサ・イシを投げると段階が動く", () => {
+    const data = gameData;
+    const party = [{ species: "pikachu" as const, level: 20, moves: ["thunder-shock" as const] }];
+    const wild = [{ species: "chansey" as const, level: 20, moves: ["pound" as const] }];
+    let battle = createBattle(data, [party, wild], 7, { isWild: true, safari: true });
+    expect(battle.safari).toEqual({ rocks: 0, baits: 0 });
+
+    // **逃げられることがある**ので、逃げなかった場合だけ段階を見る
+    const next = step(data, battle, [{ kind: "safari", throw: "bait" }, null]);
+    expect(next.events.some((e) => e.kind === "safariThrown")).toBe(true);
+    if (next.state.result === null) expect(next.state.safari?.baits).toBe(1);
   });
 });

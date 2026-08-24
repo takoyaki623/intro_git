@@ -68,6 +68,12 @@ export type BattleOptions = {
   /** 野生戦。逃げるが選べるようになる（v0.7）。 */
   isWild?: boolean;
   /**
+   * サファリの規則（v1.1-h）。技も交代も出さず、**エサ・イシ・ボール・逃げる**だけ。
+   * 何が選べるかを決めているのは `core` の `legalActions` で、
+   * ここはそれを画面に出しているだけ ―― 画面側で選択肢を足さない。
+   */
+  safari?: boolean;
+  /**
    * ターン制限（v0.11・バトルアリーナ）。
    * この数だけターンが過ぎたら、倒しきっていなくても採点で決着する。
    */
@@ -101,6 +107,7 @@ export type BattleOutcome = NonNullable<BattleState["result"]> & { state: Battle
 export async function runBattle(options: BattleOptions): Promise<BattleOutcome> {
   let state: BattleState = createBattle(gameData, options.parties, options.seed, {
     isWild: options.isWild ?? false,
+    ...(options.safari === true ? { safari: true } : {}),
     ...(options.limit === undefined ? {} : { limit: options.limit }),
   });
   let view: BattleView = viewFromState(state);
@@ -266,6 +273,26 @@ export async function runBattle(options: BattleOptions): Promise<BattleOutcome> 
         moveWrap.appendChild(btn);
       }
       box.appendChild(moveWrap);
+    }
+
+    // ── サファリのエサ・イシ（v1.1-h）──
+    // **技のボタンと同じ場所に出す。** ここが「削る」の代わりなので、
+    // 別の段に置くと投げ方が2種類あるように見える
+    const throws = actions.filter((a) => a.kind === "safari");
+    if (!forced && throws.length > 0) {
+      const wrap = document.createElement("div");
+      wrap.className = "moves";
+      for (const action of throws) {
+        if (action.kind !== "safari") continue;
+        const bait = action.throw === "bait";
+        const btn = document.createElement("button");
+        btn.className = "move";
+        btn.innerHTML = `<span class="mname">${bait ? "エサ" : "イシ"}</span>
+          <span class="meta">${bait ? "にげにくくなる ・ つかまえにくくなる" : "つかまえやすくなる ・ にげやすくなる"}</span>`;
+        btn.onclick = () => submit(action);
+        wrap.appendChild(btn);
+      }
+      box.appendChild(wrap);
     }
 
     // ── ボール（v0.8）──

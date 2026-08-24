@@ -59,6 +59,7 @@ import {
   allEvents,
   allArt,
   allFieldAbilities,
+  allFieldRules,
   allFlags,
   allMaps,
   allRegions,
@@ -1609,6 +1610,105 @@ function checkWorld(): void {
       for (const item of itemsUsedBy(ability.requires)) {
         if (!givenItems.has(item)) {
           fail("field-ability", `${ability.id}: 要る道具 "${item}" が世界のどこでも手に入らない`);
+        }
+      }
+    }
+  }
+
+  // ── #109〜#113 場所ごとの規則（v1.1-h）──
+  //
+  // **サファリゾーンは「入ったら出られる」ことが全て。** 歩数で追い出す仕掛けは、
+  // 出口が壊れていると詰みになる ―― セーブは中に居る状態で残るので、
+  // 遊ぶ側からは「詰んだ」ではなく「壊れた」に見える。
+  {
+    const ruleById = new Map(allFieldRules.map((r) => [r.id, r]));
+    const used = new Set<string>();
+    for (const map of allMaps) {
+      if (map.rules === undefined) continue;
+      used.add(map.rules);
+      // #109 指した規則が実在する
+      if (!ruleById.has(map.rules)) {
+        fail("field-rule", `${map.id}: 規則 "${map.rules}" が無い`);
+        continue;
+      }
+      const rule = ruleById.get(map.rules)!;
+      // #110 戦えない場所にトレーナーを置かない ―― 視線に入った瞬間に詰む
+      if (!rule.canFight) {
+        for (const object of map.objects) {
+          if (object.kind.type === "trainer") {
+            fail(
+              "field-rule",
+              `${map.id}/${object.id}: 戦えない規則（${rule.id}）の場所にトレーナーが居る`,
+            );
+          }
+        }
+      }
+    }
+
+    // ── #113 規則の効く区画が一続きであること（v1.1-h）──
+    //
+    // 歩数は**マップではなく区画**で数える ―― サファリは4枚で1つの場所なので、
+    // エリアを跨ぐたびに数え直したら500歩に戻り、歩数制限が制限でなくなる。
+    // その数え方が成り立つのは区画が**一続き**のときだけで、同じ規則の
+    // マップが2つの島に割れていると、島から島へ移るのに一度外へ出ることになり、
+    // 出入りで満タンに戻る ―― 数え方は正しいのに、制限がまた効かなくなる。
+    // **「そこしか通れない」で初めて関門になる**のと同じ形の間違いなので、検査で塞ぐ。
+    for (const rule of allFieldRules) {
+      const zone = allMaps.filter((m) => m.rules === rule.id);
+      if (zone.length <= 1) continue;
+      const inZone = new Set(zone.map((m) => m.id));
+      const seen = new Set<string>([zone[0]!.id]);
+      const queue = [zone[0]!.id];
+      while (queue.length > 0) {
+        const here = mapById.get(queue.shift()!)!;
+        for (const warp of here.warps) {
+          if (!inZone.has(warp.to.map) || seen.has(warp.to.map)) continue;
+          seen.add(warp.to.map);
+          queue.push(warp.to.map);
+        }
+      }
+      const cut = zone.filter((m) => !seen.has(m.id)).map((m) => m.id);
+      if (cut.length > 0) {
+        fail(
+          "field-rule",
+          `${rule.id}: 区画が一続きでない（${zone[0]!.id} から届かない: ${cut.join(" ")}）`,
+        );
+      }
+    }
+
+    for (const rule of allFieldRules) {
+      if (!used.has(rule.id)) {
+        warn("field-rule", `規則 "${rule.id}" を指すマップが1枚も無い`);
+      }
+      if (rule.steps <= 0) fail("field-rule", `${rule.id}: 歩数 ${rule.steps} では1歩も歩けない`);
+
+      // #111 歩数が尽きたときのイベントが実在し、**そこから出られる**
+      const expire = allEvents.find((e) => e.id === rule.expire);
+      if (expire === undefined) {
+        fail("field-rule", `${rule.id}: 追い出すイベント "${rule.expire}" が無い`);
+      } else {
+        usedEvents.add(rule.expire);
+        const moves = [...walkCommands(expire.commands)].some((c) => c.kind === "warp");
+        if (!moves) {
+          fail(
+            "field-rule",
+            `${rule.id}: 追い出すイベントに warp が無い（歩数が尽きても外へ出られない）`,
+          );
+        }
+      }
+
+      // #112 投げられる唯一のボールが実在し、世界のどこかで配られる
+      if (rule.ball !== undefined) {
+        if (!itemIds.has(rule.ball)) {
+          fail("field-rule", `${rule.id}: ボール "${rule.ball}" が道具として無い`);
+        } else {
+          const given = allEvents.some((e) =>
+            [...walkCommands(e.commands)].some((c) => c.kind === "giveItem" && c.item === rule.ball),
+          );
+          const sold = allShops.some((shop) => shop.items.includes(rule.ball!));
+          if (!given && !sold) {
+            fail("field-rule", `${rule.id}: ボール "${rule.ball}" が世界のどこでも手に入らない`);
+          }
         }
       }
     }

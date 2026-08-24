@@ -1,0 +1,31 @@
+# サファリゾーン 北エリア。**ミニリュウ が釣れる。**
+id: kanto-safari-north
+name: サファリゾーン
+region: kanto
+rules: safari
+encounters: kanto-safari-north-grass kanto-safari-north-surf kanto-safari-north-fishing-old kanto-safari-north-fishing-good kanto-safari-north-fishing-super
+bgm: safari
+
+legend:
+. normal
+, grass
+T !normal
+~ !water
+
+grid:
+TTTTTTTTTTTTT
+T...........T
+T..,,,,,,,..T
+T..,,,,,,,..T
+T...........T
+T.~~~~~~~~~.T
+T.~~~~~~~~~.T
+T...........T
+T...........T
+TTTTTT.TTTTTT
+
+warps:
+6,9 step kanto-safari-middle 6,1 down
+
+objects:
+safari-north-item 11,1 item:max-revive kanto.safari.north-item if:kanto.safari.north-item-taken=false

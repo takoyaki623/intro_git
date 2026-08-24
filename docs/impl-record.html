@@ -221,7 +221,7 @@ a:focus-visible, summary:focus-visible {
     設計文書は <code>docs/design/</code>、上位方針は <code>docs/game-plan.md</code>。
   </p>
   <p class="meta">
-    テスト 396件 ／ 検証項目 106 ／ マップ 102枚 ／ 種族 190 ／ 技 248 ／ 道具 98
+    テスト 408件 ／ 検証項目 113 ／ マップ 107枚 ／ 種族 190 ／ 技 248 ／ 道具 99
     ―― 型チェック・検証スクリプト・通し確認（191項目）・撮影（47か所）すべて緑
   </p>
 </header>
@@ -231,8 +231,8 @@ a:focus-visible, summary:focus-visible {
   <div class="fig"><b class="num">190</b><span>種族</span></div>
   <div class="fig"><b class="num">248</b><span>技</span></div>
   <div class="fig"><b class="num">18</b><span>ネームド</span></div>
-  <div class="fig"><b class="num">102</b><span>マップ</span></div>
-  <div class="fig"><b class="num">106</b><span>検証項目</span></div>
+  <div class="fig"><b class="num">107</b><span>マップ</span></div>
+  <div class="fig"><b class="num">113</b><span>検証項目</span></div>
   <div class="fig"><b class="num">13,267</b><span>実装行 (TS)</span></div>
   <div class="fig"><b class="num">5,329</b><span>テスト行</span></div>
 </div>
@@ -781,6 +781,7 @@ pokemon … 個体の実体。uid が主キー</code></pre>
           <tr><td><span class="ver">v1.1-f</span></td><td><strong>押せる岩とスイッチ</strong>・チャンピオンロード2階/3階をパズルに</td><td><code>MapObjectKind</code> 2種</td><td>92</td></tr>
           <tr><td><span class="ver">v1.1-g-1</span></td><td>見えない壁・クイズ扉・<strong>テレポート床</strong>（ジム3つが仕掛けつきに）</td><td><strong>描画に5行だけ</strong></td><td>92</td></tr>
           <tr><td><span class="ver">v1.1-g-2</span></td><td>むじんはつでんしょ・ふたごじま・ポケモンやしき・<strong>ハナダのどうくつ</strong>・17/18/24/25番（マップ 91→102）</td><td><strong>0行</strong></td><td>92 → <strong>101</strong></td></tr>
+          <tr><td><span class="ver">v1.1-h</span></td><td><strong>サファリゾーン</strong>（歩数・エサ/イシ・戦えない）</td><td><code>MapData.rules</code> 1欄</td><td>101 → <strong>112</strong></td></tr>
         </tbody>
       </table>
     </div>
@@ -892,6 +893,52 @@ pokemon … 個体の実体。uid が主キー</code></pre>
       ③ ②を<strong>推測で「テレポート床の見逃し」と決めつけて</strong>経路実行を作り替え、関係ない5件を壊した ――
       報告の <span class="mono">いま kanto-saffron-city 4,4</span> は「扉の1マス手前」で、<strong>最初から答えを持っていた。</strong>
     </div>
+
+    <h3>v1.1-h ―― <code>Ruleset</code> に寄せなかったのが効いた</h3>
+    <p>サファリゾーンは「歩数制限・エサ/イシ・戦闘不可」という、既存のどれとも違う規則を持つ。
+    施設の <code>Ruleset</code>（<code>teamSource</code> / <code>levelMode</code> / <code>streakCap</code>）に寄せる案もあったが、
+    <strong>寄せると4施設すべてが無視する任意欄が8個増える</strong> ―― 「1件足すコストをゼロに近づける」の正反対になる。</p>
+    <p>代わりに足したのは <code>MapData.rules</code> の<strong>1欄だけ</strong>。
+    <code>encounters:</code> / <code>onEnter:</code> と同じ形なので、
+    <strong>2つ目のサファリは JSON 1件</strong>で増える。</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>決めたこと</th><th>理由</th></tr></thead>
+        <tbody>
+          <tr><td>歩数は<strong>保存しない</strong></td><td><code>cleared</code>・<code>moved</code> と同じ派生値。セーブに「あと何歩」が溜まると、歩数を変えた日に古いセーブが壊れる</td></tr>
+          <tr><td>エサ・イシを<strong>道具にしない</strong></td><td>バッグに入ると外へ持ち出せてしまい、「その場所だけの規則」という前提が消える</td></tr>
+          <tr><td><code>BattleState.safari</code> は<strong>真偽値にしない</strong></td><td><code>{rocks, baits} | null</code>。「段階を持っているか」がそのまま「サファリか」―― 2つ持つと「サファリなのに段階が無い」が表現できる</td></tr>
+          <tr><td>怒りと食事を<strong>1本の軸に</strong></td><td>2つ持つと「怒りながら食べている」の意味を決めないといけなくなる</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <strong>サファリは「入ったら出られる」ことが全て。</strong><br>
+      出口が壊れていると詰みになり、しかもセーブは中に居る状態で残るので、
+      遊ぶ側からは「詰んだ」ではなく<strong>「壊れた」</strong>に見える ――
+      だから検証 #111（追い出すイベントに warp があるか）を先に置いた。
+    </div>
+
+    <h3>v1.1-h ―― 保存しない値どうしでも、捨てる単位は同じではなかった</h3>
+    <p>歩数は <code>cleared</code>（どけた岩）・<code>moved</code>（押した岩）と同じ「保存しない派生値」なので、
+    同じ場所 ―― マップに入り直したときに捨てる <code>arrive()</code> ―― に並べて書いた。1行で済み、筋が通って見えた。
+    <strong>通っていなかった。</strong></p>
+    <p>サファリは<strong>4枚のマップで1つの場所</strong>なので、中央から西へ1歩入っただけで500歩に戻る。
+    尽きる前に隣へ移ればいいだけになり、<strong>歩数制限が制限でなくなる</strong> ――
+    「あるきすぎると おわりです」は言うだけの台詞になっていた。</p>
+    <div class="note">
+      v1.1-e の <strong>「関門は『置いた』ではなく『そこしか通れない』で初めて関門になる」</strong>と同じ形。<br>
+      歩数制限も、<strong>尽きて初めて</strong>制限になる。
+    </div>
+    <p><code>cleared</code> / <code>moved</code> は<strong>マップを跨いだら戻る</strong>のが正しく、
+    歩数は<strong>区画を跨いだら戻らない</strong>のが正しい。
+    一緒に捨てられる場所に並んでいるという理由だけで、同じ寿命だと決めていた。
+    直したのは「いま効いている規則の id を持ち、<strong>規則が変わったときだけ</strong>数え直す」の2行。</p>
+    <p>そのうえで検証 <strong>#113</strong>（同じ規則のマップが一続きであること）を足した ――
+    区画が2つの島に割れていると、島から島へ移るのに一度<strong>外へ出る</strong>ことになり、
+    出入りでまた満タンに戻る。<strong>数え方は直したのに、制限がまた効かなくなる。</strong>
+    台本も同じところを見ていて、中央205歩・西300歩で追い出されることを確かめるので、
+    エリアを跨いだ時点で数え直していたら落ちる。</p>
 
     <div class="note warn">
       <strong>1入力＝1マスは変えていない。</strong>
@@ -1818,6 +1865,10 @@ packages/data/generated/ids.d.ts
         <tr><td>スイッチのあるマップには、乗せる岩が1つ以上ある</td><td><span class="pill done">v1.1-f</span></td></tr>
         <tr><td><strong>テレポート床が飾りでない</strong>（1枚も踏まずに全マスへ歩けてしまわない）</td><td><span class="pill done">v1.1-g</span></td></tr>
         <tr><td><strong>条件で道を塞ぐものは、その条件を満たせる</strong>（フラグを立てるイベントが実在する）</td><td><span class="pill done">v1.1-g</span></td></tr>
+        <tr><td>場所の規則が実在する／<strong>戦えない場所にトレーナーを置かない</strong></td><td><span class="pill done">v1.1-h</span></td></tr>
+        <tr><td><strong>追い出すイベントに warp がある</strong>（歩数が尽きても外へ出られない、を防ぐ）</td><td><span class="pill done">v1.1-h</span></td></tr>
+        <tr><td>投げられる唯一のボールが世界のどこかで手に入る</td><td><span class="pill done">v1.1-h</span></td></tr>
+        <tr><td><strong>同じ規則のマップが一続きである</strong>（区画が2つの島に割れていない）</td><td><span class="pill done">v1.1-h</span></td></tr>
       </tbody>
     </table>
   </div>
@@ -1955,7 +2006,7 @@ packages/data/generated/ids.d.ts
         </tr>
         <tr>
           <td>規律を人間の注意力に預けない</td>
-          <td>106項目の判定を CI で回す。<strong>「遊ぶと成立しない」種類の誤りも検証項目に落とす</strong></td>
+          <td>113項目の判定を CI で回す。<strong>「遊ぶと成立しない」種類の誤りも検証項目に落とす</strong></td>
         </tr>
         <tr>
           <td>強さは情報量ではなく思考の深さで作る</td>
@@ -2000,7 +2051,7 @@ packages/data/generated/ids.d.ts
         <tr><td><strong>へんしん</strong></td><td><span class="pill warn">借り</span></td><td>メタモンは原作でもこの技しか覚えない。13〜15番道路の公式データに居るのに<strong>野生に出せない</strong> ―― 取り込み器に理由つきで除外</td></tr>
         <tr><td><strong>ポケモンタワー 2〜7階</strong></td><td><span class="pill warn">借り</span></td><td>機構（ゴースト＝条件で入れ替わる2つのオブジェクト＋<code>hasItem</code>）は v1.1-c で揃った。<strong>シルフスコープの入手元</strong>が無いだけ（v1.1-g）</td></tr>
         <tr><td><strong>氷の床</strong></td><td><span class="pill pending">v1.3〜</span></td><td><strong>カントーに1枚も無い。</strong> ふたごじま は水流と穴、チャンピオンロードは岩とスイッチ ―― 氷の床は ジョウトの こおりのぬけみち 以降。使うマップが無い機構を先に作らない（v1.1-f で判断）</td></tr>
-        <tr><td>サファリゾーン</td><td><span class="pill pending">v1.1-h</span></td><td><code>MapData.rules</code> ＋ <code>field-rules.json</code>。<strong><code>Ruleset</code> には寄せない</strong>（4施設すべてが無視する任意欄が8個増える）</td></tr>
+        <tr><td>サファリゾーン</td><td><span class="pill done">v1.1-h</span></td><td><code>MapData.rules</code> ＋ <code>field-rules.json</code>。<strong><code>Ruleset</code> には寄せなかった</strong>のが効いた</td></tr>
         <tr><td>天候・フィールド</td><td><span class="pill pending">v1.2</span></td><td>該当特性は <code>inert</code> で理由つきに待機中（31種）</td></tr>
         <tr><td>AI <code>smart</code>・連勝上限の解除</td><td><span class="pill pending">v1.2</span></td><td><code>AiConfig.policy</code> と <code>AiView</code>。検証が <code>smart</code> をまだ弾いている</td></tr>
         <tr><td>キャラごとの戦い方（<code>tactic</code>）</td><td><span class="pill pending">v1.2</span></td><td>データには入っているが AI が読んでいない。<code>basic</code> では演じられない</td></tr>
@@ -2020,7 +2071,7 @@ packages/data/generated/ids.d.ts
     <table>
       <thead><tr><th>最初の3つの希望</th><th>現在地</th></tr></thead>
       <tbody>
-        <tr><td>全てのポケモンが出る</td><td>カントー151種のうち<strong>101種に入手経路がある</strong>（v1.1-g-2 時点）。151種すべてが v1.1 の完了条件</td></tr>
+        <tr><td>全てのポケモンが出る</td><td>カントー151種のうち<strong>112種に入手経路がある</strong>（v1.1-h 時点）。151種すべてが v1.1 の完了条件</td></tr>
         <tr><td>今までの全てのトレーナーが出る</td><td>ネームド18人 × 2ティア（v0.11）＋道中45人。<strong>原作は約180人</strong>（v1.1-i）。極ティアは v1.2</td></tr>
         <tr><td>原作のマップを再現</td><td><strong>102枚。</strong> ヤマブキは4叉路、シオンは行き止まりでない、ダンジョンは階層つきで、チャンピオンロードは岩とスイッチのパズル（v1.1-d/-e/-f）</td></tr>
       </tbody>
@@ -2083,7 +2134,7 @@ packages/data/generated/ids.d.ts
 </section>
 
 <footer>
-  ポケモン風RPG ／ v0.1 → v1.1-g ／ 個人利用・非配布 ／ 設計文書は <span class="mono">docs/design/</span> を参照
+  ポケモン風RPG ／ v0.1 → v1.1-h ／ 個人利用・非配布 ／ 設計文書は <span class="mono">docs/design/</span> を参照
 </footer>
 
 </div>
