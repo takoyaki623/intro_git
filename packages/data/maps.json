@@ -6176,6 +6176,19 @@
           "movement": "static"
         },
         "event": "kanto.cerulean.house-man"
+      },
+      {
+        "id": "cerulean-trader",
+        "at": {
+          "x": 1,
+          "y": 3
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "oldman",
+          "movement": "static"
+        },
+        "event": "kanto.cerulean.trade"
       }
     ],
     "bgm": "house"
@@ -29627,6 +29640,19 @@
           "flag": "kanto.route18.birdkeeper-beaten",
           "value": false
         }
+      },
+      {
+        "id": "route18-trader",
+        "at": {
+          "x": 2,
+          "y": 4
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "oldman",
+          "movement": "static"
+        },
+        "event": "kanto.route18.trade"
       }
     ],
     "encounters": [
@@ -30086,6 +30112,161 @@
     "bgm": "route-19"
   },
   {
+    "id": "kanto-route-2-house",
+    "name": "2ばんどうろのいえ",
+    "region": "kanto",
+    "size": {
+      "width": 7,
+      "height": 5
+    },
+    "layers": {
+      "ground": [
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        "B",
+        ".",
+        ".",
+        ".",
+        ".",
+        "W",
+        "W",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "W",
+        "W",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "W",
+        "W",
+        "W",
+        "W",
+        "D",
+        "W",
+        "W",
+        "W"
+      ],
+      "decoration": [],
+      "overhead": []
+    },
+    "collision": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true
+    ],
+    "terrain": [
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+    ],
+    "warps": [
+      {
+        "at": {
+          "x": 3,
+          "y": 4
+        },
+        "trigger": "step",
+        "to": {
+          "map": "kanto-route-2",
+          "x": 7,
+          "y": 14,
+          "facing": "down"
+        }
+      }
+    ],
+    "objects": [
+      {
+        "id": "route2-trader",
+        "at": {
+          "x": 4,
+          "y": 1
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "lass",
+          "movement": "static"
+        },
+        "event": "kanto.route2.trade"
+      }
+    ],
+    "bgm": "town"
+  },
+  {
     "id": "kanto-route-2-north",
     "name": "2ばんどうろ きた",
     "region": "kanto",
@@ -30513,9 +30694,9 @@
         ",",
         ",",
         ".",
-        ".",
-        ".",
-        ".",
+        "B",
+        "B",
+        "B",
         ".",
         "T",
         "T",
@@ -30524,9 +30705,9 @@
         ".",
         ".",
         ".",
-        ".",
-        ".",
-        ".",
+        "B",
+        "D",
+        "B",
         ".",
         "T",
         "T",
@@ -30694,9 +30875,9 @@
       false,
       false,
       false,
-      false,
-      false,
-      false,
+      true,
+      true,
+      true,
       false,
       true,
       true,
@@ -30705,9 +30886,9 @@
       false,
       false,
       false,
+      true,
       false,
-      false,
-      false,
+      true,
       false,
       true,
       true,
@@ -30948,6 +31129,19 @@
           "map": "kanto-diglett-cave",
           "x": 1,
           "y": 2,
+          "facing": "up"
+        }
+      },
+      {
+        "at": {
+          "x": 7,
+          "y": 13
+        },
+        "trigger": "step",
+        "to": {
+          "map": "kanto-route-2-house",
+          "x": 3,
+          "y": 3,
           "facing": "up"
         }
       }
@@ -46130,9 +46324,9 @@
         "P",
         "P",
         ".",
-        ".",
-        ".",
-        ".",
+        "B",
+        "B",
+        "B",
         ".",
         ".",
         "T",
@@ -46144,9 +46338,9 @@
         "D",
         "P",
         ".",
-        ".",
-        ".",
-        ".",
+        "B",
+        "D",
+        "B",
         ".",
         ".",
         "T",
@@ -46331,11 +46525,7 @@
       true,
       true,
       false,
-      false,
-      false,
-      false,
-      false,
-      false,
+      true,
       true,
       true,
       false,
@@ -46343,11 +46533,15 @@
       true,
       true,
       false,
+      false,
+      true,
       true,
       false,
+      true,
       false,
+      true,
       false,
-      false,
+      true,
       false,
       false,
       true,
@@ -46714,6 +46908,19 @@
           "map": "kanto-vermilion-pokecenter",
           "x": 4,
           "y": 5,
+          "facing": "up"
+        }
+      },
+      {
+        "at": {
+          "x": 9,
+          "y": 3
+        },
+        "trigger": "step",
+        "to": {
+          "map": "kanto-vermilion-house",
+          "x": 3,
+          "y": 3,
           "facing": "up"
         }
       },
@@ -47232,6 +47439,161 @@
       }
     ],
     "bgm": "gym"
+  },
+  {
+    "id": "kanto-vermilion-house",
+    "name": "クチバのいえ",
+    "region": "kanto",
+    "size": {
+      "width": 7,
+      "height": 5
+    },
+    "layers": {
+      "ground": [
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        "W",
+        "B",
+        ".",
+        ".",
+        ".",
+        ".",
+        "W",
+        "W",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "W",
+        "W",
+        ".",
+        ".",
+        ".",
+        ".",
+        ".",
+        "W",
+        "W",
+        "W",
+        "W",
+        "D",
+        "W",
+        "W",
+        "W"
+      ],
+      "decoration": [],
+      "overhead": []
+    },
+    "collision": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true
+    ],
+    "terrain": [
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal",
+      "normal"
+    ],
+    "warps": [
+      {
+        "at": {
+          "x": 3,
+          "y": 4
+        },
+        "trigger": "step",
+        "to": {
+          "map": "kanto-vermilion-city",
+          "x": 9,
+          "y": 4,
+          "facing": "down"
+        }
+      }
+    ],
+    "objects": [
+      {
+        "id": "vermilion-trader",
+        "at": {
+          "x": 4,
+          "y": 1
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "youngster",
+          "movement": "static"
+        },
+        "event": "kanto.vermilion.trade"
+      }
+    ],
+    "bgm": "town"
   },
   {
     "id": "kanto-vermilion-mart",

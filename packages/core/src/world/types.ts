@@ -283,6 +283,17 @@ export type EventCommand =
   | { kind: "battle"; trainer: TrainerId; onWin?: EventId; onLose?: EventId }
   | { kind: "giveItem"; item: ItemId; count: number }
   | { kind: "givePokemon"; species: SpeciesId; level: number; moves?: MoveId[] }
+  /**
+   * 手持ちから1匹 引き取る（v1.1-i）。**交換のための片側。**
+   *
+   * `givePokemon` だけでは「見せると1匹くれる人」しか書けない ――
+   * 原作の交換は**渡した個体が本当に居なくなる**ことに意味がある
+   * （手放す判断が要る）。片側だけ作ると、それは交換ではなく配布になる。
+   *
+   * 引き取るのは**手持ちから1匹だけ**。`hasSpecies` で確かめてから呼ぶ
+   * （持っていないのに呼ぶと何も起きず、遊ぶ側に理由が見えない・検証 #119）。
+   */
+  | { kind: "takePokemon"; species: SpeciesId }
   | { kind: "giveMoney"; amount: number }
   /**
    * バッジを渡す（v0.12）。`count` は「これで何個目になるか」。

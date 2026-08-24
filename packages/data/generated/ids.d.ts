@@ -6,9 +6,9 @@
  * 特性 68 / 道具 106 /
  * BattleSet 64 / 施設 4 /
  * ネームド 18 / カップ 10 /
- * マップ 128 / イベント 369 / トレーナー 75 /
+ * マップ 130 / イベント 373 / トレーナー 75 /
  * 出現テーブル 150 / ショップ 6 / 地方 9 /
- * フラグ 177
+ * フラグ 181
  */
 
 export type GeneratedSpeciesId =
@@ -841,6 +841,7 @@ export type GeneratedMapId =
   | "kanto-route-18"
   | "kanto-route-19"
   | "kanto-route-2"
+  | "kanto-route-2-house"
   | "kanto-route-2-north"
   | "kanto-route-20"
   | "kanto-route-21"
@@ -882,6 +883,7 @@ export type GeneratedMapId =
   | "kanto-underground-south"
   | "kanto-vermilion-city"
   | "kanto-vermilion-gym"
+  | "kanto-vermilion-house"
   | "kanto-vermilion-mart"
   | "kanto-vermilion-pokecenter"
   | "kanto-victory-road"
@@ -946,6 +948,7 @@ export type GeneratedEventId =
   | "kanto.cerulean.rival"
   | "kanto.cerulean.rival-win"
   | "kanto.cerulean.sign-gym"
+  | "kanto.cerulean.trade"
   | "kanto.cinnabar.arrive"
   | "kanto.cinnabar.blaine"
   | "kanto.cinnabar.blaine-win"
@@ -1114,10 +1117,12 @@ export type GeneratedEventId =
   | "kanto.route18.birdkeeper"
   | "kanto.route18.birdkeeper-win"
   | "kanto.route18.sign"
+  | "kanto.route18.trade"
   | "kanto.route2.bug-catcher"
   | "kanto.route2.bug-catcher-win"
   | "kanto.route2.potion"
   | "kanto.route2.sign"
+  | "kanto.route2.trade"
   | "kanto.route22.rival"
   | "kanto.route22.rival-a"
   | "kanto.route22.rival-a-win"
@@ -1236,6 +1241,7 @@ export type GeneratedEventId =
   | "kanto.vermilion.sign-gym"
   | "kanto.vermilion.surge"
   | "kanto.vermilion.surge-win"
+  | "kanto.vermilion.trade"
   | "kanto.victory.cooltrainer"
   | "kanto.victory.cooltrainer-win"
   | "kanto.victory.item"
@@ -1534,6 +1540,7 @@ export type GeneratedFlagId =
   | "kanto.cerulean.mart-girl"
   | "kanto.cerulean.misty-beaten"
   | "kanto.cerulean.rival-beaten"
+  | "kanto.cerulean.traded"
   | "kanto.cinnabar.blaine-beaten"
   | "kanto.cinnabar.gym-jr-beaten"
   | "kanto.cinnabar.quiz-1-open"
@@ -1627,8 +1634,10 @@ export type GeneratedFlagId =
   | "kanto.route17.biker-beaten"
   | "kanto.route17.item-taken"
   | "kanto.route18.birdkeeper-beaten"
+  | "kanto.route18.traded"
   | "kanto.route2.bug-catcher-beaten"
   | "kanto.route2.potion-taken"
+  | "kanto.route2.traded"
   | "kanto.route22.rival-a-beaten"
   | "kanto.route22.rival-beaten"
   | "kanto.route24.camper-beaten"
@@ -1679,6 +1688,7 @@ export type GeneratedFlagId =
   | "kanto.vermilion.mart-sailor"
   | "kanto.vermilion.sailor"
   | "kanto.vermilion.surge-beaten"
+  | "kanto.vermilion.traded"
   | "kanto.victory.cooltrainer-beaten"
   | "kanto.victory.item-taken"
   | "kanto.victory.max-revive-taken"

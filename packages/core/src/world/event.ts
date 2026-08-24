@@ -131,6 +131,7 @@ export type EventEffect =
   | { kind: "wildBattle"; species: SpeciesId; level: number }
   | { kind: "gotItem"; item: ItemId; count: number }
   | { kind: "gotPokemon"; species: SpeciesId; level: number; moves: MoveId[] }
+  | { kind: "gavePokemon"; species: SpeciesId }
   | { kind: "moneyChanged"; delta: number }
   | { kind: "healed" };
 
@@ -232,6 +233,16 @@ const handlers: { [K in EventCommand["kind"]]: Handler } = {
     if (c.kind !== "giveItem") return;
     world.bag[c.item] = (world.bag[c.item] ?? 0) + c.count;
     effects.push({ kind: "gotItem", item: c.item, count: c.count });
+  },
+
+  takePokemon: (c, world, _r, effects) => {
+    if (c.kind !== "takePokemon") return;
+    // **居なければ何もしない。** 呼ぶ前に `hasSpecies` で確かめる約束で、
+    // ここで無理に成立させると「持っていないのに交換できた」が書ける
+    const at = world.partySpecies.indexOf(c.species);
+    if (at < 0) return;
+    world.partySpecies.splice(at, 1);
+    effects.push({ kind: "gavePokemon", species: c.species });
   },
 
   givePokemon: (c, world, _r, effects) => {

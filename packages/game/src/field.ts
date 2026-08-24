@@ -655,6 +655,19 @@ export function playField(rebuild: () => void): FieldHandle {
         await say(`${item.name} を ${effect.count}こ てにいれた!`);
         return;
       }
+      case "gavePokemon": {
+        // **手持ちから1匹 消す**（v1.1-i）。同じ種が複数居るなら先頭の1匹。
+        // `core` は「誰を渡したか」までは決めない ―― あちらは種しか持たない
+        const at = party().findIndex((p) => p.species === effect.species);
+        if (at >= 0) {
+          const gone = party()[at]!;
+          setParty(party().filter((_, i) => i !== at));
+          draw();
+          await say(`${gameData.species(effect.species).name} と おわかれした…`);
+          void gone;
+        }
+        return;
+      }
       case "gotPokemon": {
         const species = gameData.species(effect.species);
         const got = createInstance(
@@ -768,6 +781,17 @@ export function playField(rebuild: () => void): FieldHandle {
       case "faceObject":
       case "choice":
         return;
+      default:
+        // **書き忘れをここで止める**（v1.1-i）。
+        //
+        // `EventEffect` に1件足したとき、この switch に case を書き忘れても
+        // TypeScript は黙っていた ―― 戻り値が `void` なので、
+        // どの case にも当たらずに抜けるのが**型として正しい**から。
+        // 実際 `gavePokemon` を足したとき、UI 側は何もせず、
+        // 「交換したのに手持ちが減らない」になるところだった。
+        //
+        // `assertAllEventCommandsHandled`（コマンド側）と同じ番人を、効果側にも置く。
+        throw new Error(`未処理の EventEffect: "${(effect as { kind: string }).kind}"`);
     }
   }
 

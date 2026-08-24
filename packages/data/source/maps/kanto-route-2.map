@@ -9,6 +9,8 @@ bgm: route-2
 
 legend:
 . normal
+B !normal
+D normal
 , grass
 T !normal
 = ledge
@@ -26,8 +28,8 @@ T...,,,,..T
 T.........T
 T.........T
 T..,,.....T
-T..,,.....T
-T.........T
+T..,,.BBB.T
+T.....BDB.T
 T.........T
 TTTTT.TTTTT
 
@@ -35,6 +37,7 @@ warps:
 5,0 step kanto-viridian-forest 5,12 up
 5,15 step kanto-viridian-city 6,1 down
 6,9 step kanto-diglett-cave 1,2 up
+7,13 step kanto-route-2-house 3,3 up
 
 objects:
 route2-sign 4,13 sign kanto.route2.sign

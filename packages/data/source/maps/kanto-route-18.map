@@ -29,3 +29,4 @@ warps:
 objects:
 route18-sign 2,6 sign kanto.route18.sign
 route18-birdkeeper 9,3 trainer:kanto-route18-birdkeeper:3:left kanto.route18.birdkeeper if:kanto.route18.birdkeeper-beaten=false
+route18-trader 2,4 npc:oldman:static kanto.route18.trade

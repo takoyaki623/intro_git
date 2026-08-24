@@ -8340,5 +8340,337 @@
         "text": "ディグダのあな\n\nトキワと クチバを つなぐ ちかどう。"
       }
     ]
+  },
+  {
+    "id": "kanto.vermilion.trade",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.vermilion.traded",
+          "value": true
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "その こ、げんきに してる?",
+            "speaker": "おとこのこ"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "オニスズメ を つれてない?\nうちの こと こうかん しない?",
+            "speaker": "おとこのこ"
+          },
+          {
+            "kind": "if",
+            "cond": {
+              "kind": "hasSpecies",
+              "species": "spearow"
+            },
+            "then": [
+              {
+                "kind": "choice",
+                "prompt": "オニスズメ と カモネギ を こうかんする?",
+                "options": [
+                  {
+                    "text": "こうかんする",
+                    "then": [
+                      {
+                        "kind": "takePokemon",
+                        "species": "spearow"
+                      },
+                      {
+                        "kind": "givePokemon",
+                        "species": "farfetchd",
+                        "level": 18
+                      },
+                      {
+                        "kind": "setFlag",
+                        "flag": "kanto.vermilion.traded",
+                        "value": true
+                      },
+                      {
+                        "kind": "message",
+                        "text": "ありがとう! だいじに するね。",
+                        "speaker": "おとこのこ"
+                      }
+                    ]
+                  },
+                  {
+                    "text": "やめる",
+                    "then": [
+                      {
+                        "kind": "message",
+                        "text": "また きてね。",
+                        "speaker": "おとこのこ"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "else": [
+              {
+                "kind": "message",
+                "text": "オニスズメ を つれて きて ほしいな。",
+                "speaker": "おとこのこ"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route2.trade",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route2.traded",
+          "value": true
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ケーシィ は かわいいわ。",
+            "speaker": "おんなのこ"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ケーシィ が ほしいの。\nうちの こと こうかん しない?",
+            "speaker": "おんなのこ"
+          },
+          {
+            "kind": "if",
+            "cond": {
+              "kind": "hasSpecies",
+              "species": "abra"
+            },
+            "then": [
+              {
+                "kind": "choice",
+                "prompt": "ケーシィ と バリヤード を こうかんする?",
+                "options": [
+                  {
+                    "text": "こうかんする",
+                    "then": [
+                      {
+                        "kind": "takePokemon",
+                        "species": "abra"
+                      },
+                      {
+                        "kind": "givePokemon",
+                        "species": "mr-mime",
+                        "level": 18
+                      },
+                      {
+                        "kind": "setFlag",
+                        "flag": "kanto.route2.traded",
+                        "value": true
+                      },
+                      {
+                        "kind": "message",
+                        "text": "ありがとう! テレポート できるのね。",
+                        "speaker": "おんなのこ"
+                      }
+                    ]
+                  },
+                  {
+                    "text": "やめる",
+                    "then": [
+                      {
+                        "kind": "message",
+                        "text": "また きてね。",
+                        "speaker": "おんなのこ"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "else": [
+              {
+                "kind": "message",
+                "text": "ケーシィ を つれて きて ほしいな。",
+                "speaker": "おんなのこ"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.cerulean.trade",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.cerulean.traded",
+          "value": true
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ニョロゾ は げんきかい?",
+            "speaker": "おじさん"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ニョロゾ を もってないか?\nうちの こと こうかん しないか?",
+            "speaker": "おじさん"
+          },
+          {
+            "kind": "if",
+            "cond": {
+              "kind": "hasSpecies",
+              "species": "poliwhirl"
+            },
+            "then": [
+              {
+                "kind": "choice",
+                "prompt": "ニョロゾ と ルージュラ を こうかんする?",
+                "options": [
+                  {
+                    "text": "こうかんする",
+                    "then": [
+                      {
+                        "kind": "takePokemon",
+                        "species": "poliwhirl"
+                      },
+                      {
+                        "kind": "givePokemon",
+                        "species": "jynx",
+                        "level": 18
+                      },
+                      {
+                        "kind": "setFlag",
+                        "flag": "kanto.cerulean.traded",
+                        "value": true
+                      },
+                      {
+                        "kind": "message",
+                        "text": "ありがとう! いい こに するよ。",
+                        "speaker": "おじさん"
+                      }
+                    ]
+                  },
+                  {
+                    "text": "やめる",
+                    "then": [
+                      {
+                        "kind": "message",
+                        "text": "また きてね。",
+                        "speaker": "おじさん"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "else": [
+              {
+                "kind": "message",
+                "text": "ニョロゾ を つれて きて ほしいな。",
+                "speaker": "おじさん"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route18.trade",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route18.traded",
+          "value": true
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ヤドラン は のんびり しとるかね。",
+            "speaker": "おじいさん"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ヤドラン を もっておらんか?\nうちの こと こうかん せんか?",
+            "speaker": "おじいさん"
+          },
+          {
+            "kind": "if",
+            "cond": {
+              "kind": "hasSpecies",
+              "species": "slowbro"
+            },
+            "then": [
+              {
+                "kind": "choice",
+                "prompt": "ヤドラン と ベロリンガ を こうかんする?",
+                "options": [
+                  {
+                    "text": "こうかんする",
+                    "then": [
+                      {
+                        "kind": "takePokemon",
+                        "species": "slowbro"
+                      },
+                      {
+                        "kind": "givePokemon",
+                        "species": "lickitung",
+                        "level": 20
+                      },
+                      {
+                        "kind": "setFlag",
+                        "flag": "kanto.route18.traded",
+                        "value": true
+                      },
+                      {
+                        "kind": "message",
+                        "text": "ありがとう! たいせつに するよ。",
+                        "speaker": "おじいさん"
+                      }
+                    ]
+                  },
+                  {
+                    "text": "やめる",
+                    "then": [
+                      {
+                        "kind": "message",
+                        "text": "また きてね。",
+                        "speaker": "おじいさん"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "else": [
+              {
+                "kind": "message",
+                "text": "ヤドラン を つれて きて ほしいな。",
+                "speaker": "おじいさん"
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]

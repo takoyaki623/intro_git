@@ -9,6 +9,7 @@ bgm: vermilion-city
 
 legend:
 . normal
+B !normal
 T !normal
 G !normal
 P !normal
@@ -20,8 +21,8 @@ s sand
 grid:
 TTTTTTT.TTTTTT
 T.............
-T..PPPP......T
-T..PPDP......T
+T..PPPP.BBB..T
+T..PPDP.BDB..T
 T............T
 T.......FFFF.T
 T.......FFDF.T
@@ -36,6 +37,7 @@ TTTTTTTTTTTTTT
 warps:
 7,0 step kanto-route-6 5,7 up
 5,3 step kanto-vermilion-pokecenter 4,5 up
+9,3 step kanto-vermilion-house 3,3 up
 10,6 step kanto-vermilion-mart 4,5 up
 5,9 step kanto-vermilion-gym 4,8 up
 13,1 step kanto-route-11 1,1 right
