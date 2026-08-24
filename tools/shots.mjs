@@ -64,15 +64,12 @@ function route(from, to) {
   while (queue.length > 0) {
     const here = queue.shift();
     if (here.map === to.map && here.x === to.x && here.y === to.y) {
-      // **キーだけでなく「そのキーで着くはずの場所」も返す**（v1.1-g-2）。
-      // 経路のとおりに歩けたかは、押した数ではなく居場所でしか分からない
       const path = [];
-      for (let cur = id(here), at = here; ; ) {
+      for (let cur = id(here); ; ) {
         const step = prev.get(cur);
         if (!step) break;
-        path.unshift({ key: step.key, at });
+        path.unshift(step.key);
         cur = id(step.from);
-        at = step.from;
       }
       return path;
     }
@@ -154,6 +151,12 @@ const SHOOTING_SAVE = (() => {
     // ハナダのどうくつのけいびは**殿堂入りで どく**（v1.1-g-2）。
     // 撮影はリーグを通らないので、勝ったことにしておかないと入口で止まる
     "kanto.league.champion-beaten",
+    // **ヤマブキジムの前にも警備員が立っている**（v0.12-e）。
+    // トキワの `gym-open` は立てていたのに、ヤマブキのぶんを忘れていた ――
+    // ジムの扉の真下に立つので、扉の1マス手前で止まる。
+    // 撮影が「ヤマブキジム」を撮れなかった本当の理由はこれで、
+    // テレポート床とは関係が無かった。
+    "kanto.saffron.gym-open",
   ]) {
     save.regions.kanto.flags[flag] = true;
   }
@@ -364,7 +367,7 @@ for (const size of [
       if (from.map === map && from.x === x && from.y === y) return true;
       const path = route(from, { map, x, y });
       if (path === null) return false;
-      for (const { key, at } of path) {
+      for (const key of path) {
         await page.keyboard.press(key);
         await page.waitForTimeout(150);
         // **視線バトルは会話から始まる**（v0.12）。会話が開いたままだと
@@ -379,21 +382,16 @@ for (const size of [
           await clearBattle();
           break; // 位置がずれている。引き直す
         }
-        // **マップ id だけを見ていると、テレポート床を見逃す**（v1.1-g-2）。
-        // ヤマブキジムの床は `to.map` が自分自身なので、踏んでも id が変わらない ――
-        // 飛んだ先で残りのキーを無駄打ちし、1回の引き直しで1歩しか進まなくなる。
+        // **経路は warp を辿って引いてある**ので、同じマップの中で飛ぶ
+        // テレポート床（ヤマブキジム）は、そのまま残りのキーで正しく歩ける。
+        // ここで見るのは「別のマップへ出たか」だけでよい。
         //
-        // ただし**座標は歩行アニメの途中では前のマスのまま**なので、
-        // 押した直後に突き合わせると毎歩ずれたことになり、
-        // こんどは全部の経路を引き直し続ける（実際 △ が 1件 → 6件 に増えた）。
-        // **落ち着くまで待ってから比べる。**
-        const there = (n) => n.map === at.map && n.x === at.x && n.y === at.y;
-        let now = await spot();
-        for (let i = 0; i < 6 && !there(now); i += 1) {
-          await page.waitForTimeout(120);
-          now = await spot();
-        }
-        if (!there(now)) break; // 予測とずれた。引き直す
+        // 一度これを座標の突き合わせに変えたが、**歩行アニメの途中では
+        // 座標がまだ前のマスのまま**なので毎歩ずれたことになり、
+        // 全部の経路を引き直し続けて △ が 1件 → 6件 に増えた（v1.1-g-2）。
+        // 精度を上げるなら、比べるタイミングの前提も一緒に見直さないといけない。
+        const now = await spot();
+        if (now.map !== from.map) break; // 別のマップへ出た。引き直す
       }
       // **歩き終えたことと、着いたことは別。**
       // 向き直りで1歩ぶん食われたり、NPC に塞がれたりすると途中で止まる。
