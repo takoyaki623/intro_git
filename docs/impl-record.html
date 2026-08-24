@@ -221,7 +221,7 @@ a:focus-visible, summary:focus-visible {
     設計文書は <code>docs/design/</code>、上位方針は <code>docs/game-plan.md</code>。
   </p>
   <p class="meta">
-    テスト 408件 ／ 検証項目 114 ／ マップ 107枚 ／ 種族 190 ／ 技 248 ／ 道具 99
+    テスト 408件 ／ 検証項目 115 ／ マップ 111枚 ／ 種族 190 ／ 技 248 ／ 道具 102
     ―― 型チェック・検証スクリプト・通し確認（191項目）・撮影（47か所）すべて緑
   </p>
 </header>
@@ -232,7 +232,7 @@ a:focus-visible, summary:focus-visible {
   <div class="fig"><b class="num">248</b><span>技</span></div>
   <div class="fig"><b class="num">18</b><span>ネームド</span></div>
   <div class="fig"><b class="num">107</b><span>マップ</span></div>
-  <div class="fig"><b class="num">114</b><span>検証項目</span></div>
+  <div class="fig"><b class="num">115</b><span>検証項目</span></div>
   <div class="fig"><b class="num">13,267</b><span>実装行 (TS)</span></div>
   <div class="fig"><b class="num">5,329</b><span>テスト行</span></div>
 </div>
@@ -782,6 +782,7 @@ pokemon … 個体の実体。uid が主キー</code></pre>
           <tr><td><span class="ver">v1.1-g-1</span></td><td>見えない壁・クイズ扉・<strong>テレポート床</strong>（ジム3つが仕掛けつきに）</td><td><strong>描画に5行だけ</strong></td><td>92</td></tr>
           <tr><td><span class="ver">v1.1-g-2</span></td><td>むじんはつでんしょ・ふたごじま・ポケモンやしき・<strong>ハナダのどうくつ</strong>・17/18/24/25番（マップ 91→102）</td><td><strong>0行</strong></td><td>92 → <strong>101</strong></td></tr>
           <tr><td><span class="ver">v1.1-h</span></td><td><strong>サファリゾーン</strong>（歩数・エサ/イシ・戦えない）</td><td><code>MapData.rules</code> 1欄</td><td>101 → <strong>112</strong></td></tr>
+          <tr><td><span class="ver">v1.1-g-3-1</span></td><td><strong>化石・道場・イーブイ</strong></td><td><strong>0行</strong></td><td>112 → <strong>123</strong></td></tr>
         </tbody>
       </table>
     </div>
@@ -1001,6 +1002,51 @@ pokemon … 個体の実体。uid が主キー</code></pre>
       マチスに挑めなかった回、ログに手がかりが何も残らず、原因の切り分けに1周（16分）かかった。
       「たどりつけなかった」と言わせた次の1周で、原因が3つとも一度に見えた。
     </div>
+
+    <h3>v1.1-g-3-1 ―― 形だけ作って、機構を忘れた</h3>
+    <p>ニビの博物館とタマムシマンションは、建物・看板・案内人が <strong>v0.12 から居た。</strong>
+    扉のタイルまで描いてあって、<strong>warp だけが無かった</strong> ――
+    近づいても何も起きない扉が2つ、気づかれずに立っていた。
+    カントー111枚を数えたら<strong>その2枚だけ</strong>で、どちらも今回作る建物だった。</p>
+    <div class="note">
+      <strong>「機構が無いまま形だけ作らない」の裏返し。</strong><br>
+      #86 は「warp を塞いでいないか」を見る。#115 が見るのはその手前 ――
+      絵として扉なのに、そもそも出入口として登録されていない。
+    </div>
+
+    <h3>v1.1-g-3-1 ―― 推測の仕掛けを2段重ねにするより、実測を1つ</h3>
+    <p>v1.1-h で <code>goToMap</code> に「ぶつかったマスを壁として引き直す」を足した。
+    これが g-3-1 で<strong>セキチクからニビへ戻る道</strong>を通した瞬間に壊れ、
+    1回の実行で248回「壁の仮定を捨てる」を繰り返して、チャンピオンロードの1階から
+    2階へ40回ためして上がれなくなった。</p>
+    <p>原因は、条件つきオブジェクトを<strong>種類で</strong>扱おうとしたこと。</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>扱い</th><th>壊れるもの</th></tr></thead>
+        <tbody>
+          <tr><td>一律「素通りできる」</td><td>当分どかない門番（どうくつの けいび）に永久にぶつかる</td></tr>
+          <tr><td>一律「壁」</td><td>話しかければ消えるもの（トレーナー・岩）の向こうへ行けない</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <strong>見るべきは種類ではなく、条件が今どうか。</strong><br>
+      <code>draw()</code> が立っているフラグを canvas に出し、台本はそれを読む。
+      v1.1-h で足した3つ（黙って諦める・walls・無条件 accept）は<strong>全部差し戻しになった</strong> ――
+      残ったのは「たどりつけなかったと言う」だけ。
+    </div>
+
+    <h3>v1.1-g-3-1 ―― 分けられないものは、何周見比べても分かれない</h3>
+    <p>視線バトルが働かない原因を追うのに<strong>4周（1時間）</strong>かかった。
+    画面に出るのは「視線が壊れた」も「もう倒していた」も同じ<strong>「なにも起きない」</strong>で、
+    倒したかどうかを<strong>セーブから読む1行</strong>を足した瞬間に決着した ――
+    「もう 倒している」。walls がぶつかり回っている間に倒していただけで、機構は最初から正常だった。</p>
+    <p>そして落ちた行のすぐ隣は緑だった:</p>
+    <pre><code>async function fight() {
+  if (await page.isHidden("#battle")) return "決着してマップに戻った";</code></pre>
+    <p><strong>バトルが無ければ即「決着した」と答える。</strong>
+    同じ事実を、隣り合う2行が別々に報告していた ――
+    v1.1-h から数えて<strong>4件目</strong>の「通っているのに何も測っていない」検査。</p>
 
     <div class="note warn">
       <strong>1入力＝1マスは変えていない。</strong>
@@ -1932,6 +1978,7 @@ packages/data/generated/ids.d.ts
         <tr><td>投げられる唯一のボールが世界のどこかで手に入る</td><td><span class="pill done">v1.1-h</span></td></tr>
         <tr><td><strong>同じ規則のマップが一続きである</strong>（区画が2つの島に割れていない）</td><td><span class="pill done">v1.1-h</span></td></tr>
         <tr><td><strong>条件つきの関門が、2つ以上の行き先を同時に塞いでいない</strong>（塞ぐつもりのない道の巻き添え）</td><td><span class="pill done">v1.1-h</span></td></tr>
+        <tr><td><strong>扉として描かれるタイルには warp がある</strong>（絵は扉なのに出入口として登録されていない）</td><td><span class="pill done">v1.1-g-3</span></td></tr>
       </tbody>
     </table>
   </div>
@@ -2069,7 +2116,7 @@ packages/data/generated/ids.d.ts
         </tr>
         <tr>
           <td>規律を人間の注意力に預けない</td>
-          <td>114項目の判定を CI で回す。<strong>「遊ぶと成立しない」種類の誤りも検証項目に落とす</strong></td>
+          <td>115項目の判定を CI で回す。<strong>「遊ぶと成立しない」種類の誤りも検証項目に落とす</strong></td>
         </tr>
         <tr>
           <td>強さは情報量ではなく思考の深さで作る</td>
