@@ -1804,6 +1804,44 @@ function checkWorld(): void {
     }
   }
 
+  // ── #116 話しかけられる相手には、隣に立てるマスがある（v1.1-g-3）──
+  //
+  // 既にある検査は「そのオブジェクト自身が通行不可タイルの上に居ないか」を見る。
+  // だが**話しかけるのは隣から**なので、周り4マスが全部ふさがっていれば
+  // やはり話しかけられない ―― 建物を1つ建てるだけで、そうなりうる。
+  //
+  // 実際 v1.1-g-3 で、タマムシに ゲームコーナー を建てたとき、
+  // そらをとぶ を教えてくれる人の前のマスを潰した。
+  // （そのときは別の隣が空いていたので世界としては無事で、
+  //   落ちたのは**座標を決め打ちしていた台本**のほうだった ――
+  //   だから検査はこの形にしてある: 世界が壊れたときだけ落ちる）
+  for (const map of allMaps) {
+    const solid = (x: number, y: number) =>
+      x >= 0 &&
+      y >= 0 &&
+      x < map.size.width &&
+      y < map.size.height &&
+      map.collision[y * map.size.width + x] !== true;
+    const taken = new Set(
+      map.objects
+        .filter((o) => o.kind.type !== "item" && o.kind.type !== "switch")
+        .map((o) => `${o.at.x},${o.at.y}`),
+    );
+    for (const object of map.objects) {
+      if (object.event === undefined) continue;
+      if (object.kind.type === "item" || object.kind.type === "switch") continue;
+      const ways = [
+        { x: object.at.x + 1, y: object.at.y },
+        { x: object.at.x - 1, y: object.at.y },
+        { x: object.at.x, y: object.at.y + 1 },
+        { x: object.at.x, y: object.at.y - 1 },
+      ].filter((n) => solid(n.x, n.y) && !taken.has(`${n.x},${n.y}`));
+      if (ways.length === 0) {
+        fail("map-object", `${map.id}/${object.id}: まわり4マスが ふさがっていて 話しかけられない`);
+      }
+    }
+  }
+
   // ── #115 扉として描かれるタイルには warp がある（v1.1-g-3）──
   //
   // ニビの博物館とタマムシマンションは、**建物も看板も案内人も v0.12 から居た。**

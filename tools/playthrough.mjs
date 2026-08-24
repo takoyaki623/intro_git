@@ -2040,7 +2040,9 @@ expect(
   (await page.isVisible("#open-fly")) ? "出た" : "出ない",
   "出た",
 );
-await page.click("#open-fly");
+// **見えないボタンを押して落ちない。** 1本の脚が折れただけで
+// 残り全部が見えなくなるのは、道具として損（v1.1-g-3）
+if (await page.isVisible("#open-fly")) await page.click("#open-fly");
 await page.waitForSelector("#field-panel [data-fly]");
 const flyTargets = await page.$$eval("#field-panel [data-fly]", (b) => b.map((x) => x.dataset.fly));
 note("そらをとぶ の 行き先", `${flyTargets.length}件 ${flyTargets.join(" ")}`);
