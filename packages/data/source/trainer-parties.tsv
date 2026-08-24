@@ -139,3 +139,8 @@ kanto-route24-camper	bellsprout	14	vine-whip/sleep-powder	-
 kanto-route24-camper	oddish	14	absorb/poison-powder	-
 kanto-route25-hiker	geodude	16	rock-throw/tackle	-
 kanto-route25-hiker	onix	16	rock-throw/harden	-
+kanto-dojo-student	machop	37	karate-chop/low-sweep/vital-throw	-
+kanto-dojo-student	mankey	37	karate-chop/low-sweep/screech	-
+kanto-dojo-master	machoke	40	karate-chop/low-sweep/vital-throw	-
+kanto-dojo-master	primeape	42	cross-chop/slash/screech	-
+kanto-dojo-master	machamp	43	cross-chop/submission/earthquake	-

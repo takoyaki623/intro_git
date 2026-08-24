@@ -1,0 +1,31 @@
+# タマムシマンション（v1.1-g-3）。
+#
+# **ここも建物だけ先に建っていた**（ニビの博物館と同じ・検証 #115）。
+# 屋上の おじさん から イーブイ をもらう ――
+# これ1匹で、石で分かれる3種（シャワーズ・サンダース・ブースター）が開く。
+# **石は v1.1-b で既に世界にある**ので、ここはデータ1件で4種ぶん動く。
+id: kanto-celadon-mansion
+name: タマムシマンション
+region: kanto
+bgm: town
+
+legend:
+. normal
+W !normal
+B !normal
+D normal
+
+grid:
+WWWWWWWWW
+W.......W
+W.BB.BB.W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,5 step kanto-celadon-city 5,4 down
+
+objects:
+mansion-oldman 4,1 npc:oldman:static kanto.mansion.eevee
+mansion-lady 2,4 npc:lass:static kanto.mansion.lady

@@ -1804,6 +1804,28 @@ function checkWorld(): void {
     }
   }
 
+  // ── #115 扉として描かれるタイルには warp がある（v1.1-g-3）──
+  //
+  // ニビの博物館とタマムシマンションは、**建物も看板も案内人も v0.12 から居た。**
+  // 扉のタイル（`D`）まで描いてあって、warp だけが無かった ――
+  // 近づいても何も起きない扉が2つ、1年ぶん気づかれずに立っていた。
+  //
+  // #86 は「warp を塞いでいないか」を見る。ここで見るのはその手前 ――
+  // **絵として扉なのに、そもそも出入口として登録されていない。**
+  // 「機構が無いまま形だけ作らない」の裏返しで、**形だけ作って機構を忘れた**ほう。
+  //
+  // 判定は `layers.ground` に残る凡例の文字。`convert-map.ts` が
+  // タイルIDとして書き出すので、`.map` を読み直さずに見られる。
+  for (const map of allMaps) {
+    for (let y = 0; y < map.size.height; y += 1) {
+      for (let x = 0; x < map.size.width; x += 1) {
+        if (map.layers.ground[y * map.size.width + x] !== "D") continue;
+        if (map.warps.some((w) => w.at.x === x && w.at.y === y)) continue;
+        fail("door-without-warp", `${map.id} (${x},${y}): 扉に見えるが warp が無い`);
+      }
+    }
+  }
+
   // ── #114 条件つきの関門が、塞ぐつもりのない道まで塞いでいないか（v1.1-h）──
   //
   // ハナダのどうくつの けいび（`champion-beaten=false` のあいだ居る）は、

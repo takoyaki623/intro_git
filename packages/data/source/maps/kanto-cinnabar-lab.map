@@ -1,0 +1,32 @@
+# グレンけんきゅうじょ（v1.1-g-3）。**化石を復元する唯一の場所。**
+#
+# 復元しても かせき はバッグに残る（`takeItem` が無い）。
+# **足さなかった** ―― 1つの版で「使い切る道具」を増やすために
+# コマンドを1つ足すと、`consumable` の意味が道具側とイベント側の
+# 2箇所に分かれる。代わりにフラグで「復元済み」を見る。
+id: kanto-cinnabar-lab
+name: グレンけんきゅうじょ
+region: kanto
+bgm: town
+
+legend:
+. normal
+W !normal
+K !normal
+D normal
+
+grid:
+WWWWWWWWW
+W.......W
+W.KK.KK.W
+W.......W
+W.KK.KK.W
+W.......W
+WWWWDWWWW
+
+warps:
+4,6 step kanto-cinnabar-island 5,11 down
+
+objects:
+lab-scientist 4,1 npc:scientist:static kanto.lab.revive
+lab-sign 6,3 sign kanto.lab.sign

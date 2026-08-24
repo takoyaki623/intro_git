@@ -795,6 +795,21 @@
     "consumable": true
   },
   {
+    "id": "dome-fossil",
+    "name": "ドームかせき",
+    "category": "key"
+  },
+  {
+    "id": "helix-fossil",
+    "name": "かいのかせき",
+    "category": "key"
+  },
+  {
+    "id": "old-amber",
+    "name": "ひみつのコハク",
+    "category": "key"
+  },
+  {
     "id": "tm02",
     "name": "わざマシン02 ドラゴンクロー",
     "category": "tm",

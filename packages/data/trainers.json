@@ -1604,5 +1604,68 @@
         ]
       }
     ]
+  },
+  {
+    "id": "kanto-dojo-student",
+    "name": "タカシ",
+    "class": "からてか",
+    "reward": 1600,
+    "defeatedFlag": "kanto.dojo.student-beaten",
+    "party": [
+      {
+        "species": "machop",
+        "level": 37,
+        "moves": [
+          "karate-chop",
+          "low-sweep",
+          "vital-throw"
+        ]
+      },
+      {
+        "species": "mankey",
+        "level": 37,
+        "moves": [
+          "karate-chop",
+          "low-sweep",
+          "screech"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-dojo-master",
+    "name": "カラテおう",
+    "class": "カラテおう",
+    "reward": 3000,
+    "defeatedFlag": "kanto.dojo.won",
+    "party": [
+      {
+        "species": "machoke",
+        "level": 40,
+        "moves": [
+          "karate-chop",
+          "low-sweep",
+          "vital-throw"
+        ]
+      },
+      {
+        "species": "primeape",
+        "level": 42,
+        "moves": [
+          "cross-chop",
+          "slash",
+          "screech"
+        ]
+      },
+      {
+        "species": "machamp",
+        "level": 43,
+        "moves": [
+          "cross-chop",
+          "submission",
+          "earthquake"
+        ]
+      }
+    ]
   }
 ]

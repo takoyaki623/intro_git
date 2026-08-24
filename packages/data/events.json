@@ -6429,5 +6429,571 @@
         "value": true
       }
     ]
+  },
+  {
+    "id": "kanto.moon.fossil",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "かせきが 2つ ある。\nもって いけるのは どちらか ひとつ だけだ。"
+      },
+      {
+        "kind": "choice",
+        "prompt": "どちらを もっていく?",
+        "options": [
+          {
+            "text": "ドームかせき",
+            "then": [
+              {
+                "kind": "giveItem",
+                "item": "dome-fossil",
+                "count": 1
+              },
+              {
+                "kind": "setFlag",
+                "flag": "kanto.moon.fossil-taken",
+                "value": true
+              },
+              {
+                "kind": "message",
+                "text": "ドームかせき を てにいれた!\nグレンの けんきゅうじょで もどせるらしい。"
+              }
+            ]
+          },
+          {
+            "text": "かいのかせき",
+            "then": [
+              {
+                "kind": "giveItem",
+                "item": "helix-fossil",
+                "count": 1
+              },
+              {
+                "kind": "setFlag",
+                "flag": "kanto.moon.fossil-taken",
+                "value": true
+              },
+              {
+                "kind": "message",
+                "text": "かいのかせき を てにいれた!\nグレンの けんきゅうじょで もどせるらしい。"
+              }
+            ]
+          },
+          {
+            "text": "やめる",
+            "then": [
+              {
+                "kind": "message",
+                "text": "また こんど にしよう。"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.museum.clerk",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.museum.amber-taken",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "この コハクの なかに\nむかしの ポケモンの ほねが あってな。",
+            "speaker": "かんちょう"
+          },
+          {
+            "kind": "message",
+            "text": "わしらには もどせん。\nグレンの けんきゅうじょへ もっていきなさい。",
+            "speaker": "かんちょう"
+          },
+          {
+            "kind": "giveItem",
+            "item": "old-amber",
+            "count": 1
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.museum.amber-taken",
+            "value": true
+          },
+          {
+            "kind": "message",
+            "text": "ひみつのコハク を てにいれた!"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "グレンの けんきゅうじょ じゃ。\nうみを わたった さきに ある。",
+            "speaker": "かんちょう"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.museum.amber",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "こはくの なかの ほね。\n1おく ねんまえの ものらしい。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.museum.bone",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "おおきな ほね。\nカブトプス と かいてある。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.lab.revive",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ここは かせきから ポケモンを\nもどす けんきゅうじょ じゃ。",
+        "speaker": "はかせ"
+      },
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "and",
+          "of": [
+            {
+              "kind": "hasItem",
+              "item": "dome-fossil"
+            },
+            {
+              "kind": "flag",
+              "flag": "kanto.lab.dome-revived",
+              "value": false
+            }
+          ]
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ドームかせき から もどせそうだ。\nすこし まって おくれ。",
+            "speaker": "はかせ"
+          },
+          {
+            "kind": "playSe"
+          },
+          {
+            "kind": "givePokemon",
+            "species": "kabuto",
+            "level": 20
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.lab.dome-revived",
+            "value": true
+          },
+          {
+            "kind": "message",
+            "text": "もどった! つれて いきなさい。",
+            "speaker": "はかせ"
+          }
+        ]
+      },
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "and",
+          "of": [
+            {
+              "kind": "hasItem",
+              "item": "helix-fossil"
+            },
+            {
+              "kind": "flag",
+              "flag": "kanto.lab.helix-revived",
+              "value": false
+            }
+          ]
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "かいのかせき から もどせそうだ。\nすこし まって おくれ。",
+            "speaker": "はかせ"
+          },
+          {
+            "kind": "playSe"
+          },
+          {
+            "kind": "givePokemon",
+            "species": "omanyte",
+            "level": 20
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.lab.helix-revived",
+            "value": true
+          },
+          {
+            "kind": "message",
+            "text": "もどった! つれて いきなさい。",
+            "speaker": "はかせ"
+          }
+        ]
+      },
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "and",
+          "of": [
+            {
+              "kind": "hasItem",
+              "item": "old-amber"
+            },
+            {
+              "kind": "flag",
+              "flag": "kanto.lab.amber-revived",
+              "value": false
+            }
+          ]
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ひみつのコハク から もどせそうだ。\nすこし まって おくれ。",
+            "speaker": "はかせ"
+          },
+          {
+            "kind": "playSe"
+          },
+          {
+            "kind": "givePokemon",
+            "species": "aerodactyl",
+            "level": 20
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.lab.amber-revived",
+            "value": true
+          },
+          {
+            "kind": "message",
+            "text": "もどった! つれて いきなさい。",
+            "speaker": "はかせ"
+          }
+        ]
+      },
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "or",
+          "of": [
+            {
+              "kind": "hasItem",
+              "item": "dome-fossil"
+            },
+            {
+              "kind": "hasItem",
+              "item": "helix-fossil"
+            },
+            {
+              "kind": "hasItem",
+              "item": "old-amber"
+            }
+          ]
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "もどせる かせきは もう ないな。",
+            "speaker": "はかせ"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "かせきを もってきたら もどして やろう。",
+            "speaker": "はかせ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.lab.sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "かせきを もどす きかい。\nうごく おとが している。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.mansion.eevee",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.mansion.eevee-taken",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "この こ はな、\nいしで すがたが かわるんじゃ。",
+            "speaker": "おじさん"
+          },
+          {
+            "kind": "givePokemon",
+            "species": "eevee",
+            "level": 25
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.mansion.eevee-taken",
+            "value": true
+          },
+          {
+            "kind": "message",
+            "text": "イーブイ を もらった!\nみずの いし・かみなりの いし・ほのおの いし。",
+            "speaker": "おじさん"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "どの すがたに した?\nどれも かわいい ものじゃ。",
+            "speaker": "おじさん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.mansion.lady",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "いしは タマムシデパートで\nうって いるらしい わよ。",
+        "speaker": "おくさん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.dojo.student",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.dojo.student-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "カラテおうに あう まえに\nおれと やろう!",
+            "speaker": "からてか"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-dojo-student",
+            "onWin": "kanto.dojo.student-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "おくの カラテおうに いどめ!",
+            "speaker": "からてか"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.dojo.student-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.dojo.student-beaten",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.dojo.master",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.dojo.won",
+          "value": true
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "うしろの ボールから\nすきな ほうを もっていけ。",
+            "speaker": "カラテおう"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "わしが カラテおう!\nかてたら 1ぴき くれてやる。",
+            "speaker": "カラテおう"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-dojo-master",
+            "onWin": "kanto.dojo.win"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.dojo.win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.dojo.won",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "うしろの ボールから\nすきな ほうを もっていけ。",
+        "speaker": "カラテおう"
+      }
+    ]
+  },
+  {
+    "id": "kanto.dojo.prize-lee",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.dojo.prize-taken",
+          "value": true
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "からっぽ の ボールだ。"
+          }
+        ],
+        "else": [
+          {
+            "kind": "choice",
+            "prompt": "サワムラー を もらう?",
+            "options": [
+              {
+                "text": "もらう",
+                "then": [
+                  {
+                    "kind": "givePokemon",
+                    "species": "hitmonlee",
+                    "level": 25
+                  },
+                  {
+                    "kind": "setFlag",
+                    "flag": "kanto.dojo.prize-taken",
+                    "value": true
+                  },
+                  {
+                    "kind": "setFlag",
+                    "flag": "kanto.dojo.took-lee",
+                    "value": true
+                  },
+                  {
+                    "kind": "message",
+                    "text": "サワムラー を もらった!"
+                  }
+                ]
+              },
+              {
+                "text": "やめる",
+                "then": [
+                  {
+                    "kind": "message",
+                    "text": "もう ひとつも みてみよう。"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.dojo.prize-chan",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.dojo.prize-taken",
+          "value": true
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "からっぽ の ボールだ。"
+          }
+        ],
+        "else": [
+          {
+            "kind": "choice",
+            "prompt": "エビワラー を もらう?",
+            "options": [
+              {
+                "text": "もらう",
+                "then": [
+                  {
+                    "kind": "givePokemon",
+                    "species": "hitmonchan",
+                    "level": 25
+                  },
+                  {
+                    "kind": "setFlag",
+                    "flag": "kanto.dojo.prize-taken",
+                    "value": true
+                  },
+                  {
+                    "kind": "setFlag",
+                    "flag": "kanto.dojo.took-chan",
+                    "value": true
+                  },
+                  {
+                    "kind": "message",
+                    "text": "エビワラー を もらった!"
+                  }
+                ]
+              },
+              {
+                "text": "やめる",
+                "then": [
+                  {
+                    "kind": "message",
+                    "text": "もう ひとつも みてみよう。"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]

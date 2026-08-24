@@ -10,6 +10,7 @@ bgm: cinnabar-island
 
 legend:
 . normal
+K !normal
 T !normal
 G !normal
 P !normal
@@ -27,8 +28,8 @@ T..MMMM.....T
 T..MDMM.....T
 T.......PPPPT
 T.......PPDPT
-T...........T
-T.......FFFFT
+T..KKKK.....T
+T..KKDK.FFFFT
 T.......FFDFT
 T...........T
 TTTTTT.TTTTTT
@@ -36,6 +37,7 @@ TTTTTT.TTTTTT
 warps:
 6,0 step kanto-route-20 5,10 up
 4,6 step kanto-pokemon-mansion 6,9 up
+5,10 step kanto-cinnabar-lab 4,5 up
 5,3 step kanto-cinnabar-gym 4,11 up
 10,8 step kanto-cinnabar-pokecenter 4,5 up
 10,11 step kanto-cinnabar-mart 4,5 up

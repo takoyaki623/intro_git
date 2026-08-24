@@ -1,0 +1,34 @@
+# ニビかがくはくぶつかん（v1.1-g-3）。
+#
+# **建物も看板も案内人も v0.12 から居た。扉だけが繋がっていなかった。**
+# 5,3 は「扉として描かれるタイル」なのに warp が無く、
+# 近づいても何も起きない ―― 検証 #115 はこれを見る。
+#
+# ここで ひみつのコハク をもらう。復元はグレンけんきゅうじょ。
+id: kanto-pewter-museum
+name: ニビかがくはくぶつかん
+region: kanto
+bgm: town
+
+legend:
+. normal
+W !normal
+K !normal
+D normal
+
+grid:
+WWWWWWWWW
+W.......W
+W.KK.KK.W
+W.......W
+W.KK.KK.W
+W.......W
+WWWWDWWWW
+
+warps:
+4,6 step kanto-pewter-city 5,4 down
+
+objects:
+museum-clerk 4,1 npc:scientist:static kanto.museum.clerk
+museum-amber 2,3 sign kanto.museum.amber
+museum-bone 6,3 sign kanto.museum.bone

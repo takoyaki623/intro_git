@@ -160,6 +160,10 @@ const SHOOTING_SAVE = (() => {
     // サファリの中に居ることにする（v1.1-h）。ゲートで払わないと入れないので、
     // 撮影は**中に居る状態から始める** ―― 撮りたいのは規則ではなく絵
     "kanto.safari.inside",
+    // どうじょうは**勝ったあと**の絵を撮る（v1.1-g-3）。
+    // 勝つ前はボールが置かれていないので、部屋が空っぽに写る
+    "kanto.dojo.won",
+    "kanto.dojo.student-beaten",
   ]) {
     save.regions.kanto.flags[flag] = true;
   }
@@ -226,6 +230,10 @@ const PLACES = [
   { file: "route-19", name: "19ばんすいどう", note: "なみのり の海。砂州だけが陸", to: ["kanto-route-19", 5, 5] },
   { file: "cinnabar-island", name: "グレンじま", note: "ジム7（カツラ）。なみのり でしか来られない島", to: ["kanto-cinnabar-island", 6, 4] },
   { file: "safari", name: "サファリゾーン", note: "その場所だけの規則（v1.1-h）。歩数・エサ/イシ・戦えない", to: ["kanto-safari-middle", 6, 8] },
+  { file: "museum", name: "ニビかがくはくぶつかん", note: "扉だけ繋がっていなかった建物（v1.1-g-3・検証 #115）", to: ["kanto-pewter-museum", 4, 3] },
+  { file: "lab", name: "グレンけんきゅうじょ", note: "かせきを もどす唯一の場所（v1.1-g-3）", to: ["kanto-cinnabar-lab", 4, 3] },
+  { file: "mansion-celadon", name: "タマムシマンション", note: "イーブイ1匹で、石で分かれる3種が開く（v1.1-g-3）", to: ["kanto-celadon-mansion", 4, 3] },
+  { file: "dojo", name: "カラテどうじょう", note: "勝つと どちらか1匹（v1.1-g-3）", to: ["kanto-saffron-dojo", 4, 3] },
   { file: "route-17", name: "サイクリングロード（17ばん）", note: "段差だらけの下り坂。16番とセキチクのあいだ（v1.1-g-2）", to: ["kanto-route-17", 5, 6] },
   { file: "route-24", name: "24ばんどうろ（ナゲツリばし）", note: "ハナダの北。この先は マサキ の家", to: ["kanto-route-24", 5, 4] },
   { file: "power-plant", name: "むじんはつでんしょ", note: "10番道路の北のはずれ。奥に サンダー（v1.1-g-2）", to: ["kanto-power-plant", 6, 5] },

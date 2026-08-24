@@ -1561,6 +1561,105 @@ expect(
   await shot("22c-field");
 }
 
+// ── 化石・道場・イーブイ（v1.1-g-3）──
+//
+// **コードは1行も足していない。** 図鑑を埋める側の穴を、
+// データだけで11種ぶん塞ぐ区間。確かめるのは「もらえる」ではなく
+// **「もらったものが手元に残る」**ところまで（givePokemon の行き先は
+// 手持ちが満杯ならボックス）。
+{
+  await powerUp();
+  const caught = async () => Object.keys((await readSave()).global.dex ?? {});
+  const owns = async (id) => {
+    const save = await readSave();
+    return Object.values(save.pokemon ?? {}).some((p) => p.species === id);
+  };
+
+  // ── 扉だけ繋がっていなかった2つ（検証 #115）──
+  await goToMap("kanto-pewter-museum", 4, 2, 120);
+  expect("ニビの 博物館に 入れる（扉が 繋がった）", (await spot()).map, "kanto-pewter-museum");
+  await talk("ArrowUp");
+  await drain(10);
+  const bagAmber = (await readSave()).global.bag;
+  expect("ひみつのコハク を もらう", `${bagAmber["old-amber"] ?? 0}`, "1");
+  await shot("35-museum");
+
+  // ── おつきみやま B2F の かせき ―― 2つのうち1つだけ ──
+  await goToMap("kanto-mt-moon-b2f", 8, 2, 200);
+  expect("おつきみやま 地下2階に 着く", (await spot()).map, "kanto-mt-moon-b2f");
+  await talk("ArrowUp");
+  await drain(6);
+  await choose("かいのかせき");
+  await drain(10);
+  const bagFossil = (await readSave()).global.bag;
+  expect("かいのかせき を もらう", `${bagFossil["helix-fossil"] ?? 0}`, "1");
+  expect(
+    "もう ひとつは もらえない（1つだけ）",
+    `${bagFossil["dome-fossil"] ?? 0}`,
+    "0",
+  );
+  await talk("ArrowUp");
+  await drain(6);
+  expect(
+    "とった あとは かせきが 消えている",
+    (await talking()) ? "まだ 出る" : "消えた",
+    "消えた",
+  );
+  await drain(10);
+
+  // ── グレンけんきゅうじょ ―― 復元 ──
+  await goToMap("kanto-cinnabar-lab", 4, 2, 200);
+  expect("グレンけんきゅうじょに 入れる", (await spot()).map, "kanto-cinnabar-lab");
+  await talk("ArrowUp");
+  await drain(20);
+  expect("かいのかせき が オムナイトに もどる", (await owns("omanyte")) ? "もどった" : "もどらない", "もどった");
+  expect("ひみつのコハク が プテラに もどる", (await owns("aerodactyl")) ? "もどった" : "もどらない", "もどった");
+  await shot("36-lab");
+  // **2回目は起きない。** かせきはバッグに残る（takeItem が無い）ので、
+  // 止めているのはフラグ。そこが効いているかを見る
+  const before2 = (await caught()).length;
+  await talk("ArrowUp");
+  await drain(20);
+  expect("もう 一度 話しても 増えない", `${(await caught()).length}`, `${before2}`);
+
+  // ── タマムシマンション ―― イーブイ ──
+  await goToMap("kanto-celadon-mansion", 4, 2, 200);
+  expect("タマムシマンションに 入れる（扉が 繋がった）", (await spot()).map, "kanto-celadon-mansion");
+  await talk("ArrowUp");
+  await drain(12);
+  expect("イーブイ を もらう", (await owns("eevee")) ? "もらった" : "もらえない", "もらった");
+  await shot("37-eevee");
+
+  // ── カラテどうじょう ―― 勝つと どちらか1匹 ──
+  await goToMap("kanto-saffron-dojo", 4, 2, 200);
+  expect("どうじょうに 入れる", (await spot()).map, "kanto-saffron-dojo");
+  await talk("ArrowUp");
+  await drain(8);
+  expect("カラテおうに いどめる", (await page.isVisible("#battle")) ? "いどめた" : "いどめない", "いどめた");
+  await fight();
+  await page.waitForTimeout(800);
+  await drain(20);
+  // 勝つまで、ボールは置かれていない（`if:kanto.dojo.won=true`）
+  await goTo(3, 3);
+  await key("ArrowUp", 2, 220);
+  await key("z", 1, 400);
+  await drain(6);
+  await choose("もらう");
+  await drain(12);
+  expect("サワムラー を もらう", (await owns("hitmonlee")) ? "もらった" : "もらえない", "もらった");
+  // **もう片方は もらえない。** 選ばせたものを2つとも渡したら選択ではない
+  await goTo(5, 3);
+  await key("ArrowUp", 2, 220);
+  await key("z", 1, 400);
+  await drain(8);
+  expect(
+    "もう 片方は もらえない（えらんだ ほうだけ）",
+    (await owns("hitmonchan")) ? "もらえた" : "もらえない",
+    "もらえない",
+  );
+  await shot("38-dojo");
+}
+
 // ── サファリゾーン（v1.1-h）──
 //
 // **その場所だけの規則**が効いているかを見る。仕掛けは4つ:

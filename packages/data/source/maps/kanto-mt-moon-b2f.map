@@ -23,3 +23,4 @@ warps:
 
 objects:
 moon-b2f-item 6,4 item:max-ether kanto.moon.b2f-item if:kanto.moon.b2f-item-taken=false
+moon-fossil 8,1 sign kanto.moon.fossil if:kanto.moon.fossil-taken=false
