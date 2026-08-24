@@ -159,10 +159,6 @@
                 "text": "フシギダネ",
                 "then": [
                   {
-                    "kind": "message",
-                    "text": "フシギダネ を うけとった!"
-                  },
-                  {
                     "kind": "givePokemon",
                     "species": "bulbasaur",
                     "level": 5,
@@ -178,10 +174,6 @@
                 "text": "ヒトカゲ",
                 "then": [
                   {
-                    "kind": "message",
-                    "text": "ヒトカゲ を うけとった!"
-                  },
-                  {
                     "kind": "givePokemon",
                     "species": "charmander",
                     "level": 5,
@@ -196,10 +188,6 @@
               {
                 "text": "ゼニガメ",
                 "then": [
-                  {
-                    "kind": "message",
-                    "text": "ゼニガメ を うけとった!"
-                  },
                   {
                     "kind": "givePokemon",
                     "species": "squirtle",
@@ -5102,10 +5090,6 @@
     "id": "kanto.route16.hidden",
     "commands": [
       {
-        "kind": "message",
-        "text": "なんでもなおし を みつけた!"
-      },
-      {
         "kind": "giveItem",
         "item": "full-heal",
         "count": 1
@@ -5120,10 +5104,6 @@
   {
     "id": "kanto.celadon.hidden",
     "commands": [
-      {
-        "kind": "message",
-        "text": "ピーピーエイダー を みつけた!"
-      },
       {
         "kind": "giveItem",
         "item": "elixir",
@@ -5140,10 +5120,6 @@
     "id": "kanto.vermilion.hidden",
     "commands": [
       {
-        "kind": "message",
-        "text": "スーパーボール を みつけた!"
-      },
-      {
         "kind": "giveItem",
         "item": "great-ball",
         "count": 1
@@ -5158,10 +5134,6 @@
   {
     "id": "kanto.route11.hidden",
     "commands": [
-      {
-        "kind": "message",
-        "text": "いいキズぐすり を みつけた!"
-      },
       {
         "kind": "giveItem",
         "item": "super-potion",
@@ -5258,10 +5230,6 @@
     "id": "kanto.underground.item",
     "commands": [
       {
-        "kind": "message",
-        "text": "ピーピーエイダー を みつけた!"
-      },
-      {
         "kind": "giveItem",
         "item": "elixir",
         "count": 1
@@ -5331,10 +5299,6 @@
     "id": "kanto.rocktunnel.item1",
     "commands": [
       {
-        "kind": "message",
-        "text": "ピーピーエイダー を みつけた!"
-      },
-      {
         "kind": "giveItem",
         "item": "elixir",
         "count": 1
@@ -5349,10 +5313,6 @@
   {
     "id": "kanto.rocktunnel.item2",
     "commands": [
-      {
-        "kind": "message",
-        "text": "ピーピーリカバー を みつけた!"
-      },
       {
         "kind": "giveItem",
         "item": "max-ether",
@@ -5369,10 +5329,6 @@
     "id": "kanto.moon.stone",
     "commands": [
       {
-        "kind": "message",
-        "text": "つきのいし を みつけた!"
-      },
-      {
         "kind": "giveItem",
         "item": "moon-stone",
         "count": 1
@@ -5388,10 +5344,6 @@
     "id": "kanto.moon.b2f-item",
     "commands": [
       {
-        "kind": "message",
-        "text": "ピーピーリカバー を みつけた!"
-      },
-      {
         "kind": "giveItem",
         "item": "max-ether",
         "count": 1
@@ -5406,10 +5358,6 @@
   {
     "id": "kanto.victory.item",
     "commands": [
-      {
-        "kind": "message",
-        "text": "かいふくのくすり を みつけた!"
-      },
       {
         "kind": "giveItem",
         "item": "full-restore",
@@ -5686,10 +5634,6 @@
     "id": "kanto.route17.item",
     "commands": [
       {
-        "kind": "message",
-        "text": "ふしぎなアメ… ではなく ピーピーマックス を みつけた!"
-      },
-      {
         "kind": "giveItem",
         "item": "max-ether",
         "count": 1
@@ -5887,7 +5831,7 @@
           },
           {
             "kind": "message",
-            "text": "おれいに これを あげよう。\nピーピーマックス だ!",
+            "text": "おれいに これを あげよう。\nポケモンは いいぞ!",
             "speaker": "マサキ"
           },
           {
@@ -6108,10 +6052,6 @@
     "id": "kanto.power.item",
     "commands": [
       {
-        "kind": "message",
-        "text": "ピーピーマックス を みつけた!"
-      },
-      {
         "kind": "giveItem",
         "item": "max-elixir",
         "count": 1
@@ -6135,10 +6075,6 @@
   {
     "id": "kanto.seafoam.item",
     "commands": [
-      {
-        "kind": "message",
-        "text": "げんきのかたまり を みつけた!"
-      },
       {
         "kind": "giveItem",
         "item": "max-revive",
@@ -6173,10 +6109,6 @@
     "id": "kanto.mansion.item",
     "commands": [
       {
-        "kind": "message",
-        "text": "ピーピーマックス を みつけた!"
-      },
-      {
         "kind": "giveItem",
         "item": "max-elixir",
         "count": 1
@@ -6192,10 +6124,6 @@
     "id": "kanto.mansion.item-2",
     "commands": [
       {
-        "kind": "message",
-        "text": "げんきのかたまり を みつけた!"
-      },
-      {
         "kind": "giveItem",
         "item": "max-revive",
         "count": 1
@@ -6210,10 +6138,6 @@
   {
     "id": "kanto.cave.item",
     "commands": [
-      {
-        "kind": "message",
-        "text": "げんきのかたまり を みつけた!"
-      },
       {
         "kind": "giveItem",
         "item": "max-revive",
@@ -6377,10 +6301,6 @@
     "id": "kanto.safari.north-item",
     "commands": [
       {
-        "kind": "message",
-        "text": "げんきのかたまり を みつけた!"
-      },
-      {
         "kind": "giveItem",
         "item": "max-revive",
         "count": 1
@@ -6396,10 +6316,6 @@
     "id": "kanto.safari.east-item",
     "commands": [
       {
-        "kind": "message",
-        "text": "ピーピーマックス を みつけた!"
-      },
-      {
         "kind": "giveItem",
         "item": "max-elixir",
         "count": 1
@@ -6414,10 +6330,6 @@
   {
     "id": "kanto.safari.west-item",
     "commands": [
-      {
-        "kind": "message",
-        "text": "げんきのかたまり を みつけた!"
-      },
       {
         "kind": "giveItem",
         "item": "max-revive",
@@ -6456,7 +6368,7 @@
               },
               {
                 "kind": "message",
-                "text": "ドームかせき を てにいれた!\nグレンの けんきゅうじょで もどせるらしい。"
+                "text": "グレンの けんきゅうじょで もどせるらしい。"
               }
             ]
           },
@@ -6475,7 +6387,7 @@
               },
               {
                 "kind": "message",
-                "text": "かいのかせき を てにいれた!\nグレンの けんきゅうじょで もどせるらしい。"
+                "text": "グレンの けんきゅうじょで もどせるらしい。"
               }
             ]
           },
@@ -6522,10 +6434,6 @@
             "kind": "setFlag",
             "flag": "kanto.museum.amber-taken",
             "value": true
-          },
-          {
-            "kind": "message",
-            "text": "ひみつのコハク を てにいれた!"
           }
         ],
         "else": [
@@ -6601,7 +6509,7 @@
           },
           {
             "kind": "message",
-            "text": "カブト が もどった!\nつれて いきなさい。",
+            "text": "つれて いきなさい。",
             "speaker": "はかせ"
           }
         ]
@@ -6643,7 +6551,7 @@
           },
           {
             "kind": "message",
-            "text": "オムナイト が もどった!\nつれて いきなさい。",
+            "text": "つれて いきなさい。",
             "speaker": "はかせ"
           }
         ]
@@ -6685,7 +6593,7 @@
           },
           {
             "kind": "message",
-            "text": "プテラ が もどった!\nつれて いきなさい。",
+            "text": "つれて いきなさい。",
             "speaker": "はかせ"
           }
         ]
@@ -6763,7 +6671,7 @@
           },
           {
             "kind": "message",
-            "text": "イーブイ を もらった!\nみずの いし・かみなりの いし・ほのおの いし。",
+            "text": "みずの いし・かみなりの いし・ほのおの いし。",
             "speaker": "おじさん"
           }
         ],
@@ -6914,10 +6822,6 @@
                     "kind": "setFlag",
                     "flag": "kanto.dojo.took-lee",
                     "value": true
-                  },
-                  {
-                    "kind": "message",
-                    "text": "サワムラー を もらった!"
                   }
                 ]
               },
@@ -6974,10 +6878,6 @@
                     "kind": "setFlag",
                     "flag": "kanto.dojo.took-chan",
                     "value": true
-                  },
-                  {
-                    "kind": "message",
-                    "text": "エビワラー を もらった!"
                   }
                 ]
               },
@@ -7224,10 +7124,6 @@
     "id": "kanto.rocket.b1f-item",
     "commands": [
       {
-        "kind": "message",
-        "text": "スーパーポーション を みつけた!"
-      },
-      {
         "kind": "giveItem",
         "item": "super-potion",
         "count": 1
@@ -7242,10 +7138,6 @@
   {
     "id": "kanto.rocket.b2f-item",
     "commands": [
-      {
-        "kind": "message",
-        "text": "なんでもなおし を みつけた!"
-      },
       {
         "kind": "giveItem",
         "item": "full-heal",
@@ -7262,10 +7154,6 @@
     "id": "kanto.rocket.b4f-item",
     "commands": [
       {
-        "kind": "message",
-        "text": "すごいキズぐすり を みつけた!"
-      },
-      {
         "kind": "giveItem",
         "item": "hyper-potion",
         "count": 1
@@ -7280,10 +7168,6 @@
   {
     "id": "kanto.rocket.lift-key",
     "commands": [
-      {
-        "kind": "message",
-        "text": "エレベーターのカギ を みつけた!"
-      },
       {
         "kind": "giveItem",
         "item": "lift-key",
@@ -7355,10 +7239,6 @@
         "kind": "setFlag",
         "flag": "kanto.field.silph-scope",
         "value": true
-      },
-      {
-        "kind": "message",
-        "text": "シルフスコープ を てにいれた!"
       }
     ]
   },
@@ -7473,10 +7353,6 @@
     "id": "kanto.tower.2f-item",
     "commands": [
       {
-        "kind": "message",
-        "text": "ふしぎなアメ を みつけた!"
-      },
-      {
         "kind": "giveItem",
         "item": "elixir",
         "count": 1
@@ -7492,10 +7368,6 @@
     "id": "kanto.tower.4f-item",
     "commands": [
       {
-        "kind": "message",
-        "text": "ふしぎなアメ を みつけた!"
-      },
-      {
         "kind": "giveItem",
         "item": "elixir",
         "count": 1
@@ -7510,10 +7382,6 @@
   {
     "id": "kanto.tower.6f-item",
     "commands": [
-      {
-        "kind": "message",
-        "text": "ふしぎなアメ を みつけた!"
-      },
       {
         "kind": "giveItem",
         "item": "elixir",
@@ -7598,10 +7466,6 @@
             "kind": "setFlag",
             "flag": "kanto.tower.flute-taken",
             "value": true
-          },
-          {
-            "kind": "message",
-            "text": "ポケモンのふえ を てにいれた!"
           }
         ],
         "else": [
@@ -7763,10 +7627,6 @@
     "id": "kanto.silph.3f-item",
     "commands": [
       {
-        "kind": "message",
-        "text": "すごいキズぐすり を みつけた!"
-      },
-      {
         "kind": "giveItem",
         "item": "max-potion",
         "count": 1
@@ -7781,10 +7641,6 @@
   {
     "id": "kanto.silph.card-key",
     "commands": [
-      {
-        "kind": "message",
-        "text": "カードキー を みつけた!"
-      },
       {
         "kind": "giveItem",
         "item": "card-key",
@@ -7822,10 +7678,6 @@
             "kind": "setFlag",
             "flag": "kanto.silph.lapras-taken",
             "value": true
-          },
-          {
-            "kind": "message",
-            "text": "ラプラス を もらった!"
           }
         ],
         "else": [
@@ -7920,10 +7772,6 @@
             "kind": "setFlag",
             "flag": "kanto.silph.master-ball-taken",
             "value": true
-          },
-          {
-            "kind": "message",
-            "text": "マスターボール を てにいれた!"
           }
         ],
         "else": [
@@ -7987,10 +7835,6 @@
                         "kind": "setFlag",
                         "flag": "kanto.gamecorner.abra-taken",
                         "value": true
-                      },
-                      {
-                        "kind": "message",
-                        "text": "ケーシィ を てにいれた!"
                       }
                     ],
                     "else": [
@@ -8044,10 +7888,6 @@
                         "kind": "setFlag",
                         "flag": "kanto.gamecorner.vulpix-taken",
                         "value": true
-                      },
-                      {
-                        "kind": "message",
-                        "text": "ロコン を てにいれた!"
                       }
                     ],
                     "else": [
@@ -8101,10 +7941,6 @@
                         "kind": "setFlag",
                         "flag": "kanto.gamecorner.porygon-taken",
                         "value": true
-                      },
-                      {
-                        "kind": "message",
-                        "text": "ポリゴン を てにいれた!"
                       }
                     ],
                     "else": [

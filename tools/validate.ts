@@ -1804,37 +1804,36 @@ function checkWorld(): void {
     }
   }
 
-  // ── #118 ポケモンを渡すイベントは、その種の名前を言う（v1.1-i）──
+  // ── #118 もらった物の名前を、イベントに書かない（v1.1-i）──
   //
-  // **`species.json` は最初から正しい名前を持っていた。** それを読まずに、
-  // id（`abra`）から名前を作って「アブラ」と書いた ―― 日本語では油のこと。
-  // 種族データを見れば1秒で分かることを、19か所に書き写していた。
+  // **ゲームは既に自動で言っている。** `gotItem` / `gotPokemon` の受け手が
+  // `gameData` から名前を引いて「〜を てにいれた!」と出す ――
+  // つまり**名前を書く必要は最初から無く、書いたから間違えられた。**
   //
-  // 文の中身は自由文なので「正しい名前か」は機械で見られないが、
-  // **「その種の名前が1度も出てこない」なら見られる。**
-  // 名前を id から作れば、まず一致しない ―― 実際これで4件見つかった
-  // （ケーシィ1件と、化石の復元3件。後者は遊ぶ側にも
-  //   「何が戻ったのか」が伝わっていなかった）。
-  for (const event of allEvents) {
-    const commands = [...walkCommands(event.commands)];
-    const given = commands.filter((c) => c.kind === "givePokemon");
-    if (given.length === 0) continue;
-    const text = commands
-      .map((c) =>
-        c.kind === "message"
-          ? c.text
-          : c.kind === "choice"
-            ? c.prompt + c.options.map((o) => o.text).join("")
-            : "",
-      )
-      .join("");
-    for (const give of given) {
-      const name = allSpecies.find((sp) => sp.id === give.species)?.name;
-      if (name !== undefined && !text.includes(name)) {
-        fail(
-          "gift-unnamed",
-          `${event.id}: ${give.species}（${name}）を渡すのに、その名前が文に出てこない`,
-        );
+  // 実際に起きたこと:
+  //   ・`abra` を id から「アブラ」と書いた（日本語名は ケーシィ。アブラは油）
+  //   ・`elixir`（ピーピーエイダー）を「ふしぎなアメ」と書いた（別の道具）
+  //   ・`max-potion`（まんたんのくすり）を「すごいキズぐすり」と書いた（別の段）
+  //   ・`super-potion` を「スーパーポーション」と書いた（存在しない名前）
+  // どれも、拾うたびに**2行**出ていた ―― 1行目は嘘、2行目は本当。
+  //
+  // 台詞が物の名前を言うのは構わない（「ボロのつりざお を あげよう」）。
+  // 禁じるのは**入手の告知そのもの**を手で書くこと。
+  {
+    const announce = /^\S+\s*(を|が)\s*(みつけた|てにいれた|もらった|うけとった|もどった|さずかった)!?$/;
+    for (const event of allEvents) {
+      const commands = [...walkCommands(event.commands)];
+      if (!commands.some((c) => c.kind === "giveItem" || c.kind === "givePokemon")) continue;
+      for (const command of commands) {
+        if (command.kind !== "message") continue;
+        for (const line of command.text.split("\n")) {
+          if (announce.test(line.trim())) {
+            fail(
+              "gift-announced-twice",
+              `${event.id}: 「${line.trim()}」―― 入手の告知はゲームが自動で出す（名前は data から引く）`,
+            );
+          }
+        }
       }
     }
   }
