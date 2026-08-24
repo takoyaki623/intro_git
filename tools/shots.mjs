@@ -64,12 +64,15 @@ function route(from, to) {
   while (queue.length > 0) {
     const here = queue.shift();
     if (here.map === to.map && here.x === to.x && here.y === to.y) {
+      // **キーだけでなく「そのキーで着くはずの場所」も返す**（v1.1-g-2）。
+      // 経路のとおりに歩けたかは、押した数ではなく居場所でしか分からない
       const path = [];
-      for (let cur = id(here); ; ) {
+      for (let cur = id(here), at = here; ; ) {
         const step = prev.get(cur);
         if (!step) break;
-        path.unshift(step.key);
+        path.unshift({ key: step.key, at });
         cur = id(step.from);
+        at = step.from;
       }
       return path;
     }
@@ -361,7 +364,7 @@ for (const size of [
       if (from.map === map && from.x === x && from.y === y) return true;
       const path = route(from, { map, x, y });
       if (path === null) return false;
-      for (const key of path) {
+      for (const { key, at } of path) {
         await page.keyboard.press(key);
         await page.waitForTimeout(150);
         // **視線バトルは会話から始まる**（v0.12）。会話が開いたままだと
@@ -376,8 +379,13 @@ for (const size of [
           await clearBattle();
           break; // 位置がずれている。引き直す
         }
+        // **マップ id だけを見ていると、テレポート床を見逃す**（v1.1-g-2）。
+        // ヤマブキジムの床は `to.map` が自分自身なので、踏んでも id が変わらない ――
+        // 飛んだ先で残りのキーを無駄打ちし、1回の引き直しで1歩しか進まなくなる。
+        // 通し確認の `goToMap` は最初から予測ノードと突き合わせていた。
+        // **同じ判定が、2つの道具で違う精度になっていた。**
         const now = await spot();
-        if (now.map !== from.map) break; // warp を踏んだ。引き直す
+        if (now.map !== at.map || now.x !== at.x || now.y !== at.y) break; // 予測とずれた。引き直す
       }
       // **歩き終えたことと、着いたことは別。**
       // 向き直りで1歩ぶん食われたり、NPC に塞がれたりすると途中で止まる。
