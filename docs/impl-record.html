@@ -221,7 +221,7 @@ a:focus-visible, summary:focus-visible {
     設計文書は <code>docs/design/</code>、上位方針は <code>docs/game-plan.md</code>。
   </p>
   <p class="meta">
-    テスト 408件 ／ 検証項目 115 ／ マップ 111枚 ／ 種族 190 ／ 技 248 ／ 道具 102
+    テスト 408件 ／ 検証項目 117 ／ マップ 127枚 ／ 種族 190 ／ 技 248 ／ 道具 106
     ―― 型チェック・検証スクリプト・通し確認（191項目）・撮影（47か所）すべて緑
   </p>
 </header>
@@ -232,7 +232,7 @@ a:focus-visible, summary:focus-visible {
   <div class="fig"><b class="num">248</b><span>技</span></div>
   <div class="fig"><b class="num">18</b><span>ネームド</span></div>
   <div class="fig"><b class="num">107</b><span>マップ</span></div>
-  <div class="fig"><b class="num">115</b><span>検証項目</span></div>
+  <div class="fig"><b class="num">117</b><span>検証項目</span></div>
   <div class="fig"><b class="num">13,267</b><span>実装行 (TS)</span></div>
   <div class="fig"><b class="num">5,329</b><span>テスト行</span></div>
 </div>
@@ -783,6 +783,7 @@ pokemon … 個体の実体。uid が主キー</code></pre>
           <tr><td><span class="ver">v1.1-g-2</span></td><td>むじんはつでんしょ・ふたごじま・ポケモンやしき・<strong>ハナダのどうくつ</strong>・17/18/24/25番（マップ 91→102）</td><td><strong>0行</strong></td><td>92 → <strong>101</strong></td></tr>
           <tr><td><span class="ver">v1.1-h</span></td><td><strong>サファリゾーン</strong>（歩数・エサ/イシ・戦えない）</td><td><code>MapData.rules</code> 1欄</td><td>101 → <strong>112</strong></td></tr>
           <tr><td><span class="ver">v1.1-g-3-1</span></td><td><strong>化石・道場・イーブイ</strong></td><td><strong>0行</strong></td><td>112 → <strong>123</strong></td></tr>
+          <tr><td><span class="ver">v1.1-g-3-2</span></td><td><strong>ロケット団の筋</strong>（アジト・シルフ・タワー7階・ライバル7戦）</td><td><strong>0行</strong></td><td>123 → <strong>130</strong></td></tr>
         </tbody>
       </table>
     </div>
@@ -1047,6 +1048,36 @@ pokemon … 個体の実体。uid が主キー</code></pre>
     <p><strong>バトルが無ければ即「決着した」と答える。</strong>
     同じ事実を、隣り合う2行が別々に報告していた ――
     v1.1-h から数えて<strong>4件目</strong>の「通っているのに何も測っていない」検査。</p>
+
+    <h3>v1.1-g-3-2 ―― 見るべきは島の数ではなく、壊れ方そのもの</h3>
+    <p>ロケット団アジトの地下1階が、<strong>上から降りたときと下から上がったときで別の場所</strong>になっていた ――
+    上からは上り階段のある広間、下からは3マスの袋小路。袋小路から出るには踏む warp を通るしかなく、
+    踏めばまた下の階へ戻る。既存の到達性検査は「<em>どこかの</em>入口から届くか」しか見ないので、
+    2つの入口が別々の一角を照らして全マスを埋め、通過していた。</p>
+    <p><strong>検査の書き方を2回まちがえた。</strong>
+    最初は「1枚のマップが1つながりか」で書いたら、段差・海・テレポート床・扉のマスを
+    どれも例外として数え直すはめになり、19・20・21番水道とヤマブキジムという
+    <strong>正しい設計を4回落とした</strong>。そのうえ本命のアジトでは火を噴かなかった ――
+    袋小路は「踏む warp を通れば繋がっている」ので、島としては1つだったから。</p>
+    <div class="note">
+      <strong>見るべきは島の数ではなく、壊れ方そのもの。</strong><br>
+      「入ってきた場所から、そのマップの全ての出口へ行けるか」に書き直したら、1発で当たった:<br>
+      <code>kanto-rocket-b1f: kanto-rocket-b2f から入って (6,7) に降りると、kanto-celadon-gamecorner(4,1) へ行けない</code>
+    </div>
+
+    <h3>v1.1-g-3-2 ―― 鍵は、関門へ向かう道の上に置かない</h3>
+    <p>「カギが無いと地下4階へ行けない」が<strong>行けてしまって</strong>落ちた。
+    エレベーターのカギを、着地マスから階段への<strong>通り道そのもの</strong>に置いていたので、
+    確かめに行く途中で拾ってしまう。カードキーも同じだった。</p>
+    <div class="note">
+      <strong>「そこしか通れない」で関門になるのと同じで、
+      鍵は「寄り道して取るもの」でないと鍵にならない。</strong>
+    </div>
+
+    <h3>v1.1-g-3-2 ―― 立つマスと向きは、地図から出す</h3>
+    <p>同じ間違いをこの版だけで3回踏んだ ―― かせきの真上（岩）・景品の店員の真下（スロット台）・
+    ポスターの真下（階段）。どれも「隣に立って向く」という同じ動作なのに、座標だけが毎回ちがう。
+    <code>talkToObject(map, objectId)</code> を足して、<strong>立てる隣を地図から選ばせた。</strong></p>
 
     <div class="note warn">
       <strong>1入力＝1マスは変えていない。</strong>
@@ -1979,6 +2010,8 @@ packages/data/generated/ids.d.ts
         <tr><td><strong>同じ規則のマップが一続きである</strong>（区画が2つの島に割れていない）</td><td><span class="pill done">v1.1-h</span></td></tr>
         <tr><td><strong>条件つきの関門が、2つ以上の行き先を同時に塞いでいない</strong>（塞ぐつもりのない道の巻き添え）</td><td><span class="pill done">v1.1-h</span></td></tr>
         <tr><td><strong>扉として描かれるタイルには warp がある</strong>（絵は扉なのに出入口として登録されていない）</td><td><span class="pill done">v1.1-g-3</span></td></tr>
+        <tr><td>話しかけられる相手には、隣に立てるマスがある</td><td><span class="pill done">v1.1-g-3</span></td></tr>
+        <tr><td><strong>入ってきた場所から、そのマップの全ての出口へ行ける</strong>（入口ごとに別の一角しか使えない、を防ぐ）</td><td><span class="pill done">v1.1-g-3</span></td></tr>
       </tbody>
     </table>
   </div>
@@ -2116,7 +2149,7 @@ packages/data/generated/ids.d.ts
         </tr>
         <tr>
           <td>規律を人間の注意力に預けない</td>
-          <td>115項目の判定を CI で回す。<strong>「遊ぶと成立しない」種類の誤りも検証項目に落とす</strong></td>
+          <td>117項目の判定を CI で回す。<strong>「遊ぶと成立しない」種類の誤りも検証項目に落とす</strong></td>
         </tr>
         <tr>
           <td>強さは情報量ではなく思考の深さで作る</td>
