@@ -415,28 +415,37 @@ async function enterKanto() {
 
 /** マサラタウンのゲートから拠点へ戻る。ゲートの南は海なので北から近づく。 */
 /**
- * 建物の中に居たら外へ出る（v1.1-h）。**そらをとぶ は屋外でしか押せない。**
- * `#open-fly` が見えるまで、そのマップの出口を辿る。
+ * そらをとぶ で町へ飛ぶ。
+ *
+ * **飛べたかどうかを見る。** `#open-fly` は屋内でも見えている
+ * （隠すかどうかは能力だけで決まる）ので、「ボタンがある＝飛べる」ではない ――
+ * ミュウツーに負けてポケモンセンターに飛ばされた回、押しただけで
+ * 飛べたつもりになり、そこから拠点まで歩く経路を引いて詰んだ。
+ * 飛べなければ**建物の外へ出て**からもう一度。
  */
-async function outdoors(limit = 3) {
-  for (let i = 0; i < limit; i += 1) {
-    if (await page.isVisible("#open-fly")) return;
+async function flyTo(town) {
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    if ((await spot()).map === town) return;
+    if (await page.isVisible("#open-fly")) {
+      await page.click("#open-fly");
+      const entry = await page
+        .waitForSelector(`#field-panel [data-fly="${town}"]`, { timeout: 4000 })
+        .catch(() => null);
+      if (entry !== null) {
+        await entry.click().catch(() => {});
+        await drain();
+        await page.waitForTimeout(900);
+        if ((await spot()).map === town) return;
+      } else {
+        await page.click("#panel-close").catch(() => {});
+      }
+    }
+    // 飛べなかった。建物の中に居るとみて、出口へ出てからもう一度
     const here = MAPS.get((await spot()).map);
     const door = here?.warps?.[0]?.to;
     if (door === undefined) return;
     await goToMap(door.map, door.x, door.y, 20);
   }
-}
-
-/** そらをとぶ で町へ飛ぶ。中に居たら先に外へ出る。 */
-async function flyTo(town) {
-  await outdoors();
-  if (!(await page.isVisible("#open-fly"))) return;
-  await page.click("#open-fly");
-  await page.waitForSelector(`#field-panel [data-fly="${town}"]`, { timeout: 8000 }).catch(() => {});
-  await page.click(`#field-panel [data-fly="${town}"]`).catch(() => {});
-  await drain();
-  await page.waitForTimeout(800);
 }
 
 async function backToHub() {
@@ -999,14 +1008,25 @@ note("視線の手前", await at());
 // 「向き直り」で終わって1歩も入らない ―― goToMap の経路が変わった日に
 // 「視線に入っても何も起きない」と誤報した（v1.1-g-3）
 if ((await spot()).facing !== "up") await key("ArrowUp", 1, 250);
-// 「！」は押さなくても消える（v0.12）ので、その時間ぶん待つ
-await key("ArrowUp", 1, 1400);
+await key("ArrowUp", 1, 250);
+// **固定の待ち時間で判定しない。** 相手はこちらへ歩いてくるので、
+// かかる時間は距離とアニメの速さで変わる ―― 1400ms 決め打ちで
+// 「なにも起きない」と誤報した。出るまで待って、出なければ出ない。
+// 踏み込んだ先の座標も残す（押しが捨てられたのか、視線が働かないのかを分ける）
+let engaged = false;
+for (let i = 0; i < 20 && !engaged; i += 1) {
+  engaged = await talking();
+  if (!engaged) await page.waitForTimeout(250);
+}
+note("踏み込んだ あと", await at());
 // **話しかけていないのに向こうから始まる**のが視線。まず会話が開く
-expect("視線に 入ると むこうから しかけてくる", (await talking()) ? "しかけてきた" : "なにも起きない", "しかけてきた");
+expect("視線に 入ると むこうから しかけてくる", engaged ? "しかけてきた" : "なにも起きない", "しかけてきた");
 await drain();
 await page.waitForTimeout(400);
 expect("そのまま しょうぶに なる", (await page.isVisible("#battle")) ? "なった" : "ならない", "なった");
-expect("視線バトルの 決着", await fight(), "決着してマップに戻った");
+// **`fight()` は `#battle` が無ければ即「決着した」と答える。**
+// 戦っていないのに緑になるので、戦いに入ったことを先に確かめる
+expect("視線バトルの 決着", (await page.isVisible("#battle")) ? await fight() : "戦いに 入っていない", "決着してマップに戻った");
 await page.waitForTimeout(700);
 await drain();
 await shot("17-sight");
