@@ -520,6 +520,14 @@ export function playField(rebuild: () => void): FieldHandle {
 
     // 自動テストから現在地を読むための印（画面には出ない）
     canvas.dataset["at"] = `${player.position.map} ${player.position.x},${player.position.y} ${player.position.facing}`;
+    // **立っているフラグも出す**（v1.1-g-3）。台本の経路探索が
+    // 「そのオブジェクトは今そこに居るのか」を推測せずに読めるようにする ――
+    // 推測していたころは、どかない門番を素通りできると思い込んで
+    // 同じ壁に何十回もぶつかっていた。画面には出ない印
+    canvas.dataset["flags"] = Object.entries(player.flags)
+      .filter(([, on]) => on === true)
+      .map(([id]) => id)
+      .join(",");
     // **のこり歩数は見せる**（v1.1-h）。
     //
     // 見せないと「あと何歩か分からないまま追い出される」＝理不尽になる。

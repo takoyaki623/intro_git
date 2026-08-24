@@ -177,17 +177,60 @@ const able = () => {
  * 実際、これで1番道路へ一生行けなかった。条件が残っていれば実際に進めず、
  * `goToMap` が経路を引き直す。
  */
+/**
+ * いま立っているフラグ（v1.1-g-3）。`draw()` が canvas に出している。
+ *
+ * **推測をやめるために要る。** 条件つきオブジェクトを一律「素通りできる」と
+ * 見なすと、当分どかない門番（ハナダのどうくつの けいび）を通れると思い込み、
+ * 同じ壁に何十回もぶつかる。逆に一律「壁」と見なすと、
+ * **話しかければ消えるもの**（トレーナー・かいりき の岩）の向こうへ行けなくなる。
+ * 見るべきは種類ではなく**条件が今どうか**。
+ */
+let liveFlags = new Set();
+async function refreshFlags() {
+  const raw = (await page.getAttribute("#field-canvas", "data-flags").catch(() => null)) ?? "";
+  liveFlags = new Set(raw === "" ? [] : raw.split(","));
+}
+/** 条件が今 成り立っているか。**フラグ以外は判断しない**（消える前提の側に倒す）。 */
+function holds(cond) {
+  if (cond === undefined) return true;
+  if (cond.kind === "flag") return liveFlags.has(cond.flag) === cond.value;
+  if (cond.kind === "and") return cond.of.every(holds);
+  if (cond.kind === "or") return cond.of.some(holds);
+  return false;
+}
+/**
+ * そのマスに**今**立っていて、話しかけても どかない相手が居るか。
+ *
+ * トレーナーと障害物は除く ―― あれは**ぶつかれば消せる**ので、
+ * 経路探索は通れる前提でよい（`goToMap` が話しかけて片付ける）。
+ */
+function standing(mapId, x, y) {
+  const map = MAPS.get(mapId);
+  if (map === undefined) return false;
+  return map.objects.some(
+    (o) =>
+      o.at.x === x &&
+      o.at.y === y &&
+      o.condition !== undefined &&
+      (o.kind.type === "npc" || o.kind.type === "sign") &&
+      holds(o.condition),
+  );
+}
+
 function neighbors(mapId, x, y) {
-  return neighborsOf(MAPS.get(mapId), able(), x, y, { ignoreConditional: true }, MAPS).map((n) => ({
-    key: KEY[n.dir],
-    map: n.map,
-    x: n.x,
-    y: n.y,
-  }));
+  return neighborsOf(MAPS.get(mapId), able(), x, y, { ignoreConditional: true }, MAPS)
+    .filter((n) => !standing(n.map, n.x, n.y))
+    .map((n) => ({
+      key: KEY[n.dir],
+      map: n.map,
+      x: n.x,
+      y: n.y,
+    }));
 }
 
 /** 目的地までの手順。マップをまたいで探す。 */
-function route(from, to, walls = new Set()) {
+function route(from, to) {
   const id = (n) => `${n.map}|${n.x},${n.y}`;
   const prev = new Map([[id(from), null]]);
   const queue = [from];
@@ -204,7 +247,7 @@ function route(from, to, walls = new Set()) {
       return path;
     }
     for (const next of neighbors(here.map, here.x, here.y)) {
-      if (prev.has(id(next)) || walls.has(id(next))) continue;
+      if (prev.has(id(next))) continue;
       prev.set(id(next), { key: next.key, node: next, from: here });
       queue.push(next);
     }
@@ -221,36 +264,13 @@ function route(from, to, walls = new Set()) {
  * 洞窟のような長い道では既定では足りない（v0.12-b でおつきみやまが越えられなかった）。
  */
 async function goToMap(map, x, y, tries = 20) {
-  // **一度ぶつかったマスは、次からは壁として引き直す。**
-  //
-  // 経路探索は条件つきのオブジェクトを素通りできるものとして扱う（消える前提）。
-  // 開く扉ならそれで合っているが、ハナダのどうくつの けいび のように
-  // **当分どかないもの**だと、同じ最短路を引いてはぶつかるのを繰り返して
-  // 試行を使い切る ―― 実際、ショップまで40回ためして1歩も近づかなかった。
-  // 人は2回ぶつかったら回り道を探す。道具にも同じことをさせる。
-  const walls = new Set();
-  // ぶつかった回数。**1回で壁と決めない** ―― 下の理由参照
-  const bumps = new Map();
   for (let attempt = 0; attempt < tries; attempt += 1) {
     await settle();
+    await refreshFlags();
     const from = await spot();
     if (from.map === map && from.x === x && from.y === y) return from;
 
-    let path = route(from, { map, x, y }, walls);
-    // **回り道が無いなら、壁だと決めたほうが間違い。**
-    //
-    // `walls` は「ぶつかったマスを避けて回り道を探す」ための仮定にすぎない。
-    // その仮定を入れた結果 目的地へ**一本も**道が無くなったなら、
-    // 避けているマスは通れるようになるはずのマスだった ―― 仮定を捨てて、
-    // 正面からぶつかりに戻る。
-    // おつきみやまで、避けたマスの向こうにしか道が無く、
-    // 自分で塞いで「経路なし」と言っていた。
-    if (path === null && walls.size > 0) {
-      note("壁の仮定を捨てる", `${from.raw} → ${map} ${x},${y}（${walls.size}マス避けていた）`);
-      walls.clear();
-      bumps.clear();
-      path = route(from, { map, x, y });
-    }
+    const path = route(from, { map, x, y });
     if (path === null) {
       note("経路なし", `${from.raw} → ${map} ${x},${y}`);
       return from;
@@ -276,16 +296,15 @@ async function goToMap(map, x, y, tries = 20) {
       const now = await spot();
       // 全滅で飛ばされた・向き直りで進まなかった等。引き直す
       if (now.map !== step.node.map || now.x !== step.node.x || now.y !== step.node.y) {
-        // **条件つきのオブジェクトは経路探索では素通りできる**（消える前提）。
-        // だが実際には塞いでいるので、ぶつかったら話しかける ―― 人がやることと同じ。
-        // v0.12-b でおつきみやまのやまおとこに永久にぶつかり続けて気づいた
+        // **話しかければ消えるもの**（トレーナー・かいりき の岩）は
+        // 経路探索では素通りできる扱いなので、実際にぶつかったら話しかける
+        // ―― 人がやることと同じ。v0.12-b でおつきみやまのやまおとこに
+        // 永久にぶつかり続けて気づいた。
+        // **どかない門番は経路探索がもう避けている**（`standing`）ので、
+        // ここに来るのは「ぶつかれば消せる」もののはず
         if (now.map === before.map && now.x === before.x && now.y === before.y) {
           await page.keyboard.press("z");
-          // **`talking()` で番をしない。** 300ms では文字が出そろっておらず、
-          // 「まだ喋っていない」と読んで `accept` を飛ばしていた ――
-          // き は切られず、そのマスを壁に登録して「経路なし」で詰んだ。
-          // `accept` は喋っていなければすぐ返るので、無条件に呼ぶほうが正しい
-          // （`useAbility` は最初からそうしている）
+          // 300ms では文字が出そろっていない。出そろうのを待ってから読む
           await page.waitForTimeout(450);
           // **「つかいますか?」のときだけ はい を押す。**
           //
@@ -305,21 +324,6 @@ async function goToMap(map, x, y, tries = 20) {
             await fight();
             await page.waitForTimeout(800);
             await drain();
-          }
-          // **2回ぶつかって初めて壁にする。**
-          //
-          // 1回で決めていたら、視線を持つトレーナーの居るマスが全部壁になった ――
-          // 話しかけて勝っても**プレイヤーはその場から動かない**ので、
-          // 「ぶつかって動けなかった」と見分けがつかない。
-          // 実際おつきみやまの唯一の廊下が塞がり、ニビへ一生行けなくなった。
-          // 相手が消えていれば次の試行で普通に通れる ―― 通れなければ本物の壁。
-          await settle();
-          const still = await spot();
-          if (still.map === before.map && still.x === before.x && still.y === before.y) {
-            const key = `${step.node.map}|${step.node.x},${step.node.y}`;
-            const n = (bumps.get(key) ?? 0) + 1;
-            bumps.set(key, n);
-            if (n >= 2) walls.add(key);
           }
         }
         drifted = true;
