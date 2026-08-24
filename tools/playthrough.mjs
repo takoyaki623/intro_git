@@ -236,7 +236,21 @@ async function goToMap(map, x, y, tries = 20) {
     const from = await spot();
     if (from.map === map && from.x === x && from.y === y) return from;
 
-    const path = route(from, { map, x, y }, walls);
+    let path = route(from, { map, x, y }, walls);
+    // **回り道が無いなら、壁だと決めたほうが間違い。**
+    //
+    // `walls` は「ぶつかったマスを避けて回り道を探す」ための仮定にすぎない。
+    // その仮定を入れた結果 目的地へ**一本も**道が無くなったなら、
+    // 避けているマスは通れるようになるはずのマスだった ―― 仮定を捨てて、
+    // 正面からぶつかりに戻る。
+    // おつきみやまで、避けたマスの向こうにしか道が無く、
+    // 自分で塞いで「経路なし」と言っていた。
+    if (path === null && walls.size > 0) {
+      note("壁の仮定を捨てる", `${from.raw} → ${map} ${x},${y}（${walls.size}マス避けていた）`);
+      walls.clear();
+      bumps.clear();
+      path = route(from, { map, x, y });
+    }
     if (path === null) {
       note("経路なし", `${from.raw} → ${map} ${x},${y}`);
       return from;
@@ -273,13 +287,20 @@ async function goToMap(map, x, y, tries = 20) {
           // `accept` は喋っていなければすぐ返るので、無条件に呼ぶほうが正しい
           // （`useAbility` は最初からそうしている）
           await page.waitForTimeout(450);
-          // **`drain` ではなく `accept`。** ふさいでいるのが き なら
-          // 「いあいぎり を つかいますか?」の選択肢が出る ―― `drain` は
-          // z を押すだけなので選べず、木は永久に切られない。
+          // **「つかいますか?」のときだけ はい を押す。**
+          //
+          // ふさいでいるのが き なら「いあいぎり を つかいますか?」が出る。
+          // `drain` は z を押すだけで選べないので、木は永久に切られない ――
           // クチバジムの前の き は出入りのたびに生え直る（`cleared` は保存しない）ので、
           // ポケモンセンターに寄って戻った瞬間、ジムに入れなくなっていた。
-          // **人がやること（はい を押す）を道具にもさせる。**
-          await accept();
+          //
+          // **だが無条件に `accept` してはいけない。** あれは先頭の選択肢を押すので、
+          // グレンジムのクイズ扉に**勝手に正解**してしまう ――
+          // 「まちがえたら開かない」を確かめている最中に、道具が答え直していた。
+          // 開けるのは目的だが、**開け方まで道具が決めてはいけない。**
+          const asked = ((await page.textContent("#field-text")) ?? "").replace(/\s+/g, "");
+          if (asked.includes("つかいますか")) await accept();
+          else await drain();
           if (await page.isVisible("#battle")) {
             await fight();
             await page.waitForTimeout(800);
