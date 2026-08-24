@@ -172,6 +172,25 @@ const SHOOTING_SAVE = (() => {
     "kanto.field.silph-scope",
     "kanto.tower.rocket7-beaten",
     "kanto.silph.giovanni-beaten",
+    // **道中のトレーナーも倒したことにする**（v1.1-g-3）。
+    // 撮影は話しかける仕組みを持たない ―― 視線を持つ相手が廊下に立っていると、
+    // 経路探索は素通りできる前提で引き、実際にはぶつかって60回引き直して諦める。
+    // 台本（playthrough）は話しかけて片付けるが、こちらは**絵を撮るだけ**なので、
+    // 撮る前に道を空けておくのが正しい
+    "kanto.rocket.b1f-beaten",
+    "kanto.rocket.b2f-beaten",
+    "kanto.rocket.b3f-beaten",
+    "kanto.rocket.b4f-beaten",
+    "kanto.rocket.giovanni-beaten",
+    "kanto.silph.grunt3-beaten",
+    "kanto.silph.grunt5-beaten",
+    "kanto.silph.grunt7-beaten",
+    "kanto.silph.rival-beaten",
+    "kanto.tower.channeler3-beaten",
+    "kanto.tower.channeler5-beaten",
+    "kanto.lavender.rival-beaten",
+    "kanto.cerulean.rival-beaten",
+    "kanto.route22.rival-a-beaten",
   ]) {
     save.regions.kanto.flags[flag] = true;
   }
@@ -243,7 +262,7 @@ const PLACES = [
   { file: "mansion-celadon", name: "タマムシマンション", note: "イーブイ1匹で、石で分かれる3種が開く（v1.1-g-3）", to: ["kanto-celadon-mansion", 4, 3] },
   { file: "dojo", name: "カラテどうじょう", note: "勝つと どちらか1匹（v1.1-g-3）", to: ["kanto-saffron-dojo", 4, 3] },
   { file: "gamecorner", name: "ゲームコーナー", note: "スロットは作らない ―― 景品はお金で（v1.1-g-3）", to: ["kanto-celadon-gamecorner", 5, 4] },
-  { file: "hideout", name: "ロケットだんアジト", note: "サカキ1回目。勝つとシルフスコープ（v1.1-g-3）", to: ["kanto-rocket-b4f", 4, 4] },
+  { file: "hideout", name: "ロケットだんアジト", note: "サカキ1回目。勝つとシルフスコープ（v1.1-g-3）", to: ["kanto-rocket-b4f", 4, 3] },
   { file: "tower-7f", name: "ポケモンタワー さいじょうかい", note: "v0.12 で送った宿題が、シルフスコープの入手元ができて解けた", to: ["kanto-pokemon-tower-7f", 4, 3] },
   { file: "silph", name: "シルフカンパニー", note: "11階ぶんは作らない ―― 増えるのは枚数だけ（v1.1-g-3）", to: ["kanto-silph-7f", 4, 3] },
   { file: "route-17", name: "サイクリングロード（17ばん）", note: "段差だらけの下り坂。16番とセキチクのあいだ（v1.1-g-2）", to: ["kanto-route-17", 5, 6] },
