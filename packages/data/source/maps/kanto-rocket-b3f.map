@@ -12,16 +12,16 @@ D normal
 grid:
 WWWWWWWWW
 W.......W
-W.WWW.W.W
-W.....W.W
-W.WWWWW.W
+W.W.W.W.W
+W.......W
+W.W.W.W.W
 W.......W
 W.W.W.W.W
 W.......W
 WWWWWWWWW
 
 warps:
-1,1 step kanto-rocket-b2f 7,6 up
+1,1 step kanto-rocket-b2f 6,7 up
 7,7 step kanto-rocket-b4f 2,1 down
 
 objects:

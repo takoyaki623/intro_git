@@ -16,18 +16,18 @@ D normal
 grid:
 WWWWWWWWW
 W.......W
-W.WWW.W.W
-W.....W.W
-W.WWW...W
+W.W.W.W.W
 W.......W
+W.W.W.W.W
 W.......W
+W.W.W.W.W
 W.......W
 WWWWWWWWW
 
 warps:
-1,1 step kanto-rocket-b3f 7,6 up
+1,1 step kanto-rocket-b3f 6,7 up
 
 objects:
 rocket-b4f-grunt 5,1 trainer:kanto-rocket-b4f:2:left kanto.rocket.b4f-grunt if:kanto.rocket.b4f-beaten=false
-rocket-boss 4,6 npc:leader:static kanto.rocket.giovanni
-rocket-b4f-item 7,6 item:hyper-potion kanto.rocket.b4f-item if:kanto.rocket.b4f-item-taken=false
+rocket-boss 4,5 npc:leader:static kanto.rocket.giovanni
+rocket-b4f-item 7,7 item:hyper-potion kanto.rocket.b4f-item if:kanto.rocket.b4f-item-taken=false

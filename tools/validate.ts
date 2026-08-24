@@ -1804,6 +1804,83 @@ function checkWorld(): void {
     }
   }
 
+  // ── #117 入ってきた場所から、どの出口へも行けるか（v1.1-g-3）──
+  //
+  // 既にある到達性の検査は「**どこかの**入口から届くか」を見る。
+  // 入口が2つあると、それぞれが別の一角を照らしていても全マスが埋まり、通過する。
+  //
+  // ロケット団アジトの地下1階が実際そうだった ―― 上の階から降りると
+  // 上り階段のある広間へ出るが、**下の階から上がってくると3マスの袋小路**で、
+  // そこから先へ一生行けない。台本が「経路なし」と言うまで誰も気づかなかった。
+  //
+  // **最初は「1枚のマップが1つながりか」で書いて、うまくいかなかった。**
+  // 段差・海・テレポート床・扉のマスを、どれも例外として数え直すことになり、
+  // 正しい設計（19番水道・ヤマブキジム）を何度も落とした。
+  // 見るべきは島の数ではなく**壊れ方そのもの** ―― 入ってきた場所から出口へ行けるか。
+  {
+    // 各マップの「着地マス」＝よそから飛んでくる warp の行き先
+    const landings = new Map<MapId, { x: number; y: number; from: MapId }[]>();
+    for (const map of allMaps) {
+      for (const warp of map.warps) {
+        if (warp.to.map === map.id) continue;
+        const list = landings.get(warp.to.map) ?? [];
+        list.push({ x: warp.to.x, y: warp.to.y, from: map.id });
+        landings.set(warp.to.map, list);
+      }
+    }
+    for (const map of allMaps) {
+      const here = landings.get(map.id) ?? [];
+      if (here.length < 2 && map.warps.length < 2) continue;
+      const w = map.size.width;
+      const key = (x: number, y: number) => `${x},${y}`;
+      // **踏む warp の上は通り抜けられない。** 踏んだ瞬間に居なくなるので、
+      // そこは行き止まり ―― 出口として数えるが、辺は生やさない
+      const exit = new Set(
+        map.warps
+          .filter((v) => v.trigger === "step" && v.to.map !== map.id)
+          .map((v) => key(v.at.x, v.at.y)),
+      );
+      for (const start of here) {
+        const seen = new Set<string>([key(start.x, start.y)]);
+        const queue = [{ x: start.x, y: start.y }];
+        while (queue.length > 0) {
+          const at = queue.shift()!;
+          if (exit.has(key(at.x, at.y))) continue;
+          const next = neighborsOf(
+            map,
+            ABLE,
+            at.x,
+            at.y,
+            { ...IN_PRINCIPLE, followWarps: false },
+            mapById,
+          ).filter((n) => n.map === map.id);
+          // 自分自身へ飛ぶ warp（テレポート床・v1.1-g-1）も辺
+          for (const warp of map.warps) {
+            if (warp.at.x === at.x && warp.at.y === at.y && warp.to.map === map.id) {
+              next.push({ dir: "up", map: map.id, x: warp.to.x, y: warp.to.y });
+            }
+          }
+          for (const n of next) {
+            if (seen.has(key(n.x, n.y))) continue;
+            if (map.terrain[n.y * w + n.x] === "ledge") continue;
+            seen.add(key(n.x, n.y));
+            queue.push({ x: n.x, y: n.y });
+          }
+        }
+        const unreachable = map.warps
+          .filter((v) => !seen.has(key(v.at.x, v.at.y)))
+          .map((v) => `${v.to.map}(${v.at.x},${v.at.y})`);
+        if (unreachable.length > 0) {
+          fail(
+            "map-one-way",
+            `${map.id}: ${start.from} から入って (${start.x},${start.y}) に降りると、` +
+              `${unreachable.join(" ")} へ行けない`,
+          );
+        }
+      }
+    }
+  }
+
   // ── #116 話しかけられる相手には、隣に立てるマスがある（v1.1-g-3）──
   //
   // 既にある検査は「そのオブジェクト自身が通行不可タイルの上に居ないか」を見る。
