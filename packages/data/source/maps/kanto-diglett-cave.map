@@ -1,0 +1,34 @@
+# ディグダのあな（v1.1-i）。**2番道路とクチバの11番道路をつなぐ近道。**
+#
+# ここでしか出ない種が2つある（ディグダ・ダグトリオ）ので、
+# **この1枚が図鑑の2種を丸ごと背負っている** ―― 消すと図鑑が閉じる。
+#
+# 通路は「奇数の行がまるごと開いている」形にしてある。
+# 検証 #117（入ってきた場所から全ての出口へ行けるか）で、
+# ロケット団アジトが上と下で別の場所になっていたのを踏んだあとの書き方。
+id: kanto-diglett-cave
+name: ディグダのあな
+region: kanto
+encounters: kanto-diglett-cave-cave
+bgm: cave
+
+legend:
+. cave
+R !normal
+D cave
+
+grid:
+RRRRRRRRRRRRRRR
+R.............R
+R.R.R.R.R.R.R.R
+R.............R
+R.R.R.R.R.R.R.R
+R.............R
+RRRRRRRRRRRRRRR
+
+warps:
+1,1 step kanto-route-2 6,10 down
+13,5 step kanto-route-11 4,4 down
+
+objects:
+diglett-sign 7,3 sign kanto.diglett.sign

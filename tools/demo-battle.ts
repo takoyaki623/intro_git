@@ -102,6 +102,8 @@ function render(event: BattleEvent): string | null {
       return `  ${nameOf(event.side)} は ${event.amount} 吸い取った`;
     case "faint":
       return `  ${nameOf(event.side)} は たおれた!`;
+    case "transformed":
+      return `  ${nameOf(event.side)} は ${gameData.species(event.into).name} に へんしん した!`;
     case "battleEnd":
       return event.winner === null
         ? `\n引き分け`

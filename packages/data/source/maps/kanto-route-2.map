@@ -34,6 +34,7 @@ TTTTT.TTTTT
 warps:
 5,0 step kanto-viridian-forest 5,12 up
 5,15 step kanto-viridian-city 6,1 down
+6,9 step kanto-diglett-cave 1,2 up
 
 objects:
 route2-sign 4,13 sign kanto.route2.sign

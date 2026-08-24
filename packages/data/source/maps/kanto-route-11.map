@@ -27,6 +27,7 @@ TTTTTTTTTTTTTTT
 warps:
 0,1 step kanto-vermilion-city 12,1 left
 14,1 step kanto-route-12 1,8 right
+4,3 step kanto-diglett-cave 13,4 up
 
 objects:
 route11-sign 2,4 sign kanto.route11.sign

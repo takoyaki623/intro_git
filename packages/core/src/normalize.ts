@@ -133,6 +133,12 @@ export function toBattlePokemon(
     status: source.status ?? null,
     statusCounter: 0,
     statStages: { ...EMPTY_STAGES },
-    volatile: { confusionTurns: 0, flinched: false, choiceLocked: null, boostedMoveType: null },
+    volatile: {
+      confusionTurns: 0,
+      flinched: false,
+      choiceLocked: null,
+      boostedMoveType: null,
+      transformedFrom: null,
+    },
   };
 }

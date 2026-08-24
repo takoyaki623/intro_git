@@ -5979,7 +5979,12 @@
     "abilities": [
       "synchronize"
     ],
-    "learnset": [],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "teleport"
+      }
+    ],
     "tmMoves": [
       "body-slam",
       "calm-mind",
@@ -6044,6 +6049,10 @@
       {
         "level": 1,
         "move": "kinesis"
+      },
+      {
+        "level": 1,
+        "move": "teleport"
       },
       {
         "level": 5,
@@ -6134,6 +6143,10 @@
       {
         "level": 1,
         "move": "kinesis"
+      },
+      {
+        "level": 1,
+        "move": "teleport"
       },
       {
         "level": 5,
@@ -12718,7 +12731,12 @@
     "abilities": [
       "limber"
     ],
-    "learnset": [],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "transform"
+      }
+    ],
     "tmMoves": [],
     "evolutions": [],
     "baseExp": 101,
@@ -14647,6 +14665,10 @@
         "move": "nasty-plot"
       },
       {
+        "level": 80,
+        "move": "transform"
+      },
+      {
         "level": 90,
         "move": "aura-sphere"
       },
@@ -16286,6 +16308,10 @@
       {
         "level": 12,
         "move": "draining-kiss"
+      },
+      {
+        "level": 15,
+        "move": "teleport"
       },
       {
         "level": 18,

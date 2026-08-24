@@ -3724,5 +3724,33 @@
     "effect": {
       "kind": "nothing"
     }
+  },
+  {
+    "id": "transform",
+    "name": "へんしん",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "transform"
+    }
+  },
+  {
+    "id": "teleport",
+    "name": "テレポート",
+    "type": "psychic",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 20,
+    "priority": -6,
+    "target": "self",
+    "effect": {
+      "kind": "fleeWild"
+    }
   }
 ]

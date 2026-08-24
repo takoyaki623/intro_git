@@ -181,7 +181,7 @@ describe("データの網羅性", () => {
     for (const s of allSpecies) {
       expect(s.types.length, s.id).toBeGreaterThanOrEqual(1);
       // learnset は空でありうる（v0.8）。
-      // アブラは テレポート、メタモンは へんしん しかレベルで覚えない
+      // v1.1-i で全種が1つ以上のレベル技を持つようになった
       expect(s.catchRate, s.id).toBeGreaterThan(0);
       expect(s.abilities.length, s.id).toBeGreaterThan(0);
       expect(Object.keys(s.evYield).length, s.id).toBeGreaterThan(0);
@@ -190,8 +190,14 @@ describe("データの網羅性", () => {
 
   it("レベル技を持たない種は、機構が未実装の技しか覚えない種に限る", () => {
     // 空の learnset を野放しにすると「投入し忘れ」と区別が付かなくなる。
-    // 原作の事実として空になる種だけを、名指しで許す
-    const allowed = ["abra", "ditto"];
+    // 原作の事実として空になる種だけを、名指しで許す。
+    //
+    // **v1.1-i で名簿が空になった。** メタモン（へんしん）と アブラ（テレポート）は
+    // どちらも「その技しかレベルで覚えない」種で、技の機構が無いあいだだけ
+    // ここに載っていた ―― 名簿は「まだ機構が無い」ことの一覧でもあり、
+    // 機構ができたら**縮む**のが正しい。空のまま残すのは、
+    // 次に同じことが起きたとき**書く場所がここだと分かる**ようにするため
+    const allowed: string[] = [];
     const empty = allSpecies.filter((s) => s.learnset.length === 0).map((s) => s.id);
     expect(empty.sort()).toEqual(allowed.sort());
   });

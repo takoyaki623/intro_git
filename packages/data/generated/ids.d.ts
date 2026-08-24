@@ -2,12 +2,12 @@
  * 自動生成ファイル。直接編集しないこと。
  *   再生成: npm run gen:ids
  *
- * 種族 190 / 技 248 / 性格 25 /
+ * 種族 190 / 技 250 / 性格 25 /
  * 特性 68 / 道具 106 /
  * BattleSet 64 / 施設 4 /
  * ネームド 18 / カップ 10 /
- * マップ 127 / イベント 368 / トレーナー 75 /
- * 出現テーブル 149 / ショップ 6 / 地方 9 /
+ * マップ 128 / イベント 369 / トレーナー 75 /
+ * 出現テーブル 150 / ショップ 6 / 地方 9 /
  * フラグ 177
  */
 
@@ -427,12 +427,14 @@ export type GeneratedMoveId =
   | "tail-whip"
   | "take-down"
   | "teeter-dance"
+  | "teleport"
   | "thunder"
   | "thunder-punch"
   | "thunder-shock"
   | "thunder-wave"
   | "thunderbolt"
   | "toxic"
+  | "transform"
   | "tri-attack"
   | "twineedle"
   | "twister"
@@ -785,6 +787,7 @@ export type GeneratedMapId =
   | "kanto-cinnabar-lab"
   | "kanto-cinnabar-mart"
   | "kanto-cinnabar-pokecenter"
+  | "kanto-diglett-cave"
   | "kanto-fuchsia-city"
   | "kanto-fuchsia-gym"
   | "kanto-fuchsia-mart"
@@ -958,6 +961,7 @@ export type GeneratedEventId =
   | "kanto.cinnabar.scientist"
   | "kanto.cinnabar.sign-gym"
   | "kanto.cinnabar.sign-mansion"
+  | "kanto.diglett.sign"
   | "kanto.dojo.master"
   | "kanto.dojo.prize-chan"
   | "kanto.dojo.prize-lee"
@@ -1357,6 +1361,7 @@ export type GeneratedEncounterTableId =
   | "kanto-cinnabar-island-fishing-old"
   | "kanto-cinnabar-island-fishing-super"
   | "kanto-cinnabar-island-surf"
+  | "kanto-diglett-cave-cave"
   | "kanto-fuchsia-city-fishing-good"
   | "kanto-fuchsia-city-fishing-old"
   | "kanto-fuchsia-city-fishing-super"

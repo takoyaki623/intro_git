@@ -53,6 +53,10 @@ function parseEffect(src: string, where: string): unknown {
   switch (kind) {
     // はねる。**書き忘れではなく「何も起きない」**（types.ts の `nothing`）
     case "nothing":
+    // へんしん（v1.1-i）。引数を取らない ―― コピー元は「目の前の相手」で決まる
+    case "transform":
+    // テレポート（v1.1-i）。野生戦から抜ける
+    case "fleeWild":
       return { kind };
     case "status":
       return { kind, status: args[0], chance: num(1) };

@@ -115,6 +115,8 @@ const SOURCE: Record<string, { location: string; area?: string }> = {
   "kanto-pokemon-mansion": { location: "pokemon-mansion", area: "1f" },
   "kanto-pokemon-mansion-2f": { location: "pokemon-mansion", area: "2f" },
   "kanto-cerulean-cave": { location: "cerulean-cave", area: "1f" },
+  // ディグダのあな（v1.1-i）。**ここでしか出ない種が2つある**
+  "kanto-diglett-cave": { location: "digletts-cave" },
   "kanto-route-22": { location: "kanto-route-22" },
   "kanto-route-23": { location: "kanto-route-23" },
 };
@@ -127,14 +129,16 @@ const SOURCE: Record<string, { location: string; area?: string }> = {
  * 機構が入った日にここから外せば、次の取り込みで戻ってくる。
  */
 const NOT_YET: Record<string, string> = {
-  ditto: "へんしん が未実装。メタモンは原作でもこの技しか覚えない ―― " +
-    "技を1つも持てない個体を野生に出すと、戦いが成立しない（検証 wild-usable）",
+  // **メタモンの借りは v1.1-i で返した。** へんしん を実装したので野生に出せる ――
+  // この表に残していた理由文が、そのまま実装の受け入れ条件になっていた。
   // 24・25番道路を足した v1.1-g-2 で2件目が出た。**メタモンと同じ形の借り。**
   // ケーシィは原作でも Lv16 まで テレポート しか覚えず、
   // あれは「野生戦から逃げる」効果で、まだ機構が無い。
   // 除いても今より減らない（ケーシィは今もトレーナーの手持ちにしか居ない）が、
   // **テレポートを入れれば3種ぶん開く**ので、借りとして残す。
-  abra: "テレポート（野生戦から逃げる）が未実装。ケーシィは Lv16 までこの技しか覚えない",
+  // **アブラの借りも v1.1-i で返した**（テレポート を実装した）。
+  // 表そのものは空になったが、消さない ―― 次に「まだ出せない種」が出たとき、
+  // 理由を書く場所がここにあることが分かる
 };
 
 /** 公式の引き方 → 本作の引き方。`walk` だけは地形で分かれるので後で決める。 */

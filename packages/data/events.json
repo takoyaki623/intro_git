@@ -8495,5 +8495,14 @@
         "speaker": "グリーン"
       }
     ]
+  },
+  {
+    "id": "kanto.diglett.sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ディグダのあな\n\nトキワと クチバを つなぐ ちかどう。"
+      }
+    ]
   }
 ]

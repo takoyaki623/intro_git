@@ -181,7 +181,24 @@ export type MoveEffect =
    * 検証は「変化技に効果が無い」を落とすので、はねる のような技は
    * 効果が無いのではなく「何も起きない効果」を持つ、と書く。
    */
-  | { kind: "nothing" };
+  | { kind: "nothing" }
+  /**
+   * へんしん（v1.1-i）。相手の姿・タイプ・能力・技をコピーする。
+   *
+   * **HP はコピーしない**（原作どおり）。技の PP は5に切り詰める。
+   * メタモンは原作でもこの技しか覚えないので、
+   * **これが無いと「技を1つも持てない個体」になって野生に出せない**
+   * ―― 出現表の取り込みが1つの版から言い続けていた宿題。
+   */
+  | { kind: "transform" }
+  /**
+   * テレポート（v1.1-i）。**野生戦から抜ける。**
+   *
+   * トレーナー戦では何も起きない（原作どおり）。
+   * 逃げるのは「使った側」なので、野生のケーシィが使えば向こうが消える ――
+   * これが無いと、ケーシィは Lv16 まで技を1つも持てず野生に出せない。
+   */
+  | { kind: "fleeWild" };
 
 // ─────────────────────────────────────────────
 // 特性・持ち物（v0.5）
@@ -426,6 +443,22 @@ export type Volatile = {
   choiceLocked: MoveId | null;
   /** もらいびで強化されたタイプ。 */
   boostedMoveType: Type | null;
+  /**
+   * へんしん する前の姿（v1.1-i）。`null` なら変身していない。
+   *
+   * **`innateAbility` と同じ形。** 交代で戻すものは、戻す先を持っておく ――
+   * 持たずに書き換えると「戻す」が実装できず、
+   * ボックスに入れた個体まで別の種になりかねない。
+   * HP は写さないので、ここにも入れない。
+   */
+  transformedFrom: {
+    species: SpeciesId;
+    name: string;
+    types: readonly Type[];
+    stats: StatSpread;
+    moves: BattleMove[];
+    ability: AbilityId | null;
+  } | null;
 };
 
 export type BattlePokemon = {
@@ -583,6 +616,7 @@ export type BattleEvent =
    * 採点で負けたときに理不尽にしか見えない
    */
   | { kind: "judged"; winner: SideIndex | null; by: JudgeCriterion | null }
+  | { kind: "transformed"; side: SideIndex; into: SpeciesId }
   | { kind: "battleEnd"; winner: SideIndex | null }
   // ── 特性・持ち物（v0.5）──
   /** 特性が発動した。UI は「〇〇の 〈特性名〉!」と出す。 */

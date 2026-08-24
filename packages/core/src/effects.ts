@@ -69,6 +69,51 @@ export const effectHandlers: Registry = {
   /** はねる。**何も起きないことが効果**（書き忘れと区別するために要る）。 */
   nothing: () => {},
 
+  /**
+   * テレポート（v1.1-i）。**野生戦から抜ける。**
+   *
+   * 決着を書き込むだけでよい ―― ターンの処理は `draft.result` が
+   * 埋まった時点で止まるようになっている（`battle.ts` の技の段は毎回見ている）。
+   * **自分で止め方を書かない**のが要点で、書くと止め方が2つになる。
+   */
+  fleeWild: (_effect, ctx) => {
+    if (!ctx.state.isWild) return; // トレーナー戦では何も起きない（原作どおり）
+    ctx.state.result = { winner: null, reason: "escaped" };
+    ctx.landed = true;
+    ctx.events.push({ kind: "escaped", side: ctx.attacker });
+    ctx.events.push({ kind: "battleEnd", winner: null });
+  },
+
+  /**
+   * へんしん（v1.1-i）。相手の姿・タイプ・能力・技をコピーする。
+   *
+   * **HP はコピーしない**（原作どおり）。技の PP は5 ―― 元の PP を持ってくると、
+   * 相手の技を満タンで撃てる別物になる。
+   * 2回目は失敗する（`transformedFrom` が埋まっている＝もう変身している）。
+   */
+  transform: (_effect, ctx) => {
+    const self = activeOf(ctx, ctx.attacker);
+    const foe = activeOf(ctx, ctx.defender);
+    if (self.volatile.transformedFrom !== null) return;
+    self.volatile.transformedFrom = {
+      species: self.species,
+      name: self.name,
+      types: self.types,
+      stats: self.stats,
+      moves: self.moves,
+      ability: self.ability,
+    };
+    self.species = foe.species;
+    self.name = foe.name;
+    self.types = [...foe.types];
+    // HP だけは自分のまま。ここを写すと、変身するたびに体力が入れ替わる
+    self.stats = { ...foe.stats, hp: self.stats.hp };
+    self.moves = foe.moves.map((m) => ({ id: m.id, pp: 5, maxPp: 5 }));
+    self.ability = foe.ability;
+    ctx.landed = true;
+    ctx.events.push({ kind: "transformed", side: ctx.attacker, into: foe.species });
+  },
+
   /** 与ダメージの一定割合を自分が受ける。 */
   recoil: (effect, ctx) => {
     if (ctx.damageDealt <= 0) return;

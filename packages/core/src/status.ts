@@ -87,11 +87,24 @@ export function residualDamage(pokemon: BattlePokemon): number {
  */
 export function onSwitchOut(pokemon: BattlePokemon): void {
   pokemon.statStages = { atk: 0, def: 0, spa: 0, spd: 0, spe: 0, accuracy: 0, evasion: 0 };
+  // **へんしん は交代で解ける**（v1.1-i）。`ability` を `innateAbility` へ戻すのと同じ理由で、
+  // 戻す先を持っておいたぶんをここで戻す ―― 戻さないと、
+  // 引っ込めた個体が別の種のままボックスへ帰る
+  const was = pokemon.volatile.transformedFrom;
+  if (was !== null) {
+    pokemon.species = was.species;
+    pokemon.name = was.name;
+    pokemon.types = was.types;
+    pokemon.stats = was.stats;
+    pokemon.moves = was.moves;
+    pokemon.ability = was.ability;
+  }
   pokemon.volatile = {
     confusionTurns: 0,
     flinched: false,
     choiceLocked: null,
     boostedMoveType: null,
+    transformedFrom: null,
   };
   // トレースで書き換わった特性は戻る。持ち物の消費は戻らない。
   pokemon.ability = pokemon.innateAbility;

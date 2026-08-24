@@ -104,7 +104,6 @@ sheer-cold	Sheer Cold	特殊な命中判定	4
 snowscape	Snowscape	天候	4
 soak	Soak	効果を表せない	4
 sunny-day	Sunny Day	天候	4
-teleport	Teleport	交代を伴う技	4
 uproar	Uproar	自分への継続効果	4
 whirlpool	Whirlpool	未実装の状態	4
 acupressure	Acupressure	効果を表せない	3
@@ -147,7 +146,6 @@ sky-attack	Sky Attack	溜め・反動休み	2
 super-fang	Super Fang	威力が可変	2
 switcheroo	Switcheroo	効果を表せない	2
 tickle	Tickle	能力変化が複数	2
-transform	Transform	効果を表せない	2
 venom-drench	Venom Drench	効果を表せない	2
 wish	Wish	場の効果	2
 wonder-room	Wonder Room	場の効果	2

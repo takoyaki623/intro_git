@@ -156,6 +156,14 @@
         "rate": 40
       },
       {
+        "species": "ditto",
+        "levelRange": [
+          52,
+          52
+        ],
+        "rate": 20
+      },
+      {
         "species": "golbat",
         "levelRange": [
           46,
@@ -202,6 +210,14 @@
           55
         ],
         "rate": 8
+      },
+      {
+        "species": "ditto",
+        "levelRange": [
+          61,
+          61
+        ],
+        "rate": 2
       },
       {
         "species": "primeape",
@@ -742,6 +758,92 @@
         "levelRange": [
           35,
           40
+        ],
+        "rate": 2
+      }
+    ]
+  },
+  {
+    "id": "kanto-diglett-cave-cave",
+    "method": "cave",
+    "entries": [
+      {
+        "species": "diglett",
+        "levelRange": [
+          18,
+          18
+        ],
+        "rate": 40
+      },
+      {
+        "species": "diglett",
+        "levelRange": [
+          19,
+          19
+        ],
+        "rate": 40
+      },
+      {
+        "species": "diglett",
+        "levelRange": [
+          17,
+          17
+        ],
+        "rate": 30
+      },
+      {
+        "species": "diglett",
+        "levelRange": [
+          15,
+          15
+        ],
+        "rate": 20
+      },
+      {
+        "species": "diglett",
+        "levelRange": [
+          16,
+          16
+        ],
+        "rate": 20
+      },
+      {
+        "species": "diglett",
+        "levelRange": [
+          20,
+          20
+        ],
+        "rate": 20
+      },
+      {
+        "species": "diglett",
+        "levelRange": [
+          21,
+          21
+        ],
+        "rate": 10
+      },
+      {
+        "species": "diglett",
+        "levelRange": [
+          22,
+          22
+        ],
+        "rate": 10
+      },
+      {
+        "species": "dugtrio",
+        "levelRange": [
+          29,
+          29
+        ],
+        "rate": 8
+      },
+      {
+        "species": "dugtrio",
+        "levelRange": [
+          31,
+          31
         ],
         "rate": 2
       }
@@ -3248,6 +3350,14 @@
         "rate": 10
       },
       {
+        "species": "ditto",
+        "levelRange": [
+          25,
+          25
+        ],
+        "rate": 10
+      },
+      {
         "species": "oddish",
         "levelRange": [
           22,
@@ -3370,6 +3480,14 @@
           24
         ],
         "rate": 40
+      },
+      {
+        "species": "ditto",
+        "levelRange": [
+          23,
+          23
+        ],
+        "rate": 30
       },
       {
         "species": "bellsprout",
@@ -3518,6 +3636,14 @@
         "levelRange": [
           22,
           22
+        ],
+        "rate": 10
+      },
+      {
+        "species": "ditto",
+        "levelRange": [
+          25,
+          25
         ],
         "rate": 10
       },
@@ -5306,6 +5432,14 @@
         "rate": 40
       },
       {
+        "species": "abra",
+        "levelRange": [
+          10,
+          10
+        ],
+        "rate": 20
+      },
+      {
         "species": "pidgey",
         "levelRange": [
           11,
@@ -5354,6 +5488,14 @@
         "rate": 10
       },
       {
+        "species": "abra",
+        "levelRange": [
+          8,
+          8
+        ],
+        "rate": 8
+      },
+      {
         "species": "bellsprout",
         "levelRange": [
           14,
@@ -5384,6 +5526,14 @@
           14
         ],
         "rate": 5
+      },
+      {
+        "species": "abra",
+        "levelRange": [
+          12,
+          12
+        ],
+        "rate": 2
       }
     ]
   },
@@ -5560,6 +5710,14 @@
         "rate": 40
       },
       {
+        "species": "abra",
+        "levelRange": [
+          11,
+          11
+        ],
+        "rate": 20
+      },
+      {
         "species": "pidgey",
         "levelRange": [
           13,
@@ -5608,6 +5766,14 @@
         "rate": 10
       },
       {
+        "species": "abra",
+        "levelRange": [
+          9,
+          9
+        ],
+        "rate": 8
+      },
+      {
         "species": "bellsprout",
         "levelRange": [
           12,
@@ -5638,6 +5804,14 @@
           12
         ],
         "rate": 5
+      },
+      {
+        "species": "abra",
+        "levelRange": [
+          13,
+          13
+        ],
+        "rate": 2
       }
     ]
   },

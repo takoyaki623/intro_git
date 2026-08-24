@@ -116,6 +116,9 @@ export function messageOf(event: BattleEvent, view: BattleView): string | null {
         ? `じかんぎれ! ${why}で はんていがち!`
         : `じかんぎれ! ${why}で はんていまけ...`;
     }
+    // ── へんしん（v1.1-i）──
+    case "transformed":
+      return `${event.side === 0 ? "" : "あいての "}ポケモンは ${gameData.species(event.into).name} に へんしん した!`;
     case "battleEnd":
       if (event.winner === null) return `ひきわけ!`;
       return event.winner === 0 ? `しょうぶに かった!` : `めのまえが まっくらに なった...`;
