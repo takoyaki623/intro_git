@@ -23,8 +23,23 @@ const MAPS = "packages/data/maps.json";
 const SPECIES = "packages/data/species.json";
 const OUT = "packages/data/encounters.json";
 
-/** FRLG。赤緑（1/2）ではなく FRLG を採るのは、種と場所がいちばん揃っているため。 */
-const VERSION = "10";
+/**
+ * FRLG の**両方**（10=ファイアレッド / 11=リーフグリーン）。
+ *
+ * 赤緑（1/2）ではなく FRLG を採るのは、種と場所がいちばん揃っているため。
+ *
+ * **片方だけ取っていたら、10種が野生から消えていた**（v1.1-i）――
+ * サンド系・マダツボミ系・ヤドン系・ヒトデマン系・カイロス はリーフグリーン専用で、
+ * ファイアレッドだけ読んでいたので「カントーに居ない種」になっていた。
+ *
+ * **本作に版の対はない。** 2本のソフトを買い分ける前提そのものが無いので、
+ * 両方の和を取るのが正しい ―― 「交換しないと揃わない」は、
+ * 交換相手が居る世界の仕様であって、この世界の仕様ではない。
+ *
+ * 同じ枠は種＋レベル帯でまとめて出現率を足すので、
+ * 両版に居る種は2倍・片方だけの種は等倍になる ―― **専用種はそのぶん珍しい。**
+ */
+const VERSIONS = new Set(["10", "11"]);
 
 /**
  * 本作のマップ → 公式データの場所（と階）。
@@ -52,7 +67,14 @@ const SOURCE: Record<string, { location: string; area?: string }> = {
   "kanto-victory-road": { location: "kanto-victory-road-2", area: "1f" },
   "kanto-victory-road-2f": { location: "kanto-victory-road-2", area: "2f" },
   "kanto-victory-road-3f": { location: "kanto-victory-road-2", area: "3f" },
-  "kanto-pokemon-tower": { location: "pokemon-tower" },
+  // **階ごとに引く**（v1.1-g-3 で 2〜7階が繋がった）。
+  // まとめて引くと、1階に上の階の種が混ざる ―― おつきみやまと同じ
+  "kanto-pokemon-tower": { location: "pokemon-tower", area: "1f" },
+  "kanto-pokemon-tower-2f": { location: "pokemon-tower", area: "2f" },
+  "kanto-pokemon-tower-3f": { location: "pokemon-tower", area: "3f" },
+  "kanto-pokemon-tower-4f": { location: "pokemon-tower", area: "4f" },
+  "kanto-pokemon-tower-5f": { location: "pokemon-tower", area: "5f" },
+  "kanto-pokemon-tower-6f": { location: "pokemon-tower", area: "6f" },
   "kanto-route-1": { location: "kanto-route-1" },
   "kanto-route-2": { location: "kanto-route-2" },
   "kanto-route-2-north": { location: "kanto-route-2" },
@@ -171,7 +193,7 @@ function main(): void {
   const methods = Object.fromEntries(
     parseCsv("encounter_methods.csv").map((m) => [m["id"]!, m["identifier"]!]),
   );
-  const encounters = parseCsv("encounters.csv").filter((e) => e["version_id"] === VERSION);
+  const encounters = parseCsv("encounters.csv").filter((e) => VERSIONS.has(e["version_id"]!));
 
   /** 場所＋階 → エリアID。階を書かなければその場所の全エリアをまとめる。 */
   const areasOf = (location: string, area: string | undefined): Set<string> =>

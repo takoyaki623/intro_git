@@ -9,7 +9,7 @@
           5,
           15
         ],
-        "rate": 100
+        "rate": 200
       }
     ]
   },
@@ -23,7 +23,7 @@
           5,
           5
         ],
-        "rate": 100
+        "rate": 200
       }
     ]
   },
@@ -37,7 +37,7 @@
           15,
           25
         ],
-        "rate": 95
+        "rate": 190
       },
       {
         "species": "magikarp",
@@ -45,7 +45,7 @@
           25,
           35
         ],
-        "rate": 4
+        "rate": 8
       },
       {
         "species": "grimer",
@@ -53,7 +53,7 @@
           30,
           40
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -70,7 +70,23 @@
         "rate": 60
       },
       {
+        "species": "slowpoke",
+        "levelRange": [
+          5,
+          10
+        ],
+        "rate": 60
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          10,
+          20
+        ],
+        "rate": 30
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           10,
           20
@@ -86,7 +102,23 @@
         "rate": 5
       },
       {
+        "species": "slowpoke",
+        "levelRange": [
+          20,
+          30
+        ],
+        "rate": 5
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          30,
+          40
+        ],
+        "rate": 4
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           30,
           40
@@ -99,7 +131,7 @@
           30,
           40
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -113,7 +145,7 @@
           49,
           49
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "parasect",
@@ -121,7 +153,7 @@
           49,
           49
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "golbat",
@@ -129,7 +161,7 @@
           46,
           46
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "machoke",
@@ -137,7 +169,7 @@
           46,
           46
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "primeape",
@@ -145,7 +177,7 @@
           52,
           52
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "electrode",
@@ -153,7 +185,7 @@
           58,
           58
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "parasect",
@@ -161,7 +193,7 @@
           58,
           58
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "golbat",
@@ -169,7 +201,7 @@
           55,
           55
         ],
-        "rate": 4
+        "rate": 8
       },
       {
         "species": "primeape",
@@ -177,7 +209,7 @@
           61,
           61
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -191,7 +223,7 @@
           5,
           15
         ],
-        "rate": 60
+        "rate": 120
       },
       {
         "species": "goldeen",
@@ -199,7 +231,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "magikarp",
@@ -207,7 +239,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       }
     ]
   },
@@ -221,7 +253,7 @@
           5,
           5
         ],
-        "rate": 100
+        "rate": 200
       }
     ]
   },
@@ -235,7 +267,7 @@
           15,
           25
         ],
-        "rate": 40
+        "rate": 80
       },
       {
         "species": "poliwhirl",
@@ -243,7 +275,7 @@
           20,
           30
         ],
-        "rate": 40
+        "rate": 80
       },
       {
         "species": "gyarados",
@@ -251,7 +283,7 @@
           15,
           25
         ],
-        "rate": 15
+        "rate": 30
       },
       {
         "species": "psyduck",
@@ -262,7 +294,23 @@
         "rate": 4
       },
       {
+        "species": "slowpoke",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 4
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           25,
           35
@@ -281,7 +329,7 @@
           30,
           40
         ],
-        "rate": 60
+        "rate": 120
       },
       {
         "species": "graveler",
@@ -289,7 +337,7 @@
           40,
           50
         ],
-        "rate": 30
+        "rate": 60
       },
       {
         "species": "geodude",
@@ -297,7 +345,7 @@
           40,
           50
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "graveler",
@@ -305,7 +353,7 @@
           45,
           55
         ],
-        "rate": 5
+        "rate": 10
       }
     ]
   },
@@ -322,7 +370,23 @@
         "rate": 60
       },
       {
+        "species": "slowpoke",
+        "levelRange": [
+          30,
+          40
+        ],
+        "rate": 60
+      },
+      {
         "species": "golduck",
+        "levelRange": [
+          40,
+          50
+        ],
+        "rate": 30
+      },
+      {
+        "species": "slowbro",
         "levelRange": [
           40,
           50
@@ -339,6 +403,22 @@
       },
       {
         "species": "psyduck",
+        "levelRange": [
+          40,
+          50
+        ],
+        "rate": 5
+      },
+      {
+        "species": "slowbro",
+        "levelRange": [
+          45,
+          55
+        ],
+        "rate": 5
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           40,
           50
@@ -357,7 +437,7 @@
           5,
           15
         ],
-        "rate": 60
+        "rate": 80
       },
       {
         "species": "krabby",
@@ -365,7 +445,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 80
       },
       {
         "species": "magikarp",
@@ -373,7 +453,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       }
     ]
   },
@@ -387,7 +467,7 @@
           5,
           5
         ],
-        "rate": 100
+        "rate": 200
       }
     ]
   },
@@ -404,12 +484,20 @@
         "rate": 80
       },
       {
+        "species": "krabby",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 80
+      },
+      {
         "species": "gyarados",
         "levelRange": [
           15,
           25
         ],
-        "rate": 15
+        "rate": 30
       },
       {
         "species": "horsea",
@@ -420,7 +508,23 @@
         "rate": 4
       },
       {
+        "species": "krabby",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 4
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           25,
           35
@@ -439,7 +543,7 @@
           5,
           10
         ],
-        "rate": 60
+        "rate": 120
       },
       {
         "species": "tentacool",
@@ -447,7 +551,7 @@
           10,
           20
         ],
-        "rate": 30
+        "rate": 60
       },
       {
         "species": "tentacool",
@@ -455,7 +559,7 @@
           20,
           30
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "tentacool",
@@ -463,7 +567,7 @@
           30,
           35
         ],
-        "rate": 4
+        "rate": 8
       },
       {
         "species": "tentacool",
@@ -471,7 +575,7 @@
           35,
           40
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -485,7 +589,7 @@
           5,
           15
         ],
-        "rate": 60
+        "rate": 80
       },
       {
         "species": "krabby",
@@ -493,7 +597,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 80
       },
       {
         "species": "magikarp",
@@ -501,7 +605,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       }
     ]
   },
@@ -515,7 +619,7 @@
           5,
           5
         ],
-        "rate": 100
+        "rate": 200
       }
     ]
   },
@@ -532,7 +636,23 @@
         "rate": 40
       },
       {
+        "species": "krabby",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 40
+      },
+      {
         "species": "shellder",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 40
+      },
+      {
+        "species": "staryu",
         "levelRange": [
           15,
           25
@@ -545,7 +665,7 @@
           15,
           25
         ],
-        "rate": 15
+        "rate": 30
       },
       {
         "species": "seadra",
@@ -556,7 +676,23 @@
         "rate": 4
       },
       {
+        "species": "slowbro",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 4
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           25,
           35
@@ -575,7 +711,7 @@
           5,
           10
         ],
-        "rate": 60
+        "rate": 120
       },
       {
         "species": "tentacool",
@@ -583,7 +719,7 @@
           10,
           20
         ],
-        "rate": 30
+        "rate": 60
       },
       {
         "species": "tentacool",
@@ -591,7 +727,7 @@
           20,
           30
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "tentacool",
@@ -599,7 +735,7 @@
           30,
           35
         ],
-        "rate": 4
+        "rate": 8
       },
       {
         "species": "tentacool",
@@ -607,7 +743,7 @@
           35,
           40
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -621,7 +757,7 @@
           5,
           15
         ],
-        "rate": 60
+        "rate": 120
       },
       {
         "species": "magikarp",
@@ -629,7 +765,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "poliwag",
@@ -637,7 +773,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       }
     ]
   },
@@ -651,7 +787,7 @@
           5,
           5
         ],
-        "rate": 100
+        "rate": 200
       }
     ]
   },
@@ -665,7 +801,7 @@
           15,
           25
         ],
-        "rate": 40
+        "rate": 80
       },
       {
         "species": "seaking",
@@ -673,7 +809,7 @@
           20,
           30
         ],
-        "rate": 40
+        "rate": 80
       },
       {
         "species": "gyarados",
@@ -681,7 +817,7 @@
           15,
           25
         ],
-        "rate": 15
+        "rate": 30
       },
       {
         "species": "psyduck",
@@ -692,7 +828,23 @@
         "rate": 4
       },
       {
+        "species": "slowpoke",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 4
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           25,
           35
@@ -714,7 +866,23 @@
         "rate": 90
       },
       {
+        "species": "slowpoke",
+        "levelRange": [
+          20,
+          25
+        ],
+        "rate": 90
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          25,
+          30
+        ],
+        "rate": 5
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           25,
           30
@@ -730,7 +898,23 @@
         "rate": 4
       },
       {
+        "species": "slowpoke",
+        "levelRange": [
+          30,
+          35
+        ],
+        "rate": 4
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          35,
+          40
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           35,
           40
@@ -749,7 +933,7 @@
           7,
           7
         ],
-        "rate": 25
+        "rate": 50
       },
       {
         "species": "paras",
@@ -757,7 +941,7 @@
           8,
           8
         ],
-        "rate": 25
+        "rate": 50
       },
       {
         "species": "paras",
@@ -765,7 +949,7 @@
           5,
           5
         ],
-        "rate": 14
+        "rate": 28
       },
       {
         "species": "paras",
@@ -773,7 +957,7 @@
           6,
           6
         ],
-        "rate": 14
+        "rate": 28
       },
       {
         "species": "paras",
@@ -781,7 +965,7 @@
           9,
           9
         ],
-        "rate": 11
+        "rate": 22
       },
       {
         "species": "paras",
@@ -789,7 +973,7 @@
           10,
           10
         ],
-        "rate": 11
+        "rate": 22
       }
     ]
   },
@@ -803,7 +987,7 @@
           9,
           9
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "zubat",
@@ -811,7 +995,7 @@
           8,
           8
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "geodude",
@@ -819,7 +1003,7 @@
           10,
           10
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "paras",
@@ -827,7 +1011,7 @@
           10,
           10
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "zubat",
@@ -835,7 +1019,7 @@
           9,
           9
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "zubat",
@@ -843,7 +1027,7 @@
           10,
           10
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "zubat",
@@ -851,7 +1035,7 @@
           11,
           11
         ],
-        "rate": 9
+        "rate": 18
       },
       {
         "species": "clefairy",
@@ -859,7 +1043,7 @@
           10,
           10
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "paras",
@@ -867,7 +1051,7 @@
           12,
           12
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "clefairy",
@@ -875,7 +1059,7 @@
           12,
           12
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -889,7 +1073,7 @@
           7,
           7
         ],
-        "rate": 29
+        "rate": 58
       },
       {
         "species": "zubat",
@@ -897,7 +1081,7 @@
           8,
           8
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "geodude",
@@ -905,7 +1089,7 @@
           7,
           7
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "geodude",
@@ -913,7 +1097,7 @@
           8,
           8
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "zubat",
@@ -921,7 +1105,7 @@
           9,
           9
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "zubat",
@@ -929,7 +1113,7 @@
           10,
           10
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "geodude",
@@ -937,7 +1121,7 @@
           9,
           9
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "paras",
@@ -945,7 +1129,7 @@
           8,
           8
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "clefairy",
@@ -953,7 +1137,7 @@
           8,
           8
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -967,7 +1151,7 @@
           5,
           15
         ],
-        "rate": 60
+        "rate": 80
       },
       {
         "species": "krabby",
@@ -975,7 +1159,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 80
       },
       {
         "species": "magikarp",
@@ -983,7 +1167,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       }
     ]
   },
@@ -997,7 +1181,7 @@
           5,
           10
         ],
-        "rate": 100
+        "rate": 200
       }
     ]
   },
@@ -1014,7 +1198,23 @@
         "rate": 40
       },
       {
+        "species": "krabby",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 40
+      },
+      {
         "species": "shellder",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 40
+      },
+      {
+        "species": "staryu",
         "levelRange": [
           15,
           25
@@ -1027,7 +1227,15 @@
           15,
           25
         ],
-        "rate": 15
+        "rate": 30
+      },
+      {
+        "species": "kingler",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 4
       },
       {
         "species": "seadra",
@@ -1039,6 +1247,14 @@
       },
       {
         "species": "psyduck",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           25,
           35
@@ -1057,7 +1273,7 @@
           5,
           10
         ],
-        "rate": 60
+        "rate": 120
       },
       {
         "species": "tentacool",
@@ -1065,7 +1281,7 @@
           10,
           20
         ],
-        "rate": 30
+        "rate": 60
       },
       {
         "species": "tentacool",
@@ -1073,7 +1289,7 @@
           20,
           30
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "tentacool",
@@ -1081,7 +1297,7 @@
           30,
           35
         ],
-        "rate": 4
+        "rate": 8
       },
       {
         "species": "tentacool",
@@ -1089,7 +1305,7 @@
           35,
           40
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -1098,52 +1314,12 @@
     "method": "cave",
     "entries": [
       {
-        "species": "koffing",
-        "levelRange": [
-          28,
-          28
-        ],
-        "rate": 20
-      },
-      {
         "species": "raticate",
         "levelRange": [
           32,
           32
         ],
-        "rate": 20
-      },
-      {
-        "species": "growlithe",
-        "levelRange": [
-          30,
-          30
-        ],
-        "rate": 10
-      },
-      {
-        "species": "koffing",
-        "levelRange": [
-          30,
-          30
-        ],
-        "rate": 10
-      },
-      {
-        "species": "raticate",
-        "levelRange": [
-          36,
-          36
-        ],
-        "rate": 10
-      },
-      {
-        "species": "rattata",
-        "levelRange": [
-          28,
-          28
-        ],
-        "rate": 10
+        "rate": 40
       },
       {
         "species": "grimer",
@@ -1151,7 +1327,71 @@
           28,
           28
         ],
-        "rate": 5
+        "rate": 25
+      },
+      {
+        "species": "koffing",
+        "levelRange": [
+          28,
+          28
+        ],
+        "rate": 25
+      },
+      {
+        "species": "raticate",
+        "levelRange": [
+          36,
+          36
+        ],
+        "rate": 20
+      },
+      {
+        "species": "rattata",
+        "levelRange": [
+          28,
+          28
+        ],
+        "rate": 20
+      },
+      {
+        "species": "grimer",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 10
+      },
+      {
+        "species": "growlithe",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 10
+      },
+      {
+        "species": "koffing",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 10
+      },
+      {
+        "species": "rattata",
+        "levelRange": [
+          26,
+          26
+        ],
+        "rate": 10
+      },
+      {
+        "species": "vulpix",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 10
       },
       {
         "species": "growlithe",
@@ -1162,10 +1402,18 @@
         "rate": 5
       },
       {
-        "species": "rattata",
+        "species": "muk",
         "levelRange": [
-          26,
-          26
+          32,
+          32
+        ],
+        "rate": 5
+      },
+      {
+        "species": "vulpix",
+        "levelRange": [
+          32,
+          32
         ],
         "rate": 5
       },
@@ -1184,52 +1432,12 @@
     "method": "cave",
     "entries": [
       {
-        "species": "koffing",
-        "levelRange": [
-          28,
-          28
-        ],
-        "rate": 20
-      },
-      {
         "species": "raticate",
         "levelRange": [
           32,
           32
         ],
-        "rate": 20
-      },
-      {
-        "species": "growlithe",
-        "levelRange": [
-          30,
-          30
-        ],
-        "rate": 10
-      },
-      {
-        "species": "koffing",
-        "levelRange": [
-          30,
-          30
-        ],
-        "rate": 10
-      },
-      {
-        "species": "raticate",
-        "levelRange": [
-          36,
-          36
-        ],
-        "rate": 10
-      },
-      {
-        "species": "rattata",
-        "levelRange": [
-          28,
-          28
-        ],
-        "rate": 10
+        "rate": 40
       },
       {
         "species": "grimer",
@@ -1237,7 +1445,71 @@
           28,
           28
         ],
-        "rate": 5
+        "rate": 25
+      },
+      {
+        "species": "koffing",
+        "levelRange": [
+          28,
+          28
+        ],
+        "rate": 25
+      },
+      {
+        "species": "raticate",
+        "levelRange": [
+          36,
+          36
+        ],
+        "rate": 20
+      },
+      {
+        "species": "rattata",
+        "levelRange": [
+          28,
+          28
+        ],
+        "rate": 20
+      },
+      {
+        "species": "grimer",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 10
+      },
+      {
+        "species": "growlithe",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 10
+      },
+      {
+        "species": "koffing",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 10
+      },
+      {
+        "species": "rattata",
+        "levelRange": [
+          26,
+          26
+        ],
+        "rate": 10
+      },
+      {
+        "species": "vulpix",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 10
       },
       {
         "species": "growlithe",
@@ -1248,10 +1520,18 @@
         "rate": 5
       },
       {
-        "species": "rattata",
+        "species": "muk",
         "levelRange": [
-          26,
-          26
+          32,
+          32
+        ],
+        "rate": 5
+      },
+      {
+        "species": "vulpix",
+        "levelRange": [
+          32,
+          32
         ],
         "rate": 5
       },
@@ -1266,7 +1546,265 @@
     ]
   },
   {
-    "id": "kanto-pokemon-tower-grass",
+    "id": "kanto-pokemon-tower-3f-grass",
+    "method": "grass",
+    "entries": [
+      {
+        "species": "gastly",
+        "levelRange": [
+          15,
+          15
+        ],
+        "rate": 40
+      },
+      {
+        "species": "gastly",
+        "levelRange": [
+          16,
+          16
+        ],
+        "rate": 40
+      },
+      {
+        "species": "gastly",
+        "levelRange": [
+          17,
+          17
+        ],
+        "rate": 30
+      },
+      {
+        "species": "gastly",
+        "levelRange": [
+          13,
+          13
+        ],
+        "rate": 20
+      },
+      {
+        "species": "gastly",
+        "levelRange": [
+          14,
+          14
+        ],
+        "rate": 20
+      },
+      {
+        "species": "gastly",
+        "levelRange": [
+          18,
+          18
+        ],
+        "rate": 20
+      },
+      {
+        "species": "cubone",
+        "levelRange": [
+          15,
+          15
+        ],
+        "rate": 10
+      },
+      {
+        "species": "gastly",
+        "levelRange": [
+          19,
+          19
+        ],
+        "rate": 10
+      },
+      {
+        "species": "cubone",
+        "levelRange": [
+          17,
+          17
+        ],
+        "rate": 8
+      },
+      {
+        "species": "haunter",
+        "levelRange": [
+          20,
+          20
+        ],
+        "rate": 2
+      }
+    ]
+  },
+  {
+    "id": "kanto-pokemon-tower-4f-grass",
+    "method": "grass",
+    "entries": [
+      {
+        "species": "gastly",
+        "levelRange": [
+          15,
+          15
+        ],
+        "rate": 40
+      },
+      {
+        "species": "gastly",
+        "levelRange": [
+          16,
+          16
+        ],
+        "rate": 40
+      },
+      {
+        "species": "gastly",
+        "levelRange": [
+          17,
+          17
+        ],
+        "rate": 30
+      },
+      {
+        "species": "gastly",
+        "levelRange": [
+          13,
+          13
+        ],
+        "rate": 20
+      },
+      {
+        "species": "gastly",
+        "levelRange": [
+          14,
+          14
+        ],
+        "rate": 20
+      },
+      {
+        "species": "gastly",
+        "levelRange": [
+          18,
+          18
+        ],
+        "rate": 20
+      },
+      {
+        "species": "cubone",
+        "levelRange": [
+          15,
+          15
+        ],
+        "rate": 10
+      },
+      {
+        "species": "haunter",
+        "levelRange": [
+          20,
+          20
+        ],
+        "rate": 10
+      },
+      {
+        "species": "cubone",
+        "levelRange": [
+          17,
+          17
+        ],
+        "rate": 8
+      },
+      {
+        "species": "gastly",
+        "levelRange": [
+          19,
+          19
+        ],
+        "rate": 2
+      }
+    ]
+  },
+  {
+    "id": "kanto-pokemon-tower-5f-grass",
+    "method": "grass",
+    "entries": [
+      {
+        "species": "gastly",
+        "levelRange": [
+          15,
+          15
+        ],
+        "rate": 40
+      },
+      {
+        "species": "gastly",
+        "levelRange": [
+          16,
+          16
+        ],
+        "rate": 40
+      },
+      {
+        "species": "gastly",
+        "levelRange": [
+          17,
+          17
+        ],
+        "rate": 30
+      },
+      {
+        "species": "gastly",
+        "levelRange": [
+          13,
+          13
+        ],
+        "rate": 20
+      },
+      {
+        "species": "gastly",
+        "levelRange": [
+          14,
+          14
+        ],
+        "rate": 20
+      },
+      {
+        "species": "gastly",
+        "levelRange": [
+          18,
+          18
+        ],
+        "rate": 20
+      },
+      {
+        "species": "cubone",
+        "levelRange": [
+          15,
+          15
+        ],
+        "rate": 10
+      },
+      {
+        "species": "haunter",
+        "levelRange": [
+          20,
+          20
+        ],
+        "rate": 10
+      },
+      {
+        "species": "cubone",
+        "levelRange": [
+          17,
+          17
+        ],
+        "rate": 8
+      },
+      {
+        "species": "gastly",
+        "levelRange": [
+          19,
+          19
+        ],
+        "rate": 2
+      }
+    ]
+  },
+  {
+    "id": "kanto-pokemon-tower-6f-grass",
     "method": "grass",
     "entries": [
       {
@@ -1275,7 +1813,7 @@
           16,
           16
         ],
-        "rate": 100
+        "rate": 40
       },
       {
         "species": "gastly",
@@ -1283,15 +1821,7 @@
           17,
           17
         ],
-        "rate": 85
-      },
-      {
-        "species": "gastly",
-        "levelRange": [
-          15,
-          15
-        ],
-        "rate": 80
+        "rate": 40
       },
       {
         "species": "gastly",
@@ -1299,7 +1829,7 @@
           18,
           18
         ],
-        "rate": 60
+        "rate": 30
       },
       {
         "species": "gastly",
@@ -1307,15 +1837,15 @@
           14,
           14
         ],
-        "rate": 40
+        "rate": 20
       },
       {
         "species": "gastly",
         "levelRange": [
-          13,
-          13
+          15,
+          15
         ],
-        "rate": 30
+        "rate": 20
       },
       {
         "species": "gastly",
@@ -1323,7 +1853,7 @@
           19,
           19
         ],
-        "rate": 27
+        "rate": 20
       },
       {
         "species": "cubone",
@@ -1331,39 +1861,7 @@
           17,
           17
         ],
-        "rate": 22
-      },
-      {
-        "species": "cubone",
-        "levelRange": [
-          15,
-          15
-        ],
-        "rate": 15
-      },
-      {
-        "species": "haunter",
-        "levelRange": [
-          23,
-          23
-        ],
-        "rate": 15
-      },
-      {
-        "species": "haunter",
-        "levelRange": [
-          20,
-          20
-        ],
-        "rate": 11
-      },
-      {
-        "species": "cubone",
-        "levelRange": [
-          19,
-          19
-        ],
-        "rate": 9
+        "rate": 10
       },
       {
         "species": "haunter",
@@ -1371,15 +1869,23 @@
           21,
           21
         ],
-        "rate": 5
+        "rate": 10
+      },
+      {
+        "species": "cubone",
+        "levelRange": [
+          19,
+          19
+        ],
+        "rate": 8
       },
       {
         "species": "haunter",
         "levelRange": [
-          25,
-          25
+          23,
+          23
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -1393,7 +1899,7 @@
           22,
           22
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "voltorb",
@@ -1401,7 +1907,7 @@
           22,
           22
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "magnemite",
@@ -1409,7 +1915,7 @@
           25,
           25
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "pikachu",
@@ -1417,7 +1923,7 @@
           22,
           22
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "pikachu",
@@ -1425,7 +1931,7 @@
           24,
           24
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "voltorb",
@@ -1433,7 +1939,7 @@
           25,
           25
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "magneton",
@@ -1441,7 +1947,7 @@
           31,
           31
         ],
-        "rate": 5
+        "rate": 14
       },
       {
         "species": "magneton",
@@ -1449,7 +1955,7 @@
           34,
           34
         ],
-        "rate": 5
+        "rate": 11
       },
       {
         "species": "pikachu",
@@ -1457,7 +1963,7 @@
           26,
           26
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "electabuzz",
@@ -1487,7 +1993,7 @@
           16,
           16
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "zubat",
@@ -1495,7 +2001,7 @@
           15,
           15
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "geodude",
@@ -1503,7 +2009,7 @@
           17,
           17
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "machop",
@@ -1511,7 +2017,7 @@
           16,
           16
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "mankey",
@@ -1519,7 +2025,7 @@
           16,
           16
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "zubat",
@@ -1527,7 +2033,7 @@
           16,
           16
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "geodude",
@@ -1535,7 +2041,7 @@
           15,
           15
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "machop",
@@ -1543,7 +2049,7 @@
           17,
           17
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "mankey",
@@ -1551,7 +2057,7 @@
           17,
           17
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "onix",
@@ -1559,7 +2065,7 @@
           13,
           13
         ],
-        "rate": 4
+        "rate": 8
       },
       {
         "species": "onix",
@@ -1567,7 +2073,7 @@
           15,
           15
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -1581,7 +2087,7 @@
           17,
           17
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "zubat",
@@ -1589,7 +2095,7 @@
           16,
           16
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "geodude",
@@ -1597,7 +2103,7 @@
           16,
           16
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "machop",
@@ -1605,7 +2111,7 @@
           17,
           17
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "mankey",
@@ -1613,7 +2119,7 @@
           17,
           17
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "zubat",
@@ -1621,7 +2127,7 @@
           15,
           15
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "geodude",
@@ -1629,7 +2135,7 @@
           15,
           15
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "mankey",
@@ -1637,7 +2143,7 @@
           16,
           16
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "onix",
@@ -1645,7 +2151,7 @@
           13,
           13
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "onix",
@@ -1653,7 +2159,7 @@
           15,
           15
         ],
-        "rate": 4
+        "rate": 8
       },
       {
         "species": "onix",
@@ -1661,7 +2167,7 @@
           17,
           17
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -1675,7 +2181,7 @@
           5,
           20
         ],
-        "rate": 60
+        "rate": 120
       },
       {
         "species": "geodude",
@@ -1683,7 +2189,7 @@
           10,
           20
         ],
-        "rate": 30
+        "rate": 60
       },
       {
         "species": "geodude",
@@ -1691,7 +2197,7 @@
           15,
           30
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "graveler",
@@ -1699,7 +2205,7 @@
           25,
           40
         ],
-        "rate": 4
+        "rate": 8
       },
       {
         "species": "graveler",
@@ -1707,7 +2213,7 @@
           30,
           40
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -1721,7 +2227,7 @@
           3,
           3
         ],
-        "rate": 35
+        "rate": 70
       },
       {
         "species": "rattata",
@@ -1729,7 +2235,7 @@
           3,
           3
         ],
-        "rate": 35
+        "rate": 70
       },
       {
         "species": "pidgey",
@@ -1737,7 +2243,7 @@
           2,
           2
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "rattata",
@@ -1745,7 +2251,7 @@
           2,
           2
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "rattata",
@@ -1753,7 +2259,7 @@
           4,
           4
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "pidgey",
@@ -1761,7 +2267,7 @@
           4,
           4
         ],
-        "rate": 4
+        "rate": 8
       },
       {
         "species": "pidgey",
@@ -1769,7 +2275,7 @@
           5,
           5
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -1783,7 +2289,7 @@
           5,
           15
         ],
-        "rate": 60
+        "rate": 80
       },
       {
         "species": "krabby",
@@ -1791,7 +2297,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 80
       },
       {
         "species": "magikarp",
@@ -1799,7 +2305,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       }
     ]
   },
@@ -1813,7 +2319,7 @@
           5,
           5
         ],
-        "rate": 100
+        "rate": 200
       }
     ]
   },
@@ -1830,12 +2336,20 @@
         "rate": 80
       },
       {
+        "species": "krabby",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 80
+      },
+      {
         "species": "gyarados",
         "levelRange": [
           15,
           25
         ],
-        "rate": 15
+        "rate": 30
       },
       {
         "species": "horsea",
@@ -1846,7 +2360,23 @@
         "rate": 4
       },
       {
+        "species": "krabby",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 4
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           25,
           35
@@ -1865,7 +2395,7 @@
           16,
           16
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "voltorb",
@@ -1873,7 +2403,7 @@
           16,
           16
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "voltorb",
@@ -1881,7 +2411,15 @@
           14,
           14
         ],
-        "rate": 15
+        "rate": 30
+      },
+      {
+        "species": "spearow",
+        "levelRange": [
+          13,
+          13
+        ],
+        "rate": 20
       },
       {
         "species": "ekans",
@@ -1900,10 +2438,18 @@
         "rate": 10
       },
       {
-        "species": "spearow",
+        "species": "sandshrew",
         "levelRange": [
-          13,
-          13
+          11,
+          11
+        ],
+        "rate": 10
+      },
+      {
+        "species": "sandshrew",
+        "levelRange": [
+          15,
+          15
         ],
         "rate": 10
       },
@@ -1913,7 +2459,7 @@
           17,
           17
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "voltorb",
@@ -1921,7 +2467,7 @@
           17,
           17
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "ekans",
@@ -1932,7 +2478,23 @@
         "rate": 4
       },
       {
+        "species": "sandshrew",
+        "levelRange": [
+          13,
+          13
+        ],
+        "rate": 4
+      },
+      {
         "species": "ekans",
+        "levelRange": [
+          17,
+          17
+        ],
+        "rate": 1
+      },
+      {
+        "species": "sandshrew",
         "levelRange": [
           17,
           17
@@ -1951,7 +2513,7 @@
           5,
           10
         ],
-        "rate": 60
+        "rate": 120
       },
       {
         "species": "tentacool",
@@ -1959,7 +2521,7 @@
           10,
           20
         ],
-        "rate": 30
+        "rate": 60
       },
       {
         "species": "tentacool",
@@ -1967,7 +2529,7 @@
           20,
           30
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "tentacool",
@@ -1975,7 +2537,7 @@
           30,
           35
         ],
-        "rate": 4
+        "rate": 8
       },
       {
         "species": "tentacool",
@@ -1983,7 +2545,7 @@
           35,
           40
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -1997,7 +2559,7 @@
           5,
           15
         ],
-        "rate": 60
+        "rate": 80
       },
       {
         "species": "krabby",
@@ -2005,7 +2567,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 80
       },
       {
         "species": "magikarp",
@@ -2013,7 +2575,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       }
     ]
   },
@@ -2027,7 +2589,7 @@
           5,
           5
         ],
-        "rate": 100
+        "rate": 200
       }
     ]
   },
@@ -2044,15 +2606,31 @@
         "rate": 80
       },
       {
+        "species": "krabby",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 80
+      },
+      {
         "species": "gyarados",
         "levelRange": [
           15,
           25
         ],
-        "rate": 15
+        "rate": 30
       },
       {
         "species": "horsea",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 4
+      },
+      {
+        "species": "krabby",
         "levelRange": [
           25,
           35
@@ -2066,6 +2644,14 @@
           35
         ],
         "rate": 1
+      },
+      {
+        "species": "slowpoke",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
       }
     ]
   },
@@ -2073,6 +2659,30 @@
     "id": "kanto-route-11-grass",
     "method": "grass",
     "entries": [
+      {
+        "species": "spearow",
+        "levelRange": [
+          15,
+          15
+        ],
+        "rate": 40
+      },
+      {
+        "species": "drowzee",
+        "levelRange": [
+          11,
+          11
+        ],
+        "rate": 20
+      },
+      {
+        "species": "drowzee",
+        "levelRange": [
+          13,
+          13
+        ],
+        "rate": 20
+      },
       {
         "species": "ekans",
         "levelRange": [
@@ -2082,10 +2692,18 @@
         "rate": 20
       },
       {
+        "species": "sandshrew",
+        "levelRange": [
+          14,
+          14
+        ],
+        "rate": 20
+      },
+      {
         "species": "spearow",
         "levelRange": [
-          15,
-          15
+          13,
+          13
         ],
         "rate": 20
       },
@@ -2098,28 +2716,12 @@
         "rate": 15
       },
       {
-        "species": "drowzee",
+        "species": "sandshrew",
         "levelRange": [
-          11,
-          11
+          12,
+          12
         ],
-        "rate": 10
-      },
-      {
-        "species": "drowzee",
-        "levelRange": [
-          13,
-          13
-        ],
-        "rate": 10
-      },
-      {
-        "species": "spearow",
-        "levelRange": [
-          13,
-          13
-        ],
-        "rate": 10
+        "rate": 15
       },
       {
         "species": "drowzee",
@@ -2127,7 +2729,15 @@
           15,
           15
         ],
-        "rate": 5
+        "rate": 10
+      },
+      {
+        "species": "spearow",
+        "levelRange": [
+          17,
+          17
+        ],
+        "rate": 10
       },
       {
         "species": "ekans",
@@ -2138,10 +2748,10 @@
         "rate": 5
       },
       {
-        "species": "spearow",
+        "species": "sandshrew",
         "levelRange": [
-          17,
-          17
+          15,
+          15
         ],
         "rate": 5
       }
@@ -2157,7 +2767,7 @@
           5,
           10
         ],
-        "rate": 60
+        "rate": 120
       },
       {
         "species": "tentacool",
@@ -2165,7 +2775,7 @@
           10,
           20
         ],
-        "rate": 30
+        "rate": 60
       },
       {
         "species": "tentacool",
@@ -2173,7 +2783,7 @@
           20,
           30
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "tentacool",
@@ -2181,7 +2791,7 @@
           30,
           35
         ],
-        "rate": 4
+        "rate": 8
       },
       {
         "species": "tentacool",
@@ -2189,7 +2799,7 @@
           35,
           40
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -2203,7 +2813,7 @@
           5,
           15
         ],
-        "rate": 60
+        "rate": 80
       },
       {
         "species": "krabby",
@@ -2211,7 +2821,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 80
       },
       {
         "species": "magikarp",
@@ -2219,7 +2829,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       }
     ]
   },
@@ -2233,7 +2843,7 @@
           5,
           5
         ],
-        "rate": 100
+        "rate": 200
       }
     ]
   },
@@ -2250,15 +2860,31 @@
         "rate": 80
       },
       {
+        "species": "krabby",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 80
+      },
+      {
         "species": "gyarados",
         "levelRange": [
           15,
           25
         ],
-        "rate": 15
+        "rate": 30
       },
       {
         "species": "horsea",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 4
+      },
+      {
+        "species": "krabby",
         "levelRange": [
           25,
           35
@@ -2272,6 +2898,14 @@
           35
         ],
         "rate": 1
+      },
+      {
+        "species": "slowpoke",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
       }
     ]
   },
@@ -2279,6 +2913,30 @@
     "id": "kanto-route-12-grass",
     "method": "grass",
     "entries": [
+      {
+        "species": "venonat",
+        "levelRange": [
+          24,
+          24
+        ],
+        "rate": 40
+      },
+      {
+        "species": "pidgey",
+        "levelRange": [
+          23,
+          23
+        ],
+        "rate": 30
+      },
+      {
+        "species": "bellsprout",
+        "levelRange": [
+          24,
+          24
+        ],
+        "rate": 20
+      },
       {
         "species": "oddish",
         "levelRange": [
@@ -2288,20 +2946,28 @@
         "rate": 20
       },
       {
-        "species": "venonat",
+        "species": "pidgey",
         "levelRange": [
-          24,
-          24
+          25,
+          25
         ],
         "rate": 20
       },
       {
-        "species": "pidgey",
+        "species": "venonat",
         "levelRange": [
-          23,
-          23
+          26,
+          26
         ],
-        "rate": 15
+        "rate": 20
+      },
+      {
+        "species": "bellsprout",
+        "levelRange": [
+          22,
+          22
+        ],
+        "rate": 10
       },
       {
         "species": "oddish",
@@ -2314,21 +2980,13 @@
       {
         "species": "pidgey",
         "levelRange": [
-          25,
-          25
+          27,
+          27
         ],
         "rate": 10
       },
       {
-        "species": "venonat",
-        "levelRange": [
-          26,
-          26
-        ],
-        "rate": 10
-      },
-      {
-        "species": "oddish",
+        "species": "bellsprout",
         "levelRange": [
           26,
           26
@@ -2336,10 +2994,10 @@
         "rate": 5
       },
       {
-        "species": "pidgey",
+        "species": "oddish",
         "levelRange": [
-          27,
-          27
+          26,
+          26
         ],
         "rate": 5
       },
@@ -2352,7 +3010,23 @@
         "rate": 4
       },
       {
+        "species": "weepinbell",
+        "levelRange": [
+          28,
+          28
+        ],
+        "rate": 4
+      },
+      {
         "species": "gloom",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 1
+      },
+      {
+        "species": "weepinbell",
         "levelRange": [
           30,
           30
@@ -2371,7 +3045,7 @@
           5,
           10
         ],
-        "rate": 60
+        "rate": 120
       },
       {
         "species": "tentacool",
@@ -2379,7 +3053,7 @@
           10,
           20
         ],
-        "rate": 30
+        "rate": 60
       },
       {
         "species": "tentacool",
@@ -2387,7 +3061,7 @@
           20,
           30
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "tentacool",
@@ -2395,7 +3069,7 @@
           30,
           35
         ],
-        "rate": 4
+        "rate": 8
       },
       {
         "species": "tentacool",
@@ -2403,7 +3077,7 @@
           35,
           40
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -2417,7 +3091,7 @@
           5,
           15
         ],
-        "rate": 60
+        "rate": 80
       },
       {
         "species": "krabby",
@@ -2425,7 +3099,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 80
       },
       {
         "species": "magikarp",
@@ -2433,7 +3107,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       }
     ]
   },
@@ -2447,7 +3121,7 @@
           5,
           5
         ],
-        "rate": 100
+        "rate": 200
       }
     ]
   },
@@ -2464,15 +3138,31 @@
         "rate": 80
       },
       {
+        "species": "krabby",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 80
+      },
+      {
         "species": "gyarados",
         "levelRange": [
           15,
           25
         ],
-        "rate": 15
+        "rate": 30
       },
       {
         "species": "horsea",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 4
+      },
+      {
+        "species": "krabby",
         "levelRange": [
           25,
           35
@@ -2486,6 +3176,14 @@
           35
         ],
         "rate": 1
+      },
+      {
+        "species": "slowpoke",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
       }
     ]
   },
@@ -2493,6 +3191,22 @@
     "id": "kanto-route-13-grass",
     "method": "grass",
     "entries": [
+      {
+        "species": "venonat",
+        "levelRange": [
+          24,
+          24
+        ],
+        "rate": 40
+      },
+      {
+        "species": "bellsprout",
+        "levelRange": [
+          24,
+          24
+        ],
+        "rate": 20
+      },
       {
         "species": "oddish",
         "levelRange": [
@@ -2502,12 +3216,36 @@
         "rate": 20
       },
       {
-        "species": "venonat",
+        "species": "pidgey",
         "levelRange": [
-          24,
-          24
+          27,
+          27
         ],
         "rate": 20
+      },
+      {
+        "species": "pidgey",
+        "levelRange": [
+          25,
+          25
+        ],
+        "rate": 20
+      },
+      {
+        "species": "venonat",
+        "levelRange": [
+          26,
+          26
+        ],
+        "rate": 20
+      },
+      {
+        "species": "bellsprout",
+        "levelRange": [
+          22,
+          22
+        ],
+        "rate": 10
       },
       {
         "species": "oddish",
@@ -2518,31 +3256,15 @@
         "rate": 10
       },
       {
-        "species": "pidgey",
+        "species": "pidgeotto",
         "levelRange": [
-          27,
-          27
+          29,
+          29
         ],
         "rate": 10
       },
       {
-        "species": "pidgey",
-        "levelRange": [
-          25,
-          25
-        ],
-        "rate": 10
-      },
-      {
-        "species": "venonat",
-        "levelRange": [
-          26,
-          26
-        ],
-        "rate": 10
-      },
-      {
-        "species": "oddish",
+        "species": "bellsprout",
         "levelRange": [
           26,
           26
@@ -2550,10 +3272,10 @@
         "rate": 5
       },
       {
-        "species": "pidgeotto",
+        "species": "oddish",
         "levelRange": [
-          29,
-          29
+          26,
+          26
         ],
         "rate": 5
       },
@@ -2566,7 +3288,23 @@
         "rate": 4
       },
       {
+        "species": "weepinbell",
+        "levelRange": [
+          28,
+          28
+        ],
+        "rate": 4
+      },
+      {
         "species": "gloom",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 1
+      },
+      {
+        "species": "weepinbell",
         "levelRange": [
           30,
           30
@@ -2585,7 +3323,7 @@
           5,
           10
         ],
-        "rate": 60
+        "rate": 120
       },
       {
         "species": "tentacool",
@@ -2593,7 +3331,7 @@
           10,
           20
         ],
-        "rate": 30
+        "rate": 60
       },
       {
         "species": "tentacool",
@@ -2601,7 +3339,7 @@
           20,
           30
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "tentacool",
@@ -2609,7 +3347,7 @@
           30,
           35
         ],
-        "rate": 4
+        "rate": 8
       },
       {
         "species": "tentacool",
@@ -2617,7 +3355,7 @@
           35,
           40
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -2625,6 +3363,22 @@
     "id": "kanto-route-14-grass",
     "method": "grass",
     "entries": [
+      {
+        "species": "venonat",
+        "levelRange": [
+          24,
+          24
+        ],
+        "rate": 40
+      },
+      {
+        "species": "bellsprout",
+        "levelRange": [
+          24,
+          24
+        ],
+        "rate": 20
+      },
       {
         "species": "oddish",
         "levelRange": [
@@ -2634,12 +3388,28 @@
         "rate": 20
       },
       {
-        "species": "venonat",
+        "species": "pidgey",
         "levelRange": [
-          24,
-          24
+          27,
+          27
         ],
         "rate": 20
+      },
+      {
+        "species": "venonat",
+        "levelRange": [
+          26,
+          26
+        ],
+        "rate": 20
+      },
+      {
+        "species": "bellsprout",
+        "levelRange": [
+          22,
+          22
+        ],
+        "rate": 10
       },
       {
         "species": "oddish",
@@ -2650,20 +3420,20 @@
         "rate": 10
       },
       {
-        "species": "pidgey",
+        "species": "pidgeotto",
         "levelRange": [
-          27,
-          27
+          29,
+          29
         ],
         "rate": 10
       },
       {
-        "species": "venonat",
+        "species": "bellsprout",
         "levelRange": [
           26,
           26
         ],
-        "rate": 10
+        "rate": 5
       },
       {
         "species": "gloom",
@@ -2682,10 +3452,10 @@
         "rate": 5
       },
       {
-        "species": "pidgeotto",
+        "species": "weepinbell",
         "levelRange": [
-          29,
-          29
+          30,
+          30
         ],
         "rate": 5
       }
@@ -2696,6 +3466,22 @@
     "method": "grass",
     "entries": [
       {
+        "species": "venonat",
+        "levelRange": [
+          24,
+          24
+        ],
+        "rate": 40
+      },
+      {
+        "species": "bellsprout",
+        "levelRange": [
+          24,
+          24
+        ],
+        "rate": 20
+      },
+      {
         "species": "oddish",
         "levelRange": [
           24,
@@ -2704,12 +3490,36 @@
         "rate": 20
       },
       {
-        "species": "venonat",
+        "species": "pidgey",
         "levelRange": [
-          24,
-          24
+          27,
+          27
         ],
         "rate": 20
+      },
+      {
+        "species": "pidgey",
+        "levelRange": [
+          25,
+          25
+        ],
+        "rate": 20
+      },
+      {
+        "species": "venonat",
+        "levelRange": [
+          26,
+          26
+        ],
+        "rate": 20
+      },
+      {
+        "species": "bellsprout",
+        "levelRange": [
+          22,
+          22
+        ],
+        "rate": 10
       },
       {
         "species": "oddish",
@@ -2720,31 +3530,15 @@
         "rate": 10
       },
       {
-        "species": "pidgey",
+        "species": "pidgeotto",
         "levelRange": [
-          27,
-          27
+          29,
+          29
         ],
         "rate": 10
       },
       {
-        "species": "pidgey",
-        "levelRange": [
-          25,
-          25
-        ],
-        "rate": 10
-      },
-      {
-        "species": "venonat",
-        "levelRange": [
-          26,
-          26
-        ],
-        "rate": 10
-      },
-      {
-        "species": "oddish",
+        "species": "bellsprout",
         "levelRange": [
           26,
           26
@@ -2752,10 +3546,10 @@
         "rate": 5
       },
       {
-        "species": "pidgeotto",
+        "species": "oddish",
         "levelRange": [
-          29,
-          29
+          26,
+          26
         ],
         "rate": 5
       },
@@ -2768,7 +3562,23 @@
         "rate": 4
       },
       {
+        "species": "weepinbell",
+        "levelRange": [
+          28,
+          28
+        ],
+        "rate": 4
+      },
+      {
         "species": "gloom",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 1
+      },
+      {
+        "species": "weepinbell",
         "levelRange": [
           30,
           30
@@ -2787,7 +3597,7 @@
           18,
           18
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "spearow",
@@ -2795,7 +3605,7 @@
           20,
           20
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "rattata",
@@ -2803,7 +3613,7 @@
           18,
           18
         ],
-        "rate": 15
+        "rate": 30
       },
       {
         "species": "doduo",
@@ -2811,7 +3621,7 @@
           20,
           20
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "rattata",
@@ -2819,7 +3629,7 @@
           20,
           20
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "spearow",
@@ -2827,7 +3637,7 @@
           22,
           22
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "doduo",
@@ -2835,7 +3645,7 @@
           22,
           22
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "rattata",
@@ -2843,7 +3653,7 @@
           22,
           22
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "raticate",
@@ -2851,7 +3661,7 @@
           23,
           23
         ],
-        "rate": 4
+        "rate": 8
       },
       {
         "species": "raticate",
@@ -2859,7 +3669,7 @@
           25,
           25
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -2873,7 +3683,7 @@
           24,
           24
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "spearow",
@@ -2881,7 +3691,7 @@
           20,
           20
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "doduo",
@@ -2889,7 +3699,7 @@
           26,
           26
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "raticate",
@@ -2897,7 +3707,7 @@
           25,
           25
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "raticate",
@@ -2905,7 +3715,7 @@
           27,
           27
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "spearow",
@@ -2913,7 +3723,7 @@
           22,
           22
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "doduo",
@@ -2921,7 +3731,7 @@
           28,
           28
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "raticate",
@@ -2929,7 +3739,7 @@
           29,
           29
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "rattata",
@@ -2937,7 +3747,7 @@
           22,
           22
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "fearow",
@@ -2945,7 +3755,7 @@
           25,
           25
         ],
-        "rate": 4
+        "rate": 8
       },
       {
         "species": "fearow",
@@ -2953,7 +3763,7 @@
           27,
           27
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -2967,7 +3777,7 @@
           24,
           24
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "spearow",
@@ -2975,7 +3785,7 @@
           20,
           20
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "doduo",
@@ -2983,7 +3793,7 @@
           26,
           26
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "fearow",
@@ -2991,7 +3801,7 @@
           25,
           25
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "raticate",
@@ -2999,7 +3809,7 @@
           25,
           25
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "spearow",
@@ -3007,7 +3817,7 @@
           22,
           22
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "doduo",
@@ -3015,7 +3825,7 @@
           28,
           28
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "raticate",
@@ -3023,7 +3833,7 @@
           29,
           29
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "rattata",
@@ -3031,7 +3841,7 @@
           22,
           22
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "fearow",
@@ -3039,7 +3849,7 @@
           27,
           27
         ],
-        "rate": 4
+        "rate": 8
       },
       {
         "species": "fearow",
@@ -3047,7 +3857,7 @@
           29,
           29
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -3061,7 +3871,7 @@
           5,
           15
         ],
-        "rate": 60
+        "rate": 80
       },
       {
         "species": "krabby",
@@ -3069,7 +3879,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 80
       },
       {
         "species": "magikarp",
@@ -3077,7 +3887,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       }
     ]
   },
@@ -3091,7 +3901,7 @@
           5,
           5
         ],
-        "rate": 100
+        "rate": 200
       }
     ]
   },
@@ -3108,12 +3918,28 @@
         "rate": 80
       },
       {
+        "species": "krabby",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 80
+      },
+      {
         "species": "gyarados",
         "levelRange": [
           15,
           25
         ],
-        "rate": 15
+        "rate": 30
+      },
+      {
+        "species": "kingler",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 4
       },
       {
         "species": "seadra",
@@ -3125,6 +3951,14 @@
       },
       {
         "species": "psyduck",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           25,
           35
@@ -3143,7 +3977,7 @@
           5,
           10
         ],
-        "rate": 60
+        "rate": 120
       },
       {
         "species": "tentacool",
@@ -3151,7 +3985,7 @@
           10,
           20
         ],
-        "rate": 30
+        "rate": 60
       },
       {
         "species": "tentacool",
@@ -3159,7 +3993,7 @@
           20,
           30
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "tentacool",
@@ -3167,7 +4001,7 @@
           30,
           35
         ],
-        "rate": 4
+        "rate": 8
       },
       {
         "species": "tentacool",
@@ -3175,7 +4009,7 @@
           35,
           40
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -3189,7 +4023,7 @@
           3,
           3
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "rattata",
@@ -3197,23 +4031,23 @@
           3,
           3
         ],
+        "rate": 40
+      },
+      {
+        "species": "pidgey",
+        "levelRange": [
+          4,
+          4
+        ],
         "rate": 20
       },
       {
         "species": "pidgey",
         "levelRange": [
-          4,
-          4
-        ],
-        "rate": 10
-      },
-      {
-        "species": "pidgey",
-        "levelRange": [
           2,
           2
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "rattata",
@@ -3221,7 +4055,7 @@
           4,
           4
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "rattata",
@@ -3229,7 +4063,7 @@
           2,
           2
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "pidgey",
@@ -3237,7 +4071,7 @@
           5,
           5
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "rattata",
@@ -3245,7 +4079,7 @@
           5,
           5
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "caterpie",
@@ -3253,7 +4087,7 @@
           4,
           4
         ],
-        "rate": 4
+        "rate": 8
       },
       {
         "species": "weedle",
@@ -3261,7 +4095,7 @@
           4,
           4
         ],
-        "rate": 4
+        "rate": 8
       },
       {
         "species": "caterpie",
@@ -3269,7 +4103,7 @@
           5,
           5
         ],
-        "rate": 1
+        "rate": 2
       },
       {
         "species": "weedle",
@@ -3277,7 +4111,7 @@
           5,
           5
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -3291,7 +4125,7 @@
           3,
           3
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "rattata",
@@ -3299,23 +4133,23 @@
           3,
           3
         ],
+        "rate": 40
+      },
+      {
+        "species": "pidgey",
+        "levelRange": [
+          4,
+          4
+        ],
         "rate": 20
       },
       {
         "species": "pidgey",
         "levelRange": [
-          4,
-          4
-        ],
-        "rate": 10
-      },
-      {
-        "species": "pidgey",
-        "levelRange": [
           2,
           2
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "rattata",
@@ -3323,7 +4157,7 @@
           4,
           4
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "rattata",
@@ -3331,7 +4165,7 @@
           2,
           2
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "pidgey",
@@ -3339,7 +4173,7 @@
           5,
           5
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "rattata",
@@ -3347,7 +4181,7 @@
           5,
           5
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "caterpie",
@@ -3355,7 +4189,7 @@
           4,
           4
         ],
-        "rate": 4
+        "rate": 8
       },
       {
         "species": "weedle",
@@ -3363,7 +4197,7 @@
           4,
           4
         ],
-        "rate": 4
+        "rate": 8
       },
       {
         "species": "caterpie",
@@ -3371,7 +4205,7 @@
           5,
           5
         ],
-        "rate": 1
+        "rate": 2
       },
       {
         "species": "weedle",
@@ -3379,7 +4213,7 @@
           5,
           5
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -3393,7 +4227,7 @@
           5,
           15
         ],
-        "rate": 60
+        "rate": 80
       },
       {
         "species": "krabby",
@@ -3401,7 +4235,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 80
       },
       {
         "species": "magikarp",
@@ -3409,7 +4243,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       }
     ]
   },
@@ -3423,7 +4257,7 @@
           5,
           5
         ],
-        "rate": 100
+        "rate": 200
       }
     ]
   },
@@ -3440,12 +4274,28 @@
         "rate": 80
       },
       {
+        "species": "krabby",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 80
+      },
+      {
         "species": "gyarados",
         "levelRange": [
           15,
           25
         ],
-        "rate": 15
+        "rate": 30
+      },
+      {
+        "species": "kingler",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 4
       },
       {
         "species": "seadra",
@@ -3457,6 +4307,14 @@
       },
       {
         "species": "psyduck",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           25,
           35
@@ -3475,7 +4333,7 @@
           5,
           10
         ],
-        "rate": 60
+        "rate": 120
       },
       {
         "species": "tentacool",
@@ -3483,7 +4341,7 @@
           10,
           20
         ],
-        "rate": 30
+        "rate": 60
       },
       {
         "species": "tentacool",
@@ -3491,7 +4349,7 @@
           20,
           30
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "tentacool",
@@ -3499,7 +4357,7 @@
           30,
           35
         ],
-        "rate": 4
+        "rate": 8
       },
       {
         "species": "tentacool",
@@ -3507,7 +4365,7 @@
           35,
           40
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -3521,7 +4379,7 @@
           5,
           15
         ],
-        "rate": 60
+        "rate": 80
       },
       {
         "species": "krabby",
@@ -3529,7 +4387,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 80
       },
       {
         "species": "magikarp",
@@ -3537,7 +4395,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       }
     ]
   },
@@ -3551,7 +4409,7 @@
           5,
           5
         ],
-        "rate": 100
+        "rate": 200
       }
     ]
   },
@@ -3568,12 +4426,28 @@
         "rate": 80
       },
       {
+        "species": "krabby",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 80
+      },
+      {
         "species": "gyarados",
         "levelRange": [
           15,
           25
         ],
-        "rate": 15
+        "rate": 30
+      },
+      {
+        "species": "kingler",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 4
       },
       {
         "species": "seadra",
@@ -3585,6 +4459,14 @@
       },
       {
         "species": "psyduck",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           25,
           35
@@ -3603,7 +4485,7 @@
           22,
           22
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "tangela",
@@ -3611,7 +4493,7 @@
           23,
           23
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "tangela",
@@ -3619,7 +4501,7 @@
           24,
           24
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "tangela",
@@ -3627,7 +4509,7 @@
           21,
           21
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "tangela",
@@ -3635,7 +4517,7 @@
           25,
           25
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "tangela",
@@ -3643,7 +4525,7 @@
           20,
           20
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "tangela",
@@ -3651,7 +4533,7 @@
           19,
           19
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "tangela",
@@ -3659,7 +4541,7 @@
           26,
           26
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "tangela",
@@ -3667,7 +4549,7 @@
           18,
           18
         ],
-        "rate": 4
+        "rate": 8
       },
       {
         "species": "tangela",
@@ -3675,7 +4557,7 @@
           27,
           27
         ],
-        "rate": 4
+        "rate": 8
       },
       {
         "species": "tangela",
@@ -3683,7 +4565,7 @@
           17,
           17
         ],
-        "rate": 1
+        "rate": 2
       },
       {
         "species": "tangela",
@@ -3691,7 +4573,7 @@
           28,
           28
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -3705,7 +4587,7 @@
           5,
           10
         ],
-        "rate": 60
+        "rate": 120
       },
       {
         "species": "tentacool",
@@ -3713,7 +4595,7 @@
           10,
           20
         ],
-        "rate": 30
+        "rate": 60
       },
       {
         "species": "tentacool",
@@ -3721,7 +4603,7 @@
           20,
           30
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "tentacool",
@@ -3729,7 +4611,7 @@
           30,
           35
         ],
-        "rate": 4
+        "rate": 8
       },
       {
         "species": "tentacool",
@@ -3737,7 +4619,7 @@
           35,
           40
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -3751,7 +4633,7 @@
           5,
           15
         ],
-        "rate": 60
+        "rate": 120
       },
       {
         "species": "goldeen",
@@ -3759,7 +4641,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "magikarp",
@@ -3767,7 +4649,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       }
     ]
   },
@@ -3781,7 +4663,7 @@
           5,
           5
         ],
-        "rate": 100
+        "rate": 200
       }
     ]
   },
@@ -3795,7 +4677,7 @@
           15,
           25
         ],
-        "rate": 40
+        "rate": 80
       },
       {
         "species": "poliwhirl",
@@ -3803,7 +4685,7 @@
           20,
           30
         ],
-        "rate": 40
+        "rate": 80
       },
       {
         "species": "gyarados",
@@ -3811,7 +4693,7 @@
           15,
           25
         ],
-        "rate": 15
+        "rate": 30
       },
       {
         "species": "psyduck",
@@ -3822,7 +4704,23 @@
         "rate": 4
       },
       {
+        "species": "slowpoke",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 4
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           25,
           35
@@ -3841,7 +4739,7 @@
           3,
           3
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "rattata",
@@ -3849,23 +4747,23 @@
           3,
           3
         ],
+        "rate": 40
+      },
+      {
+        "species": "mankey",
+        "levelRange": [
+          4,
+          4
+        ],
         "rate": 20
       },
       {
         "species": "mankey",
         "levelRange": [
-          4,
-          4
-        ],
-        "rate": 10
-      },
-      {
-        "species": "mankey",
-        "levelRange": [
           2,
           2
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "rattata",
@@ -3873,7 +4771,7 @@
           4,
           4
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "rattata",
@@ -3881,7 +4779,7 @@
           2,
           2
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "mankey",
@@ -3889,7 +4787,7 @@
           5,
           5
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "rattata",
@@ -3897,7 +4795,7 @@
           5,
           5
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "spearow",
@@ -3905,7 +4803,7 @@
           3,
           3
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "spearow",
@@ -3913,7 +4811,7 @@
           5,
           5
         ],
-        "rate": 5
+        "rate": 10
       }
     ]
   },
@@ -3930,7 +4828,23 @@
         "rate": 90
       },
       {
+        "species": "slowpoke",
+        "levelRange": [
+          20,
+          25
+        ],
+        "rate": 90
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          25,
+          30
+        ],
+        "rate": 5
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           25,
           30
@@ -3946,7 +4860,23 @@
         "rate": 4
       },
       {
+        "species": "slowpoke",
+        "levelRange": [
+          30,
+          35
+        ],
+        "rate": 4
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          35,
+          40
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           35,
           40
@@ -3965,7 +4895,7 @@
           5,
           15
         ],
-        "rate": 60
+        "rate": 120
       },
       {
         "species": "goldeen",
@@ -3973,7 +4903,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "magikarp",
@@ -3981,7 +4911,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       }
     ]
   },
@@ -3995,7 +4925,7 @@
           5,
           5
         ],
-        "rate": 100
+        "rate": 200
       }
     ]
   },
@@ -4009,7 +4939,7 @@
           15,
           25
         ],
-        "rate": 40
+        "rate": 80
       },
       {
         "species": "poliwhirl",
@@ -4017,7 +4947,7 @@
           20,
           30
         ],
-        "rate": 40
+        "rate": 80
       },
       {
         "species": "gyarados",
@@ -4025,7 +4955,7 @@
           15,
           25
         ],
-        "rate": 15
+        "rate": 30
       },
       {
         "species": "psyduck",
@@ -4036,7 +4966,23 @@
         "rate": 4
       },
       {
+        "species": "slowpoke",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 4
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           25,
           35
@@ -4055,13 +5001,29 @@
           40,
           40
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "mankey",
         "levelRange": [
           32,
           32
+        ],
+        "rate": 40
+      },
+      {
+        "species": "mankey",
+        "levelRange": [
+          34,
+          34
+        ],
+        "rate": 20
+      },
+      {
+        "species": "spearow",
+        "levelRange": [
+          34,
+          34
         ],
         "rate": 20
       },
@@ -4082,7 +5044,23 @@
         "rate": 10
       },
       {
-        "species": "mankey",
+        "species": "primeape",
+        "levelRange": [
+          42,
+          42
+        ],
+        "rate": 10
+      },
+      {
+        "species": "sandshrew",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 10
+      },
+      {
+        "species": "sandshrew",
         "levelRange": [
           34,
           34
@@ -4092,10 +5070,18 @@
       {
         "species": "spearow",
         "levelRange": [
-          34,
-          34
+          32,
+          32
         ],
         "rate": 10
+      },
+      {
+        "species": "fearow",
+        "levelRange": [
+          42,
+          42
+        ],
+        "rate": 8
       },
       {
         "species": "arbok",
@@ -4106,28 +5092,12 @@
         "rate": 5
       },
       {
-        "species": "primeape",
+        "species": "sandslash",
         "levelRange": [
-          42,
-          42
+          44,
+          44
         ],
         "rate": 5
-      },
-      {
-        "species": "spearow",
-        "levelRange": [
-          32,
-          32
-        ],
-        "rate": 5
-      },
-      {
-        "species": "fearow",
-        "levelRange": [
-          42,
-          42
-        ],
-        "rate": 4
       },
       {
         "species": "fearow",
@@ -4135,7 +5105,7 @@
           44,
           44
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -4152,7 +5122,23 @@
         "rate": 90
       },
       {
+        "species": "slowpoke",
+        "levelRange": [
+          20,
+          25
+        ],
+        "rate": 90
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          25,
+          30
+        ],
+        "rate": 5
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           25,
           30
@@ -4168,7 +5154,23 @@
         "rate": 4
       },
       {
+        "species": "slowpoke",
+        "levelRange": [
+          30,
+          35
+        ],
+        "rate": 4
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          35,
+          40
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           35,
           40
@@ -4187,7 +5189,7 @@
           5,
           15
         ],
-        "rate": 60
+        "rate": 80
       },
       {
         "species": "krabby",
@@ -4195,7 +5197,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 80
       },
       {
         "species": "magikarp",
@@ -4203,7 +5205,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       }
     ]
   },
@@ -4217,7 +5219,7 @@
           5,
           5
         ],
-        "rate": 100
+        "rate": 200
       }
     ]
   },
@@ -4234,12 +5236,20 @@
         "rate": 80
       },
       {
+        "species": "krabby",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 80
+      },
+      {
         "species": "gyarados",
         "levelRange": [
           15,
           25
         ],
-        "rate": 15
+        "rate": 30
       },
       {
         "species": "horsea",
@@ -4250,7 +5260,23 @@
         "rate": 4
       },
       {
+        "species": "krabby",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 4
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           25,
           35
@@ -4269,7 +5295,7 @@
           7,
           7
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "weedle",
@@ -4277,7 +5303,31 @@
           7,
           7
         ],
+        "rate": 40
+      },
+      {
+        "species": "pidgey",
+        "levelRange": [
+          11,
+          11
+        ],
         "rate": 20
+      },
+      {
+        "species": "bellsprout",
+        "levelRange": [
+          12,
+          12
+        ],
+        "rate": 10
+      },
+      {
+        "species": "bellsprout",
+        "levelRange": [
+          13,
+          13
+        ],
+        "rate": 10
       },
       {
         "species": "oddish",
@@ -4298,24 +5348,16 @@
       {
         "species": "pidgey",
         "levelRange": [
-          11,
-          11
+          13,
+          13
         ],
         "rate": 10
       },
       {
-        "species": "oddish",
+        "species": "bellsprout",
         "levelRange": [
           14,
           14
-        ],
-        "rate": 5
-      },
-      {
-        "species": "pidgey",
-        "levelRange": [
-          13,
-          13
         ],
         "rate": 5
       },
@@ -4325,7 +5367,7 @@
           8,
           8
         ],
-        "rate": 4
+        "rate": 5
       },
       {
         "species": "metapod",
@@ -4333,7 +5375,15 @@
           8,
           8
         ],
-        "rate": 1
+        "rate": 5
+      },
+      {
+        "species": "oddish",
+        "levelRange": [
+          14,
+          14
+        ],
+        "rate": 5
       }
     ]
   },
@@ -4347,7 +5397,7 @@
           5,
           10
         ],
-        "rate": 60
+        "rate": 120
       },
       {
         "species": "tentacool",
@@ -4355,7 +5405,7 @@
           10,
           20
         ],
-        "rate": 30
+        "rate": 60
       },
       {
         "species": "tentacool",
@@ -4363,7 +5413,7 @@
           20,
           30
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "tentacool",
@@ -4371,7 +5421,7 @@
           30,
           35
         ],
-        "rate": 4
+        "rate": 8
       },
       {
         "species": "tentacool",
@@ -4379,7 +5429,7 @@
           35,
           40
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -4393,7 +5443,7 @@
           5,
           15
         ],
-        "rate": 60
+        "rate": 120
       },
       {
         "species": "goldeen",
@@ -4401,7 +5451,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "magikarp",
@@ -4409,7 +5459,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       }
     ]
   },
@@ -4423,7 +5473,7 @@
           5,
           5
         ],
-        "rate": 100
+        "rate": 200
       }
     ]
   },
@@ -4437,7 +5487,7 @@
           15,
           25
         ],
-        "rate": 40
+        "rate": 80
       },
       {
         "species": "poliwhirl",
@@ -4445,7 +5495,7 @@
           20,
           30
         ],
-        "rate": 40
+        "rate": 80
       },
       {
         "species": "gyarados",
@@ -4453,7 +5503,7 @@
           15,
           25
         ],
-        "rate": 15
+        "rate": 30
       },
       {
         "species": "psyduck",
@@ -4464,7 +5514,23 @@
         "rate": 4
       },
       {
+        "species": "slowpoke",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 4
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           25,
           35
@@ -4483,7 +5549,7 @@
           8,
           8
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "weedle",
@@ -4491,7 +5557,31 @@
           8,
           8
         ],
+        "rate": 40
+      },
+      {
+        "species": "pidgey",
+        "levelRange": [
+          13,
+          13
+        ],
         "rate": 20
+      },
+      {
+        "species": "bellsprout",
+        "levelRange": [
+          14,
+          14
+        ],
+        "rate": 10
+      },
+      {
+        "species": "bellsprout",
+        "levelRange": [
+          13,
+          13
+        ],
+        "rate": 10
       },
       {
         "species": "oddish",
@@ -4512,24 +5602,16 @@
       {
         "species": "pidgey",
         "levelRange": [
-          13,
-          13
+          11,
+          11
         ],
         "rate": 10
       },
       {
-        "species": "oddish",
+        "species": "bellsprout",
         "levelRange": [
           12,
           12
-        ],
-        "rate": 5
-      },
-      {
-        "species": "pidgey",
-        "levelRange": [
-          11,
-          11
         ],
         "rate": 5
       },
@@ -4539,7 +5621,7 @@
           9,
           9
         ],
-        "rate": 4
+        "rate": 5
       },
       {
         "species": "metapod",
@@ -4547,7 +5629,15 @@
           9,
           9
         ],
-        "rate": 1
+        "rate": 5
+      },
+      {
+        "species": "oddish",
+        "levelRange": [
+          12,
+          12
+        ],
+        "rate": 5
       }
     ]
   },
@@ -4564,7 +5654,23 @@
         "rate": 90
       },
       {
+        "species": "slowpoke",
+        "levelRange": [
+          20,
+          25
+        ],
+        "rate": 90
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          25,
+          30
+        ],
+        "rate": 5
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           25,
           30
@@ -4580,7 +5686,23 @@
         "rate": 4
       },
       {
+        "species": "slowpoke",
+        "levelRange": [
+          30,
+          35
+        ],
+        "rate": 4
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          35,
+          40
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           35,
           40
@@ -4599,7 +5721,7 @@
           6,
           6
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "spearow",
@@ -4607,7 +5729,7 @@
           6,
           6
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "mankey",
@@ -4615,15 +5737,7 @@
           7,
           7
         ],
-        "rate": 10
-      },
-      {
-        "species": "nidoran-m",
-        "levelRange": [
-          6,
-          6
-        ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "pidgey",
@@ -4631,7 +5745,7 @@
           7,
           7
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "spearow",
@@ -4639,7 +5753,23 @@
           7,
           7
         ],
-        "rate": 10
+        "rate": 20
+      },
+      {
+        "species": "nidoran-f",
+        "levelRange": [
+          6,
+          6
+        ],
+        "rate": 11
+      },
+      {
+        "species": "nidoran-m",
+        "levelRange": [
+          6,
+          6
+        ],
+        "rate": 11
       },
       {
         "species": "jigglypuff",
@@ -4647,7 +5777,7 @@
           3,
           3
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "spearow",
@@ -4655,13 +5785,21 @@
           8,
           8
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "jigglypuff",
         "levelRange": [
           5,
           5
+        ],
+        "rate": 8
+      },
+      {
+        "species": "nidoran-f",
+        "levelRange": [
+          7,
+          7
         ],
         "rate": 4
       },
@@ -4679,15 +5817,7 @@
           7,
           7
         ],
-        "rate": 1
-      },
-      {
-        "species": "nidoran-f",
-        "levelRange": [
-          6,
-          6
-        ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -4701,7 +5831,7 @@
           5,
           15
         ],
-        "rate": 60
+        "rate": 80
       },
       {
         "species": "krabby",
@@ -4709,7 +5839,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 80
       },
       {
         "species": "magikarp",
@@ -4717,7 +5847,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       }
     ]
   },
@@ -4731,7 +5861,7 @@
           5,
           5
         ],
-        "rate": 100
+        "rate": 200
       }
     ]
   },
@@ -4748,12 +5878,20 @@
         "rate": 80
       },
       {
+        "species": "krabby",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 80
+      },
+      {
         "species": "gyarados",
         "levelRange": [
           15,
           25
         ],
-        "rate": 15
+        "rate": 30
       },
       {
         "species": "horsea",
@@ -4764,7 +5902,23 @@
         "rate": 4
       },
       {
+        "species": "krabby",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 4
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           25,
           35
@@ -4783,13 +5937,29 @@
           10,
           10
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "spearow",
         "levelRange": [
           10,
           10
+        ],
+        "rate": 40
+      },
+      {
+        "species": "rattata",
+        "levelRange": [
+          8,
+          8
+        ],
+        "rate": 20
+      },
+      {
+        "species": "spearow",
+        "levelRange": [
+          8,
+          8
         ],
         "rate": 20
       },
@@ -4812,34 +5982,42 @@
       {
         "species": "rattata",
         "levelRange": [
-          8,
-          8
+          12,
+          12
+        ],
+        "rate": 10
+      },
+      {
+        "species": "sandshrew",
+        "levelRange": [
+          6,
+          6
+        ],
+        "rate": 10
+      },
+      {
+        "species": "sandshrew",
+        "levelRange": [
+          10,
+          10
         ],
         "rate": 10
       },
       {
         "species": "spearow",
         "levelRange": [
-          8,
-          8
+          12,
+          12
         ],
         "rate": 10
       },
       {
-        "species": "rattata",
+        "species": "mankey",
         "levelRange": [
-          12,
-          12
+          10,
+          10
         ],
-        "rate": 5
-      },
-      {
-        "species": "spearow",
-        "levelRange": [
-          12,
-          12
-        ],
-        "rate": 5
+        "rate": 8
       },
       {
         "species": "ekans",
@@ -4850,12 +6028,20 @@
         "rate": 4
       },
       {
-        "species": "mankey",
+        "species": "sandshrew",
         "levelRange": [
-          10,
-          10
+          8,
+          8
         ],
         "rate": 4
+      },
+      {
+        "species": "mankey",
+        "levelRange": [
+          12,
+          12
+        ],
+        "rate": 2
       },
       {
         "species": "ekans",
@@ -4866,7 +6052,7 @@
         "rate": 1
       },
       {
-        "species": "mankey",
+        "species": "sandshrew",
         "levelRange": [
           12,
           12
@@ -4885,7 +6071,7 @@
           5,
           10
         ],
-        "rate": 60
+        "rate": 120
       },
       {
         "species": "tentacool",
@@ -4893,7 +6079,7 @@
           10,
           20
         ],
-        "rate": 30
+        "rate": 60
       },
       {
         "species": "tentacool",
@@ -4901,7 +6087,7 @@
           20,
           30
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "tentacool",
@@ -4909,7 +6095,7 @@
           30,
           35
         ],
-        "rate": 4
+        "rate": 8
       },
       {
         "species": "tentacool",
@@ -4917,7 +6103,7 @@
           35,
           40
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -4931,7 +6117,7 @@
           10,
           10
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "pidgey",
@@ -4939,7 +6125,7 @@
           13,
           13
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "pidgey",
@@ -4947,7 +6133,7 @@
           15,
           15
         ],
-        "rate": 15
+        "rate": 30
       },
       {
         "species": "meowth",
@@ -4955,6 +6141,22 @@
           12,
           12
         ],
+        "rate": 20
+      },
+      {
+        "species": "bellsprout",
+        "levelRange": [
+          13,
+          13
+        ],
+        "rate": 10
+      },
+      {
+        "species": "bellsprout",
+        "levelRange": [
+          15,
+          15
+        ],
         "rate": 10
       },
       {
@@ -4974,6 +6176,30 @@
         "rate": 10
       },
       {
+        "species": "pidgey",
+        "levelRange": [
+          16,
+          16
+        ],
+        "rate": 10
+      },
+      {
+        "species": "meowth",
+        "levelRange": [
+          14,
+          14
+        ],
+        "rate": 8
+      },
+      {
+        "species": "bellsprout",
+        "levelRange": [
+          16,
+          16
+        ],
+        "rate": 5
+      },
+      {
         "species": "oddish",
         "levelRange": [
           16,
@@ -4982,28 +6208,12 @@
         "rate": 5
       },
       {
-        "species": "pidgey",
-        "levelRange": [
-          16,
-          16
-        ],
-        "rate": 5
-      },
-      {
-        "species": "meowth",
-        "levelRange": [
-          14,
-          14
-        ],
-        "rate": 4
-      },
-      {
         "species": "meowth",
         "levelRange": [
           16,
           16
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -5017,7 +6227,7 @@
           5,
           15
         ],
-        "rate": 60
+        "rate": 120
       },
       {
         "species": "goldeen",
@@ -5025,7 +6235,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "magikarp",
@@ -5033,7 +6243,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       }
     ]
   },
@@ -5047,7 +6257,7 @@
           5,
           5
         ],
-        "rate": 100
+        "rate": 200
       }
     ]
   },
@@ -5061,7 +6271,7 @@
           15,
           25
         ],
-        "rate": 40
+        "rate": 80
       },
       {
         "species": "poliwhirl",
@@ -5069,7 +6279,7 @@
           20,
           30
         ],
-        "rate": 40
+        "rate": 80
       },
       {
         "species": "gyarados",
@@ -5077,7 +6287,7 @@
           15,
           25
         ],
-        "rate": 15
+        "rate": 30
       },
       {
         "species": "psyduck",
@@ -5088,7 +6298,23 @@
         "rate": 4
       },
       {
+        "species": "slowpoke",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 4
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           25,
           35
@@ -5107,7 +6333,7 @@
           10,
           10
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "pidgey",
@@ -5115,7 +6341,7 @@
           13,
           13
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "pidgey",
@@ -5123,7 +6349,7 @@
           15,
           15
         ],
-        "rate": 15
+        "rate": 30
       },
       {
         "species": "meowth",
@@ -5131,6 +6357,22 @@
           12,
           12
         ],
+        "rate": 20
+      },
+      {
+        "species": "bellsprout",
+        "levelRange": [
+          13,
+          13
+        ],
+        "rate": 10
+      },
+      {
+        "species": "bellsprout",
+        "levelRange": [
+          15,
+          15
+        ],
         "rate": 10
       },
       {
@@ -5150,6 +6392,30 @@
         "rate": 10
       },
       {
+        "species": "pidgey",
+        "levelRange": [
+          16,
+          16
+        ],
+        "rate": 10
+      },
+      {
+        "species": "meowth",
+        "levelRange": [
+          14,
+          14
+        ],
+        "rate": 8
+      },
+      {
+        "species": "bellsprout",
+        "levelRange": [
+          16,
+          16
+        ],
+        "rate": 5
+      },
+      {
         "species": "oddish",
         "levelRange": [
           16,
@@ -5158,28 +6424,12 @@
         "rate": 5
       },
       {
-        "species": "pidgey",
-        "levelRange": [
-          16,
-          16
-        ],
-        "rate": 5
-      },
-      {
-        "species": "meowth",
-        "levelRange": [
-          14,
-          14
-        ],
-        "rate": 4
-      },
-      {
         "species": "meowth",
         "levelRange": [
           16,
           16
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -5196,7 +6446,23 @@
         "rate": 90
       },
       {
+        "species": "slowpoke",
+        "levelRange": [
+          20,
+          25
+        ],
+        "rate": 90
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          25,
+          30
+        ],
+        "rate": 5
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           25,
           30
@@ -5212,7 +6478,23 @@
         "rate": 4
       },
       {
+        "species": "slowpoke",
+        "levelRange": [
+          30,
+          35
+        ],
+        "rate": 4
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          35,
+          40
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           35,
           40
@@ -5231,47 +6513,71 @@
           17,
           17
         ],
-        "rate": 25
+        "rate": 50
       },
       {
         "species": "pidgey",
         "levelRange": [
           19,
           19
+        ],
+        "rate": 40
+      },
+      {
+        "species": "meowth",
+        "levelRange": [
+          18,
+          18
         ],
         "rate": 20
       },
       {
-        "species": "meowth",
-        "levelRange": [
-          18,
-          18
-        ],
-        "rate": 10
-      },
-      {
-        "species": "oddish",
-        "levelRange": [
-          19,
-          19
-        ],
-        "rate": 10
-      },
-      {
-        "species": "oddish",
-        "levelRange": [
-          22,
-          22
-        ],
-        "rate": 10
-      },
-      {
         "species": "pidgey",
         "levelRange": [
           22,
           22
         ],
+        "rate": 20
+      },
+      {
+        "species": "bellsprout",
+        "levelRange": [
+          19,
+          19
+        ],
         "rate": 10
+      },
+      {
+        "species": "bellsprout",
+        "levelRange": [
+          22,
+          22
+        ],
+        "rate": 10
+      },
+      {
+        "species": "oddish",
+        "levelRange": [
+          19,
+          19
+        ],
+        "rate": 10
+      },
+      {
+        "species": "oddish",
+        "levelRange": [
+          22,
+          22
+        ],
+        "rate": 10
+      },
+      {
+        "species": "meowth",
+        "levelRange": [
+          19,
+          19
+        ],
+        "rate": 8
       },
       {
         "species": "growlithe",
@@ -5290,12 +6596,20 @@
         "rate": 5
       },
       {
-        "species": "meowth",
+        "species": "vulpix",
         "levelRange": [
-          19,
-          19
+          18,
+          18
         ],
-        "rate": 4
+        "rate": 5
+      },
+      {
+        "species": "vulpix",
+        "levelRange": [
+          20,
+          20
+        ],
+        "rate": 5
       },
       {
         "species": "meowth",
@@ -5303,7 +6617,7 @@
           20,
           20
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -5317,7 +6631,7 @@
           18,
           18
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "pidgey",
@@ -5325,10 +6639,34 @@
           18,
           18
         ],
+        "rate": 40
+      },
+      {
+        "species": "meowth",
+        "levelRange": [
+          20,
+          20
+        ],
+        "rate": 20
+      },
+      {
+        "species": "pidgey",
+        "levelRange": [
+          20,
+          20
+        ],
         "rate": 20
       },
       {
         "species": "ekans",
+        "levelRange": [
+          17,
+          17
+        ],
+        "rate": 15
+      },
+      {
+        "species": "sandshrew",
         "levelRange": [
           17,
           17
@@ -5344,18 +6682,10 @@
         "rate": 10
       },
       {
-        "species": "meowth",
+        "species": "vulpix",
         "levelRange": [
-          20,
-          20
-        ],
-        "rate": 10
-      },
-      {
-        "species": "pidgey",
-        "levelRange": [
-          20,
-          20
+          16,
+          16
         ],
         "rate": 10
       },
@@ -5376,6 +6706,22 @@
         "rate": 5
       },
       {
+        "species": "sandshrew",
+        "levelRange": [
+          19,
+          19
+        ],
+        "rate": 5
+      },
+      {
+        "species": "vulpix",
+        "levelRange": [
+          17,
+          17
+        ],
+        "rate": 5
+      },
+      {
         "species": "growlithe",
         "levelRange": [
           15,
@@ -5384,7 +6730,23 @@
         "rate": 4
       },
       {
+        "species": "vulpix",
+        "levelRange": [
+          15,
+          15
+        ],
+        "rate": 4
+      },
+      {
         "species": "growlithe",
+        "levelRange": [
+          18,
+          18
+        ],
+        "rate": 1
+      },
+      {
+        "species": "vulpix",
         "levelRange": [
           18,
           18
@@ -5403,7 +6765,7 @@
           16,
           16
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "spearow",
@@ -5411,7 +6773,7 @@
           16,
           16
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "rattata",
@@ -5419,7 +6781,15 @@
           14,
           14
         ],
-        "rate": 15
+        "rate": 30
+      },
+      {
+        "species": "spearow",
+        "levelRange": [
+          13,
+          13
+        ],
+        "rate": 20
       },
       {
         "species": "ekans",
@@ -5438,20 +6808,28 @@
         "rate": 10
       },
       {
-        "species": "spearow",
-        "levelRange": [
-          13,
-          13
-        ],
-        "rate": 10
-      },
-      {
         "species": "rattata",
         "levelRange": [
           17,
           17
         ],
-        "rate": 5
+        "rate": 10
+      },
+      {
+        "species": "sandshrew",
+        "levelRange": [
+          11,
+          11
+        ],
+        "rate": 10
+      },
+      {
+        "species": "sandshrew",
+        "levelRange": [
+          15,
+          15
+        ],
+        "rate": 10
       },
       {
         "species": "spearow",
@@ -5459,7 +6837,7 @@
           17,
           17
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "ekans",
@@ -5470,7 +6848,23 @@
         "rate": 4
       },
       {
+        "species": "sandshrew",
+        "levelRange": [
+          13,
+          13
+        ],
+        "rate": 4
+      },
+      {
         "species": "ekans",
+        "levelRange": [
+          17,
+          17
+        ],
+        "rate": 1
+      },
+      {
+        "species": "sandshrew",
         "levelRange": [
           17,
           17
@@ -5489,7 +6883,7 @@
           5,
           15
         ],
-        "rate": 60
+        "rate": 120
       },
       {
         "species": "magikarp",
@@ -5497,7 +6891,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "poliwag",
@@ -5505,7 +6899,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       }
     ]
   },
@@ -5519,7 +6913,7 @@
           5,
           5
         ],
-        "rate": 100
+        "rate": 200
       }
     ]
   },
@@ -5533,7 +6927,7 @@
           15,
           25
         ],
-        "rate": 40
+        "rate": 80
       },
       {
         "species": "seaking",
@@ -5541,7 +6935,7 @@
           20,
           30
         ],
-        "rate": 40
+        "rate": 80
       },
       {
         "species": "dratini",
@@ -5549,10 +6943,18 @@
           15,
           25
         ],
-        "rate": 15
+        "rate": 30
       },
       {
         "species": "psyduck",
+        "levelRange": [
+          15,
+          35
+        ],
+        "rate": 4
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           15,
           35
@@ -5565,7 +6967,7 @@
           25,
           35
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -5579,15 +6981,7 @@
           26,
           26
         ],
-        "rate": 20
-      },
-      {
-        "species": "nidoran-m",
-        "levelRange": [
-          24,
-          24
-        ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "paras",
@@ -5595,7 +6989,23 @@
           22,
           22
         ],
-        "rate": 15
+        "rate": 30
+      },
+      {
+        "species": "nidoran-f",
+        "levelRange": [
+          24,
+          24
+        ],
+        "rate": 25
+      },
+      {
+        "species": "nidoran-m",
+        "levelRange": [
+          24,
+          24
+        ],
+        "rate": 25
       },
       {
         "species": "exeggcute",
@@ -5603,13 +7013,21 @@
           23,
           23
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "exeggcute",
         "levelRange": [
           25,
           25
+        ],
+        "rate": 20
+      },
+      {
+        "species": "nidorina",
+        "levelRange": [
+          33,
+          33
         ],
         "rate": 10
       },
@@ -5622,20 +7040,12 @@
         "rate": 10
       },
       {
-        "species": "nidoran-f",
-        "levelRange": [
-          24,
-          24
-        ],
-        "rate": 5
-      },
-      {
         "species": "parasect",
         "levelRange": [
           25,
           25
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "kangaskhan",
@@ -5643,7 +7053,15 @@
           25,
           25
         ],
-        "rate": 4
+        "rate": 8
+      },
+      {
+        "species": "pinsir",
+        "levelRange": [
+          28,
+          28
+        ],
+        "rate": 1
       },
       {
         "species": "scyther",
@@ -5668,7 +7086,23 @@
         "rate": 90
       },
       {
+        "species": "slowpoke",
+        "levelRange": [
+          20,
+          25
+        ],
+        "rate": 90
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          25,
+          30
+        ],
+        "rate": 5
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           25,
           30
@@ -5684,7 +7118,23 @@
         "rate": 4
       },
       {
+        "species": "slowpoke",
+        "levelRange": [
+          30,
+          35
+        ],
+        "rate": 4
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          35,
+          40
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           35,
           40
@@ -5703,7 +7153,7 @@
           5,
           15
         ],
-        "rate": 60
+        "rate": 120
       },
       {
         "species": "magikarp",
@@ -5711,7 +7161,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "poliwag",
@@ -5719,7 +7169,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       }
     ]
   },
@@ -5733,7 +7183,7 @@
           5,
           5
         ],
-        "rate": 100
+        "rate": 200
       }
     ]
   },
@@ -5747,7 +7197,7 @@
           15,
           25
         ],
-        "rate": 40
+        "rate": 80
       },
       {
         "species": "seaking",
@@ -5755,7 +7205,7 @@
           20,
           30
         ],
-        "rate": 40
+        "rate": 80
       },
       {
         "species": "dratini",
@@ -5763,10 +7213,18 @@
           15,
           25
         ],
-        "rate": 15
+        "rate": 30
       },
       {
         "species": "psyduck",
+        "levelRange": [
+          15,
+          35
+        ],
+        "rate": 4
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           15,
           35
@@ -5779,7 +7237,7 @@
           25,
           35
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -5787,6 +7245,46 @@
     "id": "kanto-safari-middle-grass",
     "method": "grass",
     "entries": [
+      {
+        "species": "rhyhorn",
+        "levelRange": [
+          25,
+          25
+        ],
+        "rate": 40
+      },
+      {
+        "species": "venonat",
+        "levelRange": [
+          22,
+          22
+        ],
+        "rate": 30
+      },
+      {
+        "species": "exeggcute",
+        "levelRange": [
+          24,
+          24
+        ],
+        "rate": 20
+      },
+      {
+        "species": "exeggcute",
+        "levelRange": [
+          25,
+          25
+        ],
+        "rate": 20
+      },
+      {
+        "species": "nidoran-f",
+        "levelRange": [
+          22,
+          22
+        ],
+        "rate": 20
+      },
       {
         "species": "nidoran-m",
         "levelRange": [
@@ -5796,36 +7294,12 @@
         "rate": 20
       },
       {
-        "species": "rhyhorn",
+        "species": "nidorina",
         "levelRange": [
-          25,
-          25
-        ],
-        "rate": 20
-      },
-      {
-        "species": "venonat",
-        "levelRange": [
-          22,
-          22
+          31,
+          31
         ],
         "rate": 15
-      },
-      {
-        "species": "exeggcute",
-        "levelRange": [
-          24,
-          24
-        ],
-        "rate": 10
-      },
-      {
-        "species": "exeggcute",
-        "levelRange": [
-          25,
-          25
-        ],
-        "rate": 10
       },
       {
         "species": "nidorino",
@@ -5833,15 +7307,7 @@
           31,
           31
         ],
-        "rate": 10
-      },
-      {
-        "species": "nidorina",
-        "levelRange": [
-          31,
-          31
-        ],
-        "rate": 5
+        "rate": 15
       },
       {
         "species": "parasect",
@@ -5849,7 +7315,15 @@
           30,
           30
         ],
-        "rate": 5
+        "rate": 10
+      },
+      {
+        "species": "pinsir",
+        "levelRange": [
+          23,
+          23
+        ],
+        "rate": 4
       },
       {
         "species": "scyther",
@@ -5865,7 +7339,7 @@
           23,
           23
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -5882,7 +7356,23 @@
         "rate": 90
       },
       {
+        "species": "slowpoke",
+        "levelRange": [
+          20,
+          25
+        ],
+        "rate": 90
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          25,
+          30
+        ],
+        "rate": 5
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           25,
           30
@@ -5898,7 +7388,23 @@
         "rate": 4
       },
       {
+        "species": "slowpoke",
+        "levelRange": [
+          30,
+          35
+        ],
+        "rate": 4
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          35,
+          40
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           35,
           40
@@ -5917,7 +7423,7 @@
           5,
           15
         ],
-        "rate": 60
+        "rate": 120
       },
       {
         "species": "magikarp",
@@ -5925,7 +7431,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "poliwag",
@@ -5933,7 +7439,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       }
     ]
   },
@@ -5947,7 +7453,7 @@
           5,
           5
         ],
-        "rate": 100
+        "rate": 200
       }
     ]
   },
@@ -5961,7 +7467,7 @@
           15,
           25
         ],
-        "rate": 40
+        "rate": 80
       },
       {
         "species": "seaking",
@@ -5969,7 +7475,7 @@
           20,
           30
         ],
-        "rate": 40
+        "rate": 80
       },
       {
         "species": "dratini",
@@ -5977,10 +7483,18 @@
           15,
           25
         ],
-        "rate": 15
+        "rate": 30
       },
       {
         "species": "psyduck",
+        "levelRange": [
+          15,
+          35
+        ],
+        "rate": 4
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           15,
           35
@@ -5993,7 +7507,7 @@
           25,
           35
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -6001,6 +7515,46 @@
     "id": "kanto-safari-north-grass",
     "method": "grass",
     "entries": [
+      {
+        "species": "rhyhorn",
+        "levelRange": [
+          26,
+          26
+        ],
+        "rate": 40
+      },
+      {
+        "species": "paras",
+        "levelRange": [
+          23,
+          23
+        ],
+        "rate": 30
+      },
+      {
+        "species": "exeggcute",
+        "levelRange": [
+          25,
+          25
+        ],
+        "rate": 20
+      },
+      {
+        "species": "exeggcute",
+        "levelRange": [
+          27,
+          27
+        ],
+        "rate": 20
+      },
+      {
+        "species": "nidoran-f",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 20
+      },
       {
         "species": "nidoran-m",
         "levelRange": [
@@ -6010,36 +7564,12 @@
         "rate": 20
       },
       {
-        "species": "rhyhorn",
+        "species": "nidorina",
         "levelRange": [
-          26,
-          26
-        ],
-        "rate": 20
-      },
-      {
-        "species": "paras",
-        "levelRange": [
-          23,
-          23
+          30,
+          30
         ],
         "rate": 15
-      },
-      {
-        "species": "exeggcute",
-        "levelRange": [
-          25,
-          25
-        ],
-        "rate": 10
-      },
-      {
-        "species": "exeggcute",
-        "levelRange": [
-          27,
-          27
-        ],
-        "rate": 10
       },
       {
         "species": "nidorino",
@@ -6047,15 +7577,7 @@
           30,
           30
         ],
-        "rate": 10
-      },
-      {
-        "species": "nidorina",
-        "levelRange": [
-          30,
-          30
-        ],
-        "rate": 5
+        "rate": 15
       },
       {
         "species": "venomoth",
@@ -6063,7 +7585,7 @@
           32,
           32
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "chansey",
@@ -6071,7 +7593,7 @@
           26,
           26
         ],
-        "rate": 4
+        "rate": 8
       },
       {
         "species": "tauros",
@@ -6079,7 +7601,7 @@
           28,
           28
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -6096,7 +7618,23 @@
         "rate": 90
       },
       {
+        "species": "slowpoke",
+        "levelRange": [
+          20,
+          25
+        ],
+        "rate": 90
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          25,
+          30
+        ],
+        "rate": 5
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           25,
           30
@@ -6112,7 +7650,23 @@
         "rate": 4
       },
       {
+        "species": "slowpoke",
+        "levelRange": [
+          30,
+          35
+        ],
+        "rate": 4
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          35,
+          40
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           35,
           40
@@ -6131,7 +7685,7 @@
           5,
           15
         ],
-        "rate": 60
+        "rate": 120
       },
       {
         "species": "magikarp",
@@ -6139,7 +7693,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "poliwag",
@@ -6147,7 +7701,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       }
     ]
   },
@@ -6161,7 +7715,7 @@
           5,
           5
         ],
-        "rate": 100
+        "rate": 200
       }
     ]
   },
@@ -6175,7 +7729,7 @@
           15,
           25
         ],
-        "rate": 40
+        "rate": 80
       },
       {
         "species": "seaking",
@@ -6183,7 +7737,7 @@
           20,
           30
         ],
-        "rate": 40
+        "rate": 80
       },
       {
         "species": "dratini",
@@ -6191,10 +7745,18 @@
           15,
           25
         ],
-        "rate": 15
+        "rate": 30
       },
       {
         "species": "psyduck",
+        "levelRange": [
+          15,
+          35
+        ],
+        "rate": 4
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           15,
           35
@@ -6207,7 +7769,7 @@
           25,
           35
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -6221,6 +7783,38 @@
           26,
           26
         ],
+        "rate": 40
+      },
+      {
+        "species": "venonat",
+        "levelRange": [
+          23,
+          23
+        ],
+        "rate": 30
+      },
+      {
+        "species": "exeggcute",
+        "levelRange": [
+          25,
+          25
+        ],
+        "rate": 20
+      },
+      {
+        "species": "exeggcute",
+        "levelRange": [
+          27,
+          27
+        ],
+        "rate": 20
+      },
+      {
+        "species": "nidoran-f",
+        "levelRange": [
+          22,
+          22
+        ],
         "rate": 20
       },
       {
@@ -6232,26 +7826,10 @@
         "rate": 20
       },
       {
-        "species": "venonat",
+        "species": "nidorina",
         "levelRange": [
-          23,
-          23
-        ],
-        "rate": 15
-      },
-      {
-        "species": "exeggcute",
-        "levelRange": [
-          25,
-          25
-        ],
-        "rate": 10
-      },
-      {
-        "species": "exeggcute",
-        "levelRange": [
-          27,
-          27
+          30,
+          30
         ],
         "rate": 10
       },
@@ -6264,6 +7842,22 @@
         "rate": 10
       },
       {
+        "species": "venomoth",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 10
+      },
+      {
+        "species": "tauros",
+        "levelRange": [
+          25,
+          25
+        ],
+        "rate": 8
+      },
+      {
         "species": "nidoran-f",
         "levelRange": [
           30,
@@ -6272,20 +7866,12 @@
         "rate": 5
       },
       {
-        "species": "venomoth",
+        "species": "nidoran-m",
         "levelRange": [
-          32,
-          32
+          30,
+          30
         ],
         "rate": 5
-      },
-      {
-        "species": "tauros",
-        "levelRange": [
-          25,
-          25
-        ],
-        "rate": 4
       },
       {
         "species": "kangaskhan",
@@ -6293,7 +7879,7 @@
           28,
           28
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -6310,7 +7896,23 @@
         "rate": 90
       },
       {
+        "species": "slowpoke",
+        "levelRange": [
+          20,
+          25
+        ],
+        "rate": 90
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          25,
+          30
+        ],
+        "rate": 5
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           25,
           30
@@ -6326,7 +7928,23 @@
         "rate": 4
       },
       {
+        "species": "slowpoke",
+        "levelRange": [
+          30,
+          35
+        ],
+        "rate": 4
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          35,
+          40
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           35,
           40
@@ -6339,6 +7957,14 @@
     "id": "kanto-seafoam-1f-cave",
     "method": "cave",
     "entries": [
+      {
+        "species": "zubat",
+        "levelRange": [
+          22,
+          22
+        ],
+        "rate": 40
+      },
       {
         "species": "psyduck",
         "levelRange": [
@@ -6356,12 +7982,44 @@
         "rate": 20
       },
       {
-        "species": "zubat",
+        "species": "slowpoke",
         "levelRange": [
-          22,
-          22
+          27,
+          27
         ],
         "rate": 20
+      },
+      {
+        "species": "slowpoke",
+        "levelRange": [
+          29,
+          29
+        ],
+        "rate": 20
+      },
+      {
+        "species": "zubat",
+        "levelRange": [
+          24,
+          24
+        ],
+        "rate": 20
+      },
+      {
+        "species": "golbat",
+        "levelRange": [
+          26,
+          26
+        ],
+        "rate": 10
+      },
+      {
+        "species": "golbat",
+        "levelRange": [
+          28,
+          28
+        ],
+        "rate": 10
       },
       {
         "species": "psyduck",
@@ -6372,28 +8030,20 @@
         "rate": 10
       },
       {
-        "species": "zubat",
+        "species": "slowpoke",
         "levelRange": [
-          24,
-          24
+          31,
+          31
         ],
         "rate": 10
       },
       {
-        "species": "golbat",
+        "species": "zubat",
         "levelRange": [
           26,
           26
         ],
-        "rate": 5
-      },
-      {
-        "species": "golbat",
-        "levelRange": [
-          28,
-          28
-        ],
-        "rate": 5
+        "rate": 8
       },
       {
         "species": "psyduck",
@@ -6404,10 +8054,10 @@
         "rate": 4
       },
       {
-        "species": "zubat",
+        "species": "slowpoke",
         "levelRange": [
-          26,
-          26
+          33,
+          33
         ],
         "rate": 4
       },
@@ -6417,10 +8067,18 @@
           30,
           30
         ],
-        "rate": 1
+        "rate": 2
       },
       {
         "species": "psyduck",
+        "levelRange": [
+          26,
+          26
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           26,
           26
@@ -6433,6 +8091,14 @@
     "id": "kanto-seafoam-b1f-cave",
     "method": "cave",
     "entries": [
+      {
+        "species": "zubat",
+        "levelRange": [
+          22,
+          22
+        ],
+        "rate": 40
+      },
       {
         "species": "psyduck",
         "levelRange": [
@@ -6450,20 +8116,28 @@
         "rate": 20
       },
       {
-        "species": "zubat",
-        "levelRange": [
-          22,
-          22
-        ],
-        "rate": 20
-      },
-      {
         "species": "seel",
         "levelRange": [
           28,
           28
         ],
-        "rate": 10
+        "rate": 20
+      },
+      {
+        "species": "slowpoke",
+        "levelRange": [
+          29,
+          29
+        ],
+        "rate": 20
+      },
+      {
+        "species": "slowpoke",
+        "levelRange": [
+          31,
+          31
+        ],
+        "rate": 20
       },
       {
         "species": "zubat",
@@ -6471,7 +8145,7 @@
           24,
           24
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "golbat",
@@ -6479,7 +8153,7 @@
           26,
           26
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "golbat",
@@ -6487,7 +8161,15 @@
           28,
           28
         ],
-        "rate": 5
+        "rate": 10
+      },
+      {
+        "species": "zubat",
+        "levelRange": [
+          26,
+          26
+        ],
+        "rate": 8
       },
       {
         "species": "golduck",
@@ -6498,10 +8180,10 @@
         "rate": 4
       },
       {
-        "species": "zubat",
+        "species": "slowbro",
         "levelRange": [
-          26,
-          26
+          33,
+          33
         ],
         "rate": 4
       },
@@ -6511,10 +8193,18 @@
           30,
           30
         ],
-        "rate": 1
+        "rate": 2
       },
       {
         "species": "golduck",
+        "levelRange": [
+          35,
+          35
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowbro",
         "levelRange": [
           35,
           35
@@ -6533,7 +8223,7 @@
           5,
           15
         ],
-        "rate": 60
+        "rate": 80
       },
       {
         "species": "krabby",
@@ -6541,7 +8231,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 80
       },
       {
         "species": "magikarp",
@@ -6549,7 +8239,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       }
     ]
   },
@@ -6563,7 +8253,7 @@
           5,
           5
         ],
-        "rate": 100
+        "rate": 200
       }
     ]
   },
@@ -6580,7 +8270,23 @@
         "rate": 40
       },
       {
+        "species": "krabby",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 40
+      },
+      {
         "species": "shellder",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 40
+      },
+      {
+        "species": "staryu",
         "levelRange": [
           15,
           25
@@ -6593,7 +8299,7 @@
           15,
           25
         ],
-        "rate": 15
+        "rate": 30
       },
       {
         "species": "horsea",
@@ -6601,10 +8307,18 @@
           25,
           35
         ],
-        "rate": 4
+        "rate": 8
       },
       {
         "species": "psyduck",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           25,
           35
@@ -6623,7 +8337,7 @@
           5,
           10
         ],
-        "rate": 60
+        "rate": 120
       },
       {
         "species": "tentacool",
@@ -6631,7 +8345,7 @@
           10,
           20
         ],
-        "rate": 30
+        "rate": 60
       },
       {
         "species": "tentacool",
@@ -6639,7 +8353,7 @@
           20,
           30
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "tentacool",
@@ -6647,7 +8361,7 @@
           30,
           35
         ],
-        "rate": 4
+        "rate": 8
       },
       {
         "species": "tentacool",
@@ -6655,7 +8369,7 @@
           35,
           40
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -6669,7 +8383,7 @@
           34,
           34
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "machop",
@@ -6677,7 +8391,7 @@
           34,
           34
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "onix",
@@ -6685,7 +8399,7 @@
           45,
           45
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "onix",
@@ -6693,7 +8407,7 @@
           48,
           48
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "primeape",
@@ -6701,7 +8415,7 @@
           42,
           42
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "zubat",
@@ -6709,7 +8423,31 @@
           34,
           34
         ],
+        "rate": 20
+      },
+      {
+        "species": "golbat",
+        "levelRange": [
+          46,
+          46
+        ],
         "rate": 10
+      },
+      {
+        "species": "machoke",
+        "levelRange": [
+          46,
+          46
+        ],
+        "rate": 8
+      },
+      {
+        "species": "marowak",
+        "levelRange": [
+          46,
+          46
+        ],
+        "rate": 8
       },
       {
         "species": "arbok",
@@ -6720,7 +8458,7 @@
         "rate": 5
       },
       {
-        "species": "golbat",
+        "species": "sandslash",
         "levelRange": [
           46,
           46
@@ -6730,26 +8468,10 @@
       {
         "species": "machoke",
         "levelRange": [
-          46,
-          46
-        ],
-        "rate": 4
-      },
-      {
-        "species": "marowak",
-        "levelRange": [
-          46,
-          46
-        ],
-        "rate": 4
-      },
-      {
-        "species": "machoke",
-        "levelRange": [
           48,
           48
         ],
-        "rate": 1
+        "rate": 2
       },
       {
         "species": "marowak",
@@ -6757,7 +8479,7 @@
           48,
           48
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -6771,7 +8493,7 @@
           32,
           32
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "machop",
@@ -6779,7 +8501,7 @@
           32,
           32
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "onix",
@@ -6787,7 +8509,7 @@
           40,
           40
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "onix",
@@ -6795,7 +8517,7 @@
           43,
           43
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "onix",
@@ -6803,7 +8525,7 @@
           46,
           46
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "zubat",
@@ -6811,7 +8533,31 @@
           32,
           32
         ],
+        "rate": 20
+      },
+      {
+        "species": "golbat",
+        "levelRange": [
+          44,
+          44
+        ],
         "rate": 10
+      },
+      {
+        "species": "machoke",
+        "levelRange": [
+          44,
+          44
+        ],
+        "rate": 8
+      },
+      {
+        "species": "marowak",
+        "levelRange": [
+          44,
+          44
+        ],
+        "rate": 8
       },
       {
         "species": "arbok",
@@ -6822,7 +8568,7 @@
         "rate": 5
       },
       {
-        "species": "golbat",
+        "species": "sandslash",
         "levelRange": [
           44,
           44
@@ -6832,26 +8578,10 @@
       {
         "species": "machoke",
         "levelRange": [
-          44,
-          44
-        ],
-        "rate": 4
-      },
-      {
-        "species": "marowak",
-        "levelRange": [
-          44,
-          44
-        ],
-        "rate": 4
-      },
-      {
-        "species": "machoke",
-        "levelRange": [
           46,
           46
         ],
-        "rate": 1
+        "rate": 2
       },
       {
         "species": "marowak",
@@ -6859,7 +8589,7 @@
           46,
           46
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -6873,7 +8603,7 @@
           32,
           32
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "machop",
@@ -6881,7 +8611,7 @@
           32,
           32
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "onix",
@@ -6889,7 +8619,7 @@
           40,
           40
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "onix",
@@ -6897,7 +8627,7 @@
           43,
           43
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "onix",
@@ -6905,7 +8635,7 @@
           46,
           46
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "zubat",
@@ -6913,7 +8643,31 @@
           32,
           32
         ],
+        "rate": 20
+      },
+      {
+        "species": "golbat",
+        "levelRange": [
+          44,
+          44
+        ],
         "rate": 10
+      },
+      {
+        "species": "machoke",
+        "levelRange": [
+          44,
+          44
+        ],
+        "rate": 8
+      },
+      {
+        "species": "marowak",
+        "levelRange": [
+          44,
+          44
+        ],
+        "rate": 8
       },
       {
         "species": "arbok",
@@ -6924,7 +8678,7 @@
         "rate": 5
       },
       {
-        "species": "golbat",
+        "species": "sandslash",
         "levelRange": [
           44,
           44
@@ -6934,26 +8688,10 @@
       {
         "species": "machoke",
         "levelRange": [
-          44,
-          44
-        ],
-        "rate": 4
-      },
-      {
-        "species": "marowak",
-        "levelRange": [
-          44,
-          44
-        ],
-        "rate": 4
-      },
-      {
-        "species": "machoke",
-        "levelRange": [
           46,
           46
         ],
-        "rate": 1
+        "rate": 2
       },
       {
         "species": "marowak",
@@ -6961,7 +8699,7 @@
           46,
           46
         ],
-        "rate": 1
+        "rate": 2
       }
     ]
   },
@@ -6975,7 +8713,7 @@
           5,
           15
         ],
-        "rate": 60
+        "rate": 120
       },
       {
         "species": "goldeen",
@@ -6983,7 +8721,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "magikarp",
@@ -6991,7 +8729,7 @@
           5,
           15
         ],
-        "rate": 20
+        "rate": 40
       }
     ]
   },
@@ -7005,7 +8743,7 @@
           5,
           5
         ],
-        "rate": 100
+        "rate": 200
       }
     ]
   },
@@ -7019,7 +8757,7 @@
           15,
           25
         ],
-        "rate": 40
+        "rate": 80
       },
       {
         "species": "poliwhirl",
@@ -7027,7 +8765,7 @@
           20,
           30
         ],
-        "rate": 40
+        "rate": 80
       },
       {
         "species": "gyarados",
@@ -7035,7 +8773,7 @@
           15,
           25
         ],
-        "rate": 15
+        "rate": 30
       },
       {
         "species": "psyduck",
@@ -7046,7 +8784,23 @@
         "rate": 4
       },
       {
+        "species": "slowpoke",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 4
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           25,
           35
@@ -7068,7 +8822,23 @@
         "rate": 90
       },
       {
+        "species": "slowpoke",
+        "levelRange": [
+          20,
+          25
+        ],
+        "rate": 90
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          25,
+          30
+        ],
+        "rate": 5
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           25,
           30
@@ -7084,7 +8854,23 @@
         "rate": 4
       },
       {
+        "species": "slowpoke",
+        "levelRange": [
+          30,
+          35
+        ],
+        "rate": 4
+      },
+      {
         "species": "psyduck",
+        "levelRange": [
+          35,
+          40
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
         "levelRange": [
           35,
           40
@@ -7103,7 +8889,7 @@
           4,
           4
         ],
-        "rate": 20
+        "rate": 40
       },
       {
         "species": "weedle",
@@ -7111,23 +8897,23 @@
           4,
           4
         ],
+        "rate": 40
+      },
+      {
+        "species": "caterpie",
+        "levelRange": [
+          5,
+          5
+        ],
         "rate": 20
       },
       {
         "species": "caterpie",
         "levelRange": [
-          5,
-          5
-        ],
-        "rate": 10
-      },
-      {
-        "species": "caterpie",
-        "levelRange": [
           3,
           3
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "weedle",
@@ -7135,7 +8921,7 @@
           5,
           5
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "weedle",
@@ -7143,7 +8929,7 @@
           3,
           3
         ],
-        "rate": 10
+        "rate": 20
       },
       {
         "species": "kakuna",
@@ -7151,7 +8937,7 @@
           5,
           5
         ],
-        "rate": 5
+        "rate": 10
       },
       {
         "species": "metapod",
@@ -7159,10 +8945,26 @@
           5,
           5
         ],
-        "rate": 5
+        "rate": 10
+      },
+      {
+        "species": "pikachu",
+        "levelRange": [
+          3,
+          3
+        ],
+        "rate": 8
       },
       {
         "species": "kakuna",
+        "levelRange": [
+          4,
+          4
+        ],
+        "rate": 4
+      },
+      {
+        "species": "metapod",
         "levelRange": [
           4,
           4
@@ -7172,10 +8974,10 @@
       {
         "species": "pikachu",
         "levelRange": [
-          3,
-          3
+          5,
+          5
         ],
-        "rate": 4
+        "rate": 2
       },
       {
         "species": "kakuna",
@@ -7186,10 +8988,10 @@
         "rate": 1
       },
       {
-        "species": "pikachu",
+        "species": "metapod",
         "levelRange": [
-          5,
-          5
+          6,
+          6
         ],
         "rate": 1
       }

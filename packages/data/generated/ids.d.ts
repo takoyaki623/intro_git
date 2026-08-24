@@ -7,7 +7,7 @@
  * BattleSet 64 / 施設 4 /
  * ネームド 18 / カップ 10 /
  * マップ 127 / イベント 368 / トレーナー 75 /
- * 出現テーブル 146 / ショップ 6 / 地方 9 /
+ * 出現テーブル 149 / ショップ 6 / 地方 9 /
  * フラグ 177
  */
 
@@ -1370,7 +1370,10 @@ export type GeneratedEncounterTableId =
   | "kanto-pallet-town-surf"
   | "kanto-pokemon-mansion-2f-cave"
   | "kanto-pokemon-mansion-cave"
-  | "kanto-pokemon-tower-grass"
+  | "kanto-pokemon-tower-3f-grass"
+  | "kanto-pokemon-tower-4f-grass"
+  | "kanto-pokemon-tower-5f-grass"
+  | "kanto-pokemon-tower-6f-grass"
   | "kanto-power-plant-cave"
   | "kanto-rock-tunnel-1f-cave"
   | "kanto-rock-tunnel-b1f-cave"

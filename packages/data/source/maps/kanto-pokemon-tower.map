@@ -6,10 +6,11 @@
 #
 # 先に階だけ作っていたら、登れない7階が1年ぶん立っていた ――
 # ニビの博物館の扉（検証 #115）と同じ形になるところだった。
+# **1階に野生は出ない**（原作どおり）。表を持たないのが正しい ――
+# 空の表を作ると「出るはずなのに出ない」と区別がつかなくなる。
 id: kanto-pokemon-tower
 name: ポケモンタワー
 region: kanto
-encounters: kanto-pokemon-tower-grass
 bgm: pokemon-tower
 
 legend:

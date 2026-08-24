@@ -4,10 +4,10 @@
 # シルフスコープを持っていないうちは「なにかが いる…」の看板で、
 # 持つと ゴース の姿になって戦える ―― **コードは0行**、検証 #48 が
 # 「条件つきなら重なってよい」と最初から認めていた形。
+# **2階にも野生は出ない**（原作どおり）。ゴーストが出るのは3階から。
 id: kanto-pokemon-tower-2f
 name: ポケモンタワー
 region: kanto
-encounters: kanto-pokemon-tower-grass
 bgm: pokemon-tower
 
 legend:

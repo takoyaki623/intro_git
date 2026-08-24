@@ -19439,9 +19439,6 @@
         }
       }
     ],
-    "encounters": [
-      "kanto-pokemon-tower-grass"
-    ],
     "bgm": "pokemon-tower"
   },
   {
@@ -19762,7 +19759,7 @@
       }
     ],
     "encounters": [
-      "kanto-pokemon-tower-grass"
+      "kanto-pokemon-tower-3f-grass"
     ],
     "bgm": "pokemon-tower"
   },
@@ -20083,7 +20080,7 @@
       }
     ],
     "encounters": [
-      "kanto-pokemon-tower-grass"
+      "kanto-pokemon-tower-4f-grass"
     ],
     "bgm": "pokemon-tower"
   },
@@ -20405,7 +20402,7 @@
       }
     ],
     "encounters": [
-      "kanto-pokemon-tower-grass"
+      "kanto-pokemon-tower-5f-grass"
     ],
     "bgm": "pokemon-tower"
   },
@@ -20726,7 +20723,7 @@
       }
     ],
     "encounters": [
-      "kanto-pokemon-tower-grass"
+      "kanto-pokemon-tower-6f-grass"
     ],
     "bgm": "pokemon-tower"
   },
@@ -21366,9 +21363,6 @@
           "value": false
         }
       }
-    ],
-    "encounters": [
-      "kanto-pokemon-tower-grass"
     ],
     "bgm": "pokemon-tower"
   },

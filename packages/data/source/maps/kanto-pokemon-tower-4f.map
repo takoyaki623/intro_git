@@ -7,7 +7,7 @@
 id: kanto-pokemon-tower-4f
 name: ポケモンタワー
 region: kanto
-encounters: kanto-pokemon-tower-grass
+encounters: kanto-pokemon-tower-4f-grass
 bgm: pokemon-tower
 
 legend:
