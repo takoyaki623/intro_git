@@ -1825,8 +1825,9 @@ expect("そらをとぶ で マサラへ 戻れる", (await spot()).map, "kanto-
 {
   await goToMap("kanto-cerulean-cave", 6, 7, 200);
   expect("殿堂入りすると けいびが どく", (await spot()).map, "kanto-cerulean-cave");
-  await goToMap("kanto-cerulean-cave", 6, 2, 20);
-  await key("ArrowUp", 2, 220);
+  // ミュウツーは (6,1)。真下（6,2）は壁なので、**横に立って調べる**
+  await goToMap("kanto-cerulean-cave", 5, 1, 20);
+  await key("ArrowRight", 2, 220);
   await key("z", 1, 400);
   note("ミュウツー", ((await page.textContent("#field-text")) ?? "（何も出ない）").trim().replace(/\s+/g, " "));
   await choose("ちかづく");
