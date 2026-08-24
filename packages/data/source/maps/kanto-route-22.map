@@ -30,3 +30,4 @@ warps:
 objects:
 route22-sign 6,4 sign kanto.route22.sign
 route22-rival 3,5 npc:rival:static kanto.route22.rival if:kanto.route22.rival-beaten=false
+route22-rival-a 3,3 npc:rival:static kanto.route22.rival-a if:kanto.route22.rival-a-beaten=false

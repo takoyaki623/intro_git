@@ -1,0 +1,30 @@
+# ポケモンタワー 7階（v1.1-g-3）。**フジろうじん が居る。**
+#
+# ロケット団を追い払うと ポケモンのふえ をくれる ――
+# シオンで止まっていた筋が、ここで先へ抜ける。
+id: kanto-pokemon-tower-7f
+name: ポケモンタワー さいじょうかい
+region: kanto
+bgm: pokemon-tower
+
+legend:
+. normal
+W !normal
+D normal
+
+grid:
+WWWWWWWWW
+W.......W
+W.......W
+W.......W
+W.......W
+W.......W
+W.......W
+WWWWWWWWW
+
+warps:
+1,6 step kanto-pokemon-tower-6f 6,6 down
+
+objects:
+tower-rocket 4,4 trainer:kanto-tower-rocket-7f:3:down kanto.tower.rocket if:kanto.tower.rocket7-beaten=false
+tower-fuji 4,1 npc:oldman:static kanto.tower.fuji

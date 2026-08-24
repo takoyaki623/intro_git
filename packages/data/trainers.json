@@ -1667,5 +1667,828 @@
         ]
       }
     ]
+  },
+  {
+    "id": "kanto-rocket-b1f",
+    "name": "ロケットだん",
+    "class": "したっぱ",
+    "reward": 1200,
+    "defeatedFlag": "kanto.rocket.b1f-beaten",
+    "party": [
+      {
+        "species": "raticate",
+        "level": 26,
+        "moves": [
+          "hyper-fang",
+          "quick-attack"
+        ]
+      },
+      {
+        "species": "zubat",
+        "level": 26,
+        "moves": [
+          "bite",
+          "supersonic"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-rocket-b2f",
+    "name": "ロケットだん",
+    "class": "したっぱ",
+    "reward": 1400,
+    "defeatedFlag": "kanto.rocket.b2f-beaten",
+    "party": [
+      {
+        "species": "golbat",
+        "level": 29,
+        "moves": [
+          "bite",
+          "wing-attack",
+          "confuse-ray"
+        ]
+      },
+      {
+        "species": "koffing",
+        "level": 29,
+        "moves": [
+          "sludge",
+          "smokescreen"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-rocket-b3f",
+    "name": "ロケットだん",
+    "class": "したっぱ",
+    "reward": 1600,
+    "defeatedFlag": "kanto.rocket.b3f-beaten",
+    "party": [
+      {
+        "species": "arbok",
+        "level": 31,
+        "moves": [
+          "bite",
+          "acid",
+          "glare"
+        ]
+      },
+      {
+        "species": "grimer",
+        "level": 31,
+        "moves": [
+          "sludge",
+          "pound"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-rocket-b4f",
+    "name": "ロケットだん",
+    "class": "したっぱ",
+    "reward": 1800,
+    "defeatedFlag": "kanto.rocket.b4f-beaten",
+    "party": [
+      {
+        "species": "weezing",
+        "level": 33,
+        "moves": [
+          "sludge",
+          "smokescreen",
+          "tackle"
+        ]
+      },
+      {
+        "species": "golbat",
+        "level": 33,
+        "moves": [
+          "bite",
+          "wing-attack",
+          "confuse-ray"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-giovanni-hideout",
+    "name": "サカキ",
+    "class": "ロケットだんボス",
+    "reward": 4950,
+    "defeatedFlag": "kanto.rocket.giovanni-beaten",
+    "party": [
+      {
+        "species": "onix",
+        "level": 25,
+        "moves": [
+          "rock-slide",
+          "tackle"
+        ]
+      },
+      {
+        "species": "rhyhorn",
+        "level": 24,
+        "moves": [
+          "horn-attack",
+          "rock-slide"
+        ]
+      },
+      {
+        "species": "kangaskhan",
+        "level": 29,
+        "moves": [
+          "body-slam",
+          "bite",
+          "mega-punch"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-silph-grunt-3f",
+    "name": "ロケットだん",
+    "class": "したっぱ",
+    "reward": 2000,
+    "defeatedFlag": "kanto.silph.grunt3-beaten",
+    "party": [
+      {
+        "species": "golbat",
+        "level": 33,
+        "moves": [
+          "bite",
+          "wing-attack",
+          "confuse-ray"
+        ]
+      },
+      {
+        "species": "drowzee",
+        "level": 33,
+        "moves": [
+          "confusion",
+          "hypnosis"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-silph-grunt-5f",
+    "name": "ロケットだん",
+    "class": "したっぱ",
+    "reward": 2200,
+    "defeatedFlag": "kanto.silph.grunt5-beaten",
+    "party": [
+      {
+        "species": "arbok",
+        "level": 35,
+        "moves": [
+          "bite",
+          "glare",
+          "acid"
+        ]
+      },
+      {
+        "species": "weezing",
+        "level": 35,
+        "moves": [
+          "sludge",
+          "smokescreen"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-silph-grunt-7f",
+    "name": "ロケットだん",
+    "class": "したっぱ",
+    "reward": 2400,
+    "defeatedFlag": "kanto.silph.grunt7-beaten",
+    "party": [
+      {
+        "species": "hypno",
+        "level": 37,
+        "moves": [
+          "psychic",
+          "hypnosis",
+          "headbutt"
+        ]
+      },
+      {
+        "species": "machoke",
+        "level": 37,
+        "moves": [
+          "karate-chop",
+          "low-sweep"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-giovanni-silph",
+    "name": "サカキ",
+    "class": "ロケットだんボス",
+    "reward": 6600,
+    "defeatedFlag": "kanto.silph.giovanni-beaten",
+    "party": [
+      {
+        "species": "nidorino",
+        "level": 37,
+        "moves": [
+          "horn-attack",
+          "poison-sting"
+        ]
+      },
+      {
+        "species": "kangaskhan",
+        "level": 35,
+        "moves": [
+          "body-slam",
+          "bite",
+          "mega-punch"
+        ]
+      },
+      {
+        "species": "rhyhorn",
+        "level": 37,
+        "moves": [
+          "horn-attack",
+          "rock-slide"
+        ]
+      },
+      {
+        "species": "nidoqueen",
+        "level": 41,
+        "moves": [
+          "body-slam",
+          "earthquake",
+          "bite"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-tower-channeler-3f",
+    "name": "れいばいし",
+    "class": "れいばいし",
+    "reward": 1200,
+    "defeatedFlag": "kanto.tower.channeler3-beaten",
+    "party": [
+      {
+        "species": "gastly",
+        "level": 23,
+        "moves": [
+          "lick",
+          "hypnosis",
+          "confuse-ray"
+        ]
+      },
+      {
+        "species": "haunter",
+        "level": 24,
+        "moves": [
+          "lick",
+          "confuse-ray",
+          "shadow-ball"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-tower-channeler-5f",
+    "name": "れいばいし",
+    "class": "れいばいし",
+    "reward": 1400,
+    "defeatedFlag": "kanto.tower.channeler5-beaten",
+    "party": [
+      {
+        "species": "haunter",
+        "level": 26,
+        "moves": [
+          "shadow-ball",
+          "confuse-ray",
+          "hypnosis"
+        ]
+      },
+      {
+        "species": "gastly",
+        "level": 26,
+        "moves": [
+          "lick",
+          "confuse-ray"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-tower-rocket-7f",
+    "name": "ロケットだん",
+    "class": "したっぱ",
+    "reward": 1600,
+    "defeatedFlag": "kanto.tower.rocket7-beaten",
+    "party": [
+      {
+        "species": "zubat",
+        "level": 25,
+        "moves": [
+          "bite",
+          "supersonic"
+        ]
+      },
+      {
+        "species": "golbat",
+        "level": 28,
+        "moves": [
+          "bite",
+          "wing-attack"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-rival-r22a-bulbasaur",
+    "name": "グリーン",
+    "class": "ライバル",
+    "reward": 800,
+    "defeatedFlag": "kanto.route22.rival-a-beaten",
+    "party": [
+      {
+        "species": "pidgey",
+        "level": 9,
+        "moves": [
+          "tackle",
+          "gust"
+        ]
+      },
+      {
+        "species": "bulbasaur",
+        "level": 9,
+        "moves": [
+          "tackle",
+          "growl"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-rival-r22a-charmander",
+    "name": "グリーン",
+    "class": "ライバル",
+    "reward": 800,
+    "defeatedFlag": "kanto.route22.rival-a-beaten",
+    "party": [
+      {
+        "species": "pidgey",
+        "level": 9,
+        "moves": [
+          "tackle",
+          "gust"
+        ]
+      },
+      {
+        "species": "charmander",
+        "level": 9,
+        "moves": [
+          "scratch",
+          "growl"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-rival-r22a-squirtle",
+    "name": "グリーン",
+    "class": "ライバル",
+    "reward": 800,
+    "defeatedFlag": "kanto.route22.rival-a-beaten",
+    "party": [
+      {
+        "species": "pidgey",
+        "level": 9,
+        "moves": [
+          "tackle",
+          "gust"
+        ]
+      },
+      {
+        "species": "squirtle",
+        "level": 9,
+        "moves": [
+          "tackle",
+          "tail-whip"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-rival-cerulean-bulbasaur",
+    "name": "グリーン",
+    "class": "ライバル",
+    "reward": 2400,
+    "defeatedFlag": "kanto.cerulean.rival-beaten",
+    "party": [
+      {
+        "species": "pidgeotto",
+        "level": 17,
+        "moves": [
+          "wing-attack",
+          "quick-attack"
+        ]
+      },
+      {
+        "species": "kadabra",
+        "level": 16,
+        "moves": [
+          "confusion",
+          "psybeam"
+        ]
+      },
+      {
+        "species": "rattata",
+        "level": 15,
+        "moves": [
+          "hyper-fang",
+          "quick-attack"
+        ]
+      },
+      {
+        "species": "ivysaur",
+        "level": 18,
+        "moves": [
+          "razor-leaf",
+          "sludge-bomb",
+          "giga-drain"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-rival-cerulean-charmander",
+    "name": "グリーン",
+    "class": "ライバル",
+    "reward": 2400,
+    "defeatedFlag": "kanto.cerulean.rival-beaten",
+    "party": [
+      {
+        "species": "pidgeotto",
+        "level": 17,
+        "moves": [
+          "wing-attack",
+          "quick-attack"
+        ]
+      },
+      {
+        "species": "kadabra",
+        "level": 16,
+        "moves": [
+          "confusion",
+          "psybeam"
+        ]
+      },
+      {
+        "species": "rattata",
+        "level": 15,
+        "moves": [
+          "hyper-fang",
+          "quick-attack"
+        ]
+      },
+      {
+        "species": "charmeleon",
+        "level": 18,
+        "moves": [
+          "flamethrower",
+          "slash",
+          "crunch"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-rival-cerulean-squirtle",
+    "name": "グリーン",
+    "class": "ライバル",
+    "reward": 2400,
+    "defeatedFlag": "kanto.cerulean.rival-beaten",
+    "party": [
+      {
+        "species": "pidgeotto",
+        "level": 17,
+        "moves": [
+          "wing-attack",
+          "quick-attack"
+        ]
+      },
+      {
+        "species": "kadabra",
+        "level": 16,
+        "moves": [
+          "confusion",
+          "psybeam"
+        ]
+      },
+      {
+        "species": "rattata",
+        "level": 15,
+        "moves": [
+          "hyper-fang",
+          "quick-attack"
+        ]
+      },
+      {
+        "species": "wartortle",
+        "level": 18,
+        "moves": [
+          "waterfall",
+          "ice-beam",
+          "bite"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-rival-tower-bulbasaur",
+    "name": "グリーン",
+    "class": "ライバル",
+    "reward": 3200,
+    "defeatedFlag": "kanto.lavender.rival-beaten",
+    "party": [
+      {
+        "species": "pidgeotto",
+        "level": 25,
+        "moves": [
+          "wing-attack",
+          "aerial-ace"
+        ]
+      },
+      {
+        "species": "gyarados",
+        "level": 22,
+        "moves": [
+          "bite",
+          "waterfall"
+        ]
+      },
+      {
+        "species": "growlithe",
+        "level": 20,
+        "moves": [
+          "ember",
+          "bite"
+        ]
+      },
+      {
+        "species": "ivysaur",
+        "level": 25,
+        "moves": [
+          "razor-leaf",
+          "sludge-bomb",
+          "giga-drain"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-rival-tower-charmander",
+    "name": "グリーン",
+    "class": "ライバル",
+    "reward": 3200,
+    "defeatedFlag": "kanto.lavender.rival-beaten",
+    "party": [
+      {
+        "species": "pidgeotto",
+        "level": 25,
+        "moves": [
+          "wing-attack",
+          "aerial-ace"
+        ]
+      },
+      {
+        "species": "gyarados",
+        "level": 22,
+        "moves": [
+          "bite",
+          "waterfall"
+        ]
+      },
+      {
+        "species": "growlithe",
+        "level": 20,
+        "moves": [
+          "ember",
+          "bite"
+        ]
+      },
+      {
+        "species": "charmeleon",
+        "level": 25,
+        "moves": [
+          "flamethrower",
+          "slash",
+          "crunch"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-rival-tower-squirtle",
+    "name": "グリーン",
+    "class": "ライバル",
+    "reward": 3200,
+    "defeatedFlag": "kanto.lavender.rival-beaten",
+    "party": [
+      {
+        "species": "pidgeotto",
+        "level": 25,
+        "moves": [
+          "wing-attack",
+          "aerial-ace"
+        ]
+      },
+      {
+        "species": "gyarados",
+        "level": 22,
+        "moves": [
+          "bite",
+          "waterfall"
+        ]
+      },
+      {
+        "species": "growlithe",
+        "level": 20,
+        "moves": [
+          "ember",
+          "bite"
+        ]
+      },
+      {
+        "species": "wartortle",
+        "level": 25,
+        "moves": [
+          "waterfall",
+          "ice-beam",
+          "bite"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-rival-silph-bulbasaur",
+    "name": "グリーン",
+    "class": "ライバル",
+    "reward": 5600,
+    "defeatedFlag": "kanto.silph.rival-beaten",
+    "party": [
+      {
+        "species": "pidgeot",
+        "level": 37,
+        "moves": [
+          "wing-attack",
+          "aerial-ace",
+          "agility"
+        ]
+      },
+      {
+        "species": "growlithe",
+        "level": 35,
+        "moves": [
+          "ember",
+          "bite",
+          "headbutt"
+        ]
+      },
+      {
+        "species": "exeggcute",
+        "level": 35,
+        "moves": [
+          "confusion",
+          "psybeam"
+        ]
+      },
+      {
+        "species": "kadabra",
+        "level": 35,
+        "moves": [
+          "psychic",
+          "psybeam",
+          "recover"
+        ]
+      },
+      {
+        "species": "venusaur",
+        "level": 40,
+        "moves": [
+          "razor-leaf",
+          "sludge-bomb",
+          "giga-drain"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-rival-silph-charmander",
+    "name": "グリーン",
+    "class": "ライバル",
+    "reward": 5600,
+    "defeatedFlag": "kanto.silph.rival-beaten",
+    "party": [
+      {
+        "species": "pidgeot",
+        "level": 37,
+        "moves": [
+          "wing-attack",
+          "aerial-ace",
+          "agility"
+        ]
+      },
+      {
+        "species": "growlithe",
+        "level": 35,
+        "moves": [
+          "ember",
+          "bite",
+          "headbutt"
+        ]
+      },
+      {
+        "species": "exeggcute",
+        "level": 35,
+        "moves": [
+          "confusion",
+          "psybeam"
+        ]
+      },
+      {
+        "species": "kadabra",
+        "level": 35,
+        "moves": [
+          "psychic",
+          "psybeam",
+          "recover"
+        ]
+      },
+      {
+        "species": "charizard",
+        "level": 40,
+        "moves": [
+          "flamethrower",
+          "slash",
+          "dragon-claw"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-rival-silph-squirtle",
+    "name": "グリーン",
+    "class": "ライバル",
+    "reward": 5600,
+    "defeatedFlag": "kanto.silph.rival-beaten",
+    "party": [
+      {
+        "species": "pidgeot",
+        "level": 37,
+        "moves": [
+          "wing-attack",
+          "aerial-ace",
+          "agility"
+        ]
+      },
+      {
+        "species": "growlithe",
+        "level": 35,
+        "moves": [
+          "ember",
+          "bite",
+          "headbutt"
+        ]
+      },
+      {
+        "species": "exeggcute",
+        "level": 35,
+        "moves": [
+          "confusion",
+          "psybeam"
+        ]
+      },
+      {
+        "species": "kadabra",
+        "level": 35,
+        "moves": [
+          "psychic",
+          "psybeam",
+          "recover"
+        ]
+      },
+      {
+        "species": "blastoise",
+        "level": 40,
+        "moves": [
+          "hydro-pump",
+          "ice-beam",
+          "bite"
+        ]
+      }
+    ]
   }
 ]

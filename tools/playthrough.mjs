@@ -2115,6 +2115,126 @@ expect(
   (v) => v > 0,
 );
 
+// ── ロケット団の筋（v1.1-g-3-2）──
+//
+// ゲームコーナー → アジト → シルフスコープ → ポケモンタワー7階 → シルフ。
+// **v0.12 でタワーの階を送ったとき「足りないのはシルフスコープの入手元だけ」
+// と書いた宿題が、ここで解ける。**
+{
+  await powerUp();
+  const owns = async (id) => {
+    const save = await readSave();
+    return Object.values(save.pokemon ?? {}).some((p) => p.species === id);
+  };
+  const bag = async () => (await readSave()).global.bag;
+
+  // ── ゲームコーナー ―― 景品は お金で買う（コインは作らない）──
+  await setMoney(20000);
+  await goToMap("kanto-celadon-gamecorner", 5, 7, 200);
+  expect("ゲームコーナーに 入れる", (await spot()).map, "kanto-celadon-gamecorner");
+  await goTo(3, 2);
+  await talk("ArrowUp");
+  await drain(8);
+  await choose("アブラ");
+  await drain(12);
+  expect("けいひんの アブラ を おかねで もらえる", (await owns("abra")) ? "もらった" : "もらえない", "もらった");
+  await shot("40-gamecorner");
+
+  // **ポスターを押すまで、階段は塞がっている。**
+  // 「置いた」ではなく「そこしか通れない」で初めて関門になる
+  expect(
+    "ポスターを 押すまで 階段は 塞がっている",
+    (await goToMap("kanto-rocket-b1f", 5, 1, 6)).map,
+    "kanto-celadon-gamecorner",
+  );
+  await goTo(9, 3);
+  await key("ArrowUp", 2, 220);
+  await key("z", 1, 400);
+  await drain(10);
+  await goToMap("kanto-rocket-b1f", 5, 1, 20);
+  expect("ポスターを 押すと アジトへ 降りられる", (await spot()).map, "kanto-rocket-b1f");
+
+  // ── アジト ―― エレベーターのカギが無いと 地下4階へ行けない ──
+  await goToMap("kanto-rocket-b3f", 2, 1, 120);
+  expect("地下3階まで 降りられる", (await spot()).map, "kanto-rocket-b3f");
+  expect(
+    "カギが 無いと 地下4階へ 行けない",
+    (await goToMap("kanto-rocket-b4f", 2, 1, 6)).map,
+    "kanto-rocket-b3f",
+  );
+  await goToMap("kanto-rocket-b3f", 3, 4, 20);
+  await talk("ArrowUp");
+  await drain(10);
+  expect("エレベーターのカギ を ひろう", `${(await bag())["lift-key"] ?? 0}`, "1");
+  await goToMap("kanto-rocket-b4f", 2, 1, 40);
+  expect("カギを 取ると 地下4階へ 行ける", (await spot()).map, "kanto-rocket-b4f");
+
+  await goToMap("kanto-rocket-b4f", 4, 5, 20);
+  await talk("ArrowUp");
+  await drain(10);
+  expect("サカキに いどめる", (await page.isVisible("#battle")) ? "いどめた" : "いどめない", "いどめた");
+  await fight();
+  await page.waitForTimeout(800);
+  await drain(24);
+  expect("勝つと シルフスコープ が 手に入る", `${(await bag())["silph-scope"] ?? 0}`, "1");
+  await shot("41-hideout");
+
+  // ── ポケモンタワー ―― 見えなかったものが 見える ──
+  await goToMap("kanto-pokemon-tower-3f", 4, 4, 200);
+  expect("タワーの 3階まで 登れる", (await spot()).map, "kanto-pokemon-tower-3f");
+  await goTo(4, 4);
+  await key("ArrowUp", 2, 220);
+  await key("z", 1, 500);
+  await drain(8);
+  expect(
+    "シルフスコープが あると ゆうれいと 戦える",
+    (await page.isVisible("#battle")) ? "戦えた" : "戦えない",
+    "戦えた",
+  );
+  await fight();
+  await page.waitForTimeout(800);
+  await drain(20);
+  await shot("42-tower");
+
+  await goToMap("kanto-pokemon-tower-7f", 4, 2, 120);
+  expect("さいじょうかいに 着く", (await spot()).map, "kanto-pokemon-tower-7f");
+  await talk("ArrowUp");
+  await drain(20);
+  expect("フジろうじんが ポケモンのふえ を くれる", `${(await bag())["poke-flute"] ?? 0}`, "1");
+
+  // ── シルフカンパニー ―― ラプラスと マスターボール ──
+  await goToMap("kanto-silph-5f", 2, 1, 200);
+  expect("シルフの 5階まで 登れる", (await spot()).map, "kanto-silph-5f");
+  expect(
+    "カードキーが 無いと 7階へ 行けない",
+    (await goToMap("kanto-silph-7f", 2, 1, 6)).map,
+    "kanto-silph-5f",
+  );
+  await goToMap("kanto-silph-5f", 3, 2, 20);
+  await talk("ArrowUp");
+  await drain(10);
+  expect("カードキー を ひろう", `${(await bag())["card-key"] ?? 0}`, "1");
+  await goToMap("kanto-silph-7f", 2, 1, 40);
+  expect("カードキーを 取ると 7階へ 行ける", (await spot()).map, "kanto-silph-7f");
+  await goToMap("kanto-silph-7f", 3, 4, 20);
+  await talk("ArrowUp");
+  await drain(12);
+  expect("しゃいんが ラプラス を くれる", (await owns("lapras")) ? "もらった" : "もらえない", "もらった");
+
+  await goToMap("kanto-silph-11f", 4, 4, 60);
+  await talk("ArrowUp");
+  await drain(10);
+  expect("シルフで サカキに 再戦できる", (await page.isVisible("#battle")) ? "いどめた" : "いどめない", "いどめた");
+  await fight();
+  await page.waitForTimeout(800);
+  await drain(24);
+  await goToMap("kanto-silph-11f", 4, 2, 20);
+  await talk("ArrowUp");
+  await drain(16);
+  expect("しゃちょうが マスターボール を くれる", `${(await bag())["master-ball"] ?? 0}`, "1");
+  await shot("43-silph");
+}
+
 // ── グレンけんきゅうじょ ―― かせきを もどす（v1.1-g-3）──
 //
 // **ここに置くのは、グレンじまが 島だから。** なみのり を覚えるまで

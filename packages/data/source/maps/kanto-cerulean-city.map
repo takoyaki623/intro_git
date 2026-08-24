@@ -51,3 +51,4 @@ cerulean-sign-gym 4,4 sign kanto.cerulean.sign-gym
 cerulean-girl 9,4 npc:lass:static kanto.cerulean.girl
 cerulean-fisher 9,11 npc:fisher:static kanto.cerulean.fisher
 cerulean-cave-guard 5,14 npc:guard:static kanto.cerulean.cave-guard if:kanto.league.champion-beaten=false
+cerulean-rival 8,4 npc:rival:static kanto.cerulean.rival if:kanto.cerulean.rival-beaten=false

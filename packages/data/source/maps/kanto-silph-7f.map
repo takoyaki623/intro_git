@@ -1,0 +1,31 @@
+# シルフカンパニー 7階（v1.1-g-3）。**助けた社員が ラプラス をくれる。**
+#
+# ラプラスは原作でもここでしか手に入らない ―― 野生にも進化にも居ない。
+# **1件のイベントが1種を丸ごと背負っている**ので、消すと図鑑が閉じる。
+id: kanto-silph-7f
+name: シルフカンパニー
+region: kanto
+bgm: silph
+
+legend:
+. normal
+W !normal
+D normal
+
+grid:
+WWWWWWWWW
+W.......W
+W.WWW.W.W
+W.......W
+W.W.WWW.W
+W.......W
+WWWWWWWWW
+
+warps:
+1,1 step kanto-silph-5f 7,4 down
+7,5 step kanto-silph-11f 2,1 up
+
+objects:
+silph-7f-grunt 4,1 trainer:kanto-silph-grunt-7f:2:down kanto.silph.grunt7 if:kanto.silph.grunt7-beaten=false
+silph-7f-staff 3,3 npc:scientist:static kanto.silph.lapras
+silph-rival 5,5 npc:rival:static kanto.silph.rival if:kanto.silph.rival-beaten=false

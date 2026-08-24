@@ -1,0 +1,36 @@
+# ポケモンタワー 2階（v1.1-g-3）。
+#
+# **ゴーストは同じマスに条件で入れ替わる2つのオブジェクト**（v1.1-e の設計）。
+# シルフスコープを持っていないうちは「なにかが いる…」の看板で、
+# 持つと ゴース の姿になって戦える ―― **コードは0行**、検証 #48 が
+# 「条件つきなら重なってよい」と最初から認めていた形。
+id: kanto-pokemon-tower-2f
+name: ポケモンタワー
+region: kanto
+encounters: kanto-pokemon-tower-grass
+bgm: pokemon-tower
+
+legend:
+. normal
+W !normal
+G !normal
+D normal
+
+grid:
+WWWWWWWWW
+W.......W
+W.GG.GG.W
+W.......W
+W.GG.GG.W
+W.......W
+W.......W
+WWWWWWWWW
+
+warps:
+1,6 step kanto-pokemon-tower 6,6 down
+7,6 step kanto-pokemon-tower-3f 2,6 up
+
+objects:
+tower-2f-item 1,5 item:elixir kanto.tower.2f-item if:kanto.tower.2f-item-taken=false
+tower-2f-ghost 4,3 sign kanto.tower.ghost-hidden if:kanto.field.silph-scope=false
+tower-2f-ghost-seen 4,3 npc:ghost:static kanto.tower.ghost-seen if:kanto.field.silph-scope=true

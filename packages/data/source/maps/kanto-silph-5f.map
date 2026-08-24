@@ -1,0 +1,28 @@
+# シルフカンパニー 5階（v1.1-g-3）。**カードキーはここ。**
+id: kanto-silph-5f
+name: シルフカンパニー
+region: kanto
+bgm: silph
+
+legend:
+. normal
+W !normal
+D normal
+
+grid:
+WWWWWWWWW
+W.......W
+W.WWW.W.W
+W.......W
+W.WWW.W.W
+W.......W
+WWWWWWWWW
+
+warps:
+1,1 step kanto-silph-3f 7,4 down
+7,5 step kanto-silph-7f 2,1 up
+
+objects:
+silph-5f-grunt 5,3 trainer:kanto-silph-grunt-5f:2:left kanto.silph.grunt5 if:kanto.silph.grunt5-beaten=false
+silph-5f-key 3,1 item:card-key kanto.silph.card-key if:kanto.silph.card-key-taken=false
+silph-5f-door 7,5 sign kanto.silph.locked if:kanto.silph.card-key-taken=false

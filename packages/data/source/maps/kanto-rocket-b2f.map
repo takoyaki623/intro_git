@@ -1,0 +1,29 @@
+# ロケット団アジト 地下2階（v1.1-g-3）。
+id: kanto-rocket-b2f
+name: ロケットだんアジト
+region: kanto
+bgm: rocket
+
+legend:
+. normal
+W !normal
+D normal
+
+grid:
+WWWWWWWWW
+W.......W
+W.WWW.W.W
+W.....W.W
+W.W.WWW.W
+W.......W
+W.WWW.W.W
+W.....W.W
+WWWWWWWWW
+
+warps:
+1,1 step kanto-rocket-b1f 6,7 up
+7,7 step kanto-rocket-b3f 2,1 down
+
+objects:
+rocket-b2f-grunt 5,3 trainer:kanto-rocket-b2f:2:down kanto.rocket.b2f-grunt if:kanto.rocket.b2f-beaten=false
+rocket-b2f-item 3,7 item:full-heal kanto.rocket.b2f-item if:kanto.rocket.b2f-item-taken=false

@@ -6995,5 +6995,1505 @@
         ]
       }
     ]
+  },
+  {
+    "id": "kanto.gamecorner.sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ゲームコーナー\n\nスロットは ただいま しめとる。\nけいひんだけ おわけしとる。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.gamecorner.grunt",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ここは おれたちの しまだ。\nおくの ポスターに さわるな!",
+        "speaker": "ロケットだん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.gamecorner.poster",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.rocket.poster-pushed",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ポスターの うらに スイッチが ある!"
+          },
+          {
+            "kind": "playSe"
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.rocket.poster-pushed",
+            "value": true
+          },
+          {
+            "kind": "message",
+            "text": "ゴゴゴ… かいだんが あらわれた!"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ポスターの うらの スイッチ。"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocket.b1f-grunt",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.rocket.b1f-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "よくも ここまで きたな!",
+            "speaker": "ロケットだん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-rocket-b1f",
+            "onWin": "kanto.rocket.b1f-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ボスは おくだ…",
+            "speaker": "ロケットだん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocket.b1f-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.rocket.b1f-beaten",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocket.b2f-grunt",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.rocket.b2f-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "よくも ここまで きたな!",
+            "speaker": "ロケットだん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-rocket-b2f",
+            "onWin": "kanto.rocket.b2f-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ボスは おくだ…",
+            "speaker": "ロケットだん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocket.b2f-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.rocket.b2f-beaten",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocket.b3f-grunt",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.rocket.b3f-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "よくも ここまで きたな!",
+            "speaker": "ロケットだん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-rocket-b3f",
+            "onWin": "kanto.rocket.b3f-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ボスは おくだ…",
+            "speaker": "ロケットだん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocket.b3f-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.rocket.b3f-beaten",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocket.b4f-grunt",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.rocket.b4f-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "よくも ここまで きたな!",
+            "speaker": "ロケットだん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-rocket-b4f",
+            "onWin": "kanto.rocket.b4f-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ボスは おくだ…",
+            "speaker": "ロケットだん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocket.b4f-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.rocket.b4f-beaten",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocket.b1f-item",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "スーパーポーション を みつけた!"
+      },
+      {
+        "kind": "giveItem",
+        "item": "super-potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.rocket.b1f-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocket.b2f-item",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "なんでもなおし を みつけた!"
+      },
+      {
+        "kind": "giveItem",
+        "item": "full-heal",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.rocket.b2f-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocket.b4f-item",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "すごいキズぐすり を みつけた!"
+      },
+      {
+        "kind": "giveItem",
+        "item": "hyper-potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.rocket.b4f-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocket.lift-key",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "エレベーターのカギ を みつけた!"
+      },
+      {
+        "kind": "giveItem",
+        "item": "lift-key",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.rocket.lift-key-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocket.giovanni",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.rocket.giovanni-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "わたしが ロケットだんの ボス サカキだ。",
+            "speaker": "サカキ"
+          },
+          {
+            "kind": "message",
+            "text": "じゃまを するなら…\nちからずくで どいて もらおう!",
+            "speaker": "サカキ"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-giovanni-hideout",
+            "onWin": "kanto.rocket.giovanni-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "シルフスコープが あれば\nシオンの ゆうれいの しょうたいが わかる。",
+            "speaker": "サカキ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocket.giovanni-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.rocket.giovanni-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "…みごとだ。この アジトは たたむ。",
+        "speaker": "サカキ"
+      },
+      {
+        "kind": "giveItem",
+        "item": "silph-scope",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.field.silph-scope",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "シルフスコープ を てにいれた!"
+      }
+    ]
+  },
+  {
+    "id": "kanto.tower.ghost-hidden",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "なにかが いる…。\nすがたが みえない ―― これでは たたかえない。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.tower.ghost-seen",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "シルフスコープが はんのう した!\nゆうれいの しょうたいは ゴース だ!"
+      },
+      {
+        "kind": "wildBattle",
+        "species": "gastly",
+        "level": 25
+      }
+    ]
+  },
+  {
+    "id": "kanto.tower.channeler3",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.tower.channeler3-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "うらめしや…",
+            "speaker": "れいばいし"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-tower-channeler-3f",
+            "onWin": "kanto.tower.channeler3-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "たましいが しずまった…",
+            "speaker": "れいばいし"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.tower.channeler3-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.tower.channeler3-beaten",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.tower.channeler5",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.tower.channeler5-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "うらめしや…",
+            "speaker": "れいばいし"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-tower-channeler-5f",
+            "onWin": "kanto.tower.channeler5-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "たましいが しずまった…",
+            "speaker": "れいばいし"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.tower.channeler5-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.tower.channeler5-beaten",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.tower.2f-item",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ふしぎなアメ を みつけた!"
+      },
+      {
+        "kind": "giveItem",
+        "item": "elixir",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.tower.2f-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.tower.4f-item",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ふしぎなアメ を みつけた!"
+      },
+      {
+        "kind": "giveItem",
+        "item": "elixir",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.tower.4f-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.tower.6f-item",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ふしぎなアメ を みつけた!"
+      },
+      {
+        "kind": "giveItem",
+        "item": "elixir",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.tower.6f-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.tower.rocket",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.tower.rocket7-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ろうじんは わたさん!",
+            "speaker": "ロケットだん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-tower-rocket-7f",
+            "onWin": "kanto.tower.rocket-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ちくしょう…",
+            "speaker": "ロケットだん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.tower.rocket-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.tower.rocket7-beaten",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.tower.fuji",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.tower.flute-taken",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "たすけて くれたか。\nわしは フジ。",
+            "speaker": "フジろうじん"
+          },
+          {
+            "kind": "message",
+            "text": "おれいに これを もっていきなさい。",
+            "speaker": "フジろうじん"
+          },
+          {
+            "kind": "giveItem",
+            "item": "poke-flute",
+            "count": 1
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.tower.flute-taken",
+            "value": true
+          },
+          {
+            "kind": "message",
+            "text": "ポケモンのふえ を てにいれた!"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ふえの ねいろは\nねむった ポケモンにも とどく。",
+            "speaker": "フジろうじん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.silph.clerk",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "シルフカンパニーへ ようこそ…\nと いいたい ところですが、\nロケットだんに のっとられて います!",
+        "speaker": "うけつけ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.silph.sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "シルフカンパニー\n\nカントーいちの きぎょう。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.silph.grunt3",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.silph.grunt3-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ここから さきは とおさん!",
+            "speaker": "ロケットだん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-silph-grunt-3f",
+            "onWin": "kanto.silph.grunt3-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "…もう すきに しろ。",
+            "speaker": "ロケットだん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.silph.grunt3-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.silph.grunt3-beaten",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.silph.grunt5",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.silph.grunt5-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ここから さきは とおさん!",
+            "speaker": "ロケットだん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-silph-grunt-5f",
+            "onWin": "kanto.silph.grunt5-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "…もう すきに しろ。",
+            "speaker": "ロケットだん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.silph.grunt5-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.silph.grunt5-beaten",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.silph.grunt7",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.silph.grunt7-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ここから さきは とおさん!",
+            "speaker": "ロケットだん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-silph-grunt-7f",
+            "onWin": "kanto.silph.grunt7-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "…もう すきに しろ。",
+            "speaker": "ロケットだん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.silph.grunt7-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.silph.grunt7-beaten",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.silph.3f-item",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "すごいキズぐすり を みつけた!"
+      },
+      {
+        "kind": "giveItem",
+        "item": "max-potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.silph.3f-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.silph.card-key",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "カードキー を みつけた!"
+      },
+      {
+        "kind": "giveItem",
+        "item": "card-key",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.silph.card-key-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.silph.lapras",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.silph.lapras-taken",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "たすかった!\nおれいに この こを どうぞ。",
+            "speaker": "しゃいん"
+          },
+          {
+            "kind": "givePokemon",
+            "species": "lapras",
+            "level": 25
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.silph.lapras-taken",
+            "value": true
+          },
+          {
+            "kind": "message",
+            "text": "ラプラス を もらった!"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "その こは うみを わたれます。",
+            "speaker": "しゃいん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.silph.giovanni",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.silph.giovanni-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "また おまえか。",
+            "speaker": "サカキ"
+          },
+          {
+            "kind": "message",
+            "text": "こんどは 手かげんせん!",
+            "speaker": "サカキ"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-giovanni-silph",
+            "onWin": "kanto.silph.giovanni-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "…トキワで まっている。",
+            "speaker": "サカキ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.silph.giovanni-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.silph.giovanni-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "ロケットだんは カントーから ひく。\nだが わたしは まだ おわらん。",
+        "speaker": "サカキ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.silph.president",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.silph.master-ball-taken",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "かいしゃを たすけて くれて ありがとう。",
+            "speaker": "しゃちょう"
+          },
+          {
+            "kind": "message",
+            "text": "わが社の けっさくを どうぞ。",
+            "speaker": "しゃちょう"
+          },
+          {
+            "kind": "giveItem",
+            "item": "master-ball",
+            "count": 1
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.silph.master-ball-taken",
+            "value": true
+          },
+          {
+            "kind": "message",
+            "text": "マスターボール を てにいれた!"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "かならず つかまる ボールだ。",
+            "speaker": "しゃちょう"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.gamecorner.prizes",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "けいひんの こうかん所です。\nスロットは しめとるので、\nおかねと ひきかえに おわけします。",
+        "speaker": "てんいん"
+      },
+      {
+        "kind": "choice",
+        "prompt": "どれに しますか?",
+        "options": [
+          {
+            "text": "アブラ（1800円）",
+            "then": [
+              {
+                "kind": "if",
+                "cond": {
+                  "kind": "flag",
+                  "flag": "kanto.gamecorner.abra-taken",
+                  "value": true
+                },
+                "then": [
+                  {
+                    "kind": "message",
+                    "text": "アブラ は もう おわたし しました。",
+                    "speaker": "てんいん"
+                  }
+                ],
+                "else": [
+                  {
+                    "kind": "if",
+                    "cond": {
+                      "kind": "money",
+                      "op": ">=",
+                      "amount": 1800
+                    },
+                    "then": [
+                      {
+                        "kind": "takeMoney",
+                        "amount": 1800
+                      },
+                      {
+                        "kind": "givePokemon",
+                        "species": "abra",
+                        "level": 18
+                      },
+                      {
+                        "kind": "setFlag",
+                        "flag": "kanto.gamecorner.abra-taken",
+                        "value": true
+                      },
+                      {
+                        "kind": "message",
+                        "text": "アブラ を てにいれた!"
+                      }
+                    ],
+                    "else": [
+                      {
+                        "kind": "message",
+                        "text": "おかねが たりません。",
+                        "speaker": "てんいん"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "text": "ロコン（2400円）",
+            "then": [
+              {
+                "kind": "if",
+                "cond": {
+                  "kind": "flag",
+                  "flag": "kanto.gamecorner.vulpix-taken",
+                  "value": true
+                },
+                "then": [
+                  {
+                    "kind": "message",
+                    "text": "ロコン は もう おわたし しました。",
+                    "speaker": "てんいん"
+                  }
+                ],
+                "else": [
+                  {
+                    "kind": "if",
+                    "cond": {
+                      "kind": "money",
+                      "op": ">=",
+                      "amount": 2400
+                    },
+                    "then": [
+                      {
+                        "kind": "takeMoney",
+                        "amount": 2400
+                      },
+                      {
+                        "kind": "givePokemon",
+                        "species": "vulpix",
+                        "level": 18
+                      },
+                      {
+                        "kind": "setFlag",
+                        "flag": "kanto.gamecorner.vulpix-taken",
+                        "value": true
+                      },
+                      {
+                        "kind": "message",
+                        "text": "ロコン を てにいれた!"
+                      }
+                    ],
+                    "else": [
+                      {
+                        "kind": "message",
+                        "text": "おかねが たりません。",
+                        "speaker": "てんいん"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "text": "ポリゴン（6500円）",
+            "then": [
+              {
+                "kind": "if",
+                "cond": {
+                  "kind": "flag",
+                  "flag": "kanto.gamecorner.porygon-taken",
+                  "value": true
+                },
+                "then": [
+                  {
+                    "kind": "message",
+                    "text": "ポリゴン は もう おわたし しました。",
+                    "speaker": "てんいん"
+                  }
+                ],
+                "else": [
+                  {
+                    "kind": "if",
+                    "cond": {
+                      "kind": "money",
+                      "op": ">=",
+                      "amount": 6500
+                    },
+                    "then": [
+                      {
+                        "kind": "takeMoney",
+                        "amount": 6500
+                      },
+                      {
+                        "kind": "givePokemon",
+                        "species": "porygon",
+                        "level": 18
+                      },
+                      {
+                        "kind": "setFlag",
+                        "flag": "kanto.gamecorner.porygon-taken",
+                        "value": true
+                      },
+                      {
+                        "kind": "message",
+                        "text": "ポリゴン を てにいれた!"
+                      }
+                    ],
+                    "else": [
+                      {
+                        "kind": "message",
+                        "text": "おかねが たりません。",
+                        "speaker": "てんいん"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "text": "やめる",
+            "then": [
+              {
+                "kind": "message",
+                "text": "また どうぞ。",
+                "speaker": "てんいん"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.gamecorner.no-stairs",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "かべに ポスターが はって ある。\nその よこに すきまが ある ような…"
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocket.locked",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "エレベーターだ。\nカギが かかっている。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.silph.locked",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "じどう ドア。\nカードキーが 要りそうだ。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route22.rival-a",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route22.rival-a-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "よお! おまえも リーグを めざすのか?",
+            "speaker": "グリーン"
+          },
+          {
+            "kind": "message",
+            "text": "まだ はやいと おもうけどな!",
+            "speaker": "グリーン"
+          },
+          {
+            "kind": "if",
+            "cond": {
+              "kind": "hasSpecies",
+              "species": "bulbasaur"
+            },
+            "then": [
+              {
+                "kind": "battle",
+                "trainer": "kanto-rival-r22a-charmander",
+                "onWin": "kanto.route22.rival-a-win"
+              }
+            ],
+            "else": [
+              {
+                "kind": "if",
+                "cond": {
+                  "kind": "hasSpecies",
+                  "species": "charmander"
+                },
+                "then": [
+                  {
+                    "kind": "battle",
+                    "trainer": "kanto-rival-r22a-squirtle",
+                    "onWin": "kanto.route22.rival-a-win"
+                  }
+                ],
+                "else": [
+                  {
+                    "kind": "battle",
+                    "trainer": "kanto-rival-r22a-bulbasaur",
+                    "onWin": "kanto.route22.rival-a-win"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "つぎは まけない。",
+            "speaker": "グリーン"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route22.rival-a-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route22.rival-a-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "ちぇっ! つよく なったな。",
+        "speaker": "グリーン"
+      }
+    ]
+  },
+  {
+    "id": "kanto.cerulean.rival",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.cerulean.rival-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "よお! ちょうど いい ところに きた。",
+            "speaker": "グリーン"
+          },
+          {
+            "kind": "message",
+            "text": "おれの ポケモンを みせてやる!",
+            "speaker": "グリーン"
+          },
+          {
+            "kind": "if",
+            "cond": {
+              "kind": "hasSpecies",
+              "species": "bulbasaur"
+            },
+            "then": [
+              {
+                "kind": "battle",
+                "trainer": "kanto-rival-cerulean-charmander",
+                "onWin": "kanto.cerulean.rival-win"
+              }
+            ],
+            "else": [
+              {
+                "kind": "if",
+                "cond": {
+                  "kind": "hasSpecies",
+                  "species": "charmander"
+                },
+                "then": [
+                  {
+                    "kind": "battle",
+                    "trainer": "kanto-rival-cerulean-squirtle",
+                    "onWin": "kanto.cerulean.rival-win"
+                  }
+                ],
+                "else": [
+                  {
+                    "kind": "battle",
+                    "trainer": "kanto-rival-cerulean-bulbasaur",
+                    "onWin": "kanto.cerulean.rival-win"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "つぎは まけない。",
+            "speaker": "グリーン"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.cerulean.rival-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.cerulean.rival-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "ちぇっ! つよく なったな。",
+        "speaker": "グリーン"
+      }
+    ]
+  },
+  {
+    "id": "kanto.lavender.rival",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.lavender.rival-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "こんな ところで なにを してる?",
+            "speaker": "グリーン"
+          },
+          {
+            "kind": "message",
+            "text": "おれは つよい やつを さがしてる。",
+            "speaker": "グリーン"
+          },
+          {
+            "kind": "if",
+            "cond": {
+              "kind": "hasSpecies",
+              "species": "bulbasaur"
+            },
+            "then": [
+              {
+                "kind": "battle",
+                "trainer": "kanto-rival-tower-charmander",
+                "onWin": "kanto.lavender.rival-win"
+              }
+            ],
+            "else": [
+              {
+                "kind": "if",
+                "cond": {
+                  "kind": "hasSpecies",
+                  "species": "charmander"
+                },
+                "then": [
+                  {
+                    "kind": "battle",
+                    "trainer": "kanto-rival-tower-squirtle",
+                    "onWin": "kanto.lavender.rival-win"
+                  }
+                ],
+                "else": [
+                  {
+                    "kind": "battle",
+                    "trainer": "kanto-rival-tower-bulbasaur",
+                    "onWin": "kanto.lavender.rival-win"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "つぎは まけない。",
+            "speaker": "グリーン"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.lavender.rival-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.lavender.rival-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "ちぇっ! つよく なったな。",
+        "speaker": "グリーン"
+      }
+    ]
+  },
+  {
+    "id": "kanto.silph.rival",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.silph.rival-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "おそいぞ! おれが さきに ボスを たたく。",
+            "speaker": "グリーン"
+          },
+          {
+            "kind": "message",
+            "text": "そのまえに おまえを たおしておく!",
+            "speaker": "グリーン"
+          },
+          {
+            "kind": "if",
+            "cond": {
+              "kind": "hasSpecies",
+              "species": "bulbasaur"
+            },
+            "then": [
+              {
+                "kind": "battle",
+                "trainer": "kanto-rival-silph-charmander",
+                "onWin": "kanto.silph.rival-win"
+              }
+            ],
+            "else": [
+              {
+                "kind": "if",
+                "cond": {
+                  "kind": "hasSpecies",
+                  "species": "charmander"
+                },
+                "then": [
+                  {
+                    "kind": "battle",
+                    "trainer": "kanto-rival-silph-squirtle",
+                    "onWin": "kanto.silph.rival-win"
+                  }
+                ],
+                "else": [
+                  {
+                    "kind": "battle",
+                    "trainer": "kanto-rival-silph-bulbasaur",
+                    "onWin": "kanto.silph.rival-win"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "つぎは まけない。",
+            "speaker": "グリーン"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.silph.rival-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.silph.rival-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "ちぇっ! つよく なったな。",
+        "speaker": "グリーン"
+      }
+    ]
   }
 ]

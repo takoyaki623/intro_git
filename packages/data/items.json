@@ -810,6 +810,26 @@
     "category": "key"
   },
   {
+    "id": "silph-scope",
+    "name": "シルフスコープ",
+    "category": "key"
+  },
+  {
+    "id": "poke-flute",
+    "name": "ポケモンのふえ",
+    "category": "key"
+  },
+  {
+    "id": "lift-key",
+    "name": "エレベーターのカギ",
+    "category": "key"
+  },
+  {
+    "id": "card-key",
+    "name": "カードキー",
+    "category": "key"
+  },
+  {
     "id": "tm02",
     "name": "わざマシン02 ドラゴンクロー",
     "category": "tm",

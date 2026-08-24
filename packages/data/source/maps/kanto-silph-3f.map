@@ -1,0 +1,27 @@
+# シルフカンパニー 3階（v1.1-g-3）。
+id: kanto-silph-3f
+name: シルフカンパニー
+region: kanto
+bgm: silph
+
+legend:
+. normal
+W !normal
+D normal
+
+grid:
+WWWWWWWWW
+W.......W
+W.WWW.W.W
+W.......W
+W.W.WWW.W
+W.......W
+WWWWWWWWW
+
+warps:
+1,1 step kanto-silph-1f 7,2 down
+7,5 step kanto-silph-5f 2,1 up
+
+objects:
+silph-3f-grunt 4,3 trainer:kanto-silph-grunt-3f:2:down kanto.silph.grunt3 if:kanto.silph.grunt3-beaten=false
+silph-3f-item 1,5 item:max-potion kanto.silph.3f-item if:kanto.silph.3f-item-taken=false

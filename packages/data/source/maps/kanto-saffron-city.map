@@ -27,7 +27,7 @@ TTTTTTTTTTT.TTTTTTTTTTTT
 T......................T
 T..GGGG.......SSSSSS...T
 T..GGDG.......SSSSSS...T
-T.............SSSSSS...T
+T.............SSSDSS...T
 T......................T
 ........................
 T......................T
@@ -52,6 +52,7 @@ warps:
 5,12 step kanto-saffron-mart 4,5 up
 17,9 step kanto-saffron-house 3,4 up
 17,12 step kanto-saffron-dojo 4,5 up
+17,4 step kanto-silph-1f 4,5 up
 
 objects:
 saffron-sign-gym 3,4 sign kanto.saffron.sign-gym

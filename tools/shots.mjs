@@ -164,6 +164,14 @@ const SHOOTING_SAVE = (() => {
     // 勝つ前はボールが置かれていないので、部屋が空っぽに写る
     "kanto.dojo.won",
     "kanto.dojo.student-beaten",
+    // ロケット団の筋は**通したあと**を撮る（v1.1-g-3）。
+    // ポスターを押していないとアジトは階段ごと無く、部屋が撮れない
+    "kanto.rocket.poster-pushed",
+    "kanto.rocket.lift-key-taken",
+    "kanto.silph.card-key-taken",
+    "kanto.field.silph-scope",
+    "kanto.tower.rocket7-beaten",
+    "kanto.silph.giovanni-beaten",
   ]) {
     save.regions.kanto.flags[flag] = true;
   }
@@ -234,6 +242,10 @@ const PLACES = [
   { file: "lab", name: "グレンけんきゅうじょ", note: "かせきを もどす唯一の場所（v1.1-g-3）", to: ["kanto-cinnabar-lab", 4, 3] },
   { file: "mansion-celadon", name: "タマムシマンション", note: "イーブイ1匹で、石で分かれる3種が開く（v1.1-g-3）", to: ["kanto-celadon-mansion", 4, 3] },
   { file: "dojo", name: "カラテどうじょう", note: "勝つと どちらか1匹（v1.1-g-3）", to: ["kanto-saffron-dojo", 4, 3] },
+  { file: "gamecorner", name: "ゲームコーナー", note: "スロットは作らない ―― 景品はお金で（v1.1-g-3）", to: ["kanto-celadon-gamecorner", 5, 4] },
+  { file: "hideout", name: "ロケットだんアジト", note: "サカキ1回目。勝つとシルフスコープ（v1.1-g-3）", to: ["kanto-rocket-b4f", 4, 4] },
+  { file: "tower-7f", name: "ポケモンタワー さいじょうかい", note: "v0.12 で送った宿題が、シルフスコープの入手元ができて解けた", to: ["kanto-pokemon-tower-7f", 4, 3] },
+  { file: "silph", name: "シルフカンパニー", note: "11階ぶんは作らない ―― 増えるのは枚数だけ（v1.1-g-3）", to: ["kanto-silph-7f", 4, 3] },
   { file: "route-17", name: "サイクリングロード（17ばん）", note: "段差だらけの下り坂。16番とセキチクのあいだ（v1.1-g-2）", to: ["kanto-route-17", 5, 6] },
   { file: "route-24", name: "24ばんどうろ（ナゲツリばし）", note: "ハナダの北。この先は マサキ の家", to: ["kanto-route-24", 5, 4] },
   { file: "power-plant", name: "むじんはつでんしょ", note: "10番道路の北のはずれ。奥に サンダー（v1.1-g-2）", to: ["kanto-power-plant", 6, 5] },

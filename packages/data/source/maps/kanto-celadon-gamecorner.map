@@ -1,0 +1,44 @@
+# ゲームコーナー（v1.1-g-3）。**スロットは作らない。**
+#
+# `economy.md` §7 は通貨を お金 と BP の2つに限っている。コインを足すと
+# 3つ目になり、値段表・交換所・セーブ欄が**全部3系統**に増える ――
+# 「1件足すコストをゼロに近づける」の正反対。
+# 原作でコインが担っていたのは「景品を買う」ことなので、
+# **景品は お金で買う**（`money` 条件 ＋ `takeMoney` ＋ `givePokemon`）。
+# 遊べないスロットを黙って置くのではなく、看板で「しめとる」と言う ――
+# 「入れていないこと」と「入れ忘れ」を区別する。
+#
+# 奥のポスターの裏にスイッチがあり、押すと階段が開く（アジトへ）。
+id: kanto-celadon-gamecorner
+name: ゲームコーナー
+region: kanto
+bgm: gamecorner
+
+legend:
+. normal
+W !normal
+S !normal
+P !normal
+D normal
+
+grid:
+WWWWWWWWWWW
+W.........W
+W.SS.SS...W
+W.SS.SS...W
+W.........W
+W.SS.SS...W
+W.SS.SS...W
+W.........W
+WWWWWDWWWWW
+
+warps:
+5,8 step kanto-celadon-city 4,13 down
+9,3 step kanto-rocket-b1f 5,1 down
+
+objects:
+gamecorner-clerk 3,1 npc:clerk:static kanto.gamecorner.prizes
+gamecorner-poster 9,2 sign kanto.gamecorner.poster
+gamecorner-sign 5,1 sign kanto.gamecorner.sign
+gamecorner-grunt 6,7 npc:rocket:static kanto.gamecorner.grunt if:kanto.rocket.poster-pushed=false
+gamecorner-stairs 9,3 sign kanto.gamecorner.no-stairs if:kanto.rocket.poster-pushed=false
