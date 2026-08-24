@@ -265,14 +265,19 @@ async function goToMap(map, x, y, tries = 20) {
         // v0.12-b でおつきみやまのやまおとこに永久にぶつかり続けて気づいた
         if (now.map === before.map && now.x === before.x && now.y === before.y) {
           await page.keyboard.press("z");
-          await page.waitForTimeout(300);
+          // **`talking()` で番をしない。** 300ms では文字が出そろっておらず、
+          // 「まだ喋っていない」と読んで `accept` を飛ばしていた ――
+          // き は切られず、そのマスを壁に登録して「経路なし」で詰んだ。
+          // `accept` は喋っていなければすぐ返るので、無条件に呼ぶほうが正しい
+          // （`useAbility` は最初からそうしている）
+          await page.waitForTimeout(450);
           // **`drain` ではなく `accept`。** ふさいでいるのが き なら
           // 「いあいぎり を つかいますか?」の選択肢が出る ―― `drain` は
           // z を押すだけなので選べず、木は永久に切られない。
           // クチバジムの前の き は出入りのたびに生え直る（`cleared` は保存しない）ので、
           // ポケモンセンターに寄って戻った瞬間、ジムに入れなくなっていた。
           // **人がやること（はい を押す）を道具にもさせる。**
-          if (await talking()) await accept();
+          await accept();
           if (await page.isVisible("#battle")) {
             await fight();
             await page.waitForTimeout(800);
@@ -1072,6 +1077,14 @@ note("マチスの前に 回復", (await page.textContent("#field-party")).trim(
 // 回復して挑み直すだけにする
 let surge = 0;
 for (let attempt = 1; attempt <= 3 && surge === 0; attempt += 1) {
+  // **き は出入りのたびに生え直る**（`cleared` は保存しない派生値・原作と同じ）。
+  // ポケモンセンターに寄って戻ったら、もう一度切らないとジムに入れない ――
+  // 経路探索は き を壁として扱うので、切らないまま呼ぶと「経路なし」で止まる。
+  // 人がやることと同じで、行くたびに切る
+  await goToMap("kanto-vermilion-city", 6, 10, 60);
+  if ((await spot()).map === "kanto-vermilion-city") {
+    await useAbility("ArrowLeft", "kanto-vermilion-city:vermilion-tree");
+  }
   await goToMap("kanto-vermilion-gym", 4, 2, 80);
   if (attempt === 1) {
     // **挑めなかったとき、届いていないのか話しかけ損ねたのかを分ける。**
@@ -1569,7 +1582,17 @@ expect(
     expect("投げられるのは サファリボールだけ", balls.join("/"), "サファリボール");
     await shot("30b-safari-battle");
 
-    const ballsBefore = (await readSave()).global.bag["safari-ball"] ?? 0;
+    // **戦っているあいだ セーブを読まない。**
+    // `readSave()` は設定画面を開いて閉じるので、バトル中に呼ぶと
+    // `#controls` が隠れたまま戻ってこない ―― エサのボタンを30秒待って
+    // 落ちていたのはこれで、バトル側の不具合ではなかった。
+    // のこり数はボタン（「のこり Nこ」）から読む
+    const ballCount = async () => {
+      const meta = (await page.textContent("#controls .ball .meta").catch(() => null)) ?? "";
+      return Number(meta.replace(/[^0-9]/g, "")) || 0;
+    };
+    const ballsBefore = await ballCount();
+    expect("ボタンに のこり数が 出る", `${ballsBefore}`, "30");
 
     // イシ（捕まえやすく・逃げやすく）を1回投げる
     await page.click("#controls .moves .move:nth-child(2)");
@@ -1588,13 +1611,11 @@ expect(
       await page.waitForTimeout(1400);
       await drain(10);
     }
+    expect("戦いは 終わる（捕るか 逃げられるか）", (await page.isHidden("#battle")) ? "終わった" : "終わらない", "終わった");
+    await drain(10);
     const ballsAfter = (await readSave()).global.bag["safari-ball"] ?? 0;
     expect("投げたぶんだけ サファリボールが 減る", `${ballsBefore - ballsAfter}`, `${thrown}`);
-    expect("戦いは 終わる（捕るか 逃げられるか）", (await page.isHidden("#battle")) ? "終わった" : "終わらない", "終わった");
-    const dex = (await readSave()).global.pokedex;
     note("投げた回数", `${thrown}回 / のこり ${ballsAfter}こ`);
-    note("図鑑の つかまえた数", `${Object.values(dex ?? {}).filter((v) => v === "caught" || v?.caught === true).length}`);
-    await drain(10);
   }
 
   // ── 歩数（v1.1-h の眼目）──
