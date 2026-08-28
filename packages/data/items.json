@@ -835,6 +835,11 @@
     "category": "key"
   },
   {
+    "id": "sapphire",
+    "name": "サファイア",
+    "category": "key"
+  },
+  {
     "id": "tm02",
     "name": "わざマシン02 ドラゴンクロー",
     "category": "tm",

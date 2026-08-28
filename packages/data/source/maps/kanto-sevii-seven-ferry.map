@@ -1,0 +1,28 @@
+# 7のしまの ふなつきば。西が 6のしま。ここが いちばん とおい島。
+id: kanto-sevii-seven-ferry
+name: ふなつきば
+region: kanto
+bgm: pokecenter
+
+legend:
+. normal
+W !normal
+S !normal
+G normal
+D normal
+
+grid:
+WGWWWWWWW
+W.......W
+W..SSS..W
+W.......W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+1,0 step kanto-sevii-six-ferry 7,1 down
+4,6 step kanto-sevii-seven-island 6,7 up
+
+objects:
+seven-ferry-sailor 4,3 npc:sailor:static kanto.sevii.seven-sailor

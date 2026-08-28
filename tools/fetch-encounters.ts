@@ -147,6 +147,33 @@ const SOURCE: Record<string, { location: string; area?: string }> = {
   "kanto-sevii-icefall-1f": { location: "icefall-cave", area: "1f" },
   "kanto-sevii-icefall-b1f": { location: "icefall-cave", area: "b1f" },
   "kanto-sevii-icefall-waterfall": { location: "icefall-cave", area: "waterfall" },
+  // ナナシマ 5〜7のしま（v1.1-k）。**カントー以外の種の大半はここに居る。**
+  "kanto-sevii-five-island": { location: "five-island" },
+  "kanto-sevii-five-isle-meadow": { location: "five-isle-meadow" },
+  "kanto-sevii-memorial-pillar": { location: "memorial-pillar" },
+  "kanto-sevii-resort-gorgeous": { location: "resort-gorgeous" },
+  // ロストケイブは原作11室。**3枚に畳んだ**（出現表は11室とも同じなので、
+  // 増えるのは枚数だけ ―― シルフの11階と同じ判断）
+  "kanto-sevii-lost-cave": { location: "lost-cave", area: "room-1" },
+  "kanto-sevii-lost-cave-2": { location: "lost-cave", area: "room-2" },
+  "kanto-sevii-lost-cave-3": { location: "lost-cave", area: "item-rooms" },
+  "kanto-sevii-water-path": { location: "water-path" },
+  "kanto-sevii-ruin-valley": { location: "ruin-valley" },
+  "kanto-sevii-green-path": { location: "green-path" },
+  "kanto-sevii-outcast-island": { location: "outcast-island" },
+  "kanto-sevii-pattern-bush": { location: "pattern-bush" },
+  // **ズバット しか出ない**（e-リーダーのカードが無いと原作でもそう）。
+  // 残る8通りの表は入れていない ―― 理由は `kanto-sevii-altering-cave.map` に書いた
+  "kanto-sevii-altering-cave": { location: "kanto-altering-cave", area: "a" },
+  "kanto-sevii-canyon-entrance": { location: "canyon-entrance" },
+  "kanto-sevii-sevault-canyon": { location: "sevault-canyon" },
+  "kanto-sevii-tanoby-ruins": { location: "tanoby-ruins" },
+  // **アンノーンの部屋は入れていない**（v1.1-k）。
+  // フォルム（28文字）を持てないのは承知のうえで1部屋だけ作ろうとしたが、
+  // **技のほうで詰まった** ―― アンノーンがレベルで覚えるのは めざめるパワー だけで、
+  // あの技は**個体ごとにタイプが変わる**。デリバードの プレゼント は
+  // 「威力を実行時に決める」で足りたが（`powerOverride`）、こちらは**型が動く**。
+  // 個体でタイプが決まる仕組みが無いまま置くと、技を1つも使えない野生になる。
 };
 
 /**

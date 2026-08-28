@@ -616,5 +616,29 @@
       "kind": "inert",
       "reason": "交代を強制する技がまだ無い（v1.1-k）"
     }
+  },
+  {
+    "id": "speed-boost",
+    "name": "かそく",
+    "effect": {
+      "kind": "inert",
+      "reason": "ターン終わりの能力変化がまだ無い（v1.1-k）"
+    }
+  },
+  {
+    "id": "super-luck",
+    "name": "きょううん",
+    "effect": {
+      "kind": "critStage",
+      "stages": 1
+    }
+  },
+  {
+    "id": "shadow-tag",
+    "name": "かげふみ",
+    "effect": {
+      "kind": "inert",
+      "reason": "交代を縛る仕組みがまだ無い（v1.1-k）"
+    }
   }
 ]

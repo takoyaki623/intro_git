@@ -1,0 +1,32 @@
+# ゴージャスリゾート（5のしま）。海の別荘地 ―― 釣り場として作った。
+id: kanto-sevii-resort-gorgeous
+name: ゴージャスリゾート
+region: kanto
+encounters: kanto-sevii-resort-gorgeous-surf kanto-sevii-resort-gorgeous-fishing-old kanto-sevii-resort-gorgeous-fishing-good kanto-sevii-resort-gorgeous-fishing-super
+bgm: celadon-city
+
+legend:
+. normal
+~ !water
+s sand
+H !normal
+D normal
+T !normal
+
+grid:
+TTTTTTTTTTTTT
+T~~~~~~~~~~~T
+T~~~~~~~~~~~T
+T~~..HHH....T
+T~~..HDH....T
+T~~.........s
+T~~.........T
+T~~~~~~~~~~~T
+TTTTTTTTTTTTT
+
+warps:
+12,5 step kanto-sevii-five-island 1,5 right
+6,4 step kanto-sevii-resort-house 4,4 up
+
+objects:
+resort-item 8,6 item:max-revive kanto.sevii.resort-item if:kanto.sevii.resort-item-taken=false

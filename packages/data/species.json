@@ -20610,5 +20610,1756 @@
     "learnsetSource": "official",
     "baseExpSource": "official",
     "learnsetGen": 8
+  },
+  {
+    "id": "sentret",
+    "dexNo": 161,
+    "name": "オタチ",
+    "types": [
+      "normal"
+    ],
+    "baseStats": {
+      "hp": 35,
+      "atk": 46,
+      "def": 34,
+      "spa": 35,
+      "spd": 45,
+      "spe": 20
+    },
+    "abilities": [
+      "run-away",
+      "keen-eye"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "scratch"
+      },
+      {
+        "level": 7,
+        "move": "quick-attack"
+      },
+      {
+        "level": 13,
+        "move": "fury-swipes"
+      },
+      {
+        "level": 25,
+        "move": "slam"
+      },
+      {
+        "level": 36,
+        "move": "amnesia"
+      },
+      {
+        "level": 42,
+        "move": "double-edge"
+      },
+      {
+        "level": 47,
+        "move": "hyper-voice"
+      }
+    ],
+    "tmMoves": [
+      "amnesia",
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "charge-beam",
+      "charm",
+      "double-edge",
+      "fire-punch",
+      "flamethrower",
+      "hyper-voice",
+      "ice-beam",
+      "ice-punch",
+      "knock-off",
+      "play-rough",
+      "seed-bomb",
+      "shadow-ball",
+      "surf",
+      "swift",
+      "take-down",
+      "thunder",
+      "thunder-punch",
+      "thunderbolt",
+      "water-pulse"
+    ],
+    "evolutions": [
+      {
+        "to": "furret",
+        "kind": "level",
+        "level": 15
+      }
+    ],
+    "baseExp": 43,
+    "catchRate": 255,
+    "expType": "medium-fast",
+    "evYield": {
+      "atk": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 9
+  },
+  {
+    "id": "furret",
+    "dexNo": 162,
+    "name": "オオタチ",
+    "types": [
+      "normal"
+    ],
+    "baseStats": {
+      "hp": 85,
+      "atk": 76,
+      "def": 64,
+      "spa": 45,
+      "spd": 55,
+      "spe": 90
+    },
+    "abilities": [
+      "run-away",
+      "keen-eye"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "agility"
+      },
+      {
+        "level": 1,
+        "move": "quick-attack"
+      },
+      {
+        "level": 1,
+        "move": "scratch"
+      },
+      {
+        "level": 13,
+        "move": "fury-swipes"
+      },
+      {
+        "level": 28,
+        "move": "slam"
+      },
+      {
+        "level": 42,
+        "move": "amnesia"
+      },
+      {
+        "level": 50,
+        "move": "double-edge"
+      },
+      {
+        "level": 56,
+        "move": "hyper-voice"
+      }
+    ],
+    "tmMoves": [
+      "agility",
+      "amnesia",
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "charge-beam",
+      "charm",
+      "double-edge",
+      "fire-punch",
+      "flamethrower",
+      "hyper-voice",
+      "ice-beam",
+      "ice-punch",
+      "knock-off",
+      "play-rough",
+      "seed-bomb",
+      "shadow-ball",
+      "surf",
+      "swift",
+      "take-down",
+      "thunder",
+      "thunder-punch",
+      "thunderbolt",
+      "water-pulse",
+      "zen-headbutt"
+    ],
+    "evolutions": [],
+    "baseExp": 145,
+    "catchRate": 90,
+    "expType": "medium-fast",
+    "evYield": {
+      "spe": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 9
+  },
+  {
+    "id": "ledyba",
+    "dexNo": 165,
+    "name": "レディバ",
+    "types": [
+      "bug",
+      "flying"
+    ],
+    "baseStats": {
+      "hp": 40,
+      "atk": 20,
+      "def": 30,
+      "spa": 40,
+      "spd": 80,
+      "spe": 55
+    },
+    "abilities": [
+      "swarm",
+      "early-bird"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 5,
+        "move": "supersonic"
+      },
+      {
+        "level": 8,
+        "move": "swift"
+      },
+      {
+        "level": 15,
+        "move": "mach-punch"
+      },
+      {
+        "level": 19,
+        "move": "silver-wind"
+      },
+      {
+        "level": 29,
+        "move": "agility"
+      },
+      {
+        "level": 33,
+        "move": "bug-buzz"
+      },
+      {
+        "level": 36,
+        "move": "air-slash"
+      },
+      {
+        "level": 40,
+        "move": "double-edge"
+      }
+    ],
+    "tmMoves": [
+      "aerial-ace",
+      "brick-break",
+      "double-team",
+      "round",
+      "swords-dance",
+      "toxic"
+    ],
+    "evolutions": [
+      {
+        "to": "ledian",
+        "kind": "level",
+        "level": 18
+      }
+    ],
+    "baseExp": 53,
+    "catchRate": 255,
+    "expType": "fast",
+    "evYield": {
+      "spd": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 7
+  },
+  {
+    "id": "ledian",
+    "dexNo": 166,
+    "name": "レディアン",
+    "types": [
+      "bug",
+      "flying"
+    ],
+    "baseStats": {
+      "hp": 55,
+      "atk": 35,
+      "def": 50,
+      "spa": 55,
+      "spd": 110,
+      "spe": 85
+    },
+    "abilities": [
+      "swarm",
+      "early-bird"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "supersonic"
+      },
+      {
+        "level": 1,
+        "move": "swift"
+      },
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 15,
+        "move": "mach-punch"
+      },
+      {
+        "level": 20,
+        "move": "silver-wind"
+      },
+      {
+        "level": 33,
+        "move": "agility"
+      },
+      {
+        "level": 38,
+        "move": "bug-buzz"
+      },
+      {
+        "level": 42,
+        "move": "air-slash"
+      },
+      {
+        "level": 47,
+        "move": "double-edge"
+      }
+    ],
+    "tmMoves": [
+      "aerial-ace",
+      "brick-break",
+      "double-team",
+      "round",
+      "swords-dance",
+      "toxic"
+    ],
+    "evolutions": [],
+    "baseExp": 137,
+    "catchRate": 90,
+    "expType": "fast",
+    "evYield": {
+      "spd": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 7
+  },
+  {
+    "id": "spinarak",
+    "dexNo": 167,
+    "name": "イトマル",
+    "types": [
+      "bug",
+      "poison"
+    ],
+    "baseStats": {
+      "hp": 40,
+      "atk": 60,
+      "def": 40,
+      "spa": 40,
+      "spd": 40,
+      "spe": 30
+    },
+    "abilities": [
+      "swarm",
+      "insomnia"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "poison-sting"
+      },
+      {
+        "level": 1,
+        "move": "string-shot"
+      },
+      {
+        "level": 5,
+        "move": "absorb"
+      },
+      {
+        "level": 12,
+        "move": "scary-face"
+      },
+      {
+        "level": 22,
+        "move": "fury-swipes"
+      },
+      {
+        "level": 29,
+        "move": "agility"
+      },
+      {
+        "level": 33,
+        "move": "pin-missile"
+      },
+      {
+        "level": 36,
+        "move": "psychic"
+      },
+      {
+        "level": 40,
+        "move": "poison-jab"
+      },
+      {
+        "level": 44,
+        "move": "cross-poison"
+      }
+    ],
+    "tmMoves": [
+      "acid-spray",
+      "agility",
+      "bug-bite",
+      "bug-buzz",
+      "giga-drain",
+      "hex",
+      "knock-off",
+      "leech-life",
+      "poison-jab",
+      "psychic",
+      "scary-face",
+      "sludge-bomb",
+      "sludge-wave",
+      "toxic",
+      "venoshock",
+      "x-scissor"
+    ],
+    "evolutions": [
+      {
+        "to": "ariados",
+        "kind": "level",
+        "level": 22
+      }
+    ],
+    "baseExp": 50,
+    "catchRate": 255,
+    "expType": "fast",
+    "evYield": {
+      "atk": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 9
+  },
+  {
+    "id": "ariados",
+    "dexNo": 168,
+    "name": "アリアドス",
+    "types": [
+      "bug",
+      "poison"
+    ],
+    "baseStats": {
+      "hp": 70,
+      "atk": 90,
+      "def": 70,
+      "spa": 60,
+      "spd": 70,
+      "spe": 40
+    },
+    "abilities": [
+      "swarm",
+      "insomnia"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "absorb"
+      },
+      {
+        "level": 1,
+        "move": "bug-bite"
+      },
+      {
+        "level": 1,
+        "move": "fell-stinger"
+      },
+      {
+        "level": 1,
+        "move": "poison-sting"
+      },
+      {
+        "level": 1,
+        "move": "string-shot"
+      },
+      {
+        "level": 1,
+        "move": "swords-dance"
+      },
+      {
+        "level": 12,
+        "move": "scary-face"
+      },
+      {
+        "level": 23,
+        "move": "fury-swipes"
+      },
+      {
+        "level": 31,
+        "move": "agility"
+      },
+      {
+        "level": 35,
+        "move": "pin-missile"
+      },
+      {
+        "level": 41,
+        "move": "psychic"
+      },
+      {
+        "level": 46,
+        "move": "poison-jab"
+      },
+      {
+        "level": 50,
+        "move": "cross-poison"
+      }
+    ],
+    "tmMoves": [
+      "acid-spray",
+      "agility",
+      "bug-bite",
+      "bug-buzz",
+      "giga-drain",
+      "hex",
+      "knock-off",
+      "leech-life",
+      "poison-jab",
+      "psychic",
+      "scary-face",
+      "sludge-bomb",
+      "sludge-wave",
+      "smart-strike",
+      "swords-dance",
+      "toxic",
+      "venoshock",
+      "x-scissor"
+    ],
+    "evolutions": [],
+    "baseExp": 140,
+    "catchRate": 90,
+    "expType": "fast",
+    "evYield": {
+      "atk": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 9
+  },
+  {
+    "id": "natu",
+    "dexNo": 177,
+    "name": "ネイティ",
+    "types": [
+      "psychic",
+      "flying"
+    ],
+    "baseStats": {
+      "hp": 40,
+      "atk": 50,
+      "def": 45,
+      "spa": 70,
+      "spd": 45,
+      "spe": 70
+    },
+    "abilities": [
+      "synchronize",
+      "early-bird"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "leer"
+      },
+      {
+        "level": 1,
+        "move": "peck"
+      },
+      {
+        "level": 5,
+        "move": "stored-power"
+      },
+      {
+        "level": 10,
+        "move": "teleport"
+      },
+      {
+        "level": 15,
+        "move": "confuse-ray"
+      },
+      {
+        "level": 35,
+        "move": "psychic"
+      }
+    ],
+    "tmMoves": [
+      "air-slash",
+      "calm-mind",
+      "dazzling-gleam",
+      "giga-drain",
+      "heat-wave",
+      "psychic",
+      "psyshock",
+      "round",
+      "shadow-ball",
+      "stored-power",
+      "swift",
+      "thunder-wave",
+      "zen-headbutt"
+    ],
+    "evolutions": [
+      {
+        "to": "xatu",
+        "kind": "level",
+        "level": 25
+      }
+    ],
+    "baseExp": 64,
+    "catchRate": 190,
+    "expType": "medium-fast",
+    "evYield": {
+      "spa": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 8
+  },
+  {
+    "id": "xatu",
+    "dexNo": 178,
+    "name": "ネイティオ",
+    "types": [
+      "psychic",
+      "flying"
+    ],
+    "baseStats": {
+      "hp": 65,
+      "atk": 75,
+      "def": 70,
+      "spa": 95,
+      "spd": 70,
+      "spe": 95
+    },
+    "abilities": [
+      "synchronize",
+      "early-bird"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "air-slash"
+      },
+      {
+        "level": 1,
+        "move": "leer"
+      },
+      {
+        "level": 1,
+        "move": "peck"
+      },
+      {
+        "level": 1,
+        "move": "stored-power"
+      },
+      {
+        "level": 1,
+        "move": "teleport"
+      },
+      {
+        "level": 15,
+        "move": "confuse-ray"
+      },
+      {
+        "level": 41,
+        "move": "psychic"
+      }
+    ],
+    "tmMoves": [
+      "air-slash",
+      "calm-mind",
+      "dazzling-gleam",
+      "giga-drain",
+      "heat-wave",
+      "psychic",
+      "psyshock",
+      "round",
+      "shadow-ball",
+      "stored-power",
+      "swift",
+      "thunder-wave",
+      "zen-headbutt"
+    ],
+    "evolutions": [],
+    "baseExp": 165,
+    "catchRate": 75,
+    "expType": "medium-fast",
+    "evYield": {
+      "spa": 1,
+      "spe": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 8
+  },
+  {
+    "id": "yanma",
+    "dexNo": 193,
+    "name": "ヤンヤンマ",
+    "types": [
+      "bug",
+      "flying"
+    ],
+    "baseStats": {
+      "hp": 65,
+      "atk": 65,
+      "def": 45,
+      "spa": 75,
+      "spd": 45,
+      "spe": 95
+    },
+    "abilities": [
+      "speed-boost",
+      "compound-eyes"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 6,
+        "move": "quick-attack"
+      },
+      {
+        "level": 11,
+        "move": "double-team"
+      },
+      {
+        "level": 14,
+        "move": "air-cutter"
+      },
+      {
+        "level": 22,
+        "move": "supersonic"
+      },
+      {
+        "level": 30,
+        "move": "bug-bite"
+      },
+      {
+        "level": 38,
+        "move": "hypnosis"
+      },
+      {
+        "level": 43,
+        "move": "wing-attack"
+      },
+      {
+        "level": 46,
+        "move": "screech"
+      },
+      {
+        "level": 54,
+        "move": "air-slash"
+      },
+      {
+        "level": 57,
+        "move": "bug-buzz"
+      }
+    ],
+    "tmMoves": [
+      "aerial-ace",
+      "air-cutter",
+      "air-slash",
+      "bug-bite",
+      "bug-buzz",
+      "double-edge",
+      "giga-drain",
+      "leech-life",
+      "psychic",
+      "shadow-ball",
+      "swift",
+      "swords-dance",
+      "take-down"
+    ],
+    "evolutions": [],
+    "baseExp": 78,
+    "catchRate": 75,
+    "expType": "medium-fast",
+    "evYield": {
+      "spe": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 9
+  },
+  {
+    "id": "murkrow",
+    "dexNo": 198,
+    "name": "ヤミカラス",
+    "types": [
+      "dark",
+      "flying"
+    ],
+    "baseStats": {
+      "hp": 60,
+      "atk": 85,
+      "def": 42,
+      "spa": 85,
+      "spd": 42,
+      "spe": 91
+    },
+    "abilities": [
+      "insomnia",
+      "super-luck"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "astonish"
+      },
+      {
+        "level": 1,
+        "move": "peck"
+      },
+      {
+        "level": 5,
+        "move": "gust"
+      },
+      {
+        "level": 15,
+        "move": "wing-attack"
+      },
+      {
+        "level": 25,
+        "move": "assurance"
+      }
+    ],
+    "tmMoves": [
+      "aerial-ace",
+      "air-cutter",
+      "air-slash",
+      "brave-bird",
+      "calm-mind",
+      "confuse-ray",
+      "dark-pulse",
+      "double-edge",
+      "feather-dance",
+      "heat-wave",
+      "hex",
+      "hurricane",
+      "icy-wind",
+      "mud-slap",
+      "nasty-plot",
+      "psychic",
+      "scary-face",
+      "shadow-ball",
+      "take-down",
+      "thunder-wave"
+    ],
+    "evolutions": [],
+    "baseExp": 81,
+    "catchRate": 30,
+    "expType": "medium-slow",
+    "evYield": {
+      "spe": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 9
+  },
+  {
+    "id": "misdreavus",
+    "dexNo": 200,
+    "name": "ムウマ",
+    "types": [
+      "ghost"
+    ],
+    "baseStats": {
+      "hp": 60,
+      "atk": 60,
+      "def": 60,
+      "spa": 85,
+      "spd": 85,
+      "spe": 85
+    },
+    "abilities": [
+      "levitate"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "confusion"
+      },
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 10,
+        "move": "astonish"
+      },
+      {
+        "level": 14,
+        "move": "confuse-ray"
+      },
+      {
+        "level": 23,
+        "move": "hex"
+      },
+      {
+        "level": 28,
+        "move": "psybeam"
+      },
+      {
+        "level": 37,
+        "move": "payback"
+      },
+      {
+        "level": 41,
+        "move": "shadow-ball"
+      },
+      {
+        "level": 50,
+        "move": "power-gem"
+      }
+    ],
+    "tmMoves": [
+      "calm-mind",
+      "charge-beam",
+      "charm",
+      "confuse-ray",
+      "dark-pulse",
+      "dazzling-gleam",
+      "draining-kiss",
+      "fake-tears",
+      "hex",
+      "hyper-voice",
+      "icy-wind",
+      "nasty-plot",
+      "power-gem",
+      "psybeam",
+      "psychic",
+      "psyshock",
+      "scary-face",
+      "shadow-ball",
+      "stored-power",
+      "swift",
+      "thunder",
+      "thunder-wave",
+      "thunderbolt",
+      "will-o-wisp"
+    ],
+    "evolutions": [
+      {
+        "to": "mismagius",
+        "kind": "useItem",
+        "item": "dusk-stone"
+      }
+    ],
+    "baseExp": 87,
+    "catchRate": 45,
+    "expType": "fast",
+    "evYield": {
+      "spd": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 9
+  },
+  {
+    "id": "wobbuffet",
+    "dexNo": 202,
+    "name": "ソーナンス",
+    "types": [
+      "psychic"
+    ],
+    "baseStats": {
+      "hp": 190,
+      "atk": 33,
+      "def": 58,
+      "spa": 33,
+      "spd": 58,
+      "spe": 33
+    },
+    "abilities": [
+      "shadow-tag"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "amnesia"
+      },
+      {
+        "level": 1,
+        "move": "charm"
+      },
+      {
+        "level": 1,
+        "move": "splash"
+      }
+    ],
+    "tmMoves": [
+      "amnesia",
+      "charm"
+    ],
+    "evolutions": [],
+    "baseExp": 142,
+    "catchRate": 45,
+    "expType": "medium-fast",
+    "evYield": {
+      "hp": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 8
+  },
+  {
+    "id": "heracross",
+    "dexNo": 214,
+    "name": "ヘラクロス",
+    "types": [
+      "bug",
+      "fighting"
+    ],
+    "baseStats": {
+      "hp": 80,
+      "atk": 125,
+      "def": 75,
+      "spa": 40,
+      "spd": 95,
+      "spe": 85
+    },
+    "abilities": [
+      "swarm",
+      "guts"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "leer"
+      },
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 5,
+        "move": "fury-attack"
+      },
+      {
+        "level": 15,
+        "move": "aerial-ace"
+      },
+      {
+        "level": 20,
+        "move": "horn-attack"
+      },
+      {
+        "level": 30,
+        "move": "brick-break"
+      },
+      {
+        "level": 35,
+        "move": "pin-missile"
+      },
+      {
+        "level": 50,
+        "move": "swords-dance"
+      },
+      {
+        "level": 55,
+        "move": "megahorn"
+      }
+    ],
+    "tmMoves": [
+      "aerial-ace",
+      "body-slam",
+      "brick-break",
+      "bug-bite",
+      "bug-buzz",
+      "bulldoze",
+      "bullet-seed",
+      "double-edge",
+      "earthquake",
+      "false-swipe",
+      "high-horsepower",
+      "iron-defense",
+      "knock-off",
+      "rock-blast",
+      "rock-slide",
+      "rock-tomb",
+      "smart-strike",
+      "stone-edge",
+      "swords-dance",
+      "take-down",
+      "vacuum-wave"
+    ],
+    "evolutions": [],
+    "baseExp": 175,
+    "catchRate": 45,
+    "expType": "slow",
+    "evYield": {
+      "atk": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 9
+  },
+  {
+    "id": "mantine",
+    "dexNo": 226,
+    "name": "マンタイン",
+    "types": [
+      "water",
+      "flying"
+    ],
+    "baseStats": {
+      "hp": 85,
+      "atk": 40,
+      "def": 70,
+      "spa": 80,
+      "spd": 140,
+      "spe": 70
+    },
+    "abilities": [
+      "swift-swim",
+      "water-absorb"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "bullet-seed"
+      },
+      {
+        "level": 1,
+        "move": "psybeam"
+      },
+      {
+        "level": 1,
+        "move": "supersonic"
+      },
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 1,
+        "move": "wing-attack"
+      },
+      {
+        "level": 12,
+        "move": "water-pulse"
+      },
+      {
+        "level": 20,
+        "move": "agility"
+      },
+      {
+        "level": 24,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 28,
+        "move": "headbutt"
+      },
+      {
+        "level": 32,
+        "move": "air-slash"
+      },
+      {
+        "level": 44,
+        "move": "take-down"
+      },
+      {
+        "level": 48,
+        "move": "hydro-pump"
+      }
+    ],
+    "tmMoves": [
+      "agility",
+      "air-slash",
+      "amnesia",
+      "assurance",
+      "blizzard",
+      "body-slam",
+      "brine",
+      "bulldoze",
+      "bullet-seed",
+      "earthquake",
+      "gunk-shot",
+      "hurricane",
+      "hydro-pump",
+      "ice-beam",
+      "icy-wind",
+      "iron-head",
+      "liquidation",
+      "rock-blast",
+      "rock-slide",
+      "rock-tomb",
+      "round",
+      "seed-bomb",
+      "surf",
+      "swift",
+      "waterfall"
+    ],
+    "evolutions": [],
+    "baseExp": 170,
+    "catchRate": 25,
+    "expType": "slow",
+    "evYield": {
+      "spd": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 8
+  },
+  {
+    "id": "skarmory",
+    "dexNo": 227,
+    "name": "エアームド",
+    "types": [
+      "steel",
+      "flying"
+    ],
+    "baseStats": {
+      "hp": 65,
+      "atk": 80,
+      "def": 140,
+      "spa": 40,
+      "spd": 70,
+      "spe": 70
+    },
+    "abilities": [
+      "keen-eye",
+      "sturdy"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "leer"
+      },
+      {
+        "level": 1,
+        "move": "peck"
+      },
+      {
+        "level": 4,
+        "move": "sand-attack"
+      },
+      {
+        "level": 8,
+        "move": "fury-attack"
+      },
+      {
+        "level": 12,
+        "move": "metal-claw"
+      },
+      {
+        "level": 16,
+        "move": "agility"
+      },
+      {
+        "level": 20,
+        "move": "wing-attack"
+      },
+      {
+        "level": 24,
+        "move": "slash"
+      },
+      {
+        "level": 32,
+        "move": "payback"
+      },
+      {
+        "level": 36,
+        "move": "drill-peck"
+      },
+      {
+        "level": 40,
+        "move": "metal-sound"
+      },
+      {
+        "level": 48,
+        "move": "iron-defense"
+      },
+      {
+        "level": 52,
+        "move": "brave-bird"
+      }
+    ],
+    "tmMoves": [
+      "aerial-ace",
+      "agility",
+      "air-cutter",
+      "air-slash",
+      "brave-bird",
+      "dark-pulse",
+      "drill-run",
+      "flash-cannon",
+      "hurricane",
+      "icy-wind",
+      "iron-defense",
+      "iron-head",
+      "metal-claw",
+      "metal-sound",
+      "rock-slide",
+      "rock-tomb",
+      "swift",
+      "swords-dance",
+      "take-down",
+      "x-scissor"
+    ],
+    "evolutions": [],
+    "baseExp": 163,
+    "catchRate": 25,
+    "expType": "slow",
+    "evYield": {
+      "def": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 9
+  },
+  {
+    "id": "phanpy",
+    "dexNo": 231,
+    "name": "ゴマゾウ",
+    "types": [
+      "ground"
+    ],
+    "baseStats": {
+      "hp": 90,
+      "atk": 60,
+      "def": 60,
+      "spa": 40,
+      "spd": 40,
+      "spe": 40
+    },
+    "abilities": [
+      "pickup"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 15,
+        "move": "bulldoze"
+      },
+      {
+        "level": 24,
+        "move": "slam"
+      },
+      {
+        "level": 28,
+        "move": "take-down"
+      },
+      {
+        "level": 33,
+        "move": "charm"
+      },
+      {
+        "level": 42,
+        "move": "double-edge"
+      }
+    ],
+    "tmMoves": [
+      "body-slam",
+      "bulldoze",
+      "charm",
+      "double-edge",
+      "earth-power",
+      "earthquake",
+      "gunk-shot",
+      "high-horsepower",
+      "hyper-voice",
+      "iron-head",
+      "knock-off",
+      "mud-shot",
+      "mud-slap",
+      "play-rough",
+      "rock-slide",
+      "rock-tomb",
+      "seed-bomb",
+      "stomping-tantrum",
+      "stone-edge",
+      "take-down"
+    ],
+    "evolutions": [
+      {
+        "to": "donphan",
+        "kind": "level",
+        "level": 25
+      }
+    ],
+    "baseExp": 66,
+    "catchRate": 120,
+    "expType": "medium-fast",
+    "evYield": {
+      "hp": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 9
+  },
+  {
+    "id": "donphan",
+    "dexNo": 232,
+    "name": "ドンファン",
+    "types": [
+      "ground"
+    ],
+    "baseStats": {
+      "hp": 90,
+      "atk": 120,
+      "def": 120,
+      "spa": 60,
+      "spd": 60,
+      "spe": 50
+    },
+    "abilities": [
+      "sturdy"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "bulldoze"
+      },
+      {
+        "level": 1,
+        "move": "fury-attack"
+      },
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 1,
+        "move": "horn-attack"
+      },
+      {
+        "level": 6,
+        "move": "rapid-spin"
+      },
+      {
+        "level": 15,
+        "move": "assurance"
+      },
+      {
+        "level": 19,
+        "move": "knock-off"
+      },
+      {
+        "level": 24,
+        "move": "slam"
+      },
+      {
+        "level": 30,
+        "move": "stomping-tantrum"
+      },
+      {
+        "level": 37,
+        "move": "scary-face"
+      },
+      {
+        "level": 43,
+        "move": "earthquake"
+      }
+    ],
+    "tmMoves": [
+      "body-slam",
+      "bulldoze",
+      "charm",
+      "double-edge",
+      "earth-power",
+      "earthquake",
+      "gunk-shot",
+      "high-horsepower",
+      "hyper-voice",
+      "iron-defense",
+      "iron-head",
+      "knock-off",
+      "mud-shot",
+      "mud-slap",
+      "play-rough",
+      "poison-jab",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "seed-bomb",
+      "smart-strike",
+      "stomping-tantrum",
+      "stone-edge",
+      "take-down"
+    ],
+    "evolutions": [],
+    "baseExp": 175,
+    "catchRate": 60,
+    "expType": "medium-fast",
+    "evYield": {
+      "atk": 1,
+      "def": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 9
+  },
+  {
+    "id": "larvitar",
+    "dexNo": 246,
+    "name": "ヨーギラス",
+    "types": [
+      "rock",
+      "ground"
+    ],
+    "baseStats": {
+      "hp": 50,
+      "atk": 64,
+      "def": 50,
+      "spa": 45,
+      "spd": 50,
+      "spe": 41
+    },
+    "abilities": [
+      "guts"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "leer"
+      },
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 3,
+        "move": "rock-throw"
+      },
+      {
+        "level": 6,
+        "move": "payback"
+      },
+      {
+        "level": 9,
+        "move": "bite"
+      },
+      {
+        "level": 12,
+        "move": "scary-face"
+      },
+      {
+        "level": 15,
+        "move": "rock-slide"
+      },
+      {
+        "level": 18,
+        "move": "stomping-tantrum"
+      },
+      {
+        "level": 21,
+        "move": "screech"
+      },
+      {
+        "level": 27,
+        "move": "crunch"
+      },
+      {
+        "level": 31,
+        "move": "earthquake"
+      },
+      {
+        "level": 33,
+        "move": "stone-edge"
+      }
+    ],
+    "tmMoves": [
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "crunch",
+      "dark-pulse",
+      "double-edge",
+      "earth-power",
+      "earthquake",
+      "iron-defense",
+      "iron-head",
+      "mud-shot",
+      "mud-slap",
+      "rock-blast",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "stomping-tantrum",
+      "stone-edge",
+      "take-down"
+    ],
+    "evolutions": [
+      {
+        "to": "pupitar",
+        "kind": "level",
+        "level": 30
+      }
+    ],
+    "baseExp": 60,
+    "catchRate": 45,
+    "expType": "slow",
+    "evYield": {
+      "atk": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 9
+  },
+  {
+    "id": "pupitar",
+    "dexNo": 247,
+    "name": "サナギラス",
+    "types": [
+      "rock",
+      "ground"
+    ],
+    "baseStats": {
+      "hp": 70,
+      "atk": 84,
+      "def": 70,
+      "spa": 65,
+      "spd": 70,
+      "spe": 51
+    },
+    "abilities": [
+      "shed-skin"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "iron-defense"
+      },
+      {
+        "level": 1,
+        "move": "leer"
+      },
+      {
+        "level": 1,
+        "move": "payback"
+      },
+      {
+        "level": 1,
+        "move": "rock-throw"
+      },
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 9,
+        "move": "bite"
+      },
+      {
+        "level": 12,
+        "move": "scary-face"
+      },
+      {
+        "level": 15,
+        "move": "rock-slide"
+      },
+      {
+        "level": 18,
+        "move": "stomping-tantrum"
+      },
+      {
+        "level": 21,
+        "move": "screech"
+      },
+      {
+        "level": 27,
+        "move": "crunch"
+      },
+      {
+        "level": 33,
+        "move": "earthquake"
+      },
+      {
+        "level": 37,
+        "move": "stone-edge"
+      }
+    ],
+    "tmMoves": [
+      "aerial-ace",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "crunch",
+      "dark-pulse",
+      "double-edge",
+      "earth-power",
+      "earthquake",
+      "high-horsepower",
+      "iron-defense",
+      "iron-head",
+      "mud-shot",
+      "mud-slap",
+      "rock-blast",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "stomping-tantrum",
+      "stone-edge",
+      "take-down"
+    ],
+    "evolutions": [
+      {
+        "to": "tyranitar",
+        "kind": "level",
+        "level": 55
+      }
+    ],
+    "baseExp": 144,
+    "catchRate": 45,
+    "expType": "slow",
+    "evYield": {
+      "atk": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 9
   }
 ]

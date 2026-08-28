@@ -1,0 +1,31 @@
+# けいこくのいりぐち（7のしま）。**ゴマゾウ と オタチ はここ。**
+id: kanto-sevii-canyon-entrance
+name: けいこくの いりぐち
+region: kanto
+encounters: kanto-sevii-canyon-entrance-grass
+bgm: route-3
+
+legend:
+. normal
+g grass
+T !normal
+
+grid:
+TTTTTT.TTTTTT
+T...........T
+T..ggg......T
+T..ggg......T
+T...........T
+T.....ggg...T
+T.....ggg...T
+T...........T
+T..ggg......T
+T..ggg......T
+TTTTTT.TTTTTT
+
+warps:
+6,0 step kanto-sevii-sevault-canyon 6,9 up
+6,10 step kanto-sevii-seven-island 5,1 down
+
+objects:
+canyon-sign 8,1 sign kanto.sevii.canyon-sign

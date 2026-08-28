@@ -1,0 +1,33 @@
+# きねんひ（5のしま）。海に面した草地。北に ロストケイブ。
+id: kanto-sevii-memorial-pillar
+name: きねんひ
+region: kanto
+encounters: kanto-sevii-memorial-pillar-grass kanto-sevii-memorial-pillar-surf kanto-sevii-memorial-pillar-fishing-old kanto-sevii-memorial-pillar-fishing-good kanto-sevii-memorial-pillar-fishing-super
+bgm: lavender-town
+
+legend:
+. normal
+g grass
+~ !water
+D normal
+T !normal
+
+grid:
+TTTTTTDTTTTTT
+T...........T
+T..ggg......T
+T...........T
+T.....ggg...T
+T.....ggg...T
+T...........T
+T~~~~~~~~~~~T
+T~~~~~~~~~~~T
+T...........T
+TTTTTT.TTTTTT
+
+warps:
+6,0 step kanto-sevii-lost-cave 6,6 up
+6,10 step kanto-sevii-five-isle-meadow 6,1 down
+
+objects:
+pillar-sign 5,1 sign kanto.sevii.pillar-sign

@@ -1,0 +1,26 @@
+# 6のしまの民家。
+id: kanto-sevii-six-house
+name: みんか
+region: kanto
+bgm: pokecenter
+
+legend:
+. normal
+W !normal
+B !normal
+M !normal
+D normal
+
+grid:
+WWWWWWWWW
+W.BB...MW
+W.......W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,5 step kanto-sevii-six-island 9,4 down
+
+objects:
+six-house-npc 6,2 npc:lass:static kanto.sevii.six-npc

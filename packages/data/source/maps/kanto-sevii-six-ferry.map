@@ -1,0 +1,29 @@
+# 6のしまの ふなつきば。西が 5のしま、東が 7のしま。
+id: kanto-sevii-six-ferry
+name: ふなつきば
+region: kanto
+bgm: pokecenter
+
+legend:
+. normal
+W !normal
+S !normal
+G normal
+D normal
+
+grid:
+WGWWWWWGW
+W.......W
+W..SSS..W
+W.......W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+1,0 step kanto-sevii-five-ferry 7,1 down
+7,0 step kanto-sevii-seven-ferry 1,1 down
+4,6 step kanto-sevii-six-island 6,7 up
+
+objects:
+six-ferry-sailor 4,3 npc:sailor:static kanto.sevii.six-sailor

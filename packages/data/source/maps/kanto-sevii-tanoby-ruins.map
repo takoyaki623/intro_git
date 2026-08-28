@@ -1,0 +1,35 @@
+# タノビーのいせき（7のしま）。**マンタイン はここの水面に出る。**
+# **遺跡の部屋は開けていない。** 原作でも タノビーのカギ を見つけるまで封印されていて、
+# ここは「まだ開かない」状態がそのまま正しい ――
+# 中に居る アンノーン を入れられないのは、あの種がレベルで覚えるのが
+# めざめるパワー だけで、**個体ごとにタイプが変わる技**だから（v1.1-k の記録を参照）。
+id: kanto-sevii-tanoby-ruins
+name: タノビーの いせき
+region: kanto
+encounters: kanto-sevii-tanoby-ruins-surf kanto-sevii-tanoby-ruins-fishing-old kanto-sevii-tanoby-ruins-fishing-good kanto-sevii-tanoby-ruins-fishing-super
+bgm: mt-moon
+
+legend:
+. normal
+~ !water
+s sand
+S !normal
+D normal
+T !normal
+
+grid:
+TTTTTTTTTTTTT
+T~~~~~~~~~~~T
+T~~~~~~~~~~~T
+T..SSS......T
+T..SSS......T
+T...........s
+T...........T
+T~~~~~~~~~~~T
+TTTTTTTTTTTTT
+
+warps:
+12,5 step kanto-sevii-seven-island 1,5 right
+
+objects:
+tanoby-sign 4,5 sign kanto.sevii.tanoby-sign

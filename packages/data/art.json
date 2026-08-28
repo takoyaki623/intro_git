@@ -1936,5 +1936,183 @@
       "sparkle",
       "wing"
     ]
+  },
+  {
+    "species": "sentret",
+    "shape": "quadruped",
+    "color": "brown",
+    "size": "small",
+    "parts": []
+  },
+  {
+    "species": "furret",
+    "shape": "quadruped",
+    "color": "brown",
+    "size": "large",
+    "parts": []
+  },
+  {
+    "species": "ledyba",
+    "shape": "wings",
+    "color": "red",
+    "size": "small",
+    "parts": [
+      "antenna",
+      "wing"
+    ]
+  },
+  {
+    "species": "ledian",
+    "shape": "wings",
+    "color": "red",
+    "size": "medium",
+    "parts": [
+      "antenna",
+      "wing"
+    ]
+  },
+  {
+    "species": "spinarak",
+    "shape": "armor",
+    "color": "green",
+    "size": "tiny",
+    "parts": [
+      "antenna",
+      "drip"
+    ]
+  },
+  {
+    "species": "ariados",
+    "shape": "armor",
+    "color": "red",
+    "size": "medium",
+    "parts": [
+      "antenna",
+      "drip"
+    ]
+  },
+  {
+    "species": "natu",
+    "shape": "wings",
+    "color": "green",
+    "size": "tiny",
+    "parts": [
+      "aura",
+      "wing"
+    ]
+  },
+  {
+    "species": "xatu",
+    "shape": "wings",
+    "color": "green",
+    "size": "medium",
+    "parts": [
+      "aura",
+      "wing"
+    ]
+  },
+  {
+    "species": "yanma",
+    "shape": "bug-wings",
+    "color": "red",
+    "size": "medium",
+    "parts": [
+      "antenna",
+      "wing"
+    ]
+  },
+  {
+    "species": "murkrow",
+    "shape": "wings",
+    "color": "black",
+    "size": "tiny",
+    "parts": [
+      "aura",
+      "wing"
+    ]
+  },
+  {
+    "species": "misdreavus",
+    "shape": "ball",
+    "color": "gray",
+    "size": "small",
+    "parts": [
+      "aura"
+    ]
+  },
+  {
+    "species": "wobbuffet",
+    "shape": "blob",
+    "color": "blue",
+    "size": "medium",
+    "parts": [
+      "aura"
+    ]
+  },
+  {
+    "species": "heracross",
+    "shape": "humanoid",
+    "color": "blue",
+    "size": "medium",
+    "parts": [
+      "antenna",
+      "band"
+    ]
+  },
+  {
+    "species": "mantine",
+    "shape": "wings",
+    "color": "purple",
+    "size": "large",
+    "parts": [
+      "fin",
+      "wing"
+    ]
+  },
+  {
+    "species": "skarmory",
+    "shape": "wings",
+    "color": "gray",
+    "size": "medium",
+    "parts": [
+      "plate",
+      "wing"
+    ]
+  },
+  {
+    "species": "phanpy",
+    "shape": "quadruped",
+    "color": "blue",
+    "size": "tiny",
+    "parts": [
+      "spike"
+    ]
+  },
+  {
+    "species": "donphan",
+    "shape": "quadruped",
+    "color": "gray",
+    "size": "medium",
+    "parts": [
+      "spike"
+    ]
+  },
+  {
+    "species": "larvitar",
+    "shape": "upright",
+    "color": "green",
+    "size": "small",
+    "parts": [
+      "spike"
+    ]
+  },
+  {
+    "species": "pupitar",
+    "shape": "squiggle",
+    "color": "gray",
+    "size": "medium",
+    "parts": [
+      "spike"
+    ]
   }
 ]

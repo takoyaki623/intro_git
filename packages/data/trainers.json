@@ -2566,5 +2566,31 @@
         ]
       }
     ]
+  },
+  {
+    "id": "kanto-sevii-warehouse",
+    "name": "ロケットだん",
+    "class": "ロケットだん",
+    "reward": 760,
+    "defeatedFlag": "kanto.sevii.warehouse-beaten",
+    "party": [
+      {
+        "species": "golbat",
+        "level": 36,
+        "moves": [
+          "bite",
+          "wing-attack",
+          "confuse-ray"
+        ]
+      },
+      {
+        "species": "weezing",
+        "level": 38,
+        "moves": [
+          "sludge-bomb",
+          "smokescreen"
+        ]
+      }
+    ]
   }
 ]

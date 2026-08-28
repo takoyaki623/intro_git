@@ -8965,13 +8965,13 @@
         "kind": "if",
         "cond": {
           "kind": "flag",
-          "flag": "kanto.sevii.celio-done",
+          "flag": "kanto.sevii.network-complete",
           "value": true
         },
         "then": [
           {
             "kind": "message",
-            "text": "マシンは うごいている。\n4のしま から さきの こうろも\nもうすぐ ひらくよ。",
+            "text": "マシンは かんぺきだ。\nナナシマは きみに すくわれたよ。",
             "speaker": "セリオ"
           }
         ],
@@ -8979,36 +8979,79 @@
           {
             "kind": "if",
             "cond": {
-              "kind": "hasItem",
-              "item": "ruby"
+              "kind": "flag",
+              "flag": "kanto.sevii.celio-done",
+              "value": true
             },
             "then": [
               {
-                "kind": "message",
-                "text": "それは… ルビー!\nさがして いたんだ。",
-                "speaker": "セリオ"
-              },
-              {
-                "kind": "setFlag",
-                "flag": "kanto.sevii.celio-done",
-                "value": true
-              },
-              {
-                "kind": "message",
-                "text": "これで マシンが うごく。\nきみは ナナシマの おんじんだ。",
-                "speaker": "セリオ"
+                "kind": "if",
+                "cond": {
+                  "kind": "hasItem",
+                  "item": "sapphire"
+                },
+                "then": [
+                  {
+                    "kind": "message",
+                    "text": "サファイア まで! これで そろった。",
+                    "speaker": "セリオ"
+                  },
+                  {
+                    "kind": "setFlag",
+                    "flag": "kanto.sevii.network-complete",
+                    "value": true
+                  },
+                  {
+                    "kind": "message",
+                    "text": "マシンは かんぺきだ。\nナナシマは きみに すくわれたよ。",
+                    "speaker": "セリオ"
+                  }
+                ],
+                "else": [
+                  {
+                    "kind": "message",
+                    "text": "マシンは うごいている。\nもう ひとつ、サファイア という\nいしが あれば かんぺきなんだが…",
+                    "speaker": "セリオ"
+                  }
+                ]
               }
             ],
             "else": [
               {
-                "kind": "message",
-                "text": "ネットワークマシンが うごかない。",
-                "speaker": "セリオ"
-              },
-              {
-                "kind": "message",
-                "text": "ともしびやま の おくに ルビー という\nいしが ある。あれが いるんだ。",
-                "speaker": "セリオ"
+                "kind": "if",
+                "cond": {
+                  "kind": "hasItem",
+                  "item": "ruby"
+                },
+                "then": [
+                  {
+                    "kind": "message",
+                    "text": "それは… ルビー!\nさがして いたんだ。",
+                    "speaker": "セリオ"
+                  },
+                  {
+                    "kind": "setFlag",
+                    "flag": "kanto.sevii.celio-done",
+                    "value": true
+                  },
+                  {
+                    "kind": "message",
+                    "text": "これで マシンが うごく。\nきみは ナナシマの おんじんだ。",
+                    "speaker": "セリオ"
+                  }
+                ],
+                "else": [
+                  {
+                    "kind": "message",
+                    "text": "ネットワークマシンが うごかない。",
+                    "speaker": "セリオ"
+                  },
+                  {
+                    "kind": "message",
+                    "text": "ともしびやま の おくに ルビー という\nいしが ある。あれが いるんだ。",
+                    "speaker": "セリオ"
+                  }
+                ]
               }
             ]
           }
@@ -9451,6 +9494,455 @@
             "speaker": "おじさん"
           }
         ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.five-sailor",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "5のしま だ。\nきをつけて いってらっしゃい。",
+        "speaker": "せんいん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.five-sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "5のしま\nナナシマ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.five-npc",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ナナシマの おくは カントーで 見ない\nポケモンばかりよ。",
+        "speaker": "しまのむすめ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.five-nurse",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ポケモンを おあずかりします。",
+        "speaker": "ジョーイ"
+      },
+      {
+        "kind": "healParty"
+      },
+      {
+        "kind": "message",
+        "text": "おまたせしました!",
+        "speaker": "ジョーイ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.five-center-pc",
+    "commands": [
+      {
+        "kind": "openBox"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.six-sailor",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "6のしま だ。\nきをつけて いってらっしゃい。",
+        "speaker": "せんいん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.six-sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "6のしま\nナナシマ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.six-npc",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ナナシマの おくは カントーで 見ない\nポケモンばかりよ。",
+        "speaker": "しまのむすめ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.six-nurse",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ポケモンを おあずかりします。",
+        "speaker": "ジョーイ"
+      },
+      {
+        "kind": "healParty"
+      },
+      {
+        "kind": "message",
+        "text": "おまたせしました!",
+        "speaker": "ジョーイ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.six-center-pc",
+    "commands": [
+      {
+        "kind": "openBox"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.seven-sailor",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "7のしま だ。\nきをつけて いってらっしゃい。",
+        "speaker": "せんいん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.seven-sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "7のしま\nナナシマ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.seven-npc",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ナナシマの おくは カントーで 見ない\nポケモンばかりよ。",
+        "speaker": "しまのむすめ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.seven-nurse",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ポケモンを おあずかりします。",
+        "speaker": "ジョーイ"
+      },
+      {
+        "kind": "healParty"
+      },
+      {
+        "kind": "message",
+        "text": "おまたせしました!",
+        "speaker": "ジョーイ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.seven-center-pc",
+    "commands": [
+      {
+        "kind": "openBox"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.pillar-sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "きねんひ\nきたに ロストケイブ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.ruin-sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "いせきのたに\nドットのあな 立入禁止"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.tanoby-sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "タノビーの いせき\nとびらは かたく とじている"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.canyon-sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "けいこくの いりぐち\nきたは ななしの けいこく"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.green-fisher",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "この あたりは ハリーセン が よく つれる。\nとげに 気をつけな。",
+        "speaker": "つりびと"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.resort-lady",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "べっそうで のんびり しているの。",
+        "speaker": "おじょうさま"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.lost-cave-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-elixir",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.lost-cave-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.outcast-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "full-restore",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.outcast-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.bush-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "ether",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.bush-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.resort-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-revive",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.resort-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.water-path-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "ultra-ball",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.water-path-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.canyon-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-revive",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.canyon-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.sapphire",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "sapphire",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.sapphire-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.dotted-sapphire",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.sevii.sapphire-stolen",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "台座に 青い いしが はまっている。"
+          },
+          {
+            "kind": "message",
+            "text": "いただき!\n…ロケットだんの のこりが、\nよこから いしを つかんで にげた。",
+            "speaker": "ロケットだん"
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.sevii.sapphire-stolen",
+            "value": true
+          },
+          {
+            "kind": "message",
+            "text": "「5のしまの そうこへ もどれ」と\nさけんでいた。"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "台座は からっぽだ。"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.warehouse-guard",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.sevii.sapphire-stolen",
+          "value": true
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "げっ、おまえ どうくつの!",
+            "speaker": "ロケットだん"
+          },
+          {
+            "kind": "message",
+            "text": "あ… 合言葉は「ゴーゴーゴー」\n…しまった!",
+            "speaker": "ロケットだん"
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.sevii.warehouse-open",
+            "value": true
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ここは おれたちの そうこだ。\nようは ないだろ?",
+            "speaker": "ロケットだん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.warehouse-grunt",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.sevii.warehouse-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "いしは わたさん!",
+            "speaker": "ロケットだん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-sevii-warehouse",
+            "onWin": "kanto.sevii.warehouse-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "…もう ここには なにも ない。",
+            "speaker": "ロケットだん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.warehouse-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.warehouse-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "…もう ここには なにも ない。",
+        "speaker": "ロケットだん"
       }
     ]
   }

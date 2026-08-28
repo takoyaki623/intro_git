@@ -43,6 +43,8 @@ kadabra	alakazam	trade
 kakuna	beedrill	level	10		
 koffing	weezing	level	35		
 krabby	kingler	level	28		
+larvitar	pupitar	level	30		
+ledyba	ledian	level	18		
 machoke	machamp	trade			
 machop	machoke	level	28		
 magikarp	gyarados	level	20		
@@ -52,6 +54,8 @@ mankey	primeape	level	28
 marill	azumarill	level	18		
 meowth	persian	level	28		
 metapod	butterfree	level	10		
+misdreavus	mismagius	useItem		dusk-stone	
+natu	xatu	level	25		
 nidoran-f	nidorina	level	16		
 nidoran-m	nidorino	level	16		
 nidorina	nidoqueen	useItem		moon-stone	
@@ -60,6 +64,7 @@ oddish	gloom	level	21
 omanyte	omastar	level	40		
 onix	steelix	trade		metal-coat	
 paras	parasect	level	24		
+phanpy	donphan	level	25		
 pidgeotto	pidgeot	level	36		
 pidgey	pidgeotto	level	18		
 pikachu	raichu	useItem		thunder-stone	
@@ -68,6 +73,7 @@ poliwag	poliwhirl	level	25
 poliwhirl	poliwrath	useItem		water-stone	
 ponyta	rapidash	level	40		
 psyduck	golduck	level	33		
+pupitar	tyranitar	level	55		
 rattata	raticate	level	20		
 remoraid	octillery	level	25		
 rhydon	rhyperior	trade		protector	
@@ -76,12 +82,14 @@ sandshrew	sandslash	level	22
 scyther	scizor	trade		metal-coat	
 seadra	kingdra	trade		dragon-scale	
 seel	dewgong	level	34		
+sentret	furret	level	15		
 shellder	cloyster	useItem		water-stone	
 skiploom	jumpluff	level	27		
 slowpoke	slowbro	level	37		
 slowpoke	slowking	trade		king-s-rock	
 slugma	magcargo	level	38		
 spearow	fearow	level	20		
+spinarak	ariados	level	22		
 squirtle	wartortle	level	16		
 staryu	starmie	useItem		water-stone	
 swinub	piloswine	level	33		

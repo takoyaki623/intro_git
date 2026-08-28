@@ -1,0 +1,26 @@
+# ドットのあな（6のしま）。**サファイア はここにあった** ―― 取ろうとすると、
+# ロケット団の残党に横から持っていかれる。追う先は 5のしまの そうこ。
+id: kanto-sevii-dotted-hole
+name: ドットのあな
+region: kanto
+bgm: mt-moon
+
+legend:
+. cave
+C !cave
+D normal
+
+grid:
+CCCCCCCCC
+C.......C
+C.CCCCC.C
+C.C...C.C
+C.C.C.C.C
+C.......C
+CCCCDCCCC
+
+warps:
+4,6 step kanto-sevii-ruin-valley 4,3 down
+
+objects:
+dotted-sapphire 4,3 sign kanto.sevii.dotted-sapphire

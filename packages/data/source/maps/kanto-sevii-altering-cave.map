@@ -1,0 +1,32 @@
+# へんげのどうくつ（6のしま）。
+#
+# **ズバット しか出ない。** 公式データはこの洞窟に9通りの出現表を持っているが、
+# それは e-リーダー のカードで差し替わるもので、**カードが無ければ原作でも
+# ズバット しか出ない**（Switch 版でもカードは配られない）。
+# 残る8通り（メリープ・エイパム・クヌギダマ・ツボツボ・ヒメグマ・デルビル・
+# オドシシ・ドーブル）は**入れていない** ―― 原作に無いものを足すことになるから。
+# ドーブル はそのうえ レベル技が スケッチ 1本きりで、技を使えない野生にもなる。
+id: kanto-sevii-altering-cave
+name: へんげのどうくつ
+region: kanto
+encounters: kanto-sevii-altering-cave-cave
+bgm: mt-moon
+
+legend:
+. cave
+C !cave
+D normal
+
+grid:
+CCCCCCCCC
+C.......C
+C.CCCCC.C
+C.C...C.C
+C.C...C.C
+C.......C
+CCCCDCCCC
+
+warps:
+4,6 step kanto-sevii-pattern-bush 6,9 up
+
+objects:

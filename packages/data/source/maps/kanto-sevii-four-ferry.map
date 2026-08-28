@@ -1,4 +1,4 @@
-# 4のしまの ふなつきば。西が 3のしま。
+# 4のしまの ふなつきば。西が 3のしま、東が 5のしま。
 # 4〜7のしま は殿堂入り後（v1.1-k）―― 3のしま側の階段を せんいん が塞いでいる。
 id: kanto-sevii-four-ferry
 name: ふなつきば
@@ -13,7 +13,7 @@ G normal
 D normal
 
 grid:
-WGWWWWWWW
+WGWWWWWGW
 W.......W
 W..SSS..W
 W.......W
@@ -23,6 +23,7 @@ WWWWDWWWW
 
 warps:
 1,0 step kanto-sevii-three-ferry 7,1 down
+7,0 step kanto-sevii-five-ferry 1,1 down
 4,6 step kanto-sevii-four-island 6,7 up
 
 objects:
