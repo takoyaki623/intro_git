@@ -19,8 +19,8 @@
  */
 
 import { readFileSync, writeFileSync } from "node:fs";
+import { parseCsv } from "./veekun.js";
 
-const CSV = "node_modules/pokedex/data/csv";
 const OUT = "packages/data/source/species-numbers.tsv";
 const SPECIES = "packages/data/source/species.tsv";
 
@@ -28,42 +28,6 @@ const SPECIES = "packages/data/source/species.tsv";
  * veekun の CSV は引用符つきのフィールド（成長曲線の数式など）を含む。
  * **素朴な split(",") では壊れる**ので最小限のパーサを持つ。
  */
-function parseCsv(file: string): Record<string, string>[] {
-  const text = readFileSync(`${CSV}/${file}`, "utf8");
-  const rows: string[][] = [];
-  let row: string[] = [];
-  let field = "";
-  let quoted = false;
-
-  for (let i = 0; i < text.length; i += 1) {
-    const c = text[i];
-    if (quoted) {
-      if (c === '"' && text[i + 1] === '"') {
-        field += '"';
-        i += 1;
-      } else if (c === '"') quoted = false;
-      else field += c;
-    } else if (c === '"') quoted = true;
-    else if (c === ",") {
-      row.push(field);
-      field = "";
-    } else if (c === "\n") {
-      row.push(field);
-      rows.push(row);
-      row = [];
-      field = "";
-    } else if (c !== "\r") field += c;
-  }
-  if (field !== "" || row.length > 0) {
-    row.push(field);
-    rows.push(row);
-  }
-
-  const head = rows.shift() ?? [];
-  return rows
-    .filter((r) => r.length === head.length)
-    .map((r) => Object.fromEntries(head.map((h, i) => [h, r[i] ?? ""])));
-}
 
 /** veekun の成長曲線名 → 本プロジェクトの `ExpType`（types.ts の EXP_TYPES）。 */
 const GROWTH: Record<string, string> = {

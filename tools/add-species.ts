@@ -17,10 +17,14 @@
  * 特性も一緒に足す。`@pkmn/dex` は特性の効果を持っていないので、
  * **効果は `inert` で入れて人が後から書く** ―― 黙って無効にしないための枠が
  * `abilities.tsv` に既にある（v0.5 から）。
+ *
+ * v1.1-j で**人が書く列は1つも無くなった**。日本語名も veekun から引く。
  */
 
 import { readFileSync, writeFileSync } from "node:fs";
 import { Dex } from "@pkmn/dex";
+
+import { abilityNamesJa, speciesNamesJa } from "./veekun.js";
 
 const DATA = "packages/data";
 const SPECIES = `${DATA}/source/species.tsv`;
@@ -30,26 +34,18 @@ const ABILITIES = `${DATA}/source/abilities.tsv`;
 const flat = (id: string) => id.replace(/[^a-z0-9]/g, "");
 
 /**
- * 日本語名。
+ * 日本語名は**公式データから引く**（v1.1-j）。
  *
- * `@pkmn/dex` は英語名しか持たないので、**ここだけは人が書く。**
- * 突き合わせる相手が居ない列なので、間違えても誰も止めてくれない ――
- * 逆に言えば、他の列を機械に任せた意味はここに集中している。
+ * v0.11 の時点では `tools/species-ja.tsv` に人が書いていた ――
+ * 「`@pkmn/dex` は英語名しか持たないので、突き合わせる相手が居ない」という理由で。
+ * **相手は居た。** veekun が 807種・233特性ぶんの かな表記を持っていて、
+ * いま入っている190種・68特性と**1件も食い違わない**。
+ *
+ * 手で書いていた間に `abra` を「アブラ」と書き（v1.1-i で発覚）、
+ * 名前を書ける場所があること自体が欠陥だった。**書く場所を無くすのが直し方。**
  */
-const JA: Record<string, string> = Object.fromEntries(
-  readFileSync("tools/species-ja.tsv", "utf8")
-    .split(/\r?\n/)
-    .filter((line) => line.trim() !== "" && !line.startsWith("#"))
-    .map((line) => line.split("\t") as [string, string]),
-);
-
-/** 特性の日本語名。同上。無ければ英語名のまま入れて、名指しで警告する。 */
-const ABILITY_JA: Record<string, string> = Object.fromEntries(
-  readFileSync("tools/abilities-ja.tsv", "utf8")
-    .split(/\r?\n/)
-    .filter((line) => line.trim() !== "" && !line.startsWith("#"))
-    .map((line) => line.split("\t") as [string, string]),
-);
+const JA = speciesNamesJa();
+const ABILITY_JA = abilityNamesJa();
 
 const lines = (path: string) => readFileSync(path, "utf8").replace(/\n$/, "").split(/\r?\n/);
 
@@ -86,9 +82,9 @@ function main(): void {
       skipped.push(`${id}（@pkmn/dex に無い）`);
       continue;
     }
-    const ja = JA[id];
+    const ja = JA.get(id);
     if (ja === undefined) {
-      skipped.push(`${id}（日本語名が tools/species-ja.tsv に無い）`);
+      skipped.push(`${id}（veekun に日本語名が無い ―― 収録は第7世代まで）`);
       continue;
     }
 
@@ -101,7 +97,7 @@ function main(): void {
     for (const [i, abilityId] of abilityIds.entries()) {
       if (haveAbility.has(abilityId)) continue;
       haveAbility.add(abilityId);
-      const abilityJa = ABILITY_JA[abilityId];
+      const abilityJa = ABILITY_JA.get(abilityId);
       if (abilityJa === undefined) untranslated.push(abilityId);
       // 効果は人が書く。inert は「まだ何もしない」を**理由つきで宣言する**枠
       newAbilities.push(`${abilityId}\t${abilityJa ?? abilities[i] ?? abilityId}\tinert:未実装（v0.11 で追加）`);
@@ -145,7 +141,7 @@ function main(): void {
   if (untranslated.length > 0) {
     console.log(`\n  ⚠ 日本語名が無い特性 ${untranslated.length}件（英語名のまま入りました）:`);
     console.log(`    ${untranslated.join(" ")}`);
-    console.log("    tools/abilities-ja.tsv に足して、abilities.tsv の name を直してください");
+    console.log("    veekun の収録は第7世代まで。abilities.tsv の name を手で直してください");
   }
   if (skipped.length > 0) {
     console.log(`\n  足さなかったもの ${skipped.length}件:`);

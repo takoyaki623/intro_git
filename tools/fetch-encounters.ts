@@ -17,8 +17,8 @@
 
 import { readFileSync, writeFileSync } from "node:fs";
 import type { EncounterTable, MapData } from "@pkmn/core";
+import { parseCsv } from "./veekun.js";
 
-const CSV = "node_modules/pokedex/data/csv";
 const MAPS = "packages/data/maps.json";
 const SPECIES = "packages/data/species.json";
 const OUT = "packages/data/encounters.json";
@@ -150,39 +150,6 @@ const METHOD: Record<string, EncounterTable["method"] | "walk"> = {
   "super-rod": "fishing-super",
   "rock-smash": "rock-smash",
 };
-
-function parseCsv(file: string): Record<string, string>[] {
-  const text = readFileSync(`${CSV}/${file}`, "utf8");
-  const rows: string[][] = [];
-  let row: string[] = [];
-  let field = "";
-  let quoted = false;
-  for (let i = 0; i < text.length; i += 1) {
-    const c = text[i];
-    if (quoted) {
-      if (c === '"' && text[i + 1] === '"') {
-        field += '"';
-        i += 1;
-      } else if (c === '"') quoted = false;
-      else field += c;
-    } else if (c === '"') quoted = true;
-    else if (c === ",") {
-      row.push(field);
-      field = "";
-    } else if (c === "\n") {
-      row.push(field);
-      rows.push(row);
-      row = [];
-      field = "";
-    } else if (c !== "\r") field += c;
-  }
-  if (field !== "" || row.length > 0) {
-    row.push(field);
-    rows.push(row);
-  }
-  const header = rows[0]!;
-  return rows.slice(1).map((r) => Object.fromEntries(header.map((h, i) => [h, r[i] ?? ""])));
-}
 
 function main(): void {
   const maps = JSON.parse(readFileSync(MAPS, "utf8")) as MapData[];

@@ -13,20 +13,11 @@
  */
 
 import { readFileSync, writeFileSync } from "node:fs";
+import { parseCsv } from "./veekun.js";
 
-const CSV = "node_modules/pokedex/data/csv";
 const OUT = "packages/data/source/machines.tsv";
 /** FRLG。出現表の取り込みと同じ版を見る（fetch-encounters.ts）。 */
 const VERSION_GROUP = "7";
-
-function parseCsv(file: string): Record<string, string>[] {
-  const lines = readFileSync(`${CSV}/${file}`, "utf8").split(/\r?\n/).filter((l) => l !== "");
-  const head = lines[0]!.split(",");
-  return lines.slice(1).map((line) => {
-    const cells = line.split(",");
-    return Object.fromEntries(head.map((h, i) => [h, cells[i] ?? ""]));
-  });
-}
 
 function main(): void {
   const moves = Object.fromEntries(parseCsv("moves.csv").map((m) => [m["id"]!, m["identifier"]!]));

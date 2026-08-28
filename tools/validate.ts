@@ -68,6 +68,7 @@ import {
   allTrainers,
   gameData,
 } from "@pkmn/data";
+import { abilityNamesJa } from "./veekun.js";
 
 type Level = "error" | "warn";
 type Finding = { level: Level; check: string; message: string };
@@ -1083,6 +1084,44 @@ const PART_NAMES = [
   "flame", "plant", "fin", "spark", "crystal", "drip", "aura",
   "horn", "spike", "plate", "antenna", "wing", "band", "sparkle",
 ];
+
+// ─────────────────────────────────────────────
+// #119 特性の日本語名が公式と一致する（v1.1-j）
+// ─────────────────────────────────────────────
+/**
+ * **名前を手で書ける場所を1つずつ潰す。**
+ *
+ * v1.1-i に `abra` を「アブラ」と書いた（正しくは ケーシィ）。原因は不注意ではなく、
+ * 名前を書ける場所があったこと ―― 種族値もタイプも機械が入れるのに、名前だけ人が書いていた。
+ *
+ * **種族名はここでは見ない。** 実測したところ v0.9.5 の時点で守られていた ――
+ * `species.tsv` の ケーシィ を アブラ に戻すと `import.ts` が
+ * 「名前が公式データと違う」で止める（`species-numbers.tsv` と突き合わせている）。
+ * すでに火を噴く関門がある場所にもう1つ置いても、**一度も火を噴かない検査**が増えるだけ。
+ *
+ * **守られていなかったのは特性名だった。** `abilities.tsv` の「がんじょう」を
+ * 「ガンジョー」に変えても `import.ts` は何も言わない（実測）――
+ * 出典が `tools/abilities-ja.tsv`（人が書いた表）だったので、突き合わせる相手が居なかった。
+ * v1.1-j でその表を捨てて veekun（`ja-Hrkt` = かな表記）から引くようにしたので、
+ * **引いた結果が動いていないこと**をここで見張る。
+ *
+ * 技名は見ない。250件中10件が公式データ側で古く（`１０まんボルト` の全角・`スプーンまげ`）、
+ * **合わせるべき相手が居ないことを実測で確かめてある**（tools/veekun.ts の注記）。
+ */
+function checkJapaneseNames(): void {
+  const official = abilityNamesJa();
+  for (const a of allAbilities) {
+    const ja = official.get(a.id);
+    // 第8世代以降は veekun に無い。**「無い」と「違う」を混ぜない**
+    if (ja === undefined) {
+      warn("ja-name", `特性 ${a.id}: veekun に日本語名が無い（収録は第7世代まで）`);
+      continue;
+    }
+    if (ja !== a.name) {
+      fail("ja-name", `特性 ${a.id}: 公式は「${ja}」―― 「${a.name}」と書いてある`);
+    }
+  }
+}
 
 function checkArt(): void {
   const drawn = new Set(allArt.map((a) => a.species));
@@ -2424,6 +2463,7 @@ function main(): void {
   checkNamed();
   checkTournaments();
   checkArt();
+  checkJapaneseNames();
   checkWorld();
   reportProvenance();
 
