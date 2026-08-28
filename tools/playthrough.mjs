@@ -2609,6 +2609,76 @@ expect("そらをとぶ で マサラへ 戻れる", (await spot()).map, "kanto-
     "kanto-sevii-three-isle-port",
   );
   await shot("38-sevii-three-port");
+
+  // ── 4〜7のしま（v1.1-k）―― 氷の床と サファイア ──
+  //
+  // 東の航路は殿堂入り後にだけ開く。**台本はもう殿堂入りしている**ので、
+  // ここで確かめるのは「開いていること」の側だけ ――
+  // 閉じている側は、殿堂入り前に通る区間が無いので見られない（世界の側の正しさは #108 が見る）。
+  await goToMap("kanto-sevii-four-island", 6, 6, 260);
+  expect("殿堂入りすると 4のしまへ 渡れる", (await spot()).map, "kanto-sevii-four-island");
+  await shot("39-sevii-four-island");
+
+  // **氷の床。1入力で複数マス動く唯一の場所**（v1.1-k）。
+  // 手順は「東を上がって突き当たる → 左へ滑って岩に当たる → 1歩上がる」
+  await goToMap("kanto-sevii-icefall-1f", 11, 7, 300);
+  expect("こおりのぬけみち 1階に 入れる", (await spot()).map, "kanto-sevii-icefall-1f");
+  await key("ArrowUp", 2, 420);
+  const slidUp = await spot();
+  note("氷を滑った先", `${slidUp.x},${slidUp.y}`);
+  expect("氷に乗ると 止まれるところまで 一気に すべる", `${slidUp.x},${slidUp.y}`, "11,2");
+  await key("ArrowLeft", 2, 420);
+  const slidLeft = await spot();
+  expect("岩に あたって 止まる", `${slidLeft.x},${slidLeft.y}`, "9,2");
+  await shot("40-sevii-ice");
+
+  // 滑走を織り込んだ経路探索が、氷の部屋を抜けられるか（**台本の側の検査**）
+  await goToMap("kanto-sevii-icefall-b1f", 9, 1, 60);
+  expect("氷を抜けて 地下1階へ 降りられる", (await spot()).map, "kanto-sevii-icefall-b1f");
+
+  // ── サファイア の筋 ―― 奪われて、取り返して、渡す ──
+  await goToMap("kanto-sevii-dotted-hole", 4, 5, 300);
+  expect("ドットのあな に入れる", (await spot()).map, "kanto-sevii-dotted-hole");
+  await talkToObject("kanto-sevii-dotted-hole", "dotted-sapphire");
+  await drain(14);
+  await refreshFlags();
+  expect(
+    "サファイアは 目の前で 奪われる",
+    liveFlags.has("kanto.sevii.sapphire-stolen") ? "奪われた" : "何も起きない",
+    "奪われた",
+  );
+
+  await talkToObject("kanto-sevii-five-isle-meadow", "meadow-grunt");
+  await drain(14);
+  await refreshFlags();
+  expect(
+    "見張りが 合言葉を 口走る",
+    liveFlags.has("kanto.sevii.warehouse-open") ? "開いた" : "開かない",
+    "開いた",
+  );
+
+  await goToMap("kanto-sevii-rocket-warehouse", 4, 4, 120);
+  if (await page.isVisible("#battle")) {
+    await fight();
+    await page.waitForTimeout(900);
+    await drain(20);
+  }
+  expect("そうこに 入れる", (await spot()).map, "kanto-sevii-rocket-warehouse");
+  await talkToObject("kanto-sevii-rocket-warehouse", "warehouse-sapphire");
+  await drain(10);
+  const bagSapphire = (await readSave()).global.bag;
+  expect("サファイア を 取り返す", `${bagSapphire["sapphire"] ?? 0}`, "1");
+
+  await goToMap("kanto-sevii-network-center", 4, 4, 300);
+  await talkToObject("kanto-sevii-network-center", "network-celio");
+  await drain(16);
+  await refreshFlags();
+  expect(
+    "ルビーと サファイアで マシンが 完成する",
+    liveFlags.has("kanto.sevii.network-complete") ? "完成した" : "まだ",
+    "完成した",
+  );
+  await shot("41-sevii-celio");
 }
 
 // **`talk()` は使わない** ―― あれは最後に `drain()` するが、`drain()` は

@@ -787,9 +787,37 @@ pokemon … 個体の実体。uid が主キー</code></pre>
           <tr><td><span class="ver">v1.1-i</span></td><td>NPC交換・ディグダのあな・へんしん・テレポート・<strong>版の対をやめて両版の和で取り込む</strong></td><td><code>takePokemon</code> 1件</td><td>130 → <strong>147</strong></td></tr>
           <tr><td><span class="ver">v1.1-j-1</span></td><td><strong>名前を書ける場所を潰す</strong>（日本語名を公式データから引く・検証 #119）</td><td>取り込み口だけ</td><td>147</td></tr>
           <tr><td><span class="ver">v1.1-j</span></td><td><strong>ナナシマ 1〜3のしま</strong>（26枚・ふなつきばの鎖・ルビーのどうくつ）</td><td><strong>0行</strong></td><td>147 → <strong>150 / 151</strong></td></tr>
+          <tr><td><span class="ver">v1.1-k</span></td><td><strong>ナナシマ 4〜7のしま・氷の床</strong>（39枚・種 193→228・サファイアの筋）</td><td><code>TERRAINS.ice</code> ＋ <code>slideFrom</code></td><td>第2世代が<strong>48種</strong></td></tr>
         </tbody>
       </table>
     </div>
+
+    <h3>v1.1-k ―― 滑走は移動の仕方であって、結果ではない</h3>
+    <p><code>core</code> は時間を持たないので、<strong>滑走は1回の呼び出しで全部返す</strong>。
+    「1マスずつ返して UI が繰り返す」形にすると<strong>途中で止められる世界</strong>になる ――
+    止まれるなら、それは滑走ではない。</p>
+    <p><code>slid</code> を <code>StepOutcome</code> ではなく <code>StepPlayerResult</code> に置いたのは、
+    滑り終えた先で起きること（出入口・道具・視線・野生）が<strong>滑ったかどうかと無関係</strong>だから ――
+    結果の種類にすると「滑って warp に入った」を表すのに種類の掛け算が要る。</p>
+    <p>滑走を教えた場所は <code>stepPlayer</code> と <code>neighborsOf</code> の<strong>2つだけ</strong>。
+    v1.1-a で「隣とは何か」を core に寄せてあったので、
+    <strong>検証も台本2本も、氷を知らないまま正しい道を引く。</strong></p>
+
+    <h3>v1.1-k ―― 検証 #55 が、正しい氷の部屋を落とした</h3>
+    <p>氷は<strong>通るマスであって立てるマスではない</strong>ので、帯の途中が全部
+    「到達できないマス」になった（v1.1-f で障害物を壁と数えて誤報したのと同じ形）。
+    塗りつぶしに「滑って通り過ぎたマスも数える」を足し、
+    <strong>どの滑走も通らない氷だけを孤立として残した</strong> ―― 実際に3マス見つけて地形を直した。</p>
+
+    <h3>v1.1-k ―― アンノーンで詰まったのは、フォルムではなく技だった</h3>
+    <p>28フォルムを持てないのは承知のうえで「1種」として入れようとしたが、止まったのは別の場所だった。
+    レベルで覚えるのは <strong>めざめるパワー だけ</strong>で、あの技は<strong>個体ごとにタイプが変わる</strong>。</p>
+    <p>デリバードの プレゼント は「威力を実行時に決める」で足りた
+    （<code>damage.ts</code> の <code>powerOverride</code> は v0.4 から開いていて<strong>使う者が誰も居なかった</strong>口 ――
+    その最初の通行人になった）。アンノーンは<strong>型が動く</strong>。</p>
+    <p><strong>同じ「実行時に決まる」でも、値が動くのと型が動くのでは重さが違う。</strong>
+    遺跡は「とびらが かたく とじている」まま置いた ―― 原作でも カギ を見つけるまで封印されているので、
+    <strong>閉じている状態そのものが原作準拠</strong>になる。</p>
 
     <h3>v1.1-j ―― 完了条件が閉じない理由は、閉じない側の地図の中には無かった</h3>
     <p>v1.1 の完了条件は「カントー151種すべてに入手経路がある」で、<strong>147種で止まっていた</strong>。

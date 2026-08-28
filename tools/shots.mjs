@@ -198,6 +198,10 @@ const SHOOTING_SAVE = (() => {
     "kanto.sevii.rocket-1-beaten",
     "kanto.sevii.rocket-2-beaten",
     "kanto.sevii.biker-beaten",
+    // 4〜7のしま（v1.1-k）。**そうこの見張りと中の団員**も倒したことにする ――
+    // 撮影は話しかけられないので、視線を持つ相手が居ると部屋の絵が撮れない
+    "kanto.sevii.warehouse-open",
+    "kanto.sevii.warehouse-beaten",
   ]) {
     save.regions.kanto.flags[flag] = true;
   }
@@ -291,6 +295,11 @@ const PLACES = [
   { file: "sevii-ruby-path", name: "ルビーのどうくつ B3F", note: "ルビー と マグカルゴ。地下3階ぶんが公式の階層どおり", to: ["kanto-sevii-ruby-path-b3f", 4, 7] },
   { file: "sevii-bond-bridge", name: "きずなばし", note: "海の上の橋。橋の上でも釣れる（3のしま⇄きのみのもり）", to: ["kanto-sevii-bond-bridge", 6, 6] },
   { file: "sevii-ferry", name: "ふなつきば", note: "港どうしを鎖でつなぐ。**屋内にしたから関門になる**（v1.1-j）", to: ["kanto-sevii-one-ferry", 4, 4] },
+  { file: "sevii-icefall", name: "こおりのぬけみち 1F", note: "**氷の床**（v1.1-k）。乗ったら止まれない ―― 一歩＝1マスが崩れる唯一の場所", to: ["kanto-sevii-icefall-1f", 6, 7] },
+  { file: "sevii-ruin-valley", name: "いせきのたに", note: "ネイティ・ヤンヤンマ・ソーナンス。奥に ドットのあな（v1.1-k）", to: ["kanto-sevii-ruin-valley", 6, 6] },
+  { file: "sevii-pattern-bush", name: "パターンブッシュ", note: "ヘラクロス・レディバ・イトマル。奥は へんげのどうくつ", to: ["kanto-sevii-pattern-bush", 6, 5] },
+  { file: "sevii-sevault", name: "ななしの けいこく", note: "エアームド と ヨーギラス。7のしまの奥（v1.1-k）", to: ["kanto-sevii-sevault-canyon", 6, 9] },
+  { file: "sevii-lost-cave", name: "ロストケイブ", note: "原作11室を3枚に畳んだ ―― 出現表は11室とも同じ", to: ["kanto-sevii-lost-cave", 6, 6] },
   { file: "hub-plaza", name: "拠点の広場", note: "施設・大会・保管庫・地方ゲートが並ぶ", to: ["hub-plaza", 8, 9] },
   { file: "hub-depot", name: "保管庫のなか", note: "共通ボックスと BP交換所", to: ["hub-depot", 4, 3] },
 ];
