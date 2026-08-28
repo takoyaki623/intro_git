@@ -1,0 +1,30 @@
+# ルビーのどうくつ 1階。ロケット団の残党2人の奥（v1.1-j）。
+# 地名の日本語は原作の地図で確認すること（veekun は地名の ja を持たない）。
+id: kanto-sevii-ruby-path
+name: ルビーのどうくつ
+region: kanto
+encounters: kanto-sevii-ruby-path-cave kanto-sevii-ruby-path-rock-smash
+bgm: mt-moon
+
+legend:
+. cave
+C !cave
+D normal
+
+grid:
+CCCCCCCCCCC
+C...CCCCCDC
+C.CC.CCCC.C
+C.CC......C
+C.CCCCCCC.C
+C.........C
+C.CCCCCCCCC
+C.........C
+CCCCCDCCCCC
+
+warps:
+9,1 step kanto-sevii-ruby-path-b1f 1,2 down
+5,8 step kanto-sevii-mt-ember 6,2 down
+
+objects:
+ruby-path-rock 4,3 obstacle:rockSmash

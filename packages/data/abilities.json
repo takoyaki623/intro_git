@@ -589,5 +589,15 @@
       "kind": "inert",
       "reason": "未実装（v0.11 で追加）"
     }
+  },
+  {
+    "id": "magma-armor",
+    "name": "マグマのよろい",
+    "effect": {
+      "kind": "statusImmunity",
+      "statuses": [
+        "freeze"
+      ]
+    }
   }
 ]

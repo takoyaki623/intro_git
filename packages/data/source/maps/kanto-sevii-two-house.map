@@ -1,0 +1,26 @@
+# 2のしまの民家。
+id: kanto-sevii-two-house
+name: みんか
+region: kanto
+bgm: pokecenter
+
+legend:
+. normal
+W !normal
+B !normal
+M !normal
+D normal
+
+grid:
+WWWWWWWWW
+W.BB...MW
+W.......W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,5 step kanto-sevii-two-island 9,4 down
+
+objects:
+two-house-lass 6,2 npc:lass:static kanto.sevii.two-lass

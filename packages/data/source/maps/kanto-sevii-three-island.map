@@ -1,0 +1,38 @@
+# 3のしま。北が きずなばし、南が みなと。ふなつきば は島の西側。
+id: kanto-sevii-three-island
+name: 3のしま
+region: kanto
+bgm: lavender-town
+
+legend:
+. normal
+T !normal
+P !normal
+H !normal
+D normal
+~ !water
+
+grid:
+TTTTT.TTTTTTT
+T...........T
+T..PPP..HHH.T
+T..PDP..HDH.T
+T...........T
+T...........T
+T..HHH......T
+T..HDH......T
+T...........T
+T~~~~~.~~~~~T
+T~~~~~.~~~~~T
+T~~~~~.~~~~~T
+TTTTTT.TTTTTT
+
+warps:
+5,0 step kanto-sevii-bond-bridge 6,11 up
+6,12 step kanto-sevii-three-isle-port 6,1 down
+4,3 step kanto-sevii-three-pokecenter 4,5 up
+9,3 step kanto-sevii-three-house 4,4 up
+4,7 step kanto-sevii-three-ferry 4,5 up
+
+objects:
+three-island-sign 7,1 sign kanto.sevii.three-sign

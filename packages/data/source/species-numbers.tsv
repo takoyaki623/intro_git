@@ -192,3 +192,6 @@ chandelure	シャンデラ	45	medium-slow	spa:3	0.5	234
 excadrill	ドリュウズ	60	medium-fast	atk:2	0.5	178
 conkeldurr	ローブシン	45	medium-slow	atk:3	0.75	227
 sylveon	ニンフィア	45	medium-fast	spd:2	0.875	184
+slugma	マグマッグ	190	medium-fast	spa:1	0.5	50
+magcargo	マグカルゴ	75	medium-fast	def:2	0.5	151
+dunsparce	ノコッチ	190	medium-fast	hp:1	0.5	145

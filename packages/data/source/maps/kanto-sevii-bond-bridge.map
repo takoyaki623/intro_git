@@ -1,0 +1,35 @@
+# きずなばし。3のしま と きのみのもり を結ぶ海上の橋。
+# 橋の上は釣り場でもある（原作どおり水面に囲まれている）。
+id: kanto-sevii-bond-bridge
+name: きずなばし
+region: kanto
+encounters: kanto-sevii-bond-bridge-grass kanto-sevii-bond-bridge-surf kanto-sevii-bond-bridge-fishing-old kanto-sevii-bond-bridge-fishing-good kanto-sevii-bond-bridge-fishing-super
+bgm: route-12
+
+legend:
+. normal
+g grass
+~ !water
+T !normal
+
+grid:
+TTTTTT.TTTTTT
+T...........T
+T..ggg......T
+T...........T
+T~~~~~.~~~~~T
+T~~~~~.~~~~~T
+T~~~~~.~~~~~T
+T~~~~~.~~~~~T
+T~~~~~.~~~~~T
+T...........T
+T.....ggg...T
+T...........T
+TTTTTT.TTTTTT
+
+warps:
+6,0 step kanto-sevii-berry-forest 6,11 up
+6,12 step kanto-sevii-three-island 5,1 down
+
+objects:
+bond-fisher 8,9 npc:fisher:static kanto.sevii.bond-fisher

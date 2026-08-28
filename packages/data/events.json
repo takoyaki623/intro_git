@@ -8672,5 +8672,649 @@
         ]
       }
     ]
+  },
+  {
+    "id": "kanto.sevii.ferry-sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "シーギャロップごう のりば\nゆきさき ナナシマ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.ferry-guard",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "この ふねは かんけいしゃ せんよう。\nかんけいのない ひとは のせられません。",
+        "speaker": "せんいん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.bill",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.silph.giovanni-beaten",
+          "value": true
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "やあ! シルフの さわぎ きいたよ。",
+            "speaker": "マサキ"
+          },
+          {
+            "kind": "message",
+            "text": "じつは ナナシマ という しまじまで\nネットワークマシンを つくっていてね。",
+            "speaker": "マサキ"
+          },
+          {
+            "kind": "message",
+            "text": "きみの ずかんが やくに たつはずだ。\nいっしょに のってくれ!",
+            "speaker": "マサキ"
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.sevii.invited",
+            "value": true
+          },
+          {
+            "kind": "message",
+            "text": "せんいんに はなせば しゅっこうするよ。",
+            "speaker": "マサキ"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ナナシマ という しまじまが あるんだ。",
+            "speaker": "マサキ"
+          },
+          {
+            "kind": "message",
+            "text": "…でも いまは シルフカンパニーの ほうが\nたいへんそうだ。そっちが さきだね。",
+            "speaker": "マサキ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.one-sailor",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "1のしま だ。\nネットワークセンターは この さきだよ。",
+        "speaker": "せんいん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.two-sailor",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "2のしま だ。\nちいさいが しずかで いい しまさ。",
+        "speaker": "せんいん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.three-sailor",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "3のしま だ。\n4のしま から さきは まだ こうろが ない。",
+        "speaker": "せんいん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.one-sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "1のしま\nナナシマの げんかんぐち"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.two-sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "2のしま\nかぜと なみの しま"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.three-sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "3のしま\nきずなばしを わたれば きのみのもり"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.port-sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "3のしまの みなと\nあしもとに ちゅうい"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.one-girl",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ともしびやま には ロケットだんが\nうろついているって。",
+        "speaker": "しまのむすめ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.one-oldman",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ナナシマの ポケモンは\nカントーで みない かおも いるよ。",
+        "speaker": "おじいさん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.two-lass",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "みさきの さきは かぜが つよいの。",
+        "speaker": "しまのむすめ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.three-boy",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "きずなばしの したは よく つれるよ!",
+        "speaker": "しょうねん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.treasure-fisher",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "この はまには ものが うちあげられる。\nさがして みな。",
+        "speaker": "つりびと"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.cape-fisher",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "みさきの さきは ふかい。\nいい さおが いるぞ。",
+        "speaker": "つりびと"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.bond-fisher",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "はしの うえからでも つれる。\nふしぎな はしだろ?",
+        "speaker": "つりびと"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.one-nurse",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ポケモンを おあずかりします。",
+        "speaker": "ジョーイ"
+      },
+      {
+        "kind": "healParty"
+      },
+      {
+        "kind": "message",
+        "text": "おまたせしました!",
+        "speaker": "ジョーイ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.one-center-pc",
+    "commands": [
+      {
+        "kind": "openBox"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.two-nurse",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ポケモンを おあずかりします。",
+        "speaker": "ジョーイ"
+      },
+      {
+        "kind": "healParty"
+      },
+      {
+        "kind": "message",
+        "text": "おまたせしました!",
+        "speaker": "ジョーイ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.two-center-pc",
+    "commands": [
+      {
+        "kind": "openBox"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.three-nurse",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ポケモンを おあずかりします。",
+        "speaker": "ジョーイ"
+      },
+      {
+        "kind": "healParty"
+      },
+      {
+        "kind": "message",
+        "text": "おまたせしました!",
+        "speaker": "ジョーイ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.three-center-pc",
+    "commands": [
+      {
+        "kind": "openBox"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.celio",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.sevii.celio-done",
+          "value": true
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "マシンは うごいている。\n4のしま から さきの こうろも\nもうすぐ ひらくよ。",
+            "speaker": "セリオ"
+          }
+        ],
+        "else": [
+          {
+            "kind": "if",
+            "cond": {
+              "kind": "hasItem",
+              "item": "ruby"
+            },
+            "then": [
+              {
+                "kind": "message",
+                "text": "それは… ルビー!\nさがして いたんだ。",
+                "speaker": "セリオ"
+              },
+              {
+                "kind": "setFlag",
+                "flag": "kanto.sevii.celio-done",
+                "value": true
+              },
+              {
+                "kind": "message",
+                "text": "これで マシンが うごく。\nきみは ナナシマの おんじんだ。",
+                "speaker": "セリオ"
+              }
+            ],
+            "else": [
+              {
+                "kind": "message",
+                "text": "ネットワークマシンが うごかない。",
+                "speaker": "セリオ"
+              },
+              {
+                "kind": "message",
+                "text": "ともしびやま の おくに ルビー という\nいしが ある。あれが いるんだ。",
+                "speaker": "セリオ"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.network-machine",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.sevii.celio-done",
+          "value": true
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "マシンは しずかに うなっている。"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "マシンは とまっている。"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.rocket-1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.sevii.rocket-1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "この さきは とおさん!",
+            "speaker": "ロケットだん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-sevii-rocket-1",
+            "onWin": "kanto.sevii.rocket-1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ちくしょう… ボスに しかられる。",
+            "speaker": "ロケットだん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.rocket-1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.rocket-1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "ちくしょう… ボスに しかられる。",
+        "speaker": "ロケットだん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.rocket-2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.sevii.rocket-2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ルビーは わたさん!",
+            "speaker": "ロケットだん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-sevii-rocket-2",
+            "onWin": "kanto.sevii.rocket-2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "…もう すきに しろ。",
+            "speaker": "ロケットだん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.rocket-2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.rocket-2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "…もう すきに しろ。",
+        "speaker": "ロケットだん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.biker",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.sevii.biker-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "この みなとは おれたちの ばしょだ!",
+            "speaker": "ぼうそうぞく"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-sevii-biker",
+            "onWin": "kanto.sevii.biker-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "…にあわねえ まねは やめとくか。",
+            "speaker": "ぼうそうぞく"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.biker-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.biker-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "…にあわねえ まねは やめとくか。",
+        "speaker": "ぼうそうぞく"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.treasure-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "ultra-ball",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.treasure-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.treasure-hidden",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "full-restore",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.treasure-hidden-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.kindle-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "ether",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.kindle-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.ember-hidden",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-ether",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.ember-hidden-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.ember-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "hyper-potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.ember-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.cape-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.cape-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.berry-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "revive",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.berry-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.berry-hidden",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-revive",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.berry-hidden-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.ruby",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "ruby",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.ruby-taken",
+        "value": true
+      }
+    ]
   }
 ]

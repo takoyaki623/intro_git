@@ -1,0 +1,35 @@
+# たからのはま。1のしまの西の砂浜（v1.1-j）。
+# 砂と草と海しかない ―― 原作でも「拾う場所」で、通り道ではない。
+id: kanto-sevii-treasure-beach
+name: たからのはま
+region: kanto
+encounters: kanto-sevii-treasure-beach-grass kanto-sevii-treasure-beach-surf kanto-sevii-treasure-beach-fishing-old kanto-sevii-treasure-beach-fishing-good kanto-sevii-treasure-beach-fishing-super
+bgm: route-21
+
+legend:
+. normal
+s sand
+g grass
+~ !water
+T !normal
+
+grid:
+TTTTTTTTTTTTT
+T~~~~ssss...T
+T~~~sssssgg.T
+T~~ssssssgg.T
+T~~sssssss..T
+T~~sssssss..s
+T~~sssssssg.T
+T~~~sssssgg.T
+T~~~~sssss..T
+T~~~~~ssss..T
+TTTTTTTTTTTTT
+
+warps:
+12,5 step kanto-sevii-one-island 1,5 right
+
+objects:
+treasure-item 6,3 item:ultra-ball kanto.sevii.treasure-item if:kanto.sevii.treasure-item-taken=false
+treasure-hidden 7,8 item:full-restore:hidden kanto.sevii.treasure-hidden if:kanto.sevii.treasure-hidden-taken=false
+treasure-fisher 9,6 npc:fisher:static kanto.sevii.treasure-fisher

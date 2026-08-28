@@ -1753,5 +1753,31 @@
     "parts": [
       "sparkle"
     ]
+  },
+  {
+    "species": "slugma",
+    "shape": "squiggle",
+    "color": "red",
+    "size": "small",
+    "parts": [
+      "flame"
+    ]
+  },
+  {
+    "species": "magcargo",
+    "shape": "squiggle",
+    "color": "red",
+    "size": "small",
+    "parts": [
+      "flame",
+      "spike"
+    ]
+  },
+  {
+    "species": "dunsparce",
+    "shape": "squiggle",
+    "color": "yellow",
+    "size": "medium",
+    "parts": []
   }
 ]

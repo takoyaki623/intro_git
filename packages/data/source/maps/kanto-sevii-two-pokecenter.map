@@ -1,0 +1,28 @@
+# 2のしまのポケモンセンター。
+id: kanto-sevii-two-pokecenter
+name: ポケモンセンター
+region: kanto
+bgm: pokecenter
+
+legend:
+. normal
+W !normal
+S !normal
+C !normal
+D normal
+
+grid:
+WWWWWWWWW
+WSSSSS..W
+W.......W
+W.....CCW
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,6 step kanto-sevii-two-island 4,4 down
+
+objects:
+two-nurse 4,2 npc:nurse:static kanto.sevii.two-nurse
+two-center-pc 7,4 npc:machine:static kanto.sevii.two-center-pc

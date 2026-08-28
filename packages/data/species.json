@@ -18765,5 +18765,320 @@
     "learnsetSource": "official",
     "baseExpSource": "official",
     "learnsetGen": 9
+  },
+  {
+    "id": "slugma",
+    "dexNo": 218,
+    "name": "マグマッグ",
+    "types": [
+      "fire"
+    ],
+    "baseStats": {
+      "hp": 40,
+      "atk": 40,
+      "def": 40,
+      "spa": 70,
+      "spd": 40,
+      "spe": 20
+    },
+    "abilities": [
+      "magma-armor",
+      "flame-body"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "smog"
+      },
+      {
+        "level": 6,
+        "move": "ember"
+      },
+      {
+        "level": 8,
+        "move": "rock-throw"
+      },
+      {
+        "level": 13,
+        "move": "harden"
+      },
+      {
+        "level": 20,
+        "move": "clear-smog"
+      },
+      {
+        "level": 27,
+        "move": "incinerate"
+      },
+      {
+        "level": 29,
+        "move": "rock-slide"
+      },
+      {
+        "level": 34,
+        "move": "lava-plume"
+      },
+      {
+        "level": 36,
+        "move": "amnesia"
+      },
+      {
+        "level": 41,
+        "move": "body-slam"
+      },
+      {
+        "level": 43,
+        "move": "recover"
+      },
+      {
+        "level": 48,
+        "move": "flamethrower"
+      },
+      {
+        "level": 50,
+        "move": "earth-power"
+      }
+    ],
+    "tmMoves": [
+      "amnesia",
+      "body-slam",
+      "bulldoze",
+      "earth-power",
+      "earthquake",
+      "fire-blast",
+      "flame-charge",
+      "flamethrower",
+      "heat-wave",
+      "high-horsepower",
+      "iron-defense",
+      "mud-shot",
+      "mud-slap",
+      "overheat",
+      "power-gem",
+      "rock-blast",
+      "rock-slide",
+      "rock-tomb",
+      "stone-edge",
+      "take-down",
+      "will-o-wisp"
+    ],
+    "evolutions": [
+      {
+        "to": "magcargo",
+        "kind": "level",
+        "level": 38
+      }
+    ],
+    "baseExp": 50,
+    "catchRate": 190,
+    "expType": "medium-fast",
+    "evYield": {
+      "spa": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 9
+  },
+  {
+    "id": "magcargo",
+    "dexNo": 219,
+    "name": "マグカルゴ",
+    "types": [
+      "fire",
+      "rock"
+    ],
+    "baseStats": {
+      "hp": 60,
+      "atk": 50,
+      "def": 120,
+      "spa": 90,
+      "spd": 80,
+      "spe": 30
+    },
+    "abilities": [
+      "magma-armor",
+      "flame-body"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "earth-power"
+      },
+      {
+        "level": 1,
+        "move": "ember"
+      },
+      {
+        "level": 1,
+        "move": "rock-throw"
+      },
+      {
+        "level": 1,
+        "move": "smog"
+      },
+      {
+        "level": 13,
+        "move": "harden"
+      },
+      {
+        "level": 20,
+        "move": "clear-smog"
+      },
+      {
+        "level": 27,
+        "move": "incinerate"
+      },
+      {
+        "level": 29,
+        "move": "rock-slide"
+      },
+      {
+        "level": 34,
+        "move": "lava-plume"
+      },
+      {
+        "level": 36,
+        "move": "amnesia"
+      },
+      {
+        "level": 43,
+        "move": "body-slam"
+      },
+      {
+        "level": 47,
+        "move": "recover"
+      },
+      {
+        "level": 54,
+        "move": "flamethrower"
+      }
+    ],
+    "tmMoves": [
+      "amnesia",
+      "body-slam",
+      "bulldoze",
+      "earth-power",
+      "earthquake",
+      "fire-blast",
+      "flame-charge",
+      "flamethrower",
+      "flare-blitz",
+      "heat-wave",
+      "iron-defense",
+      "mud-shot",
+      "mud-slap",
+      "overheat",
+      "power-gem",
+      "rock-blast",
+      "rock-slide",
+      "rock-tomb",
+      "stomping-tantrum",
+      "stone-edge",
+      "take-down",
+      "will-o-wisp"
+    ],
+    "evolutions": [],
+    "baseExp": 151,
+    "catchRate": 75,
+    "expType": "medium-fast",
+    "evYield": {
+      "def": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 9
+  },
+  {
+    "id": "dunsparce",
+    "dexNo": 206,
+    "name": "ノコッチ",
+    "types": [
+      "normal"
+    ],
+    "baseStats": {
+      "hp": 100,
+      "atk": 70,
+      "def": 70,
+      "spa": 65,
+      "spd": 65,
+      "spe": 45
+    },
+    "abilities": [
+      "serene-grace",
+      "run-away"
+    ],
+    "learnset": [
+      {
+        "level": 4,
+        "move": "mud-slap"
+      },
+      {
+        "level": 12,
+        "move": "glare"
+      },
+      {
+        "level": 16,
+        "move": "screech"
+      },
+      {
+        "level": 24,
+        "move": "drill-run"
+      },
+      {
+        "level": 40,
+        "move": "dragon-rush"
+      },
+      {
+        "level": 48,
+        "move": "double-edge"
+      }
+    ],
+    "tmMoves": [
+      "agility",
+      "air-slash",
+      "amnesia",
+      "blizzard",
+      "body-slam",
+      "bulldoze",
+      "calm-mind",
+      "double-edge",
+      "drill-run",
+      "earth-power",
+      "earthquake",
+      "fire-blast",
+      "flamethrower",
+      "hex",
+      "hyper-voice",
+      "ice-beam",
+      "mud-shot",
+      "mud-slap",
+      "poison-jab",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "shadow-ball",
+      "smart-strike",
+      "stomping-tantrum",
+      "stone-edge",
+      "stored-power",
+      "take-down",
+      "thunder",
+      "thunderbolt",
+      "toxic",
+      "zen-headbutt"
+    ],
+    "evolutions": [],
+    "baseExp": 145,
+    "catchRate": 190,
+    "expType": "medium-fast",
+    "evYield": {
+      "hp": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 9
   }
 ]

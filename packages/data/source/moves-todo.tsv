@@ -3,11 +3,11 @@ focus-energy	Focus Energy	未実装の状態	28
 helping-hand	Helping Hand	未実装の状態	22
 disable	Disable	未実装の状態	20
 rain-dance	Rain Dance	天候	19
+ancient-power	Ancient Power	能力変化が複数	17
 copycat	Copycat	効果を表せない	17
+defense-curl	Defense Curl	未実装の状態	15
 growth	Growth	能力変化が複数	15
 light-screen	Light Screen	場の効果	15
-ancient-power	Ancient Power	能力変化が複数	14
-defense-curl	Defense Curl	未実装の状態	14
 last-resort	Last Resort	他の技を全て使ってからでないと出せない	14
 protect	Protect	未実装の状態	14
 baton-pass	Baton Pass	交代を伴う技	13
@@ -16,14 +16,15 @@ sucker-punch	Sucker Punch	相手が攻撃技を選んだときしか成功しな
 fire-fang	Fire Fang	追加効果が複数	12
 low-kick	Low Kick	威力が可変	12
 curse	Curse	未実装の状態	11
+rollout	Rollout	個別処理	11
+roost	Roost	自分への継続効果	11
 wrap	Wrap	未実装の状態	11
+flail	Flail	威力が可変	10
 future-sight	Future Sight	2ターン後に当たる	10
-rollout	Rollout	個別処理	10
-roost	Roost	自分への継続効果	10
 thrash	Thrash	自分への継続効果	10
 toxic-spikes	Toxic Spikes	場の効果	10
 dig	Dig	溜め・反動休み	9
-flail	Flail	威力が可変	9
+endeavor	Endeavor	威力が可変	9
 gyro-ball	Gyro Ball	威力が可変	9
 haze	Haze	効果を表せない	9
 hyper-beam	Hyper Beam	自分への継続効果	9
@@ -31,11 +32,12 @@ mean-look	Mean Look	効果を表せない	9
 psych-up	Psych Up	効果を表せない	9
 sandstorm	Sandstorm	天候	9
 smack-down	Smack Down	未実装の状態	9
+yawn	Yawn	未実装の状態	9
 belch	Belch	きのみを食べてからでないと出せない	8
 bind	Bind	未実装の状態	8
-endeavor	Endeavor	威力が可変	8
 explosion	Explosion	個別処理	8
 fire-spin	Fire Spin	未実装の状態	8
+shell-smash	Shell Smash	能力変化が複数	8
 swagger	Swagger	相手の攻撃を2段階上げる代償がある	8
 dragon-dance	Dragon Dance	能力変化が複数	7
 fake-out	Fake Out	出た直後の1回しか使えない	7
@@ -48,7 +50,6 @@ magnet-rise	Magnet Rise	未実装の状態	7
 moonlight	Moonlight	効果を表せない	7
 seismic-toss	Seismic Toss	威力が可変	7
 self-destruct	Self-Destruct	個別処理	7
-shell-smash	Shell Smash	能力変化が複数	7
 spite	Spite	効果を表せない	7
 synthesis	Synthesis	効果を表せない	7
 thunder-fang	Thunder Fang	追加効果が複数	7
@@ -72,7 +73,6 @@ stockpile	Stockpile	未実装の状態	6
 swallow	Swallow	効果を表せない	6
 tailwind	Tailwind	場の効果	6
 worry-seed	Worry Seed	効果を表せない	6
-yawn	Yawn	未実装の状態	6
 bulk-up	Bulk Up	能力変化が複数	5
 dragon-tail	Dragon Tail	交代を伴う技	5
 encore	Encore	未実装の状態	5
@@ -93,6 +93,7 @@ spit-up	Spit Up	威力が可変	5
 stealth-rock	Stealth Rock	場の効果	5
 whirlwind	Whirlwind	交代を伴う技	5
 wide-guard	Wide Guard	場の効果	5
+coil	Coil	能力変化が複数	4
 cosmic-power	Cosmic Power	能力変化が複数	4
 detect	Detect	未実装の状態	4
 dream-eater	Dream Eater	相手が眠っていないと当たらない	4
@@ -109,7 +110,6 @@ whirlpool	Whirlpool	未実装の状態	4
 acupressure	Acupressure	効果を表せない	3
 after-you	After You	効果を表せない	3
 aromatherapy	Aromatherapy	効果を表せない	3
-coil	Coil	能力変化が複数	3
 fissure	Fissure	特殊な命中判定	3
 focus-punch	Focus Punch	個別処理	3
 follow-me	Follow Me	未実装の状態	3
@@ -166,6 +166,7 @@ force-palm	force-palm	追加できる（日本語名が要る）	1
 foul-play	foul-play	追加できる（日本語名が要る）	1
 headlong-rush	Headlong Rush	能力変化が複数	1
 high-jump-kick	High Jump Kick	外すと自分がダメージを受ける	1
+hyper-drill	hyper-drill	追加できる（日本語名が要る）	1
 leafage	leafage	追加できる（日本語名が要る）	1
 morning-sun	Morning Sun	効果を表せない	1
 pain-split	Pain Split	効果を表せない	1

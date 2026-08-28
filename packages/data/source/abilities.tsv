@@ -70,3 +70,4 @@ hustle	はりきり	inert:未実装（v0.11 で追加）
 sand-rush	すなかき	inert:未実装（v0.11 で追加）
 sand-force	すなのちから	inert:未実装（v0.11 で追加）
 sheer-force	ちからずく	inert:未実装（v0.11 で追加）
+magma-armor	マグマのよろい	statusImmunity:freeze

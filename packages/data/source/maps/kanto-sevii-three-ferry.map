@@ -1,0 +1,29 @@
+# 3のしまの ふなつきば。西が 2のしま。東の階段は 4のしま以降（殿堂入り後・v1.1-k）。
+# **まだ作っていない行き先の階段は置かない** ―― 置くと「開かない扉」になる。
+id: kanto-sevii-three-ferry
+name: ふなつきば
+region: kanto
+bgm: pokecenter
+
+legend:
+. normal
+W !normal
+S !normal
+G normal
+D normal
+
+grid:
+WGWWWWWWW
+W.......W
+W..SSS..W
+W.......W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+1,0 step kanto-sevii-two-ferry 7,1 down
+4,6 step kanto-sevii-three-island 4,8 up
+
+objects:
+three-ferry-sailor 4,3 npc:sailor:static kanto.sevii.three-sailor

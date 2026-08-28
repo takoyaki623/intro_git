@@ -1,0 +1,27 @@
+# ともしびやま の山腹の洞窟。行き止まりの小部屋（原作でも通り抜けではない）。
+id: kanto-sevii-mt-ember-inside
+name: ともしびやま どうくつ
+region: kanto
+encounters: kanto-sevii-mt-ember-inside-cave kanto-sevii-mt-ember-inside-rock-smash
+bgm: mt-moon
+
+legend:
+. cave
+C !cave
+D normal
+
+grid:
+CCCCCCCCCCC
+C.........C
+C.CCC.CCC.C
+C.........C
+C.CCC.CCC.C
+C.........C
+CCCCCDCCCCC
+
+warps:
+5,6 step kanto-sevii-mt-ember 9,7 down
+
+objects:
+ember-inside-item 1,1 item:hyper-potion kanto.sevii.ember-item if:kanto.sevii.ember-item-taken=false
+ember-inside-rock 9,5 obstacle:rockSmash

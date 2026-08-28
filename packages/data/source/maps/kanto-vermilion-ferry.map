@@ -1,0 +1,35 @@
+# クチバの ふなつきば。ナナシマへ渡る シーギャロップごう の のりば（v1.1-j）。
+#
+# **建物にしたのは、外だと関門にならないから。** 桟橋を町の水辺に置くと、
+# なみのり で横から乗り込めてしまう ―― この時点のプレイヤーは
+# グレンじまへ行くために なみのり を持っている。
+# 屋内なら「タラップの手前に1人立つ」だけで通れなくなる（検証 #114 と同じ形）。
+id: kanto-vermilion-ferry
+name: ふなつきば
+region: kanto
+bgm: pokecenter
+
+legend:
+. normal
+W !normal
+S !normal
+G normal
+D normal
+
+grid:
+WWWWWWWGW
+W.......W
+W..SSS..W
+W.......W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+7,0 step kanto-sevii-one-ferry 1,1 down
+4,6 step kanto-vermilion-city 10,10 down
+
+objects:
+vermilion-ferry-sailor 7,1 npc:sailor:static kanto.sevii.ferry-guard if:kanto.sevii.invited=false
+vermilion-ferry-bill 2,3 npc:scientist:static kanto.sevii.bill if:kanto.sevii.invited=false
+vermilion-ferry-sign 6,3 sign kanto.sevii.ferry-sign

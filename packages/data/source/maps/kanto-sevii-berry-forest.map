@@ -1,0 +1,36 @@
+# きのみのもり。3のしまの北の森。
+# **きのみ そのものは入れていない** ―― 持ち物の効果としての きのみ は
+# v0.5 からあるが、木から採る機構は無い。無いまま木だけ置かない。
+id: kanto-sevii-berry-forest
+name: きのみのもり
+region: kanto
+encounters: kanto-sevii-berry-forest-grass kanto-sevii-berry-forest-surf kanto-sevii-berry-forest-fishing-old kanto-sevii-berry-forest-fishing-good kanto-sevii-berry-forest-fishing-super
+bgm: viridian-forest
+
+legend:
+. normal
+g grass
+~ !water
+T !normal
+
+grid:
+TTTTTTTTTTTTT
+T...........T
+T..ggg.T....T
+T..ggg.T....T
+T......T....T
+T...TTTT....T
+T...........T
+T..~~~..ggg.T
+T..~~~..ggg.T
+T...........T
+T..ggg......T
+T...........T
+TTTTTT.TTTTTT
+
+warps:
+6,12 step kanto-sevii-bond-bridge 6,1 down
+
+objects:
+berry-item 9,4 item:revive kanto.sevii.berry-item if:kanto.sevii.berry-item-taken=false
+berry-hidden 4,11 item:max-revive:hidden kanto.sevii.berry-hidden if:kanto.sevii.berry-hidden-taken=false

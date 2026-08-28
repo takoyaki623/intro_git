@@ -1,0 +1,39 @@
+# 2のしま。ふなつきば と ポケモンセンター だけの小さな島。
+# 原作の わざおしえ（みさきのこうえん）は**入れていない** ――
+# 教え技の機構が無く、道具でもないので、機構が無いまま形だけ作らない（world.md §9.7）。
+id: kanto-sevii-two-island
+name: 2のしま
+region: kanto
+bgm: lavender-town
+
+legend:
+. normal
+T !normal
+P !normal
+H !normal
+D normal
+~ !water
+
+grid:
+TTTTTTTTTTTTT
+T...........T
+T..PPP..HHH.T
+T..PDP..HDH.T
+T...........T
+T............
+T...........T
+T...........T
+T...........T
+T....HDH....T
+T....HHH....T
+T~~~~~~~~~~~T
+TTTTTTTTTTTTT
+
+warps:
+12,5 step kanto-sevii-cape-brink 1,5 right
+4,3 step kanto-sevii-two-pokecenter 4,5 up
+9,3 step kanto-sevii-two-house 4,4 up
+6,9 step kanto-sevii-two-ferry 4,5 up
+
+objects:
+two-island-sign 6,1 sign kanto.sevii.two-sign

@@ -119,6 +119,26 @@ const SOURCE: Record<string, { location: string; area?: string }> = {
   "kanto-diglett-cave": { location: "digletts-cave" },
   "kanto-route-22": { location: "kanto-route-22" },
   "kanto-route-23": { location: "kanto-route-23" },
+  // ナナシマ 1〜3のしま（v1.1-j）。**カントー151種の残り3種はここに居る** ――
+  // ポニータ・ギャロップ（ほのおのみち／ともしびやま）と ブーバー（ともしびやま）。
+  // FRLG で赤緑から配置が移った種で、ナナシマを作らないと v1.1 の完了条件が閉じない。
+  "kanto-sevii-one-island": { location: "one-island" },
+  "kanto-sevii-treasure-beach": { location: "treasure-beach" },
+  "kanto-sevii-kindle-road": { location: "kindle-road" },
+  // **山の外は `area: ""` で引く。** 省略すると洞窟と地下3階まで1つの表に混ざり、
+  // 山道を歩いているのに マグカルゴ が出る（クチバの港と同じ形の間違い）
+  "kanto-sevii-mt-ember": { location: "mt-ember", area: "" },
+  "kanto-sevii-mt-ember-inside": { location: "mt-ember", area: "inside" },
+  "kanto-sevii-ruby-path": { location: "mt-ember", area: "1f-cave-behind-team-rocket" },
+  "kanto-sevii-ruby-path-b1f": { location: "mt-ember", area: "b1f" },
+  "kanto-sevii-ruby-path-b2f": { location: "mt-ember", area: "b2f" },
+  "kanto-sevii-ruby-path-b3f": { location: "mt-ember", area: "b3f" },
+  // `mt-ember/cave` は**入れていない**。出る種が `inside` と同じ（イシツブテ・ワンリキー）で、
+  // 地形の繋がりにも要らない ―― 部屋を1つ増やすだけの地図になる
+  "kanto-sevii-cape-brink": { location: "cape-brink" },
+  "kanto-sevii-bond-bridge": { location: "bond-bridge" },
+  "kanto-sevii-berry-forest": { location: "berry-forest" },
+  "kanto-sevii-three-isle-port": { location: "three-isle-port" },
 };
 
 /**

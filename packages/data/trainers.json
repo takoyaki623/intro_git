@@ -2490,5 +2490,81 @@
         ]
       }
     ]
+  },
+  {
+    "id": "kanto-sevii-rocket-1",
+    "name": "ロケットだん",
+    "class": "ロケットだん",
+    "reward": 660,
+    "defeatedFlag": "kanto.sevii.rocket-1-beaten",
+    "party": [
+      {
+        "species": "koffing",
+        "level": 30,
+        "moves": [
+          "sludge",
+          "smokescreen"
+        ]
+      },
+      {
+        "species": "raticate",
+        "level": 32,
+        "moves": [
+          "hyper-fang",
+          "quick-attack"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-sevii-rocket-2",
+    "name": "ロケットだん",
+    "class": "ロケットだん",
+    "reward": 693,
+    "defeatedFlag": "kanto.sevii.rocket-2-beaten",
+    "party": [
+      {
+        "species": "zubat",
+        "level": 30,
+        "moves": [
+          "bite",
+          "confuse-ray"
+        ]
+      },
+      {
+        "species": "golbat",
+        "level": 33,
+        "moves": [
+          "bite",
+          "wing-attack",
+          "confuse-ray"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-sevii-biker",
+    "name": "テツヤ",
+    "class": "ぼうそうぞく",
+    "reward": 600,
+    "defeatedFlag": "kanto.sevii.biker-beaten",
+    "party": [
+      {
+        "species": "grimer",
+        "level": 30,
+        "moves": [
+          "sludge",
+          "poison-gas"
+        ]
+      },
+      {
+        "species": "weezing",
+        "level": 32,
+        "moves": [
+          "sludge",
+          "smokescreen"
+        ]
+      }
+    ]
   }
 ]

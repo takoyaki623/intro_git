@@ -830,6 +830,11 @@
     "category": "key"
   },
   {
+    "id": "ruby",
+    "name": "ルビー",
+    "category": "key"
+  },
+  {
     "id": "tm02",
     "name": "わざマシン02 ドラゴンクロー",
     "category": "tm",
