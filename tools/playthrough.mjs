@@ -2512,8 +2512,10 @@ expect("そらをとぶ で マサラへ 戻れる", (await spot()).map, "kanto-
     liveFlags.has("kanto.sevii.invited") ? "乗れる" : "乗れない",
     "乗れない",
   );
+  // **話しかけた跡は残らない。** `talkToObject` は最後に `drain()` するので、
+  // 直後に `#field-text` を読んでも空になる ―― せんいんが居ること自体は
+  // 上の `expect`（乗れない）が見ているので、ここでは押し込むだけにする
   await talkToObject("kanto-vermilion-ferry", "vermilion-ferry-sailor");
-  note("せんいん", ((await page.textContent("#field-text")) ?? "（何も出ない）").trim().replace(/\s+/g, " "));
   await drain(8);
 
   await talkToObject("kanto-vermilion-ferry", "vermilion-ferry-bill");
@@ -2579,7 +2581,10 @@ expect("そらをとぶ で マサラへ 戻れる", (await spot()).map, "kanto-
   await shot("37-sevii-ruby");
 
   // ── セリオ に 渡す ──
-  await goToMap("kanto-sevii-network-center", 4, 3, 260);
+  // **(4,3) は機械の上**（`W..CCC..W` の C）。1回目の走行はここを狙って
+  // 「経路なし」になり、**次の検査が `talkToObject` の力で通ってしまった** ――
+  // 壊れた足取りが、後ろの成功で隠れる形。立てるマスを狙う
+  await goToMap("kanto-sevii-network-center", 4, 4, 260);
   expect("ネットワークセンターに 戻れる", (await spot()).map, "kanto-sevii-network-center");
   await talkToObject("kanto-sevii-network-center", "network-celio");
   await drain(14);
