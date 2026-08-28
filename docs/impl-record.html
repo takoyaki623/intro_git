@@ -784,9 +784,41 @@ pokemon … 個体の実体。uid が主キー</code></pre>
           <tr><td><span class="ver">v1.1-h</span></td><td><strong>サファリゾーン</strong>（歩数・エサ/イシ・戦えない）</td><td><code>MapData.rules</code> 1欄</td><td>101 → <strong>112</strong></td></tr>
           <tr><td><span class="ver">v1.1-g-3-1</span></td><td><strong>化石・道場・イーブイ</strong></td><td><strong>0行</strong></td><td>112 → <strong>123</strong></td></tr>
           <tr><td><span class="ver">v1.1-g-3-2</span></td><td><strong>ロケット団の筋</strong>（アジト・シルフ・タワー7階・ライバル7戦）</td><td><strong>0行</strong></td><td>123 → <strong>130</strong></td></tr>
+          <tr><td><span class="ver">v1.1-i</span></td><td>NPC交換・ディグダのあな・へんしん・テレポート・<strong>版の対をやめて両版の和で取り込む</strong></td><td><code>takePokemon</code> 1件</td><td>130 → <strong>147</strong></td></tr>
+          <tr><td><span class="ver">v1.1-j-1</span></td><td><strong>名前を書ける場所を潰す</strong>（日本語名を公式データから引く・検証 #119）</td><td>取り込み口だけ</td><td>147</td></tr>
+          <tr><td><span class="ver">v1.1-j</span></td><td><strong>ナナシマ 1〜3のしま</strong>（26枚・ふなつきばの鎖・ルビーのどうくつ）</td><td><strong>0行</strong></td><td>147 → <strong>150 / 151</strong></td></tr>
         </tbody>
       </table>
     </div>
+
+    <h3>v1.1-j ―― 完了条件が閉じない理由は、閉じない側の地図の中には無かった</h3>
+    <p>v1.1 の完了条件は「カントー151種すべてに入手経路がある」で、<strong>147種で止まっていた</strong>。
+    残り4種のうち3種は <strong>ポニータ・ギャロップ・ブーバー</strong> ――
+    どれも赤緑ではカントー本土に居たが、<strong>FRLG でナナシマへ移された</strong>種で、
+    カントーをどれだけ埋めても届かない。</p>
+    <p>1〜3のしまを26枚足して <strong>150 / 151</strong>。残る ミュウ は配布限定なので、
+    <strong>穴ではなく理由の書ける空欄</strong>にした。</p>
+
+    <h3>v1.1-j ―― 関門は「置いた」ではなく「そこしか通れない」で初めて関門になる</h3>
+    <p>シーギャロップ号の桟橋を町の水辺に置くと、<strong>なみのり で横から乗り込める</strong>
+    ―― この時点のプレイヤーは グレンじま へ行くために なみのり を持っている。
+    のりばを<strong>建物</strong>にしたら、タラップの手前に1人立つだけで塞がった。</p>
+    <p>港どうしは<strong>鎖</strong>でつないだ（クチバ → 1 → 2 → 3）。原作は行き先を選ぶ形だが、
+    <code>choice</code> + <code>warp</code> は<strong>地図の繋がりとして見えない</strong> ――
+    検証も台本も <code>warp</code> しか辿れないので、
+    「選べるが誰も検算できない道」より「歩いて辿れる道」を採った。</p>
+
+    <h3>v1.1-j ―― すでに火を噴く関門がある場所に、検査を足さない</h3>
+    <p>アブラ事件（ケーシィを「アブラ」と書いた）の再発を機構で止めるため、
+    「名前を手で書ける場所」を探して回った。実測でわかったのは3つ:</p>
+    <ul>
+      <li><strong>種族名は v0.9.5 の時点で守られていた</strong> ―― <code>species.tsv</code> を戻すと
+      <code>import.ts</code> が止める。ここに検査を足しても<strong>一度も火を噴かない検査</strong>が増えるだけ</li>
+      <li><strong>守られていなかったのは特性名</strong> ―― 出典が人の書いた表で、突き合わせる相手が居なかった。
+      検証 #119 はここに置いた</li>
+      <li><strong>技名は合わせられない</strong> ―― 250件中10件が公式データ側で古い
+      （<code>１０まんボルト</code> の全角・<code>スプーンまげ</code>）。合わせられないことを理由として書いた</li>
+    </ul>
 
     <h3>出現表は「入力」ではなく「取り込み」だった</h3>
     <p>veekun の CSV に <strong>FRLG のカントーの出現データが1,115件</strong>入っている

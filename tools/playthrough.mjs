@@ -2492,6 +2492,120 @@ expect("そらをとぶ で マサラへ 戻れる", (await spot()).map, "kanto-
   await drain(30);
   await shot("33-mewtwo");
 }
+// ── ナナシマ 1〜3のしま（v1.1-j）──
+//
+// **v1.1 の完了条件がここで閉じる。** カントー151種の残り3種
+// （ポニータ・ギャロップ・ブーバー）は FRLG でナナシマへ移った種なので、
+// この区間を歩けないかぎり図鑑は永久に埋まらない。
+//
+// 走らせる場所を殿堂入りの後にしたのは、**シルフを解いた印**（マサキが誘う条件）が
+// もう立っているから ―― 本編の途中に差し込むと、順番の前提を1つ増やすことになる。
+{
+  await flyTo("kanto-vermilion-city");
+  await goToMap("kanto-vermilion-ferry", 4, 5, 80);
+  expect("クチバの ふなつきばに 入れる", (await spot()).map, "kanto-vermilion-ferry");
+
+  // **まず塞がっていることを見る。** 開いた側だけ見ても関門の検査にならない
+  await refreshFlags();
+  expect(
+    "はじめは まだ しゅっこうできない",
+    liveFlags.has("kanto.sevii.invited") ? "乗れる" : "乗れない",
+    "乗れない",
+  );
+  await talkToObject("kanto-vermilion-ferry", "vermilion-ferry-sailor");
+  note("せんいん", ((await page.textContent("#field-text")) ?? "（何も出ない）").trim().replace(/\s+/g, " "));
+  await drain(8);
+
+  await talkToObject("kanto-vermilion-ferry", "vermilion-ferry-bill");
+  await drain(14);
+  await refreshFlags();
+  expect(
+    "マサキに 話すと しゅっこうできる",
+    liveFlags.has("kanto.sevii.invited") ? "乗れる" : "乗れない",
+    "乗れる",
+  );
+
+  await goToMap("kanto-sevii-one-island", 6, 6, 120);
+  expect("シーギャロップごうで 1のしまに つく", (await spot()).map, "kanto-sevii-one-island");
+  await shot("35-sevii-one-island");
+
+  // ── ほのおのみち ―― ポニータ が居る道で野生に会う ──
+  await goToMap("kanto-sevii-kindle-road", 3, 2, 120);
+  expect("ほのおのみちに 出られる", (await spot()).map, "kanto-sevii-kindle-road");
+  let sevWild = null;
+  for (let i = 0; i < 40 && sevWild === null; i += 1) {
+    if (i % 8 === 0) await goToMap("kanto-sevii-kindle-road", 3, 2, 10);
+    await key(i % 2 === 0 ? "ArrowRight" : "ArrowLeft", 2, 200);
+    if (await page.isVisible("#battle")) sevWild = (await page.textContent("#log")).trim().split("\n")[0];
+  }
+  note("ほのおのみちの 野生", sevWild ?? "でなかった");
+  expect("ナナシマでも 野生が 出る", sevWild ?? "でなかった", (v) => v.includes("とびだしてきた"));
+  const runAway = await page.$("#controls .run");
+  if (runAway) {
+    await runAway.click();
+    await page.waitForTimeout(1500);
+  }
+  await drain(20);
+
+  // ── ともしびやま ―― ロケット団2人が ルビーのどうくつ を塞ぐ ──
+  await goToMap("kanto-sevii-mt-ember", 6, 5, 160);
+  expect("ともしびやまに 登れる", (await spot()).map, "kanto-sevii-mt-ember");
+  await shot("36-sevii-mt-ember");
+  for (const grunt of ["ember-rocket-2", "ember-rocket-1"]) {
+    await goToMap("kanto-sevii-mt-ember", 6, 5, 40);
+    await talkToObject("kanto-sevii-mt-ember", grunt);
+    await drain(8);
+    if (await page.isVisible("#battle")) await fight();
+    await page.waitForTimeout(900);
+    await drain(20);
+  }
+  await refreshFlags();
+  expect(
+    "2人とも 倒すと 道が あく",
+    liveFlags.has("kanto.sevii.rocket-1-beaten") && liveFlags.has("kanto.sevii.rocket-2-beaten")
+      ? "あいた"
+      : "あかない",
+    "あいた",
+  );
+
+  // ── ルビーのどうくつ 地下3階 ―― ルビー と マグカルゴ ──
+  // **ルビーの真下は岩。** 立てるのは左右だけなので、立つマスは `talkToObject` に選ばせる
+  await goToMap("kanto-sevii-ruby-path-b3f", 3, 5, 260);
+  expect("ルビーのどうくつ 地下3階まで 降りられる", (await spot()).map, "kanto-sevii-ruby-path-b3f");
+  await talkToObject("kanto-sevii-ruby-path-b3f", "ruby-stone");
+  await drain(10);
+  const bagRuby = (await readSave()).global.bag;
+  expect("ルビー を 拾う", `${bagRuby["ruby"] ?? 0}`, "1");
+  await shot("37-sevii-ruby");
+
+  // ── セリオ に 渡す ──
+  await goToMap("kanto-sevii-network-center", 4, 3, 260);
+  expect("ネットワークセンターに 戻れる", (await spot()).map, "kanto-sevii-network-center");
+  await talkToObject("kanto-sevii-network-center", "network-celio");
+  await drain(14);
+  await refreshFlags();
+  expect(
+    "ルビーを 渡すと マシンが うごく",
+    liveFlags.has("kanto.sevii.celio-done") ? "うごいた" : "うごかない",
+    "うごいた",
+  );
+
+  // ── 港の鎖 ―― 3のしまの みなと（ノコッチ の居場所）まで辿れるか ──
+  await goToMap("kanto-sevii-three-isle-port", 6, 5, 300);
+  if (await page.isVisible("#battle")) {
+    await fight();
+    await page.waitForTimeout(900);
+    await drain(20);
+    await goToMap("kanto-sevii-three-isle-port", 6, 5, 60);
+  }
+  expect(
+    "ふなつきばを 3つ つないで 3のしまの みなとまで 行ける",
+    (await spot()).map,
+    "kanto-sevii-three-isle-port",
+  );
+  await shot("38-sevii-three-port");
+}
+
 // **`talk()` は使わない** ―― あれは最後に `drain()` するが、`drain()` は
 // 選択肢のいちばん下（＝「やめる」）を押すので、ゲートの前で引き返してしまう
 await backToHub();

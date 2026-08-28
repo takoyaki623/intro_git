@@ -191,6 +191,13 @@ const SHOOTING_SAVE = (() => {
     "kanto.lavender.rival-beaten",
     "kanto.cerulean.rival-beaten",
     "kanto.route22.rival-a-beaten",
+    // ナナシマ（v1.1-j）。**乗船の許可と、ともしびやまの2人**を済ませておく ――
+    // 撮影は話しかける仕組みを持たないので、マサキに誘われることも
+    // ロケット団を倒すこともできない。撮りたいのは関門ではなく島の絵
+    "kanto.sevii.invited",
+    "kanto.sevii.rocket-1-beaten",
+    "kanto.sevii.rocket-2-beaten",
+    "kanto.sevii.biker-beaten",
   ]) {
     save.regions.kanto.flags[flag] = true;
   }
@@ -278,6 +285,12 @@ const PLACES = [
   { file: "victory-road-3f", name: "チャンピオンロード 3階", note: "同じ仕掛けをもう1つ。増えたコードは0行", to: ["kanto-victory-road-3f", 5, 3] },
   { file: "indigo-plateau", name: "セキエイこうげん", note: "ポケモンリーグの入口", to: ["kanto-indigo-plateau", 6, 4] },
   { file: "league-lance", name: "してんのう ワタル", note: "入ったら戻れない部屋。扉は勝つまで開かない", to: ["kanto-league-lance", 4, 5] },
+  { file: "sevii-one-island", name: "1のしま", note: "ナナシマの玄関口（v1.1-j）。紫の屋根がネットワークセンター", to: ["kanto-sevii-one-island", 6, 5] },
+  { file: "sevii-kindle-road", name: "ほのおのみち", note: "**ポニータ と ギャロップ はここに居る** ―― FRLG で赤緑から移った配置", to: ["kanto-sevii-kindle-road", 6, 6] },
+  { file: "sevii-mt-ember", name: "ともしびやま", note: "ブーバー の唯一の居場所。1本道をロケット団2人が塞ぐ", to: ["kanto-sevii-mt-ember", 6, 7] },
+  { file: "sevii-ruby-path", name: "ルビーのどうくつ B3F", note: "ルビー と マグカルゴ。地下3階ぶんが公式の階層どおり", to: ["kanto-sevii-ruby-path-b3f", 4, 7] },
+  { file: "sevii-bond-bridge", name: "きずなばし", note: "海の上の橋。橋の上でも釣れる（3のしま⇄きのみのもり）", to: ["kanto-sevii-bond-bridge", 6, 6] },
+  { file: "sevii-ferry", name: "ふなつきば", note: "港どうしを鎖でつなぐ。**屋内にしたから関門になる**（v1.1-j）", to: ["kanto-sevii-one-ferry", 4, 3] },
   { file: "hub-plaza", name: "拠点の広場", note: "施設・大会・保管庫・地方ゲートが並ぶ", to: ["hub-plaza", 8, 9] },
   { file: "hub-depot", name: "保管庫のなか", note: "共通ボックスと BP交換所", to: ["hub-depot", 4, 3] },
 ];
