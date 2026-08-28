@@ -3752,5 +3752,21 @@
     "effect": {
       "kind": "fleeWild"
     }
+  },
+  {
+    "id": "present",
+    "name": "プレゼント",
+    "type": "ice",
+    "category": "physical",
+    "power": null,
+    "accuracy": 90,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "critStage": 1,
+    "contact": true,
+    "effect": {
+      "kind": "present"
+    }
   }
 ]

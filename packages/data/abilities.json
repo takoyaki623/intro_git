@@ -599,5 +599,22 @@
         "freeze"
       ]
     }
+  },
+  {
+    "id": "huge-power",
+    "name": "ちからもち",
+    "effect": {
+      "kind": "statMultiplier",
+      "stat": "atk",
+      "ratio": 2
+    }
+  },
+  {
+    "id": "suction-cups",
+    "name": "きゅうばん",
+    "effect": {
+      "kind": "inert",
+      "reason": "交代を強制する技がまだ無い（v1.1-k）"
+    }
   }
 ]

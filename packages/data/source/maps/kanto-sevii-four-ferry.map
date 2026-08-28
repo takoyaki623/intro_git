@@ -1,0 +1,29 @@
+# 4のしまの ふなつきば。西が 3のしま。
+# 4〜7のしま は殿堂入り後（v1.1-k）―― 3のしま側の階段を せんいん が塞いでいる。
+id: kanto-sevii-four-ferry
+name: ふなつきば
+region: kanto
+bgm: pokecenter
+
+legend:
+. normal
+W !normal
+S !normal
+G normal
+D normal
+
+grid:
+WGWWWWWWW
+W.......W
+W..SSS..W
+W.......W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+1,0 step kanto-sevii-three-ferry 7,1 down
+4,6 step kanto-sevii-four-island 6,7 up
+
+objects:
+four-ferry-sailor 4,3 npc:sailor:static kanto.sevii.four-sailor

@@ -19080,5 +19080,1535 @@
     "learnsetSource": "official",
     "baseExpSource": "official",
     "learnsetGen": 9
+  },
+  {
+    "id": "sneasel",
+    "dexNo": 215,
+    "name": "ニューラ",
+    "types": [
+      "dark",
+      "ice"
+    ],
+    "baseStats": {
+      "hp": 55,
+      "atk": 95,
+      "def": 55,
+      "spa": 35,
+      "spd": 75,
+      "spe": 115
+    },
+    "abilities": [
+      "inner-focus",
+      "keen-eye"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "leer"
+      },
+      {
+        "level": 1,
+        "move": "scratch"
+      },
+      {
+        "level": 12,
+        "move": "quick-attack"
+      },
+      {
+        "level": 18,
+        "move": "metal-claw"
+      },
+      {
+        "level": 24,
+        "move": "icy-wind"
+      },
+      {
+        "level": 30,
+        "move": "fury-swipes"
+      },
+      {
+        "level": 48,
+        "move": "agility"
+      },
+      {
+        "level": 54,
+        "move": "screech"
+      },
+      {
+        "level": 60,
+        "move": "slash"
+      }
+    ],
+    "tmMoves": [
+      "aerial-ace",
+      "agility",
+      "blizzard",
+      "brick-break",
+      "calm-mind",
+      "dark-pulse",
+      "fake-tears",
+      "false-swipe",
+      "ice-beam",
+      "ice-punch",
+      "icicle-spear",
+      "icy-wind",
+      "knock-off",
+      "low-sweep",
+      "metal-claw",
+      "nasty-plot",
+      "poison-jab",
+      "scary-face",
+      "shadow-ball",
+      "surf",
+      "swift",
+      "swords-dance",
+      "take-down",
+      "water-pulse",
+      "x-scissor"
+    ],
+    "evolutions": [],
+    "baseExp": 86,
+    "catchRate": 60,
+    "expType": "medium-slow",
+    "evYield": {
+      "spe": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 9
+  },
+  {
+    "id": "swinub",
+    "dexNo": 220,
+    "name": "ウリムー",
+    "types": [
+      "ice",
+      "ground"
+    ],
+    "baseStats": {
+      "hp": 50,
+      "atk": 50,
+      "def": 40,
+      "spa": 30,
+      "spd": 30,
+      "spe": 50
+    },
+    "abilities": [
+      "oblivious",
+      "snow-cloak"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "mud-slap"
+      },
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 5,
+        "move": "powder-snow"
+      },
+      {
+        "level": 15,
+        "move": "ice-shard"
+      },
+      {
+        "level": 30,
+        "move": "icy-wind"
+      },
+      {
+        "level": 35,
+        "move": "amnesia"
+      },
+      {
+        "level": 40,
+        "move": "take-down"
+      },
+      {
+        "level": 45,
+        "move": "earthquake"
+      },
+      {
+        "level": 50,
+        "move": "blizzard"
+      }
+    ],
+    "tmMoves": [
+      "amnesia",
+      "blizzard",
+      "body-slam",
+      "bulldoze",
+      "charm",
+      "double-edge",
+      "earth-power",
+      "earthquake",
+      "high-horsepower",
+      "ice-beam",
+      "icicle-spear",
+      "icy-wind",
+      "mud-shot",
+      "mud-slap",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "stomping-tantrum",
+      "stone-edge",
+      "take-down"
+    ],
+    "evolutions": [
+      {
+        "to": "piloswine",
+        "kind": "level",
+        "level": 33
+      }
+    ],
+    "baseExp": 50,
+    "catchRate": 225,
+    "expType": "slow",
+    "evYield": {
+      "atk": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 9
+  },
+  {
+    "id": "delibird",
+    "dexNo": 225,
+    "name": "デリバード",
+    "types": [
+      "ice",
+      "flying"
+    ],
+    "baseStats": {
+      "hp": 45,
+      "atk": 55,
+      "def": 45,
+      "spa": 65,
+      "spd": 45,
+      "spe": 75
+    },
+    "abilities": [
+      "vital-spirit",
+      "hustle"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "present"
+      },
+      {
+        "level": 25,
+        "move": "drill-peck"
+      }
+    ],
+    "tmMoves": [
+      "aerial-ace",
+      "agility",
+      "air-cutter",
+      "air-slash",
+      "blizzard",
+      "body-slam",
+      "brave-bird",
+      "brick-break",
+      "drill-run",
+      "feather-dance",
+      "gunk-shot",
+      "ice-beam",
+      "ice-punch",
+      "icicle-spear",
+      "icy-wind",
+      "seed-bomb",
+      "swift",
+      "take-down",
+      "water-pulse"
+    ],
+    "evolutions": [],
+    "baseExp": 116,
+    "catchRate": 45,
+    "expType": "fast",
+    "evYield": {
+      "spe": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 9
+  },
+  {
+    "id": "marill",
+    "dexNo": 183,
+    "name": "マリル",
+    "types": [
+      "water",
+      "fairy"
+    ],
+    "baseStats": {
+      "hp": 70,
+      "atk": 20,
+      "def": 50,
+      "spa": 20,
+      "spd": 50,
+      "spe": 40
+    },
+    "abilities": [
+      "thick-fat",
+      "huge-power"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "tail-whip"
+      },
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 6,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 9,
+        "move": "charm"
+      },
+      {
+        "level": 12,
+        "move": "slam"
+      },
+      {
+        "level": 19,
+        "move": "aqua-tail"
+      },
+      {
+        "level": 21,
+        "move": "play-rough"
+      },
+      {
+        "level": 30,
+        "move": "hydro-pump"
+      },
+      {
+        "level": 33,
+        "move": "double-edge"
+      }
+    ],
+    "tmMoves": [
+      "amnesia",
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "charm",
+      "disarming-voice",
+      "double-edge",
+      "draining-kiss",
+      "fake-tears",
+      "hydro-pump",
+      "hyper-voice",
+      "ice-beam",
+      "ice-punch",
+      "icy-wind",
+      "knock-off",
+      "liquidation",
+      "mud-shot",
+      "mud-slap",
+      "muddy-water",
+      "play-rough",
+      "surf",
+      "swift",
+      "take-down",
+      "water-pulse",
+      "waterfall"
+    ],
+    "evolutions": [
+      {
+        "to": "azumarill",
+        "kind": "level",
+        "level": 18
+      }
+    ],
+    "baseExp": 88,
+    "catchRate": 190,
+    "expType": "fast",
+    "evYield": {
+      "hp": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 9
+  },
+  {
+    "id": "wooper",
+    "dexNo": 194,
+    "name": "ウパー",
+    "types": [
+      "water",
+      "ground"
+    ],
+    "baseStats": {
+      "hp": 55,
+      "atk": 45,
+      "def": 45,
+      "spa": 25,
+      "spd": 25,
+      "spe": 15
+    },
+    "abilities": [
+      "damp",
+      "water-absorb"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tail-whip"
+      },
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 8,
+        "move": "mud-shot"
+      },
+      {
+        "level": 16,
+        "move": "slam"
+      },
+      {
+        "level": 24,
+        "move": "aqua-tail"
+      },
+      {
+        "level": 28,
+        "move": "muddy-water"
+      },
+      {
+        "level": 32,
+        "move": "amnesia"
+      },
+      {
+        "level": 36,
+        "move": "toxic"
+      },
+      {
+        "level": 40,
+        "move": "earthquake"
+      }
+    ],
+    "tmMoves": [
+      "acid-spray",
+      "amnesia",
+      "blizzard",
+      "body-slam",
+      "bulldoze",
+      "double-edge",
+      "earth-power",
+      "earthquake",
+      "hydro-pump",
+      "ice-beam",
+      "icy-wind",
+      "liquidation",
+      "mud-shot",
+      "mud-slap",
+      "muddy-water",
+      "rock-slide",
+      "rock-tomb",
+      "sludge-bomb",
+      "sludge-wave",
+      "stomping-tantrum",
+      "stone-edge",
+      "surf",
+      "take-down",
+      "toxic",
+      "water-pulse",
+      "waterfall"
+    ],
+    "evolutions": [
+      {
+        "to": "quagsire",
+        "kind": "level",
+        "level": 20
+      }
+    ],
+    "baseExp": 42,
+    "catchRate": 255,
+    "expType": "medium-fast",
+    "evYield": {
+      "hp": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 9
+  },
+  {
+    "id": "hoppip",
+    "dexNo": 187,
+    "name": "ハネッコ",
+    "types": [
+      "grass",
+      "flying"
+    ],
+    "baseStats": {
+      "hp": 35,
+      "atk": 35,
+      "def": 40,
+      "spa": 35,
+      "spd": 55,
+      "spe": 50
+    },
+    "abilities": [
+      "chlorophyll",
+      "leaf-guard"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "splash"
+      },
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 4,
+        "move": "tail-whip"
+      },
+      {
+        "level": 6,
+        "move": "absorb"
+      },
+      {
+        "level": 8,
+        "move": "fairy-wind"
+      },
+      {
+        "level": 10,
+        "move": "poison-powder"
+      },
+      {
+        "level": 10,
+        "move": "sleep-powder"
+      },
+      {
+        "level": 10,
+        "move": "stun-spore"
+      },
+      {
+        "level": 12,
+        "move": "bullet-seed"
+      },
+      {
+        "level": 22,
+        "move": "mega-drain"
+      },
+      {
+        "level": 32,
+        "move": "giga-drain"
+      }
+    ],
+    "tmMoves": [
+      "aerial-ace",
+      "bullet-seed",
+      "charm",
+      "dazzling-gleam",
+      "double-edge",
+      "giga-drain",
+      "leaf-storm",
+      "seed-bomb",
+      "swords-dance",
+      "take-down"
+    ],
+    "evolutions": [
+      {
+        "to": "skiploom",
+        "kind": "level",
+        "level": 18
+      }
+    ],
+    "baseExp": 50,
+    "catchRate": 255,
+    "expType": "medium-slow",
+    "evYield": {
+      "spd": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 9
+  },
+  {
+    "id": "qwilfish",
+    "dexNo": 211,
+    "name": "ハリーセン",
+    "types": [
+      "water",
+      "poison"
+    ],
+    "baseStats": {
+      "hp": 65,
+      "atk": 95,
+      "def": 85,
+      "spa": 55,
+      "spd": 55,
+      "spe": 85
+    },
+    "abilities": [
+      "poison-point",
+      "swift-swim"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "poison-sting"
+      },
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 4,
+        "move": "harden"
+      },
+      {
+        "level": 8,
+        "move": "water-gun"
+      },
+      {
+        "level": 12,
+        "move": "fell-stinger"
+      },
+      {
+        "level": 24,
+        "move": "brine"
+      },
+      {
+        "level": 28,
+        "move": "poison-jab"
+      },
+      {
+        "level": 32,
+        "move": "pin-missile"
+      },
+      {
+        "level": 44,
+        "move": "toxic"
+      },
+      {
+        "level": 48,
+        "move": "aqua-tail"
+      }
+    ],
+    "tmMoves": [
+      "acid-spray",
+      "agility",
+      "blizzard",
+      "crunch",
+      "double-edge",
+      "gunk-shot",
+      "hex",
+      "hydro-pump",
+      "ice-beam",
+      "icy-wind",
+      "liquidation",
+      "mud-shot",
+      "poison-jab",
+      "scary-face",
+      "shadow-ball",
+      "sludge-bomb",
+      "sludge-wave",
+      "surf",
+      "swift",
+      "swords-dance",
+      "take-down",
+      "thunder-wave",
+      "toxic",
+      "venoshock",
+      "water-pulse",
+      "waterfall"
+    ],
+    "evolutions": [],
+    "baseExp": 88,
+    "catchRate": 45,
+    "expType": "medium-fast",
+    "evYield": {
+      "atk": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 9
+  },
+  {
+    "id": "remoraid",
+    "dexNo": 223,
+    "name": "テッポウオ",
+    "types": [
+      "water"
+    ],
+    "baseStats": {
+      "hp": 35,
+      "atk": 65,
+      "def": 35,
+      "spa": 65,
+      "spd": 35,
+      "spe": 65
+    },
+    "abilities": [
+      "hustle",
+      "sniper"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 4,
+        "move": "water-pulse"
+      },
+      {
+        "level": 12,
+        "move": "psybeam"
+      },
+      {
+        "level": 16,
+        "move": "aurora-beam"
+      },
+      {
+        "level": 20,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 28,
+        "move": "bullet-seed"
+      },
+      {
+        "level": 32,
+        "move": "ice-beam"
+      },
+      {
+        "level": 36,
+        "move": "hydro-pump"
+      }
+    ],
+    "tmMoves": [
+      "assurance",
+      "blizzard",
+      "brine",
+      "bullet-seed",
+      "fire-blast",
+      "flamethrower",
+      "gunk-shot",
+      "hydro-pump",
+      "ice-beam",
+      "icy-wind",
+      "mud-shot",
+      "psychic",
+      "rock-blast",
+      "round",
+      "screech",
+      "seed-bomb",
+      "surf",
+      "swift",
+      "thunder-wave",
+      "waterfall"
+    ],
+    "evolutions": [
+      {
+        "to": "octillery",
+        "kind": "level",
+        "level": 25
+      }
+    ],
+    "baseExp": 60,
+    "catchRate": 190,
+    "expType": "medium-fast",
+    "evYield": {
+      "spa": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 8
+  },
+  {
+    "id": "togepi",
+    "dexNo": 175,
+    "name": "トゲピー",
+    "types": [
+      "fairy"
+    ],
+    "baseStats": {
+      "hp": 35,
+      "atk": 20,
+      "def": 65,
+      "spa": 40,
+      "spd": 65,
+      "spe": 20
+    },
+    "abilities": [
+      "hustle",
+      "serene-grace"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 1,
+        "move": "pound"
+      },
+      {
+        "level": 4,
+        "move": "sweet-kiss"
+      },
+      {
+        "level": 8,
+        "move": "life-dew"
+      },
+      {
+        "level": 12,
+        "move": "charm"
+      },
+      {
+        "level": 32,
+        "move": "double-edge"
+      }
+    ],
+    "tmMoves": [
+      "body-slam",
+      "charm",
+      "dazzling-gleam",
+      "draining-kiss",
+      "fire-blast",
+      "flamethrower",
+      "hyper-voice",
+      "mega-kick",
+      "mega-punch",
+      "nasty-plot",
+      "play-rough",
+      "psychic",
+      "psyshock",
+      "round",
+      "shadow-ball",
+      "stored-power",
+      "swift",
+      "thunder-wave",
+      "tri-attack",
+      "zen-headbutt"
+    ],
+    "evolutions": [
+      {
+        "to": "togetic",
+        "kind": "levelFriendship"
+      }
+    ],
+    "baseExp": 49,
+    "catchRate": 190,
+    "expType": "fast",
+    "evYield": {
+      "spd": 1
+    },
+    "genderRatio": 0.875,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 8
+  },
+  {
+    "id": "piloswine",
+    "dexNo": 221,
+    "name": "イノムー",
+    "types": [
+      "ice",
+      "ground"
+    ],
+    "baseStats": {
+      "hp": 100,
+      "atk": 100,
+      "def": 80,
+      "spa": 60,
+      "spd": 60,
+      "spe": 50
+    },
+    "abilities": [
+      "oblivious",
+      "snow-cloak"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "mud-slap"
+      },
+      {
+        "level": 1,
+        "move": "powder-snow"
+      },
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 15,
+        "move": "ice-shard"
+      },
+      {
+        "level": 30,
+        "move": "icy-wind"
+      },
+      {
+        "level": 37,
+        "move": "amnesia"
+      },
+      {
+        "level": 44,
+        "move": "take-down"
+      },
+      {
+        "level": 51,
+        "move": "earthquake"
+      },
+      {
+        "level": 58,
+        "move": "blizzard"
+      }
+    ],
+    "tmMoves": [
+      "amnesia",
+      "blizzard",
+      "body-slam",
+      "bulldoze",
+      "charm",
+      "double-edge",
+      "earth-power",
+      "earthquake",
+      "high-horsepower",
+      "ice-beam",
+      "icicle-spear",
+      "icy-wind",
+      "mud-shot",
+      "mud-slap",
+      "rock-slide",
+      "rock-tomb",
+      "scary-face",
+      "stomping-tantrum",
+      "stone-edge",
+      "take-down"
+    ],
+    "evolutions": [
+      {
+        "to": "mamoswine",
+        "kind": "levelMove"
+      }
+    ],
+    "baseExp": 158,
+    "catchRate": 75,
+    "expType": "slow",
+    "evYield": {
+      "atk": 1,
+      "hp": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 9
+  },
+  {
+    "id": "azumarill",
+    "dexNo": 184,
+    "name": "マリルリ",
+    "types": [
+      "water",
+      "fairy"
+    ],
+    "baseStats": {
+      "hp": 100,
+      "atk": 50,
+      "def": 80,
+      "spa": 60,
+      "spd": 80,
+      "spe": 50
+    },
+    "abilities": [
+      "thick-fat",
+      "huge-power"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "tackle"
+      },
+      {
+        "level": 1,
+        "move": "tail-whip"
+      },
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 6,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 9,
+        "move": "charm"
+      },
+      {
+        "level": 12,
+        "move": "slam"
+      },
+      {
+        "level": 21,
+        "move": "aqua-tail"
+      },
+      {
+        "level": 25,
+        "move": "play-rough"
+      },
+      {
+        "level": 40,
+        "move": "hydro-pump"
+      },
+      {
+        "level": 45,
+        "move": "double-edge"
+      }
+    ],
+    "tmMoves": [
+      "amnesia",
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "charm",
+      "disarming-voice",
+      "double-edge",
+      "draining-kiss",
+      "fake-tears",
+      "hydro-pump",
+      "hyper-voice",
+      "ice-beam",
+      "ice-punch",
+      "icy-wind",
+      "knock-off",
+      "liquidation",
+      "mud-shot",
+      "mud-slap",
+      "muddy-water",
+      "play-rough",
+      "surf",
+      "swift",
+      "take-down",
+      "water-pulse",
+      "waterfall"
+    ],
+    "evolutions": [],
+    "baseExp": 189,
+    "catchRate": 75,
+    "expType": "fast",
+    "evYield": {
+      "hp": 3
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 9
+  },
+  {
+    "id": "quagsire",
+    "dexNo": 195,
+    "name": "ヌオー",
+    "types": [
+      "water",
+      "ground"
+    ],
+    "baseStats": {
+      "hp": 95,
+      "atk": 85,
+      "def": 85,
+      "spa": 65,
+      "spd": 65,
+      "spe": 35
+    },
+    "abilities": [
+      "damp",
+      "water-absorb"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "mud-shot"
+      },
+      {
+        "level": 1,
+        "move": "tail-whip"
+      },
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 16,
+        "move": "slam"
+      },
+      {
+        "level": 28,
+        "move": "aqua-tail"
+      },
+      {
+        "level": 34,
+        "move": "muddy-water"
+      },
+      {
+        "level": 40,
+        "move": "amnesia"
+      },
+      {
+        "level": 46,
+        "move": "toxic"
+      },
+      {
+        "level": 52,
+        "move": "earthquake"
+      }
+    ],
+    "tmMoves": [
+      "acid-spray",
+      "amnesia",
+      "blizzard",
+      "body-slam",
+      "brick-break",
+      "bulldoze",
+      "double-edge",
+      "drain-punch",
+      "earth-power",
+      "earthquake",
+      "eerie-impulse",
+      "high-horsepower",
+      "hydro-pump",
+      "ice-beam",
+      "ice-punch",
+      "icy-wind",
+      "liquidation",
+      "mud-shot",
+      "mud-slap",
+      "muddy-water",
+      "rock-slide",
+      "rock-tomb",
+      "sludge-bomb",
+      "sludge-wave",
+      "stomping-tantrum",
+      "stone-edge",
+      "surf",
+      "take-down",
+      "toxic",
+      "water-pulse",
+      "waterfall"
+    ],
+    "evolutions": [],
+    "baseExp": 151,
+    "catchRate": 90,
+    "expType": "medium-fast",
+    "evYield": {
+      "hp": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 9
+  },
+  {
+    "id": "skiploom",
+    "dexNo": 188,
+    "name": "ポポッコ",
+    "types": [
+      "grass",
+      "flying"
+    ],
+    "baseStats": {
+      "hp": 55,
+      "atk": 45,
+      "def": 50,
+      "spa": 45,
+      "spd": 65,
+      "spe": 80
+    },
+    "abilities": [
+      "chlorophyll",
+      "leaf-guard"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "absorb"
+      },
+      {
+        "level": 1,
+        "move": "splash"
+      },
+      {
+        "level": 1,
+        "move": "tail-whip"
+      },
+      {
+        "level": 8,
+        "move": "tackle"
+      },
+      {
+        "level": 10,
+        "move": "fairy-wind"
+      },
+      {
+        "level": 12,
+        "move": "poison-powder"
+      },
+      {
+        "level": 12,
+        "move": "sleep-powder"
+      },
+      {
+        "level": 12,
+        "move": "stun-spore"
+      },
+      {
+        "level": 15,
+        "move": "bullet-seed"
+      },
+      {
+        "level": 24,
+        "move": "mega-drain"
+      },
+      {
+        "level": 37,
+        "move": "giga-drain"
+      }
+    ],
+    "tmMoves": [
+      "aerial-ace",
+      "bullet-seed",
+      "charm",
+      "dazzling-gleam",
+      "double-edge",
+      "giga-drain",
+      "leaf-storm",
+      "seed-bomb",
+      "swords-dance",
+      "take-down"
+    ],
+    "evolutions": [
+      {
+        "to": "jumpluff",
+        "kind": "level",
+        "level": 27
+      }
+    ],
+    "baseExp": 119,
+    "catchRate": 120,
+    "expType": "medium-slow",
+    "evYield": {
+      "spe": 2
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 9
+  },
+  {
+    "id": "jumpluff",
+    "dexNo": 189,
+    "name": "ワタッコ",
+    "types": [
+      "grass",
+      "flying"
+    ],
+    "baseStats": {
+      "hp": 75,
+      "atk": 55,
+      "def": 70,
+      "spa": 55,
+      "spd": 95,
+      "spe": 110
+    },
+    "abilities": [
+      "chlorophyll",
+      "leaf-guard"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "absorb"
+      },
+      {
+        "level": 1,
+        "move": "splash"
+      },
+      {
+        "level": 1,
+        "move": "tail-whip"
+      },
+      {
+        "level": 8,
+        "move": "tackle"
+      },
+      {
+        "level": 10,
+        "move": "fairy-wind"
+      },
+      {
+        "level": 12,
+        "move": "poison-powder"
+      },
+      {
+        "level": 12,
+        "move": "sleep-powder"
+      },
+      {
+        "level": 12,
+        "move": "stun-spore"
+      },
+      {
+        "level": 15,
+        "move": "bullet-seed"
+      },
+      {
+        "level": 24,
+        "move": "mega-drain"
+      },
+      {
+        "level": 43,
+        "move": "giga-drain"
+      }
+    ],
+    "tmMoves": [
+      "aerial-ace",
+      "bullet-seed",
+      "charm",
+      "dazzling-gleam",
+      "double-edge",
+      "giga-drain",
+      "leaf-storm",
+      "seed-bomb",
+      "swords-dance",
+      "take-down"
+    ],
+    "evolutions": [],
+    "baseExp": 207,
+    "catchRate": 45,
+    "expType": "medium-slow",
+    "evYield": {
+      "spe": 3
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 9
+  },
+  {
+    "id": "octillery",
+    "dexNo": 224,
+    "name": "オクタン",
+    "types": [
+      "water"
+    ],
+    "baseStats": {
+      "hp": 75,
+      "atk": 105,
+      "def": 75,
+      "spa": 105,
+      "spd": 75,
+      "spe": 45
+    },
+    "abilities": [
+      "suction-cups",
+      "sniper"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "gunk-shot"
+      },
+      {
+        "level": 1,
+        "move": "rock-blast"
+      },
+      {
+        "level": 1,
+        "move": "water-gun"
+      },
+      {
+        "level": 1,
+        "move": "water-pulse"
+      },
+      {
+        "level": 12,
+        "move": "psybeam"
+      },
+      {
+        "level": 16,
+        "move": "aurora-beam"
+      },
+      {
+        "level": 20,
+        "move": "bubble-beam"
+      },
+      {
+        "level": 30,
+        "move": "bullet-seed"
+      },
+      {
+        "level": 36,
+        "move": "ice-beam"
+      },
+      {
+        "level": 42,
+        "move": "hydro-pump"
+      }
+    ],
+    "tmMoves": [
+      "assurance",
+      "blizzard",
+      "brine",
+      "bullet-seed",
+      "fire-blast",
+      "flamethrower",
+      "flash-cannon",
+      "gunk-shot",
+      "hydro-pump",
+      "ice-beam",
+      "icy-wind",
+      "liquidation",
+      "mud-shot",
+      "payback",
+      "psychic",
+      "rock-blast",
+      "round",
+      "screech",
+      "seed-bomb",
+      "sludge-bomb",
+      "sludge-wave",
+      "surf",
+      "swift",
+      "thunder-wave",
+      "waterfall"
+    ],
+    "evolutions": [],
+    "baseExp": 168,
+    "catchRate": 75,
+    "expType": "medium-fast",
+    "evYield": {
+      "atk": 1,
+      "spa": 1
+    },
+    "genderRatio": 0.5,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 8
+  },
+  {
+    "id": "togetic",
+    "dexNo": 176,
+    "name": "トゲチック",
+    "types": [
+      "fairy",
+      "flying"
+    ],
+    "baseStats": {
+      "hp": 55,
+      "atk": 40,
+      "def": 85,
+      "spa": 80,
+      "spd": 105,
+      "spe": 40
+    },
+    "abilities": [
+      "hustle",
+      "serene-grace"
+    ],
+    "learnset": [
+      {
+        "level": 1,
+        "move": "fairy-wind"
+      },
+      {
+        "level": 1,
+        "move": "growl"
+      },
+      {
+        "level": 1,
+        "move": "life-dew"
+      },
+      {
+        "level": 1,
+        "move": "pound"
+      },
+      {
+        "level": 1,
+        "move": "sweet-kiss"
+      },
+      {
+        "level": 12,
+        "move": "charm"
+      },
+      {
+        "level": 32,
+        "move": "double-edge"
+      }
+    ],
+    "tmMoves": [
+      "body-slam",
+      "brick-break",
+      "charm",
+      "dazzling-gleam",
+      "drain-punch",
+      "draining-kiss",
+      "fire-blast",
+      "flamethrower",
+      "heat-wave",
+      "hyper-voice",
+      "mega-kick",
+      "mega-punch",
+      "nasty-plot",
+      "play-rough",
+      "psychic",
+      "psyshock",
+      "retaliate",
+      "round",
+      "shadow-ball",
+      "smart-strike",
+      "stored-power",
+      "swift",
+      "thunder-wave",
+      "tri-attack",
+      "zen-headbutt"
+    ],
+    "evolutions": [
+      {
+        "to": "togekiss",
+        "kind": "useItem",
+        "item": "shiny-stone"
+      }
+    ],
+    "baseExp": 142,
+    "catchRate": 75,
+    "expType": "fast",
+    "evYield": {
+      "spd": 2
+    },
+    "genderRatio": 0.875,
+    "learnsetSource": "official",
+    "baseExpSource": "official",
+    "learnsetGen": 8
   }
 ]

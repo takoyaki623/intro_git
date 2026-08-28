@@ -249,3 +249,4 @@ wood-hammer	ウッドハンマー	grass	physical	120	100	15	0	0	1	recoil:0.33	fo
 splash	はねる	normal	status	-	-	40	0	0	0	nothing	self
 transform	へんしん	normal	status	-	-	10	0	0	0	transform	foe
 teleport	テレポート	psychic	status	-	-	20	-6	0	0	fleeWild	self
+present	プレゼント	ice	physical	-	90	15	0	1	1	present	foe

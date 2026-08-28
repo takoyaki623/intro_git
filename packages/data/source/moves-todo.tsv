@@ -1,124 +1,130 @@
 id	english	reason	neededBy
-focus-energy	Focus Energy	未実装の状態	28
-helping-hand	Helping Hand	未実装の状態	22
+focus-energy	Focus Energy	未実装の状態	30
+helping-hand	Helping Hand	未実装の状態	26
+rain-dance	Rain Dance	天候	23
+ancient-power	Ancient Power	能力変化が複数	20
 disable	Disable	未実装の状態	20
-rain-dance	Rain Dance	天候	19
-ancient-power	Ancient Power	能力変化が複数	17
 copycat	Copycat	効果を表せない	17
-defense-curl	Defense Curl	未実装の状態	15
+defense-curl	Defense Curl	未実装の状態	17
+last-resort	Last Resort	他の技を全て使ってからでないと出せない	16
+baton-pass	Baton Pass	交代を伴う技	15
 growth	Growth	能力変化が複数	15
 light-screen	Light Screen	場の効果	15
-last-resort	Last Resort	他の技を全て使ってからでないと出せない	14
+safeguard	Safeguard	場の効果	15
 protect	Protect	未実装の状態	14
-baton-pass	Baton Pass	交代を伴う技	13
-safeguard	Safeguard	場の効果	13
+rollout	Rollout	個別処理	13
 sucker-punch	Sucker Punch	相手が攻撃技を選んだときしか成功しない	13
+yawn	Yawn	未実装の状態	13
 fire-fang	Fire Fang	追加効果が複数	12
+flail	Flail	威力が可変	12
 low-kick	Low Kick	威力が可変	12
+wrap	Wrap	未実装の状態	12
 curse	Curse	未実装の状態	11
-rollout	Rollout	個別処理	11
+haze	Haze	効果を表せない	11
+hyper-beam	Hyper Beam	自分への継続効果	11
 roost	Roost	自分への継続効果	11
-wrap	Wrap	未実装の状態	11
-flail	Flail	威力が可変	10
+thrash	Thrash	自分への継続効果	11
+toxic-spikes	Toxic Spikes	場の効果	11
 future-sight	Future Sight	2ターン後に当たる	10
-thrash	Thrash	自分への継続効果	10
-toxic-spikes	Toxic Spikes	場の効果	10
+leech-seed	Leech Seed	未実装の状態	10
+synthesis	Synthesis	効果を表せない	10
 dig	Dig	溜め・反動休み	9
 endeavor	Endeavor	威力が可変	9
 gyro-ball	Gyro Ball	威力が可変	9
-haze	Haze	効果を表せない	9
-hyper-beam	Hyper Beam	自分への継続効果	9
 mean-look	Mean Look	効果を表せない	9
+mist	Mist	場の効果	9
 psych-up	Psych Up	効果を表せない	9
 sandstorm	Sandstorm	天候	9
 smack-down	Smack Down	未実装の状態	9
-yawn	Yawn	未実装の状態	9
+aqua-ring	Aqua Ring	未実装の状態	8
 belch	Belch	きのみを食べてからでないと出せない	8
 bind	Bind	未実装の状態	8
 explosion	Explosion	個別処理	8
 fire-spin	Fire Spin	未実装の状態	8
+ice-fang	Ice Fang	追加効果が複数	8
+memento	Memento	個別処理	8
 shell-smash	Shell Smash	能力変化が複数	8
 swagger	Swagger	相手の攻撃を2段階上げる代償がある	8
+destiny-bond	Destiny Bond	未実装の状態	7
 dragon-dance	Dragon Dance	能力変化が複数	7
+endure	Endure	未実装の状態	7
 fake-out	Fake Out	出た直後の1回しか使えない	7
 flatter	Flatter	相手のとくこうを上げる代償がある	7
 fury-cutter	Fury Cutter	個別処理	7
 grassy-terrain	Grassy Terrain	フィールド	7
-ice-fang	Ice Fang	追加効果が複数	7
-leech-seed	Leech Seed	未実装の状態	7
 magnet-rise	Magnet Rise	未実装の状態	7
+metronome	Metronome	効果を表せない	7
 moonlight	Moonlight	効果を表せない	7
 seismic-toss	Seismic Toss	威力が可変	7
 self-destruct	Self-Destruct	個別処理	7
 spite	Spite	効果を表せない	7
-synthesis	Synthesis	効果を表せない	7
+stockpile	Stockpile	未実装の状態	7
 thunder-fang	Thunder Fang	追加効果が複数	7
-aqua-ring	Aqua Ring	未実装の状態	6
 belly-drum	Belly Drum	効果を表せない	6
 charge	Charge	未実装の状態	6
 close-combat	Close Combat	能力変化が複数	6
-destiny-bond	Destiny Bond	未実装の状態	6
 electro-ball	Electro Ball	威力が可変	6
 fling	Fling	個別処理	6
 giga-impact	Giga Impact	自分への継続効果	6
 heal-pulse	Heal Pulse	効果を表せない	6
 horn-drill	Horn Drill	特殊な命中判定	6
+minimize	Minimize	未実装の状態	6
 night-shade	Night Shade	威力が可変	6
 outrage	Outrage	自分への継続効果	6
 petal-dance	Petal Dance	自分への継続効果	6
 quick-guard	Quick Guard	場の効果	6
 reflect	Reflect	場の効果	6
 rest	Rest	効果を表せない	6
-stockpile	Stockpile	未実装の状態	6
+soak	Soak	効果を表せない	6
+spit-up	Spit Up	威力が可変	6
 swallow	Swallow	効果を表せない	6
 tailwind	Tailwind	場の効果	6
 worry-seed	Worry Seed	効果を表せない	6
+after-you	After You	効果を表せない	5
+bounce	Bounce	溜め・反動休み	5
 bulk-up	Bulk Up	能力変化が複数	5
 dragon-tail	Dragon Tail	交代を伴う技	5
 encore	Encore	未実装の状態	5
-endure	Endure	未実装の状態	5
+follow-me	Follow Me	未実装の状態	5
 gastro-acid	Gastro Acid	未実装の状態	5
 healing-wish	Healing Wish	場の効果	5
-memento	Memento	個別処理	5
-metronome	Metronome	効果を表せない	5
-minimize	Minimize	未実装の状態	5
+lock-on	Lock-On	個別処理	5
 mirror-move	Mirror Move	効果を表せない	5
-mist	Mist	場の効果	5
 pursuit	Pursuit	個別処理	5
 reversal	Reversal	威力が可変	5
 roar	Roar	交代を伴う技	5
 sand-tomb	Sand Tomb	未実装の状態	5
 solar-beam	Solar Beam	溜め・反動休み	5
-spit-up	Spit Up	威力が可変	5
 stealth-rock	Stealth Rock	場の効果	5
+superpower	Superpower	能力変化が複数	5
 whirlwind	Whirlwind	交代を伴う技	5
 wide-guard	Wide Guard	場の効果	5
+acupressure	Acupressure	効果を表せない	4
 coil	Coil	能力変化が複数	4
 cosmic-power	Cosmic Power	能力変化が複数	4
 detect	Detect	未実装の状態	4
 dream-eater	Dream Eater	相手が眠っていないと当たらない	4
 echoed-voice	Echoed Voice	個別処理	4
+hone-claws	Hone Claws	能力変化が複数	4
 imprison	Imprison	未実装の状態	4
 ingrain	Ingrain	未実装の状態	4
 role-play	Role Play	効果を表せない	4
 sheer-cold	Sheer Cold	特殊な命中判定	4
 snowscape	Snowscape	天候	4
-soak	Soak	効果を表せない	4
 sunny-day	Sunny Day	天候	4
+taunt	Taunt	未実装の状態	4
 uproar	Uproar	自分への継続効果	4
 whirlpool	Whirlpool	未実装の状態	4
-acupressure	Acupressure	効果を表せない	3
-after-you	After You	効果を表せない	3
+wish	Wish	場の効果	4
+acrobatics	acrobatics	追加できる（日本語名が要る）	3
 aromatherapy	Aromatherapy	効果を表せない	3
+cotton-spore	cotton-spore	追加できる（日本語名が要る）	3
 fissure	Fissure	特殊な命中判定	3
 focus-punch	Focus Punch	個別処理	3
-follow-me	Follow Me	未実装の状態	3
 gravity	Gravity	場の効果	3
 guard-swap	Guard Swap	効果を表せない	3
 guillotine	Guillotine	特殊な命中判定	3
 heavy-slam	Heavy Slam	威力が可変	3
-hone-claws	Hone Claws	能力変化が複数	3
-lock-on	Lock-On	個別処理	3
 magical-leaf	magical-leaf	追加できる（日本語名が要る）	3
 mimic	Mimic	効果を表せない	3
 mirror-coat	Mirror Coat	個別処理	3
@@ -128,9 +134,9 @@ quiver-dance	Quiver Dance	能力変化が複数	3
 rage-powder	Rage Powder	未実装の状態	3
 recycle	Recycle	効果を表せない	3
 reflect-type	Reflect Type	効果を表せない	3
-superpower	Superpower	能力変化が複数	3
-taunt	Taunt	未実装の状態	3
+u-turn	U-turn	交代を伴う技	3
 ally-switch	Ally Switch	個別処理	2
+beat-up	Beat Up	威力が可変	2
 block	Block	効果を表せない	2
 counter	Counter	個別処理	2
 crush-claw	crush-claw	追加できる（日本語名が要る）	2
@@ -143,18 +149,17 @@ mystical-fire	mystical-fire	追加できる（日本語名が要る）	2
 phantom-force	Phantom Force	溜め・反動休み	2
 shadow-sneak	shadow-sneak	追加できる（日本語名が要る）	2
 sky-attack	Sky Attack	溜め・反動休み	2
+spikes	Spikes	場の効果	2
 super-fang	Super Fang	威力が可変	2
 switcheroo	Switcheroo	効果を表せない	2
 tickle	Tickle	能力変化が複数	2
 venom-drench	Venom Drench	効果を表せない	2
-wish	Wish	場の効果	2
 wonder-room	Wonder Room	場の効果	2
 arm-thrust	arm-thrust	追加できる（日本語名が要る）	1
 attract	Attract	未実装の状態	1
 aurora-veil	Aurora Veil	場の効果	1
 autotomize	autotomize	追加できる（日本語名が要る）	1
 axe-kick	Axe Kick	外すと自分がダメージを受ける	1
-beat-up	Beat Up	威力が可変	1
 chilly-reception	Chilly Reception	天候	1
 circle-throw	Circle Throw	交代を伴う技	1
 comeuppance	Comeuppance	威力が可変	1
@@ -169,6 +174,7 @@ high-jump-kick	High Jump Kick	外すと自分がダメージを受ける	1
 hyper-drill	hyper-drill	追加できる（日本語名が要る）	1
 leafage	leafage	追加できる（日本語名が要る）	1
 morning-sun	Morning Sun	効果を表せない	1
+octazooka	octazooka	追加できる（日本語名が要る）	1
 pain-split	Pain Split	効果を表せない	1
 poison-tail	poison-tail	追加できる（日本語名が要る）	1
 rage	Rage	自分への継続効果	1
@@ -177,7 +183,6 @@ skill-swap	Skill Swap	効果を表せない	1
 sleep-talk	Sleep Talk	効果を表せない	1
 snarl	snarl	追加できる（日本語名が要る）	1
 snore	Snore	自分が眠っていないと出せない	1
-spikes	Spikes	場の効果	1
 torment	Torment	未実装の状態	1
 trick	Trick	効果を表せない	1
 triple-kick	Triple Kick	特殊な命中判定	1

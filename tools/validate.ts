@@ -25,10 +25,13 @@ import {
   canEnter,
   inBounds,
   neighborsOf,
+  slideFrom,
   pushableDirections,
   walkableTerrains,
   terrainAt,
   FIELD_ABILITIES,
+  DIRECTIONS,
+  STEP,
   METHOD_BY_TERRAIN,
   JUDGE_CRITERIA,
   selectParty,
@@ -195,6 +198,12 @@ function checkReferences(): void {
 // ─────────────────────────────────────────────
 // 技データの妥当性
 // ─────────────────────────────────────────────
+/**
+ * 威力を実行時に決める効果（v1.1-k）。
+ * `damage.ts` の `powerOverride` を使う側 ―― 表の `power` は空でよい。
+ */
+const DECIDES_POWER = new Set<string>(["present"]);
+
 function checkMoves(): void {
   for (const m of allMoves) {
     if (!TYPES.includes(m.type)) fail("move-type", `${m.id}: 未知のタイプ ${m.type}`);
@@ -202,7 +211,12 @@ function checkMoves(): void {
     if (m.category === "status") {
       if (m.power !== null) fail("move-power", `${m.id}: 変化技に威力がある`);
     } else if (m.power === null || m.power <= 0) {
-      fail("move-power", `${m.id}: 攻撃技に威力がない`);
+      // **威力を実行時に決める技は、表に威力を持たない**（v1.1-k の プレゼント）。
+      // 「書き忘れ」と「決めようが無い」を分ける ―― 効果の種類で見分けがつくので、
+      // 例外を id で並べない（並べると、次の1件でまた id を足すことになる）
+      if (!DECIDES_POWER.has(m.effect?.kind ?? "")) {
+        fail("move-power", `${m.id}: 攻撃技に威力がない`);
+      }
     }
 
     if (m.accuracy !== null && (m.accuracy < 1 || m.accuracy > 100)) {
@@ -1765,6 +1779,30 @@ function checkWorld(): void {
     }
   }
 
+  // ── #120 氷の上には、止まらないと触れないものを置かない（v1.1-k）──
+  //
+  // 氷は**通るマスであって、立てるマスではない**。滑走の途中では止まれないので、
+  // そこに置いた道具は拾えず、NPC には話しかけられない ――
+  // データとしては正しく、遊ぶと**存在しないのと同じ**になる。
+  //
+  // 踏む warp も同じ側の話で、こちらは黙って壊れるのではなく**壊れ方が派手**:
+  // 滑走の途中で別のマップへ飛ぶので、止まる前に画面が切り替わる。
+  for (const map of allMaps) {
+    const isIce = (x: number, y: number) => terrainAt(map, x, y) === "ice";
+    for (const warp of map.warps) {
+      if (warp.trigger === "step" && isIce(warp.at.x, warp.at.y)) {
+        fail("ice-floor", `${map.id} (${warp.at.x},${warp.at.y}): 氷の上に踏む出入口がある`);
+      }
+    }
+    for (const object of map.objects) {
+      if (!isIce(object.at.x, object.at.y)) continue;
+      fail(
+        "ice-floor",
+        `${map.id}/${object.id}: 氷の上に置いてある（滑走中は止まれないので触れない）`,
+      );
+    }
+  }
+
   // ── #107 テレポート床が飾りでないこと（v1.1-g）──
   //
   // 自分自身へ飛ぶ warp（`to.map` が自分）は、ヤマブキジムの床のための書き方。
@@ -2406,6 +2444,19 @@ function checkReachability(map: MapData, mapById: ReadonlyMap<string, MapData>):
       if (!standable(next.x, next.y) || seen.has(at(next.x, next.y))) continue;
       seen.add(at(next.x, next.y));
       stack.push(at(next.x, next.y));
+    }
+    // **滑って通り過ぎたマスも「行けた」に数える**（v1.1-k）。
+    // 氷の上は止まれないので、`neighborsOf` は終点しか返さない ――
+    // そのままだと帯の途中が全部「到達できないマス」になり、
+    // **正しい氷の部屋が毎回落ちる**（v1.1-f で #55 が障害物を壁と数えて誤報したのと同じ形）。
+    // 逆に、どの滑走も通らない氷は本当に閉じているので、孤立として残る
+    for (const dir of DIRECTIONS) {
+      const step = STEP[dir];
+      const ix = x + step.dx;
+      const iy = y + step.dy;
+      if (!inBounds(map, ix, iy) || terrainAt(map, ix, iy) !== "ice") continue;
+      if (!canEnter(map, ABLE, ix, iy, inMap)) continue;
+      for (const tile of slideFrom(map, ABLE, ix, iy, dir, inMap)) seen.add(at(tile.x, tile.y));
     }
   }
 

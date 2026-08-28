@@ -9294,6 +9294,870 @@
     ]
   },
   {
+    "id": "kanto-sevii-four-island-fishing-good",
+    "method": "fishing-good",
+    "entries": [
+      {
+        "species": "poliwag",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 120
+      },
+      {
+        "species": "goldeen",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 40
+      },
+      {
+        "species": "magikarp",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 40
+      }
+    ]
+  },
+  {
+    "id": "kanto-sevii-four-island-fishing-old",
+    "method": "fishing-old",
+    "entries": [
+      {
+        "species": "magikarp",
+        "levelRange": [
+          5,
+          5
+        ],
+        "rate": 200
+      }
+    ]
+  },
+  {
+    "id": "kanto-sevii-four-island-fishing-super",
+    "method": "fishing-super",
+    "entries": [
+      {
+        "species": "poliwag",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 80
+      },
+      {
+        "species": "poliwhirl",
+        "levelRange": [
+          20,
+          30
+        ],
+        "rate": 80
+      },
+      {
+        "species": "gyarados",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 30
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 4
+      },
+      {
+        "species": "slowpoke",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 4
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
+    "id": "kanto-sevii-four-island-surf",
+    "method": "surf",
+    "entries": [
+      {
+        "species": "marill",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 60
+      },
+      {
+        "species": "wooper",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 60
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          5,
+          35
+        ],
+        "rate": 30
+      },
+      {
+        "species": "slowpoke",
+        "levelRange": [
+          5,
+          35
+        ],
+        "rate": 30
+      },
+      {
+        "species": "marill",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 10
+      },
+      {
+        "species": "wooper",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 10
+      }
+    ]
+  },
+  {
+    "id": "kanto-sevii-icefall-1f-cave",
+    "method": "cave",
+    "entries": [
+      {
+        "species": "golbat",
+        "levelRange": [
+          45,
+          45
+        ],
+        "rate": 40
+      },
+      {
+        "species": "swinub",
+        "levelRange": [
+          25,
+          25
+        ],
+        "rate": 40
+      },
+      {
+        "species": "seel",
+        "levelRange": [
+          45,
+          45
+        ],
+        "rate": 20
+      },
+      {
+        "species": "swinub",
+        "levelRange": [
+          27,
+          27
+        ],
+        "rate": 20
+      },
+      {
+        "species": "swinub",
+        "levelRange": [
+          29,
+          29
+        ],
+        "rate": 20
+      },
+      {
+        "species": "zubat",
+        "levelRange": [
+          40,
+          40
+        ],
+        "rate": 20
+      },
+      {
+        "species": "golbat",
+        "levelRange": [
+          48,
+          48
+        ],
+        "rate": 10
+      },
+      {
+        "species": "swinub",
+        "levelRange": [
+          31,
+          31
+        ],
+        "rate": 10
+      },
+      {
+        "species": "swinub",
+        "levelRange": [
+          23,
+          23
+        ],
+        "rate": 10
+      },
+      {
+        "species": "delibird",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 5
+      },
+      {
+        "species": "sneasel",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 5
+      }
+    ]
+  },
+  {
+    "id": "kanto-sevii-icefall-b1f-cave",
+    "method": "cave",
+    "entries": [
+      {
+        "species": "golbat",
+        "levelRange": [
+          45,
+          45
+        ],
+        "rate": 40
+      },
+      {
+        "species": "swinub",
+        "levelRange": [
+          25,
+          25
+        ],
+        "rate": 40
+      },
+      {
+        "species": "seel",
+        "levelRange": [
+          45,
+          45
+        ],
+        "rate": 20
+      },
+      {
+        "species": "swinub",
+        "levelRange": [
+          27,
+          27
+        ],
+        "rate": 20
+      },
+      {
+        "species": "swinub",
+        "levelRange": [
+          29,
+          29
+        ],
+        "rate": 20
+      },
+      {
+        "species": "zubat",
+        "levelRange": [
+          40,
+          40
+        ],
+        "rate": 20
+      },
+      {
+        "species": "golbat",
+        "levelRange": [
+          48,
+          48
+        ],
+        "rate": 10
+      },
+      {
+        "species": "swinub",
+        "levelRange": [
+          31,
+          31
+        ],
+        "rate": 10
+      },
+      {
+        "species": "swinub",
+        "levelRange": [
+          23,
+          23
+        ],
+        "rate": 10
+      },
+      {
+        "species": "delibird",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 5
+      },
+      {
+        "species": "sneasel",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 5
+      }
+    ]
+  },
+  {
+    "id": "kanto-sevii-icefall-cave-cave",
+    "method": "cave",
+    "entries": [
+      {
+        "species": "golbat",
+        "levelRange": [
+          45,
+          45
+        ],
+        "rate": 40
+      },
+      {
+        "species": "seel",
+        "levelRange": [
+          43,
+          43
+        ],
+        "rate": 40
+      },
+      {
+        "species": "dewgong",
+        "levelRange": [
+          49,
+          49
+        ],
+        "rate": 20
+      },
+      {
+        "species": "seel",
+        "levelRange": [
+          45,
+          45
+        ],
+        "rate": 20
+      },
+      {
+        "species": "seel",
+        "levelRange": [
+          47,
+          47
+        ],
+        "rate": 20
+      },
+      {
+        "species": "zubat",
+        "levelRange": [
+          40,
+          40
+        ],
+        "rate": 20
+      },
+      {
+        "species": "dewgong",
+        "levelRange": [
+          51,
+          51
+        ],
+        "rate": 10
+      },
+      {
+        "species": "dewgong",
+        "levelRange": [
+          53,
+          53
+        ],
+        "rate": 10
+      },
+      {
+        "species": "golbat",
+        "levelRange": [
+          48,
+          48
+        ],
+        "rate": 10
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          41,
+          41
+        ],
+        "rate": 5
+      },
+      {
+        "species": "slowpoke",
+        "levelRange": [
+          41,
+          41
+        ],
+        "rate": 5
+      }
+    ]
+  },
+  {
+    "id": "kanto-sevii-icefall-cave-fishing-good",
+    "method": "fishing-good",
+    "entries": [
+      {
+        "species": "poliwag",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 120
+      },
+      {
+        "species": "goldeen",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 40
+      },
+      {
+        "species": "magikarp",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 40
+      }
+    ]
+  },
+  {
+    "id": "kanto-sevii-icefall-cave-fishing-old",
+    "method": "fishing-old",
+    "entries": [
+      {
+        "species": "magikarp",
+        "levelRange": [
+          5,
+          5
+        ],
+        "rate": 200
+      }
+    ]
+  },
+  {
+    "id": "kanto-sevii-icefall-cave-fishing-super",
+    "method": "fishing-super",
+    "entries": [
+      {
+        "species": "poliwag",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 80
+      },
+      {
+        "species": "poliwhirl",
+        "levelRange": [
+          20,
+          30
+        ],
+        "rate": 80
+      },
+      {
+        "species": "gyarados",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 30
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 4
+      },
+      {
+        "species": "slowpoke",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 4
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
+    "id": "kanto-sevii-icefall-cave-surf",
+    "method": "surf",
+    "entries": [
+      {
+        "species": "seel",
+        "levelRange": [
+          5,
+          35
+        ],
+        "rate": 120
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          5,
+          35
+        ],
+        "rate": 30
+      },
+      {
+        "species": "slowpoke",
+        "levelRange": [
+          5,
+          35
+        ],
+        "rate": 30
+      },
+      {
+        "species": "dewgong",
+        "levelRange": [
+          35,
+          40
+        ],
+        "rate": 10
+      },
+      {
+        "species": "marill",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 5
+      },
+      {
+        "species": "wooper",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 5
+      }
+    ]
+  },
+  {
+    "id": "kanto-sevii-icefall-waterfall-cave",
+    "method": "cave",
+    "entries": [
+      {
+        "species": "golbat",
+        "levelRange": [
+          45,
+          45
+        ],
+        "rate": 40
+      },
+      {
+        "species": "seel",
+        "levelRange": [
+          43,
+          43
+        ],
+        "rate": 40
+      },
+      {
+        "species": "dewgong",
+        "levelRange": [
+          49,
+          49
+        ],
+        "rate": 20
+      },
+      {
+        "species": "seel",
+        "levelRange": [
+          45,
+          45
+        ],
+        "rate": 20
+      },
+      {
+        "species": "seel",
+        "levelRange": [
+          47,
+          47
+        ],
+        "rate": 20
+      },
+      {
+        "species": "zubat",
+        "levelRange": [
+          40,
+          40
+        ],
+        "rate": 20
+      },
+      {
+        "species": "dewgong",
+        "levelRange": [
+          51,
+          51
+        ],
+        "rate": 10
+      },
+      {
+        "species": "dewgong",
+        "levelRange": [
+          53,
+          53
+        ],
+        "rate": 10
+      },
+      {
+        "species": "golbat",
+        "levelRange": [
+          48,
+          48
+        ],
+        "rate": 10
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          41,
+          41
+        ],
+        "rate": 5
+      },
+      {
+        "species": "slowpoke",
+        "levelRange": [
+          41,
+          41
+        ],
+        "rate": 5
+      }
+    ]
+  },
+  {
+    "id": "kanto-sevii-icefall-waterfall-fishing-good",
+    "method": "fishing-good",
+    "entries": [
+      {
+        "species": "horsea",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 80
+      },
+      {
+        "species": "krabby",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 80
+      },
+      {
+        "species": "magikarp",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 40
+      }
+    ]
+  },
+  {
+    "id": "kanto-sevii-icefall-waterfall-fishing-old",
+    "method": "fishing-old",
+    "entries": [
+      {
+        "species": "magikarp",
+        "levelRange": [
+          5,
+          5
+        ],
+        "rate": 200
+      }
+    ]
+  },
+  {
+    "id": "kanto-sevii-icefall-waterfall-fishing-super",
+    "method": "fishing-super",
+    "entries": [
+      {
+        "species": "horsea",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 40
+      },
+      {
+        "species": "krabby",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 40
+      },
+      {
+        "species": "shellder",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 40
+      },
+      {
+        "species": "staryu",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 40
+      },
+      {
+        "species": "gyarados",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 30
+      },
+      {
+        "species": "kingler",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 4
+      },
+      {
+        "species": "seadra",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 4
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
+    "id": "kanto-sevii-icefall-waterfall-surf",
+    "method": "surf",
+    "entries": [
+      {
+        "species": "tentacool",
+        "levelRange": [
+          5,
+          20
+        ],
+        "rate": 120
+      },
+      {
+        "species": "tentacool",
+        "levelRange": [
+          20,
+          35
+        ],
+        "rate": 60
+      },
+      {
+        "species": "tentacool",
+        "levelRange": [
+          35,
+          45
+        ],
+        "rate": 10
+      },
+      {
+        "species": "tentacruel",
+        "levelRange": [
+          35,
+          45
+        ],
+        "rate": 8
+      },
+      {
+        "species": "lapras",
+        "levelRange": [
+          30,
+          45
+        ],
+        "rate": 2
+      }
+    ]
+  },
+  {
     "id": "kanto-sevii-kindle-road-fishing-good",
     "method": "fishing-good",
     "entries": [
@@ -10799,6 +11663,174 @@
         "species": "tentacool",
         "levelRange": [
           20,
+          35
+        ],
+        "rate": 60
+      },
+      {
+        "species": "tentacool",
+        "levelRange": [
+          35,
+          40
+        ],
+        "rate": 10
+      },
+      {
+        "species": "tentacruel",
+        "levelRange": [
+          35,
+          40
+        ],
+        "rate": 10
+      }
+    ]
+  },
+  {
+    "id": "kanto-sevii-water-labyrinth-fishing-good",
+    "method": "fishing-good",
+    "entries": [
+      {
+        "species": "horsea",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 80
+      },
+      {
+        "species": "krabby",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 80
+      },
+      {
+        "species": "magikarp",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 40
+      }
+    ]
+  },
+  {
+    "id": "kanto-sevii-water-labyrinth-fishing-old",
+    "method": "fishing-old",
+    "entries": [
+      {
+        "species": "magikarp",
+        "levelRange": [
+          5,
+          5
+        ],
+        "rate": 200
+      }
+    ]
+  },
+  {
+    "id": "kanto-sevii-water-labyrinth-fishing-super",
+    "method": "fishing-super",
+    "entries": [
+      {
+        "species": "horsea",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 40
+      },
+      {
+        "species": "krabby",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 40
+      },
+      {
+        "species": "qwilfish",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 40
+      },
+      {
+        "species": "remoraid",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 40
+      },
+      {
+        "species": "gyarados",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 30
+      },
+      {
+        "species": "kingler",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 4
+      },
+      {
+        "species": "seadra",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 4
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
+    "id": "kanto-sevii-water-labyrinth-surf",
+    "method": "surf",
+    "entries": [
+      {
+        "species": "hoppip",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 60
+      },
+      {
+        "species": "tentacool",
+        "levelRange": [
+          5,
+          20
+        ],
+        "rate": 60
+      },
+      {
+        "species": "tentacool",
+        "levelRange": [
+          5,
           35
         ],
         "rate": 60

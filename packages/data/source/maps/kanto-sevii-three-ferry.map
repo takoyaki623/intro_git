@@ -1,5 +1,6 @@
-# 3のしまの ふなつきば。西が 2のしま。東の階段は 4のしま以降（殿堂入り後・v1.1-k）。
-# **まだ作っていない行き先の階段は置かない** ―― 置くと「開かない扉」になる。
+# 3のしまの ふなつきば。西が 2のしま、東が 4のしま。
+# **4のしまから先は殿堂入り後**（v1.1-k）―― タラップの手前に せんいん が立つ。
+# 塞ぐのはこの1つの階段だけで、西（2のしま）へは いつでも戻れる（検証 #114）。
 id: kanto-sevii-three-ferry
 name: ふなつきば
 region: kanto
@@ -13,7 +14,7 @@ G normal
 D normal
 
 grid:
-WGWWWWWWW
+WGWWWWWGW
 W.......W
 W..SSS..W
 W.......W
@@ -23,7 +24,9 @@ WWWWDWWWW
 
 warps:
 1,0 step kanto-sevii-two-ferry 7,1 down
+7,0 step kanto-sevii-four-ferry 1,1 down
 4,6 step kanto-sevii-three-island 4,8 up
 
 objects:
 three-ferry-sailor 4,3 npc:sailor:static kanto.sevii.three-sailor
+three-ferry-guard 7,1 npc:sailor:static kanto.sevii.east-guard if:kanto.league.champion-beaten=false

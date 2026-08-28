@@ -34,6 +34,7 @@ graveler	golem	trade
 grimer	muk	level	38		
 growlithe	arcanine	useItem		fire-stone	
 haunter	gengar	trade			
+hoppip	skiploom	level	18		
 horsea	seadra	level	32		
 ivysaur	venusaur	level	32		
 jigglypuff	wigglytuff	useItem		moon-stone	
@@ -48,6 +49,7 @@ magikarp	gyarados	level	20
 magmar	magmortar	trade		magmarizer	
 magnemite	magneton	level	30		
 mankey	primeape	level	28		
+marill	azumarill	level	18		
 meowth	persian	level	28		
 metapod	butterfree	level	10		
 nidoran-f	nidorina	level	16		
@@ -61,11 +63,13 @@ paras	parasect	level	24
 pidgeotto	pidgeot	level	36		
 pidgey	pidgeotto	level	18		
 pikachu	raichu	useItem		thunder-stone	
+piloswine	mamoswine	levelMove			
 poliwag	poliwhirl	level	25		
 poliwhirl	poliwrath	useItem		water-stone	
 ponyta	rapidash	level	40		
 psyduck	golduck	level	33		
 rattata	raticate	level	20		
+remoraid	octillery	level	25		
 rhydon	rhyperior	trade		protector	
 rhyhorn	rhydon	level	42		
 sandshrew	sandslash	level	22		
@@ -73,18 +77,23 @@ scyther	scizor	trade		metal-coat
 seadra	kingdra	trade		dragon-scale	
 seel	dewgong	level	34		
 shellder	cloyster	useItem		water-stone	
+skiploom	jumpluff	level	27		
 slowpoke	slowbro	level	37		
 slowpoke	slowking	trade		king-s-rock	
 slugma	magcargo	level	38		
 spearow	fearow	level	20		
 squirtle	wartortle	level	16		
 staryu	starmie	useItem		water-stone	
+swinub	piloswine	level	33		
 tangela	tangrowth	levelMove			
 tentacool	tentacruel	level	30		
+togepi	togetic	levelFriendship			
+togetic	togekiss	useItem		shiny-stone	
 venonat	venomoth	level	31		
 voltorb	electrode	level	30		
 vulpix	ninetales	useItem		fire-stone	
 wartortle	blastoise	level	36		
 weedle	kakuna	level	7		
 weepinbell	victreebel	useItem		leaf-stone	
+wooper	quagsire	level	20		
 zubat	golbat	level	22		

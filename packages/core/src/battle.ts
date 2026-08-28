@@ -8,7 +8,13 @@
 
 import { attemptCapture, isBall, safariFleeChance, type CaptureContext } from "./capture.js";
 import { calcDamage, rollAccuracy } from "./damage.js";
-import { applyEffect, resolveHitCount, type EffectContext, type HpMutator } from "./effects.js";
+import {
+  applyEffect,
+  resolveHitCount,
+  resolvePresent,
+  type EffectContext,
+  type HpMutator,
+} from "./effects.js";
 import type { GameData } from "./gamedata.js";
 import {
   absorbOf,
@@ -455,6 +461,27 @@ function performMove(
   }
 
   // ── 攻撃技 ──
+  //
+  // **プレゼント だけは、当たったあとに威力を決める**（v1.1-k）。
+  // 2割は攻撃ですらなく相手の回復になるので、ダメージ計算に入る前に分ける ――
+  // `damage.ts` の `powerOverride` は v0.4 から開いていた口で、これが最初の利用者。
+  const present = resolvePresent(move.effect, rng);
+  if (present?.kind === "heal") {
+    const healed = activeOf(state, defender);
+    if (healed.currentHp >= healed.maxHp) {
+      events.push({ kind: "failed", side: attacker });
+      return;
+    }
+    ctx.heal(defender, Math.max(1, Math.floor(healed.maxHp / 4)), (amount, remainingHp) => ({
+      kind: "heal",
+      side: defender,
+      amount,
+      remainingHp,
+    }));
+    return;
+  }
+  const power = present?.kind === "power" ? { powerOverride: present.power } : {};
+
   const hits = resolveHitCount(move.effect, rng);
   let totalDealt = 0;
   let lastEffectiveness = 1;
@@ -463,7 +490,7 @@ function performMove(
     if (activeOf(state, defender).currentHp <= 0) break;
 
     const target = activeOf(state, defender);
-    const result = calcDamage(data, self, target, move, rng, { typeless: isStruggle });
+    const result = calcDamage(data, self, target, move, rng, { typeless: isStruggle, ...power });
     lastEffectiveness = result.effectiveness;
 
     if (result.effectiveness === 0) {

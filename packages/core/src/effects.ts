@@ -228,6 +228,14 @@ export const effectHandlers: Registry = {
   multiHit: () => {
     // battle.ts の resolveHitCount で扱う
   },
+
+  /**
+   * プレゼント。抽選は `resolvePresent`、実際の分岐は battle 側（v1.1-k）。
+   * **威力を差し替えるのも回復に化けるのも、ダメージ計算の前**でないと間に合わない。
+   */
+  present: () => {
+    // battle.ts の resolvePresent で扱う
+  },
 };
 
 export function applyEffect(effect: MoveEffect, ctx: EffectContext): void {
@@ -248,6 +256,26 @@ export function resolveHitCount(effect: MoveEffect | undefined, rng: Rng): numbe
     return r < 3 ? 2 : r < 6 ? 3 : r < 7 ? 4 : 5;
   }
   return rng.range(effect.min, effect.max);
+}
+
+/**
+ * プレゼントの抽選（v1.1-k）。**威力が実行時に決まる技の入口。**
+ *
+ * `damage.ts` には `powerOverride` という口が前から開いていて、
+ * **使っている者が誰も居なかった**（v1.1-k で `grep` して0件）。その最初の通行人。
+ *
+ * 原作の配分: 40%で威力40・30%で80・10%で120・20%で相手を回復。
+ */
+export function resolvePresent(
+  effect: MoveEffect | undefined,
+  rng: Rng,
+): { kind: "power"; power: number } | { kind: "heal" } | null {
+  if (effect?.kind !== "present") return null;
+  const r = rng.int(10);
+  if (r < 4) return { kind: "power", power: 40 };
+  if (r < 7) return { kind: "power", power: 80 };
+  if (r < 8) return { kind: "power", power: 120 };
+  return { kind: "heal" };
 }
 
 /** 全 kind にハンドラが登録されていることを検証する（検証項目 #21 相当）。 */

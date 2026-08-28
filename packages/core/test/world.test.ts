@@ -18,6 +18,7 @@ import {
   safariFleeChance,
   SAFARI,
   neighborsOf,
+  slideFrom,
   FIELD_ABILITIES,
   fieldAbilitiesFor,
   syncAbilities,
@@ -1035,6 +1036,79 @@ describe("フィールド行動（v1.1-c）", () => {
     const world = emptyWorldState();
     syncAbilities(allFieldAbilities, world);
     expect(world.walkable).toEqual([]);
+  });
+});
+
+/**
+ * 氷の床（v1.1-k）。
+ *
+ * v1.1-f で `boulder` を足したとき、氷は「カントーに1枚も無い」として送った。
+ * **こおりのぬけみち にある** ―― 宿題は地方をまたいで戻ってきた。
+ *
+ * 確かめたいのは滑る絵ではなく、**「一歩＝1マス」という前提が崩れる場所を
+ * 1箇所に閉じ込められているか** ―― `stepPlayer` と `neighborsOf` の2つだけが
+ * 滑走を知っていて、他は何も知らないままでよいこと。
+ */
+describe("氷の床（v1.1-k）", () => {
+  const ICE = "kanto-sevii-icefall-1f";
+  const iceMap = () => allMaps.find((m) => m.id === ICE)!;
+  const world = () => emptyWorldState();
+  const stand = (x: number, y: number, facing: Direction): PlayerPosition => ({
+    map: ICE, x, y, facing,
+  });
+
+  it("氷に乗ると、止まれるところまで一気に滑る", () => {
+    const map = iceMap();
+    // 床（11,7）から上へ。**1マスでは止まらない**
+    const result = stepPlayer(map, world(), stand(11, 7, "up"), emptyEncounterState(), "up", rng(), []);
+    expect(result.slid).toBeDefined();
+    expect(result.slid!.length).toBeGreaterThan(1);
+    // 北の壁（row1 は x=9 だけが床）に当たって (11,2) で止まる
+    expect({ x: result.position.x, y: result.position.y }).toEqual({ x: 11, y: 2 });
+    // 通ったマスの最後が着地点 ―― UI はこの並びをなぞるだけでよい
+    expect(result.slid![result.slid!.length - 1]).toEqual({ x: 11, y: 2 });
+  });
+
+  it("氷の上でも、氷でないマスへ1歩踏み出すのは普通の1歩", () => {
+    const map = iceMap();
+    // (9,2) は氷。真上 (9,1) は床なので、そこへは普通に降りられる
+    const result = stepPlayer(map, world(), stand(9, 2, "up"), emptyEncounterState(), "up", rng(), []);
+    expect(result.slid).toBeUndefined();
+    expect({ x: result.position.x, y: result.position.y }).toEqual({ x: 9, y: 1 });
+  });
+
+  it("岩に当たって止まる ―― 帯の途中で降りられるのは、当たる場所だけ", () => {
+    const map = iceMap();
+    // (11,2) から左へ滑ると、(8,2) の壁に当たって (9,2) で止まる
+    const result = stepPlayer(map, world(), stand(11, 2, "left"), emptyEncounterState(), "left", rng(), []);
+    expect({ x: result.position.x, y: result.position.y }).toEqual({ x: 9, y: 2 });
+  });
+
+  it("`neighborsOf` も終点だけを返す ―― 経路探索が氷の上を歩く道を引かない", () => {
+    const map = iceMap();
+    const up = neighborsOf(map, world(), 11, 7, {}).find((n) => n.dir === "up");
+    expect(up).toBeDefined();
+    expect({ x: up!.x, y: up!.y }).toEqual({ x: 11, y: 2 });
+    // 1マス上（11,6）は氷なので、行き先としては返らない
+    expect(neighborsOf(map, world(), 11, 7, {}).some((n) => n.x === 11 && n.y === 6)).toBe(false);
+  });
+
+  it("滑走は必ず止まる ―― どのマスからどの向きでも、終点が盤の中にある", () => {
+    const map = iceMap();
+    const { width, height } = map.size;
+    for (let y = 0; y < height; y += 1) {
+      for (let x = 0; x < width; x += 1) {
+        if (terrainAt(map, x, y) !== "ice") continue;
+        for (const dir of ["up", "down", "left", "right"] as const) {
+          const path = slideFrom(map, world(), x, y, dir);
+          const end = path[path.length - 1]!;
+          expect(end.x, `${x},${y} ${dir}`).toBeGreaterThanOrEqual(0);
+          expect(end.x).toBeLessThan(width);
+          expect(end.y).toBeGreaterThanOrEqual(0);
+          expect(end.y).toBeLessThan(height);
+        }
+      }
+    }
   });
 });
 

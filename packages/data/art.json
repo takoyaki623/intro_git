@@ -1779,5 +1779,162 @@
     "color": "yellow",
     "size": "medium",
     "parts": []
+  },
+  {
+    "species": "sneasel",
+    "shape": "upright",
+    "color": "black",
+    "size": "small",
+    "parts": [
+      "aura",
+      "crystal"
+    ]
+  },
+  {
+    "species": "swinub",
+    "shape": "quadruped",
+    "color": "brown",
+    "size": "tiny",
+    "parts": [
+      "crystal",
+      "spike"
+    ]
+  },
+  {
+    "species": "delibird",
+    "shape": "wings",
+    "color": "red",
+    "size": "small",
+    "parts": [
+      "crystal",
+      "wing"
+    ]
+  },
+  {
+    "species": "marill",
+    "shape": "upright",
+    "color": "blue",
+    "size": "tiny",
+    "parts": [
+      "fin",
+      "sparkle"
+    ]
+  },
+  {
+    "species": "wooper",
+    "shape": "legs",
+    "color": "blue",
+    "size": "tiny",
+    "parts": [
+      "fin",
+      "spike"
+    ]
+  },
+  {
+    "species": "hoppip",
+    "shape": "upright",
+    "color": "pink",
+    "size": "tiny",
+    "parts": [
+      "plant",
+      "wing"
+    ]
+  },
+  {
+    "species": "qwilfish",
+    "shape": "fish",
+    "color": "gray",
+    "size": "tiny",
+    "parts": [
+      "fin",
+      "drip"
+    ]
+  },
+  {
+    "species": "remoraid",
+    "shape": "fish",
+    "color": "gray",
+    "size": "small",
+    "parts": [
+      "fin"
+    ]
+  },
+  {
+    "species": "togepi",
+    "shape": "humanoid",
+    "color": "white",
+    "size": "tiny",
+    "parts": [
+      "sparkle"
+    ]
+  },
+  {
+    "species": "piloswine",
+    "shape": "quadruped",
+    "color": "brown",
+    "size": "medium",
+    "parts": [
+      "crystal",
+      "spike"
+    ]
+  },
+  {
+    "species": "azumarill",
+    "shape": "upright",
+    "color": "blue",
+    "size": "small",
+    "parts": [
+      "fin",
+      "sparkle"
+    ]
+  },
+  {
+    "species": "quagsire",
+    "shape": "upright",
+    "color": "blue",
+    "size": "medium",
+    "parts": [
+      "fin",
+      "spike"
+    ]
+  },
+  {
+    "species": "skiploom",
+    "shape": "upright",
+    "color": "green",
+    "size": "small",
+    "parts": [
+      "plant",
+      "wing"
+    ]
+  },
+  {
+    "species": "jumpluff",
+    "shape": "upright",
+    "color": "blue",
+    "size": "small",
+    "parts": [
+      "plant",
+      "wing"
+    ]
+  },
+  {
+    "species": "octillery",
+    "shape": "tentacles",
+    "color": "red",
+    "size": "small",
+    "parts": [
+      "fin"
+    ]
+  },
+  {
+    "species": "togetic",
+    "shape": "humanoid",
+    "color": "white",
+    "size": "small",
+    "parts": [
+      "sparkle",
+      "wing"
+    ]
   }
 ]

@@ -551,12 +551,12 @@ export function playField(rebuild: () => void): FieldHandle {
             .join(" ・ ");
   }
 
-  function animateWalk(from: PlayerPosition, to: PlayerPosition): Promise<void> {
+  function animateWalk(from: PlayerPosition, to: PlayerPosition, ms = stepMs()): Promise<void> {
     walk = { from, to, start: performance.now() };
     return new Promise((resolve) => {
       const tick = () => {
         draw();
-        if (walk === null || performance.now() - walk.start >= stepMs()) {
+        if (walk === null || performance.now() - walk.start >= ms) {
           walk = null;
           draw();
           resolve();
@@ -566,6 +566,28 @@ export function playField(rebuild: () => void): FieldHandle {
       };
       requestAnimationFrame(tick);
     });
+  }
+
+  /** 氷の上を滑る速さ（v1.1-k）。歩きより速い ―― 止まれないことが伝わればよい。 */
+  const SLIDE_MS = 55;
+
+  /**
+   * 滑走の演出（v1.1-k）。
+   *
+   * `core` は**通ったマスの並び**を返すだけで、時間を持たない。
+   * ここでやるのは、その並びを順に見せることだけ ――
+   * 途中で止める手段は用意しない（止められるなら、それは滑走ではない）。
+   */
+  async function animateSlide(
+    from: PlayerPosition,
+    path: readonly { x: number; y: number }[],
+  ): Promise<void> {
+    let at = from;
+    for (const to of path) {
+      const next = { ...at, x: to.x, y: to.y };
+      await animateWalk(at, next, SLIDE_MS);
+      at = next;
+    }
   }
 
   // ── メッセージ・選択肢 ──
@@ -1151,11 +1173,26 @@ export function playField(rebuild: () => void): FieldHandle {
       world.moved[objectKey(before.map, result.outcome.object)] = result.outcome.to;
     }
 
+    /**
+     * 着いたところまで見せる（v1.1-k）。
+     *
+     * 滑ったときは**通ったマスを順に**、そうでなければいつもの1歩。
+     * `outcome` ごとに `animateWalk` を書くと、滑走を足した日に
+     * **1箇所だけ直し忘れて瞬間移動する出口**ができる ―― 入口を1つにする。
+     */
+    const arrive = async (): Promise<void> => {
+      if (result.slid !== undefined) await animateSlide(before, result.slid);
+      else await animateWalk(before, player.position);
+    };
+
     if (result.outcome.kind === "moved" || result.outcome.kind === "jumped") {
-      await animateWalk(before, player.position);
+      await arrive();
       await spendStep();
       return;
     }
+    // **滑って何かに行き当たったときは、先に滑りを見せる。**
+    // `draw()` だけ先に呼ぶと、出入口や野生の直前で1フレーム瞬間移動する
+    if (result.slid !== undefined) await animateSlide(before, result.slid);
     draw();
 
     switch (result.outcome.kind) {
@@ -1163,18 +1200,18 @@ export function playField(rebuild: () => void): FieldHandle {
         await doWarp(result.outcome.warp);
         return;
       case "encounter":
-        await animateWalk(before, player.position);
+        if (result.slid === undefined) await arrive();
         await wildBattle(result.outcome.species, result.outcome.level);
         return;
       case "event":
-        await animateWalk(before, player.position);
+        if (result.slid === undefined) await arrive();
         await runEvent(result.outcome.event);
         return;
       case "spotted": {
         // **見つかった側が近づいてくる**（原作の「!」）。
         // プレイヤーの位置は動かさない ―― 動かすと、戦ったあとに
         // どこに立っていたか分からなくなる
-        await animateWalk(before, player.position);
+        if (result.slid === undefined) await arrive();
         const spotter = result.outcome.object;
         player.position = { ...player.position, facing: facingTowards(spotter.at) };
         draw();

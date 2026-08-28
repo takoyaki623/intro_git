@@ -9,9 +9,17 @@
 import { describe, expect, it } from "vitest";
 import {
   TYPES, calcDamage, createBattle, createRng, createRngState, legalActions, step,
-  toBattlePokemon,
+  toBattlePokemon, walkCommands,
 } from "@pkmn/core";
-import { allArt, allEncounterTables, allMoves, allNamed, allSpecies, gameData } from "@pkmn/data";
+import {
+  allArt,
+  allEncounterTables,
+  allEvents,
+  allMoves,
+  allNamed,
+  allSpecies,
+  gameData,
+} from "@pkmn/data";
 
 describe("種族値が原作と一致する", () => {
   const EXPECTED: Record<string, [number, number, number, number, number, number]> = {
@@ -137,21 +145,51 @@ describe("データ全体の整合", () => {
    * v1.1 で原作のカントーに寄せると、**カントーの外の種でも野生に出るものがある**
    * ―― ソーナンス は ハナダのどうくつ に居る（第2世代の種だが FRLG に出る）。
    *
-   * それでも守りたいのは元の意図の方で、**消費者の居ない種を置かない**こと。
-   * 「使われていない」と「まだ足していない」を混ぜないために、
-   * 逃げ道は「ネームドが使う」か「野生に出る」の2つだけにしておく。
+   * v1.1-k で逃げ道が2つ増えた。守りたいのは元の意図
+   * （**消費者の居ない種を置かない**）のままで、増えたのは消費者の種類:
+   *
+   *   - **配ってもらう**（みずのめいろの トゲピー・固定シンボル）
+   *   - **進化で辿り着く**（マリル を捕まえれば マリルリ は世界の中に居る）
+   *
+   * 進化先を除くと「野生に出る種の進化先」を1つも置けなくなり、
+   * **公式データが吐いた進化の枝を、こちらの都合で切る**ことになる ――
+   * それは「まだ足していない」ではなく「壊した」なので、逃げ道を足すほうが正しい。
    */
-  it("カントーの外の種には必ず出番がある（ネームドが使うか、野生に出るか）", () => {
+  it("カントーの外の種には必ず出番がある（使われる・野生・配布・進化のどれか）", () => {
     const outside = allSpecies.filter((s) => s.dexNo > 151);
     expect(outside.length).toBeGreaterThan(0);
-    const used = new Set(
+
+    const reachable = new Set(
       allNamed.flatMap((c) =>
         Object.values(c.tiers).flatMap((party) => party.map((m) => m.species)),
       ),
     );
-    const wild = new Set(allEncounterTables.flatMap((t) => t.entries.map((e) => e.species)));
+    for (const table of allEncounterTables) {
+      for (const entry of table.entries) reachable.add(entry.species);
+    }
+    for (const event of allEvents) {
+      for (const command of walkCommands(event.commands)) {
+        if (command.kind === "givePokemon" || command.kind === "wildBattle") {
+          reachable.add(command.species);
+        }
+      }
+    }
+    // 進化は何段でも辿る（マリル → マリルリ、ウリムー → イノムー …）
+    for (let grew = true; grew; ) {
+      grew = false;
+      for (const s of allSpecies) {
+        if (!reachable.has(s.id)) continue;
+        for (const evo of s.evolutions ?? []) {
+          if (!reachable.has(evo.to)) {
+            reachable.add(evo.to);
+            grew = true;
+          }
+        }
+      }
+    }
+
     for (const s of outside) {
-      expect(used.has(s.id) || wild.has(s.id), `${s.name} に出番が無い`).toBe(true);
+      expect(reachable.has(s.id), `${s.name} に出番が無い`).toBe(true);
     }
   });
 
@@ -226,9 +264,17 @@ describe("データの網羅性", () => {
     }
   });
 
-  it("変化技は威力を持たず、攻撃技は必ず威力を持つ", () => {
+  /**
+   * v1.1-k で例外がひとつ増えた ―― **威力を実行時に決める技**（プレゼント）。
+   * `damage.ts` の `powerOverride` を使う側なので、表の `power` は空でよい。
+   * 「書き忘れ」と「決めようが無い」を分けるため、**効果の種類で見分ける**
+   * （id で例外を並べると、次の1件でまた id を足すことになる）。
+   */
+  it("変化技は威力を持たず、攻撃技は必ず威力を持つ（実行時に決める技を除く）", () => {
+    const decidesPower = new Set(["present"]);
     for (const m of allMoves) {
       if (m.category === "status") expect(m.power, m.id).toBeNull();
+      else if (decidesPower.has(m.effect?.kind ?? "")) expect(m.power, m.id).toBeNull();
       else expect(m.power, m.id).toBeGreaterThan(0);
     }
   });

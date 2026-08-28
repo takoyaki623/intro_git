@@ -57,6 +57,8 @@ function parseEffect(src: string, where: string): unknown {
     case "transform":
     // テレポート（v1.1-i）。野生戦から抜ける
     case "fleeWild":
+    // プレゼント（v1.1-k）。威力の抽選は core（`resolvePresent`）が持つ
+    case "present":
       return { kind };
     case "status":
       return { kind, status: args[0], chance: num(1) };

@@ -89,7 +89,11 @@ export const STEP: Record<Direction, { dx: number; dy: number }> = {
  * 地形。**タイル画像から推測しない。**
  * 見た目とルールを分けておかないと、タイルを差し替えた瞬間に挙動が変わる。
  */
-export const TERRAINS = ["normal", "grass", "water", "sand", "cave", "ledge"] as const;
+/**
+ * `ice` は v1.1-k で足した6つ目（v1.1-f では「カントーに1枚も無い」として送った）。
+ * **こおりのぬけみち にある** ―― 宿題は地方をまたいで戻ってきた。
+ */
+export const TERRAINS = ["normal", "grass", "water", "sand", "cave", "ledge", "ice"] as const;
 export type TerrainId = (typeof TERRAINS)[number];
 
 export type Warp = {

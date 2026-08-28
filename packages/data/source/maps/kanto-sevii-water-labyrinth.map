@@ -1,0 +1,34 @@
+# みずのめいろ。4のしまの西。**トゲピー はここでもらう。**
+#
+# 原作は「タマゴをもらって かえす」だが、**孵化は作らない決定**（progression.md §9）。
+# タマゴだけ先に作ると、割れない卵を持ち歩くことになる ―― 本体をそのまま渡す。
+id: kanto-sevii-water-labyrinth
+name: みずのめいろ
+region: kanto
+encounters: kanto-sevii-water-labyrinth-surf kanto-sevii-water-labyrinth-fishing-old kanto-sevii-water-labyrinth-fishing-good kanto-sevii-water-labyrinth-fishing-super
+bgm: route-12
+
+legend:
+. normal
+~ !water
+s sand
+T !normal
+
+grid:
+TTTTTTTTTTTTT
+T~~~~~~~~~~~T
+T~...~~~...~T
+T~.~.~~~.~.~T
+T~.~.....~.~T
+T~.~~~~~~~..s
+T~.......~~~T
+T~~~~.~~~~~~T
+T~~~~.~~~~~~T
+T~~~~~~~~~~~T
+TTTTTTTTTTTTT
+
+warps:
+12,5 step kanto-sevii-four-island 1,5 right
+
+objects:
+labyrinth-gift 2,6 npc:oldman:static kanto.sevii.togepi-gift

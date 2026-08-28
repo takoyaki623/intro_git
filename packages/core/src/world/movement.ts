@@ -144,6 +144,52 @@ export function canEnter(
   });
 }
 
+/**
+ * 氷の上を滑る（v1.1-k）。**「一歩＝1マス」を変える唯一の機構。**
+ *
+ * 入ったマスが氷なら、同じ向きに進み続け、
+ * **入れないマスに当たるか、氷でないマスに乗った時点で止まる。**
+ * 返すのは通ったマスの並び（最初の1歩を含む）で、最後の要素が着地点。
+ *
+ * **必ず止まる。** 進めるのは毎回ちがうマスなので、
+ * 通ったマスを覚えておけば輪に入っても抜けられる ――
+ * 上限をマスの総数にしておくのは、その保険（`core` は時間を持たないので、
+ * 止まらない滑走はそのままフリーズになる）。
+ *
+ * 呼ぶのは `stepPlayer`（実際の1歩）と `neighborsOf`（行き先の集合）の2つだけ。
+ * v1.1-a で「隣とは何か」を1箇所に寄せたので、**滑走を教える場所も2つで済む。**
+ */
+export function slideFrom(
+  map: MapData,
+  world: WorldState,
+  x: number,
+  y: number,
+  dir: Direction,
+  options: NeighborOptions = {},
+): { x: number; y: number }[] {
+  const { dx, dy } = STEP[dir];
+  const path: { x: number; y: number }[] = [{ x, y }];
+  const seen = new Set<string>([`${x},${y}`]);
+  let cx = x;
+  let cy = y;
+  const limit = map.size.width * map.size.height;
+  for (let i = 0; i < limit; i += 1) {
+    if (terrainAt(map, cx, cy) !== "ice") break;
+    const nx = cx + dx;
+    const ny = cy + dy;
+    if (!canEnter(map, world, nx, ny, options)) break;
+    // 踏む warp は滑走を止める ―― 氷の上の warp は検証 #120 が禁じているので、
+    // ここに来るのは「氷の外の出入口へ滑り込んだ」場合だけ
+    if (seen.has(`${nx},${ny}`)) break;
+    seen.add(`${nx},${ny}`);
+    cx = nx;
+    cy = ny;
+    path.push({ x: cx, y: cy });
+    if (warpAt(map, cx, cy, "step") !== null) break;
+  }
+  return path;
+}
+
 export type Neighbor = { dir: Direction; map: MapId; x: number; y: number };
 
 /**
@@ -177,6 +223,15 @@ export function neighborsOf(
       ny += dy;
     }
     if (!canEnter(map, world, nx, ny, options)) continue;
+
+    // 氷（v1.1-k）。**滑った先が「隣」** ―― 途中のマスには止まれないので、
+    // 経路探索が氷の上を1マスずつ歩く道を引くと、実際には歩けない道になる
+    if (terrainAt(map, nx, ny) === "ice") {
+      const path = slideFrom(map, world, nx, ny, dir, options);
+      const end = path[path.length - 1]!;
+      nx = end.x;
+      ny = end.y;
+    }
 
     const warp = options.followWarps === false ? null : warpAt(map, nx, ny, "step");
     if (warp === null) {
@@ -304,6 +359,15 @@ export type StepPlayerResult = {
   position: PlayerPosition;
   encounter: EncounterState;
   outcome: StepOutcome;
+  /**
+   * 氷を滑って通ったマス（v1.1-k）。**滑走は「移動の仕方」であって「結果」ではない。**
+   *
+   * `StepOutcome` に足さないのは、滑り終えた先で起きること（出入口・落ちている道具・
+   * 視線・野生）が**滑ったかどうかと無関係**だから ―― `slid` を結果にすると、
+   * 「滑って warp に入った」を表すのに種類の掛け算が要る。
+   * UI はこの並びをなぞってから、いつもどおり `outcome` を処理する。
+   */
+  slid?: readonly { x: number; y: number }[];
 };
 
 /**
@@ -409,42 +473,57 @@ export function stepPlayer(
     return { position, encounter, outcome: { kind: "blocked" } };
   }
 
-  const moved: PlayerPosition = { ...position, x: nx, y: ny };
+  // 氷（v1.1-k）。**滑走は1回の呼び出しで全部返す** ―― `core` は時間を持たないので、
+  // 「1マスずつ返して UI が繰り返す」形にすると、途中の1マスで止まれる世界になる。
+  // 止まる場所が決まってから、いつもの判定（出入口・道具・視線・野生）をそこで行う
+  const slid = terrainAt(map, nx, ny) === "ice" ? slideFrom(map, world, nx, ny, direction) : null;
+  const at = slid === null ? { x: nx, y: ny } : slid[slid.length - 1]!;
+  /** 滑ったときだけ足す（`exactOptionalPropertyTypes` なので、無いときは欄ごと無い）。 */
+  const trail = slid === null ? {} : { slid };
+
+  const moved: PlayerPosition = { ...position, x: at.x, y: at.y };
 
   // 踏むタイプの warp が最優先。エンカウントより先に判定する
-  const warp = warpAt(map, nx, ny, "step");
+  const warp = warpAt(map, at.x, at.y, "step");
   if (warp !== null) {
-    return { position: moved, encounter: emptyEncounterState(), outcome: { kind: "warp", warp } };
+    return {
+      position: moved,
+      encounter: emptyEncounterState(),
+      outcome: { kind: "warp", warp },
+      ...trail,
+    };
   }
 
   // 踏んだ場所のイベント（落ちている道具など）
-  const object = objectAt(map, world, nx, ny);
+  const object = objectAt(map, world, at.x, at.y);
   if (object !== null && object.kind.type === "item" && object.event !== undefined) {
     return {
       position: moved,
       encounter: { ...encounter, stepsSince: encounter.stepsSince + 1 },
       outcome: { kind: "event", event: object.event, object },
+      ...trail,
     };
   }
 
   // **視線は野生より先。** 草むらを横切ってトレーナーの前に出たとき、
   // 野生が割り込むと「見つかったのに何も起きない」状態になる
-  const spotter = spotterAt(map, world, nx, ny);
+  const spotter = spotterAt(map, world, at.x, at.y);
   if (spotter !== null && spotter.event !== undefined) {
     return {
       position: moved,
       encounter: emptyEncounterState(),
       outcome: { kind: "spotted", object: spotter, event: spotter.event },
+      ...trail,
     };
   }
 
-  const next = advanceEncounterState(encounter, terrainAt(map, nx, ny));
-  const wild = rollEncounter(map, terrainAt(map, nx, ny), next, rng, tables);
+  const next = advanceEncounterState(encounter, terrainAt(map, at.x, at.y));
+  const wild = rollEncounter(map, terrainAt(map, at.x, at.y), next, rng, tables);
   if (wild !== null) {
-    return { position: moved, encounter: emptyEncounterState(), outcome: wild };
+    return { position: moved, encounter: emptyEncounterState(), outcome: wild, ...trail };
   }
 
-  return { position: moved, encounter: next, outcome: { kind: "moved" } };
+  return { position: moved, encounter: next, outcome: { kind: "moved" }, ...trail };
 }
 
 /**

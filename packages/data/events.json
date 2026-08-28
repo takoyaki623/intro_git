@@ -9316,5 +9316,142 @@
         "value": true
       }
     ]
+  },
+  {
+    "id": "kanto.sevii.east-guard",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "この さきは 4のしま。\nリーグを こえた トレーナーだけ のせています。",
+        "speaker": "せんいん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.four-sailor",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "4のしま だ。北の どうくつは\nゆかが こおって いて すべるぞ。",
+        "speaker": "せんいん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.four-sign",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "4のしま\nこおりのぬけみち は きたへ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.four-man",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "こおりの ゆかは のったら とまれん。\nどこで 止まるかを さきに 考えるんだ。",
+        "speaker": "おじさん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.four-nurse",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ポケモンを おあずかりします。",
+        "speaker": "ジョーイ"
+      },
+      {
+        "kind": "healParty"
+      },
+      {
+        "kind": "message",
+        "text": "おまたせしました!",
+        "speaker": "ジョーイ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.four-center-pc",
+    "commands": [
+      {
+        "kind": "openBox"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.icefall-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "full-restore",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.icefall-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.icefall-b1f-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-elixir",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.icefall-b1f-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.togepi-gift",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.sevii.togepi-taken",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "この こは まだ ちいさくてね。\nつれて いって くれないか?",
+            "speaker": "おじさん"
+          },
+          {
+            "kind": "givePokemon",
+            "species": "togepi",
+            "level": 25
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.sevii.togepi-taken",
+            "value": true
+          },
+          {
+            "kind": "message",
+            "text": "なついたら すがたが かわるそうだ。",
+            "speaker": "おじさん"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "その こを たのむよ。",
+            "speaker": "おじさん"
+          }
+        ]
+      }
+    ]
   }
 ]

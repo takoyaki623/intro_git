@@ -1,0 +1,28 @@
+# 4のしまのポケモンセンター。
+id: kanto-sevii-four-pokecenter
+name: ポケモンセンター
+region: kanto
+bgm: pokecenter
+
+legend:
+. normal
+W !normal
+S !normal
+C !normal
+D normal
+
+grid:
+WWWWWWWWW
+WSSSSS..W
+W.......W
+W.....CCW
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,6 step kanto-sevii-four-island 4,4 down
+
+objects:
+four-nurse 4,2 npc:nurse:static kanto.sevii.four-nurse
+four-center-pc 7,4 npc:machine:static kanto.sevii.four-center-pc

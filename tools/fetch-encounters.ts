@@ -139,6 +139,14 @@ const SOURCE: Record<string, { location: string; area?: string }> = {
   "kanto-sevii-bond-bridge": { location: "bond-bridge" },
   "kanto-sevii-berry-forest": { location: "berry-forest" },
   "kanto-sevii-three-isle-port": { location: "three-isle-port" },
+  // ナナシマ 4のしま（v1.1-k）。殿堂入り後に開く島の1つ目 ――
+  // **氷の床がここで要る**（v1.1-f で「カントーに1枚も無い」として送った宿題）
+  "kanto-sevii-four-island": { location: "four-island" },
+  "kanto-sevii-water-labyrinth": { location: "water-labyrinth" },
+  "kanto-sevii-icefall-cave": { location: "icefall-cave", area: "entrance" },
+  "kanto-sevii-icefall-1f": { location: "icefall-cave", area: "1f" },
+  "kanto-sevii-icefall-b1f": { location: "icefall-cave", area: "b1f" },
+  "kanto-sevii-icefall-waterfall": { location: "icefall-cave", area: "waterfall" },
 };
 
 /**

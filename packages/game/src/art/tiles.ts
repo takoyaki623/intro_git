@@ -65,6 +65,8 @@ export function baseColor(terrain: TerrainId, blocked: boolean, hint: string | u
   if (terrain === "grass") return "#4f9b46";
   if (terrain === "ledge") return "#8a6a3d";
   if (terrain === "sand") return "#d8c48a";
+  // 氷（v1.1-k）。**床として描くが、乗ると止まれない** ―― 見た目でそれと分かる色にする
+  if (terrain === "ice") return "#bfe6f2";
   if (terrain === "cave") return blocked ? "#4a4642" : "#7b736b";
   const named = hint === undefined ? undefined : TILE_HINT[hint];
   if (named !== undefined) return named;

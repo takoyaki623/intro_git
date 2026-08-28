@@ -71,3 +71,5 @@ sand-rush	すなかき	inert:未実装（v0.11 で追加）
 sand-force	すなのちから	inert:未実装（v0.11 で追加）
 sheer-force	ちからずく	inert:未実装（v0.11 で追加）
 magma-armor	マグマのよろい	statusImmunity:freeze
+huge-power	ちからもち	statMultiplier:atk:2
+suction-cups	きゅうばん	inert:交代を強制する技がまだ無い（v1.1-k）

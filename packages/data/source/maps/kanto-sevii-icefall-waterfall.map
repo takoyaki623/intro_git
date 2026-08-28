@@ -1,0 +1,31 @@
+# こおりのぬけみち の たきつぼ。**ラプラス はここの水面に出る。**
+# 原作は たきのぼり で来る場所だが、その技は無い ―― 地下1階から歩いて降りる形にした
+# （秘伝技を廃止した決定（world.md §7）の帰結で、道のつなぎ方でだけ調整する）。
+id: kanto-sevii-icefall-waterfall
+name: こおりのぬけみち たきつぼ
+region: kanto
+encounters: kanto-sevii-icefall-waterfall-cave kanto-sevii-icefall-waterfall-surf kanto-sevii-icefall-waterfall-fishing-old kanto-sevii-icefall-waterfall-fishing-good kanto-sevii-icefall-waterfall-fishing-super
+bgm: mt-moon
+
+legend:
+. cave
+C !cave
+~ !water
+D normal
+
+grid:
+CCCCCCCCCCCCC
+C....D......C
+C...........C
+C..~~~~~~~..C
+C.~~~~~~~~~.C
+C.~~~~~~~~~.C
+C.~~~~~~~~~.C
+C..~~~~~~~..C
+C...........C
+CCCCCCCCCCCCC
+
+warps:
+5,1 step kanto-sevii-icefall-b1f 5,6 down
+
+objects:
