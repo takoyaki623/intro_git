@@ -13,7 +13,7 @@ D normal
 grid:
 CCCCCCCCCCC
 CD........C
-C.CCCCCCC.C
+C.CC.CCCC.C
 C.CCCCCCC.C
 C.........C
 C.CCCCC.C.C
@@ -26,4 +26,4 @@ warps:
 9,7 step kanto-sevii-ruby-path-b2f 1,2 down
 
 objects:
-ruby-b1f-rock 7,6 obstacle:rockSmash
+ruby-b1f-rock 4,2 obstacle:rockSmash

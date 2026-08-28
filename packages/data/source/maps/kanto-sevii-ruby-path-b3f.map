@@ -13,7 +13,7 @@ D normal
 grid:
 CCCCCCCCCCC
 CD........C
-C.CCCCCCC.C
+C.CC.CCCC.C
 C.......C.C
 CCCCCCC.C.C
 C.......C.C
@@ -26,4 +26,4 @@ warps:
 
 objects:
 ruby-stone 4,5 item:ruby kanto.sevii.ruby if:kanto.sevii.ruby-taken=false
-ruby-b3f-rock 3,3 obstacle:rockSmash
+ruby-b3f-rock 4,2 obstacle:rockSmash

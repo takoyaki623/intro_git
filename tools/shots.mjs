@@ -290,7 +290,7 @@ const PLACES = [
   { file: "sevii-mt-ember", name: "ともしびやま", note: "ブーバー の唯一の居場所。1本道をロケット団2人が塞ぐ", to: ["kanto-sevii-mt-ember", 6, 7] },
   { file: "sevii-ruby-path", name: "ルビーのどうくつ B3F", note: "ルビー と マグカルゴ。地下3階ぶんが公式の階層どおり", to: ["kanto-sevii-ruby-path-b3f", 4, 7] },
   { file: "sevii-bond-bridge", name: "きずなばし", note: "海の上の橋。橋の上でも釣れる（3のしま⇄きのみのもり）", to: ["kanto-sevii-bond-bridge", 6, 6] },
-  { file: "sevii-ferry", name: "ふなつきば", note: "港どうしを鎖でつなぐ。**屋内にしたから関門になる**（v1.1-j）", to: ["kanto-sevii-one-ferry", 4, 3] },
+  { file: "sevii-ferry", name: "ふなつきば", note: "港どうしを鎖でつなぐ。**屋内にしたから関門になる**（v1.1-j）", to: ["kanto-sevii-one-ferry", 4, 4] },
   { file: "hub-plaza", name: "拠点の広場", note: "施設・大会・保管庫・地方ゲートが並ぶ", to: ["hub-plaza", 8, 9] },
   { file: "hub-depot", name: "保管庫のなか", note: "共通ボックスと BP交換所", to: ["hub-depot", 4, 3] },
 ];

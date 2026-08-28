@@ -49186,7 +49186,7 @@
         ".",
         "C",
         "C",
-        "C",
+        ".",
         "C",
         "C",
         "C",
@@ -49290,7 +49290,7 @@
       false,
       true,
       true,
-      true,
+      false,
       true,
       true,
       true,
@@ -49497,8 +49497,8 @@
       {
         "id": "ruby-b1f-rock",
         "at": {
-          "x": 7,
-          "y": 6
+          "x": 4,
+          "y": 2
         },
         "kind": {
           "type": "obstacle",
@@ -49548,7 +49548,7 @@
         ".",
         "C",
         "C",
-        "C",
+        ".",
         "C",
         "C",
         "C",
@@ -49652,7 +49652,7 @@
       false,
       true,
       true,
-      true,
+      false,
       true,
       true,
       true,
@@ -49859,8 +49859,8 @@
       {
         "id": "ruby-b2f-rock",
         "at": {
-          "x": 3,
-          "y": 4
+          "x": 4,
+          "y": 2
         },
         "kind": {
           "type": "obstacle",
@@ -49910,7 +49910,7 @@
         ".",
         "C",
         "C",
-        "C",
+        ".",
         "C",
         "C",
         "C",
@@ -50014,7 +50014,7 @@
       false,
       true,
       true,
-      true,
+      false,
       true,
       true,
       true,
@@ -50226,8 +50226,8 @@
       {
         "id": "ruby-b3f-rock",
         "at": {
-          "x": 3,
-          "y": 3
+          "x": 4,
+          "y": 2
         },
         "kind": {
           "type": "obstacle",
@@ -50589,7 +50589,7 @@
         "id": "ruby-path-rock",
         "at": {
           "x": 4,
-          "y": 3
+          "y": 2
         },
         "kind": {
           "type": "obstacle",

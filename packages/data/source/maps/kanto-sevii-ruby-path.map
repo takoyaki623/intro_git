@@ -27,4 +27,4 @@ warps:
 5,8 step kanto-sevii-mt-ember 6,2 down
 
 objects:
-ruby-path-rock 4,3 obstacle:rockSmash
+ruby-path-rock 4,2 obstacle:rockSmash
