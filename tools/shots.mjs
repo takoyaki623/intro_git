@@ -420,6 +420,15 @@ for (const size of [
     }
   }
 
+  /** ゲームが次の入力を受け付けるまで待つ（v1.2-a・`playthrough.mjs` と同じ）。 */
+  async function ready(limit = 20) {
+    for (let i = 0; i < limit; i += 1) {
+      const busy = await page.getAttribute("#field-canvas", "data-busy").catch(() => null);
+      if (busy !== "1") return;
+      await page.waitForTimeout(40);
+    }
+  }
+
   async function goTo(map, x, y) {
     // **引き直しは1戦ごとに1回消える。** カントーが広がって
     // クチバからマサラまで歩くようになったので、10回では足りない（v0.12-b）
@@ -431,6 +440,13 @@ for (const size of [
       for (const key of path) {
         await page.keyboard.press(key);
         await page.waitForTimeout(150);
+        // **ゲームが動き終わるまで待つ**（v1.2-a）。150ms は「1歩ぶんの歩行アニメ」に
+        // 合わせた数字で、**氷を滑るあいだ**（1マス55ms × 滑った枚数）も
+        // **ぶつかったとき**（110ms）も足りない。足りないと位置が予測とずれ、
+        // 60回ぶん経路を引き直して諦める ―― こおりのぬけみち から出られず、
+        // その先の12枚が `△` になった。台本が同じことで落ちたときと同じ直し方で、
+        // **時間を数えるのをやめて、受け付けているかを読む**
+        await ready();
         // **視線バトルは会話から始まる**（v0.12）。会話が開いたままだと
         // 以降のキーは全部そちらに吸われ、歩いていないのに歩いたことになる
         for (let i = 0; i < 8 && (await page.isVisible("#field-text")); i += 1) {
