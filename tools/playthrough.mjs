@@ -1285,11 +1285,59 @@ expect(
   "kanto-vermilion-city",
 );
 
-// せんちょうに おそわる（道具ではなくフラグ・world.md §7）
-await goToMap("kanto-vermilion-city", 3, 5, 30);
-await talk("ArrowUp");
+// ── サンアンヌごう（v1.2-b）――
+//
+// v1.1-g-2 では**クチバの町に船長が1人立っている**だけで、
+// いあいぎり は町中でもらえた。原作の船ができたので、道のりが1段増えた:
+//   マサキ（25番道路）で ふねのチケット → ふなつきば → 甲板 → 船内 → ライバル → 船長室
+await travel([
+  ["kanto-cerulean-city", 7, 3],
+  ["kanto-bill-house", 3, 4],
+]);
+expect("マサキの家まで 行ける", (await spot()).map, "kanto-bill-house");
+await talkToObject("kanto-bill-house", "bill");
+await drain(10);
+expect(
+  "マサキが ふねのチケットを くれる",
+  `${(await readSave()).global.bag["ss-ticket"] ?? 0}`,
+  "1",
+);
+
+await travel([
+  ["kanto-vermilion-city", 6, 10],
+  ["kanto-vermilion-ferry", 4, 4],
+]);
+expect("ふなつきばに 入れる", (await spot()).map, "kanto-vermilion-ferry");
+await goToMap("kanto-ss-anne-deck", 6, 5, 60);
+expect("チケットが あれば 船に 乗れる", (await spot()).map, "kanto-ss-anne-deck");
+await shot("20a-ss-anne");
+
+// **ライバルは船長室の手前**（原作どおり）。倒さないと先へ進めるが、
+// 視線が廊下を睨むので、先に片付けてから船長へ向かう
+await talkToObject("kanto-ss-anne-2f", "ss-anne-rival");
 await drain(8);
-await goToMap("kanto-vermilion-city", 6, 10, 30);
+if (await page.isVisible("#battle")) {
+  await fight();
+  await page.waitForTimeout(800);
+  await drain();
+}
+await refreshFlags();
+expect(
+  "船の中で ライバルと 戦う",
+  liveFlags.has("kanto.ssanne.rival-beaten") ? "戦った" : "戦っていない",
+  "戦った",
+);
+
+// せんちょうに おそわる（道具ではなくフラグ・world.md §7）
+await talkToObject("kanto-ss-anne-captain", "ss-anne-captain");
+await drain(8);
+await refreshFlags();
+expect(
+  "船長室で いあいぎり を おそわる",
+  liveFlags.has("kanto.ability.cut") ? "おそわった" : "おそわっていない",
+  "おそわった",
+);
+await goToMap("kanto-vermilion-city", 6, 10, 60);
 await useAbility("ArrowLeft", "kanto-vermilion-city:vermilion-tree");
 note("き を きったあと", await at());
 await shot("20b-cut");

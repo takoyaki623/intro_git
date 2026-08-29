@@ -161,6 +161,14 @@ const SHOOTING_SAVE = (() => {
     // 押した岩は `world.moved` にしか残らず、撮影の道具は岩を押さない ――
     // 開けておかないと3階へ一生たどり着けない（カビゴンで踏んだのと同じ形）
     "kanto.victory.switch-2f", "kanto.victory.switch-3f",
+    // **ふたごじま も岩とスイッチになった**（v1.2-b）。開けておかないと B4F へ行けない
+    "kanto.seafoam.switch-b3",
+    // **サンアンヌごう のタラップ**（v1.2-b）。ふねのチケットは マサキ がくれるが、
+    // 撮影は話しかけられないので、渡した印を立てておく
+    "kanto.bill.helped",
+    // **グレンジムは ひみつのカギ で開く**（v1.2-b）。
+    // カギは やしきの地下にあり、撮影は拾えない ―― 拾った印を立てておく
+    "kanto.mansion.secret-key-taken",
     // **ヤマブキジムの前にも警備員が立っている**（v0.12-e）。
     // トキワの `gym-open` は立てていたのに、ヤマブキのぶんを忘れていた ――
     // ジムの扉の真下に立つので、扉の1マス手前で止まる。
@@ -255,6 +263,9 @@ const PLACES = [
   { file: "lab", name: "グレンけんきゅうじょ", note: "かせきを もどす唯一の場所（v1.1-g-3）", to: ["kanto-cinnabar-lab", 4, 3] },
   { file: "mansion-celadon", name: "タマムシマンション", note: "イーブイ1匹で、石で分かれる3種が開く（v1.1-g-3）", to: ["kanto-celadon-mansion", 4, 3] },
   { file: "dojo", name: "カラテどうじょう", note: "勝つと どちらか1匹（v1.1-g-3）", to: ["kanto-saffron-dojo", 4, 3] },
+  { file: "ss-anne", name: "サンアンヌごう", note: "**船が丸ごと無かった**（v1.2-b）。いあいぎり は町の船長ではなく船長室で教わる", to: ["kanto-ss-anne-1f", 6, 2] },
+  { file: "mansion-b1f", name: "ポケモンやしき ちか", note: "**ひみつのカギ** はここ（v1.2-b）。やしきが在る理由そのもの", to: ["kanto-pokemon-mansion-b1f", 6, 3] },
+  { file: "cerulean-cave-b1f", name: "ハナダのどうくつ さいしんぶ", note: "ミュウツーを最奥へ戻した（v1.2-b）。1枚だった頃は入口の隣に居た", to: ["kanto-cerulean-cave-b1f", 6, 1] },
   { file: "rock-tunnel-dark", name: "イワヤマトンネル（フラッシュ前）", note: "暗い洞窟（v1.2-a）。見えるのは半径2マス ―― **壁ではなく幕**なので、覚えていなくても歩けるし戦える", to: ["kanto-rock-tunnel-1f", 6, 7], without: ["kanto.ability.flash"] },
   { file: "dept-store", name: "タマムシデパート", note: "品揃えを**階で**分けた（v1.1-i）。2かい どうぐ／3かい わざマシン／4かい しんかの どうぐ", to: ["kanto-celadon-dept-2f", 4, 4] },
   { file: "gamecorner", name: "ゲームコーナー", note: "スロットは作らない ―― 景品はお金で（v1.1-g-3）", to: ["kanto-celadon-gamecorner", 5, 4] },
@@ -281,6 +292,7 @@ const PLACES = [
   { file: "sevii-bond-bridge", name: "きずなばし", note: "海の上の橋。橋の上でも釣れる（3のしま⇄きのみのもり）", to: ["kanto-sevii-bond-bridge", 6, 6] },
   { file: "sevii-ferry", name: "ふなつきば", note: "港どうしを鎖でつなぐ。**屋内にしたから関門になる**（v1.1-j）", to: ["kanto-sevii-one-ferry", 4, 4] },
   { file: "sevii-icefall", name: "こおりのぬけみち 1F", note: "**氷の床**（v1.1-k）。乗ったら止まれない ―― 一歩＝1マスが崩れる唯一の場所", to: ["kanto-sevii-icefall-1f", 6, 7] },
+  { file: "mt-ember-inside", name: "ともしびやま どうくつ", note: "**ファイヤーはここ**（v1.2-b）。島ができるまではチャンピオンロードに居た", to: ["kanto-sevii-mt-ember-inside", 5, 5] },
   { file: "icefall-waterfall", name: "こおりのぬけみち たきつぼ", note: "滝の帯は端から端まで（v1.2-a）。**岸を1マス残すと歩いて回り込める**ので、端まで届かせる", to: ["kanto-sevii-icefall-waterfall", 5, 2] },
   { file: "sevii-ruin-valley", name: "いせきのたに", note: "ネイティ・ヤンヤンマ・ソーナンス。奥に ドットのあな（v1.1-k）", to: ["kanto-sevii-ruin-valley", 6, 6] },
   { file: "sevii-pattern-bush", name: "パターンブッシュ", note: "ヘラクロス・レディバ・イトマル。奥は へんげのどうくつ", to: ["kanto-sevii-pattern-bush", 6, 5] },
