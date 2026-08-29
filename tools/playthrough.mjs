@@ -12,7 +12,7 @@
  */
 
 import { chromium } from "playwright";
-import { emptyWorldState, neighborsOf, walkableTerrains } from "@pkmn/core";
+import { emptyWorldState, fieldAbilitiesFor, neighborsOf, walkableTerrains } from "@pkmn/core";
 import { allFieldAbilities } from "@pkmn/data";
 import { mkdtempSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -174,18 +174,33 @@ const cleared = new Set();
  * **押して空いたマスを壁だと思い込む** ―― 岩の向こうへ行く手順が引けない。
  */
 const pushedAt = {};
-let canSurf = false;
+/** いま立っているバッジの数（v1.2-a）。`draw()` が canvas に出している。 */
+let liveBadges = 0;
+/**
+ * 経路探索に使う世界の状態。
+ *
+ * **能力の一覧を台本の中に持たない**（v1.2-a）。
+ * ここは長らく `canSurf ? ["surf"] : []` と書いてあり、
+ * なみのり以外の「上を歩く能力」を知らなかった ――
+ * たきのぼり を足した日に、教わったあとも滝の向こうへ「経路なし」と言った。
+ *
+ * **使えるかどうかを決めるのはデータ**（`field-abilities.json` の
+ * `requires` は「フラグ ∧ バッジ」）なので、フラグとバッジを画面から読んで
+ * `fieldAbilitiesFor` にそのまま判断させる。能力が1つ増えても、ここは何も要らない。
+ */
 const able = () => {
-  const abilities = canSurf ? ["surf"] : [];
-  return {
+  const world = {
     ...emptyWorldState(),
-    abilities,
-    // 通れる地形は能力から導く（v1.1-c）。片方だけ持つと
-    // 「なみのり は使えるのに水に入れない」経路探索になる
-    walkable: walkableTerrains(allFieldAbilities, abilities),
+    flags: Object.fromEntries([...liveFlags].map((f) => [f, true])),
+    badges: liveBadges,
     cleared: [...cleared],
     moved: { ...pushedAt },
   };
+  world.abilities = fieldAbilitiesFor(allFieldAbilities, world);
+  // 通れる地形は能力から導く（v1.1-c）。片方だけ持つと
+  // 「なみのり は使えるのに水に入れない」経路探索になる
+  world.walkable = walkableTerrains(allFieldAbilities, world.abilities);
+  return world;
 };
 
 /**
@@ -209,6 +224,8 @@ let liveFlags = new Set();
 async function refreshFlags() {
   const raw = (await page.getAttribute("#field-canvas", "data-flags").catch(() => null)) ?? "";
   liveFlags = new Set(raw === "" ? [] : raw.split(","));
+  const badges = await page.getAttribute("#field-canvas", "data-badges").catch(() => null);
+  if (badges !== null) liveBadges = Number(badges);
 }
 /** 条件が今 成り立っているか。**フラグ以外は判断しない**（消える前提の側に倒す）。 */
 function holds(cond) {
@@ -2243,7 +2260,10 @@ expect("そらをとぶ で クチバへ 飛べる", (await spot()).map, "kanto-
 await shot("26-fly");
 
 // なみのり ―― 海へ出て、砂州の道具を拾う
-canSurf = true;
+//
+// **「ここから泳げる」を台本が宣言していた行は消した**（v1.2-a）。
+// いまは画面のフラグとバッジから毎回導くので、覚えた瞬間から泳げる
+await refreshFlags();
 await goToMap("kanto-vermilion-city", 9, 12, 40);
 await drain();
 const onWater = await spot();
