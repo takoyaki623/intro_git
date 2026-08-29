@@ -20,12 +20,13 @@
  * こちらが種を選ぶと、道ごとの色がこちらの好みに寄る。
  */
 
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { canEnter, emptyWorldState, neighborsOf, walkableTerrains, FIELD_ABILITIES, terrainAt } from "@pkmn/core";
 import type { MapData } from "@pkmn/core";
 
 const DATA = "packages/data";
 const MAPS = `${DATA}/maps.json`;
+const MAPS_JSON = MAPS;
 const SPECIES = `${DATA}/species.json`;
 const ENCOUNTERS = `${DATA}/encounters.json`;
 const TRAINERS = `${DATA}/source/trainers.tsv`;
@@ -61,6 +62,18 @@ const CLASSES: Record<string, { slug: string; names: string[]; before: string[];
     before: ["やまを なめるなよ!", "いわの ポケモンは かたいぞ!"],
     after: ["やまは きびしいな…", "みごとだ!"],
     prefer: ["rock", "ground", "fighting"],
+  },
+  せんいん: {
+    slug: "sailor",
+    names: ["マサル", "ゲンゾウ", "タツヤ", "コウジ"],
+    before: ["ふねの うえでも しょうぶは しょうぶ!", "うでっぷしには じしんが あるぜ!"],
+    after: ["まいった、つよいな!", "うでを みがきなおすぜ。"],
+  },
+  ジェントルマン: {
+    slug: "gentleman",
+    names: ["トシオ", "ゲンジ", "セイジ", "ヒロシ"],
+    before: ["ふむ、なかなかの ポケモンだね。", "しょうぶと いこうじゃないか。"],
+    after: ["みごとだ。", "うむ、まいったよ。"],
   },
   つりびと: {
     slug: "fisher",
@@ -119,6 +132,27 @@ const CLASSES: Record<string, { slug: string; names: string[]; before: string[];
   },
 };
 
+/**
+ * `maps.json` が原本より古くないか（v1.2-b）。
+ *
+ * この道具は**生成物（`maps.json`）を読んで、原本（`.map`）に書く。**
+ * 2回続けて呼ぶと、2回目は1回目の置き場所を見ないまま空きマスを選ぶ ――
+ * 実際、SSアンヌ号でトレーナーが2人**同じマスに重なった**。
+ * 9番道路とトキワの森でも道具が2個ずつ重なっていて（v1.1-i から）、
+ * **手前の1個しか拾えない状態が版をまたいで残っていた。**
+ *
+ * 黙って重ねるより、止まって言うほうがよい。
+ */
+function requireFreshMaps(mapId: string): void {
+  const source = `${DATA}/source/maps/${mapId}.map`;
+  if (!existsSync(source)) return;
+  if (statSync(source).mtimeMs > statSync(MAPS_JSON).mtimeMs) {
+    console.error(`${MAPS_JSON} が ${source} より古い。先に npm run maps を回してください。`);
+    console.error("（続けて足すときは、1回ごとに maps を回す ―― 前の置き場所が見えない）");
+    process.exit(1);
+  }
+}
+
 function main(): void {
   const [mapId, className, countText, levelText, speciesText] = process.argv.slice(2);
   const cls = CLASSES[className ?? ""];
@@ -128,6 +162,7 @@ function main(): void {
     process.exit(1);
   }
   const count = Number(countText);
+  requireFreshMaps(mapId);
   const maps = JSON.parse(readFileSync(MAPS, "utf8")) as MapData[];
   const map = maps.find((m) => m.id === mapId);
   if (map === undefined) throw new Error(`マップ "${mapId}" が無い`);

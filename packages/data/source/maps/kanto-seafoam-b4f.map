@@ -1,0 +1,32 @@
+# ふたごじま 地下4階（v1.2-b）。**フリーザー はここ。**
+#
+# v1.1-g-2 では地下1階の入口の隣に居た ―― 原作は最奥で、
+# 「どうくつの奥」という手ざわりは階数でしか出せない。
+id: kanto-seafoam-b4f
+name: ふたごじま さいかそう
+region: kanto
+encounters: kanto-seafoam-b4f-cave kanto-seafoam-b4f-surf kanto-seafoam-b4f-fishing-old kanto-seafoam-b4f-fishing-good kanto-seafoam-b4f-fishing-super
+bgm: cave
+
+legend:
+. normal
+R !normal
+: cave
+~ !water
+
+grid:
+RRRRRRRRRRRRR
+R:::::::::::R
+R:~~~~~~~~~:R
+R:~~:::::~~:R
+R:~~:::::~~:R
+R:~~~~~~~~~:R
+R:::::::::::R
+RRRRRRRRRRRRR
+
+warps:
+1,1 step kanto-seafoam-b3f 11,2 up
+
+objects:
+seafoam-articuno 6,4 npc:articuno:static kanto.seafoam.articuno if:kanto.seafoam.articuno-caught=false
+seafoam-item 11,1 item:max-revive kanto.seafoam.item if:kanto.seafoam.item-taken=false

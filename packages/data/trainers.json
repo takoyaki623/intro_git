@@ -4705,5 +4705,366 @@
         ]
       }
     ]
+  },
+  {
+    "id": "kanto-rival-ssanne-bulbasaur",
+    "name": "グリーン",
+    "class": "ライバル",
+    "reward": 3000,
+    "defeatedFlag": "kanto.ssanne.rival-beaten",
+    "party": [
+      {
+        "species": "pidgeotto",
+        "level": 19,
+        "moves": [
+          "wing-attack",
+          "quick-attack",
+          "sand-attack"
+        ]
+      },
+      {
+        "species": "kadabra",
+        "level": 18,
+        "moves": [
+          "confusion",
+          "psybeam"
+        ]
+      },
+      {
+        "species": "raticate",
+        "level": 18,
+        "moves": [
+          "hyper-fang",
+          "quick-attack"
+        ]
+      },
+      {
+        "species": "charmeleon",
+        "level": 20,
+        "moves": [
+          "flamethrower",
+          "slash",
+          "crunch"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-rival-ssanne-charmander",
+    "name": "グリーン",
+    "class": "ライバル",
+    "reward": 3000,
+    "defeatedFlag": "kanto.ssanne.rival-beaten",
+    "party": [
+      {
+        "species": "pidgeotto",
+        "level": 19,
+        "moves": [
+          "wing-attack",
+          "quick-attack",
+          "sand-attack"
+        ]
+      },
+      {
+        "species": "kadabra",
+        "level": 18,
+        "moves": [
+          "confusion",
+          "psybeam"
+        ]
+      },
+      {
+        "species": "raticate",
+        "level": 18,
+        "moves": [
+          "hyper-fang",
+          "quick-attack"
+        ]
+      },
+      {
+        "species": "wartortle",
+        "level": 20,
+        "moves": [
+          "water-pulse",
+          "bite",
+          "rapid-spin"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-rival-ssanne-squirtle",
+    "name": "グリーン",
+    "class": "ライバル",
+    "reward": 3000,
+    "defeatedFlag": "kanto.ssanne.rival-beaten",
+    "party": [
+      {
+        "species": "pidgeotto",
+        "level": 19,
+        "moves": [
+          "wing-attack",
+          "quick-attack",
+          "sand-attack"
+        ]
+      },
+      {
+        "species": "kadabra",
+        "level": 18,
+        "moves": [
+          "confusion",
+          "psybeam"
+        ]
+      },
+      {
+        "species": "raticate",
+        "level": 18,
+        "moves": [
+          "hyper-fang",
+          "quick-attack"
+        ]
+      },
+      {
+        "species": "ivysaur",
+        "level": 20,
+        "moves": [
+          "razor-leaf",
+          "sludge-bomb",
+          "giga-drain"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-ss-anne-1f-sailor-1",
+    "name": "マサル",
+    "class": "せんいん",
+    "reward": 360,
+    "defeatedFlag": "kanto.ssanne1f.sailor1-beaten",
+    "party": [
+      {
+        "species": "machop",
+        "level": 18,
+        "moves": [
+          "leer",
+          "revenge",
+          "low-sweep",
+          "knock-off"
+        ]
+      },
+      {
+        "species": "tentacool",
+        "level": 16,
+        "moves": [
+          "water-gun",
+          "acid",
+          "supersonic",
+          "water-pulse"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-ss-anne-1f-sailor-2",
+    "name": "ゲンゾウ",
+    "class": "せんいん",
+    "reward": 360,
+    "defeatedFlag": "kanto.ssanne1f.sailor2-beaten",
+    "party": [
+      {
+        "species": "shellder",
+        "level": 18,
+        "moves": [
+          "water-gun",
+          "withdraw",
+          "ice-shard",
+          "leer"
+        ]
+      },
+      {
+        "species": "machop",
+        "level": 16,
+        "moves": [
+          "leer",
+          "revenge",
+          "low-sweep",
+          "knock-off"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-ss-anne-2f-sailor-1",
+    "name": "マサル",
+    "class": "せんいん",
+    "reward": 380,
+    "defeatedFlag": "kanto.ssanne2f.sailor1-beaten",
+    "party": [
+      {
+        "species": "machop",
+        "level": 19,
+        "moves": [
+          "leer",
+          "revenge",
+          "low-sweep",
+          "knock-off"
+        ]
+      },
+      {
+        "species": "tentacool",
+        "level": 17,
+        "moves": [
+          "water-gun",
+          "acid",
+          "supersonic",
+          "water-pulse"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-ss-anne-2f-sailor-2",
+    "name": "ゲンゾウ",
+    "class": "せんいん",
+    "reward": 380,
+    "defeatedFlag": "kanto.ssanne2f.sailor2-beaten",
+    "party": [
+      {
+        "species": "krabby",
+        "level": 19,
+        "moves": [
+          "water-gun",
+          "harden",
+          "metal-claw",
+          "mud-shot"
+        ]
+      },
+      {
+        "species": "machop",
+        "level": 17,
+        "moves": [
+          "leer",
+          "revenge",
+          "low-sweep",
+          "knock-off"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-ss-anne-2f-gentleman-1",
+    "name": "トシオ",
+    "class": "ジェントルマン",
+    "reward": 400,
+    "defeatedFlag": "kanto.ssanne2f.gentleman1-beaten",
+    "party": [
+      {
+        "species": "growlithe",
+        "level": 20,
+        "moves": [
+          "howl",
+          "bite",
+          "flame-wheel",
+          "agility"
+        ]
+      },
+      {
+        "species": "nidorino",
+        "level": 18,
+        "moves": [
+          "leer",
+          "peck",
+          "poison-sting",
+          "fury-attack"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-ss-anne-b1f-sailor-1",
+    "name": "マサル",
+    "class": "せんいん",
+    "reward": 380,
+    "defeatedFlag": "kanto.ssanneb1f.sailor1-beaten",
+    "party": [
+      {
+        "species": "machop",
+        "level": 19,
+        "moves": [
+          "leer",
+          "revenge",
+          "low-sweep",
+          "knock-off"
+        ]
+      },
+      {
+        "species": "shellder",
+        "level": 17,
+        "moves": [
+          "water-gun",
+          "withdraw",
+          "ice-shard",
+          "leer"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-ss-anne-b1f-sailor-2",
+    "name": "ゲンゾウ",
+    "class": "せんいん",
+    "reward": 380,
+    "defeatedFlag": "kanto.ssanneb1f.sailor2-beaten",
+    "party": [
+      {
+        "species": "horsea",
+        "level": 19,
+        "moves": [
+          "leer",
+          "water-gun",
+          "smokescreen",
+          "twister"
+        ]
+      },
+      {
+        "species": "machop",
+        "level": 17,
+        "moves": [
+          "leer",
+          "revenge",
+          "low-sweep",
+          "knock-off"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-ss-anne-deck-gentleman-1",
+    "name": "トシオ",
+    "class": "ジェントルマン",
+    "reward": 380,
+    "defeatedFlag": "kanto.ssannedeck.gentleman1-beaten",
+    "party": [
+      {
+        "species": "growlithe",
+        "level": 19,
+        "moves": [
+          "leer",
+          "howl",
+          "bite",
+          "flame-wheel"
+        ]
+      },
+      {
+        "species": "nidorina",
+        "level": 17,
+        "moves": [
+          "poison-sting",
+          "scratch",
+          "tail-whip",
+          "fury-swipes"
+        ]
+      }
+    ]
   }
 ]

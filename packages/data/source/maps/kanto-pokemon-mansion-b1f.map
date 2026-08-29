@@ -1,0 +1,33 @@
+# ポケモンやしき 地下1階（v1.2-b）。**ひみつのカギ はここ。**
+#
+# 原作の やしき は「グレンジムの鍵の在り処」で、ここに来る理由そのもの。
+# v1.1-g-2 で建てたときは カギ も グレンジムの施錠も無く、
+# **出現表を持つだけの建物**だった ―― 目的の無い場所を建てたままにしない。
+#
+# 間取りは原作を写していない（3階と同じ理由）。地下は研究室の区画にした。
+id: kanto-pokemon-mansion-b1f
+name: ポケモンやしき ちか
+region: kanto
+encounters: kanto-pokemon-mansion-b1f-cave
+bgm: cave
+
+legend:
+. normal
+W !normal
+: cave
+
+grid:
+WWWWWWWWWWWWW
+W:::W:::W:::W
+W:::W:::W:::W
+W:::::::::::W
+W:::W:::W:::W
+W:::W:::W:::W
+WWWWWWWWWWWWW
+
+warps:
+1,1 step kanto-pokemon-mansion-3f 11,2 up
+
+objects:
+mansion-secret-key 11,3 item:secret-key kanto.mansion.secret-key if:kanto.mansion.secret-key-taken=false
+mansion-b1f-diary 5,5 sign kanto.mansion.diary-b1f

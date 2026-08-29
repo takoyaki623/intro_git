@@ -4174,12 +4174,12 @@
           },
           {
             "kind": "message",
-            "text": "おれいに これを あげよう。\nポケモンは いいぞ!",
+            "text": "おれいに これを あげよう。\nサンアンヌごう の チケットだ!",
             "speaker": "マサキ"
           },
           {
             "kind": "giveItem",
-            "item": "max-ether",
+            "item": "ss-ticket",
             "count": 1
           },
           {
@@ -4291,7 +4291,7 @@
     ]
   },
   {
-    "id": "kanto.victory.moltres",
+    "id": "kanto.sevii.moltres",
     "commands": [
       {
         "kind": "message",
@@ -4306,7 +4306,7 @@
             "then": [
               {
                 "kind": "setFlag",
-                "flag": "kanto.victory.moltres-caught",
+                "flag": "kanto.sevii.moltres-caught",
                 "value": true
               },
               {
@@ -7488,6 +7488,169 @@
             "text": "たきの うえには なにが あるんだろうな。"
           }
         ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.mansion.diary-b1f",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "にっし さいご の ページ。\n「ミュウツー が おそいかかってきた」"
+      }
+    ]
+  },
+  {
+    "id": "kanto.seafoam.shutter-b3",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "こおりの かたまりが みちを ふさいでいる。\nどこかに スイッチが あるようだ…"
+      }
+    ]
+  },
+  {
+    "id": "kanto.seafoam.press-b3",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.seafoam.switch-b3",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "playSe"
+          },
+          {
+            "kind": "message",
+            "text": "ゴゴゴ… こおりが くずれる おとが した!"
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.seafoam.switch-b3",
+            "value": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.cinnabar.gym-lock",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "ジムの とびらは かたく とじている。\nかぎあなが あるようだ…"
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanne.guard",
+    "commands": [
+      {
+        "kind": "message",
+        "speaker": "せんいん",
+        "text": "サンアンヌごう は しょうたいきゃく だけだ。\nチケットが いるよ。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanne.deck-sailor",
+    "commands": [
+      {
+        "kind": "message",
+        "speaker": "せんいん",
+        "text": "うみの うえは きもちいいだろう?\nせんちょうは おくの へやだ。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanne.engineer",
+    "commands": [
+      {
+        "kind": "message",
+        "speaker": "けんきゅういん",
+        "text": "この ふねは まもなく しゅっこうする。\nのりおくれるな よ。"
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanne.rival",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.ssanne.rival-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "speaker": "グリーン",
+            "text": "おまえも しょうたいされたのか。\nちょうど いい、ならして やるよ!"
+          },
+          {
+            "kind": "if",
+            "cond": {
+              "kind": "hasSpecies",
+              "species": "bulbasaur"
+            },
+            "then": [
+              {
+                "kind": "battle",
+                "trainer": "kanto-rival-ssanne-charmander",
+                "onWin": "kanto.ssanne.rival-win"
+              }
+            ],
+            "else": [
+              {
+                "kind": "if",
+                "cond": {
+                  "kind": "hasSpecies",
+                  "species": "charmander"
+                },
+                "then": [
+                  {
+                    "kind": "battle",
+                    "trainer": "kanto-rival-ssanne-squirtle",
+                    "onWin": "kanto.ssanne.rival-win"
+                  }
+                ],
+                "else": [
+                  {
+                    "kind": "battle",
+                    "trainer": "kanto-rival-ssanne-bulbasaur",
+                    "onWin": "kanto.ssanne.rival-win"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "speaker": "グリーン",
+            "text": "ふねは もうすぐ でるぞ。\nせんちょうに あってきな。"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanne.rival-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ssanne.rival-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "speaker": "グリーン",
+        "text": "ちぇっ! つよく なったな。\nおれも まけて られないぜ!"
       }
     ]
   }

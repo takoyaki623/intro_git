@@ -197,7 +197,7 @@
   "kanto.vermilion.traded",
   "kanto.victory.cooltrainer-beaten",
   "kanto.victory.item-taken",
-  "kanto.victory.moltres-caught",
+  "kanto.sevii.moltres-caught",
   "kanto.victory.switch-2f",
   "kanto.victory.switch-3f",
   "kanto.viridian.giovanni-beaten",
@@ -209,5 +209,7 @@
   "kanto.ability.flash",
   "kanto.ability.waterfall",
   "kanto.route10.flash-man",
-  "kanto.sevii.waterfall-man"
+  "kanto.sevii.waterfall-man",
+  "kanto.seafoam.switch-b3",
+  "kanto.ssanne.rival-beaten"
 ]

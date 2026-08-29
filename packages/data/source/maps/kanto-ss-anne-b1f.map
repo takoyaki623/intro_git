@@ -1,0 +1,29 @@
+# サンアンヌごう 地下1階。きかんしつ。
+id: kanto-ss-anne-b1f
+name: サンアンヌごう きかんしつ
+region: kanto
+bgm: vermilion-city
+
+legend:
+. normal
+S !normal
+D normal
+
+grid:
+SSSSSSSSSSSSS
+S.D.........S
+S...........S
+S.SS.SS.SS..S
+S.SS.SS.SS..S
+S...........S
+SSSSSSSSSSSSS
+
+warps:
+2,1 step kanto-ss-anne-1f 2,4 up
+
+objects:
+ss-anne-b1f-item 10,4 item:hyper-potion kanto.ssanne.item-b1 if:kanto.ssanne.item-b1-taken=false
+ss-anne-engineer 5,5 npc:scientist:static kanto.ssanne.engineer
+ssanneb1f-sailor-1 1,1 trainer:kanto-ss-anne-b1f-sailor-1:2:down kanto.ssanneb1f.sailor1 if:kanto.ssanneb1f.sailor1-beaten=false
+ssanneb1f-sailor-2 11,5 trainer:kanto-ss-anne-b1f-sailor-2:2:left kanto.ssanneb1f.sailor2 if:kanto.ssanneb1f.sailor2-beaten=false
+ssanneb1f-max-ether-1 8,2 item:max-ether kanto.ssanneb1f.max-ether1 if:kanto.ssanneb1f.max-ether1-taken=false

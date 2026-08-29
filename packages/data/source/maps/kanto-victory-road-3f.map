@@ -30,4 +30,3 @@ objects:
 victory-3f-shutter 5,4 sign kanto.victory.shutter-3f if:kanto.victory.switch-3f=false
 victory-3f-switch 6,3 switch kanto.victory.press-3f
 victory-3f-boulder 4,3 boulder:strength
-victory-moltres 10,1 npc:moltres:static kanto.victory.moltres if:kanto.victory.moltres-caught=false

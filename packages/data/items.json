@@ -830,6 +830,16 @@
     "category": "key"
   },
   {
+    "id": "secret-key",
+    "name": "ひみつのカギ",
+    "category": "key"
+  },
+  {
+    "id": "ss-ticket",
+    "name": "ふねのチケット",
+    "category": "key"
+  },
+  {
     "id": "ruby",
     "name": "ルビー",
     "category": "key"

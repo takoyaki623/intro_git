@@ -1,0 +1,35 @@
+# ふたごじま 地下2階（v1.2-b）。原作は5階層あり、地下1階までしか作っていなかった。
+#
+# **原作の水流は入れていない。** あれは「マスごとに向きが決まった床」で、
+# 氷の滑走（`slideFrom`）とは形が違う ―― あちらは**入った向き**へ滑らせる。
+# マスに向きを持たせるデータの追加が要るので、機構ごと送った（world.md §9.25）。
+# 代わりに、原作と同じ「岩を落として道を作る」を**押せる岩とスイッチ**で書く
+# ―― 機構はもうある（v1.1-f）。
+id: kanto-seafoam-b2f
+name: ふたごじま
+region: kanto
+encounters: kanto-seafoam-b2f-cave
+bgm: cave
+
+legend:
+. normal
+R !normal
+: cave
+
+grid:
+RRRRRRRRRRRRR
+R:::::::::::R
+R:RRRRRRRRR:R
+R:R:::::::R:R
+R:R:RRRRR:R:R
+R:R:::::::R:R
+R:RRRRRRR:R:R
+R:::::::::::R
+RRRRRRRRRRRRR
+
+warps:
+1,1 step kanto-seafoam-b1f 11,2 up
+11,1 step kanto-seafoam-b3f 1,2 down
+
+objects:
+seafoam-b2f-item 6,5 item:max-elixir kanto.seafoam.item-b2 if:kanto.seafoam.item-b2-taken=false

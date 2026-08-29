@@ -38,4 +38,4 @@ forest-bug-1 3,1 trainer:kanto-forest-bug-1:3:down kanto.forest.bug-1 if:kanto.f
 forest-bug-2 10,11 trainer:kanto-forest-bug-2:2:left kanto.forest.bug-2 if:kanto.forest.bug-2-beaten=false
 forest-antidote 2,1 item:antidote kanto.forest.antidote if:kanto.forest.antidote-taken=false
 viridianforest-potion-1 10,12 item:potion kanto.viridianforest.potion1 if:kanto.viridianforest.potion1-taken=false
-viridianforest-antidote-1 10,12 item:antidote:hidden kanto.viridianforest.antidote1 if:kanto.viridianforest.antidote1-taken=false
+viridianforest-antidote-1 4,4 item:antidote:hidden kanto.viridianforest.antidote1 if:kanto.viridianforest.antidote1-taken=false

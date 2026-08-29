@@ -1,4 +1,8 @@
-# ハナダのどうくつ。**殿堂入りするまで入れない**（入口にけいびが立つ）。奥に ミュウツー。
+# ハナダのどうくつ 1階。**殿堂入りするまで入れない**（入口にけいびが立つ）。
+#
+# 原作は3階層（1F/2F/B1F）で、**ミュウツーは最奥の B1F**（v1.2-b で戻した）。
+# 1枚しか無かったころは入口の隣に居て、「どうくつの奥」という手ざわりが無かった。
+# 間取りは原作を写していない ―― 階数と出現表だけを原作に合わせる（world.md §9.19）。
 id: kanto-cerulean-cave
 name: ハナダのどうくつ
 region: kanto
@@ -24,7 +28,7 @@ RRRRRR.RRRRRR
 
 warps:
 6,8 step kanto-cerulean-city 5,14 down
+11,1 step kanto-cerulean-cave-2f 1,2 down
 
 objects:
-cerulean-cave-mewtwo 6,1 npc:mewtwo:static kanto.cave.mewtwo if:kanto.cave.mewtwo-caught=false
-cerulean-cave-item 11,3 item:max-revive kanto.cave.item if:kanto.cave.item-taken=false
+cerulean-cave-1f-item 11,3 item:hyper-potion kanto.cave.item-1 if:kanto.cave.item-1-taken=false

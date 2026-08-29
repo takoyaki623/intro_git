@@ -25,6 +25,7 @@ WWWWWWWWWWWWW
 
 warps:
 1,1 step kanto-pokemon-mansion 11,2 up
+11,1 step kanto-pokemon-mansion-3f 1,2 down
 
 objects:
 mansion-item-2f 7,5 item:max-revive kanto.mansion.item-2 if:kanto.mansion.item-2-taken=false

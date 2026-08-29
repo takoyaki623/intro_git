@@ -1305,7 +1305,7 @@ function checkWorld(): void {
 
   // ── #48 オブジェクト ──
   for (const map of allMaps) {
-    const seen = new Map<string, string>();
+    const seen = new Map<string, MapObject>();
     for (const object of map.objects) {
       const where = `${map.id}/${object.id}`;
       if (!inside(map, object.at.x, object.at.y)) {
@@ -1318,12 +1318,32 @@ function checkWorld(): void {
       const key = `${object.at.x},${object.at.y}`;
       const other = seen.get(key);
       if (other !== undefined) {
-        // 条件付きで入れ替わるものは重なってよい
-        if (object.condition === undefined) {
-          fail("map-object", `${where}: ${other} と同じマスに無条件で重なっている`);
+        // **重なってよいのは「入れ替わる2つ」だけ**（v1.2-b で狭めた）。
+        //
+        // 元は「条件つきなら重なってよい」だった。あれは
+        // ポケモンタワーのゆうれい（シルフスコープの有無で姿が入れ替わる同じ1体）を
+        // 通すために書いた例外だが、**言い方が広すぎた** ――
+        // 条件さえ付いていれば無関係な2つも通り、
+        // **9番道路とトキワの森で、落ちている道具が2個ずつ重なっていた**
+        // （手前の1個しか拾えない）。`add-items.ts` が2回目の呼び出しで
+        // 1回目の置き場所を見ていなかったため。
+        //
+        // 入れ替わるとは「同じフラグの真と偽」。それ以外は重なりではなく事故。
+        const a = object.condition;
+        const b = seen.get(key)?.condition;
+        const swaps =
+          a?.kind === "flag" &&
+          b?.kind === "flag" &&
+          a.flag === b.flag &&
+          a.value !== b.value;
+        if (!swaps) {
+          fail(
+            "map-object",
+            `${where}: ${other.id} と同じマスに重なっている（入れ替わる2つではない）`,
+          );
         }
       } else {
-        seen.set(key, object.id);
+        seen.set(key, object);
       }
 
       if (object.event !== undefined) {

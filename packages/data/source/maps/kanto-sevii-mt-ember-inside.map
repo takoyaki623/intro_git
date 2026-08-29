@@ -1,4 +1,8 @@
 # ともしびやま の山腹の洞窟。行き止まりの小部屋（原作でも通り抜けではない）。
+#
+# **ファイヤーはここ**（v1.2-b）。v1.1-g-2 で チャンピオンロード に置いたとき、
+# 理由は「FRLG のファイヤーは1のしまに居るが、**その島はまだ作っていない**」だった。
+# 島は v1.1-j で作った ―― **期限の切れた但し書きは、切れた版で回収する。**
 id: kanto-sevii-mt-ember-inside
 name: ともしびやま どうくつ
 region: kanto
@@ -25,3 +29,4 @@ warps:
 objects:
 ember-inside-item 1,1 item:hyper-potion kanto.sevii.ember-item if:kanto.sevii.ember-item-taken=false
 ember-inside-rock 9,5 obstacle:rockSmash
+ember-moltres 9,1 npc:moltres:static kanto.sevii.moltres if:kanto.sevii.moltres-caught=false

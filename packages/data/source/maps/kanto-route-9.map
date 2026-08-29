@@ -34,4 +34,4 @@ route9-youngster-1 2,1 trainer:kanto-route-9-youngster-1:2:down kanto.route9.you
 route9-youngster-2 11,7 trainer:kanto-route-9-youngster-2:2:left kanto.route9.youngster2 if:kanto.route9.youngster2-beaten=false
 route9-youngster-3 1,8 trainer:kanto-route-9-youngster-3:2:up kanto.route9.youngster3 if:kanto.route9.youngster3-beaten=false
 route9-super-potion-1 11,8 item:super-potion kanto.route9.super-potion1 if:kanto.route9.super-potion1-taken=false
-route9-max-potion-1 11,8 item:max-potion:hidden kanto.route9.max-potion1 if:kanto.route9.max-potion1-taken=false
+route9-max-potion-1 9,2 item:max-potion:hidden kanto.route9.max-potion1 if:kanto.route9.max-potion1-taken=false

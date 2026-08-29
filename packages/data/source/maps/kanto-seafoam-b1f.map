@@ -1,4 +1,4 @@
-# ふたごじま 地下1階。**フリーザー が奥に居る。**
+# ふたごじま 地下1階。原作は5階層で、**フリーザー は最奥（B4F）**（v1.2-b で戻した）。
 id: kanto-seafoam-b1f
 name: ふたごじま
 region: kanto
@@ -24,7 +24,7 @@ RRRRRRRRRRRRR
 
 warps:
 1,1 step kanto-seafoam-1f 11,2 up
+11,1 step kanto-seafoam-b2f 1,2 down
 
 objects:
-seafoam-articuno 6,7 npc:articuno:static kanto.seafoam.articuno if:kanto.seafoam.articuno-caught=false
-seafoam-item 11,3 item:max-revive kanto.seafoam.item if:kanto.seafoam.item-taken=false
+seafoam-b1f-item 11,3 item:hyper-potion kanto.seafoam.item-b1 if:kanto.seafoam.item-b1-taken=false

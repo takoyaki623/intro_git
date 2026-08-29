@@ -15,6 +15,21 @@
     ]
   },
   {
+    "id": "kanto.cave.item-2",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "full-restore",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.cave.item-2-taken",
+        "value": true
+      }
+    ]
+  },
+  {
     "id": "kanto.cave.item",
     "commands": [
       {
@@ -25,6 +40,21 @@
       {
         "kind": "setFlag",
         "flag": "kanto.cave.item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.cave.item-1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "hyper-potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.cave.item-1-taken",
         "value": true
       }
     ]
@@ -100,6 +130,36 @@
       {
         "kind": "setFlag",
         "flag": "kanto.mansion.item-2-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.mansion.item-3",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "full-restore",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.mansion.item-3-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.mansion.secret-key",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "secret-key",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.mansion.secret-key-taken",
         "value": true
       }
     ]
@@ -690,6 +750,36 @@
     ]
   },
   {
+    "id": "kanto.seafoam.item-b1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "hyper-potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.seafoam.item-b1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.seafoam.item-b2",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-elixir",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.seafoam.item-b2-taken",
+        "value": true
+      }
+    ]
+  },
+  {
     "id": "kanto.seafoam.item",
     "commands": [
       {
@@ -1000,6 +1090,81 @@
       {
         "kind": "setFlag",
         "flag": "kanto.silph.card-key-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanne.item-1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "great-ball",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ssanne.item-1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanne.item-2",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-ether",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ssanne.item-2-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanne.item-b1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "hyper-potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ssanne.item-b1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanneb1f.max-ether1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-ether",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ssanneb1f.max-ether1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssannedeck.hyper-potion1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "hyper-potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ssannedeck.hyper-potion1-taken",
         "value": true
       }
     ]

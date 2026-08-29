@@ -56,6 +56,7 @@ const SOURCE: Record<string, { location: string; area?: string }> = {
   // 同じ場所に `ss-anne-dock` がぶら下がっている ―― 省略すると
   // SSアンヌ号の埠頭の出現が町の海に混ざる（SSアンヌ号は v1.1-g）
   "kanto-vermilion-city": { location: "vermilion-city", area: "" },
+  "kanto-ss-anne-deck": { location: "ss-anne" },
   "kanto-celadon-city": { location: "celadon-city" },
   "kanto-fuchsia-city": { location: "fuchsia-city" },
   "kanto-cinnabar-island": { location: "cinnabar-island" },
@@ -75,6 +76,7 @@ const SOURCE: Record<string, { location: string; area?: string }> = {
   "kanto-pokemon-tower-4f": { location: "pokemon-tower", area: "4f" },
   "kanto-pokemon-tower-5f": { location: "pokemon-tower", area: "5f" },
   "kanto-pokemon-tower-6f": { location: "pokemon-tower", area: "6f" },
+  "kanto-pokemon-tower-7f": { location: "pokemon-tower", area: "7f" },
   "kanto-route-1": { location: "kanto-route-1" },
   "kanto-route-2": { location: "kanto-route-2" },
   "kanto-route-2-north": { location: "kanto-route-2" },
@@ -112,9 +114,16 @@ const SOURCE: Record<string, { location: string; area?: string }> = {
   "kanto-power-plant": { location: "power-plant" },
   "kanto-seafoam-1f": { location: "seafoam-islands", area: "1f" },
   "kanto-seafoam-b1f": { location: "seafoam-islands", area: "b1f" },
+  "kanto-seafoam-b2f": { location: "seafoam-islands", area: "b2f" },
+  "kanto-seafoam-b3f": { location: "seafoam-islands", area: "b3f" },
+  "kanto-seafoam-b4f": { location: "seafoam-islands", area: "b4f" },
   "kanto-pokemon-mansion": { location: "pokemon-mansion", area: "1f" },
   "kanto-pokemon-mansion-2f": { location: "pokemon-mansion", area: "2f" },
+  "kanto-pokemon-mansion-3f": { location: "pokemon-mansion", area: "3f" },
+  "kanto-pokemon-mansion-b1f": { location: "pokemon-mansion", area: "b1f" },
   "kanto-cerulean-cave": { location: "cerulean-cave", area: "1f" },
+  "kanto-cerulean-cave-2f": { location: "cerulean-cave", area: "2f" },
+  "kanto-cerulean-cave-b1f": { location: "cerulean-cave", area: "b1f" },
   // ディグダのあな（v1.1-i）。**ここでしか出ない種が2つある**
   "kanto-diglett-cave": { location: "digletts-cave" },
   "kanto-route-22": { location: "kanto-route-22" },

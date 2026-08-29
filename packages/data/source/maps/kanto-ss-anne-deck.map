@@ -1,0 +1,40 @@
+# サンアンヌごう の こうはん（v1.2-b）。
+#
+# v1.1-g-2 の時点で船は1枚も無く、**クチバの町に船長が1人立っているだけ**だった
+# ―― いあいぎり は町中でもらえた。原作の船は、乗って・抜けて・船長室で教わる場所。
+#
+# **のりばは既存の ふなつきば を使う。** あの建物は v1.1-j で
+# 「外だと なみのり で横から乗り込める」という理由で屋内にしてある ――
+# 同じ理由がそのまま船にも効くので、桟橋を新しく引かない。
+#
+# **海の出現表（`ss-anne`）は入れていない。** 原作のあの表は船のまわりの海で、
+# こちらでは クチバの町 の海がその役をしている。甲板から水へ出られないので、
+# 置いても**引かれない表**になる ―― 消費者のいないデータを作らない。
+id: kanto-ss-anne-deck
+name: サンアンヌごう こうはん
+region: kanto
+bgm: vermilion-city
+
+legend:
+. normal
+S !normal
+D normal
+
+grid:
+SSSSSSSSSSSSS
+S...........S
+S.SSSSSSSSS.S
+S.S.......S.S
+S.S...D...S.S
+S.SSS...SSS.S
+S.....D.....S
+SSSSSSSSSSSSS
+
+warps:
+6,6 step kanto-vermilion-ferry 3,1 down
+6,4 step kanto-ss-anne-1f 2,2 down
+
+objects:
+ss-anne-deck-sailor 2,1 npc:sailor:static kanto.ssanne.deck-sailor
+ssannedeck-gentleman-1 1,1 trainer:kanto-ss-anne-deck-gentleman-1:2:down kanto.ssannedeck.gentleman1 if:kanto.ssannedeck.gentleman1-beaten=false
+ssannedeck-hyper-potion-1 11,6 item:hyper-potion kanto.ssannedeck.hyper-potion1 if:kanto.ssannedeck.hyper-potion1-taken=false

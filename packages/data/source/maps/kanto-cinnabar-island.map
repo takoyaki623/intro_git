@@ -44,6 +44,12 @@ warps:
 6,13 step kanto-route-21 5,1 down
 
 objects:
+# **ジムは施錠されている**（v1.2-b）。原作の グレンジム は ひみつのカギ で開く ――
+# あのカギは ポケモンやしき の地下にあり、**やしきが在る理由そのもの。**
+# v1.1-g-2 で やしきを建てたときは カギ も 施錠 も無く、
+# 出現表を持つだけの建物だった。扉の前に立つのは 条件つきオブジェクト1つで、
+# 新しい機構は0（ハナダのどうくつの けいび と同じ形）
+cinnabar-gym-lock 5,4 sign kanto.cinnabar.gym-lock if:kanto.mansion.secret-key-taken=false
 cinnabar-sign-gym 4,4 sign kanto.cinnabar.sign-gym
 cinnabar-sign-mansion 2,7 sign kanto.cinnabar.sign-mansion
 cinnabar-scientist 9,4 npc:scientist:static kanto.cinnabar.scientist

@@ -136,6 +136,454 @@
     ]
   },
   {
+    "id": "kanto-cerulean-cave-2f-cave",
+    "method": "cave",
+    "entries": [
+      {
+        "species": "golbat",
+        "levelRange": [
+          49,
+          49
+        ],
+        "rate": 40
+      },
+      {
+        "species": "machoke",
+        "levelRange": [
+          49,
+          49
+        ],
+        "rate": 40
+      },
+      {
+        "species": "ditto",
+        "levelRange": [
+          55,
+          55
+        ],
+        "rate": 20
+      },
+      {
+        "species": "kadabra",
+        "levelRange": [
+          55,
+          55
+        ],
+        "rate": 20
+      },
+      {
+        "species": "magneton",
+        "levelRange": [
+          52,
+          52
+        ],
+        "rate": 20
+      },
+      {
+        "species": "parasect",
+        "levelRange": [
+          52,
+          52
+        ],
+        "rate": 20
+      },
+      {
+        "species": "golbat",
+        "levelRange": [
+          58,
+          58
+        ],
+        "rate": 10
+      },
+      {
+        "species": "wobbuffet",
+        "levelRange": [
+          58,
+          58
+        ],
+        "rate": 10
+      },
+      {
+        "species": "electrode",
+        "levelRange": [
+          61,
+          61
+        ],
+        "rate": 8
+      },
+      {
+        "species": "parasect",
+        "levelRange": [
+          61,
+          61
+        ],
+        "rate": 8
+      },
+      {
+        "species": "ditto",
+        "levelRange": [
+          64,
+          64
+        ],
+        "rate": 2
+      },
+      {
+        "species": "kadabra",
+        "levelRange": [
+          64,
+          64
+        ],
+        "rate": 2
+      }
+    ]
+  },
+  {
+    "id": "kanto-cerulean-cave-2f-rock-smash",
+    "method": "rock-smash",
+    "entries": [
+      {
+        "species": "geodude",
+        "levelRange": [
+          35,
+          45
+        ],
+        "rate": 120
+      },
+      {
+        "species": "graveler",
+        "levelRange": [
+          45,
+          55
+        ],
+        "rate": 60
+      },
+      {
+        "species": "geodude",
+        "levelRange": [
+          45,
+          55
+        ],
+        "rate": 10
+      },
+      {
+        "species": "graveler",
+        "levelRange": [
+          50,
+          60
+        ],
+        "rate": 10
+      }
+    ]
+  },
+  {
+    "id": "kanto-cerulean-cave-b1f-cave",
+    "method": "cave",
+    "entries": [
+      {
+        "species": "ditto",
+        "levelRange": [
+          58,
+          58
+        ],
+        "rate": 40
+      },
+      {
+        "species": "kadabra",
+        "levelRange": [
+          58,
+          58
+        ],
+        "rate": 40
+      },
+      {
+        "species": "golbat",
+        "levelRange": [
+          52,
+          52
+        ],
+        "rate": 20
+      },
+      {
+        "species": "machoke",
+        "levelRange": [
+          52,
+          52
+        ],
+        "rate": 20
+      },
+      {
+        "species": "magneton",
+        "levelRange": [
+          55,
+          55
+        ],
+        "rate": 20
+      },
+      {
+        "species": "parasect",
+        "levelRange": [
+          55,
+          55
+        ],
+        "rate": 20
+      },
+      {
+        "species": "ditto",
+        "levelRange": [
+          67,
+          67
+        ],
+        "rate": 10
+      },
+      {
+        "species": "kadabra",
+        "levelRange": [
+          67,
+          67
+        ],
+        "rate": 10
+      },
+      {
+        "species": "electrode",
+        "levelRange": [
+          64,
+          64
+        ],
+        "rate": 8
+      },
+      {
+        "species": "parasect",
+        "levelRange": [
+          64,
+          64
+        ],
+        "rate": 8
+      },
+      {
+        "species": "golbat",
+        "levelRange": [
+          61,
+          61
+        ],
+        "rate": 2
+      },
+      {
+        "species": "wobbuffet",
+        "levelRange": [
+          61,
+          61
+        ],
+        "rate": 2
+      }
+    ]
+  },
+  {
+    "id": "kanto-cerulean-cave-b1f-fishing-good",
+    "method": "fishing-good",
+    "entries": [
+      {
+        "species": "poliwag",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 120
+      },
+      {
+        "species": "goldeen",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 40
+      },
+      {
+        "species": "magikarp",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 40
+      }
+    ]
+  },
+  {
+    "id": "kanto-cerulean-cave-b1f-fishing-old",
+    "method": "fishing-old",
+    "entries": [
+      {
+        "species": "magikarp",
+        "levelRange": [
+          5,
+          5
+        ],
+        "rate": 200
+      }
+    ]
+  },
+  {
+    "id": "kanto-cerulean-cave-b1f-fishing-super",
+    "method": "fishing-super",
+    "entries": [
+      {
+        "species": "poliwag",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 80
+      },
+      {
+        "species": "poliwhirl",
+        "levelRange": [
+          20,
+          30
+        ],
+        "rate": 80
+      },
+      {
+        "species": "gyarados",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 30
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 4
+      },
+      {
+        "species": "slowpoke",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 4
+      },
+      {
+        "species": "gyarados",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 2
+      }
+    ]
+  },
+  {
+    "id": "kanto-cerulean-cave-b1f-rock-smash",
+    "method": "rock-smash",
+    "entries": [
+      {
+        "species": "geodude",
+        "levelRange": [
+          40,
+          50
+        ],
+        "rate": 120
+      },
+      {
+        "species": "graveler",
+        "levelRange": [
+          50,
+          60
+        ],
+        "rate": 60
+      },
+      {
+        "species": "geodude",
+        "levelRange": [
+          50,
+          60
+        ],
+        "rate": 10
+      },
+      {
+        "species": "graveler",
+        "levelRange": [
+          55,
+          65
+        ],
+        "rate": 10
+      }
+    ]
+  },
+  {
+    "id": "kanto-cerulean-cave-b1f-surf",
+    "method": "surf",
+    "entries": [
+      {
+        "species": "psyduck",
+        "levelRange": [
+          40,
+          50
+        ],
+        "rate": 60
+      },
+      {
+        "species": "slowpoke",
+        "levelRange": [
+          40,
+          50
+        ],
+        "rate": 60
+      },
+      {
+        "species": "golduck",
+        "levelRange": [
+          50,
+          60
+        ],
+        "rate": 30
+      },
+      {
+        "species": "slowbro",
+        "levelRange": [
+          50,
+          60
+        ],
+        "rate": 30
+      },
+      {
+        "species": "golduck",
+        "levelRange": [
+          55,
+          65
+        ],
+        "rate": 5
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          50,
+          60
+        ],
+        "rate": 5
+      },
+      {
+        "species": "slowbro",
+        "levelRange": [
+          55,
+          65
+        ],
+        "rate": 5
+      },
+      {
+        "species": "slowpoke",
+        "levelRange": [
+          50,
+          60
+        ],
+        "rate": 5
+      }
+    ]
+  },
+  {
     "id": "kanto-cerulean-cave-cave",
     "method": "cave",
     "entries": [
@@ -1538,6 +1986,242 @@
     ]
   },
   {
+    "id": "kanto-pokemon-mansion-3f-cave",
+    "method": "cave",
+    "entries": [
+      {
+        "species": "raticate",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 40
+      },
+      {
+        "species": "grimer",
+        "levelRange": [
+          28,
+          28
+        ],
+        "rate": 25
+      },
+      {
+        "species": "koffing",
+        "levelRange": [
+          28,
+          28
+        ],
+        "rate": 25
+      },
+      {
+        "species": "raticate",
+        "levelRange": [
+          36,
+          36
+        ],
+        "rate": 20
+      },
+      {
+        "species": "rattata",
+        "levelRange": [
+          28,
+          28
+        ],
+        "rate": 20
+      },
+      {
+        "species": "grimer",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 10
+      },
+      {
+        "species": "growlithe",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 10
+      },
+      {
+        "species": "koffing",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 10
+      },
+      {
+        "species": "rattata",
+        "levelRange": [
+          26,
+          26
+        ],
+        "rate": 10
+      },
+      {
+        "species": "vulpix",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 10
+      },
+      {
+        "species": "growlithe",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 5
+      },
+      {
+        "species": "muk",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 5
+      },
+      {
+        "species": "vulpix",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 5
+      },
+      {
+        "species": "weezing",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 5
+      }
+    ]
+  },
+  {
+    "id": "kanto-pokemon-mansion-b1f-cave",
+    "method": "cave",
+    "entries": [
+      {
+        "species": "raticate",
+        "levelRange": [
+          34,
+          34
+        ],
+        "rate": 40
+      },
+      {
+        "species": "grimer",
+        "levelRange": [
+          28,
+          28
+        ],
+        "rate": 25
+      },
+      {
+        "species": "koffing",
+        "levelRange": [
+          28,
+          28
+        ],
+        "rate": 25
+      },
+      {
+        "species": "ditto",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 20
+      },
+      {
+        "species": "raticate",
+        "levelRange": [
+          38,
+          38
+        ],
+        "rate": 20
+      },
+      {
+        "species": "grimer",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 10
+      },
+      {
+        "species": "growlithe",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 10
+      },
+      {
+        "species": "koffing",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 10
+      },
+      {
+        "species": "rattata",
+        "levelRange": [
+          26,
+          26
+        ],
+        "rate": 10
+      },
+      {
+        "species": "vulpix",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 10
+      },
+      {
+        "species": "growlithe",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 5
+      },
+      {
+        "species": "muk",
+        "levelRange": [
+          34,
+          34
+        ],
+        "rate": 5
+      },
+      {
+        "species": "vulpix",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 5
+      },
+      {
+        "species": "weezing",
+        "levelRange": [
+          34,
+          34
+        ],
+        "rate": 5
+      }
+    ]
+  },
+  {
     "id": "kanto-pokemon-mansion-cave",
     "method": "cave",
     "entries": [
@@ -1994,6 +2678,84 @@
         "levelRange": [
           23,
           23
+        ],
+        "rate": 2
+      }
+    ]
+  },
+  {
+    "id": "kanto-pokemon-tower-7f-grass",
+    "method": "grass",
+    "entries": [
+      {
+        "species": "gastly",
+        "levelRange": [
+          16,
+          16
+        ],
+        "rate": 40
+      },
+      {
+        "species": "gastly",
+        "levelRange": [
+          17,
+          17
+        ],
+        "rate": 40
+      },
+      {
+        "species": "gastly",
+        "levelRange": [
+          18,
+          18
+        ],
+        "rate": 30
+      },
+      {
+        "species": "haunter",
+        "levelRange": [
+          23,
+          23
+        ],
+        "rate": 28
+      },
+      {
+        "species": "gastly",
+        "levelRange": [
+          15,
+          15
+        ],
+        "rate": 20
+      },
+      {
+        "species": "gastly",
+        "levelRange": [
+          19,
+          19
+        ],
+        "rate": 20
+      },
+      {
+        "species": "cubone",
+        "levelRange": [
+          17,
+          17
+        ],
+        "rate": 10
+      },
+      {
+        "species": "cubone",
+        "levelRange": [
+          19,
+          19
+        ],
+        "rate": 10
+      },
+      {
+        "species": "haunter",
+        "levelRange": [
+          25,
+          25
         ],
         "rate": 2
       }
@@ -8396,6 +9158,752 @@
     ]
   },
   {
+    "id": "kanto-seafoam-b2f-cave",
+    "method": "cave",
+    "entries": [
+      {
+        "species": "psyduck",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 20
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 20
+      },
+      {
+        "species": "seel",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 20
+      },
+      {
+        "species": "seel",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 20
+      },
+      {
+        "species": "slowpoke",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 20
+      },
+      {
+        "species": "slowpoke",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 20
+      },
+      {
+        "species": "zubat",
+        "levelRange": [
+          22,
+          22
+        ],
+        "rate": 20
+      },
+      {
+        "species": "zubat",
+        "levelRange": [
+          24,
+          24
+        ],
+        "rate": 20
+      },
+      {
+        "species": "golbat",
+        "levelRange": [
+          26,
+          26
+        ],
+        "rate": 10
+      },
+      {
+        "species": "golbat",
+        "levelRange": [
+          28,
+          28
+        ],
+        "rate": 8
+      },
+      {
+        "species": "golduck",
+        "levelRange": [
+          34,
+          34
+        ],
+        "rate": 5
+      },
+      {
+        "species": "golduck",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 5
+      },
+      {
+        "species": "slowbro",
+        "levelRange": [
+          34,
+          34
+        ],
+        "rate": 5
+      },
+      {
+        "species": "slowbro",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 5
+      },
+      {
+        "species": "golbat",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 2
+      }
+    ]
+  },
+  {
+    "id": "kanto-seafoam-b3f-cave",
+    "method": "cave",
+    "entries": [
+      {
+        "species": "seel",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 40
+      },
+      {
+        "species": "seel",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 40
+      },
+      {
+        "species": "zubat",
+        "levelRange": [
+          24,
+          24
+        ],
+        "rate": 20
+      },
+      {
+        "species": "golbat",
+        "levelRange": [
+          26,
+          26
+        ],
+        "rate": 10
+      },
+      {
+        "species": "golduck",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 10
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 10
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 10
+      },
+      {
+        "species": "slowbro",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 10
+      },
+      {
+        "species": "slowpoke",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 10
+      },
+      {
+        "species": "slowpoke",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 10
+      },
+      {
+        "species": "dewgong",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 8
+      },
+      {
+        "species": "golbat",
+        "levelRange": [
+          28,
+          28
+        ],
+        "rate": 8
+      },
+      {
+        "species": "golduck",
+        "levelRange": [
+          34,
+          34
+        ],
+        "rate": 5
+      },
+      {
+        "species": "slowbro",
+        "levelRange": [
+          34,
+          34
+        ],
+        "rate": 5
+      },
+      {
+        "species": "dewgong",
+        "levelRange": [
+          34,
+          34
+        ],
+        "rate": 2
+      },
+      {
+        "species": "golbat",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 2
+      }
+    ]
+  },
+  {
+    "id": "kanto-seafoam-b3f-fishing-good",
+    "method": "fishing-good",
+    "entries": [
+      {
+        "species": "horsea",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 80
+      },
+      {
+        "species": "krabby",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 80
+      },
+      {
+        "species": "magikarp",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 40
+      }
+    ]
+  },
+  {
+    "id": "kanto-seafoam-b3f-fishing-old",
+    "method": "fishing-old",
+    "entries": [
+      {
+        "species": "magikarp",
+        "levelRange": [
+          5,
+          5
+        ],
+        "rate": 200
+      }
+    ]
+  },
+  {
+    "id": "kanto-seafoam-b3f-fishing-super",
+    "method": "fishing-super",
+    "entries": [
+      {
+        "species": "horsea",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 40
+      },
+      {
+        "species": "horsea",
+        "levelRange": [
+          20,
+          30
+        ],
+        "rate": 40
+      },
+      {
+        "species": "krabby",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 40
+      },
+      {
+        "species": "krabby",
+        "levelRange": [
+          20,
+          30
+        ],
+        "rate": 40
+      },
+      {
+        "species": "gyarados",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 30
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 4
+      },
+      {
+        "species": "slowpoke",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 4
+      },
+      {
+        "species": "gyarados",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 2
+      }
+    ]
+  },
+  {
+    "id": "kanto-seafoam-b3f-surf",
+    "method": "surf",
+    "entries": [
+      {
+        "species": "seel",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 120
+      },
+      {
+        "species": "horsea",
+        "levelRange": [
+          25,
+          30
+        ],
+        "rate": 30
+      },
+      {
+        "species": "krabby",
+        "levelRange": [
+          25,
+          30
+        ],
+        "rate": 30
+      },
+      {
+        "species": "dewgong",
+        "levelRange": [
+          35,
+          40
+        ],
+        "rate": 10
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          30,
+          40
+        ],
+        "rate": 4
+      },
+      {
+        "species": "slowpoke",
+        "levelRange": [
+          30,
+          40
+        ],
+        "rate": 4
+      },
+      {
+        "species": "golduck",
+        "levelRange": [
+          35,
+          40
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowbro",
+        "levelRange": [
+          35,
+          40
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
+    "id": "kanto-seafoam-b4f-cave",
+    "method": "cave",
+    "entries": [
+      {
+        "species": "seel",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 40
+      },
+      {
+        "species": "seel",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 40
+      },
+      {
+        "species": "golbat",
+        "levelRange": [
+          26,
+          26
+        ],
+        "rate": 20
+      },
+      {
+        "species": "seel",
+        "levelRange": [
+          34,
+          34
+        ],
+        "rate": 20
+      },
+      {
+        "species": "dewgong",
+        "levelRange": [
+          34,
+          34
+        ],
+        "rate": 10
+      },
+      {
+        "species": "dewgong",
+        "levelRange": [
+          36,
+          36
+        ],
+        "rate": 10
+      },
+      {
+        "species": "golduck",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 10
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 10
+      },
+      {
+        "species": "slowbro",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 10
+      },
+      {
+        "species": "slowpoke",
+        "levelRange": [
+          32,
+          32
+        ],
+        "rate": 10
+      },
+      {
+        "species": "golbat",
+        "levelRange": [
+          28,
+          28
+        ],
+        "rate": 8
+      },
+      {
+        "species": "golduck",
+        "levelRange": [
+          34,
+          34
+        ],
+        "rate": 5
+      },
+      {
+        "species": "slowbro",
+        "levelRange": [
+          34,
+          34
+        ],
+        "rate": 5
+      },
+      {
+        "species": "golbat",
+        "levelRange": [
+          30,
+          30
+        ],
+        "rate": 2
+      }
+    ]
+  },
+  {
+    "id": "kanto-seafoam-b4f-fishing-good",
+    "method": "fishing-good",
+    "entries": [
+      {
+        "species": "horsea",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 80
+      },
+      {
+        "species": "krabby",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 80
+      },
+      {
+        "species": "magikarp",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 40
+      }
+    ]
+  },
+  {
+    "id": "kanto-seafoam-b4f-fishing-old",
+    "method": "fishing-old",
+    "entries": [
+      {
+        "species": "magikarp",
+        "levelRange": [
+          5,
+          5
+        ],
+        "rate": 200
+      }
+    ]
+  },
+  {
+    "id": "kanto-seafoam-b4f-fishing-super",
+    "method": "fishing-super",
+    "entries": [
+      {
+        "species": "horsea",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 40
+      },
+      {
+        "species": "horsea",
+        "levelRange": [
+          20,
+          30
+        ],
+        "rate": 40
+      },
+      {
+        "species": "krabby",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 40
+      },
+      {
+        "species": "krabby",
+        "levelRange": [
+          20,
+          30
+        ],
+        "rate": 40
+      },
+      {
+        "species": "gyarados",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 30
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 4
+      },
+      {
+        "species": "slowpoke",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 4
+      },
+      {
+        "species": "gyarados",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 2
+      }
+    ]
+  },
+  {
+    "id": "kanto-seafoam-b4f-surf",
+    "method": "surf",
+    "entries": [
+      {
+        "species": "seel",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 120
+      },
+      {
+        "species": "horsea",
+        "levelRange": [
+          25,
+          30
+        ],
+        "rate": 30
+      },
+      {
+        "species": "krabby",
+        "levelRange": [
+          25,
+          30
+        ],
+        "rate": 30
+      },
+      {
+        "species": "dewgong",
+        "levelRange": [
+          35,
+          40
+        ],
+        "rate": 10
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          30,
+          40
+        ],
+        "rate": 4
+      },
+      {
+        "species": "slowpoke",
+        "levelRange": [
+          30,
+          40
+        ],
+        "rate": 4
+      },
+      {
+        "species": "golduck",
+        "levelRange": [
+          35,
+          40
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowbro",
+        "levelRange": [
+          35,
+          40
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
     "id": "kanto-sevii-altering-cave-cave",
     "method": "cave",
     "entries": [
@@ -14426,6 +15934,174 @@
           40
         ],
         "rate": 10
+      }
+    ]
+  },
+  {
+    "id": "kanto-ss-anne-deck-fishing-good",
+    "method": "fishing-good",
+    "entries": [
+      {
+        "species": "horsea",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 80
+      },
+      {
+        "species": "krabby",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 80
+      },
+      {
+        "species": "magikarp",
+        "levelRange": [
+          5,
+          15
+        ],
+        "rate": 40
+      }
+    ]
+  },
+  {
+    "id": "kanto-ss-anne-deck-fishing-old",
+    "method": "fishing-old",
+    "entries": [
+      {
+        "species": "magikarp",
+        "levelRange": [
+          5,
+          5
+        ],
+        "rate": 200
+      }
+    ]
+  },
+  {
+    "id": "kanto-ss-anne-deck-fishing-super",
+    "method": "fishing-super",
+    "entries": [
+      {
+        "species": "horsea",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 40
+      },
+      {
+        "species": "krabby",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 40
+      },
+      {
+        "species": "shellder",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 40
+      },
+      {
+        "species": "staryu",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 40
+      },
+      {
+        "species": "gyarados",
+        "levelRange": [
+          15,
+          25
+        ],
+        "rate": 30
+      },
+      {
+        "species": "horsea",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 4
+      },
+      {
+        "species": "krabby",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 4
+      },
+      {
+        "species": "psyduck",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      },
+      {
+        "species": "slowpoke",
+        "levelRange": [
+          25,
+          35
+        ],
+        "rate": 1
+      }
+    ]
+  },
+  {
+    "id": "kanto-ss-anne-deck-surf",
+    "method": "surf",
+    "entries": [
+      {
+        "species": "tentacool",
+        "levelRange": [
+          5,
+          10
+        ],
+        "rate": 120
+      },
+      {
+        "species": "tentacool",
+        "levelRange": [
+          10,
+          20
+        ],
+        "rate": 60
+      },
+      {
+        "species": "tentacool",
+        "levelRange": [
+          20,
+          30
+        ],
+        "rate": 10
+      },
+      {
+        "species": "tentacool",
+        "levelRange": [
+          30,
+          35
+        ],
+        "rate": 8
+      },
+      {
+        "species": "tentacool",
+        "levelRange": [
+          35,
+          40
+        ],
+        "rate": 2
       }
     ]
   },

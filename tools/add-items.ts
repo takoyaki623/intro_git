@@ -11,11 +11,33 @@
  * 水の上のは v1.1-j で実際にやって、検証に止められた。
  */
 
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { canEnter, emptyWorldState, terrainAt } from "@pkmn/core";
 import type { MapData } from "@pkmn/core";
 
 const DATA = "packages/data";
+const MAPS_JSON = `${DATA}/maps.json`;
+
+/**
+ * `maps.json` が原本より古くないか（v1.2-b）。
+ *
+ * この道具は**生成物（`maps.json`）を読んで、原本（`.map`）に書く。**
+ * 2回続けて呼ぶと、2回目は1回目の置き場所を見ないまま空きマスを選ぶ ――
+ * 実際、SSアンヌ号でトレーナーが2人**同じマスに重なった**。
+ * 9番道路とトキワの森でも道具が2個ずつ重なっていて（v1.1-i から）、
+ * **手前の1個しか拾えない状態が版をまたいで残っていた。**
+ *
+ * 黙って重ねるより、止まって言うほうがよい。
+ */
+function requireFreshMaps(mapId: string): void {
+  const source = `${DATA}/source/maps/${mapId}.map`;
+  if (!existsSync(source)) return;
+  if (statSync(source).mtimeMs > statSync(MAPS_JSON).mtimeMs) {
+    console.error(`${MAPS_JSON} が ${source} より古い。先に npm run maps を回してください。`);
+    console.error("（続けて足すときは、1回ごとに maps を回す ―― 前の置き場所が見えない）");
+    process.exit(1);
+  }
+}
 
 function main(): void {
   const [mapId, itemId, countText, hiddenText] = process.argv.slice(2);
@@ -25,7 +47,8 @@ function main(): void {
   }
   const count = Number(countText ?? "1");
   const hidden = hiddenText === "hidden";
-  const maps = JSON.parse(readFileSync(`${DATA}/maps.json`, "utf8")) as MapData[];
+  requireFreshMaps(mapId);
+  const maps = JSON.parse(readFileSync(MAPS_JSON, "utf8")) as MapData[];
   const map = maps.find((m) => m.id === mapId);
   if (map === undefined) throw new Error(`マップ "${mapId}" が無い`);
   const items = JSON.parse(readFileSync(`${DATA}/items.json`, "utf8")) as { id: string }[];

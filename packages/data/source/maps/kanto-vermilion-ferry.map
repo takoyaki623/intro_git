@@ -17,7 +17,7 @@ G normal
 D normal
 
 grid:
-WWWWWWWGW
+WWWGWWWGW
 W.......W
 W..SSS..W
 W.......W
@@ -27,9 +27,14 @@ WWWWDWWWW
 
 warps:
 7,0 step kanto-sevii-one-ferry 1,1 down
+3,0 step kanto-ss-anne-deck 6,5 up
 4,6 step kanto-vermilion-city 10,10 down
 
 objects:
+# **サンアンヌごう のタラップも人がふさぐ**（v1.2-b）。ふねのチケット は
+# マサキ がくれる ―― 原作どおり。`if:` はフラグしか見ないので、
+# チケットそのものではなく**渡した印**（`kanto.bill.helped`）で塞ぐ
+ss-anne-guard 3,1 npc:sailor:static kanto.ssanne.guard if:kanto.bill.helped=false
 vermilion-ferry-sailor 7,1 npc:sailor:static kanto.sevii.ferry-guard if:kanto.sevii.invited=false
 vermilion-ferry-bill 2,3 npc:scientist:static kanto.sevii.bill if:kanto.sevii.invited=false
 vermilion-ferry-sign 6,3 sign kanto.sevii.ferry-sign

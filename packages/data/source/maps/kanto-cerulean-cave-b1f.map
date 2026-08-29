@@ -1,0 +1,33 @@
+# ハナダのどうくつ 地下1階（v1.2-b）。**ミュウツーはここ。**
+#
+# 原作でも最奥。1枚しか無かったころは入口の隣に居た ――
+# 「どうくつの奥」は階数でしか出せない手ざわりだった。
+# 間取りは原作を写していない。水を渡った先の島にした（なみのりが要る）。
+id: kanto-cerulean-cave-b1f
+name: ハナダのどうくつ ちか
+region: kanto
+encounters: kanto-cerulean-cave-b1f-cave kanto-cerulean-cave-b1f-surf kanto-cerulean-cave-b1f-fishing-old kanto-cerulean-cave-b1f-fishing-good kanto-cerulean-cave-b1f-fishing-super
+bgm: cave
+
+legend:
+. normal
+R !normal
+: cave
+~ !water
+
+grid:
+RRRRRRRRRRRRR
+R:::::::::::R
+R:~~~~~~~~~:R
+R:~~:::::~~:R
+R:~~:::::~~:R
+R:~~~~~~~~~:R
+R:::::::::::R
+RRRRRRRRRRRRR
+
+warps:
+1,1 step kanto-cerulean-cave-2f 11,2 up
+
+objects:
+cerulean-cave-mewtwo 6,4 npc:mewtwo:static kanto.cave.mewtwo if:kanto.cave.mewtwo-caught=false
+cerulean-cave-item 11,1 item:max-revive kanto.cave.item if:kanto.cave.item-taken=false

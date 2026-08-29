@@ -5262,5 +5262,381 @@
         "speaker": "ジムトレーナー"
       }
     ]
+  },
+  {
+    "id": "kanto.ssanne1f.sailor1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.ssanne1f.sailor1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ふねの うえでも しょうぶは しょうぶ!",
+            "speaker": "せんいん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-ss-anne-1f-sailor-1",
+            "onWin": "kanto.ssanne1f.sailor1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "まいった、つよいな!",
+            "speaker": "せんいん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanne1f.sailor1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ssanne1f.sailor1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "まいった、つよいな!",
+        "speaker": "せんいん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanne1f.sailor2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.ssanne1f.sailor2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "うでっぷしには じしんが あるぜ!",
+            "speaker": "せんいん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-ss-anne-1f-sailor-2",
+            "onWin": "kanto.ssanne1f.sailor2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "うでを みがきなおすぜ。",
+            "speaker": "せんいん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanne1f.sailor2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ssanne1f.sailor2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "うでを みがきなおすぜ。",
+        "speaker": "せんいん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanne2f.sailor1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.ssanne2f.sailor1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ふねの うえでも しょうぶは しょうぶ!",
+            "speaker": "せんいん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-ss-anne-2f-sailor-1",
+            "onWin": "kanto.ssanne2f.sailor1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "まいった、つよいな!",
+            "speaker": "せんいん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanne2f.sailor1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ssanne2f.sailor1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "まいった、つよいな!",
+        "speaker": "せんいん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanne2f.sailor2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.ssanne2f.sailor2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "うでっぷしには じしんが あるぜ!",
+            "speaker": "せんいん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-ss-anne-2f-sailor-2",
+            "onWin": "kanto.ssanne2f.sailor2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "うでを みがきなおすぜ。",
+            "speaker": "せんいん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanne2f.sailor2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ssanne2f.sailor2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "うでを みがきなおすぜ。",
+        "speaker": "せんいん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanne2f.gentleman1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.ssanne2f.gentleman1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ふむ、なかなかの ポケモンだね。",
+            "speaker": "ジェントルマン"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-ss-anne-2f-gentleman-1",
+            "onWin": "kanto.ssanne2f.gentleman1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "みごとだ。",
+            "speaker": "ジェントルマン"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanne2f.gentleman1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ssanne2f.gentleman1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "みごとだ。",
+        "speaker": "ジェントルマン"
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanneb1f.sailor1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.ssanneb1f.sailor1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ふねの うえでも しょうぶは しょうぶ!",
+            "speaker": "せんいん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-ss-anne-b1f-sailor-1",
+            "onWin": "kanto.ssanneb1f.sailor1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "まいった、つよいな!",
+            "speaker": "せんいん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanneb1f.sailor1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ssanneb1f.sailor1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "まいった、つよいな!",
+        "speaker": "せんいん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanneb1f.sailor2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.ssanneb1f.sailor2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "うでっぷしには じしんが あるぜ!",
+            "speaker": "せんいん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-ss-anne-b1f-sailor-2",
+            "onWin": "kanto.ssanneb1f.sailor2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "うでを みがきなおすぜ。",
+            "speaker": "せんいん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanneb1f.sailor2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ssanneb1f.sailor2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "うでを みがきなおすぜ。",
+        "speaker": "せんいん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssannedeck.gentleman1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.ssannedeck.gentleman1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ふむ、なかなかの ポケモンだね。",
+            "speaker": "ジェントルマン"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-ss-anne-deck-gentleman-1",
+            "onWin": "kanto.ssannedeck.gentleman1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "みごとだ。",
+            "speaker": "ジェントルマン"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssannedeck.gentleman1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ssannedeck.gentleman1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "みごとだ。",
+        "speaker": "ジェントルマン"
+      }
+    ]
   }
 ]
