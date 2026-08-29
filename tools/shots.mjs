@@ -125,12 +125,13 @@ const SHOOTING_SAVE = (() => {
   // フィールド技（v0.12-d）。**覚えていないと そらをとぶ のボタンが出ない**ので、
   // 撮りたい画面が1枚まるごと消える
   //
-  // **フラッシュだけは わざと入れない**（v1.2-a）。入れると暗い洞窟が明るくなり、
-  // 「イワヤマトンネル（フラッシュ前）」が普通の洞窟の絵になる ――
-  // ここは入れ忘れではない。たきのぼり は入れる（滝を越えないと たきつぼ を撮れない）
+  // **フラッシュも入れる**（v1.2-a）。既定は明るい側 ――
+  // 入れないと、暗いのを見せたい1枚のために**他の洞窟が全部まっ暗**になる。
+  // 「フラッシュ前」の1枚だけは `without` で落として撮る
   for (const flag of [
     "kanto.ability.cut", "kanto.ability.surf", "kanto.ability.strength",
     "kanto.ability.rock-smash", "kanto.ability.fly", "kanto.ability.waterfall",
+    "kanto.ability.flash",
   ]) {
     save.regions.kanto.flags[flag] = true;
   }
@@ -244,7 +245,7 @@ const PLACES = [
   { file: "lab", name: "グレンけんきゅうじょ", note: "かせきを もどす唯一の場所（v1.1-g-3）", to: ["kanto-cinnabar-lab", 4, 3] },
   { file: "mansion-celadon", name: "タマムシマンション", note: "イーブイ1匹で、石で分かれる3種が開く（v1.1-g-3）", to: ["kanto-celadon-mansion", 4, 3] },
   { file: "dojo", name: "カラテどうじょう", note: "勝つと どちらか1匹（v1.1-g-3）", to: ["kanto-saffron-dojo", 4, 3] },
-  { file: "rock-tunnel-dark", name: "イワヤマトンネル（フラッシュ前）", note: "暗い洞窟（v1.2-a）。見えるのは半径2マス ―― 壁ではなく幕なので歩ける", to: ["kanto-rock-tunnel-1f", 6, 7] },
+  { file: "rock-tunnel-dark", name: "イワヤマトンネル（フラッシュ前）", note: "暗い洞窟（v1.2-a）。見えるのは半径2マス ―― **壁ではなく幕**なので、覚えていなくても歩けるし戦える", to: ["kanto-rock-tunnel-1f", 6, 7], without: ["kanto.ability.flash"] },
   { file: "icefall-waterfall", name: "こおりのぬけみち たきつぼ", note: "滝の帯は端から端まで（v1.2-a）。岸を1マス残すと歩いて回り込める", to: ["kanto-sevii-icefall-waterfall", 5, 2] },
   { file: "dept-store", name: "タマムシデパート", note: "品揃えを**階で**分けた（v1.1-i）。2かい どうぐ／3かい わざマシン／4かい しんかの どうぐ", to: ["kanto-celadon-dept-2f", 4, 4] },
   { file: "gamecorner", name: "ゲームコーナー", note: "スロットは作らない ―― 景品はお金で（v1.1-g-3）", to: ["kanto-celadon-gamecorner", 5, 4] },
@@ -321,10 +322,20 @@ for (const size of [
   // 新規データのままだと、**オーキドがマサラタウンの北を塞いでいる**（御三家の前）。
   // 進行を作るために長い台本を書くより、**開通済みのセーブを1つ読ませる**方が
   // 速いし、撮れる絵も「遊んでいる途中」らしくなる。
-  async function loadShootingSave() {
+  /**
+   * `without` に挙げたフラグだけ落として読む（v1.2-a）。
+   *
+   * **撮影のセーブは1つ**で、それが全部の絵の前提になっている。
+   * だが1枚だけ「その能力が無い状態」を撮りたいことがある ――
+   * イワヤマトンネルは、フラッシュを覚える前と後で別の絵になる。
+   * どちらか片方しか撮れないなら、**見るための道具として足りていない。**
+   */
+  async function loadShootingSave(without = []) {
+    const save = JSON.parse(JSON.stringify(SHOOTING_SAVE));
+    for (const flag of without) delete save.regions.kanto.flags[flag];
     await page.click("#open-settings");
     await page.waitForSelector("#save-text");
-    await page.fill("#save-text", JSON.stringify(SHOOTING_SAVE));
+    await page.fill("#save-text", JSON.stringify(save));
     await page.click("#save-import");
     await page.waitForTimeout(800);
     await page.click("#settings-back");
@@ -494,6 +505,12 @@ for (const size of [
       else await enterKanto();
       region = want;
     }
+    // **その場所だけ、能力を持たない状態で撮る**（v1.2-a）。
+    // 撮り終えたら次の場所の前に読み直す（下の `place.without` の判定）
+    if (place.without !== undefined) {
+      await loadShootingSave(place.without);
+      region = "kanto";
+    }
     let ok = await goTo(map, x, y);
     await clearBattle();
     // **撮る前に、地図が戻っているか確かめる**（v1.1-g-2）。
@@ -517,6 +534,11 @@ for (const size of [
         : `  △ ${place.name}（${size.label}）… ねらい ${map} ${x},${y} / いま ${where}`,
     );
     if (size.label === "phone") shots.push({ ...place, group: "マップ", file: place.file });
+    // 落としたフラグを戻す。**戻さないと、この先の絵が全部その状態になる**
+    if (place.without !== undefined) {
+      await loadShootingSave();
+      region = "kanto";
+    }
 
     // チャンピオンロードは **かいりき の岩** で北へ抜けられない。
     // 台本と同じで、撮影も能力を使って通る
