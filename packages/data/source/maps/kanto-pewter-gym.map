@@ -31,3 +31,5 @@ objects:
 pewter-gym-jr 2,5 trainer:kanto-pewter-gym-jr:3:right kanto.pewter.gym-jr if:kanto.pewter.gym-jr-beaten=false
 pewter-brock 4,1 npc:leader:static kanto.pewter.brock
 pewter-gym-sign 6,8 sign kanto.pewter.gym-sign
+pewtergym-gymjr-1 1,1 trainer:kanto-pewter-gym-gymjr-1:2:down kanto.pewtergym.gymjr1 if:kanto.pewtergym.gymjr1-beaten=false
+pewtergym-gymjr-2 7,8 trainer:kanto-pewter-gym-gymjr-2:2:up kanto.pewtergym.gymjr2 if:kanto.pewtergym.gymjr2-beaten=false

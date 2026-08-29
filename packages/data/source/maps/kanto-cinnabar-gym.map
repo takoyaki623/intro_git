@@ -39,3 +39,4 @@ cinnabar-quiz-3 4,2 sign kanto.cinnabar.quiz-3 if:kanto.cinnabar.quiz-3-open=fal
 cinnabar-gym-jr 1,10 trainer:kanto-cinnabar-gym-jr:3:right kanto.cinnabar.gym-jr if:kanto.cinnabar.gym-jr-beaten=false
 cinnabar-blaine 7,1 npc:leader:static kanto.cinnabar.blaine
 cinnabar-gym-sign 7,11 sign kanto.cinnabar.gym-sign
+cinnabargym-gymjr-1 1,1 trainer:kanto-cinnabar-gym-gymjr-1:2:right kanto.cinnabargym.gymjr1 if:kanto.cinnabargym.gymjr1-beaten=false

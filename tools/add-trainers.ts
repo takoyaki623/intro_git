@@ -104,6 +104,12 @@ const CLASSES: Record<string, { slug: string; names: string[]; before: string[];
     after: ["おべんとうに しよう…", "つよいのね!"],
     prefer: ["grass", "normal"],
   },
+  ジムトレーナー: {
+    slug: "gymjr",
+    names: ["ジロウ", "ケイコ", "タツキ", "ミドリ", "ハルキ", "サトミ"],
+    before: ["リーダーの まえに ぼくが あいてだ!", "ジムの トレーナーを なめるなよ!"],
+    after: ["リーダーは もっと つよいぞ。", "おくへ どうぞ…"],
+  },
   かいじゅうマニア: {
     slug: "rocker",
     names: ["ジロウ", "ダイキ", "ノブオ"],
@@ -114,7 +120,7 @@ const CLASSES: Record<string, { slug: string; names: string[]; before: string[];
 };
 
 function main(): void {
-  const [mapId, className, countText, levelText] = process.argv.slice(2);
+  const [mapId, className, countText, levelText, speciesText] = process.argv.slice(2);
   const cls = CLASSES[className ?? ""];
   if (mapId === undefined || cls === undefined || countText === undefined) {
     console.error("使い方: add-trainers.ts <map> <職業> <人数> [レベル]");
@@ -133,8 +139,14 @@ function main(): void {
 
   // ── 手持ちの候補は、そのマップに出る種 ──
   const here = tables.filter((t) => (map.encounters ?? []).includes(t.id));
-  const wild = here.flatMap((t) => t.entries.map((e) => ({ species: e.species, level: e.levelRange[1] })));
-  if (wild.length === 0) throw new Error(`${mapId}: 出現表が無いので手持ちを選べない`);
+  const wild =
+    speciesText !== undefined && speciesText !== ""
+      ? // **ジムや建物の中には出現表が無い。** そこだけは種を直接わたす ――
+        // 「そのへんに居るポケモンを連れている」は道中のトレーナーの姿であって、
+        // ジムトレーナーはリーダーと同じタイプで揃えるのが原作
+        speciesText.split(",").map((id) => ({ species: id, level: Number(levelText ?? 10) }))
+      : here.flatMap((t) => t.entries.map((e) => ({ species: e.species, level: e.levelRange[1] })));
+  if (wild.length === 0) throw new Error(`${mapId}: 出現表が無いので手持ちを選べない（種を渡してください）`);
   const level = levelText !== undefined ? Number(levelText) : Math.max(...wild.map((w) => w.level)) + 2;
 
   // ── 立てる場所を選ぶ ──
@@ -196,12 +208,41 @@ function main(): void {
     return reach(new Set([...taken, `${bx},${by}`])).size === base.size - 1;
   };
 
+  /**
+   * **誰かの最後の1マスを奪わないか**（v1.1-i）。
+   *
+   * 話しかけるのは隣からなので、周り4マスを埋められた相手は
+   * 置いてあるのに一生喋らない ―― 検証 #116 がまさにこれを拾った
+   * （グレンジムで、カツラの前に立ってしまった）。
+   * **道具が作った不具合を、道具のほうで塞ぐ。**
+   */
+  const keepsTalkable = (bx: number, by: number) => {
+    for (const other of map.objects) {
+      if (other.event === undefined) continue;
+      if (other.kind.type === "item" || other.kind.type === "switch") continue;
+      const ways = [
+        { x: other.at.x + 1, y: other.at.y },
+        { x: other.at.x - 1, y: other.at.y },
+        { x: other.at.x, y: other.at.y + 1 },
+        { x: other.at.x, y: other.at.y - 1 },
+      ].filter(
+        (n) =>
+          canEnter(map, world, n.x, n.y, { ignoreConditional: true }) &&
+          !taken.has(`${n.x},${n.y}`) &&
+          !(n.x === bx && n.y === by),
+      );
+      if (ways.length === 0) return false;
+    }
+    return true;
+  };
+
   /** そこに立って前を見たとき、視線が通り、出入口を睨まないか。 */
   const spotOk = (x: number, y: number, dx: number, dy: number, sight: number) => {
     if (!free(x, y)) return false;
     // **水の上に立てるのは およぐ人だけ**（つりびと・かいパンやろう）
     if (terrainAt(map, x, y) === "water" && cls.water !== true) return false;
     if (!keepsWhole(x, y)) return false;
+    if (!keepsTalkable(x, y)) return false;
     for (let i = 1; i <= sight; i += 1) {
       const sx = x + dx * i;
       const sy = y + dy * i;

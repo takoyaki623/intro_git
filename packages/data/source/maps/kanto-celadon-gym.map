@@ -29,3 +29,6 @@ objects:
 celadon-gym-jr 1,7 trainer:kanto-celadon-gym-jr:3:right kanto.celadon.gym-jr if:kanto.celadon.gym-jr-beaten=false
 celadon-erika 4,1 npc:leader:static kanto.celadon.erika
 celadon-gym-sign 7,8 sign kanto.celadon.gym-sign
+celadongym-gymjr-1 1,8 trainer:kanto-celadon-gym-gymjr-1:2:up kanto.celadongym.gymjr1 if:kanto.celadongym.gymjr1-beaten=false
+celadongym-gymjr-2 5,1 trainer:kanto-celadon-gym-gymjr-2:2:right kanto.celadongym.gymjr2 if:kanto.celadongym.gymjr2-beaten=false
+celadongym-gymjr-3 7,6 trainer:kanto-celadon-gym-gymjr-3:2:left kanto.celadongym.gymjr3 if:kanto.celadongym.gymjr3-beaten=false

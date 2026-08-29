@@ -4463,5 +4463,804 @@
         "speaker": "かいパンやろう"
       }
     ]
+  },
+  {
+    "id": "kanto.pewtergym.gymjr1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.pewtergym.gymjr1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "リーダーの まえに ぼくが あいてだ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-pewter-gym-gymjr-1",
+            "onWin": "kanto.pewtergym.gymjr1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "リーダーは もっと つよいぞ。",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.pewtergym.gymjr1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.pewtergym.gymjr1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "リーダーは もっと つよいぞ。",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.pewtergym.gymjr2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.pewtergym.gymjr2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ジムの トレーナーを なめるなよ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-pewter-gym-gymjr-2",
+            "onWin": "kanto.pewtergym.gymjr2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "おくへ どうぞ…",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.pewtergym.gymjr2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.pewtergym.gymjr2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "おくへ どうぞ…",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.ceruleangym.gymjr1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.ceruleangym.gymjr1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "リーダーの まえに ぼくが あいてだ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-cerulean-gym-gymjr-1",
+            "onWin": "kanto.ceruleangym.gymjr1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "リーダーは もっと つよいぞ。",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.ceruleangym.gymjr1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ceruleangym.gymjr1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "リーダーは もっと つよいぞ。",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.ceruleangym.gymjr2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.ceruleangym.gymjr2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ジムの トレーナーを なめるなよ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-cerulean-gym-gymjr-2",
+            "onWin": "kanto.ceruleangym.gymjr2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "おくへ どうぞ…",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.ceruleangym.gymjr2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ceruleangym.gymjr2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "おくへ どうぞ…",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.vermiliongym.gymjr1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.vermiliongym.gymjr1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "リーダーの まえに ぼくが あいてだ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-vermilion-gym-gymjr-1",
+            "onWin": "kanto.vermiliongym.gymjr1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "リーダーは もっと つよいぞ。",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.vermiliongym.gymjr1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.vermiliongym.gymjr1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "リーダーは もっと つよいぞ。",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.vermiliongym.gymjr2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.vermiliongym.gymjr2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ジムの トレーナーを なめるなよ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-vermilion-gym-gymjr-2",
+            "onWin": "kanto.vermiliongym.gymjr2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "おくへ どうぞ…",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.vermiliongym.gymjr2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.vermiliongym.gymjr2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "おくへ どうぞ…",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.celadongym.gymjr1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.celadongym.gymjr1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "リーダーの まえに ぼくが あいてだ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-celadon-gym-gymjr-1",
+            "onWin": "kanto.celadongym.gymjr1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "リーダーは もっと つよいぞ。",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.celadongym.gymjr1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.celadongym.gymjr1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "リーダーは もっと つよいぞ。",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.celadongym.gymjr2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.celadongym.gymjr2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ジムの トレーナーを なめるなよ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-celadon-gym-gymjr-2",
+            "onWin": "kanto.celadongym.gymjr2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "おくへ どうぞ…",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.celadongym.gymjr2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.celadongym.gymjr2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "おくへ どうぞ…",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.celadongym.gymjr3",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.celadongym.gymjr3-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "リーダーの まえに ぼくが あいてだ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-celadon-gym-gymjr-3",
+            "onWin": "kanto.celadongym.gymjr3-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "リーダーは もっと つよいぞ。",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.celadongym.gymjr3-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.celadongym.gymjr3-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "リーダーは もっと つよいぞ。",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.fuchsiagym.gymjr1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.fuchsiagym.gymjr1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "リーダーの まえに ぼくが あいてだ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-fuchsia-gym-gymjr-1",
+            "onWin": "kanto.fuchsiagym.gymjr1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "リーダーは もっと つよいぞ。",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.fuchsiagym.gymjr1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.fuchsiagym.gymjr1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "リーダーは もっと つよいぞ。",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.fuchsiagym.gymjr2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.fuchsiagym.gymjr2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ジムの トレーナーを なめるなよ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-fuchsia-gym-gymjr-2",
+            "onWin": "kanto.fuchsiagym.gymjr2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "おくへ どうぞ…",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.fuchsiagym.gymjr2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.fuchsiagym.gymjr2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "おくへ どうぞ…",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.fuchsiagym.gymjr3",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.fuchsiagym.gymjr3-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "リーダーの まえに ぼくが あいてだ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-fuchsia-gym-gymjr-3",
+            "onWin": "kanto.fuchsiagym.gymjr3-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "リーダーは もっと つよいぞ。",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.fuchsiagym.gymjr3-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.fuchsiagym.gymjr3-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "リーダーは もっと つよいぞ。",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.saffrongym.gymjr1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.saffrongym.gymjr1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "リーダーの まえに ぼくが あいてだ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-saffron-gym-gymjr-1",
+            "onWin": "kanto.saffrongym.gymjr1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "リーダーは もっと つよいぞ。",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.saffrongym.gymjr1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.saffrongym.gymjr1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "リーダーは もっと つよいぞ。",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.cinnabargym.gymjr1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.cinnabargym.gymjr1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "リーダーの まえに ぼくが あいてだ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-cinnabar-gym-gymjr-1",
+            "onWin": "kanto.cinnabargym.gymjr1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "リーダーは もっと つよいぞ。",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.cinnabargym.gymjr1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.cinnabargym.gymjr1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "リーダーは もっと つよいぞ。",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridiangym.gymjr1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.viridiangym.gymjr1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "リーダーの まえに ぼくが あいてだ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-viridian-gym-gymjr-1",
+            "onWin": "kanto.viridiangym.gymjr1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "リーダーは もっと つよいぞ。",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridiangym.gymjr1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.viridiangym.gymjr1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "リーダーは もっと つよいぞ。",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridiangym.gymjr2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.viridiangym.gymjr2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ジムの トレーナーを なめるなよ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-viridian-gym-gymjr-2",
+            "onWin": "kanto.viridiangym.gymjr2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "おくへ どうぞ…",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridiangym.gymjr2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.viridiangym.gymjr2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "おくへ どうぞ…",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridiangym.gymjr3",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.viridiangym.gymjr3-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "リーダーの まえに ぼくが あいてだ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-viridian-gym-gymjr-3",
+            "onWin": "kanto.viridiangym.gymjr3-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "リーダーは もっと つよいぞ。",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridiangym.gymjr3-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.viridiangym.gymjr3-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "リーダーは もっと つよいぞ。",
+        "speaker": "ジムトレーナー"
+      }
+    ]
   }
 ]

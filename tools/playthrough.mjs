@@ -1564,24 +1564,59 @@ expect(
   );
   expect("わざマシンで 技を おぼえた", learned ? "おぼえた" : "おぼえていない", "おぼえた");
 
-  // しんかの どうぐ の店（原作のデパート4階にあたる）
+  // ── タマムシデパート（v1.1-i）──
+  //
+  // 品揃えを**階で**分けた。1階 案内・2階 どうぐ・3階 わざマシン・4階 しんかの どうぐ。
+  // 階段は1本道なので、**4階へ一気に行かず1階ずつ確かめる** ――
+  // 「確かめる場所の隣に居るうちに確かめる」（v1.1-j で台本が3回落ちて学んだ）。
+  //
+  // v1.1-b からの石の店員は、この版で**4階へ移った**。
+  // ここが `kanto-celadon-mart`（5,2）の右を向くだけだった頃の跡が
+  // 「石の店員は右」というコメントで、**その相手はもう1階に居ない。**
+
+  /** その階の店を開き、品目を読んで、買わずに閉じる。 */
+  const dept = async (map, at, dir, label) => {
+    const here = await goToMap(map, at.x, at.y, 60);
+    expect(`${label}に 入れた`, here.map, map);
+    if (here.map !== map) return [];
+    await key(dir, 2, 200);
+    await key("z", 1, 400);
+    await clear();
+    const items = await page.$$eval("#field-text .choices button", (b) =>
+      b.map((x) => x.textContent),
+    );
+    note(label, items.slice(0, 4).join(" / ") || "（品が出ていない）");
+    // **買わずに閉じる。** 品が出ていなければ会話を流すだけにする
+    // （nth-child(0) は必ず見つからず、30秒待って落ちる）
+    await drain();
+    return items;
+  };
+
   await closeBag();
-  await goToMap("kanto-celadon-mart", 5, 2, 60);
-  expect("タマムシの 店に 入れた", (await spot()).map, "kanto-celadon-mart");
-  // **石の店員は右**（6,2）。トキワの店員が左だったので向きを写して間違えた
-  await key("ArrowRight", 2, 200);
-  await key("z", 1, 400);
-  await clear();
-  const stones = await page.$$eval("#field-text .choices button", (b) => b.map((x) => x.textContent));
-  note("しんかの どうぐ", stones.slice(0, 4).join(" / ") || "（品が出ていない）");
+  await goToMap("kanto-celadon-mart", 4, 3, 60);
+  expect("タマムシデパートに 入れた", (await spot()).map, "kanto-celadon-mart");
+  await talkToObject("kanto-celadon-mart", "dept-guide");
+
+  const deptItems = await dept("kanto-celadon-dept-2f", { x: 3, y: 4 }, "ArrowLeft", "デパート2階");
+  expect(
+    "2階で ハイパーボールが 買える",
+    deptItems.some((t) => t.includes("ハイパーボール")) ? "ある" : "ない",
+    "ある",
+  );
+
+  const deptTms = await dept("kanto-celadon-dept-3f", { x: 3, y: 4 }, "ArrowLeft", "デパート3階");
+  expect(
+    "3階で わざマシンが 買える",
+    deptTms.some((t) => t.includes("わざマシン")) ? "ある" : "ない",
+    "ある",
+  );
+
+  const stones = await dept("kanto-celadon-dept-4f", { x: 3, y: 4 }, "ArrowLeft", "デパート4階");
   expect(
     "つながりのヒモが 売っている",
     stones.some((t) => t.includes("つながりのヒモ")) ? "ある" : "ない",
     "ある",
   );
-  // **買わずに閉じる。** 品が出ていなければ会話を流すだけにする
-  // （nth-child(0) は必ず見つからず、30秒待って落ちる）
-  await drain();
 
   // **石とヒモの相手を用意する。** 手持ちはヒトカゲの系統しか居ないので、
   // BP と同じやり方でセーブを書き換える（台本が確かめたいのは機構）

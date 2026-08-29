@@ -6,9 +6,9 @@
  * 特性 74 / 道具 108 /
  * BattleSet 64 / 施設 4 /
  * ネームド 18 / カップ 10 /
- * マップ 195 / イベント 328 / トレーナー 137 /
- * 出現テーブル 261 / ショップ 6 / 地方 9 /
- * フラグ 209
+ * マップ 198 / イベント 328 / トレーナー 154 /
+ * 出現テーブル 261 / ショップ 8 / 地方 9 /
+ * フラグ 207
  */
 
 export type GeneratedSpeciesId =
@@ -818,6 +818,9 @@ export type GeneratedMapId =
   | "hub-tower"
   | "kanto-bill-house"
   | "kanto-celadon-city"
+  | "kanto-celadon-dept-2f"
+  | "kanto-celadon-dept-3f"
+  | "kanto-celadon-dept-4f"
   | "kanto-celadon-gamecorner"
   | "kanto-celadon-gym"
   | "kanto-celadon-mansion"
@@ -1030,7 +1033,9 @@ export type GeneratedEventId =
   | "kanto.cave.mewtwo"
   | "kanto.celadon.arrive"
   | "kanto.celadon.center-pc"
-  | "kanto.celadon.clerk"
+  | "kanto.celadon.dept-guide"
+  | "kanto.celadon.dept-items"
+  | "kanto.celadon.dept-tms"
   | "kanto.celadon.erika"
   | "kanto.celadon.erika-win"
   | "kanto.celadon.fly-girl"
@@ -1125,7 +1130,6 @@ export type GeneratedEventId =
   | "kanto.mansion.eevee"
   | "kanto.mansion.lady"
   | "kanto.moon.fossil"
-  | "kanto.moon.great-ball"
   | "kanto.museum.amber"
   | "kanto.museum.bone"
   | "kanto.museum.clerk"
@@ -1314,7 +1318,6 @@ export type GeneratedEventId =
   | "kanto.vermilion.surge"
   | "kanto.vermilion.surge-win"
   | "kanto.vermilion.trade"
-  | "kanto.victory.max-revive"
   | "kanto.victory.moltres"
   | "kanto.victory.press-2f"
   | "kanto.victory.press-3f"
@@ -1343,17 +1346,26 @@ export type GeneratedTrainerId =
   | "kanto-blaine"
   | "kanto-brock"
   | "kanto-bruno"
+  | "kanto-celadon-gym-gymjr-1"
+  | "kanto-celadon-gym-gymjr-2"
+  | "kanto-celadon-gym-gymjr-3"
   | "kanto-celadon-gym-jr"
+  | "kanto-cerulean-gym-gymjr-1"
+  | "kanto-cerulean-gym-gymjr-2"
   | "kanto-cerulean-gym-jr"
   | "kanto-champion-bulbasaur"
   | "kanto-champion-charmander"
   | "kanto-champion-squirtle"
+  | "kanto-cinnabar-gym-gymjr-1"
   | "kanto-cinnabar-gym-jr"
   | "kanto-dojo-master"
   | "kanto-dojo-student"
   | "kanto-erika"
   | "kanto-forest-bug-1"
   | "kanto-forest-bug-2"
+  | "kanto-fuchsia-gym-gymjr-1"
+  | "kanto-fuchsia-gym-gymjr-2"
+  | "kanto-fuchsia-gym-gymjr-3"
   | "kanto-fuchsia-gym-jr"
   | "kanto-giovanni"
   | "kanto-giovanni-hideout"
@@ -1366,6 +1378,8 @@ export type GeneratedTrainerId =
   | "kanto-moon-rocket"
   | "kanto-mt-moon-hiker-1"
   | "kanto-mt-moon-hiker-2"
+  | "kanto-pewter-gym-gymjr-1"
+  | "kanto-pewter-gym-gymjr-2"
   | "kanto-pewter-gym-jr"
   | "kanto-rival-bulbasaur"
   | "kanto-rival-cerulean-bulbasaur"
@@ -1460,6 +1474,7 @@ export type GeneratedTrainerId =
   | "kanto-route7-camper"
   | "kanto-route8-lass"
   | "kanto-sabrina"
+  | "kanto-saffron-gym-gymjr-1"
   | "kanto-saffron-gym-jr"
   | "kanto-sevii-biker"
   | "kanto-sevii-rocket-1"
@@ -1473,8 +1488,13 @@ export type GeneratedTrainerId =
   | "kanto-tower-channeler-3f"
   | "kanto-tower-channeler-5f"
   | "kanto-tower-rocket-7f"
+  | "kanto-vermilion-gym-gymjr-1"
+  | "kanto-vermilion-gym-gymjr-2"
   | "kanto-vermilion-gym-jr"
   | "kanto-victory-cooltrainer"
+  | "kanto-viridian-gym-gymjr-1"
+  | "kanto-viridian-gym-gymjr-2"
+  | "kanto-viridian-gym-gymjr-3"
   | "kanto-viridian-gym-jr";
 
 export type GeneratedEncounterTableId =
@@ -1741,7 +1761,9 @@ export type GeneratedEncounterTableId =
   | "kanto-viridian-forest-grass";
 
 export type GeneratedShopId =
+  | "kanto-celadon-dept"
   | "kanto-celadon-stones"
+  | "kanto-celadon-tms"
   | "kanto-mart-1"
   | "kanto-mart-2"
   | "kanto-mart-3"
@@ -1835,7 +1857,6 @@ export type GeneratedFlagId =
   | "kanto.mansion.item-taken"
   | "kanto.moon.b2f-item-taken"
   | "kanto.moon.fossil-taken"
-  | "kanto.moon.great-ball-taken"
   | "kanto.moon.hiker-beaten"
   | "kanto.moon.rocket-beaten"
   | "kanto.moon.stone-taken"
@@ -1959,7 +1980,6 @@ export type GeneratedFlagId =
   | "kanto.vermilion.traded"
   | "kanto.victory.cooltrainer-beaten"
   | "kanto.victory.item-taken"
-  | "kanto.victory.max-revive-taken"
   | "kanto.victory.moltres-caught"
   | "kanto.victory.switch-2f"
   | "kanto.victory.switch-3f"

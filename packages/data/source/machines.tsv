@@ -1,59 +1,59 @@
-id	number	move	skip
-hm01	101	cut	秘伝マシンは道具にしない（world.md §7）
-hm02	102	fly	秘伝マシンは道具にしない（world.md §7）
-hm03	103	surf	秘伝マシンは道具にしない（world.md §7）
-hm04	104	strength	秘伝マシンは道具にしない（world.md §7）
-hm05	105	flash	秘伝マシンは道具にしない（world.md §7）
-hm06	106	rock-smash	秘伝マシンは道具にしない（world.md §7）
-hm07	107	waterfall	秘伝マシンは道具にしない（world.md §7）
-hm08	108	dive	秘伝マシンは道具にしない（world.md §7）
-tm01	1	focus-punch	技が未実装（moves-todo.tsv）
-tm02	2	dragon-claw	
-tm03	3	water-pulse	
-tm04	4	calm-mind	
-tm05	5	roar	技が未実装（moves-todo.tsv）
-tm06	6	toxic	
-tm07	7	hail	技が未実装（moves-todo.tsv）
-tm08	8	bulk-up	技が未実装（moves-todo.tsv）
-tm09	9	bullet-seed	
-tm10	10	hidden-power	技が未実装（moves-todo.tsv）
-tm11	11	sunny-day	技が未実装（moves-todo.tsv）
-tm12	12	taunt	技が未実装（moves-todo.tsv）
-tm13	13	ice-beam	
-tm14	14	blizzard	
-tm15	15	hyper-beam	技が未実装（moves-todo.tsv）
-tm16	16	light-screen	技が未実装（moves-todo.tsv）
-tm17	17	protect	技が未実装（moves-todo.tsv）
-tm18	18	rain-dance	技が未実装（moves-todo.tsv）
-tm19	19	giga-drain	
-tm20	20	safeguard	技が未実装（moves-todo.tsv）
-tm21	21	frustration	技が未実装（moves-todo.tsv）
-tm22	22	solar-beam	技が未実装（moves-todo.tsv）
-tm23	23	iron-tail	
-tm24	24	thunderbolt	
-tm25	25	thunder	
-tm26	26	earthquake	
-tm27	27	return	技が未実装（moves-todo.tsv）
-tm28	28	dig	技が未実装（moves-todo.tsv）
-tm29	29	psychic	
-tm30	30	shadow-ball	
-tm31	31	brick-break	
-tm32	32	double-team	
-tm33	33	reflect	技が未実装（moves-todo.tsv）
-tm34	34	shock-wave	互換表に持つ種がいない（マシンの版と互換表の版が違う）
-tm35	35	flamethrower	
-tm36	36	sludge-bomb	
-tm37	37	sandstorm	技が未実装（moves-todo.tsv）
-tm38	38	fire-blast	
-tm39	39	rock-tomb	
-tm40	40	aerial-ace	
-tm41	41	torment	技が未実装（moves-todo.tsv）
-tm42	42	facade	技が未実装（moves-todo.tsv）
-tm43	43	secret-power	技が未実装（moves-todo.tsv）
-tm44	44	rest	技が未実装（moves-todo.tsv）
-tm45	45	attract	技が未実装（moves-todo.tsv）
-tm46	46	thief	技が未実装（moves-todo.tsv）
-tm47	47	steel-wing	技が未実装（moves-todo.tsv）
-tm48	48	skill-swap	技が未実装（moves-todo.tsv）
-tm49	49	snatch	技が未実装（moves-todo.tsv）
-tm50	50	overheat	
+id	number	move	skip	price
+hm01	101	cut	秘伝マシンは道具にしない（world.md §7）	
+hm02	102	fly	秘伝マシンは道具にしない（world.md §7）	
+hm03	103	surf	秘伝マシンは道具にしない（world.md §7）	
+hm04	104	strength	秘伝マシンは道具にしない（world.md §7）	
+hm05	105	flash	秘伝マシンは道具にしない（world.md §7）	
+hm06	106	rock-smash	秘伝マシンは道具にしない（world.md §7）	
+hm07	107	waterfall	秘伝マシンは道具にしない（world.md §7）	
+hm08	108	dive	秘伝マシンは道具にしない（world.md §7）	
+tm01	1	focus-punch	技が未実装（moves-todo.tsv）	
+tm02	2	dragon-claw		
+tm03	3	water-pulse		
+tm04	4	calm-mind		
+tm05	5	roar	技が未実装（moves-todo.tsv）	
+tm06	6	toxic		3000
+tm07	7	hail	技が未実装（moves-todo.tsv）	
+tm08	8	bulk-up	技が未実装（moves-todo.tsv）	
+tm09	9	bullet-seed		
+tm10	10	hidden-power	技が未実装（moves-todo.tsv）	
+tm11	11	sunny-day	技が未実装（moves-todo.tsv）	
+tm12	12	taunt	技が未実装（moves-todo.tsv）	
+tm13	13	ice-beam		4000
+tm14	14	blizzard		
+tm15	15	hyper-beam	技が未実装（moves-todo.tsv）	
+tm16	16	light-screen	技が未実装（moves-todo.tsv）	
+tm17	17	protect	技が未実装（moves-todo.tsv）	
+tm18	18	rain-dance	技が未実装（moves-todo.tsv）	
+tm19	19	giga-drain		3500
+tm20	20	safeguard	技が未実装（moves-todo.tsv）	
+tm21	21	frustration	技が未実装（moves-todo.tsv）	
+tm22	22	solar-beam	技が未実装（moves-todo.tsv）	
+tm23	23	iron-tail		
+tm24	24	thunderbolt		4500
+tm25	25	thunder		
+tm26	26	earthquake		
+tm27	27	return	技が未実装（moves-todo.tsv）	
+tm28	28	dig	技が未実装（moves-todo.tsv）	
+tm29	29	psychic		
+tm30	30	shadow-ball		
+tm31	31	brick-break		
+tm32	32	double-team		
+tm33	33	reflect	技が未実装（moves-todo.tsv）	
+tm34	34	shock-wave	互換表に持つ種がいない（マシンの版と互換表の版が違う）	
+tm35	35	flamethrower		
+tm36	36	sludge-bomb		
+tm37	37	sandstorm	技が未実装（moves-todo.tsv）	
+tm38	38	fire-blast		
+tm39	39	rock-tomb		
+tm40	40	aerial-ace		
+tm41	41	torment	技が未実装（moves-todo.tsv）	
+tm42	42	facade	技が未実装（moves-todo.tsv）	
+tm43	43	secret-power	技が未実装（moves-todo.tsv）	
+tm44	44	rest	技が未実装（moves-todo.tsv）	
+tm45	45	attract	技が未実装（moves-todo.tsv）	
+tm46	46	thief	技が未実装（moves-todo.tsv）	
+tm47	47	steel-wing	技が未実装（moves-todo.tsv）	
+tm48	48	skill-swap	技が未実装（moves-todo.tsv）	
+tm49	49	snatch	技が未実装（moves-todo.tsv）	
+tm50	50	overheat		

@@ -30,3 +30,5 @@ objects:
 vermilion-gym-jr 1,7 trainer:kanto-vermilion-gym-jr:3:right kanto.vermilion.gym-jr if:kanto.vermilion.gym-jr-beaten=false
 vermilion-surge 4,1 npc:leader:static kanto.vermilion.surge
 vermilion-gym-sign 7,8 sign kanto.vermilion.gym-sign
+vermiliongym-gymjr-1 1,8 trainer:kanto-vermilion-gym-gymjr-1:2:up kanto.vermiliongym.gymjr1 if:kanto.vermiliongym.gymjr1-beaten=false
+vermiliongym-gymjr-2 5,1 trainer:kanto-vermilion-gym-gymjr-2:2:right kanto.vermiliongym.gymjr2 if:kanto.vermiliongym.gymjr2-beaten=false

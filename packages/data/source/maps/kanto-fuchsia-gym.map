@@ -39,3 +39,6 @@ objects:
 fuchsia-gym-jr 1,9 trainer:kanto-fuchsia-gym-jr:3:right kanto.fuchsia.gym-jr if:kanto.fuchsia.gym-jr-beaten=false
 fuchsia-koga 7,1 npc:leader:static kanto.fuchsia.koga
 fuchsia-gym-sign 7,10 sign kanto.fuchsia.gym-sign
+fuchsiagym-gymjr-1 1,1 trainer:kanto-fuchsia-gym-gymjr-1:2:right kanto.fuchsiagym.gymjr1 if:kanto.fuchsiagym.gymjr1-beaten=false
+fuchsiagym-gymjr-2 6,10 trainer:kanto-fuchsia-gym-gymjr-2:2:left kanto.fuchsiagym.gymjr2 if:kanto.fuchsiagym.gymjr2-beaten=false
+fuchsiagym-gymjr-3 7,3 trainer:kanto-fuchsia-gym-gymjr-3:2:left kanto.fuchsiagym.gymjr3 if:kanto.fuchsiagym.gymjr3-beaten=false

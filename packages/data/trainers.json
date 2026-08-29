@@ -4216,5 +4216,494 @@
         ]
       }
     ]
+  },
+  {
+    "id": "kanto-pewter-gym-gymjr-1",
+    "name": "ジロウ",
+    "class": "ジムトレーナー",
+    "reward": 220,
+    "defeatedFlag": "kanto.pewtergym.gymjr1-beaten",
+    "party": [
+      {
+        "species": "geodude",
+        "level": 11,
+        "moves": [
+          "tackle",
+          "rock-polish"
+        ]
+      },
+      {
+        "species": "onix",
+        "level": 9,
+        "moves": [
+          "harden",
+          "rock-throw",
+          "tackle",
+          "rock-polish"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-pewter-gym-gymjr-2",
+    "name": "ケイコ",
+    "class": "ジムトレーナー",
+    "reward": 220,
+    "defeatedFlag": "kanto.pewtergym.gymjr2-beaten",
+    "party": [
+      {
+        "species": "geodude",
+        "level": 11,
+        "moves": [
+          "tackle",
+          "rock-polish"
+        ]
+      },
+      {
+        "species": "onix",
+        "level": 9,
+        "moves": [
+          "harden",
+          "rock-throw",
+          "tackle",
+          "rock-polish"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-cerulean-gym-gymjr-1",
+    "name": "ジロウ",
+    "class": "ジムトレーナー",
+    "reward": 360,
+    "defeatedFlag": "kanto.ceruleangym.gymjr1-beaten",
+    "party": [
+      {
+        "species": "staryu",
+        "level": 18,
+        "moves": [
+          "tackle",
+          "water-gun",
+          "confuse-ray",
+          "rapid-spin"
+        ]
+      },
+      {
+        "species": "goldeen",
+        "level": 16,
+        "moves": [
+          "tail-whip",
+          "supersonic",
+          "water-pulse",
+          "horn-attack"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-cerulean-gym-gymjr-2",
+    "name": "ケイコ",
+    "class": "ジムトレーナー",
+    "reward": 360,
+    "defeatedFlag": "kanto.ceruleangym.gymjr2-beaten",
+    "party": [
+      {
+        "species": "psyduck",
+        "level": 18,
+        "moves": [
+          "confusion",
+          "fury-swipes",
+          "water-pulse",
+          "zen-headbutt"
+        ]
+      },
+      {
+        "species": "staryu",
+        "level": 16,
+        "moves": [
+          "tackle",
+          "water-gun",
+          "confuse-ray",
+          "rapid-spin"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-vermilion-gym-gymjr-1",
+    "name": "ジロウ",
+    "class": "ジムトレーナー",
+    "reward": 440,
+    "defeatedFlag": "kanto.vermiliongym.gymjr1-beaten",
+    "party": [
+      {
+        "species": "pikachu",
+        "level": 22,
+        "moves": [
+          "thunder-wave",
+          "double-team",
+          "feint",
+          "spark"
+        ]
+      },
+      {
+        "species": "magnemite",
+        "level": 20,
+        "moves": [
+          "thunder-shock",
+          "supersonic",
+          "thunder-wave",
+          "spark"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-vermilion-gym-gymjr-2",
+    "name": "ケイコ",
+    "class": "ジムトレーナー",
+    "reward": 440,
+    "defeatedFlag": "kanto.vermiliongym.gymjr2-beaten",
+    "party": [
+      {
+        "species": "voltorb",
+        "level": 22,
+        "moves": [
+          "spark",
+          "screech",
+          "charge-beam",
+          "swift"
+        ]
+      },
+      {
+        "species": "pikachu",
+        "level": 20,
+        "moves": [
+          "thunder-wave",
+          "double-team",
+          "feint",
+          "spark"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-celadon-gym-gymjr-1",
+    "name": "ジロウ",
+    "class": "ジムトレーナー",
+    "reward": 520,
+    "defeatedFlag": "kanto.celadongym.gymjr1-beaten",
+    "party": [
+      {
+        "species": "oddish",
+        "level": 26,
+        "moves": [
+          "stun-spore",
+          "sleep-powder",
+          "giga-drain",
+          "toxic"
+        ]
+      },
+      {
+        "species": "bellsprout",
+        "level": 24,
+        "moves": [
+          "sleep-powder",
+          "poison-powder",
+          "stun-spore",
+          "acid"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-celadon-gym-gymjr-2",
+    "name": "ケイコ",
+    "class": "ジムトレーナー",
+    "reward": 520,
+    "defeatedFlag": "kanto.celadongym.gymjr2-beaten",
+    "party": [
+      {
+        "species": "tangela",
+        "level": 26,
+        "moves": [
+          "stun-spore",
+          "mega-drain",
+          "vine-whip",
+          "poison-powder"
+        ]
+      },
+      {
+        "species": "oddish",
+        "level": 24,
+        "moves": [
+          "stun-spore",
+          "sleep-powder",
+          "giga-drain",
+          "toxic"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-celadon-gym-gymjr-3",
+    "name": "タツキ",
+    "class": "ジムトレーナー",
+    "reward": 520,
+    "defeatedFlag": "kanto.celadongym.gymjr3-beaten",
+    "party": [
+      {
+        "species": "bellsprout",
+        "level": 26,
+        "moves": [
+          "sleep-powder",
+          "poison-powder",
+          "stun-spore",
+          "acid"
+        ]
+      },
+      {
+        "species": "tangela",
+        "level": 24,
+        "moves": [
+          "stun-spore",
+          "mega-drain",
+          "vine-whip",
+          "poison-powder"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-fuchsia-gym-gymjr-1",
+    "name": "ジロウ",
+    "class": "ジムトレーナー",
+    "reward": 640,
+    "defeatedFlag": "kanto.fuchsiagym.gymjr1-beaten",
+    "party": [
+      {
+        "species": "koffing",
+        "level": 32,
+        "moves": [
+          "clear-smog",
+          "assurance",
+          "sludge",
+          "sludge-bomb"
+        ]
+      },
+      {
+        "species": "grimer",
+        "level": 30,
+        "moves": [
+          "sludge",
+          "mud-shot",
+          "toxic",
+          "sludge-bomb"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-fuchsia-gym-gymjr-2",
+    "name": "ケイコ",
+    "class": "ジムトレーナー",
+    "reward": 640,
+    "defeatedFlag": "kanto.fuchsiagym.gymjr2-beaten",
+    "party": [
+      {
+        "species": "venonat",
+        "level": 32,
+        "moves": [
+          "psybeam",
+          "stun-spore",
+          "bug-buzz",
+          "sleep-powder"
+        ]
+      },
+      {
+        "species": "koffing",
+        "level": 30,
+        "moves": [
+          "smokescreen",
+          "clear-smog",
+          "assurance",
+          "sludge"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-fuchsia-gym-gymjr-3",
+    "name": "タツキ",
+    "class": "ジムトレーナー",
+    "reward": 640,
+    "defeatedFlag": "kanto.fuchsiagym.gymjr3-beaten",
+    "party": [
+      {
+        "species": "grimer",
+        "level": 32,
+        "moves": [
+          "mud-shot",
+          "toxic",
+          "sludge-bomb",
+          "sludge-wave"
+        ]
+      },
+      {
+        "species": "venonat",
+        "level": 30,
+        "moves": [
+          "psybeam",
+          "stun-spore",
+          "bug-buzz",
+          "sleep-powder"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-saffron-gym-gymjr-1",
+    "name": "ジロウ",
+    "class": "ジムトレーナー",
+    "reward": 760,
+    "defeatedFlag": "kanto.saffrongym.gymjr1-beaten",
+    "party": [
+      {
+        "species": "kadabra",
+        "level": 38,
+        "moves": [
+          "psycho-cut",
+          "recover",
+          "psyshock",
+          "psychic"
+        ]
+      },
+      {
+        "species": "drowzee",
+        "level": 36,
+        "moves": [
+          "headbutt",
+          "poison-gas",
+          "psybeam",
+          "zen-headbutt"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-cinnabar-gym-gymjr-1",
+    "name": "ジロウ",
+    "class": "ジムトレーナー",
+    "reward": 840,
+    "defeatedFlag": "kanto.cinnabargym.gymjr1-beaten",
+    "party": [
+      {
+        "species": "growlithe",
+        "level": 42,
+        "moves": [
+          "retaliate",
+          "crunch",
+          "take-down",
+          "flamethrower"
+        ]
+      },
+      {
+        "species": "ponyta",
+        "level": 40,
+        "moves": [
+          "flame-charge",
+          "agility",
+          "flame-wheel",
+          "stomp"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-viridian-gym-gymjr-1",
+    "name": "ジロウ",
+    "class": "ジムトレーナー",
+    "reward": 920,
+    "defeatedFlag": "kanto.viridiangym.gymjr1-beaten",
+    "party": [
+      {
+        "species": "rhyhorn",
+        "level": 46,
+        "moves": [
+          "rock-blast",
+          "drill-run",
+          "take-down",
+          "earthquake"
+        ]
+      },
+      {
+        "species": "dugtrio",
+        "level": 44,
+        "moves": [
+          "mud-slap",
+          "bulldoze",
+          "slash",
+          "earth-power"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-viridian-gym-gymjr-2",
+    "name": "ケイコ",
+    "class": "ジムトレーナー",
+    "reward": 920,
+    "defeatedFlag": "kanto.viridiangym.gymjr2-beaten",
+    "party": [
+      {
+        "species": "sandslash",
+        "level": 46,
+        "moves": [
+          "bulldoze",
+          "swift",
+          "fury-swipes",
+          "slash"
+        ]
+      },
+      {
+        "species": "rhyhorn",
+        "level": 44,
+        "moves": [
+          "stomp",
+          "rock-blast",
+          "drill-run",
+          "take-down"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-viridian-gym-gymjr-3",
+    "name": "タツキ",
+    "class": "ジムトレーナー",
+    "reward": 920,
+    "defeatedFlag": "kanto.viridiangym.gymjr3-beaten",
+    "party": [
+      {
+        "species": "dugtrio",
+        "level": 46,
+        "moves": [
+          "mud-slap",
+          "bulldoze",
+          "slash",
+          "earth-power"
+        ]
+      },
+      {
+        "species": "sandslash",
+        "level": 44,
+        "moves": [
+          "bulldoze",
+          "swift",
+          "fury-swipes",
+          "slash"
+        ]
+      }
+    ]
   }
 ]

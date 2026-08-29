@@ -541,6 +541,13 @@ function checkUseEffects(): void {
 
   // #65 ショップの品揃えが実在し、値段が付いている
   for (const shop of allShops) {
+    // **落ちずに名指しする**（v1.1-i）。`items` を `inventory` と書き間違えたとき、
+    // 検証が例外で止まって**何が悪いか1文字も出なかった** ―― 道具が落ちるのは、
+    // 間違いを教えないのと同じ
+    if (!Array.isArray(shop.items)) {
+      fail("shop-empty", `${shop.id}: 品揃え（items）が配列でない`);
+      continue;
+    }
     if (shop.items.length === 0) fail("shop-empty", `${shop.id}: 品揃えが空`);
     for (const id of shop.items) {
       const item = allItems.find((i) => i.id === id);

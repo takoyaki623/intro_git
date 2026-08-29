@@ -1070,21 +1070,6 @@
     ]
   },
   {
-    "id": "kanto.moon.great-ball",
-    "commands": [
-      {
-        "kind": "giveItem",
-        "item": "great-ball",
-        "count": 1
-      },
-      {
-        "kind": "setFlag",
-        "flag": "kanto.moon.great-ball-taken",
-        "value": true
-      }
-    ]
-  },
-  {
     "id": "kanto.route4.sign",
     "commands": [
       {
@@ -2106,62 +2091,6 @@
     "commands": [
       {
         "kind": "openBox"
-      }
-    ]
-  },
-  {
-    "id": "kanto.celadon.clerk",
-    "commands": [
-      {
-        "kind": "message",
-        "text": "いらっしゃいませ!",
-        "speaker": "てんいん"
-      },
-      {
-        "kind": "if",
-        "cond": {
-          "kind": "badges",
-          "op": ">=",
-          "count": 4
-        },
-        "then": [
-          {
-            "kind": "message",
-            "text": "バッジを 4つも!\nとっておきの しなを だしますね。",
-            "speaker": "てんいん"
-          },
-          {
-            "kind": "shop",
-            "inventory": "kanto-mart-3"
-          }
-        ],
-        "else": [
-          {
-            "kind": "if",
-            "cond": {
-              "kind": "badges",
-              "op": ">=",
-              "count": 2
-            },
-            "then": [
-              {
-                "kind": "message",
-                "text": "バッジ 2つ ですね。\nいい ボールも ありますよ。",
-                "speaker": "てんいん"
-              },
-              {
-                "kind": "shop",
-                "inventory": "kanto-mart-2"
-              }
-            ],
-            "else": [
-              {
-                "kind": "shop",
-                "inventory": "kanto-mart-1"
-              }
-            ]
-          }
-        ]
       }
     ]
   },
@@ -3217,21 +3146,6 @@
             "speaker": "けいび"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "kanto.victory.max-revive",
-    "commands": [
-      {
-        "kind": "giveItem",
-        "item": "max-revive",
-        "count": 1
-      },
-      {
-        "kind": "setFlag",
-        "flag": "kanto.victory.max-revive-taken",
-        "value": true
       }
     ]
   },
@@ -7454,6 +7368,44 @@
         "kind": "message",
         "text": "…もう ここには なにも ない。",
         "speaker": "ロケットだん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.celadon.dept-guide",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "タマムシデパートへ ようこそ!\n2かい どうぐ／3かい わざマシン／4かい しんかの どうぐ です。",
+        "speaker": "あんないがかり"
+      }
+    ]
+  },
+  {
+    "id": "kanto.celadon.dept-items",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "いらっしゃいませ。",
+        "speaker": "てんいん"
+      },
+      {
+        "kind": "shop",
+        "inventory": "kanto-celadon-dept"
+      }
+    ]
+  },
+  {
+    "id": "kanto.celadon.dept-tms",
+    "commands": [
+      {
+        "kind": "message",
+        "text": "わざマシンは つかうと なくなります。",
+        "speaker": "てんいん"
+      },
+      {
+        "kind": "shop",
+        "inventory": "kanto-celadon-tms"
       }
     ]
   }

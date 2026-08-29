@@ -83,5 +83,33 @@
       "king-s-rock",
       "bicycle"
     ]
+  },
+  {
+    "id": "kanto-celadon-dept",
+    "items": [
+      "poke-ball",
+      "great-ball",
+      "ultra-ball",
+      "super-potion",
+      "hyper-potion",
+      "full-heal",
+      "revive",
+      "antidote",
+      "paralyze-heal",
+      "burn-heal",
+      "ice-heal",
+      "awakening"
+    ],
+    "name": "デパート 2かい"
+  },
+  {
+    "id": "kanto-celadon-tms",
+    "items": [
+      "tm06",
+      "tm13",
+      "tm19",
+      "tm24"
+    ],
+    "name": "デパート 3かい"
   }
 ]

@@ -30,3 +30,5 @@ objects:
 cerulean-gym-jr 1,7 trainer:kanto-cerulean-gym-jr:3:right kanto.cerulean.gym-jr if:kanto.cerulean.gym-jr-beaten=false
 cerulean-misty 4,1 npc:leader:static kanto.cerulean.misty
 cerulean-gym-sign 7,8 sign kanto.cerulean.gym-sign
+ceruleangym-gymjr-1 1,1 trainer:kanto-cerulean-gym-gymjr-1:2:down kanto.ceruleangym.gymjr1 if:kanto.ceruleangym.gymjr1-beaten=false
+ceruleangym-gymjr-2 7,7 trainer:kanto-cerulean-gym-gymjr-2:2:left kanto.ceruleangym.gymjr2 if:kanto.ceruleangym.gymjr2-beaten=false

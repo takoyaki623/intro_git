@@ -56,3 +56,4 @@ objects:
 saffron-gym-jr 6,5 trainer:kanto-saffron-gym-jr:2:down kanto.saffron.gym-jr if:kanto.saffron.gym-jr-beaten=false
 saffron-sabrina 6,2 npc:leader:static kanto.saffron.sabrina
 saffron-gym-sign 6,10 sign kanto.saffron.gym-sign
+saffrongym-gymjr-1 2,1 trainer:kanto-saffron-gym-gymjr-1:2:down kanto.saffrongym.gymjr1 if:kanto.saffrongym.gymjr1-beaten=false
