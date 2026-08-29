@@ -42,10 +42,29 @@ await page.waitForTimeout(600);
 const at = () => page.getAttribute("#field-canvas", "data-at");
 const talking = () => page.isVisible("#field-text");
 
+/**
+ * ゲームが次の入力を受け付けるまで待つ（v1.1-i）。
+ *
+ * **待ち時間を数えるのをやめて、受け付けているかを読む。**
+ * 1歩ぶんの待ち（`stepWait`）は「歩けたときのアニメ」に合わせてあったが、
+ * ゲームは**ぶつかったときに `BUMP_MS`(110ms) 止まる** ―― じてんしゃの1歩(95ms)より長い。
+ * その15msの差で z が飲み込まれ、ぶつかった相手に永久に話しかけられず、
+ * 5番・6番道路のちかつうろ出口で台本が60回引き直して諦めていた。
+ * 「歩く」と「ぶつかる」で長さが違うものを、片方の数字で待っていたのが間違い。
+ */
+async function ready(limit = 12) {
+  for (let i = 0; i < limit; i += 1) {
+    const busy = await page.getAttribute("#field-canvas", "data-busy").catch(() => null);
+    if (busy !== "1") return;
+    await page.waitForTimeout(40);
+  }
+}
+
 async function key(k, n = 1, wait = 200) {
   for (let i = 0; i < n; i += 1) {
     await page.keyboard.press(k);
     await page.waitForTimeout(wait);
+    await ready();
   }
 }
 
@@ -303,6 +322,8 @@ async function goToMap(map, x, y, tries = 20) {
         // **どかない門番は経路探索がもう避けている**（`standing`）ので、
         // ここに来るのは「ぶつかれば消せる」もののはず
         if (now.map === before.map && now.x === before.x && now.y === before.y) {
+          // **ぶつかった直後は、まだ入力を受け付けていない**（`BUMP_MS`）
+          await ready();
           await page.keyboard.press("z");
           // 300ms では文字が出そろっていない。出そろうのを待ってから読む
           await page.waitForTimeout(450);
