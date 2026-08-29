@@ -1695,7 +1695,13 @@ expect(
   };
 
   // ── 扉だけ繋がっていなかった2つ（検証 #115）──
-  await goToMap("kanto-pewter-museum", 4, 2, 120);
+  //
+  // **そらをとぶ で近くまで行ってから歩く**（v1.1-k）。
+  // カビゴンを起こした場所からニビまで歩かせていたら、途中の おつきみやま で
+  // 野生に何度も割り込まれ、120回の引き直しを使い切って「たどりつけなかった」
+  // ―― 世界が広がるほど、**遠くを歩かせる区間は勝手に脆くなる。**
+  await flyTo("kanto-pewter-city");
+  await goToMap("kanto-pewter-museum", 4, 2, 60);
   expect("ニビの 博物館に 入れる（扉が 繋がった）", (await spot()).map, "kanto-pewter-museum");
   await talk("ArrowUp");
   await drain(10);
@@ -2260,8 +2266,20 @@ expect(
     (await goToMap("kanto-silph-7f", 2, 1, 6)).map,
     "kanto-silph-5f",
   );
-  // カードキーは 3,1 に落ちている道具 ―― 踏めば拾う
-  await goToMap("kanto-silph-5f", 1, 3, 20);
+  // **わざと失敗させた検査は、失敗したあとの立ち位置を決めない**（v1.1-k）。
+  // 上の「7階へ行けない」は6回ぶん歩き回ってから諦めるので、次の一歩は
+  // どこから始まるか分からない ―― 実際 (5,2) に取り残され、
+  // そこは**団員が塞ぐ側**だったので、カードキーへ20回引き直して届かなかった。
+  // 先に団員を片付けて、立ち位置を決め直す
+  await talkToObject("kanto-silph-5f", "silph-5f-grunt");
+  await drain(8);
+  if (await page.isVisible("#battle")) {
+    await fight();
+    await page.waitForTimeout(800);
+    await drain(12);
+  }
+  // カードキーは 1,3 に落ちている道具 ―― 踏めば拾う
+  await goToMap("kanto-silph-5f", 1, 3, 40);
   await drain(10);
   expect("カードキー を ひろう", `${(await bag())["card-key"] ?? 0}`, "1");
   await goToMap("kanto-silph-7f", 2, 1, 40);
