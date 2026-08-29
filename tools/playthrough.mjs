@@ -1549,41 +1549,77 @@ expect(
     const hit = new RegExp(`${label}[^0-9]*(\\d+)こ`).exec(text);
     return hit === null ? 0 : Number(hit[1]);
   };
-  const before = await countOf("わざマシン39");
+  // **覚えさせるのは タケシ の わざマシンではない。**
+  //
+  // 互換表を FRLG の版へ移した日（v1.2-a）に、ここが落ちた ――
+  // **ヒトカゲの系統は原作で がんせきふうじ を覚えない。**
+  // 第9世代の表では覚えたので、それまでは通っていた。
+  // 前半4つのジムがくれるマシン（39・03・24・19）は**どれも覚えられない**
+  // ―― これは原作どおりで、ヒトカゲは序盤のマシンと噛み合わない。
+  //
+  // 確かめたいのは「選ばせているか」「やめたら減らないか」という**機構**なので、
+  // 覚えられるマシンを1本だけ持たせる（BP や 石 と同じやり方）。
+  // どくどく は原作のリザードが覚えるマシンで、セキチクの キョウ がくれる本
+  const TM = "tm06";
+  const TM_LABEL = "わざマシン06";
+  const TM_MOVE = "toxic";
+  await closeBag();
+  await page.click("#open-settings");
+  await page.waitForSelector("#save-export");
+  await page.click("#save-export");
+  const withTm = JSON.parse(await page.inputValue("#save-text"));
+  withTm.global.bag = { ...withTm.global.bag, [TM]: 1 };
+  await page.fill("#save-text", JSON.stringify(withTm));
+  await page.click("#save-import");
+  await page.waitForTimeout(900);
+  await page.click("#settings-back");
+  await page.waitForSelector("#field-canvas");
+  await page.waitForTimeout(400);
+  await openBag();
+
+  const before = await countOf(TM_LABEL);
+
+  /** 技を選ばせる画面の選択肢。0件なら**押さずに**言う（v1.2-a）。 */
+  const learnChoices = async () => {
+    await page.click(`[data-use="${TM}"]`);
+    await page.waitForTimeout(400);
+    await page.click("#field-text .choices button:nth-child(1)"); // 1匹目に使う
+    await page.waitForTimeout(400);
+    await clear(4);
+    return await page.$$eval("#field-text .choices button", (b) => b.map((x) => x.textContent));
+  };
 
   // 1回目 ―― **「おぼえない」を選ぶ。** 取り返しのつかない操作なので、
   // やめたときに道具が消えてはいけない
-  await page.click('[data-use="tm39"]');
-  await page.waitForTimeout(400);
-  await page.click("#field-text .choices button:nth-child(1)"); // 1匹目に使う
-  await page.waitForTimeout(400);
-  await clear(4);
-  const slots = await page.$$eval("#field-text .choices button", (b) => b.map((x) => x.textContent));
+  const slots = await learnChoices();
   expect(
     "4つ埋まっていたら わすれる技を えらばせる",
     slots.length >= 5 ? `${slots.length}つ（技4＋やめる）` : `${slots.length}つ`,
     (v) => v.startsWith("5"),
   );
-  await page.click(`#field-text .choices button:nth-child(${slots.length})`); // 「おぼえない」
-  await page.waitForTimeout(500);
-  await drain();
-  await openBag();
-  expect("やめたら わざマシンは 減らない", await countOf("わざマシン39"), before);
+  // **選択肢が無いのに押さない。** `nth-child(0)` は必ず見つからず、
+  // 30秒待って道具ごと落ちる ―― 落ちると、この先の検査が1件も走らない
+  if (slots.length === 0) {
+    note("わざマシン", `${TM_LABEL} で 技を えらばせなかった（覚えられない相手だった）`);
+    await drain();
+  } else {
+    await page.click(`#field-text .choices button:nth-child(${slots.length})`); // 「おぼえない」
+    await page.waitForTimeout(500);
+    await drain();
+    await openBag();
+    expect("やめたら わざマシンは 減らない", await countOf(TM_LABEL), before);
 
-  // 2回目 ―― 実際に入れ替える
-  await page.click('[data-use="tm39"]');
-  await page.waitForTimeout(400);
-  await page.click("#field-text .choices button:nth-child(1)");
-  await page.waitForTimeout(400);
-  await clear(4);
-  await page.click("#field-text .choices button:nth-child(1)"); // 1つめの技を忘れる
-  await page.waitForTimeout(600);
-  await drain();
-  const taught = await readSave();
-  const learned = Object.values(taught.pokemon).some((m) =>
-    m.moves.some((x) => x.id === "rock-tomb"),
-  );
-  expect("わざマシンで 技を おぼえた", learned ? "おぼえた" : "おぼえていない", "おぼえた");
+    // 2回目 ―― 実際に入れ替える
+    await learnChoices();
+    await page.click("#field-text .choices button:nth-child(1)"); // 1つめの技を忘れる
+    await page.waitForTimeout(600);
+    await drain();
+    const taught = await readSave();
+    const learned = Object.values(taught.pokemon).some((m) =>
+      m.moves.some((x) => x.id === TM_MOVE),
+    );
+    expect("わざマシンで 技を おぼえた", learned ? "おぼえた" : "おぼえていない", "おぼえた");
+  }
 
   // ── タマムシデパート（v1.1-i）──
   //
