@@ -2,8 +2,8 @@
  * 自動生成ファイル。直接編集しないこと。
  *   再生成: npm run gen:ids
  *
- * 種族 228 / 技 251 / 性格 25 /
- * 特性 74 / 道具 108 /
+ * 種族 228 / 技 253 / 性格 25 /
+ * 特性 74 / 道具 114 /
  * BattleSet 64 / 施設 4 /
  * ネームド 18 / カップ 10 /
  * マップ 198 / イベント 328 / トレーナー 154 /
@@ -322,6 +322,7 @@ export type GeneratedMoveId =
   | "flame-wheel"
   | "flamethrower"
   | "flare-blitz"
+  | "flash"
   | "flash-cannon"
   | "freeze-dry"
   | "fury-attack"
@@ -420,6 +421,7 @@ export type GeneratedMoveId =
   | "rock-blast"
   | "rock-polish"
   | "rock-slide"
+  | "rock-smash"
   | "rock-throw"
   | "rock-tomb"
   | "round"
@@ -628,6 +630,12 @@ export type GeneratedItemId =
   | "great-ball"
   | "hard-stone"
   | "helix-fossil"
+  | "hm01"
+  | "hm03"
+  | "hm04"
+  | "hm05"
+  | "hm06"
+  | "hm07"
   | "hyper-potion"
   | "ice-heal"
   | "ice-stone"

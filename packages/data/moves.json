@@ -3768,5 +3768,42 @@
     "effect": {
       "kind": "present"
     }
+  },
+  {
+    "id": "flash",
+    "name": "フラッシュ",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stat": "accuracy",
+      "stages": -1,
+      "chance": 1
+    }
+  },
+  {
+    "id": "rock-smash",
+    "name": "いわくだき",
+    "type": "fighting",
+    "category": "physical",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stat": "def",
+      "stages": -1,
+      "chance": 0.5
+    }
   }
 ]

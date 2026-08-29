@@ -17,6 +17,7 @@
 
 import { readFileSync, writeFileSync } from "node:fs";
 import { Dex } from "@pkmn/dex";
+import { parseCsv } from "./veekun";
 
 const DATA = "packages/data";
 const OUT = `${DATA}/source/learnsets.tsv`;
@@ -59,6 +60,55 @@ function machineMoves(sources: readonly string[], gen: number): boolean {
   return sources.some((source) => source === `${gen}M`);
 }
 
+/** FRLG の版（veekun の version_group 7）。 */
+const FRLG_VERSION_GROUP = "7";
+/** veekun の習得方法 4 = マシン。 */
+const BY_MACHINE = "4";
+
+/**
+ * **FRLG のマシン互換表**（v1.2-a）。
+ *
+ * ここは長らく Showdown の第9世代（`9M`）から採っていた。
+ * カントー151種のぶんはそれで足りていたが、**秘伝技を道具にした日に破れた** ――
+ * いあいぎり・フラッシュ・いわくだき・かいりき は第9世代にマシンが無く、
+ * 「覚えられる種が1種もいない道具」になる（検証 #79 が実際に落とした）。
+ *
+ * 直し方は「秘伝技だけ別の出典から引く」ではない ―― それは
+ * **同じ表を2箇所から作ること**で、片方だけ直した跡がいつか残る。
+ * 表そのものを FRLG の版から採る。**用途が違うデータは出典も違う**
+ * （`fetch-numbers.ts` と同じ扱い）。
+ *
+ * FRLG に居ない種（ナナシマ以降の第4世代以上・ネームドが使う種）だけは
+ * 第9世代の表へ落とす。**落ちた種は名指しで報告する**（黙って空にしない）。
+ */
+function frlgMachineMoves(): { has: (id: string) => boolean; of: (id: string) => string[] } {
+  const moveById = new Map(parseCsv("moves.csv").map((r) => [r["id"]!, r["identifier"]!]));
+  const pokemonById = new Map(parseCsv("pokemon.csv").map((r) => [r["id"]!, r["identifier"]!]));
+
+  // **「表が空」と「その版に居ない」を分ける。**
+  // 最初に書いた版は「マシン技0件なら FRLG に居ない」と決めつけていて、
+  // キャタピー・コイキング・メタモンが第9世代へ落ちた ――
+  // あれらは**FRLG に居て、マシンを1つも覚えない**のが正しい。
+  // 居るかどうかは種の世代で決まる（FRLG の図鑑は第3世代までの386種）。
+  const speciesGen = new Map(
+    parseCsv("pokemon_species.csv").map((r) => [r["identifier"]!, Number(r["generation_id"])]),
+  );
+  const inFrlg = (id: string): boolean => (speciesGen.get(id) ?? 99) <= 3;
+
+  const table = new Map<string, Set<string>>();
+  for (const r of parseCsv("pokemon_moves.csv")) {
+    if (r["version_group_id"] !== FRLG_VERSION_GROUP) continue;
+    if (r["pokemon_move_method_id"] !== BY_MACHINE) continue;
+    const species = pokemonById.get(r["pokemon_id"]!);
+    const move = moveById.get(r["move_id"]!);
+    if (species === undefined || move === undefined) continue;
+    const set = table.get(species) ?? new Set<string>();
+    set.add(move);
+    table.set(species, set);
+  }
+  return { has: inFrlg, of: (id) => [...(table.get(id) ?? [])] };
+}
+
 async function main(): Promise<void> {
   const species = JSON.parse(readFileSync(`${DATA}/species.json`, "utf8")) as {
     id: string;
@@ -85,6 +135,9 @@ async function main(): Promise<void> {
   let tmKept = 0;
   /** マシン技が1つも無い種。「入れ忘れ」と区別が付くよう名前で出す。 */
   const tmEmpty: string[] = [];
+  /** FRLG に居ないので第9世代の表へ落ちた種（v1.2-a）。黙って落とさない。 */
+  const notInFrlg: string[] = [];
+  const frlgMachines = frlgMachineMoves();
 
   for (const s of species) {
     const learnset = await dex.learnsets.get(s.id);
@@ -105,17 +158,21 @@ async function main(): Promise<void> {
       throw new Error(`${s.id}: どの世代にもレベル技が無い`);
     }
 
-    // マシン技は採用世代に合わせる。その世代に1件も無いときだけ下の世代へ降りる
-    // （レベル技と別の世代を混ぜると「第9世代の技を第3世代の種が覚える」が起きる）
-    let machineGen = picked.gen;
-    let machine: string[] = entries.filter(([, src]) => machineMoves(src, machineGen)).map(([m]) => m);
-    if (machine.length === 0) {
-      for (const gen of GENS) {
-        const found = entries.filter(([, src]) => machineMoves(src, gen)).map(([m]) => m);
-        if (found.length > 0) {
-          machineGen = gen;
-          machine = found;
-          break;
+    // **マシン技は FRLG の版から採る**（v1.2-a）。
+    // FRLG に居ない種だけ、採用世代の Showdown の表へ落ちる
+    // （レベル技と別の世代を混ぜると「第9世代の技を第3世代の種が覚える」が起きるので、
+    //  落ちる先も採用世代に合わせる）
+    let machine: string[] = frlgMachines.has(s.id) ? frlgMachines.of(s.id).map(flat) : [];
+    if (!frlgMachines.has(s.id)) {
+      notInFrlg.push(s.id);
+      machine = entries.filter(([, src]) => machineMoves(src, picked.gen)).map(([m]) => m);
+      if (machine.length === 0) {
+        for (const gen of GENS) {
+          const found = entries.filter(([, src]) => machineMoves(src, gen)).map(([m]) => m);
+          if (found.length > 0) {
+            machine = found;
+            break;
+          }
         }
       }
     }
@@ -165,6 +222,10 @@ async function main(): Promise<void> {
   if (tmEmpty.length > 0) {
     console.log(`  ⚠ マシン技が0件の種 ${tmEmpty.length} 件: ${tmEmpty.slice(0, 8).join(" ")}`);
   }
+  console.log(
+    `  マシン互換の出典: FRLG ${species.length - notInFrlg.length}種 / ` +
+      `第9世代へ落ちた ${notInFrlg.length}種${notInFrlg.length > 0 ? `（${notInFrlg.join(" ")}）` : ""}`,
+  );
 
   writeCandidates(dex, missing);
   writeEvolutions(dex, new Set(species.map((s) => s.id)));

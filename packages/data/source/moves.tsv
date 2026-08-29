@@ -250,3 +250,5 @@ splash	はねる	normal	status	-	-	40	0	0	0	nothing	self
 transform	へんしん	normal	status	-	-	10	0	0	0	transform	foe
 teleport	テレポート	psychic	status	-	-	20	-6	0	0	fleeWild	self
 present	プレゼント	ice	physical	-	90	15	0	1	1	present	foe
+flash	フラッシュ	normal	status	-	100	20	0	0	0	statChange:foe:accuracy:-1:1	foe
+rock-smash	いわくだき	fighting	physical	40	100	15	0	0	1	statChange:foe:def:-1:0.5	foe

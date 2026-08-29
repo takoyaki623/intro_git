@@ -1,12 +1,12 @@
 id	number	move	skip	price
-hm01	101	cut	秘伝マシンは道具にしない（world.md §7）	
-hm02	102	fly	秘伝マシンは道具にしない（world.md §7）	
-hm03	103	surf	秘伝マシンは道具にしない（world.md §7）	
-hm04	104	strength	秘伝マシンは道具にしない（world.md §7）	
-hm05	105	flash	秘伝マシンは道具にしない（world.md §7）	
-hm06	106	rock-smash	秘伝マシンは道具にしない（world.md §7）	
-hm07	107	waterfall	秘伝マシンは道具にしない（world.md §7）	
-hm08	108	dive	秘伝マシンは道具にしない（world.md §7）	
+hm01	101	cut		
+hm02	102	fly	そらをとぶ は溜め技。機構が無いので技として実装していない（v1.2-c）	
+hm03	103	surf		
+hm04	104	strength		
+hm05	105	flash		
+hm06	106	rock-smash		
+hm07	107	waterfall		
+hm08	108	dive	潜る水面が1マスも無い。使う場所が無い機構は入れない（v1.2-a）	
 tm01	1	focus-punch	技が未実装（moves-todo.tsv）	
 tm02	2	dragon-claw		
 tm03	3	water-pulse		

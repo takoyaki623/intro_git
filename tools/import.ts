@@ -265,16 +265,22 @@ function machines(moves: MoveOut[]): ItemOut[] {
       err(where, `技 "${r["move"]}" が moves.tsv に無い`);
       continue;
     }
+    // **秘伝マシンは番号が 101〜108。** そのまま並べると「わざマシン101」になる
+    const hidden = r["id"]!.startsWith("hm");
+    const number = (hidden ? String(Number(r["number"]) - 100) : r["number"]!).padStart(2, "0");
     const item: ItemOut = {
       id: r["id"]!,
-      name: `わざマシン${r["number"]!.padStart(2, "0")} ${move.name}`,
+      name: `${hidden ? "ひでんマシン" : "わざマシン"}${number} ${move.name}`,
       category: "tm",
       use: { kind: "teachMove", move: move.id },
       // **バトル中には使えない。** 戦っている1体の技を差し替えても画面と噛み合わない
       useScope: "field",
-      // 使い切り。こうしておけば検証 #64「つかえる道具は使い切り」を書き換えずに済む
-      consumable: true,
     };
+    // **秘伝マシンは減らない**（v1.2-a）。原作でも何度でも使える ――
+    // ここは長らく無条件に `consumable: true` で、コメントに
+    // 「こうしておけば検証 #64 を書き換えずに済む」と書いてあった。
+    // **道具のほうを原作に合わせ、検証のほうを狭める**（#64）
+    if (!hidden) item.consumable = true;
     // **値段は machines.tsv が持つ**（v1.1-i）。デパートで売る数本だけに付く ――
     // 「配られるマシン」と「買えるマシン」を分けるのは番号ではなく値段の有無
     if ((r["price"] ?? "") !== "") item.price = Number(r["price"]);

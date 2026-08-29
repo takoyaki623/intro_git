@@ -840,6 +840,66 @@
     "category": "key"
   },
   {
+    "id": "hm01",
+    "name": "ひでんマシン01 いあいぎり",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "cut"
+    },
+    "useScope": "field"
+  },
+  {
+    "id": "hm03",
+    "name": "ひでんマシン03 なみのり",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "surf"
+    },
+    "useScope": "field"
+  },
+  {
+    "id": "hm04",
+    "name": "ひでんマシン04 かいりき",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "strength"
+    },
+    "useScope": "field"
+  },
+  {
+    "id": "hm05",
+    "name": "ひでんマシン05 フラッシュ",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "flash"
+    },
+    "useScope": "field"
+  },
+  {
+    "id": "hm06",
+    "name": "ひでんマシン06 いわくだき",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "rock-smash"
+    },
+    "useScope": "field"
+  },
+  {
+    "id": "hm07",
+    "name": "ひでんマシン07 たきのぼり",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "waterfall"
+    },
+    "useScope": "field"
+  },
+  {
     "id": "tm02",
     "name": "わざマシン02 ドラゴンクロー",
     "category": "tm",
