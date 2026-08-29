@@ -215,26 +215,26 @@ a:focus-visible, summary:focus-visible {
   <span class="eyebrow">実装記録 · v0.1 → v0.9</span>
   <h1>ポケモン風RPG 実装記録</h1>
   <p class="lede">
-    v0.1〜v1.1-e で何を実装し、何を意図的に残したかの技術リファレンス。
+    v0.1〜v1.1-k で何を実装し、何を意図的に残したかの技術リファレンス。
     バトルエンジンから始まり、歴代ネームドとのトーナメントを経て、
     <strong>マサラタウンから殿堂入りまで1本で通り、いまカントーを原作に寄せている</strong>ところ。
     設計文書は <code>docs/design/</code>、上位方針は <code>docs/game-plan.md</code>。
   </p>
   <p class="meta">
-    テスト 408件 ／ 検証項目 117 ／ マップ 127枚 ／ 種族 190 ／ 技 248 ／ 道具 106
-    ―― 型チェック・検証スクリプト・通し確認（191項目）・撮影（47か所）すべて緑
+    テスト 413件 ／ 検証項目 120 ／ マップ 198枚 ／ 種族 228 ／ 技 251 ／ 道具 108
+    ―― 型チェック・検証スクリプト・通し確認・撮影すべて緑
   </p>
 </header>
 
 <div class="figures">
-  <div class="fig"><b class="num">396</b><span>テスト</span></div>
-  <div class="fig"><b class="num">190</b><span>種族</span></div>
-  <div class="fig"><b class="num">248</b><span>技</span></div>
+  <div class="fig"><b class="num">413</b><span>テスト</span></div>
+  <div class="fig"><b class="num">228</b><span>種族</span></div>
+  <div class="fig"><b class="num">251</b><span>技</span></div>
   <div class="fig"><b class="num">18</b><span>ネームド</span></div>
-  <div class="fig"><b class="num">107</b><span>マップ</span></div>
-  <div class="fig"><b class="num">117</b><span>検証項目</span></div>
-  <div class="fig"><b class="num">13,267</b><span>実装行 (TS)</span></div>
-  <div class="fig"><b class="num">5,329</b><span>テスト行</span></div>
+  <div class="fig"><b class="num">198</b><span>マップ</span></div>
+  <div class="fig"><b class="num">120</b><span>検証項目</span></div>
+  <div class="fig"><b class="num">16,139</b><span>実装行 (TS)</span></div>
+  <div class="fig"><b class="num">5,818</b><span>テスト行</span></div>
 </div>
 
 <!-- ───────────── 全体像 ───────────── -->
@@ -788,9 +788,31 @@ pokemon … 個体の実体。uid が主キー</code></pre>
           <tr><td><span class="ver">v1.1-j-1</span></td><td><strong>名前を書ける場所を潰す</strong>（日本語名を公式データから引く・検証 #119）</td><td>取り込み口だけ</td><td>147</td></tr>
           <tr><td><span class="ver">v1.1-j</span></td><td><strong>ナナシマ 1〜3のしま</strong>（26枚・ふなつきばの鎖・ルビーのどうくつ）</td><td><strong>0行</strong></td><td>147 → <strong>150 / 151</strong></td></tr>
           <tr><td><span class="ver">v1.1-k</span></td><td><strong>ナナシマ 4〜7のしま・氷の床</strong>（39枚・種 193→228・サファイアの筋）</td><td><code>TERRAINS.ice</code> ＋ <code>slideFrom</code></td><td>第2世代が<strong>48種</strong></td></tr>
+          <tr><td><span class="ver">v1.1-i（密度）</span></td><td><strong>トレーナー 41→116人・地面の道具 52→75個・タマムシデパート4階建て</strong>（置き場所は道具が選ぶ）</td><td><strong>0行</strong>（取り込みが組み立てる）</td><td>150 / 151</td></tr>
         </tbody>
       </table>
     </div>
+
+    <h3>v1.1-i ―― 同じ形を人が書き写す場所を、先に無くす</h3>
+    <p>道路25本にトレーナーが合わせて13人しか居なかった（原作は1本あたり4〜8人）。
+    だが手で足すと<strong>1人あたり5箇所</strong>に書くことになる ――
+    <code>trainers.tsv</code>・手持ち・<code>flags.json</code>・<code>events.json</code> に2件・地図の1行。</p>
+    <p>79人ぶんを見比べたら、<strong>37人が「話しかける → 勝つまで戦う → 勝ったら消える」の
+    まったく同じ形</strong>で、変わるのは台詞2つだけだった。表に2列足して、
+    残りは取り込みが組み立てる。落ちている道具も同じで、地図の1行が全部言っている。</p>
+    <p>移した瞬間に<strong>手書きとのずれが出た</strong> ―― 6人の名乗りが <code>class</code> と違い、
+    1番道路の道具は地図に キズぐすり と書いてあるのに オボンのみ を渡していた。
+    <strong>書き写していたから、ずれていた。</strong></p>
+    <p>置く場所は人ではなく道具が選ぶ。判定は「置いても<strong>今より</strong>切り離されたマスが増えないか」。
+    最初は「全部つながっているか」で書いて、既に誰かが割っているマップで<strong>候補0</strong>になった。</p>
+
+    <h3>v1.1-i ―― 建物が無くなったら、店員も居ない</h3>
+    <p>タマムシの店をデパート4階建てにした（品揃えは階で分ける ――
+    「バッジで増える品揃え」と「階で違う品揃え」を1つの表に混ぜない）。
+    そのとき、バッジで品揃えが変わる店員が<strong>居場所を失った</strong>。</p>
+    <p>検証が「誰も呼ばない」と言ったが、<strong>呼ぶ人を探して繋ぎ直すのは間違い</strong>だった ――
+    原作のタマムシに フレンドリィショップ は無く、建物ごと無くなっている。
+    消して、理由を地図の頭に書いた。仕掛け自体は他の5つの町で今も動いている。</p>
 
     <h3>v1.1-k ―― 滑走は移動の仕方であって、結果ではない</h3>
     <p><code>core</code> は時間を持たないので、<strong>滑走は1回の呼び出しで全部返す</strong>。
@@ -1933,8 +1955,8 @@ Item = { …, price?: number, bpPrice?: number }  ← いくらかは道具側</
     <div class="card">
       <h3><span class="pill warn">暫定</span> 未確定のもの</h3>
       <p><strong>捕獲率・成長曲線・努力値・性別比・与える経験値は全件が公式データ</strong>（v0.9.5 で暫定値を返済）。
-      進化 88件のうち今の機構で起きるのは 86件 ―― 石とつながりのヒモが v1.1-b で入り、
-      残る2件は <code>levelMove</code> / <code>levelExtra</code>（条件が未実装）。</p>
+      進化 106件のうち今の機構で起きるのは 103件 ―― 石とつながりのヒモが v1.1-b で入り、
+      残る3件は <code>levelMove</code> / <code>levelExtra</code>（条件が未実装）。</p>
     </div>
   </div>
 
@@ -1942,22 +1964,22 @@ Item = { …, price?: number, bpPrice?: number }  ← いくらかは道具側</
     <table>
       <thead><tr><th>データ</th><th class="n">件数</th><th>状態</th></tr></thead>
       <tbody>
-        <tr><td>種族</td><td class="n">190</td><td><span class="pill done">カントー151＋ネームドが使う39</span></td></tr>
-        <tr><td>技</td><td class="n">248</td><td><span class="pill done">全件が公式データ</span> <span class="pill pending">186件は未実装（理由つきで保留）</span></td></tr>
-        <tr><td>特性</td><td class="n">68</td><td><span class="pill done">37件が戦闘中に働く</span> <span class="pill pending">31件は機構待ち（<code>inert</code>・理由つき）</span></td></tr>
-        <tr><td>道具</td><td class="n">98</td><td><span class="pill done">持ち物32・ボール9・回復17・<strong>わざマシン22</strong>・進化13・キー5</span></td></tr>
-        <tr><td>わざマシン互換表</td><td class="n">3,866</td><td><span class="pill done">公式 learnset の <code>'M'</code> から取り込み（1種あたり20.3技）</span></td></tr>
+        <tr><td>種族</td><td class="n">228</td><td><span class="pill done">カントー151＋ナナシマの第2世代48＋ネームドが使う29</span></td></tr>
+        <tr><td>技</td><td class="n">251</td><td><span class="pill done">全件が公式データ</span> <span class="pill pending">186件は未実装（理由つきで保留）</span></td></tr>
+        <tr><td>特性</td><td class="n">74</td><td><span class="pill done">40件が戦闘中に働く</span> <span class="pill pending">34件は機構待ち（<code>inert</code>・理由つき）</span></td></tr>
+        <tr><td>道具</td><td class="n">108</td><td><span class="pill done">持ち物32・ボール10・回復17・<strong>わざマシン22</strong>・進化13・キー14</span></td></tr>
+        <tr><td>わざマシン互換表</td><td class="n">4,609</td><td><span class="pill done">公式 learnset の <code>'M'</code> から取り込み（1種あたり20.2技）</span></td></tr>
         <tr><td>BattleSet</td><td class="n">64</td><td><span class="pill done">grade 1〜4 に16件ずつ</span></td></tr>
         <tr><td>施設</td><td class="n">4</td><td><span class="pill done">ルールセット駆動</span></td></tr>
         <tr><td>ネームド</td><td class="n">18</td><td><span class="pill done">原作・本気の2ティア</span> <span class="pill pending">極は v1.2</span></td></tr>
         <tr><td>カップ</td><td class="n">10</td><td><span class="pill done">ティア解放つき</span></td></tr>
-        <tr><td>マップ</td><td class="n">91</td><td><span class="pill done">カントー全域＋拠点。出入口184か所</span></td></tr>
-        <tr><td>イベント</td><td class="n">257</td><td><span class="pill done">21種のコマンドで記述</span></td></tr>
-        <tr><td>トレーナー</td><td class="n">45</td><td><span class="pill done">TSV原本を持つ（v1.1-a）</span> <span class="pill pending">原作は約180人・v1.1-i</span></td></tr>
-        <tr><td>出現テーブル</td><td class="n">103</td><td><span class="pill done">公式データから取り込み（v1.1-a）</span></td></tr>
-        <tr><td>進化</td><td class="n">88</td><td><span class="pill done">86件が今の機構で起きる</span> <span class="pill pending">2件は条件が未実装</span></td></tr>
-        <tr><td>ショップ</td><td class="n">6</td><td><span class="pill done">品揃えだけを持ち、値段は道具側</span></td></tr>
-        <tr><td>フラグ</td><td class="n">109</td><td><span class="pill done">宣言必須。未宣言は検証が落とす</span></td></tr>
+        <tr><td>マップ</td><td class="n">198</td><td><span class="pill done">カントー全域＋ナナシマ＋拠点。出入口420か所</span></td></tr>
+        <tr><td>イベント</td><td class="n">627</td><td><span class="pill done">21種のコマンドで記述。<strong>トレーナー戦と落ちている道具は原本から組み立てる</strong>（v1.1-i）</span></td></tr>
+        <tr><td>トレーナー</td><td class="n">154</td><td><span class="pill done">TSV原本を持つ（v1.1-a）。地図に居るのは116人（v1.1-i）</span></td></tr>
+        <tr><td>出現テーブル</td><td class="n">261</td><td><span class="pill done">公式データから取り込み（v1.1-a）</span></td></tr>
+        <tr><td>進化</td><td class="n">106</td><td><span class="pill done">103件が今の機構で起きる</span> <span class="pill pending">3件は条件が未実装（<code>levelMove</code> 2・<code>levelExtra</code> 1）</span></td></tr>
+        <tr><td>ショップ</td><td class="n">8</td><td><span class="pill done">品揃えだけを持ち、値段は道具側。<strong>わざマシンの値段は <code>machines.tsv</code> から</strong>（v1.1-i）</span></td></tr>
+        <tr><td>フラグ</td><td class="n">207</td><td><span class="pill done">宣言必須。未宣言は検証が落とす</span></td></tr>
         <tr><td>性格</td><td class="n">25</td><td><span class="pill done">実数値の補正で使用中</span></td></tr>
         <tr><td>タイプ相性</td><td class="n">18×18</td><td><span class="pill done">疎な JSON から展開し完全性を検証</span></td></tr>
       </tbody>
@@ -2209,7 +2231,7 @@ packages/data/generated/ids.d.ts
         </tr>
         <tr>
           <td>規律を人間の注意力に預けない</td>
-          <td>117項目の判定を CI で回す。<strong>「遊ぶと成立しない」種類の誤りも検証項目に落とす</strong></td>
+          <td>120項目の判定を CI で回す。<strong>「遊ぶと成立しない」種類の誤りも検証項目に落とす</strong></td>
         </tr>
         <tr>
           <td>強さは情報量ではなく思考の深さで作る</td>
@@ -2253,7 +2275,7 @@ packages/data/generated/ids.d.ts
       <tbody>
         <tr><td><strong>へんしん</strong></td><td><span class="pill warn">借り</span></td><td>メタモンは原作でもこの技しか覚えない。13〜15番道路の公式データに居るのに<strong>野生に出せない</strong> ―― 取り込み器に理由つきで除外</td></tr>
         <tr><td><strong>ポケモンタワー 2〜7階</strong></td><td><span class="pill warn">借り</span></td><td>機構（ゴースト＝条件で入れ替わる2つのオブジェクト＋<code>hasItem</code>）は v1.1-c で揃った。<strong>シルフスコープの入手元</strong>が無いだけ（v1.1-g）</td></tr>
-        <tr><td><strong>氷の床</strong></td><td><span class="pill pending">v1.3〜</span></td><td><strong>カントーに1枚も無い。</strong> ふたごじま は水流と穴、チャンピオンロードは岩とスイッチ ―― 氷の床は ジョウトの こおりのぬけみち 以降。使うマップが無い機構を先に作らない（v1.1-f で判断）</td></tr>
+        <tr><td><strong>氷の床</strong></td><td><span class="pill done">v1.1-k</span></td><td>v1.1-f で「カントーに1枚も無い」としてジョウトへ送った宿題が、<strong>ナナシマの こおりのぬけみち で戻ってきた</strong>。使うマップができてから作った ―― 判断そのものは正しかった</td></tr>
         <tr><td>サファリゾーン</td><td><span class="pill done">v1.1-h</span></td><td><code>MapData.rules</code> ＋ <code>field-rules.json</code>。<strong><code>Ruleset</code> には寄せなかった</strong>のが効いた</td></tr>
         <tr><td>天候・フィールド</td><td><span class="pill pending">v1.2</span></td><td>該当特性は <code>inert</code> で理由つきに待機中（31種）</td></tr>
         <tr><td>AI <code>smart</code>・連勝上限の解除</td><td><span class="pill pending">v1.2</span></td><td><code>AiConfig.policy</code> と <code>AiView</code>。検証が <code>smart</code> をまだ弾いている</td></tr>
@@ -2274,8 +2296,8 @@ packages/data/generated/ids.d.ts
     <table>
       <thead><tr><th>最初の3つの希望</th><th>現在地</th></tr></thead>
       <tbody>
-        <tr><td>全てのポケモンが出る</td><td>カントー151種のうち<strong>112種に入手経路がある</strong>（v1.1-h 時点）。151種すべてが v1.1 の完了条件</td></tr>
-        <tr><td>今までの全てのトレーナーが出る</td><td>ネームド18人 × 2ティア（v0.11）＋道中45人。<strong>原作は約180人</strong>（v1.1-i）。極ティアは v1.2</td></tr>
+        <tr><td>全てのポケモンが出る</td><td>カントー151種のうち<strong>150種に入手経路がある</strong>（v1.1-j）。151種目の ミュウ は配布限定 ―― <strong>理由が書けた時点で v1.1 の完了条件は閉じた</strong>。全 228種では 208種</td></tr>
+        <tr><td>今までの全てのトレーナーが出る</td><td>ネームド18人 × 2ティア（v0.11）＋道中116人（v1.1-i）。極ティアは v1.2</td></tr>
         <tr><td>原作のマップを再現</td><td><strong>102枚。</strong> ヤマブキは4叉路、シオンは行き止まりでない、ダンジョンは階層つきで、チャンピオンロードは岩とスイッチのパズル（v1.1-d/-e/-f）</td></tr>
       </tbody>
     </table>
@@ -2291,7 +2313,7 @@ packages/data/generated/ids.d.ts
         <tbody>
           <tr><td><span class="ver">v1.1-g</span></td><td>ロケット団の筋・見えない壁・クイズ扉・テレポート床・ポケモンタワー7階</td><td>仕掛けは<strong>どれも既存の型で書ける</strong>（コード0行）</td></tr>
           <tr><td><span class="ver">v1.1-h</span></td><td>サファリゾーン</td><td><code>Ruleset</code> に寄せない判断が効くか</td></tr>
-          <tr><td><span class="ver">v1.1-i</span></td><td>トレーナー約180人・地面の道具・デパート</td><td>入力作業。<strong>最後に回す</strong>のは、広げると何が起きるかが実測で分かってからにするため</td></tr>
+          <tr><td><span class="ver">v1.1-i</span></td><td>トレーナー 41→116人・地面の道具 52→75個・デパート</td><td>入力作業だと思っていた。<strong>実際は「1人あたり5箇所」を3箇所に削る作業</strong>で、削った瞬間に手書きのずれが15件出た。最後に回して正解だった</td></tr>
         </tbody>
       </table>
     </div>

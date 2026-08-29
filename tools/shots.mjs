@@ -101,26 +101,26 @@ const SHOOTING_SAVE = (() => {
     // トキワジムの うけつけ（v0.12-e）。開けておかないとジム8の中を撮れない
     "kanto.viridian.gym-open": true,
   };
-  // 道中のトレーナーは倒した状態にしておく。**撮りたいのは町であって連戦ではない**
-  for (const flag of [
-    "kanto.route2.bug-catcher-beaten", "kanto.forest.bug-1-beaten", "kanto.forest.bug-2-beaten",
-    "kanto.pewter.gym-jr-beaten", "kanto.route3.lass-beaten", "kanto.route3.youngster-beaten",
-    "kanto.moon.hiker-beaten", "kanto.moon.rocket-beaten", "kanto.route4.bug-beaten",
-    "kanto.route5.hiker-beaten", "kanto.route6.camper-beaten",
-    // ジムの中のトレーナーも倒した扱いにする（v0.12-e）。
-    // 視線に入ると戦いになり、負ければ復活地点へ飛ぶ ―― 実際そうなって、
-    // 「トキワジム」の絵としてマサラタウンが保存された
-    "kanto.viridian.gym-jr-beaten", "kanto.cinnabar.gym-jr-beaten",
-    // v1.1-g で3つのジムが仕掛けつきになった。中を撮るには、
-    // **中のトレーナーを片付けておかないと視線でバトルが割り込む**
-    "kanto.fuchsia.gym-jr-beaten", "kanto.saffron.gym-jr-beaten",
-    // リーグまで撮る（v0.12-f）。**扉は勝つまで開かない**ので、
-    // 開けておかないとワタルの部屋に一生たどり着けない
-    "kanto.league.gate-open", "kanto.victory.cooltrainer-beaten",
-    "kanto.league.lorelei-beaten", "kanto.league.bruno-beaten", "kanto.league.agatha-beaten",
-  ]) {
-    save.regions.kanto.flags[flag] = true;
+  /**
+   * **トレーナーは全員 倒した状態にする。** 撮りたいのは町であって連戦ではない。
+   *
+   * ここは v0.12-e から**1人ずつ手で並べていた**。理由は毎回同じで、
+   * 視線に入ると戦いになり、負ければ復活地点へ飛ぶ ――
+   * 「トキワジム」の絵としてマサラタウンが保存された日から、
+   * ジムが仕掛けつきになった日も、シルフの廊下も、ナナシマも、
+   * **新しく1人置くたびにここへ1行足す**という同じ作業をしていた。
+   * 45行まで伸びて、v1.1-i でジムに17人足したときにまた足りなくなった。
+   *
+   * トレーナーは全員 `defeatedFlag` を持っている（検証が見ている）ので、
+   * **並べるのをやめてデータから引く。** 誰かを足しても、ここは何も要らない
+   * ―― 「同じことを2箇所に書くと、片方だけ直した跡が残る」。
+   */
+  for (const trainer of JSON.parse(readFileSync("packages/data/trainers.json", "utf8"))) {
+    save.regions.kanto.flags[trainer.defeatedFlag] = true;
   }
+  // リーグまで撮る（v0.12-f）。**扉は勝つまで開かない**ので、
+  // 開けておかないとワタルの部屋に一生たどり着けない
+  save.regions.kanto.flags["kanto.league.gate-open"] = true;
   save.regions.kanto.badges = 8;
   // フィールド技（v0.12-d）。**覚えていないと そらをとぶ のボタンが出ない**ので、
   // 撮りたい画面が1枚まるごと消える
@@ -137,8 +137,6 @@ const SHOOTING_SAVE = (() => {
     save.regions.kanto.flags[`kanto.fly.${key}`] = true;
   }
   for (const flag of [
-    "kanto.route11.gambler-beaten", "kanto.route8.lass-beaten",
-    "kanto.route7.camper-beaten", "kanto.route16.biker-beaten",
     // **カビゴンをどかしておく**（v1.1-c で16番道路に置いた）。
     // 経路探索は条件つきオブジェクトを通れる扱いにするので、
     // 塞がれていることに気づかないまま8枚が16番道路で止まった ――
@@ -148,9 +146,6 @@ const SHOOTING_SAVE = (() => {
     // 押した岩は `world.moved` にしか残らず、撮影の道具は岩を押さない ――
     // 開けておかないと3階へ一生たどり着けない（カビゴンで踏んだのと同じ形）
     "kanto.victory.switch-2f", "kanto.victory.switch-3f",
-    // ハナダのどうくつのけいびは**殿堂入りで どく**（v1.1-g-2）。
-    // 撮影はリーグを通らないので、勝ったことにしておかないと入口で止まる
-    "kanto.league.champion-beaten",
     // **ヤマブキジムの前にも警備員が立っている**（v0.12-e）。
     // トキワの `gym-open` は立てていたのに、ヤマブキのぶんを忘れていた ――
     // ジムの扉の真下に立つので、扉の1マス手前で止まる。
@@ -163,45 +158,18 @@ const SHOOTING_SAVE = (() => {
     // どうじょうは**勝ったあと**の絵を撮る（v1.1-g-3）。
     // 勝つ前はボールが置かれていないので、部屋が空っぽに写る
     "kanto.dojo.won",
-    "kanto.dojo.student-beaten",
     // ロケット団の筋は**通したあと**を撮る（v1.1-g-3）。
     // ポスターを押していないとアジトは階段ごと無く、部屋が撮れない
     "kanto.rocket.poster-pushed",
     "kanto.rocket.lift-key-taken",
     "kanto.silph.card-key-taken",
     "kanto.field.silph-scope",
-    "kanto.tower.rocket7-beaten",
-    "kanto.silph.giovanni-beaten",
-    // **道中のトレーナーも倒したことにする**（v1.1-g-3）。
-    // 撮影は話しかける仕組みを持たない ―― 視線を持つ相手が廊下に立っていると、
-    // 経路探索は素通りできる前提で引き、実際にはぶつかって60回引き直して諦める。
-    // 台本（playthrough）は話しかけて片付けるが、こちらは**絵を撮るだけ**なので、
-    // 撮る前に道を空けておくのが正しい
-    "kanto.rocket.b1f-beaten",
-    "kanto.rocket.b2f-beaten",
-    "kanto.rocket.b3f-beaten",
-    "kanto.rocket.b4f-beaten",
-    "kanto.rocket.giovanni-beaten",
-    "kanto.silph.grunt3-beaten",
-    "kanto.silph.grunt5-beaten",
-    "kanto.silph.grunt7-beaten",
-    "kanto.silph.rival-beaten",
-    "kanto.tower.channeler3-beaten",
-    "kanto.tower.channeler5-beaten",
-    "kanto.lavender.rival-beaten",
-    "kanto.cerulean.rival-beaten",
-    "kanto.route22.rival-a-beaten",
-    // ナナシマ（v1.1-j）。**乗船の許可と、ともしびやまの2人**を済ませておく ――
-    // 撮影は話しかける仕組みを持たないので、マサキに誘われることも
-    // ロケット団を倒すこともできない。撮りたいのは関門ではなく島の絵
+    // ナナシマ（v1.1-j）。**乗船の許可**を済ませておく ――
+    // 撮影は話しかける仕組みを持たないので、マサキに誘われることができない。
+    // 撮りたいのは関門ではなく島の絵
     "kanto.sevii.invited",
-    "kanto.sevii.rocket-1-beaten",
-    "kanto.sevii.rocket-2-beaten",
-    "kanto.sevii.biker-beaten",
-    // 4〜7のしま（v1.1-k）。**そうこの見張りと中の団員**も倒したことにする ――
-    // 撮影は話しかけられないので、視線を持つ相手が居ると部屋の絵が撮れない
+    // 4〜7のしま（v1.1-k）。そうこの扉も開けておく
     "kanto.sevii.warehouse-open",
-    "kanto.sevii.warehouse-beaten",
   ]) {
     save.regions.kanto.flags[flag] = true;
   }
@@ -272,6 +240,7 @@ const PLACES = [
   { file: "lab", name: "グレンけんきゅうじょ", note: "かせきを もどす唯一の場所（v1.1-g-3）", to: ["kanto-cinnabar-lab", 4, 3] },
   { file: "mansion-celadon", name: "タマムシマンション", note: "イーブイ1匹で、石で分かれる3種が開く（v1.1-g-3）", to: ["kanto-celadon-mansion", 4, 3] },
   { file: "dojo", name: "カラテどうじょう", note: "勝つと どちらか1匹（v1.1-g-3）", to: ["kanto-saffron-dojo", 4, 3] },
+  { file: "dept-store", name: "タマムシデパート", note: "品揃えを**階で**分けた（v1.1-i）。2かい どうぐ／3かい わざマシン／4かい しんかの どうぐ", to: ["kanto-celadon-dept-2f", 4, 4] },
   { file: "gamecorner", name: "ゲームコーナー", note: "スロットは作らない ―― 景品はお金で（v1.1-g-3）", to: ["kanto-celadon-gamecorner", 5, 4] },
   { file: "hideout", name: "ロケットだんアジト", note: "サカキ1回目。勝つとシルフスコープ（v1.1-g-3）", to: ["kanto-rocket-b4f", 4, 3] },
   { file: "tower-7f", name: "ポケモンタワー さいじょうかい", note: "v0.12 で送った宿題が、シルフスコープの入手元ができて解けた", to: ["kanto-pokemon-tower-7f", 4, 3] },
