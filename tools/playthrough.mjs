@@ -430,6 +430,11 @@ async function enterKanto() {
 async function flyTo(town) {
   for (let attempt = 0; attempt < 3; attempt += 1) {
     if ((await spot()).map === town) return;
+    // **会話が開いていると そらをとぶ のボタンは押せない**（v1.1-k）。
+    // 開いたままだと下の分岐が「建物の中に居る」と誤解して、
+    // **今のマップの最初の warp へ歩き出す** ―― 行き先はどこでもない場所になる。
+    // 実際これで、ニビへ飛ぶはずが おつきみやま の中で立ち往生した
+    await drain(8);
     if (await page.isVisible("#open-fly")) {
       await page.click("#open-fly");
       const entry = await page
@@ -441,6 +446,7 @@ async function flyTo(town) {
         await page.waitForTimeout(900);
         if ((await spot()).map === town) return;
       } else {
+        note("そらをとぶ の行き先に無い", town);
         await page.click("#panel-close").catch(() => {});
       }
     }
@@ -2284,6 +2290,15 @@ expect(
   expect("カードキー を ひろう", `${(await bag())["card-key"] ?? 0}`, "1");
   await goToMap("kanto-silph-7f", 2, 1, 40);
   expect("カードキーを 取ると 7階へ 行ける", (await spot()).map, "kanto-silph-7f");
+  // 7階も5階と同じ形 ―― **団員が1マス幅の通路に立っている**ので、
+  // 社員へ回り込む前に片付ける（v1.1-k）
+  await talkToObject("kanto-silph-7f", "silph-7f-grunt");
+  await drain(8);
+  if (await page.isVisible("#battle")) {
+    await fight();
+    await page.waitForTimeout(800);
+    await drain(12);
+  }
   await talkToObject("kanto-silph-7f", "silph-7f-staff");
   await drain(12);
   expect("しゃいんが ラプラス を くれる", (await owns("lapras")) ? "もらった" : "もらえない", "もらった");
