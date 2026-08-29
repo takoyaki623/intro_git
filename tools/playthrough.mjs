@@ -427,6 +427,20 @@ async function enterKanto() {
  * 飛べたつもりになり、そこから拠点まで歩く経路を引いて詰んだ。
  * 飛べなければ**建物の外へ出て**からもう一度。
  */
+/**
+ * 遠くへは**目印を経由して**歩く（v1.1-k）。
+ *
+ * 世界が 130 → 195枚に広がって、「今いる場所から目的地まで」を1回の `goToMap` に
+ * 任せる書き方が当たらなくなった ―― 途中の野生・視線・引き直しで予算を使い切る。
+ * 町を1つずつ踏んでいけば、**1区間が短くなるぶん確実**になる。
+ */
+async function travel(waypoints, tries = 100) {
+  for (const [map, x, y] of waypoints) {
+    const here = await goToMap(map, x, y, tries);
+    if (here.map !== map) note("目印に つけなかった", `${here.raw} → ${map}`);
+  }
+}
+
 async function flyTo(town) {
   for (let attempt = 0; attempt < 3; attempt += 1) {
     if ((await spot()).map === town) return;
@@ -450,7 +464,17 @@ async function flyTo(town) {
         await page.click("#panel-close").catch(() => {});
       }
     }
-    // 飛べなかった。建物の中に居るとみて、出口へ出てからもう一度
+    // **飛べないなら、歩き出さずに帰る**（v1.1-k）。
+    // ここは以前「ボタンが見えない＝建物の中だ」とみなして
+    // *今のマップの最初の warp* へ歩いていた。**そらをとぶ をまだ覚えていない区間**でも
+    // 同じ道を通るので、ニビへ飛ぶつもりが おつきみやま の中へ walk していた ――
+    // 道具が黙って歩き出すのは、黙って諦めるより悪い。
+    await refreshFlags();
+    if (!liveFlags.has("kanto.ability.fly")) {
+      note("そらをとぶ が まだ 使えない", town);
+      return;
+    }
+    // 覚えているのにボタンが無いなら、建物の中に居る。出口へ出てからもう一度
     const here = MAPS.get((await spot()).map);
     const door = here?.warps?.[0]?.to;
     if (door === undefined) return;
@@ -1706,8 +1730,10 @@ expect(
   // カビゴンを起こした場所からニビまで歩かせていたら、途中の おつきみやま で
   // 野生に何度も割り込まれ、120回の引き直しを使い切って「たどりつけなかった」
   // ―― 世界が広がるほど、**遠くを歩かせる区間は勝手に脆くなる。**
-  await flyTo("kanto-pewter-city");
-  await goToMap("kanto-pewter-museum", 4, 2, 60);
+  // **この区間では そらをとぶ をまだ覚えていない**（覚えるのは §15）。
+  // 町を1つ踏んでから中に入る ―― 1回で行こうとすると、
+  // 途中の おつきみやま の野生に予算を全部使われて届かない
+  await travel([["kanto-pewter-city", 7, 11], ["kanto-pewter-museum", 4, 2]]);
   expect("ニビの 博物館に 入れる（扉が 繋がった）", (await spot()).map, "kanto-pewter-museum");
   await talk("ArrowUp");
   await drain(10);
@@ -2265,7 +2291,14 @@ expect(
   expect("フジろうじんが ポケモンのふえ を くれる", `${(await bag())["poke-flute"] ?? 0}`, "1");
 
   // ── シルフカンパニー ―― ラプラスと マスターボール ──
-  await goToMap("kanto-silph-5f", 2, 1, 200);
+  //
+  // ポケモンタワーの7階から一息にヤマブキまで歩かせると届かない（実測200回）。
+  // **シオン → ヤマブキ → 建物の中**と目印を踏む
+  await travel([
+    ["kanto-lavender-town", 7, 5],
+    ["kanto-saffron-city", 11, 6],
+    ["kanto-silph-5f", 2, 1],
+  ]);
   expect("シルフの 5階まで 登れる", (await spot()).map, "kanto-silph-5f");
   expect(
     "カードキーが 無いと 7階へ 行けない",
