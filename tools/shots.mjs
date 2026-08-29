@@ -83,6 +83,16 @@ function route(from, to) {
 }
 
 /**
+ * **場所は近いものどうし並べる。**
+ *
+ * 撮影は1枚ごとにセーブを読み直さず、前の場所から歩いて次へ向かう。
+ * `goTo` の引き直しは60回で、遠いほど途中の野生で使い切る ――
+ * こおりのぬけみち の たきつぼ をカントーの列の途中に置いたら、
+ * **次の1枚がタマムシまで161歩**になり、そこから先の19枚が `△` になった（v1.2-a）。
+ * 台本の「確かめる場所の隣に居るうちに確かめる」と同じ話が、撮影にもある。
+ */
+
+/**
  * 撮影用のセーブ。
  *
  * fixtures の v4 を土台にして、**進行を開けておく**（御三家を持っている・
@@ -246,7 +256,6 @@ const PLACES = [
   { file: "mansion-celadon", name: "タマムシマンション", note: "イーブイ1匹で、石で分かれる3種が開く（v1.1-g-3）", to: ["kanto-celadon-mansion", 4, 3] },
   { file: "dojo", name: "カラテどうじょう", note: "勝つと どちらか1匹（v1.1-g-3）", to: ["kanto-saffron-dojo", 4, 3] },
   { file: "rock-tunnel-dark", name: "イワヤマトンネル（フラッシュ前）", note: "暗い洞窟（v1.2-a）。見えるのは半径2マス ―― **壁ではなく幕**なので、覚えていなくても歩けるし戦える", to: ["kanto-rock-tunnel-1f", 6, 7], without: ["kanto.ability.flash"] },
-  { file: "icefall-waterfall", name: "こおりのぬけみち たきつぼ", note: "滝の帯は端から端まで（v1.2-a）。岸を1マス残すと歩いて回り込める", to: ["kanto-sevii-icefall-waterfall", 5, 2] },
   { file: "dept-store", name: "タマムシデパート", note: "品揃えを**階で**分けた（v1.1-i）。2かい どうぐ／3かい わざマシン／4かい しんかの どうぐ", to: ["kanto-celadon-dept-2f", 4, 4] },
   { file: "gamecorner", name: "ゲームコーナー", note: "スロットは作らない ―― 景品はお金で（v1.1-g-3）", to: ["kanto-celadon-gamecorner", 5, 4] },
   { file: "hideout", name: "ロケットだんアジト", note: "サカキ1回目。勝つとシルフスコープ（v1.1-g-3）", to: ["kanto-rocket-b4f", 4, 3] },
@@ -272,6 +281,7 @@ const PLACES = [
   { file: "sevii-bond-bridge", name: "きずなばし", note: "海の上の橋。橋の上でも釣れる（3のしま⇄きのみのもり）", to: ["kanto-sevii-bond-bridge", 6, 6] },
   { file: "sevii-ferry", name: "ふなつきば", note: "港どうしを鎖でつなぐ。**屋内にしたから関門になる**（v1.1-j）", to: ["kanto-sevii-one-ferry", 4, 4] },
   { file: "sevii-icefall", name: "こおりのぬけみち 1F", note: "**氷の床**（v1.1-k）。乗ったら止まれない ―― 一歩＝1マスが崩れる唯一の場所", to: ["kanto-sevii-icefall-1f", 6, 7] },
+  { file: "icefall-waterfall", name: "こおりのぬけみち たきつぼ", note: "滝の帯は端から端まで（v1.2-a）。**岸を1マス残すと歩いて回り込める**ので、端まで届かせる", to: ["kanto-sevii-icefall-waterfall", 5, 2] },
   { file: "sevii-ruin-valley", name: "いせきのたに", note: "ネイティ・ヤンヤンマ・ソーナンス。奥に ドットのあな（v1.1-k）", to: ["kanto-sevii-ruin-valley", 6, 6] },
   { file: "sevii-pattern-bush", name: "パターンブッシュ", note: "ヘラクロス・レディバ・イトマル。奥は へんげのどうくつ", to: ["kanto-sevii-pattern-bush", 6, 5] },
   { file: "sevii-sevault", name: "ななしの けいこく", note: "エアームド と ヨーギラス。7のしまの奥（v1.1-k）", to: ["kanto-sevii-sevault-canyon", 6, 9] },
