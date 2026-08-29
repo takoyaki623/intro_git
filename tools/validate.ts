@@ -1782,20 +1782,36 @@ function checkWorld(): void {
       if (!used.has(rule.id)) {
         warn("field-rule", `規則 "${rule.id}" を指すマップが1枚も無い`);
       }
-      if (rule.steps <= 0) fail("field-rule", `${rule.id}: 歩数 ${rule.steps} では1歩も歩けない`);
+      // **歩数と追い出しは対**（v1.2-a）。暗い洞窟のように歩数を持たない規則もあるが、
+      // 片方だけ書いてあるのは書き忘れ ―― 数えるのに出口が無い／出口があるのに数えない
+      if ((rule.steps === undefined) !== (rule.expire === undefined)) {
+        fail("field-rule", `${rule.id}: 歩数と追い出すイベントは、両方書くか両方書かないか`);
+      }
+      // #123 何もしない規則を置かない（歩数も暗さも戦えなさも無いなら、指す意味が無い）
+      if (rule.steps === undefined && rule.dark === undefined && rule.canFight !== false) {
+        fail("field-rule", `${rule.id}: 歩数も暗さも戦えなさも無い ―― 何も変えない規則`);
+      }
+      if (rule.steps !== undefined && rule.steps <= 0) {
+        fail("field-rule", `${rule.id}: 歩数 ${rule.steps} では1歩も歩けない`);
+      }
+      if (rule.dark !== undefined && rule.dark <= 0) {
+        fail("field-rule", `${rule.id}: 見えるマスが ${rule.dark} では一寸先も見えない`);
+      }
 
       // #111 歩数が尽きたときのイベントが実在し、**そこから出られる**
-      const expire = allEvents.find((e) => e.id === rule.expire);
-      if (expire === undefined) {
-        fail("field-rule", `${rule.id}: 追い出すイベント "${rule.expire}" が無い`);
-      } else {
-        usedEvents.add(rule.expire);
-        const moves = [...walkCommands(expire.commands)].some((c) => c.kind === "warp");
-        if (!moves) {
-          fail(
-            "field-rule",
-            `${rule.id}: 追い出すイベントに warp が無い（歩数が尽きても外へ出られない）`,
-          );
+      if (rule.expire !== undefined) {
+        const expire = allEvents.find((e) => e.id === rule.expire);
+        if (expire === undefined) {
+          fail("field-rule", `${rule.id}: 追い出すイベント "${rule.expire}" が無い`);
+        } else {
+          usedEvents.add(rule.expire);
+          const moves = [...walkCommands(expire.commands)].some((c) => c.kind === "warp");
+          if (!moves) {
+            fail(
+              "field-rule",
+              `${rule.id}: 追い出すイベントに warp が無い（歩数が尽きても外へ出られない）`,
+            );
+          }
         }
       }
 
@@ -2361,6 +2377,9 @@ function checkWorld(): void {
   // ── #80 地方の入口から、その地方の全マップに歩いて行けること（v0.12-b）──
   checkRegionConnectivity();
 
+  // ── #121 その地形を歩ける能力は、本当に何かを閉じている（v1.2-a）──
+  checkWalkAbilitiesGate();
+
   // ── #57・#58 使われていない宣言（警告）──
   for (const flag of declaredFlags) {
     if (!usedFlags.has(flag)) warn("flag-unused", `フラグ "${flag}" を誰も使っていない`);
@@ -2397,6 +2416,74 @@ const IN_PRINCIPLE = {
   ignoreObstacles: true,
   ignorePushable: true,
 } as const;
+
+/**
+ * `walk` を与える能力が、本当に何かを閉じているか（#121・v1.2-a）。
+ *
+ * **地形を1つ足しただけでは関門にならない。**
+ * こおりのぬけみち の たきつぼ に滝の帯を引いたが、
+ * 帯の端に岸を1マス残せば歩いて回り込める ―― そのとき滝は飾りになる。
+ * だが #55 も #80 も「行けてしまう」を正しいとしか言わないので、
+ * 誰も落ちない（v1.1-e で かいりき の岩に同じことが起きた）。
+ *
+ * **その能力を外して、届かなくなるマスが1つ以上あるか**を見る。
+ * 数えるのは**その地形そのもの以外**のマス ―― 滝のマスは滝の能力でしか
+ * 乗れないのが当たり前で、それを数えると必ず通ってしまう（空振りの検査になる）。
+ */
+function checkWalkAbilitiesGate(): void {
+  const byId = new Map(allMaps.map((m) => [m.id, m]));
+  const key = (map: string, x: number, y: number) => `${map}|${x},${y}`;
+
+  const reach = (abilities: readonly FieldAbilityId[], start: { map: string; x: number; y: number }): Set<string> => {
+    const world: WorldState = {
+      ...emptyWorldState(),
+      abilities: [...abilities],
+      walkable: walkableTerrains(allFieldAbilities, abilities),
+    };
+    const seen = new Set<string>([key(start.map, start.x, start.y)]);
+    const queue = [{ map: start.map, x: start.x, y: start.y }];
+    while (queue.length > 0) {
+      const here = queue.shift()!;
+      const map = byId.get(here.map);
+      if (map === undefined) continue;
+      for (const next of neighborsOf(map, world, here.x, here.y, IN_PRINCIPLE, byId)) {
+        const id = key(next.map, next.x, next.y);
+        if (seen.has(id)) continue;
+        seen.add(id);
+        queue.push({ map: next.map, x: next.x, y: next.y });
+      }
+    }
+    return seen;
+  };
+
+  const terrainOf = (id: string): string | null => {
+    const [mapId, pos] = id.split("|");
+    const map = byId.get(mapId!);
+    if (map === undefined) return null;
+    const [x, y] = pos!.split(",").map(Number);
+    return map.terrain[y! * map.size.width + x!] ?? null;
+  };
+
+  for (const region of allRegions) {
+    if (region.start === undefined) continue;
+    const all = reach([...FIELD_ABILITIES], region.start);
+    for (const ability of allFieldAbilities) {
+      const effect = ability.effect;
+      if (effect?.kind !== "walk") continue;
+      const without = reach(
+        FIELD_ABILITIES.filter((id) => id !== ability.id),
+        region.start,
+      );
+      const lost = [...all].filter((id) => !without.has(id) && terrainOf(id) !== effect.terrain);
+      if (lost.length === 0) {
+        fail(
+          "walk-gate",
+          `${ability.id}: この能力を外しても行けなくなる場所が無い（${effect.terrain} が飾りになっている）`,
+        );
+      }
+    }
+  }
+}
 
 /**
  * 地方まるごとの到達可能性（v0.12-b）。

@@ -2345,6 +2345,40 @@ expect(
   await drain(20);
   expect("フジろうじんが ポケモンのふえ を くれる", `${(await bag())["poke-flute"] ?? 0}`, "1");
 
+  // ── フラッシュ と 暗いイワヤマトンネル（v1.2-a）──
+  //
+  // シオンの隣に居るうちに確かめる（v1.1-k の学び）。10番道路はシオンの北。
+  //
+  // **暗さは関門ではない。** フラッシュが無くても歩けるし戦える（原作もそう）ので、
+  // 見るのは「抜けられるか」ではなく**幕が張られているか**
+  // ―― 絵は台本から見えないので、`data-dark` の印を読む。
+  await goToMap("kanto-rock-tunnel-1f", 6, 7, 120);
+  expect("イワヤマトンネルに 入れる", (await spot()).map, "kanto-rock-tunnel-1f");
+  expect(
+    "フラッシュ を おそわる前は まっくら",
+    await page.getAttribute("#field-canvas", "data-dark"),
+    "1",
+  );
+  await shot("28b-rock-tunnel-dark");
+  // 暗いままでも通り抜けられる（幕であって壁ではない）
+  await goToMap("kanto-rock-tunnel-b1f", 11, 3, 120);
+  expect("まっくらでも 抜けられる", (await spot()).map, "kanto-rock-tunnel-b1f");
+
+  await talkToObject("kanto-route-10", "route10-flash-man");
+  await refreshFlags();
+  expect(
+    "10番道路で フラッシュ を おそわる",
+    liveFlags.has("kanto.ability.flash") ? "おそわった" : "おそわっていない",
+    "おそわった",
+  );
+  await goToMap("kanto-rock-tunnel-1f", 6, 7, 120);
+  expect(
+    "おそわると あかるくなる",
+    await page.getAttribute("#field-canvas", "data-dark"),
+    "0",
+  );
+  await shot("28c-rock-tunnel-lit");
+
   // ── シルフカンパニー ―― ラプラスと マスターボール ──
   //
   // ポケモンタワーの7階から一息にヤマブキまで歩かせると届かない（実測200回）。
@@ -2756,6 +2790,32 @@ expect("そらをとぶ で マサラへ 戻れる", (await spot()).map, "kanto-
   // 滑走を織り込んだ経路探索が、氷の部屋を抜けられるか（**台本の側の検査**）
   await goToMap("kanto-sevii-icefall-b1f", 9, 1, 60);
   expect("氷を抜けて 地下1階へ 降りられる", (await spot()).map, "kanto-sevii-icefall-b1f");
+
+  // ── たきのぼり（v1.2-a）──
+  //
+  // **教わる前は越えられない。** 帯の手前まで行って、1歩ぶん止まることを見る
+  // ―― `goToMap` は「行けた/行けない」しか言わないので、
+  // 越えられないことは**帯の向こうを狙って届かない**ことで確かめる。
+  await goToMap("kanto-sevii-icefall-waterfall", 5, 2, 60);
+  expect("たきつぼの 手前までは 来られる", (await spot()).map, "kanto-sevii-icefall-waterfall");
+  const beforeFall = await goToMap("kanto-sevii-icefall-waterfall", 5, 8, 8);
+  expect(
+    "たきのぼり が 無いと 滝の むこうへ 行けない",
+    `${beforeFall.x},${beforeFall.y}`,
+    "5,2",
+  );
+
+  await talkToObject("kanto-sevii-four-island", "four-island-waterfall-man");
+  await refreshFlags();
+  expect(
+    "4のしまで たきのぼり を おそわる",
+    liveFlags.has("kanto.ability.waterfall") ? "おそわった" : "おそわっていない",
+    "おそわった",
+  );
+
+  const afterFall = await goToMap("kanto-sevii-icefall-waterfall", 5, 8, 60);
+  expect("たきのぼり で 滝を こえられる", `${afterFall.x},${afterFall.y}`, "5,8");
+  await shot("40b-sevii-waterfall");
 
   // ── サファイア の筋 ―― 奪われて、取り返して、渡す ──
   await goToMap("kanto-sevii-dotted-hole", 4, 5, 300);

@@ -118,6 +118,31 @@
     }
   },
   {
+    "id": "waterfall",
+    "name": "たきのぼり",
+    "requires": {
+      "kind": "and",
+      "of": [
+        {
+          "kind": "flag",
+          "flag": "kanto.ability.waterfall",
+          "value": true
+        },
+        {
+          "kind": "badges",
+          "op": ">=",
+          "count": 8
+        }
+      ]
+    },
+    "lockedText": "たきが おちてくる。のぼれそうな みずの ながれだ。",
+    "useText": "{name} で たきを のぼった!",
+    "effect": {
+      "kind": "walk",
+      "terrain": "waterfall"
+    }
+  },
+  {
     "id": "superRod",
     "name": "スーパーロッド",
     "requires": {
@@ -171,5 +196,29 @@
     },
     "lockedText": "なにか うまっている きがする。",
     "useText": "{name}が はんのう した!"
+  },
+  {
+    "id": "flash",
+    "name": "フラッシュ",
+    "requires": {
+      "kind": "and",
+      "of": [
+        {
+          "kind": "flag",
+          "flag": "kanto.ability.flash",
+          "value": true
+        },
+        {
+          "kind": "badges",
+          "op": ">=",
+          "count": 1
+        }
+      ]
+    },
+    "lockedText": "まっくらで なにも みえない。",
+    "useText": "{name} で あたりが あかるくなった!",
+    "effect": {
+      "kind": "light"
+    }
   }
 ]

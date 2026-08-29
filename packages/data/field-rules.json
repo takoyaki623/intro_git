@@ -5,5 +5,10 @@
     "expire": "kanto.safari.time-up",
     "canFight": false,
     "ball": "safari-ball"
+  },
+  {
+    "id": "dark-cave",
+    "canFight": true,
+    "dark": 2
   }
 ]

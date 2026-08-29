@@ -7408,5 +7408,87 @@
         "inventory": "kanto-celadon-tms"
       }
     ]
+  },
+  {
+    "id": "kanto.route10.flash-man",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.ability.flash",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "speaker": "おじさん",
+            "text": "この さきの トンネルは まっくらだ。\nポケモンに あかりを ださせると いい。"
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.ability.flash",
+            "value": true
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.route10.flash-man",
+            "value": true
+          },
+          {
+            "kind": "message",
+            "text": "フラッシュ の こつを おそわった!\n（バッジが 1つ あれば つかえる）"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "speaker": "おじさん",
+            "text": "あかりが あれば トンネルも こわくない。"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.waterfall-man",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.ability.waterfall",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "speaker": "つりびと",
+            "text": "たきを のぼる ポケモンが いるんだ。\nおしえて やろうか?"
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.ability.waterfall",
+            "value": true
+          },
+          {
+            "kind": "setFlag",
+            "flag": "kanto.sevii.waterfall-man",
+            "value": true
+          },
+          {
+            "kind": "message",
+            "text": "たきのぼり の こつを おそわった!\n（バッジが 8つ あれば つかえる）"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "speaker": "つりびと",
+            "text": "たきの うえには なにが あるんだろうな。"
+          }
+        ]
+      }
+    ]
   }
 ]

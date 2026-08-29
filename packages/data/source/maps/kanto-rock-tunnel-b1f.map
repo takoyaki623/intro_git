@@ -3,6 +3,7 @@ id: kanto-rock-tunnel-b1f
 name: イワヤマトンネル
 region: kanto
 encounters: kanto-rock-tunnel-b1f-cave kanto-rock-tunnel-b1f-rock-smash
+rules: dark-cave
 bgm: cave
 
 legend:

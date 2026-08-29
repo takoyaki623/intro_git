@@ -29,6 +29,8 @@ export const FIELD_ABILITIES = [
   "goodRod",
   "superRod",
   "itemfinder",
+  "waterfall",
+  "flash",
 ] as const;
 export type FieldAbilityId = (typeof FIELD_ABILITIES)[number];
 
@@ -52,7 +54,18 @@ export type FieldEffect =
   /** 隠れているものを見つける（ダウジングマシン）。 */
   | { kind: "reveal" }
   /** 行ったことのある町へ飛ぶ（そらをとぶ）。 */
-  | { kind: "travel" };
+  | { kind: "travel" }
+  /**
+   * 暗い場所を明るくする（フラッシュ・v1.2-a）。
+   *
+   * **`core` では何も起きない。** 暗さは `FieldRule.dark`（見えるマスの半径）で、
+   * 読むのは描画だけ ―― 見た目であって規則ではないので、
+   * `core` に「暗い」という状態を持たせない。
+   * それでも `clear` を既定にせず**種類を1つ足した**のは、
+   * フラッシュが障害物をどける能力に見えてしまうから
+   * ―― 黙って既定に流すのと、理由つきで何もしないのは別。
+   */
+  | { kind: "light" };
 
 /**
  * フィールド技の定義（v0.12-d）。
@@ -93,7 +106,23 @@ export const STEP: Record<Direction, { dx: number; dy: number }> = {
  * `ice` は v1.1-k で足した6つ目（v1.1-f では「カントーに1枚も無い」として送った）。
  * **こおりのぬけみち にある** ―― 宿題は地方をまたいで戻ってきた。
  */
-export const TERRAINS = ["normal", "grass", "water", "sand", "cave", "ledge", "ice"] as const;
+export const TERRAINS = [
+  "normal",
+  "grass",
+  "water",
+  "sand",
+  "cave",
+  "ledge",
+  "ice",
+  /**
+   * 滝（v1.2-a）。**たきのぼり を持っていないと乗れない水面。**
+   *
+   * 専用の仕掛けは要らない ―― `FieldAbility` の `walk` が
+   * 「その地形の上を移動できる」をすでに言えるので、なみのりと同じ形で足りる
+   * （`walkableTerrains`）。`core` に増えるのはこの1語だけ。
+   */
+  "waterfall",
+] as const;
 export type TerrainId = (typeof TERRAINS)[number];
 
 export type Warp = {
@@ -215,10 +244,17 @@ export type MapData = {
  */
 export type FieldRule = {
   id: FieldRuleId;
-  /** 歩ける歩数。尽きたら `expire` のイベントへ。 */
-  steps: number;
-  /** 歩数が尽きたときに走るイベント（追い出し）。 */
-  expire: EventId;
+  /**
+   * 歩ける歩数。尽きたら `expire` のイベントへ。
+   *
+   * **省略できる**（v1.2-a）。サファリしか規則が無かったころは必須でよかったが、
+   * 暗い洞窟には歩数が無い ―― 必須のままだと `steps: 0` と書くことになり、
+   * **入った瞬間に追い出される**（実際に一度そう書いた）。
+   * 「その場所だけの規則」は1種類ではないので、欄も1組ではない。
+   */
+  steps?: number;
+  /** 歩数が尽きたときに走るイベント（追い出し）。`steps` があるときだけ要る。 */
+  expire?: EventId;
   /**
    * 戦えるか。サファリでは技も交代も使えず、**エサ・イシ・ボール・逃げるだけ。**
    * `false` のとき、野生戦は捕獲専用の形で始まる。
@@ -226,6 +262,15 @@ export type FieldRule = {
   canFight: boolean;
   /** そこで投げられる唯一のボール。指定するとバッグの他のボールは選べない。 */
   ball?: ItemId;
+  /**
+   * 暗い場所（v1.2-a）。**見えるマスの半径。** フラッシュを使えると解ける。
+   *
+   * `steps` / `canFight` と違って、これは**規則ではなく見た目**
+   * ―― 暗くても歩けるし戦える（原作もそう）。それでも `FieldRule` に置いたのは、
+   * 「その場所だけそうなる」ものの置き場所が既にここだから。
+   * **器が合っているなら、性質が違うという理由だけで2つ目の器を作らない。**
+   */
+  dark?: number;
 };
 
 export type EncounterTable = {

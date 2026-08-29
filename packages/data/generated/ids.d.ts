@@ -6,9 +6,9 @@
  * 特性 74 / 道具 114 /
  * BattleSet 64 / 施設 4 /
  * ネームド 18 / カップ 10 /
- * マップ 198 / イベント 328 / トレーナー 154 /
+ * マップ 198 / イベント 330 / トレーナー 154 /
  * 出現テーブル 261 / ショップ 8 / 地方 9 /
- * フラグ 207
+ * フラグ 211
  */
 
 export type GeneratedSpeciesId =
@@ -1183,6 +1183,7 @@ export type GeneratedEventId =
   | "kanto.rocket.locked"
   | "kanto.route1.boy"
   | "kanto.route1.sign-north"
+  | "kanto.route10.flash-man"
   | "kanto.route10.sign"
   | "kanto.route11.aide"
   | "kanto.route11.sign"
@@ -1294,6 +1295,7 @@ export type GeneratedEventId =
   | "kanto.sevii.warehouse-grunt"
   | "kanto.sevii.warehouse-guard"
   | "kanto.sevii.warehouse-win"
+  | "kanto.sevii.waterfall-man"
   | "kanto.silph.clerk"
   | "kanto.silph.giovanni"
   | "kanto.silph.giovanni-win"
@@ -1791,10 +1793,12 @@ export type GeneratedRegionId =
 
 export type GeneratedFlagId =
   | "kanto.ability.cut"
+  | "kanto.ability.flash"
   | "kanto.ability.fly"
   | "kanto.ability.rock-smash"
   | "kanto.ability.strength"
   | "kanto.ability.surf"
+  | "kanto.ability.waterfall"
   | "kanto.bill.helped"
   | "kanto.cave.item-taken"
   | "kanto.cave.mewtwo-caught"
@@ -1894,6 +1898,7 @@ export type GeneratedFlagId =
   | "kanto.rocktunnel.item2-taken"
   | "kanto.route1.potion-taken"
   | "kanto.route1.talked-boy"
+  | "kanto.route10.flash-man"
   | "kanto.route11.aide"
   | "kanto.route11.gambler-beaten"
   | "kanto.route11.hidden-taken"
@@ -1957,6 +1962,7 @@ export type GeneratedFlagId =
   | "kanto.sevii.warehouse-beaten"
   | "kanto.sevii.warehouse-open"
   | "kanto.sevii.water-path-item-taken"
+  | "kanto.sevii.waterfall-man"
   | "kanto.silph.3f-item-taken"
   | "kanto.silph.card-key-taken"
   | "kanto.silph.giovanni-beaten"

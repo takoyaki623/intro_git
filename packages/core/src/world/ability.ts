@@ -101,6 +101,9 @@ export const fieldActions: {
 
   // 行き先を選ぶのは UI（`field.ts`）。ここに持ち込むと core が画面を知ることになる
   travel: () => null,
+
+  // 明るさは描画の話。調べても何も起きない ―― 暗いマスに向かって念じても始まらない
+  light: () => null,
 };
 
 /** 向いているマスの様子。`fieldActions` が見るぶんだけ。 */

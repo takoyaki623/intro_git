@@ -518,6 +518,37 @@ export function playField(rebuild: () => void): FieldHandle {
       }
     }
 
+    // **暗い場所**（v1.2-a）。フラッシュを使えるようになると解ける。
+    //
+    // 見えるマスの半径は `FieldRule.dark` が持つ ―― `core` は暗さを知らない。
+    // 壁ではなく**幕**なので、暗くても歩けるし戦える（原作もそう）。
+    // 幕は自機を中心に張る。歩行アニメの途中は `shown` が半端な座標を返すので、
+    // **描いている位置（`shown`）に合わせる** ―― `player.position` に合わせると
+    // 1歩ごとに明かりだけが先に飛ぶ。
+    const dark = ruleHere()?.dark;
+    const veiled = dark !== undefined && !world.abilities.includes("flash");
+    // **幕が張られているかも印に出す**（v1.2-a）。`data-at` / `data-flags` と同じで、
+    // 台本は絵を見られない ―― 出さないと「暗い」は確かめようの無い機能になる
+    canvas.dataset["dark"] = veiled ? "1" : "0";
+    if (veiled) {
+      const cx = toScreenX(shown.x) + TILE / 2;
+      const cy = toScreenY(shown.y) + TILE / 2;
+      const inner = dark * TILE;
+      const glow = ctx.createRadialGradient(cx, cy, inner * 0.55, cx, cy, inner);
+      glow.addColorStop(0, "rgba(0,0,0,0)");
+      glow.addColorStop(1, "rgba(0,0,0,0.93)");
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      // 円の外は勾配が届かない。**塗り残すと四隅だけ明るい**ので、別に潰す
+      ctx.fillStyle = "rgba(0,0,0,0.93)";
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(0, 0, canvas.width, canvas.height);
+      ctx.arc(cx, cy, inner, 0, Math.PI * 2);
+      ctx.fill("evenodd");
+      ctx.restore();
+    }
+
     // 自動テストから現在地を読むための印（画面には出ない）
     canvas.dataset["at"] = `${player.position.map} ${player.position.x},${player.position.y} ${player.position.facing}`;
     // **立っているフラグも出す**（v1.1-g-3）。台本の経路探索が
@@ -1076,7 +1107,7 @@ export function playField(rebuild: () => void): FieldHandle {
     // 歩数と並ぶもう1つの終わり方で、原作と同じ
     if (safari && rule !== null && (player.bag[rule.ball ?? ""] ?? 0) <= 0) {
       player.rule = null;
-      await runEvent(rule.expire);
+      if (rule.expire !== undefined) await runEvent(rule.expire);
       return;
     }
 
@@ -1267,7 +1298,7 @@ export function playField(rebuild: () => void): FieldHandle {
     }
     const rule = ruleHere();
     player.rule = null;
-    if (rule !== null) await runEvent(rule.expire);
+    if (rule?.expire !== undefined) await runEvent(rule.expire);
   }
 
   /** そのマスの方を向く。見つかったときに、こちらも相手を見る。 */
@@ -1318,8 +1349,9 @@ export function playField(rebuild: () => void): FieldHandle {
       // 4枚は1つの区画で、エリアを跨ぐたびに満タンに戻ったら制限にならない。
       // **規則が無い場所へ出たら null に戻す** ―― 残したままにすると、
       // サファリの外を歩いて「じかんです」と言われる
+      // **歩数を持たない規則もある**（暗い洞窟・v1.2-a）。数えないので `rule` に載せない
       const rule = ruleHere();
-      if (rule === null) player.rule = null;
+      if (rule === null || rule.steps === undefined) player.rule = null;
       else if (player.rule?.id !== rule.id) player.rule = { id: rule.id, stepsLeft: rule.steps };
       const script = currentMap().onEnter;
       if (script === undefined) break;

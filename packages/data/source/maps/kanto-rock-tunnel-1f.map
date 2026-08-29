@@ -1,10 +1,15 @@
 # イワヤマトンネル 1階。**原作の該当地**（v1.1-e）。
+#
+# **暗い**（v1.2-a）。`rules: dark-cave` は歩数を持たない ――
+# 暗さは壁ではなく幕で、フラッシュが無くても歩けるし戦える（原作もそう）。
+# 関門にしていないので、検証も台本も暗さを知らないまま通れる。
 # ここで いわくだき の野生が意味を持つ ―― v1.1-c で機構だけ先に入れて、
 # 表を持つマップが1枚も無いと検証が毎回警告していた。
 id: kanto-rock-tunnel-1f
 name: イワヤマトンネル
 region: kanto
 encounters: kanto-rock-tunnel-1f-cave
+rules: dark-cave
 bgm: cave
 
 legend:

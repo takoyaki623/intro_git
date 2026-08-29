@@ -1,4 +1,9 @@
 # 10番道路。イワヤマトンネルの南口とシオンタウンをつなぐ（v1.1-e）。
+#
+# **フラッシュを教える人はここ**（v1.2-a）。原作の配布場所は手元のデータで
+# 確かめられないので、この世界の既存の決め方に合わせた ――
+# いわくだき は ヒビ割れ岩の出るニビ、なみのり は海のセキチク。
+# **使う場所の隣で教わる。** 暗いのは、この扉のすぐ向こう。
 id: kanto-route-10
 name: 10ばんどうろ
 region: kanto
@@ -30,6 +35,7 @@ warps:
 
 objects:
 route10-sign 3,7 sign kanto.route10.sign
+route10-flash-man 1,4 npc:oldman:static kanto.route10.flash-man
 route10-hiker-1 2,1 trainer:kanto-route-10-hiker-1:2:down kanto.route10.hiker1 if:kanto.route10.hiker1-beaten=false
 route10-hiker-2 11,7 trainer:kanto-route-10-hiker-2:2:left kanto.route10.hiker2 if:kanto.route10.hiker2-beaten=false
 route10-super-potion-1 11,8 item:super-potion kanto.route10.super-potion1 if:kanto.route10.super-potion1-taken=false

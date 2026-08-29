@@ -124,9 +124,13 @@ const SHOOTING_SAVE = (() => {
   save.regions.kanto.badges = 8;
   // フィールド技（v0.12-d）。**覚えていないと そらをとぶ のボタンが出ない**ので、
   // 撮りたい画面が1枚まるごと消える
+  //
+  // **フラッシュだけは わざと入れない**（v1.2-a）。入れると暗い洞窟が明るくなり、
+  // 「イワヤマトンネル（フラッシュ前）」が普通の洞窟の絵になる ――
+  // ここは入れ忘れではない。たきのぼり は入れる（滝を越えないと たきつぼ を撮れない）
   for (const flag of [
     "kanto.ability.cut", "kanto.ability.surf", "kanto.ability.strength",
-    "kanto.ability.rock-smash", "kanto.ability.fly",
+    "kanto.ability.rock-smash", "kanto.ability.fly", "kanto.ability.waterfall",
   ]) {
     save.regions.kanto.flags[flag] = true;
   }
@@ -240,6 +244,8 @@ const PLACES = [
   { file: "lab", name: "グレンけんきゅうじょ", note: "かせきを もどす唯一の場所（v1.1-g-3）", to: ["kanto-cinnabar-lab", 4, 3] },
   { file: "mansion-celadon", name: "タマムシマンション", note: "イーブイ1匹で、石で分かれる3種が開く（v1.1-g-3）", to: ["kanto-celadon-mansion", 4, 3] },
   { file: "dojo", name: "カラテどうじょう", note: "勝つと どちらか1匹（v1.1-g-3）", to: ["kanto-saffron-dojo", 4, 3] },
+  { file: "rock-tunnel-dark", name: "イワヤマトンネル（フラッシュ前）", note: "暗い洞窟（v1.2-a）。見えるのは半径2マス ―― 壁ではなく幕なので歩ける", to: ["kanto-rock-tunnel-1f", 6, 7] },
+  { file: "icefall-waterfall", name: "こおりのぬけみち たきつぼ", note: "滝の帯は端から端まで（v1.2-a）。岸を1マス残すと歩いて回り込める", to: ["kanto-sevii-icefall-waterfall", 5, 2] },
   { file: "dept-store", name: "タマムシデパート", note: "品揃えを**階で**分けた（v1.1-i）。2かい どうぐ／3かい わざマシン／4かい しんかの どうぐ", to: ["kanto-celadon-dept-2f", 4, 4] },
   { file: "gamecorner", name: "ゲームコーナー", note: "スロットは作らない ―― 景品はお金で（v1.1-g-3）", to: ["kanto-celadon-gamecorner", 5, 4] },
   { file: "hideout", name: "ロケットだんアジト", note: "サカキ1回目。勝つとシルフスコープ（v1.1-g-3）", to: ["kanto-rocket-b4f", 4, 3] },
