@@ -14448,6 +14448,24 @@
           "flag": "kanto.moon.stone-taken",
           "value": false
         }
+      },
+      {
+        "id": "mtmoonb1f-great-ball-1",
+        "at": {
+          "x": 10,
+          "y": 6
+        },
+        "kind": {
+          "type": "item",
+          "item": "great-ball",
+          "hidden": false
+        },
+        "event": "kanto.mtmoonb1f.great-ball1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.mtmoonb1f.great-ball1-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -15376,6 +15394,44 @@
         "condition": {
           "kind": "flag",
           "flag": "kanto.moon.rocket-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "mtmoon-hiker-1",
+        "at": {
+          "x": 11,
+          "y": 8
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-mt-moon-hiker-1",
+          "sight": 2,
+          "direction": "left"
+        },
+        "event": "kanto.mtmoon.hiker1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.mtmoon.hiker1-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "mtmoon-hiker-2",
+        "at": {
+          "x": 5,
+          "y": 5
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-mt-moon-hiker-2",
+          "sight": 2,
+          "direction": "right"
+        },
+        "event": "kanto.mtmoon.hiker2",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.mtmoon.hiker2-beaten",
           "value": false
         }
       }
@@ -22752,6 +22808,63 @@
           "flag": "kanto.rocktunnel.item1-taken",
           "value": false
         }
+      },
+      {
+        "id": "rocktunnel1f-hiker-1",
+        "at": {
+          "x": 11,
+          "y": 2
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-rock-tunnel-1f-hiker-1",
+          "sight": 2,
+          "direction": "down"
+        },
+        "event": "kanto.rocktunnel1f.hiker1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.rocktunnel1f.hiker1-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "rocktunnel1f-hiker-2",
+        "at": {
+          "x": 6,
+          "y": 7
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-rock-tunnel-1f-hiker-2",
+          "sight": 2,
+          "direction": "left"
+        },
+        "event": "kanto.rocktunnel1f.hiker2",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.rocktunnel1f.hiker2-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "rocktunnel1f-hiker-3",
+        "at": {
+          "x": 5,
+          "y": 7
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-rock-tunnel-1f-hiker-3",
+          "sight": 2,
+          "direction": "left"
+        },
+        "event": "kanto.rocktunnel1f.hiker3",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.rocktunnel1f.hiker3-beaten",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -23235,6 +23348,24 @@
         "condition": {
           "kind": "flag",
           "flag": "kanto.rocktunnel.item2-taken",
+          "value": false
+        }
+      },
+      {
+        "id": "rocktunnelb1f-revive-1",
+        "at": {
+          "x": 11,
+          "y": 7
+        },
+        "kind": {
+          "type": "item",
+          "item": "revive",
+          "hidden": false
+        },
+        "event": "kanto.rocktunnelb1f.revive1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.rocktunnelb1f.revive1-taken",
           "value": false
         }
       }
@@ -25784,6 +25915,62 @@
           "type": "sign"
         },
         "event": "kanto.route10.sign"
+      },
+      {
+        "id": "route10-hiker-1",
+        "at": {
+          "x": 2,
+          "y": 1
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-10-hiker-1",
+          "sight": 2,
+          "direction": "down"
+        },
+        "event": "kanto.route10.hiker1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route10.hiker1-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route10-hiker-2",
+        "at": {
+          "x": 11,
+          "y": 7
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-10-hiker-2",
+          "sight": 2,
+          "direction": "left"
+        },
+        "event": "kanto.route10.hiker2",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route10.hiker2-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route10-super-potion-1",
+        "at": {
+          "x": 11,
+          "y": 8
+        },
+        "kind": {
+          "type": "item",
+          "item": "super-potion",
+          "hidden": false
+        },
+        "event": "kanto.route10.super-potion1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route10.super-potion1-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -26410,6 +26597,81 @@
           "flag": "kanto.route11.hidden-taken",
           "value": false
         }
+      },
+      {
+        "id": "route11-gambler-1",
+        "at": {
+          "x": 2,
+          "y": 1
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-11-gambler-1",
+          "sight": 2,
+          "direction": "down"
+        },
+        "event": "kanto.route11.gambler1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route11.gambler1-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route11-gambler-2",
+        "at": {
+          "x": 13,
+          "y": 8
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-11-gambler-2",
+          "sight": 2,
+          "direction": "left"
+        },
+        "event": "kanto.route11.gambler2",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route11.gambler2-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route11-gambler-3",
+        "at": {
+          "x": 4,
+          "y": 9
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-11-gambler-3",
+          "sight": 2,
+          "direction": "left"
+        },
+        "event": "kanto.route11.gambler3",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route11.gambler3-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route11-great-ball-1",
+        "at": {
+          "x": 13,
+          "y": 9
+        },
+        "kind": {
+          "type": "item",
+          "item": "great-ball",
+          "hidden": false
+        },
+        "event": "kanto.route11.great-ball1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route11.great-ball1-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -26920,6 +27182,81 @@
           "type": "sign"
         },
         "event": "kanto.route12.sign"
+      },
+      {
+        "id": "route12-fisher-1",
+        "at": {
+          "x": 1,
+          "y": 1
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-12-fisher-1",
+          "sight": 2,
+          "direction": "down"
+        },
+        "event": "kanto.route12.fisher1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route12.fisher1-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route12-fisher-2",
+        "at": {
+          "x": 11,
+          "y": 9
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-12-fisher-2",
+          "sight": 2,
+          "direction": "left"
+        },
+        "event": "kanto.route12.fisher2",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route12.fisher2-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route12-fisher-3",
+        "at": {
+          "x": 10,
+          "y": 1
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-12-fisher-3",
+          "sight": 2,
+          "direction": "down"
+        },
+        "event": "kanto.route12.fisher3",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route12.fisher3-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route12-super-potion-1",
+        "at": {
+          "x": 9,
+          "y": 9
+        },
+        "kind": {
+          "type": "item",
+          "item": "super-potion",
+          "hidden": false
+        },
+        "event": "kanto.route12.super-potion1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route12.super-potion1-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -27339,6 +27676,81 @@
           "type": "sign"
         },
         "event": "kanto.route13.sign"
+      },
+      {
+        "id": "route13-lass-1",
+        "at": {
+          "x": 1,
+          "y": 1
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-13-lass-1",
+          "sight": 2,
+          "direction": "down"
+        },
+        "event": "kanto.route13.lass1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route13.lass1-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route13-lass-2",
+        "at": {
+          "x": 11,
+          "y": 6
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-13-lass-2",
+          "sight": 2,
+          "direction": "left"
+        },
+        "event": "kanto.route13.lass2",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route13.lass2-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route13-lass-3",
+        "at": {
+          "x": 3,
+          "y": 7
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-13-lass-3",
+          "sight": 2,
+          "direction": "left"
+        },
+        "event": "kanto.route13.lass3",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route13.lass3-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route13-great-ball-1",
+        "at": {
+          "x": 11,
+          "y": 7
+        },
+        "kind": {
+          "type": "item",
+          "item": "great-ball",
+          "hidden": false
+        },
+        "event": "kanto.route13.great-ball1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route13.great-ball1-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -27758,6 +28170,81 @@
           "type": "sign"
         },
         "event": "kanto.route14.sign"
+      },
+      {
+        "id": "route14-ace-1",
+        "at": {
+          "x": 2,
+          "y": 1
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-14-ace-1",
+          "sight": 2,
+          "direction": "down"
+        },
+        "event": "kanto.route14.ace1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route14.ace1-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route14-ace-2",
+        "at": {
+          "x": 11,
+          "y": 6
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-14-ace-2",
+          "sight": 2,
+          "direction": "left"
+        },
+        "event": "kanto.route14.ace2",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route14.ace2-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route14-ace-3",
+        "at": {
+          "x": 4,
+          "y": 7
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-14-ace-3",
+          "sight": 2,
+          "direction": "left"
+        },
+        "event": "kanto.route14.ace3",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route14.ace3-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route14-super-potion-1",
+        "at": {
+          "x": 11,
+          "y": 7
+        },
+        "kind": {
+          "type": "item",
+          "item": "super-potion",
+          "hidden": false
+        },
+        "event": "kanto.route14.super-potion1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route14.super-potion1-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -28134,6 +28621,81 @@
           "type": "sign"
         },
         "event": "kanto.route15.sign"
+      },
+      {
+        "id": "route15-ace-1",
+        "at": {
+          "x": 2,
+          "y": 1
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-15-ace-1",
+          "sight": 2,
+          "direction": "down"
+        },
+        "event": "kanto.route15.ace1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route15.ace1-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route15-ace-2",
+        "at": {
+          "x": 11,
+          "y": 5
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-15-ace-2",
+          "sight": 2,
+          "direction": "left"
+        },
+        "event": "kanto.route15.ace2",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route15.ace2-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route15-ace-3",
+        "at": {
+          "x": 4,
+          "y": 6
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-15-ace-3",
+          "sight": 2,
+          "direction": "left"
+        },
+        "event": "kanto.route15.ace3",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route15.ace3-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route15-revive-1",
+        "at": {
+          "x": 11,
+          "y": 6
+        },
+        "kind": {
+          "type": "item",
+          "item": "revive",
+          "hidden": false
+        },
+        "event": "kanto.route15.revive1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route15.revive1-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -28641,6 +29203,44 @@
         "condition": {
           "kind": "flag",
           "flag": "kanto.route16.hidden-taken",
+          "value": false
+        }
+      },
+      {
+        "id": "route16-biker-1",
+        "at": {
+          "x": 1,
+          "y": 1
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-16-biker-1",
+          "sight": 2,
+          "direction": "down"
+        },
+        "event": "kanto.route16.biker1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route16.biker1-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route16-biker-2",
+        "at": {
+          "x": 11,
+          "y": 8
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-16-biker-2",
+          "sight": 2,
+          "direction": "left"
+        },
+        "event": "kanto.route16.biker2",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route16.biker2-beaten",
           "value": false
         }
       }
@@ -29206,6 +29806,63 @@
           "flag": "kanto.route17.item-taken",
           "value": false
         }
+      },
+      {
+        "id": "route17-biker-1",
+        "at": {
+          "x": 1,
+          "y": 1
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-17-biker-1",
+          "sight": 2,
+          "direction": "down"
+        },
+        "event": "kanto.route17.biker1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route17.biker1-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route17-biker-2",
+        "at": {
+          "x": 9,
+          "y": 12
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-17-biker-2",
+          "sight": 2,
+          "direction": "left"
+        },
+        "event": "kanto.route17.biker2",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route17.biker2-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route17-biker-3",
+        "at": {
+          "x": 9,
+          "y": 2
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-17-biker-3",
+          "sight": 2,
+          "direction": "down"
+        },
+        "event": "kanto.route17.biker3",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route17.biker3-beaten",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -29653,6 +30310,62 @@
           "movement": "static"
         },
         "event": "kanto.route18.trade"
+      },
+      {
+        "id": "route18-biker-1",
+        "at": {
+          "x": 1,
+          "y": 1
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-18-biker-1",
+          "sight": 2,
+          "direction": "down"
+        },
+        "event": "kanto.route18.biker1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route18.biker1-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route18-biker-2",
+        "at": {
+          "x": 11,
+          "y": 6
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-18-biker-2",
+          "sight": 2,
+          "direction": "left"
+        },
+        "event": "kanto.route18.biker2",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route18.biker2-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route18-great-ball-1",
+        "at": {
+          "x": 11,
+          "y": 7
+        },
+        "kind": {
+          "type": "item",
+          "item": "great-ball",
+          "hidden": false
+        },
+        "event": "kanto.route18.great-ball1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route18.great-ball1-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -30102,7 +30815,83 @@
         }
       }
     ],
-    "objects": [],
+    "objects": [
+      {
+        "id": "route19-swimmer-1",
+        "at": {
+          "x": 1,
+          "y": 1
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-19-swimmer-1",
+          "sight": 2,
+          "direction": "down"
+        },
+        "event": "kanto.route19.swimmer1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route19.swimmer1-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route19-swimmer-2",
+        "at": {
+          "x": 9,
+          "y": 10
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-19-swimmer-2",
+          "sight": 2,
+          "direction": "left"
+        },
+        "event": "kanto.route19.swimmer2",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route19.swimmer2-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route19-swimmer-3",
+        "at": {
+          "x": 9,
+          "y": 1
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-19-swimmer-3",
+          "sight": 2,
+          "direction": "down"
+        },
+        "event": "kanto.route19.swimmer3",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route19.swimmer3-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route19-hyper-potion-1",
+        "at": {
+          "x": 5,
+          "y": 10
+        },
+        "kind": {
+          "type": "item",
+          "item": "hyper-potion",
+          "hidden": false
+        },
+        "event": "kanto.route19.hyper-potion1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route19.hyper-potion1-taken",
+          "value": false
+        }
+      }
+    ],
     "encounters": [
       "kanto-route-19-surf",
       "kanto-route-19-fishing-old",
@@ -31194,6 +31983,25 @@
           "flag": "kanto.route2.potion-taken",
           "value": false
         }
+      },
+      {
+        "id": "route2-bug-1",
+        "at": {
+          "x": 1,
+          "y": 1
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-2-bug-1",
+          "sight": 2,
+          "direction": "down"
+        },
+        "event": "kanto.route2.bug1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route2.bug1-beaten",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -31656,7 +32464,46 @@
         }
       }
     ],
-    "objects": [],
+    "objects": [
+      {
+        "id": "route20-swimmer-1",
+        "at": {
+          "x": 1,
+          "y": 1
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-20-swimmer-1",
+          "sight": 2,
+          "direction": "down"
+        },
+        "event": "kanto.route20.swimmer1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route20.swimmer1-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route20-swimmer-2",
+        "at": {
+          "x": 9,
+          "y": 10
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-20-swimmer-2",
+          "sight": 2,
+          "direction": "left"
+        },
+        "event": "kanto.route20.swimmer2",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route20.swimmer2-beaten",
+          "value": false
+        }
+      }
+    ],
     "encounters": [
       "kanto-route-20-surf",
       "kanto-route-20-fishing-old",
@@ -32107,7 +32954,46 @@
         }
       }
     ],
-    "objects": [],
+    "objects": [
+      {
+        "id": "route21-swimmer-1",
+        "at": {
+          "x": 1,
+          "y": 1
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-21-swimmer-1",
+          "sight": 2,
+          "direction": "down"
+        },
+        "event": "kanto.route21.swimmer1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route21.swimmer1-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route21-swimmer-2",
+        "at": {
+          "x": 9,
+          "y": 10
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-21-swimmer-2",
+          "sight": 2,
+          "direction": "left"
+        },
+        "event": "kanto.route21.swimmer2",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route21.swimmer2-beaten",
+          "value": false
+        }
+      }
+    ],
     "encounters": [
       "kanto-route-21-grass",
       "kanto-route-21-surf",
@@ -33571,6 +34457,62 @@
           "flag": "kanto.route24.camper-beaten",
           "value": false
         }
+      },
+      {
+        "id": "route24-bug-1",
+        "at": {
+          "x": 1,
+          "y": 1
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-24-bug-1",
+          "sight": 2,
+          "direction": "down"
+        },
+        "event": "kanto.route24.bug1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route24.bug1-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route24-bug-2",
+        "at": {
+          "x": 9,
+          "y": 9
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-24-bug-2",
+          "sight": 2,
+          "direction": "left"
+        },
+        "event": "kanto.route24.bug2",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route24.bug2-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route24-great-ball-1",
+        "at": {
+          "x": 9,
+          "y": 10
+        },
+        "kind": {
+          "type": "item",
+          "item": "great-ball",
+          "hidden": false
+        },
+        "event": "kanto.route24.great-ball1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route24.great-ball1-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -34007,6 +34949,81 @@
         "condition": {
           "kind": "flag",
           "flag": "kanto.route25.hiker-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route25-lass-1",
+        "at": {
+          "x": 1,
+          "y": 1
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-25-lass-1",
+          "sight": 2,
+          "direction": "down"
+        },
+        "event": "kanto.route25.lass1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route25.lass1-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route25-lass-2",
+        "at": {
+          "x": 11,
+          "y": 6
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-25-lass-2",
+          "sight": 2,
+          "direction": "left"
+        },
+        "event": "kanto.route25.lass2",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route25.lass2-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route25-lass-3",
+        "at": {
+          "x": 8,
+          "y": 1
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-25-lass-3",
+          "sight": 2,
+          "direction": "left"
+        },
+        "event": "kanto.route25.lass3",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route25.lass3-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route25-ether-1",
+        "at": {
+          "x": 11,
+          "y": 7
+        },
+        "kind": {
+          "type": "item",
+          "item": "ether",
+          "hidden": false
+        },
+        "event": "kanto.route25.ether1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route25.ether1-taken",
           "value": false
         }
       }
@@ -34694,6 +35711,81 @@
           "flag": "kanto.route3.super-potion-taken",
           "value": false
         }
+      },
+      {
+        "id": "route3-lass-1",
+        "at": {
+          "x": 1,
+          "y": 1
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-3-lass-1",
+          "sight": 2,
+          "direction": "down"
+        },
+        "event": "kanto.route3.lass1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route3.lass1-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route3-lass-2",
+        "at": {
+          "x": 15,
+          "y": 8
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-3-lass-2",
+          "sight": 2,
+          "direction": "left"
+        },
+        "event": "kanto.route3.lass2",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route3.lass2-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route3-youngster-1",
+        "at": {
+          "x": 4,
+          "y": 9
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-3-youngster-1",
+          "sight": 2,
+          "direction": "left"
+        },
+        "event": "kanto.route3.youngster1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route3.youngster1-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route3-potion-1",
+        "at": {
+          "x": 15,
+          "y": 9
+        },
+        "kind": {
+          "type": "item",
+          "item": "potion",
+          "hidden": false
+        },
+        "event": "kanto.route3.potion1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route3.potion1-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -35101,6 +36193,43 @@
           "flag": "kanto.route4.bug-beaten",
           "value": false
         }
+      },
+      {
+        "id": "route4-lass-1",
+        "at": {
+          "x": 1,
+          "y": 1
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-4-lass-1",
+          "sight": 2,
+          "direction": "down"
+        },
+        "event": "kanto.route4.lass1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route4.lass1-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route4-potion-1",
+        "at": {
+          "x": 10,
+          "y": 7
+        },
+        "kind": {
+          "type": "item",
+          "item": "potion",
+          "hidden": false
+        },
+        "event": "kanto.route4.potion1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route4.potion1-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -35498,6 +36627,62 @@
           "flag": "kanto.route5.hiker-beaten",
           "value": false
         }
+      },
+      {
+        "id": "route5-youngster-1",
+        "at": {
+          "x": 1,
+          "y": 1
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-5-youngster-1",
+          "sight": 2,
+          "direction": "down"
+        },
+        "event": "kanto.route5.youngster1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route5.youngster1-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route5-youngster-2",
+        "at": {
+          "x": 9,
+          "y": 6
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-5-youngster-2",
+          "sight": 2,
+          "direction": "left"
+        },
+        "event": "kanto.route5.youngster2",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route5.youngster2-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route5-super-potion-1",
+        "at": {
+          "x": 9,
+          "y": 7
+        },
+        "kind": {
+          "type": "item",
+          "item": "super-potion",
+          "hidden": false
+        },
+        "event": "kanto.route5.super-potion1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route5.super-potion1-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -35889,6 +37074,62 @@
         "condition": {
           "kind": "flag",
           "flag": "kanto.route6.camper-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route6-lass-1",
+        "at": {
+          "x": 1,
+          "y": 1
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-6-lass-1",
+          "sight": 2,
+          "direction": "down"
+        },
+        "event": "kanto.route6.lass1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route6.lass1-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route6-lass-2",
+        "at": {
+          "x": 9,
+          "y": 6
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-6-lass-2",
+          "sight": 2,
+          "direction": "left"
+        },
+        "event": "kanto.route6.lass2",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route6.lass2-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route6-antidote-1",
+        "at": {
+          "x": 9,
+          "y": 7
+        },
+        "kind": {
+          "type": "item",
+          "item": "antidote",
+          "hidden": false
+        },
+        "event": "kanto.route6.antidote1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route6.antidote1-taken",
           "value": false
         }
       }
@@ -36306,6 +37547,62 @@
         "condition": {
           "kind": "flag",
           "flag": "kanto.route7.camper-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route7-picnicker-1",
+        "at": {
+          "x": 1,
+          "y": 1
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-7-picnicker-1",
+          "sight": 2,
+          "direction": "down"
+        },
+        "event": "kanto.route7.picnicker1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route7.picnicker1-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route7-picnicker-2",
+        "at": {
+          "x": 9,
+          "y": 7
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-7-picnicker-2",
+          "sight": 2,
+          "direction": "left"
+        },
+        "event": "kanto.route7.picnicker2",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route7.picnicker2-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route7-great-ball-1",
+        "at": {
+          "x": 9,
+          "y": 8
+        },
+        "kind": {
+          "type": "item",
+          "item": "great-ball",
+          "hidden": false
+        },
+        "event": "kanto.route7.great-ball1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route7.great-ball1-taken",
           "value": false
         }
       }
@@ -36781,6 +38078,81 @@
           "flag": "kanto.route8.lass-beaten",
           "value": false
         }
+      },
+      {
+        "id": "route8-youngster-1",
+        "at": {
+          "x": 1,
+          "y": 1
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-8-youngster-1",
+          "sight": 2,
+          "direction": "down"
+        },
+        "event": "kanto.route8.youngster1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route8.youngster1-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route8-youngster-2",
+        "at": {
+          "x": 11,
+          "y": 7
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-8-youngster-2",
+          "sight": 2,
+          "direction": "left"
+        },
+        "event": "kanto.route8.youngster2",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route8.youngster2-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route8-youngster-3",
+        "at": {
+          "x": 3,
+          "y": 8
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-8-youngster-3",
+          "sight": 2,
+          "direction": "left"
+        },
+        "event": "kanto.route8.youngster3",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route8.youngster3-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route8-super-potion-1",
+        "at": {
+          "x": 11,
+          "y": 8
+        },
+        "kind": {
+          "type": "item",
+          "item": "super-potion",
+          "hidden": false
+        },
+        "event": "kanto.route8.super-potion1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route8.super-potion1-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -37235,6 +38607,99 @@
           "type": "sign"
         },
         "event": "kanto.route9.sign"
+      },
+      {
+        "id": "route9-youngster-1",
+        "at": {
+          "x": 2,
+          "y": 1
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-9-youngster-1",
+          "sight": 2,
+          "direction": "down"
+        },
+        "event": "kanto.route9.youngster1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route9.youngster1-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route9-youngster-2",
+        "at": {
+          "x": 11,
+          "y": 7
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-9-youngster-2",
+          "sight": 2,
+          "direction": "left"
+        },
+        "event": "kanto.route9.youngster2",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route9.youngster2-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route9-youngster-3",
+        "at": {
+          "x": 1,
+          "y": 8
+        },
+        "kind": {
+          "type": "trainer",
+          "trainer": "kanto-route-9-youngster-3",
+          "sight": 2,
+          "direction": "up"
+        },
+        "event": "kanto.route9.youngster3",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route9.youngster3-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route9-super-potion-1",
+        "at": {
+          "x": 11,
+          "y": 8
+        },
+        "kind": {
+          "type": "item",
+          "item": "super-potion",
+          "hidden": false
+        },
+        "event": "kanto.route9.super-potion1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route9.super-potion1-taken",
+          "value": false
+        }
+      },
+      {
+        "id": "route9-max-potion-1",
+        "at": {
+          "x": 11,
+          "y": 8
+        },
+        "kind": {
+          "type": "item",
+          "item": "max-potion",
+          "hidden": true
+        },
+        "event": "kanto.route9.max-potion1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route9.max-potion1-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -74783,6 +76248,24 @@
           "flag": "kanto.victory.item-taken",
           "value": false
         }
+      },
+      {
+        "id": "victoryroad-full-heal-1",
+        "at": {
+          "x": 3,
+          "y": 11
+        },
+        "kind": {
+          "type": "item",
+          "item": "full-heal",
+          "hidden": false
+        },
+        "event": "kanto.victoryroad.full-heal1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.victoryroad.full-heal1-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -76236,8 +77719,8 @@
       {
         "id": "forest-bug-1",
         "at": {
-          "x": 2,
-          "y": 4
+          "x": 3,
+          "y": 1
         },
         "kind": {
           "type": "trainer",
@@ -76255,14 +77738,14 @@
       {
         "id": "forest-bug-2",
         "at": {
-          "x": 8,
-          "y": 8
+          "x": 10,
+          "y": 11
         },
         "kind": {
           "type": "trainer",
           "trainer": "kanto-forest-bug-2",
           "sight": 2,
-          "direction": "up"
+          "direction": "left"
         },
         "event": "kanto.forest.bug-2",
         "condition": {
@@ -76286,6 +77769,42 @@
         "condition": {
           "kind": "flag",
           "flag": "kanto.forest.antidote-taken",
+          "value": false
+        }
+      },
+      {
+        "id": "viridianforest-potion-1",
+        "at": {
+          "x": 10,
+          "y": 12
+        },
+        "kind": {
+          "type": "item",
+          "item": "potion",
+          "hidden": false
+        },
+        "event": "kanto.viridianforest.potion1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.viridianforest.potion1-taken",
+          "value": false
+        }
+      },
+      {
+        "id": "viridianforest-antidote-1",
+        "at": {
+          "x": 10,
+          "y": 12
+        },
+        "kind": {
+          "type": "item",
+          "item": "antidote",
+          "hidden": true
+        },
+        "event": "kanto.viridianforest.antidote1",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.viridianforest.antidote1-taken",
           "value": false
         }
       }

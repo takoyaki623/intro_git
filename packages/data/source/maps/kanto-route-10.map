@@ -30,3 +30,6 @@ warps:
 
 objects:
 route10-sign 3,7 sign kanto.route10.sign
+route10-hiker-1 2,1 trainer:kanto-route-10-hiker-1:2:down kanto.route10.hiker1 if:kanto.route10.hiker1-beaten=false
+route10-hiker-2 11,7 trainer:kanto-route-10-hiker-2:2:left kanto.route10.hiker2 if:kanto.route10.hiker2-beaten=false
+route10-super-potion-1 11,8 item:super-potion kanto.route10.super-potion1 if:kanto.route10.super-potion1-taken=false

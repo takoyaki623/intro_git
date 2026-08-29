@@ -31,3 +31,6 @@ warps:
 objects:
 route6-sign 3,1 sign kanto.route6.sign
 route6-camper 5,6 trainer:kanto-route6-camper:3:down kanto.route6.camper if:kanto.route6.camper-beaten=false
+route6-lass-1 1,1 trainer:kanto-route-6-lass-1:2:down kanto.route6.lass1 if:kanto.route6.lass1-beaten=false
+route6-lass-2 9,6 trainer:kanto-route-6-lass-2:2:left kanto.route6.lass2 if:kanto.route6.lass2-beaten=false
+route6-antidote-1 9,7 item:antidote kanto.route6.antidote1 if:kanto.route6.antidote1-taken=false

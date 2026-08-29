@@ -6,83 +6,146 @@
 #
 # reward は勝ったときの賞金。defeatedFlag は「もう戦った」印で、
 # flags.json に宣言が要る（検証 #52）。
-id	name	class	reward	defeatedFlag
-kanto-rival-bulbasaur	グリーン	ライバル	175	kanto.pallet.rival-battled
-kanto-rival-charmander	グリーン	ライバル	175	kanto.pallet.rival-battled
-kanto-rival-squirtle	グリーン	ライバル	175	kanto.pallet.rival-battled
-kanto-route2-bug-catcher	リョウ	むしとりしょうねん	112	kanto.route2.bug-catcher-beaten
-kanto-forest-bug-1	サトシ	むしとりしょうねん	144	kanto.forest.bug-1-beaten
-kanto-forest-bug-2	ケンジ	むしとりしょうねん	160	kanto.forest.bug-2-beaten
-kanto-pewter-gym-jr	ジロウ	ジムトレーナー	240	kanto.pewter.gym-jr-beaten
-kanto-brock	タケシ	ジムリーダー	1386	kanto.pewter.brock-beaten
-kanto-route3-lass	ミナミ	ミニスカート	192	kanto.route3.lass-beaten
-kanto-route3-youngster	タカシ	たんぱんこぞう	208	kanto.route3.youngster-beaten
-kanto-moon-hiker	イワオ	やまおとこ	352	kanto.moon.hiker-beaten
-kanto-moon-rocket	ロケットだん	したっぱ	432	kanto.moon.rocket-beaten
-kanto-route4-bug	ユウジ	むしとりしょうねん	240	kanto.route4.bug-beaten
-kanto-cerulean-gym-jr	サチコ	ジムトレーナー	600	kanto.cerulean.gym-jr-beaten
-kanto-misty	カスミ	ジムリーダー	2079	kanto.cerulean.misty-beaten
-kanto-route5-hiker	ゴロウ	やまおとこ	480	kanto.route5.hiker-beaten
-kanto-route6-camper	ケイタ	キャンプボーイ	512	kanto.route6.camper-beaten
-kanto-vermilion-gym-jr	デンジ	ジムトレーナー	800	kanto.vermilion.gym-jr-beaten
-kanto-surge	マチス	ジムリーダー	2772	kanto.vermilion.surge-beaten
-kanto-route11-gambler	マサル	ギャンブラー	1080	kanto.route11.gambler-beaten
-kanto-tower-channeler	ミキ	れいばいし	1104	kanto.tower.channeler-beaten
-kanto-route8-lass	ユカリ	ミニスカート	960	kanto.route8.lass-beaten
-kanto-route7-camper	ススム	キャンプボーイ	1024	kanto.route7.camper-beaten
-kanto-celadon-gym-jr	アヤ	ジムトレーナー	1120	kanto.celadon.gym-jr-beaten
-kanto-erika	エリカ	ジムリーダー	3861	kanto.celadon.erika-beaten
-kanto-route16-biker	ゲンジ	ライダー	1200	kanto.route16.biker-beaten
-kanto-fuchsia-gym-jr	タツヤ	ジムトレーナー	1360	kanto.fuchsia.gym-jr-beaten
-kanto-koga	キョウ	ジムリーダー	5049	kanto.fuchsia.koga-beaten
-kanto-saffron-gym-jr	レイコ	ジムトレーナー	1520	kanto.saffron.gym-jr-beaten
-kanto-sabrina	ナツメ	ジムリーダー	5643	kanto.saffron.sabrina-beaten
-kanto-cinnabar-gym-jr	ヒロシ	かえんむすめ	2000	kanto.cinnabar.gym-jr-beaten
-kanto-blaine	カツラ	ジムリーダー	6237	kanto.cinnabar.blaine-beaten
-kanto-viridian-gym-jr	タカシ	ボスの したっぱ	2400	kanto.viridian.gym-jr-beaten
-kanto-giovanni	サカキ	ジムリーダー	7425	kanto.viridian.giovanni-beaten
-kanto-victory-cooltrainer	ケンジ	エリートトレーナー	4400	kanto.victory.cooltrainer-beaten
-kanto-rival-r22-bulbasaur	グリーン	ライバル	4800	kanto.route22.rival-beaten
-kanto-rival-r22-charmander	グリーン	ライバル	4800	kanto.route22.rival-beaten
-kanto-rival-r22-squirtle	グリーン	ライバル	4800	kanto.route22.rival-beaten
-kanto-lorelei	カンナ	してんのう	9000	kanto.league.lorelei-beaten
-kanto-bruno	シバ	してんのう	9200	kanto.league.bruno-beaten
-kanto-agatha	キクコ	してんのう	9400	kanto.league.agatha-beaten
-kanto-lance	ワタル	してんのう	9800	kanto.league.lance-beaten
-kanto-champion-bulbasaur	グリーン	チャンピオン	12000	kanto.league.champion-beaten
-kanto-champion-charmander	グリーン	チャンピオン	12000	kanto.league.champion-beaten
-kanto-champion-squirtle	グリーン	チャンピオン	12000	kanto.league.champion-beaten
-kanto-route17-biker	テツヤ	ライダー	1300	kanto.route17.biker-beaten
-kanto-route18-birdkeeper	ハヤト	とりつかい	1250	kanto.route18.birdkeeper-beaten
-kanto-route24-camper	ススム	キャンプボーイ	900	kanto.route24.camper-beaten
-kanto-route25-hiker	イワオ	やまおとこ	1000	kanto.route25.hiker-beaten
-kanto-dojo-student	タカシ	からてか	1600	kanto.dojo.student-beaten
-kanto-dojo-master	カラテおう	カラテおう	3000	kanto.dojo.won
-kanto-rocket-b1f	ロケットだん	したっぱ	1200	kanto.rocket.b1f-beaten
-kanto-rocket-b2f	ロケットだん	したっぱ	1400	kanto.rocket.b2f-beaten
-kanto-rocket-b3f	ロケットだん	したっぱ	1600	kanto.rocket.b3f-beaten
-kanto-rocket-b4f	ロケットだん	したっぱ	1800	kanto.rocket.b4f-beaten
-kanto-giovanni-hideout	サカキ	ロケットだんボス	4950	kanto.rocket.giovanni-beaten
-kanto-silph-grunt-3f	ロケットだん	したっぱ	2000	kanto.silph.grunt3-beaten
-kanto-silph-grunt-5f	ロケットだん	したっぱ	2200	kanto.silph.grunt5-beaten
-kanto-silph-grunt-7f	ロケットだん	したっぱ	2400	kanto.silph.grunt7-beaten
-kanto-giovanni-silph	サカキ	ロケットだんボス	6600	kanto.silph.giovanni-beaten
-kanto-tower-channeler-3f	れいばいし	れいばいし	1200	kanto.tower.channeler3-beaten
-kanto-tower-channeler-5f	れいばいし	れいばいし	1400	kanto.tower.channeler5-beaten
-kanto-tower-rocket-7f	ロケットだん	したっぱ	1600	kanto.tower.rocket7-beaten
-kanto-rival-r22a-bulbasaur	グリーン	ライバル	800	kanto.route22.rival-a-beaten
-kanto-rival-r22a-charmander	グリーン	ライバル	800	kanto.route22.rival-a-beaten
-kanto-rival-r22a-squirtle	グリーン	ライバル	800	kanto.route22.rival-a-beaten
-kanto-rival-cerulean-bulbasaur	グリーン	ライバル	2400	kanto.cerulean.rival-beaten
-kanto-rival-cerulean-charmander	グリーン	ライバル	2400	kanto.cerulean.rival-beaten
-kanto-rival-cerulean-squirtle	グリーン	ライバル	2400	kanto.cerulean.rival-beaten
-kanto-rival-tower-bulbasaur	グリーン	ライバル	3200	kanto.lavender.rival-beaten
-kanto-rival-tower-charmander	グリーン	ライバル	3200	kanto.lavender.rival-beaten
-kanto-rival-tower-squirtle	グリーン	ライバル	3200	kanto.lavender.rival-beaten
-kanto-rival-silph-bulbasaur	グリーン	ライバル	5600	kanto.silph.rival-beaten
-kanto-rival-silph-charmander	グリーン	ライバル	5600	kanto.silph.rival-beaten
-kanto-rival-silph-squirtle	グリーン	ライバル	5600	kanto.silph.rival-beaten
-kanto-sevii-rocket-1	ロケットだん	ロケットだん	660	kanto.sevii.rocket-1-beaten
-kanto-sevii-rocket-2	ロケットだん	ロケットだん	693	kanto.sevii.rocket-2-beaten
-kanto-sevii-biker	テツヤ	ぼうそうぞく	600	kanto.sevii.biker-beaten
-kanto-sevii-warehouse	ロケットだん	ロケットだん	760	kanto.sevii.warehouse-beaten
+id	name	class	reward	defeatedFlag	before	after
+kanto-rival-bulbasaur	グリーン	ライバル	175	kanto.pallet.rival-battled		
+kanto-rival-charmander	グリーン	ライバル	175	kanto.pallet.rival-battled		
+kanto-rival-squirtle	グリーン	ライバル	175	kanto.pallet.rival-battled		
+kanto-route2-bug-catcher	リョウ	むしとりしょうねん	112	kanto.route2.bug-catcher-beaten	むしポケモンは よわくない!\nみせて やる!	うーん...\nもりの ほうが つよいのが いるぞ。
+kanto-forest-bug-1	サトシ	むしとりしょうねん	144	kanto.forest.bug-1-beaten	この もりの むしは\nぼくが いちばん しってる!	ううっ...\nまだまだ あつめるぞ。
+kanto-forest-bug-2	ケンジ	むしとりしょうねん	160	kanto.forest.bug-2-beaten	バタフリーの つよさを\nおしえて あげるよ!	そんな...\nバタフリーが まけるなんて。
+kanto-pewter-gym-jr	ジロウ	ジムトレーナー	240	kanto.pewter.gym-jr-beaten	タケシさんに あいたければ\nぼくを たおしてからだ!	...つよいな。\nタケシさんは もっと つよいぞ。
+kanto-brock	タケシ	ジムリーダー	1386	kanto.pewter.brock-beaten		
+kanto-route3-lass	ミナミ	ミニスカート	192	kanto.route3.lass-beaten	かわいい ポケモンが すきなの。\nでも しょうぶは べつよ!	つよいのね。\nおつきみやまは くらいから きをつけて。
+kanto-route3-youngster	タカシ	たんぱんこぞう	208	kanto.route3.youngster-beaten	はんズボンが ぼくの じまん!\nいくぞー!	まけたー!\nでも たのしかった!
+kanto-moon-hiker	イワオ	やまおとこ	352	kanto.moon.hiker-beaten	この やまの いわは\nおれが いちばん しっとる!	うーむ みごとじゃ。\nおくに ロケットだんが おるぞ。
+kanto-moon-rocket	ロケットだん	したっぱ	432	kanto.moon.rocket-beaten	ここは ロケットだんが かりた!\nかえれ かえれ!	ちくしょう...\nボスに しかられる。
+kanto-route4-bug	ユウジ	むしとりしょうねん	240	kanto.route4.bug-beaten	しんかした むしポケモンは\nつよいんだぞ!	バタフリーも だめか...
+kanto-cerulean-gym-jr	サチコ	ジムトレーナー	600	kanto.cerulean.gym-jr-beaten	みずの ジムに ようこそ!\nまずは わたしと!	...つよい。\nカスミさんは もっとよ。
+kanto-misty	カスミ	ジムリーダー	2079	kanto.cerulean.misty-beaten		
+kanto-route5-hiker	ゴロウ	やまおとこ	480	kanto.route5.hiker-beaten	やまで きたえた ちからを\nみせてやろう!	ぬぬ...\nまだまだ きたえるぞ。
+kanto-route6-camper	ケイタ	キャンプボーイ	512	kanto.route6.camper-beaten	キャンプの あとは しょうぶ!	まいったな。\nクチバの ジムは でんきだよ。
+kanto-vermilion-gym-jr	デンジ	ジムトレーナー	800	kanto.vermilion.gym-jr-beaten	マチスさんに あう まえに\nおれと やろうぜ!	しびれたぜ...\nいってこい!
+kanto-surge	マチス	ジムリーダー	2772	kanto.vermilion.surge-beaten		
+kanto-route11-gambler	マサル	ギャンブラー	1080	kanto.route11.gambler-beaten	かけごとは しない。\nしょうぶは べつだ!	ツキが なかったな。
+kanto-tower-channeler	ミキ	れいばいし	1104	kanto.tower.channeler-beaten	...かえりなさい。\nここは あなたの ばしょでは ない。	...いきなさい。\nあなたには まだ さきが ある。
+kanto-route8-lass	ユカリ	ミニスカート	960	kanto.route8.lass-beaten	かわいい ポケモン すきでしょ?\nでも つよいのよ!	かわいさだけじゃ\nかてないのね。
+kanto-route7-camper	ススム	キャンプボーイ	1024	kanto.route7.camper-beaten	タマムシの ジムは くさタイプ。\nそのまえに ぼくと!	ほのおが あると ラクだよ。
+kanto-celadon-gym-jr	アヤ	ジムトレーナー	1120	kanto.celadon.gym-jr-beaten	エリカさまの おにわを\nあらすのは だれ?	...どうぞ おすすみください。
+kanto-erika	エリカ	ジムリーダー	3861	kanto.celadon.erika-beaten		
+kanto-route16-biker	ゲンジ	ライダー	1200	kanto.route16.biker-beaten	この みちは おれたちの ものだ!	ちっ...\nとおって いいぜ。
+kanto-fuchsia-gym-jr	タツヤ	ジムトレーナー	1360	kanto.fuchsia.gym-jr-beaten	にんぽう... かげぬい!	みやぶられたか。
+kanto-koga	キョウ	ジムリーダー	5049	kanto.fuchsia.koga-beaten		
+kanto-saffron-gym-jr	レイコ	ジムトレーナー	1520	kanto.saffron.gym-jr-beaten	あなたの かんがえは\nぜんぶ わかっています。	...よめませんでした。
+kanto-sabrina	ナツメ	ジムリーダー	5643	kanto.saffron.sabrina-beaten		
+kanto-cinnabar-gym-jr	ヒロシ	かえんむすめ	2000	kanto.cinnabar.gym-jr-beaten	ここは あついよ!	みずタイプ、もってきた?
+kanto-blaine	カツラ	ジムリーダー	6237	kanto.cinnabar.blaine-beaten		
+kanto-viridian-gym-jr	タカシ	ボスの したっぱ	2400	kanto.viridian.gym-jr-beaten	ボスの じゃまは させん!	ボスは おくだ。
+kanto-giovanni	サカキ	ジムリーダー	7425	kanto.viridian.giovanni-beaten		
+kanto-victory-cooltrainer	ケンジ	エリートトレーナー	4400	kanto.victory.cooltrainer-beaten	ここを ぬけられる やつは すくない。	いってこい。
+kanto-rival-r22-bulbasaur	グリーン	ライバル	4800	kanto.route22.rival-beaten		
+kanto-rival-r22-charmander	グリーン	ライバル	4800	kanto.route22.rival-beaten		
+kanto-rival-r22-squirtle	グリーン	ライバル	4800	kanto.route22.rival-beaten		
+kanto-lorelei	カンナ	してんのう	9000	kanto.league.lorelei-beaten		
+kanto-bruno	シバ	してんのう	9200	kanto.league.bruno-beaten		
+kanto-agatha	キクコ	してんのう	9400	kanto.league.agatha-beaten		
+kanto-lance	ワタル	してんのう	9800	kanto.league.lance-beaten		
+kanto-champion-bulbasaur	グリーン	チャンピオン	12000	kanto.league.champion-beaten		
+kanto-champion-charmander	グリーン	チャンピオン	12000	kanto.league.champion-beaten		
+kanto-champion-squirtle	グリーン	チャンピオン	12000	kanto.league.champion-beaten		
+kanto-route17-biker	テツヤ	ライダー	1300	kanto.route17.biker-beaten	ここは くだり ざかだ!\nついてこれるか!	はやいな\nみとめてやる。
+kanto-route18-birdkeeper	ハヤト	とりつかい	1250	kanto.route18.birdkeeper-beaten	とりポケモンは はやいぞ!	はねが おれた きぶんだ…
+kanto-route24-camper	ススム	キャンプボーイ	900	kanto.route24.camper-beaten	はしの うえは わたさないぞ!	むこうに いっても いいよ。
+kanto-route25-hiker	イワオ	やまおとこ	1000	kanto.route25.hiker-beaten	この みちは とおさんぞ!	マサキ の いえは この さきだ。
+kanto-dojo-student	タカシ	からてか	1600	kanto.dojo.student-beaten	カラテおうに あう まえに\nおれと やろう!	おくの カラテおうに いどめ!
+kanto-dojo-master	カラテおう	カラテおう	3000	kanto.dojo.won		
+kanto-rocket-b1f	ロケットだん	したっぱ	1200	kanto.rocket.b1f-beaten		
+kanto-rocket-b2f	ロケットだん	したっぱ	1400	kanto.rocket.b2f-beaten		
+kanto-rocket-b3f	ロケットだん	したっぱ	1600	kanto.rocket.b3f-beaten		
+kanto-rocket-b4f	ロケットだん	したっぱ	1800	kanto.rocket.b4f-beaten		
+kanto-giovanni-hideout	サカキ	ロケットだんボス	4950	kanto.rocket.giovanni-beaten		
+kanto-silph-grunt-3f	ロケットだん	したっぱ	2000	kanto.silph.grunt3-beaten	ここから さきは とおさん!	…もう すきに しろ。
+kanto-silph-grunt-5f	ロケットだん	したっぱ	2200	kanto.silph.grunt5-beaten	ここから さきは とおさん!	…もう すきに しろ。
+kanto-silph-grunt-7f	ロケットだん	したっぱ	2400	kanto.silph.grunt7-beaten	ここから さきは とおさん!	…もう すきに しろ。
+kanto-giovanni-silph	サカキ	ロケットだんボス	6600	kanto.silph.giovanni-beaten		
+kanto-tower-channeler-3f	れいばいし	れいばいし	1200	kanto.tower.channeler3-beaten	うらめしや…	たましいが しずまった…
+kanto-tower-channeler-5f	れいばいし	れいばいし	1400	kanto.tower.channeler5-beaten	うらめしや…	たましいが しずまった…
+kanto-tower-rocket-7f	ロケットだん	したっぱ	1600	kanto.tower.rocket7-beaten		
+kanto-rival-r22a-bulbasaur	グリーン	ライバル	800	kanto.route22.rival-a-beaten		
+kanto-rival-r22a-charmander	グリーン	ライバル	800	kanto.route22.rival-a-beaten		
+kanto-rival-r22a-squirtle	グリーン	ライバル	800	kanto.route22.rival-a-beaten		
+kanto-rival-cerulean-bulbasaur	グリーン	ライバル	2400	kanto.cerulean.rival-beaten		
+kanto-rival-cerulean-charmander	グリーン	ライバル	2400	kanto.cerulean.rival-beaten		
+kanto-rival-cerulean-squirtle	グリーン	ライバル	2400	kanto.cerulean.rival-beaten		
+kanto-rival-tower-bulbasaur	グリーン	ライバル	3200	kanto.lavender.rival-beaten		
+kanto-rival-tower-charmander	グリーン	ライバル	3200	kanto.lavender.rival-beaten		
+kanto-rival-tower-squirtle	グリーン	ライバル	3200	kanto.lavender.rival-beaten		
+kanto-rival-silph-bulbasaur	グリーン	ライバル	5600	kanto.silph.rival-beaten		
+kanto-rival-silph-charmander	グリーン	ライバル	5600	kanto.silph.rival-beaten		
+kanto-rival-silph-squirtle	グリーン	ライバル	5600	kanto.silph.rival-beaten		
+kanto-sevii-rocket-1	ロケットだん	ロケットだん	660	kanto.sevii.rocket-1-beaten	この さきは とおさん!	ちくしょう… ボスに しかられる。
+kanto-sevii-rocket-2	ロケットだん	ロケットだん	693	kanto.sevii.rocket-2-beaten	ルビーは わたさん!	…もう すきに しろ。
+kanto-sevii-biker	テツヤ	ぼうそうぞく	600	kanto.sevii.biker-beaten	この みなとは おれたちの ばしょだ!	…にあわねえ まねは やめとくか。
+kanto-sevii-warehouse	ロケットだん	ロケットだん	760	kanto.sevii.warehouse-beaten		
+kanto-route-2-bug-1	ススム	むしとりしょうねん	160	kanto.route2.bug1-beaten	むしポケモンは かっこいい!	むしは よわくないんだ…
+kanto-route-3-lass-1	ミナミ	ミニスカート	240	kanto.route3.lass1-beaten	かわいい ポケモン つれてる?	つよいのね。
+kanto-route-3-lass-2	サキ	ミニスカート	240	kanto.route3.lass2-beaten	しょうぶ しましょ!	まいったわ…
+kanto-route-3-youngster-1	タカシ	たんぱんこぞう	240	kanto.route3.youngster1-beaten	ぼくの ポケモンは まけないぞ!	つよいなあ…
+kanto-route-4-lass-1	ミナミ	ミニスカート	280	kanto.route4.lass1-beaten	かわいい ポケモン つれてる?	つよいのね。
+kanto-route-5-youngster-1	タカシ	たんぱんこぞう	320	kanto.route5.youngster1-beaten	ぼくの ポケモンは まけないぞ!	つよいなあ…
+kanto-route-5-youngster-2	ゴロウ	たんぱんこぞう	320	kanto.route5.youngster2-beaten	はんズボンは うごきやすいんだ!	まけちゃった!
+kanto-route-6-lass-1	ミナミ	ミニスカート	340	kanto.route6.lass1-beaten	かわいい ポケモン つれてる?	つよいのね。
+kanto-route-6-lass-2	サキ	ミニスカート	340	kanto.route6.lass2-beaten	しょうぶ しましょ!	まいったわ…
+kanto-route-7-picnicker-1	ナオ	ピクニックガール	400	kanto.route7.picnicker1-beaten	おべんとうの まえに しょうぶ!	おべんとうに しよう…
+kanto-route-7-picnicker-2	エミ	ピクニックガール	400	kanto.route7.picnicker2-beaten	ピクニックの きねんに どう?	つよいのね!
+kanto-route-8-youngster-1	タカシ	たんぱんこぞう	420	kanto.route8.youngster1-beaten	ぼくの ポケモンは まけないぞ!	つよいなあ…
+kanto-route-8-youngster-2	ゴロウ	たんぱんこぞう	420	kanto.route8.youngster2-beaten	はんズボンは うごきやすいんだ!	まけちゃった!
+kanto-route-8-youngster-3	ケイタ	たんぱんこぞう	420	kanto.route8.youngster3-beaten	ぼくの ポケモンは まけないぞ!	つよいなあ…
+kanto-route-9-youngster-1	タカシ	たんぱんこぞう	440	kanto.route9.youngster1-beaten	ぼくの ポケモンは まけないぞ!	つよいなあ…
+kanto-route-9-youngster-2	ゴロウ	たんぱんこぞう	440	kanto.route9.youngster2-beaten	はんズボンは うごきやすいんだ!	まけちゃった!
+kanto-route-9-youngster-3	ケイタ	たんぱんこぞう	440	kanto.route9.youngster3-beaten	ぼくの ポケモンは まけないぞ!	つよいなあ…
+kanto-route-10-hiker-1	イワオ	やまおとこ	460	kanto.route10.hiker1-beaten	やまを なめるなよ!	やまは きびしいな…
+kanto-route-10-hiker-2	ゲンゾウ	やまおとこ	460	kanto.route10.hiker2-beaten	いわの ポケモンは かたいぞ!	みごとだ!
+kanto-route-11-gambler-1	トシオ	ギャンブラー	480	kanto.route11.gambler1-beaten	かける ものは ポケモンさ!	ついてないな…
+kanto-route-11-gambler-2	マサオ	ギャンブラー	480	kanto.route11.gambler2-beaten	うんが いいのは どっちかな?	はずれか…
+kanto-route-11-gambler-3	ヒデキ	ギャンブラー	480	kanto.route11.gambler3-beaten	かける ものは ポケモンさ!	ついてないな…
+kanto-route-12-fisher-1	リョウ	つりびと	560	kanto.route12.fisher1-beaten	つりの じゃまを するな!	きょうは つれないな…
+kanto-route-12-fisher-2	ウオゾウ	つりびと	560	kanto.route12.fisher2-beaten	みずの ポケモンは つよいぞ!	まいった!
+kanto-route-12-fisher-3	カズヤ	つりびと	560	kanto.route12.fisher3-beaten	つりの じゃまを するな!	きょうは つれないな…
+kanto-route-13-lass-1	ミナミ	ミニスカート	580	kanto.route13.lass1-beaten	かわいい ポケモン つれてる?	つよいのね。
+kanto-route-13-lass-2	サキ	ミニスカート	580	kanto.route13.lass2-beaten	しょうぶ しましょ!	まいったわ…
+kanto-route-13-lass-3	アヤ	ミニスカート	580	kanto.route13.lass3-beaten	かわいい ポケモン つれてる?	つよいのね。
+kanto-route-14-ace-1	ヒロキ	エリートトレーナー	600	kanto.route14.ace1-beaten	ほんきで いくぞ!	まだまだ みたいだ…
+kanto-route-14-ace-2	アキラ	エリートトレーナー	600	kanto.route14.ace2-beaten	うでを みせてもらう!	たいしたものだ。
+kanto-route-14-ace-3	ユウジ	エリートトレーナー	600	kanto.route14.ace3-beaten	ほんきで いくぞ!	まだまだ みたいだ…
+kanto-route-15-ace-1	ヒロキ	エリートトレーナー	620	kanto.route15.ace1-beaten	ほんきで いくぞ!	まだまだ みたいだ…
+kanto-route-15-ace-2	アキラ	エリートトレーナー	620	kanto.route15.ace2-beaten	うでを みせてもらう!	たいしたものだ。
+kanto-route-15-ace-3	ユウジ	エリートトレーナー	620	kanto.route15.ace3-beaten	ほんきで いくぞ!	まだまだ みたいだ…
+kanto-route-16-biker-1	テツヤ	ぼうそうぞく	640	kanto.route16.biker1-beaten	どけどけーっ!	ちっ…
+kanto-route-16-biker-2	リョウジ	ぼうそうぞく	640	kanto.route16.biker2-beaten	この みちは おれたちの ものだ!	やるじゃねえか。
+kanto-route-17-biker-1	テツヤ	ぼうそうぞく	660	kanto.route17.biker1-beaten	どけどけーっ!	ちっ…
+kanto-route-17-biker-2	リョウジ	ぼうそうぞく	660	kanto.route17.biker2-beaten	この みちは おれたちの ものだ!	やるじゃねえか。
+kanto-route-17-biker-3	ゴウ	ぼうそうぞく	660	kanto.route17.biker3-beaten	どけどけーっ!	ちっ…
+kanto-route-18-biker-1	テツヤ	ぼうそうぞく	680	kanto.route18.biker1-beaten	どけどけーっ!	ちっ…
+kanto-route-18-biker-2	リョウジ	ぼうそうぞく	680	kanto.route18.biker2-beaten	この みちは おれたちの ものだ!	やるじゃねえか。
+
+
+
+kanto-route-24-bug-1	ススム	むしとりしょうねん	360	kanto.route24.bug1-beaten	むしポケモンは かっこいい!	むしは よわくないんだ…
+kanto-route-24-bug-2	ケンタ	むしとりしょうねん	360	kanto.route24.bug2-beaten	つかまえた むしを みせてやる!	もっと つかまえてくる!
+kanto-route-25-lass-1	ミナミ	ミニスカート	380	kanto.route25.lass1-beaten	かわいい ポケモン つれてる?	つよいのね。
+kanto-route-25-lass-2	サキ	ミニスカート	380	kanto.route25.lass2-beaten	しょうぶ しましょ!	まいったわ…
+kanto-route-25-lass-3	アヤ	ミニスカート	380	kanto.route25.lass3-beaten	かわいい ポケモン つれてる?	つよいのね。
+kanto-mt-moon-hiker-1	イワオ	やまおとこ	260	kanto.mtmoon.hiker1-beaten	やまを なめるなよ!	やまは きびしいな…
+kanto-mt-moon-hiker-2	ゲンゾウ	やまおとこ	260	kanto.mtmoon.hiker2-beaten	いわの ポケモンは かたいぞ!	みごとだ!
+kanto-rock-tunnel-1f-hiker-1	イワオ	やまおとこ	480	kanto.rocktunnel1f.hiker1-beaten	やまを なめるなよ!	やまは きびしいな…
+kanto-rock-tunnel-1f-hiker-2	ゲンゾウ	やまおとこ	480	kanto.rocktunnel1f.hiker2-beaten	いわの ポケモンは かたいぞ!	みごとだ!
+kanto-rock-tunnel-1f-hiker-3	タケゾウ	やまおとこ	480	kanto.rocktunnel1f.hiker3-beaten	やまを なめるなよ!	やまは きびしいな…
+
+kanto-route-19-swimmer-1	ススム	かいパンやろう	700	kanto.route19.swimmer1-beaten	およぎには じしんが あるんだ!	うみは ひろいなあ…
+kanto-route-19-swimmer-2	カイト	かいパンやろう	700	kanto.route19.swimmer2-beaten	うみの ポケモンを みせてやる!	つよいな きみは!
+kanto-route-19-swimmer-3	マサヒロ	かいパンやろう	700	kanto.route19.swimmer3-beaten	およぎには じしんが あるんだ!	うみは ひろいなあ…
+kanto-route-20-swimmer-1	ススム	かいパンやろう	720	kanto.route20.swimmer1-beaten	およぎには じしんが あるんだ!	うみは ひろいなあ…
+kanto-route-20-swimmer-2	カイト	かいパンやろう	720	kanto.route20.swimmer2-beaten	うみの ポケモンを みせてやる!	つよいな きみは!
+kanto-route-21-swimmer-1	ススム	かいパンやろう	740	kanto.route21.swimmer1-beaten	およぎには じしんが あるんだ!	うみは ひろいなあ…
+kanto-route-21-swimmer-2	カイト	かいパンやろう	740	kanto.route21.swimmer2-beaten	うみの ポケモンを みせてやる!	つよいな きみは!
+

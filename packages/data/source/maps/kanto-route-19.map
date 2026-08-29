@@ -31,3 +31,8 @@ warps:
 5,11 step kanto-route-20 5,1 down
 
 objects:
+
+route19-swimmer-1 1,1 trainer:kanto-route-19-swimmer-1:2:down kanto.route19.swimmer1 if:kanto.route19.swimmer1-beaten=false
+route19-swimmer-2 9,10 trainer:kanto-route-19-swimmer-2:2:left kanto.route19.swimmer2 if:kanto.route19.swimmer2-beaten=false
+route19-swimmer-3 9,1 trainer:kanto-route-19-swimmer-3:2:down kanto.route19.swimmer3 if:kanto.route19.swimmer3-beaten=false
+route19-hyper-potion-1 5,10 item:hyper-potion kanto.route19.hyper-potion1 if:kanto.route19.hyper-potion1-taken=false

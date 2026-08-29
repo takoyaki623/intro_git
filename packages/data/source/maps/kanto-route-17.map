@@ -39,3 +39,6 @@ objects:
 route17-sign 2,1 sign kanto.route17.sign
 route17-biker 7,4 trainer:kanto-route17-biker:3:left kanto.route17.biker if:kanto.route17.biker-beaten=false
 route17-item 8,12 item:max-ether kanto.route17.item if:kanto.route17.item-taken=false
+route17-biker-1 1,1 trainer:kanto-route-17-biker-1:2:down kanto.route17.biker1 if:kanto.route17.biker1-beaten=false
+route17-biker-2 9,12 trainer:kanto-route-17-biker-2:2:left kanto.route17.biker2 if:kanto.route17.biker2-beaten=false
+route17-biker-3 9,2 trainer:kanto-route-17-biker-3:2:down kanto.route17.biker3 if:kanto.route17.biker3-beaten=false

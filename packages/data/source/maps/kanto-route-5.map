@@ -33,3 +33,6 @@ warps:
 objects:
 route5-sign 3,7 sign kanto.route5.sign
 route5-hiker 8,6 trainer:kanto-route5-hiker:2:left kanto.route5.hiker if:kanto.route5.hiker-beaten=false
+route5-youngster-1 1,1 trainer:kanto-route-5-youngster-1:2:down kanto.route5.youngster1 if:kanto.route5.youngster1-beaten=false
+route5-youngster-2 9,6 trainer:kanto-route-5-youngster-2:2:left kanto.route5.youngster2 if:kanto.route5.youngster2-beaten=false
+route5-super-potion-1 9,7 item:super-potion kanto.route5.super-potion1 if:kanto.route5.super-potion1-taken=false

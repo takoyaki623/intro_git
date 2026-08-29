@@ -27,3 +27,7 @@ warps:
 
 objects:
 route14-sign 3,6 sign kanto.route14.sign
+route14-ace-1 2,1 trainer:kanto-route-14-ace-1:2:down kanto.route14.ace1 if:kanto.route14.ace1-beaten=false
+route14-ace-2 11,6 trainer:kanto-route-14-ace-2:2:left kanto.route14.ace2 if:kanto.route14.ace2-beaten=false
+route14-ace-3 4,7 trainer:kanto-route-14-ace-3:2:left kanto.route14.ace3 if:kanto.route14.ace3-beaten=false
+route14-super-potion-1 11,7 item:super-potion kanto.route14.super-potion1 if:kanto.route14.super-potion1-taken=false

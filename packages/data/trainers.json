@@ -2592,5 +2592,1629 @@
         ]
       }
     ]
+  },
+  {
+    "id": "kanto-route-2-bug-1",
+    "name": "ススム",
+    "class": "むしとりしょうねん",
+    "reward": 160,
+    "defeatedFlag": "kanto.route2.bug1-beaten",
+    "party": [
+      {
+        "species": "caterpie",
+        "level": 8,
+        "moves": [
+          "string-shot",
+          "tackle"
+        ]
+      },
+      {
+        "species": "weedle",
+        "level": 6,
+        "moves": [
+          "poison-sting",
+          "string-shot"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-3-lass-1",
+    "name": "ミナミ",
+    "class": "ミニスカート",
+    "reward": 240,
+    "defeatedFlag": "kanto.route3.lass1-beaten",
+    "party": [
+      {
+        "species": "pidgey",
+        "level": 12,
+        "moves": [
+          "tackle",
+          "sand-attack",
+          "gust"
+        ]
+      },
+      {
+        "species": "spearow",
+        "level": 10,
+        "moves": [
+          "growl",
+          "peck",
+          "leer"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-3-lass-2",
+    "name": "サキ",
+    "class": "ミニスカート",
+    "reward": 240,
+    "defeatedFlag": "kanto.route3.lass2-beaten",
+    "party": [
+      {
+        "species": "mankey",
+        "level": 12,
+        "moves": [
+          "covet",
+          "leer",
+          "scratch",
+          "fury-swipes"
+        ]
+      },
+      {
+        "species": "pidgey",
+        "level": 10,
+        "moves": [
+          "tackle",
+          "sand-attack",
+          "gust"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-3-youngster-1",
+    "name": "タカシ",
+    "class": "たんぱんこぞう",
+    "reward": 240,
+    "defeatedFlag": "kanto.route3.youngster1-beaten",
+    "party": [
+      {
+        "species": "pidgey",
+        "level": 12,
+        "moves": [
+          "tackle",
+          "sand-attack",
+          "gust"
+        ]
+      },
+      {
+        "species": "spearow",
+        "level": 10,
+        "moves": [
+          "growl",
+          "peck",
+          "leer"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-4-lass-1",
+    "name": "ミナミ",
+    "class": "ミニスカート",
+    "reward": 280,
+    "defeatedFlag": "kanto.route4.lass1-beaten",
+    "party": [
+      {
+        "species": "horsea",
+        "level": 14,
+        "moves": [
+          "leer",
+          "water-gun",
+          "smokescreen",
+          "twister"
+        ]
+      },
+      {
+        "species": "krabby",
+        "level": 12,
+        "moves": [
+          "water-gun",
+          "harden",
+          "metal-claw",
+          "mud-shot"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-5-youngster-1",
+    "name": "タカシ",
+    "class": "たんぱんこぞう",
+    "reward": 320,
+    "defeatedFlag": "kanto.route5.youngster1-beaten",
+    "party": [
+      {
+        "species": "meowth",
+        "level": 16,
+        "moves": [
+          "feint",
+          "scratch",
+          "pay-day",
+          "bite"
+        ]
+      },
+      {
+        "species": "pidgey",
+        "level": 14,
+        "moves": [
+          "tackle",
+          "sand-attack",
+          "gust",
+          "quick-attack"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-5-youngster-2",
+    "name": "ゴロウ",
+    "class": "たんぱんこぞう",
+    "reward": 320,
+    "defeatedFlag": "kanto.route5.youngster2-beaten",
+    "party": [
+      {
+        "species": "pidgey",
+        "level": 16,
+        "moves": [
+          "tackle",
+          "sand-attack",
+          "gust",
+          "quick-attack"
+        ]
+      },
+      {
+        "species": "meowth",
+        "level": 14,
+        "moves": [
+          "growl",
+          "feint",
+          "scratch",
+          "pay-day"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-6-lass-1",
+    "name": "ミナミ",
+    "class": "ミニスカート",
+    "reward": 340,
+    "defeatedFlag": "kanto.route6.lass1-beaten",
+    "party": [
+      {
+        "species": "poliwag",
+        "level": 17,
+        "moves": [
+          "hypnosis",
+          "water-gun",
+          "pound",
+          "mud-shot"
+        ]
+      },
+      {
+        "species": "goldeen",
+        "level": 15,
+        "moves": [
+          "tail-whip",
+          "supersonic",
+          "water-pulse",
+          "horn-attack"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-6-lass-2",
+    "name": "サキ",
+    "class": "ミニスカート",
+    "reward": 340,
+    "defeatedFlag": "kanto.route6.lass2-beaten",
+    "party": [
+      {
+        "species": "magikarp",
+        "level": 17,
+        "moves": [
+          "splash",
+          "tackle"
+        ]
+      },
+      {
+        "species": "magikarp",
+        "level": 15,
+        "moves": [
+          "splash",
+          "tackle"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-7-picnicker-1",
+    "name": "ナオ",
+    "class": "ピクニックガール",
+    "reward": 400,
+    "defeatedFlag": "kanto.route7.picnicker1-beaten",
+    "party": [
+      {
+        "species": "meowth",
+        "level": 20,
+        "moves": [
+          "feint",
+          "scratch",
+          "pay-day",
+          "bite"
+        ]
+      },
+      {
+        "species": "pidgey",
+        "level": 18,
+        "moves": [
+          "tackle",
+          "sand-attack",
+          "gust",
+          "quick-attack"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-7-picnicker-2",
+    "name": "エミ",
+    "class": "ピクニックガール",
+    "reward": 400,
+    "defeatedFlag": "kanto.route7.picnicker2-beaten",
+    "party": [
+      {
+        "species": "meowth",
+        "level": 20,
+        "moves": [
+          "feint",
+          "scratch",
+          "pay-day",
+          "bite"
+        ]
+      },
+      {
+        "species": "pidgey",
+        "level": 18,
+        "moves": [
+          "tackle",
+          "sand-attack",
+          "gust",
+          "quick-attack"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-8-youngster-1",
+    "name": "タカシ",
+    "class": "たんぱんこぞう",
+    "reward": 420,
+    "defeatedFlag": "kanto.route8.youngster1-beaten",
+    "party": [
+      {
+        "species": "meowth",
+        "level": 21,
+        "moves": [
+          "feint",
+          "scratch",
+          "pay-day",
+          "bite"
+        ]
+      },
+      {
+        "species": "pidgey",
+        "level": 19,
+        "moves": [
+          "tackle",
+          "sand-attack",
+          "gust",
+          "quick-attack"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-8-youngster-2",
+    "name": "ゴロウ",
+    "class": "たんぱんこぞう",
+    "reward": 420,
+    "defeatedFlag": "kanto.route8.youngster2-beaten",
+    "party": [
+      {
+        "species": "meowth",
+        "level": 21,
+        "moves": [
+          "feint",
+          "scratch",
+          "pay-day",
+          "bite"
+        ]
+      },
+      {
+        "species": "pidgey",
+        "level": 19,
+        "moves": [
+          "tackle",
+          "sand-attack",
+          "gust",
+          "quick-attack"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-8-youngster-3",
+    "name": "ケイタ",
+    "class": "たんぱんこぞう",
+    "reward": 420,
+    "defeatedFlag": "kanto.route8.youngster3-beaten",
+    "party": [
+      {
+        "species": "ekans",
+        "level": 21,
+        "moves": [
+          "bite",
+          "glare",
+          "screech",
+          "acid"
+        ]
+      },
+      {
+        "species": "sandshrew",
+        "level": 19,
+        "moves": [
+          "poison-sting",
+          "sand-attack",
+          "rapid-spin",
+          "bulldoze"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-9-youngster-1",
+    "name": "タカシ",
+    "class": "たんぱんこぞう",
+    "reward": 440,
+    "defeatedFlag": "kanto.route9.youngster1-beaten",
+    "party": [
+      {
+        "species": "rattata",
+        "level": 22,
+        "moves": [
+          "bite",
+          "hyper-fang",
+          "assurance",
+          "crunch"
+        ]
+      },
+      {
+        "species": "spearow",
+        "level": 20,
+        "moves": [
+          "peck",
+          "leer",
+          "fury-attack",
+          "aerial-ace"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-9-youngster-2",
+    "name": "ゴロウ",
+    "class": "たんぱんこぞう",
+    "reward": 440,
+    "defeatedFlag": "kanto.route9.youngster2-beaten",
+    "party": [
+      {
+        "species": "rattata",
+        "level": 22,
+        "moves": [
+          "bite",
+          "hyper-fang",
+          "assurance",
+          "crunch"
+        ]
+      },
+      {
+        "species": "spearow",
+        "level": 20,
+        "moves": [
+          "peck",
+          "leer",
+          "fury-attack",
+          "aerial-ace"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-9-youngster-3",
+    "name": "ケイタ",
+    "class": "たんぱんこぞう",
+    "reward": 440,
+    "defeatedFlag": "kanto.route9.youngster3-beaten",
+    "party": [
+      {
+        "species": "ekans",
+        "level": 22,
+        "moves": [
+          "bite",
+          "glare",
+          "screech",
+          "acid"
+        ]
+      },
+      {
+        "species": "ekans",
+        "level": 20,
+        "moves": [
+          "bite",
+          "glare",
+          "screech",
+          "acid"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-10-hiker-1",
+    "name": "イワオ",
+    "class": "やまおとこ",
+    "reward": 460,
+    "defeatedFlag": "kanto.route10.hiker1-beaten",
+    "party": [
+      {
+        "species": "sandshrew",
+        "level": 23,
+        "moves": [
+          "sand-attack",
+          "rapid-spin",
+          "bulldoze",
+          "swift"
+        ]
+      },
+      {
+        "species": "sandshrew",
+        "level": 21,
+        "moves": [
+          "sand-attack",
+          "rapid-spin",
+          "bulldoze",
+          "swift"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-10-hiker-2",
+    "name": "ゲンゾウ",
+    "class": "やまおとこ",
+    "reward": 460,
+    "defeatedFlag": "kanto.route10.hiker2-beaten",
+    "party": [
+      {
+        "species": "sandshrew",
+        "level": 23,
+        "moves": [
+          "sand-attack",
+          "rapid-spin",
+          "bulldoze",
+          "swift"
+        ]
+      },
+      {
+        "species": "sandshrew",
+        "level": 21,
+        "moves": [
+          "sand-attack",
+          "rapid-spin",
+          "bulldoze",
+          "swift"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-11-gambler-1",
+    "name": "トシオ",
+    "class": "ギャンブラー",
+    "reward": 480,
+    "defeatedFlag": "kanto.route11.gambler1-beaten",
+    "party": [
+      {
+        "species": "horsea",
+        "level": 24,
+        "moves": [
+          "water-gun",
+          "smokescreen",
+          "twister",
+          "dragon-breath"
+        ]
+      },
+      {
+        "species": "krabby",
+        "level": 22,
+        "moves": [
+          "harden",
+          "metal-claw",
+          "mud-shot",
+          "bubble-beam"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-11-gambler-2",
+    "name": "マサオ",
+    "class": "ギャンブラー",
+    "reward": 480,
+    "defeatedFlag": "kanto.route11.gambler2-beaten",
+    "party": [
+      {
+        "species": "magikarp",
+        "level": 24,
+        "moves": [
+          "splash",
+          "tackle"
+        ]
+      },
+      {
+        "species": "magikarp",
+        "level": 22,
+        "moves": [
+          "splash",
+          "tackle"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-11-gambler-3",
+    "name": "ヒデキ",
+    "class": "ギャンブラー",
+    "reward": 480,
+    "defeatedFlag": "kanto.route11.gambler3-beaten",
+    "party": [
+      {
+        "species": "horsea",
+        "level": 24,
+        "moves": [
+          "water-gun",
+          "smokescreen",
+          "twister",
+          "dragon-breath"
+        ]
+      },
+      {
+        "species": "krabby",
+        "level": 22,
+        "moves": [
+          "harden",
+          "metal-claw",
+          "mud-shot",
+          "bubble-beam"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-12-fisher-1",
+    "name": "リョウ",
+    "class": "つりびと",
+    "reward": 560,
+    "defeatedFlag": "kanto.route12.fisher1-beaten",
+    "party": [
+      {
+        "species": "horsea",
+        "level": 28,
+        "moves": [
+          "smokescreen",
+          "twister",
+          "dragon-breath",
+          "bubble-beam"
+        ]
+      },
+      {
+        "species": "krabby",
+        "level": 26,
+        "moves": [
+          "metal-claw",
+          "mud-shot",
+          "bubble-beam",
+          "stomp"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-12-fisher-2",
+    "name": "ウオゾウ",
+    "class": "つりびと",
+    "reward": 560,
+    "defeatedFlag": "kanto.route12.fisher2-beaten",
+    "party": [
+      {
+        "species": "magikarp",
+        "level": 28,
+        "moves": [
+          "splash",
+          "tackle"
+        ]
+      },
+      {
+        "species": "magikarp",
+        "level": 26,
+        "moves": [
+          "splash",
+          "tackle"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-12-fisher-3",
+    "name": "カズヤ",
+    "class": "つりびと",
+    "reward": 560,
+    "defeatedFlag": "kanto.route12.fisher3-beaten",
+    "party": [
+      {
+        "species": "horsea",
+        "level": 28,
+        "moves": [
+          "smokescreen",
+          "twister",
+          "dragon-breath",
+          "bubble-beam"
+        ]
+      },
+      {
+        "species": "krabby",
+        "level": 26,
+        "moves": [
+          "metal-claw",
+          "mud-shot",
+          "bubble-beam",
+          "stomp"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-13-lass-1",
+    "name": "ミナミ",
+    "class": "ミニスカート",
+    "reward": 580,
+    "defeatedFlag": "kanto.route13.lass1-beaten",
+    "party": [
+      {
+        "species": "horsea",
+        "level": 29,
+        "moves": [
+          "smokescreen",
+          "twister",
+          "dragon-breath",
+          "bubble-beam"
+        ]
+      },
+      {
+        "species": "krabby",
+        "level": 27,
+        "moves": [
+          "metal-claw",
+          "mud-shot",
+          "bubble-beam",
+          "stomp"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-13-lass-2",
+    "name": "サキ",
+    "class": "ミニスカート",
+    "reward": 580,
+    "defeatedFlag": "kanto.route13.lass2-beaten",
+    "party": [
+      {
+        "species": "magikarp",
+        "level": 29,
+        "moves": [
+          "splash",
+          "tackle"
+        ]
+      },
+      {
+        "species": "magikarp",
+        "level": 27,
+        "moves": [
+          "splash",
+          "tackle"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-13-lass-3",
+    "name": "アヤ",
+    "class": "ミニスカート",
+    "reward": 580,
+    "defeatedFlag": "kanto.route13.lass3-beaten",
+    "party": [
+      {
+        "species": "horsea",
+        "level": 29,
+        "moves": [
+          "smokescreen",
+          "twister",
+          "dragon-breath",
+          "bubble-beam"
+        ]
+      },
+      {
+        "species": "krabby",
+        "level": 27,
+        "moves": [
+          "metal-claw",
+          "mud-shot",
+          "bubble-beam",
+          "stomp"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-14-ace-1",
+    "name": "ヒロキ",
+    "class": "エリートトレーナー",
+    "reward": 600,
+    "defeatedFlag": "kanto.route14.ace1-beaten",
+    "party": [
+      {
+        "species": "venonat",
+        "level": 30,
+        "moves": [
+          "psybeam",
+          "stun-spore",
+          "bug-buzz",
+          "sleep-powder"
+        ]
+      },
+      {
+        "species": "ditto",
+        "level": 28,
+        "moves": [
+          "transform"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-14-ace-2",
+    "name": "アキラ",
+    "class": "エリートトレーナー",
+    "reward": 600,
+    "defeatedFlag": "kanto.route14.ace2-beaten",
+    "party": [
+      {
+        "species": "bellsprout",
+        "level": 30,
+        "moves": [
+          "stun-spore",
+          "acid",
+          "knock-off",
+          "sweet-scent"
+        ]
+      },
+      {
+        "species": "oddish",
+        "level": 28,
+        "moves": [
+          "sleep-powder",
+          "giga-drain",
+          "toxic",
+          "moonblast"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-14-ace-3",
+    "name": "ユウジ",
+    "class": "エリートトレーナー",
+    "reward": 600,
+    "defeatedFlag": "kanto.route14.ace3-beaten",
+    "party": [
+      {
+        "species": "pidgey",
+        "level": 30,
+        "moves": [
+          "quick-attack",
+          "twister",
+          "feather-dance",
+          "agility"
+        ]
+      },
+      {
+        "species": "venonat",
+        "level": 28,
+        "moves": [
+          "poison-powder",
+          "psybeam",
+          "stun-spore",
+          "bug-buzz"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-15-ace-1",
+    "name": "ヒロキ",
+    "class": "エリートトレーナー",
+    "reward": 620,
+    "defeatedFlag": "kanto.route15.ace1-beaten",
+    "party": [
+      {
+        "species": "venonat",
+        "level": 31,
+        "moves": [
+          "psybeam",
+          "stun-spore",
+          "bug-buzz",
+          "sleep-powder"
+        ]
+      },
+      {
+        "species": "bellsprout",
+        "level": 29,
+        "moves": [
+          "stun-spore",
+          "acid",
+          "knock-off",
+          "sweet-scent"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-15-ace-2",
+    "name": "アキラ",
+    "class": "エリートトレーナー",
+    "reward": 620,
+    "defeatedFlag": "kanto.route15.ace2-beaten",
+    "party": [
+      {
+        "species": "oddish",
+        "level": 31,
+        "moves": [
+          "sleep-powder",
+          "giga-drain",
+          "toxic",
+          "moonblast"
+        ]
+      },
+      {
+        "species": "pidgey",
+        "level": 29,
+        "moves": [
+          "quick-attack",
+          "twister",
+          "feather-dance",
+          "agility"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-15-ace-3",
+    "name": "ユウジ",
+    "class": "エリートトレーナー",
+    "reward": 620,
+    "defeatedFlag": "kanto.route15.ace3-beaten",
+    "party": [
+      {
+        "species": "pidgey",
+        "level": 31,
+        "moves": [
+          "quick-attack",
+          "twister",
+          "feather-dance",
+          "agility"
+        ]
+      },
+      {
+        "species": "venonat",
+        "level": 29,
+        "moves": [
+          "psybeam",
+          "stun-spore",
+          "bug-buzz",
+          "sleep-powder"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-16-biker-1",
+    "name": "テツヤ",
+    "class": "ぼうそうぞく",
+    "reward": 640,
+    "defeatedFlag": "kanto.route16.biker1-beaten",
+    "party": [
+      {
+        "species": "doduo",
+        "level": 32,
+        "moves": [
+          "fury-attack",
+          "pluck",
+          "double-hit",
+          "agility"
+        ]
+      },
+      {
+        "species": "spearow",
+        "level": 30,
+        "moves": [
+          "fury-attack",
+          "aerial-ace",
+          "assurance",
+          "agility"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-16-biker-2",
+    "name": "リョウジ",
+    "class": "ぼうそうぞく",
+    "reward": 640,
+    "defeatedFlag": "kanto.route16.biker2-beaten",
+    "party": [
+      {
+        "species": "rattata",
+        "level": 32,
+        "moves": [
+          "hyper-fang",
+          "assurance",
+          "crunch",
+          "double-edge"
+        ]
+      },
+      {
+        "species": "doduo",
+        "level": 30,
+        "moves": [
+          "fury-attack",
+          "pluck",
+          "double-hit",
+          "agility"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-17-biker-1",
+    "name": "テツヤ",
+    "class": "ぼうそうぞく",
+    "reward": 660,
+    "defeatedFlag": "kanto.route17.biker1-beaten",
+    "party": [
+      {
+        "species": "doduo",
+        "level": 33,
+        "moves": [
+          "pluck",
+          "double-hit",
+          "agility",
+          "swords-dance"
+        ]
+      },
+      {
+        "species": "spearow",
+        "level": 31,
+        "moves": [
+          "fury-attack",
+          "aerial-ace",
+          "assurance",
+          "agility"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-17-biker-2",
+    "name": "リョウジ",
+    "class": "ぼうそうぞく",
+    "reward": 660,
+    "defeatedFlag": "kanto.route17.biker2-beaten",
+    "party": [
+      {
+        "species": "doduo",
+        "level": 33,
+        "moves": [
+          "pluck",
+          "double-hit",
+          "agility",
+          "swords-dance"
+        ]
+      },
+      {
+        "species": "raticate",
+        "level": 31,
+        "moves": [
+          "bite",
+          "hyper-fang",
+          "assurance",
+          "crunch"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-17-biker-3",
+    "name": "ゴウ",
+    "class": "ぼうそうぞく",
+    "reward": 660,
+    "defeatedFlag": "kanto.route17.biker3-beaten",
+    "party": [
+      {
+        "species": "raticate",
+        "level": 33,
+        "moves": [
+          "bite",
+          "hyper-fang",
+          "assurance",
+          "crunch"
+        ]
+      },
+      {
+        "species": "spearow",
+        "level": 31,
+        "moves": [
+          "fury-attack",
+          "aerial-ace",
+          "assurance",
+          "agility"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-18-biker-1",
+    "name": "テツヤ",
+    "class": "ぼうそうぞく",
+    "reward": 680,
+    "defeatedFlag": "kanto.route18.biker1-beaten",
+    "party": [
+      {
+        "species": "doduo",
+        "level": 34,
+        "moves": [
+          "pluck",
+          "double-hit",
+          "agility",
+          "swords-dance"
+        ]
+      },
+      {
+        "species": "spearow",
+        "level": 32,
+        "moves": [
+          "fury-attack",
+          "aerial-ace",
+          "assurance",
+          "agility"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-18-biker-2",
+    "name": "リョウジ",
+    "class": "ぼうそうぞく",
+    "reward": 680,
+    "defeatedFlag": "kanto.route18.biker2-beaten",
+    "party": [
+      {
+        "species": "doduo",
+        "level": 34,
+        "moves": [
+          "pluck",
+          "double-hit",
+          "agility",
+          "swords-dance"
+        ]
+      },
+      {
+        "species": "fearow",
+        "level": 32,
+        "moves": [
+          "fury-attack",
+          "aerial-ace",
+          "assurance",
+          "agility"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-24-bug-1",
+    "name": "ススム",
+    "class": "むしとりしょうねん",
+    "reward": 360,
+    "defeatedFlag": "kanto.route24.bug1-beaten",
+    "party": [
+      {
+        "species": "caterpie",
+        "level": 18,
+        "moves": [
+          "string-shot",
+          "tackle",
+          "bug-bite"
+        ]
+      },
+      {
+        "species": "weedle",
+        "level": 16,
+        "moves": [
+          "poison-sting",
+          "string-shot",
+          "bug-bite"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-24-bug-2",
+    "name": "ケンタ",
+    "class": "むしとりしょうねん",
+    "reward": 360,
+    "defeatedFlag": "kanto.route24.bug2-beaten",
+    "party": [
+      {
+        "species": "kakuna",
+        "level": 18,
+        "moves": [
+          "harden"
+        ]
+      },
+      {
+        "species": "metapod",
+        "level": 16,
+        "moves": [
+          "harden"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-25-lass-1",
+    "name": "ミナミ",
+    "class": "ミニスカート",
+    "reward": 380,
+    "defeatedFlag": "kanto.route25.lass1-beaten",
+    "party": [
+      {
+        "species": "poliwag",
+        "level": 19,
+        "moves": [
+          "water-gun",
+          "pound",
+          "mud-shot",
+          "bubble-beam"
+        ]
+      },
+      {
+        "species": "goldeen",
+        "level": 17,
+        "moves": [
+          "tail-whip",
+          "supersonic",
+          "water-pulse",
+          "horn-attack"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-25-lass-2",
+    "name": "サキ",
+    "class": "ミニスカート",
+    "reward": 380,
+    "defeatedFlag": "kanto.route25.lass2-beaten",
+    "party": [
+      {
+        "species": "magikarp",
+        "level": 19,
+        "moves": [
+          "splash",
+          "tackle"
+        ]
+      },
+      {
+        "species": "magikarp",
+        "level": 17,
+        "moves": [
+          "splash",
+          "tackle"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-25-lass-3",
+    "name": "アヤ",
+    "class": "ミニスカート",
+    "reward": 380,
+    "defeatedFlag": "kanto.route25.lass3-beaten",
+    "party": [
+      {
+        "species": "poliwag",
+        "level": 19,
+        "moves": [
+          "water-gun",
+          "pound",
+          "mud-shot",
+          "bubble-beam"
+        ]
+      },
+      {
+        "species": "poliwhirl",
+        "level": 17,
+        "moves": [
+          "hypnosis",
+          "mud-shot",
+          "pound",
+          "water-gun"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-mt-moon-hiker-1",
+    "name": "イワオ",
+    "class": "やまおとこ",
+    "reward": 260,
+    "defeatedFlag": "kanto.mtmoon.hiker1-beaten",
+    "party": [
+      {
+        "species": "geodude",
+        "level": 13,
+        "moves": [
+          "tackle",
+          "rock-polish",
+          "bulldoze"
+        ]
+      },
+      {
+        "species": "geodude",
+        "level": 11,
+        "moves": [
+          "tackle",
+          "rock-polish"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-mt-moon-hiker-2",
+    "name": "ゲンゾウ",
+    "class": "やまおとこ",
+    "reward": 260,
+    "defeatedFlag": "kanto.mtmoon.hiker2-beaten",
+    "party": [
+      {
+        "species": "geodude",
+        "level": 13,
+        "moves": [
+          "tackle",
+          "rock-polish",
+          "bulldoze"
+        ]
+      },
+      {
+        "species": "geodude",
+        "level": 11,
+        "moves": [
+          "tackle",
+          "rock-polish"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-rock-tunnel-1f-hiker-1",
+    "name": "イワオ",
+    "class": "やまおとこ",
+    "reward": 480,
+    "defeatedFlag": "kanto.rocktunnel1f.hiker1-beaten",
+    "party": [
+      {
+        "species": "geodude",
+        "level": 24,
+        "moves": [
+          "tackle",
+          "rock-polish",
+          "bulldoze",
+          "rock-throw"
+        ]
+      },
+      {
+        "species": "geodude",
+        "level": 22,
+        "moves": [
+          "tackle",
+          "rock-polish",
+          "bulldoze",
+          "rock-throw"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-rock-tunnel-1f-hiker-2",
+    "name": "ゲンゾウ",
+    "class": "やまおとこ",
+    "reward": 480,
+    "defeatedFlag": "kanto.rocktunnel1f.hiker2-beaten",
+    "party": [
+      {
+        "species": "machop",
+        "level": 24,
+        "moves": [
+          "low-sweep",
+          "knock-off",
+          "scary-face",
+          "vital-throw"
+        ]
+      },
+      {
+        "species": "mankey",
+        "level": 22,
+        "moves": [
+          "leer",
+          "scratch",
+          "fury-swipes",
+          "cross-chop"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-rock-tunnel-1f-hiker-3",
+    "name": "タケゾウ",
+    "class": "やまおとこ",
+    "reward": 480,
+    "defeatedFlag": "kanto.rocktunnel1f.hiker3-beaten",
+    "party": [
+      {
+        "species": "geodude",
+        "level": 24,
+        "moves": [
+          "tackle",
+          "rock-polish",
+          "bulldoze",
+          "rock-throw"
+        ]
+      },
+      {
+        "species": "machop",
+        "level": 22,
+        "moves": [
+          "revenge",
+          "low-sweep",
+          "knock-off",
+          "scary-face"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-19-swimmer-1",
+    "name": "ススム",
+    "class": "かいパンやろう",
+    "reward": 700,
+    "defeatedFlag": "kanto.route19.swimmer1-beaten",
+    "party": [
+      {
+        "species": "horsea",
+        "level": 35,
+        "moves": [
+          "dragon-breath",
+          "bubble-beam",
+          "agility",
+          "water-pulse"
+        ]
+      },
+      {
+        "species": "krabby",
+        "level": 33,
+        "moves": [
+          "mud-shot",
+          "bubble-beam",
+          "stomp",
+          "razor-shell"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-19-swimmer-2",
+    "name": "カイト",
+    "class": "かいパンやろう",
+    "reward": 700,
+    "defeatedFlag": "kanto.route19.swimmer2-beaten",
+    "party": [
+      {
+        "species": "magikarp",
+        "level": 35,
+        "moves": [
+          "splash",
+          "tackle"
+        ]
+      },
+      {
+        "species": "magikarp",
+        "level": 33,
+        "moves": [
+          "splash",
+          "tackle"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-19-swimmer-3",
+    "name": "マサヒロ",
+    "class": "かいパンやろう",
+    "reward": 700,
+    "defeatedFlag": "kanto.route19.swimmer3-beaten",
+    "party": [
+      {
+        "species": "horsea",
+        "level": 35,
+        "moves": [
+          "dragon-breath",
+          "bubble-beam",
+          "agility",
+          "water-pulse"
+        ]
+      },
+      {
+        "species": "krabby",
+        "level": 33,
+        "moves": [
+          "mud-shot",
+          "bubble-beam",
+          "stomp",
+          "razor-shell"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-20-swimmer-1",
+    "name": "ススム",
+    "class": "かいパンやろう",
+    "reward": 720,
+    "defeatedFlag": "kanto.route20.swimmer1-beaten",
+    "party": [
+      {
+        "species": "horsea",
+        "level": 36,
+        "moves": [
+          "dragon-breath",
+          "bubble-beam",
+          "agility",
+          "water-pulse"
+        ]
+      },
+      {
+        "species": "krabby",
+        "level": 34,
+        "moves": [
+          "mud-shot",
+          "bubble-beam",
+          "stomp",
+          "razor-shell"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-20-swimmer-2",
+    "name": "カイト",
+    "class": "かいパンやろう",
+    "reward": 720,
+    "defeatedFlag": "kanto.route20.swimmer2-beaten",
+    "party": [
+      {
+        "species": "magikarp",
+        "level": 36,
+        "moves": [
+          "splash",
+          "tackle"
+        ]
+      },
+      {
+        "species": "magikarp",
+        "level": 34,
+        "moves": [
+          "splash",
+          "tackle"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-21-swimmer-1",
+    "name": "ススム",
+    "class": "かいパンやろう",
+    "reward": 740,
+    "defeatedFlag": "kanto.route21.swimmer1-beaten",
+    "party": [
+      {
+        "species": "horsea",
+        "level": 37,
+        "moves": [
+          "dragon-breath",
+          "bubble-beam",
+          "agility",
+          "water-pulse"
+        ]
+      },
+      {
+        "species": "krabby",
+        "level": 35,
+        "moves": [
+          "mud-shot",
+          "bubble-beam",
+          "stomp",
+          "razor-shell"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto-route-21-swimmer-2",
+    "name": "カイト",
+    "class": "かいパンやろう",
+    "reward": 740,
+    "defeatedFlag": "kanto.route21.swimmer2-beaten",
+    "party": [
+      {
+        "species": "magikarp",
+        "level": 37,
+        "moves": [
+          "splash",
+          "tackle"
+        ]
+      },
+      {
+        "species": "magikarp",
+        "level": 35,
+        "moves": [
+          "splash",
+          "tackle"
+        ]
+      }
+    ]
   }
 ]

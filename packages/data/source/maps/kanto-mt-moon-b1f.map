@@ -26,3 +26,4 @@ warps:
 
 objects:
 moon-b1f-item 6,4 item:moon-stone kanto.moon.stone if:kanto.moon.stone-taken=false
+mtmoonb1f-great-ball-1 10,6 item:great-ball kanto.mtmoonb1f.great-ball1 if:kanto.mtmoonb1f.great-ball1-taken=false

@@ -25,6 +25,7 @@ import type {
 
 const SOURCE_DIR = "packages/data/source/maps";
 const OUT = "packages/data/maps.json";
+const ITEM_EVENTS = "packages/data/events-items.json";
 
 /** 見出し行で区切られたセクション。 */
 type Sections = Record<string, string[]>;
@@ -243,6 +244,36 @@ function convert(file: string, text: string): MapData {
   return map;
 }
 
+/**
+ * 落ちている道具のイベントを、置いた事実から組み立てる（v1.1-i）。
+ *
+ * **道具を1個足すのに、同じ形の JSON を書き写す必要はもう無い。**
+ * `.map` の1行が「どこに・何が・どのフラグで消えるか」を全部言っているので、
+ * 「渡してフラグを立てる」はそこから決まる。
+ *
+ * **書き写していたから、ずれた。** 1番道路の1個は、地図には キズぐすり と書いてあるのに
+ * イベントは オボンのみ を渡していた（v1.1-i の実測）―― 同じことを2箇所に書いて、
+ * 片方だけ直した跡。組み立てにすれば、ずれようが無い。
+ */
+function itemEvents(maps: readonly MapData[]): unknown[] {
+  const out: unknown[] = [];
+  for (const map of maps) {
+    for (const object of map.objects) {
+      if (object.kind.type !== "item" || object.event === undefined) continue;
+      const cond = object.condition;
+      if (cond === undefined || cond.kind !== "flag" || cond.value !== false) continue;
+      out.push({
+        id: object.event,
+        commands: [
+          { kind: "giveItem", item: object.kind.item, count: 1 },
+          { kind: "setFlag", flag: cond.flag, value: true },
+        ],
+      });
+    }
+  }
+  return out;
+}
+
 function main(): void {
   const files = readdirSync(SOURCE_DIR).filter((f) => f.endsWith(".map")).sort();
   const maps = files.map((f) => convert(f, readFileSync(join(SOURCE_DIR, f), "utf8")));
@@ -254,6 +285,7 @@ function main(): void {
   }
 
   const out = `${JSON.stringify(maps, null, 2)}\n`;
+  const itemOut = `${JSON.stringify(itemEvents(maps), null, 2)}\n`;
 
   // --check: 原本と生成物がずれていたら失敗する（CI 用。gen-ids と同じ運用）
   if (process.argv.includes("--check")) {
@@ -264,7 +296,13 @@ function main(): void {
       console.error(`${OUT} がありません: npm run maps を実行してください`);
       process.exit(1);
     }
-    if (current !== out) {
+    let currentItems = "";
+    try {
+      currentItems = readFileSync(ITEM_EVENTS, "utf8");
+    } catch {
+      currentItems = "";
+    }
+    if (current !== out || currentItems !== itemOut) {
       console.error(`${OUT} が古くなっています: npm run maps を実行してコミットしてください`);
       process.exit(1);
     }
@@ -273,6 +311,7 @@ function main(): void {
   }
 
   writeFileSync(OUT, out, "utf8");
+  writeFileSync(ITEM_EVENTS, itemOut, "utf8");
   console.log(`${OUT} … ${maps.length} マップ`);
   for (const map of maps) {
     console.log(

@@ -27,3 +27,7 @@ warps:
 
 objects:
 route13-sign 3,6 sign kanto.route13.sign
+route13-lass-1 1,1 trainer:kanto-route-13-lass-1:2:down kanto.route13.lass1 if:kanto.route13.lass1-beaten=false
+route13-lass-2 11,6 trainer:kanto-route-13-lass-2:2:left kanto.route13.lass2 if:kanto.route13.lass2-beaten=false
+route13-lass-3 3,7 trainer:kanto-route-13-lass-3:2:left kanto.route13.lass3 if:kanto.route13.lass3-beaten=false
+route13-great-ball-1 11,7 item:great-ball kanto.route13.great-ball1 if:kanto.route13.great-ball1-taken=false

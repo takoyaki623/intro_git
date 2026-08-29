@@ -30,3 +30,6 @@ objects:
 route18-sign 2,6 sign kanto.route18.sign
 route18-birdkeeper 9,3 trainer:kanto-route18-birdkeeper:3:left kanto.route18.birdkeeper if:kanto.route18.birdkeeper-beaten=false
 route18-trader 2,4 npc:oldman:static kanto.route18.trade
+route18-biker-1 1,1 trainer:kanto-route-18-biker-1:2:down kanto.route18.biker1 if:kanto.route18.biker1-beaten=false
+route18-biker-2 11,6 trainer:kanto-route-18-biker-2:2:left kanto.route18.biker2 if:kanto.route18.biker2-beaten=false
+route18-great-ball-1 11,7 item:great-ball kanto.route18.great-ball1 if:kanto.route18.great-ball1-taken=false

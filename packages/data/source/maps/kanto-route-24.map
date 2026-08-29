@@ -32,3 +32,6 @@ warps:
 objects:
 route24-sign 3,10 sign kanto.route24.sign
 route24-camper 7,2 trainer:kanto-route24-camper:3:left kanto.route24.camper if:kanto.route24.camper-beaten=false
+route24-bug-1 1,1 trainer:kanto-route-24-bug-1:2:down kanto.route24.bug1 if:kanto.route24.bug1-beaten=false
+route24-bug-2 9,9 trainer:kanto-route-24-bug-2:2:left kanto.route24.bug2 if:kanto.route24.bug2-beaten=false
+route24-great-ball-1 9,10 item:great-ball kanto.route24.great-ball1 if:kanto.route24.great-ball1-taken=false

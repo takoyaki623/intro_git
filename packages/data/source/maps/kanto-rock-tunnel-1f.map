@@ -32,3 +32,6 @@ warps:
 objects:
 rock-tunnel-1f-rock 3,3 obstacle:rockSmash
 rock-tunnel-1f-item 11,1 item:elixir kanto.rocktunnel.item1 if:kanto.rocktunnel.item1-taken=false
+rocktunnel1f-hiker-1 11,2 trainer:kanto-rock-tunnel-1f-hiker-1:2:down kanto.rocktunnel1f.hiker1 if:kanto.rocktunnel1f.hiker1-beaten=false
+rocktunnel1f-hiker-2 6,7 trainer:kanto-rock-tunnel-1f-hiker-2:2:left kanto.rocktunnel1f.hiker2 if:kanto.rocktunnel1f.hiker2-beaten=false
+rocktunnel1f-hiker-3 5,7 trainer:kanto-rock-tunnel-1f-hiker-3:2:left kanto.rocktunnel1f.hiker3 if:kanto.rocktunnel1f.hiker3-beaten=false

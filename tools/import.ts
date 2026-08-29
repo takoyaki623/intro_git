@@ -815,6 +815,50 @@ function importNamedParties(): Map<string, Map<string, unknown[]>> {
  * 45人ぶんの入れ子 JSON を人が直接書いていた。約180人へ増やす前に器を直す。
  * 読み方はネームドと同じ（親の表＋1体1行の表）。
  */
+/**
+ * 道中のトレーナーのイベントを生成する（v1.1-i）。
+ *
+ * **同じ形の JSON を2件、人が書く必要はもう無い。**
+ * 「話しかける → 勝つまで戦う → 勝ったら消える」は道中の全員に共通で、
+ * 変わるのは**台詞2つだけ** ―― それを `trainers.tsv` の2列に置き、
+ * 残り（条件・戦闘・フラグ立て・撃破後の受け答え）はここが組み立てる。
+ *
+ * 実測: 79人のうち **37人がこの形ちょうど**だった（v1.1-i で数えた）。
+ * 残りはジムリーダー・ライバル・四天王など**台詞が2つでは足りない**面々で、
+ * 台詞の列を空にしておくと生成しない ―― **「書かない」と「手で書く」を列で分ける。**
+ *
+ * 生成物は `events-trainers.json`。手で書くイベント（`events.json`）と
+ * **混ぜない**のは、混ぜると次の生成でどちらが原本か分からなくなるから。
+ */
+function trainerEvents(trainers: readonly Record<string, unknown>[]): unknown[] {
+  const out: unknown[] = [];
+  for (const t of trainers) {
+    const before = String(t["before"] ?? "");
+    const after = String(t["after"] ?? "");
+    if (before === "" || after === "") continue;
+    const flag = String(t["defeatedFlag"]);
+    const base = flag.replace(/-beaten$/, "");
+    const speaker = String(t["class"]);
+    const line = (text: string) => ({ kind: "message", text: text.replace(/\\n/g, "\n"), speaker });
+    out.push({
+      id: base,
+      commands: [
+        {
+          kind: "if",
+          cond: { kind: "flag", flag, value: false },
+          then: [line(before), { kind: "battle", trainer: t["id"], onWin: `${base}-win` }],
+          else: [line(after)],
+        },
+      ],
+    });
+    out.push({
+      id: `${base}-win`,
+      commands: [{ kind: "setFlag", flag, value: true }, line(after)],
+    });
+  }
+  return out;
+}
+
 function importTrainers(): unknown[] {
   const parties = new Map<string, Record<string, unknown>[]>();
   for (const r of readTsv("trainer-parties.tsv")) {
@@ -853,6 +897,9 @@ function importTrainers(): unknown[] {
       reward: Number(r["reward"]),
       defeatedFlag: r["defeatedFlag"]!,
       party: party ?? [],
+      // 台詞は JSON には出さない ―― イベントの材料としてだけ使う（下の `trainerEvents`）
+      before: r["before"] ?? "",
+      after: r["after"] ?? "",
     };
   });
 
@@ -1004,7 +1051,11 @@ function main(): void {
   write("balls.json", balls);
   write("battle-sets.json", battleSets);
   write("named.json", named);
-  write("trainers.json", trainers);
+  write(
+    "trainers.json",
+    (trainers as Record<string, unknown>[]).map(({ before: _b, after: _a, ...rest }) => rest),
+  );
+  write("events-trainers.json", trainerEvents(trainers as Record<string, unknown>[]));
   write("art.json", art);
 
   const inert = abilities.filter(

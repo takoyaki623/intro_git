@@ -29,3 +29,7 @@ warps:
 objects:
 route8-sign 3,7 sign kanto.route8.sign
 route8-lass 8,3 trainer:kanto-route8-lass:2:left kanto.route8.lass if:kanto.route8.lass-beaten=false
+route8-youngster-1 1,1 trainer:kanto-route-8-youngster-1:2:down kanto.route8.youngster1 if:kanto.route8.youngster1-beaten=false
+route8-youngster-2 11,7 trainer:kanto-route-8-youngster-2:2:left kanto.route8.youngster2 if:kanto.route8.youngster2-beaten=false
+route8-youngster-3 3,8 trainer:kanto-route-8-youngster-3:2:left kanto.route8.youngster3 if:kanto.route8.youngster3-beaten=false
+route8-super-potion-1 11,8 item:super-potion kanto.route8.super-potion1 if:kanto.route8.super-potion1-taken=false

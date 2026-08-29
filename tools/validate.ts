@@ -1174,12 +1174,46 @@ function checkArt(): void {
   }
 }
 
+/**
+ * 地形として立てるか（v1.1-i）。**オブジェクト自身は数えない。**
+ *
+ * 生の `collision` だけで見ていたので、**水の上に立つ者を置けなかった** ――
+ * かいパンやろう も つりびと も、原作では水の上に居る。
+ * 「通れるか」は地形と能力で決まる（`world.walkable`）ので、
+ * 検証もそこを見る ―― v1.1-a で「隣とは何か」を core に寄せたのと同じ理由で、
+ * **同じ問いに2つの答えを持たない。**
+ */
+function standableTerrain(map: MapData, x: number, y: number): boolean {
+  return (
+    map.collision[y * map.size.width + x] !== true ||
+    ABLE.walkable.includes(terrainAt(map, x, y))
+  );
+}
+
 function checkWorld(): void {
   const mapById = new Map(allMaps.map((m) => [m.id, m]));
   const eventIds = new Set(allEvents.map((e) => e.id));
   const trainerIds = new Set(allTrainers.map((t) => t.id));
   const tableIds = new Set(allEncounterTables.map((t) => t.id));
-  const declaredFlags = new Set<string>(allFlags);
+  /**
+   * 宣言されているフラグ（v1.1-i で1つ増えた）。
+   *
+   * `flags.json` は「人が宣言する場所」で、**トレーナーの撃破フラグはそこではない** ――
+   * あれは `trainers.tsv` の `defeatedFlag` 列そのものが宣言で、
+   * 同じことを2箇所に書かせると **180人ぶんの写し間違い**を作る場所になる。
+   * 宣言の場所は1つでよく、**どこが1つなのかを決めるのがこの行**。
+   */
+  const declaredFlags = new Set<string>([
+    ...allFlags,
+    ...allTrainers.map((t) => t.defeatedFlag),
+    // 落ちている道具の「拾った印」も同じ（v1.1-i）。宣言は `.map` の1行 ――
+    // そこに書いた条件から、渡すイベントまで組み立てている（convert-map.ts）
+    ...allMaps.flatMap((m) =>
+      m.objects
+        .filter((o) => o.kind.type === "item" && o.condition?.kind === "flag")
+        .map((o) => (o.condition as { kind: "flag"; flag: string }).flag),
+    ),
+  ]);
   const speciesIds = new Set(allSpecies.map((s) => s.id));
   const itemIds = new Set(allItems.map((i) => i.id));
   const moveIds = new Set(allMoves.map((m) => m.id));
@@ -1264,7 +1298,7 @@ function checkWorld(): void {
         fail("map-object", `${where}: マップの外`);
         continue;
       }
-      if (map.collision[at(map, object.at.x, object.at.y)] === true) {
+      if (!standableTerrain(map, object.at.x, object.at.y)) {
         fail("map-object", `${where}: 通行不可タイルの上。話しかけられない`);
       }
       const key = `${object.at.x},${object.at.y}`;
@@ -2009,7 +2043,7 @@ function checkWorld(): void {
       y >= 0 &&
       x < map.size.width &&
       y < map.size.height &&
-      map.collision[y * map.size.width + x] !== true;
+      standableTerrain(map, x, y);
     const taken = new Set(
       map.objects
         .filter((o) => o.kind.type !== "item" && o.kind.type !== "switch")

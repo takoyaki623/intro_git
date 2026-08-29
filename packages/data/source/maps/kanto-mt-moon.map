@@ -35,3 +35,5 @@ objects:
 moon-rock 5,6 obstacle:rockSmash
 moon-hiker 3,2 trainer:kanto-moon-hiker:2:down kanto.moon.hiker if:kanto.moon.hiker-beaten=false
 moon-rocket 6,8 trainer:kanto-moon-rocket:2:left kanto.moon.rocket if:kanto.moon.rocket-beaten=false
+mtmoon-hiker-1 11,8 trainer:kanto-mt-moon-hiker-1:2:left kanto.mtmoon.hiker1 if:kanto.mtmoon.hiker1-beaten=false
+mtmoon-hiker-2 5,5 trainer:kanto-mt-moon-hiker-2:2:right kanto.mtmoon.hiker2 if:kanto.mtmoon.hiker2-beaten=false

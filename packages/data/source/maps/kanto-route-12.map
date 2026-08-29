@@ -32,3 +32,7 @@ warps:
 
 objects:
 route12-sign 3,4 sign kanto.route12.sign
+route12-fisher-1 1,1 trainer:kanto-route-12-fisher-1:2:down kanto.route12.fisher1 if:kanto.route12.fisher1-beaten=false
+route12-fisher-2 11,9 trainer:kanto-route-12-fisher-2:2:left kanto.route12.fisher2 if:kanto.route12.fisher2-beaten=false
+route12-fisher-3 10,1 trainer:kanto-route-12-fisher-3:2:down kanto.route12.fisher3 if:kanto.route12.fisher3-beaten=false
+route12-super-potion-1 9,9 item:super-potion kanto.route12.super-potion1 if:kanto.route12.super-potion1-taken=false

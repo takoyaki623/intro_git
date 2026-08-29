@@ -46,6 +46,8 @@ import battleSetsJson from "../battle-sets.json" with { type: "json" };
 import expTablesJson from "../exp-tables.json" with { type: "json" };
 import encountersJson from "../encounters.json" with { type: "json" };
 import eventsJson from "../events.json" with { type: "json" };
+import trainerEventsJson from "../events-trainers.json" with { type: "json" };
+import itemEventsJson from "../events-items.json" with { type: "json" };
 import flagsJson from "../flags.json" with { type: "json" };
 import shopsJson from "../shops.json" with { type: "json" };
 import fieldRulesJson from "../field-rules.json" with { type: "json" };
@@ -242,7 +244,19 @@ export function tournamentById(id: string): Tournament {
 // ─────────────────────────────────────────────
 
 export const allMaps = mapsJson as unknown as readonly MapData[];
-export const allEvents = eventsJson as unknown as readonly EventScript[];
+/**
+ * イベント。**手で書いたぶんと、機械が組み立てたぶんの2枚**（v1.1-i）。
+ *
+ * 道中のトレーナー戦は「話しかける → 勝つまで戦う → 勝ったら消える」で全員同じなので、
+ * `trainers.tsv` の台詞2列から `events-trainers.json` を作っている ――
+ * **同じ形の JSON を人が書き写す場所を無くす**ため。
+ * 2枚に分けてあるのは、混ぜると次の生成でどちらが原本か分からなくなるから。
+ */
+export const allEvents = [
+  ...(eventsJson as unknown as readonly EventScript[]),
+  ...(trainerEventsJson as unknown as readonly EventScript[]),
+  ...(itemEventsJson as unknown as readonly EventScript[]),
+];
 export const allEncounterTables = encountersJson as unknown as readonly EncounterTable[];
 export const allTrainers = trainersJson as unknown as readonly Trainer[];
 /** 宣言済みフラグ。ここに無いフラグを使うと検証エラーになる（world.md §6）。 */

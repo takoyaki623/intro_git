@@ -29,3 +29,6 @@ warps:
 objects:
 route7-sign 3,1 sign kanto.route7.sign
 route7-camper 5,7 trainer:kanto-route7-camper:2:up kanto.route7.camper if:kanto.route7.camper-beaten=false
+route7-picnicker-1 1,1 trainer:kanto-route-7-picnicker-1:2:down kanto.route7.picnicker1 if:kanto.route7.picnicker1-beaten=false
+route7-picnicker-2 9,7 trainer:kanto-route-7-picnicker-2:2:left kanto.route7.picnicker2 if:kanto.route7.picnicker2-beaten=false
+route7-great-ball-1 9,8 item:great-ball kanto.route7.great-ball1 if:kanto.route7.great-ball1-taken=false

@@ -30,3 +30,6 @@ warps:
 5,11 step kanto-cinnabar-island 6,1 down
 
 objects:
+
+route20-swimmer-1 1,1 trainer:kanto-route-20-swimmer-1:2:down kanto.route20.swimmer1 if:kanto.route20.swimmer1-beaten=false
+route20-swimmer-2 9,10 trainer:kanto-route-20-swimmer-2:2:left kanto.route20.swimmer2 if:kanto.route20.swimmer2-beaten=false
