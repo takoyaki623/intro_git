@@ -1787,7 +1787,11 @@ function checkWorld(): void {
       if ((rule.steps === undefined) !== (rule.expire === undefined)) {
         fail("field-rule", `${rule.id}: 歩数と追い出すイベントは、両方書くか両方書かないか`);
       }
-      // #123 何もしない規則を置かない（歩数も暗さも戦えなさも無いなら、指す意味が無い）
+      // #122 何もしない規則を置かない（歩数も暗さも戦えなさも無いなら、指す意味が無い）
+      //
+      // **暗いマップの区画が一続きか**は #113 がもう見ている（規則を持つマップ全部が対象）。
+      // そこへ番号を足すと空振りが1つ増えるだけなので、足さない
+      // ―― すでに火を噴く関門がある場所に、検査を足さない（v1.1-j-1 の学び）
       if (rule.steps === undefined && rule.dark === undefined && rule.canFight !== false) {
         fail("field-rule", `${rule.id}: 歩数も暗さも戦えなさも無い ―― 何も変えない規則`);
       }

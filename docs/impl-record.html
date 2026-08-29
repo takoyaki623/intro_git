@@ -221,7 +221,7 @@ a:focus-visible, summary:focus-visible {
     設計文書は <code>docs/design/</code>、上位方針は <code>docs/game-plan.md</code>。
   </p>
   <p class="meta">
-    テスト 413件 ／ 検証項目 120 ／ マップ 198枚 ／ 種族 228 ／ 技 251 ／ 道具 108
+    テスト 413件 ／ 検証項目 122 ／ マップ 198枚 ／ 種族 228 ／ 技 253 ／ 道具 114
     ―― 型チェック・検証スクリプト・通し確認・撮影すべて緑
   </p>
 </header>
@@ -229,10 +229,10 @@ a:focus-visible, summary:focus-visible {
 <div class="figures">
   <div class="fig"><b class="num">413</b><span>テスト</span></div>
   <div class="fig"><b class="num">228</b><span>種族</span></div>
-  <div class="fig"><b class="num">251</b><span>技</span></div>
+  <div class="fig"><b class="num">253</b><span>技</span></div>
   <div class="fig"><b class="num">18</b><span>ネームド</span></div>
   <div class="fig"><b class="num">198</b><span>マップ</span></div>
-  <div class="fig"><b class="num">120</b><span>検証項目</span></div>
+  <div class="fig"><b class="num">122</b><span>検証項目</span></div>
   <div class="fig"><b class="num">16,139</b><span>実装行 (TS)</span></div>
   <div class="fig"><b class="num">5,818</b><span>テスト行</span></div>
 </div>
@@ -789,9 +789,42 @@ pokemon … 個体の実体。uid が主キー</code></pre>
           <tr><td><span class="ver">v1.1-j</span></td><td><strong>ナナシマ 1〜3のしま</strong>（26枚・ふなつきばの鎖・ルビーのどうくつ）</td><td><strong>0行</strong></td><td>147 → <strong>150 / 151</strong></td></tr>
           <tr><td><span class="ver">v1.1-k</span></td><td><strong>ナナシマ 4〜7のしま・氷の床</strong>（39枚・種 193→228・サファイアの筋）</td><td><code>TERRAINS.ice</code> ＋ <code>slideFrom</code></td><td>第2世代が<strong>48種</strong></td></tr>
           <tr><td><span class="ver">v1.1-i（密度）</span></td><td><strong>トレーナー 41→116人・地面の道具 52→75個・タマムシデパート4階建て</strong>（置き場所は道具が選ぶ）</td><td><strong>0行</strong>（取り込みが組み立てる）</td><td>150 / 151</td></tr>
+          <tr><td><span class="ver">v1.2-a</span></td><td><strong>秘伝技が7つそろう</strong>（フラッシュ・たきのぼり・秘伝マシンを道具に）。マシン互換表の出典を <strong>FRLG の版</strong>へ</td><td><code>TERRAINS</code> 1語 ＋ <code>FieldRule.dark</code> 1欄</td><td>150 / 151</td></tr>
         </tbody>
       </table>
     </div>
+
+    <h3>v1.2-a ―― 束ねてあった決定は、あとで片方だけ外せない</h3>
+    <p>「秘伝技を廃止する」は1文で書いてあったが、中身は2つあった ――
+    <strong>①秘伝マシンを道具にしない ②フィールドで使う条件を手持ちではなくプレイヤーが持つ</strong>。
+    ②は本作の骨格なので変えないが、①はその<strong>帰結として書かれただけ</strong>で、②を守ったまま外せる。</p>
+    <p>分けられたのは、②が「なぜそうするか」を別に書いてあったから。
+    <strong>1文にまとめた決定は、あとで片方だけ間違っていたときに分けられない。</strong></p>
+
+    <h3>v1.2-a ―― 秘伝技だけ別の出典から引くのは、同じ表を2箇所から作ること</h3>
+    <p>道具にした瞬間、検証が4本落とした ――
+    <strong>いあいぎり・フラッシュ・いわくだき・かいりき を覚えられる種が1種もいない。</strong>
+    互換表を第9世代から採っていて、あの世代にこれらのマシンが無いため。</p>
+    <p>秘伝技だけ別口から引けばその日は直るが、<strong>片方だけ直した跡がいつか残る。</strong>
+    表そのものを FRLG の版へ移した ―― <strong>用途が違うデータは出典も違う</strong>。
+    のべ 4609 → 2420件。第9世代の広いTM表から、原作の表になった。</p>
+    <p>その移行でも1つ踏んだ。最初の版は<strong>「マシン技0件なら FRLG に居ない」</strong>と決めつけていて、
+    キャタピー・コイキング・メタモンが第9世代へ落ちた ――
+    あれらは FRLG に居て、マシンを1つも覚えないのが正しい。
+    <strong>「表が空」と「その版に居ない」は別。</strong></p>
+
+    <h3>v1.2-a ―― 地形を1つ足しただけでは関門にならない</h3>
+    <p>滝の帯は<strong>端に岸を1マス残せば歩いて回り込める</strong>のに、
+    到達可能性の検査は「行けてしまう」を正しいとしか言わない。
+    <strong>その能力を外して、届かなくなるマスが1つ以上あるか</strong>を見る（検証 #121）。
+    数えるのはその地形そのもの以外のマス ―― 滝のマスは滝の能力でしか乗れないのが当たり前で、
+    それを数えると必ず通る（空振りの検査になる）。</p>
+
+    <h3>v1.2-a ―― 道具が2本あるなら、直しも2本に要る</h3>
+    <p>台本が「1歩の待ちがゲームのぶつかりより短い」で落ちた翌日、
+    <strong>撮影が同じ理由で12枚落とした。</strong> 直したのは台本だけで、撮影は150msのまま残っていた。</p>
+    <p>気づけたのは、<strong>滑る場所を通る絵を初めて撮った</strong>から ――
+    前提が間違っていても、その前提を踏む道が無いあいだは緑のままでいる。</p>
 
     <h3>v1.1-i ―― 同じ形を人が書き写す場所を、先に無くす</h3>
     <p>道路25本にトレーナーが合わせて13人しか居なかった（原作は1本あたり4〜8人）。
@@ -1965,21 +1998,21 @@ Item = { …, price?: number, bpPrice?: number }  ← いくらかは道具側</
       <thead><tr><th>データ</th><th class="n">件数</th><th>状態</th></tr></thead>
       <tbody>
         <tr><td>種族</td><td class="n">228</td><td><span class="pill done">カントー151＋ナナシマの第2世代48＋ネームドが使う29</span></td></tr>
-        <tr><td>技</td><td class="n">251</td><td><span class="pill done">全件が公式データ</span> <span class="pill pending">186件は未実装（理由つきで保留）</span></td></tr>
+        <tr><td>技</td><td class="n">253</td><td><span class="pill done">全件が公式データ</span> <span class="pill pending">186件は未実装（理由つきで保留）</span></td></tr>
         <tr><td>特性</td><td class="n">74</td><td><span class="pill done">40件が戦闘中に働く</span> <span class="pill pending">34件は機構待ち（<code>inert</code>・理由つき）</span></td></tr>
-        <tr><td>道具</td><td class="n">108</td><td><span class="pill done">持ち物32・ボール10・回復17・<strong>わざマシン22</strong>・進化13・キー14</span></td></tr>
-        <tr><td>わざマシン互換表</td><td class="n">4,609</td><td><span class="pill done">公式 learnset の <code>'M'</code> から取り込み（1種あたり20.2技）</span></td></tr>
+        <tr><td>道具</td><td class="n">114</td><td><span class="pill done">持ち物32・ボール10・回復17・<strong>わざマシン22・ひでんマシン6</strong>・進化13・キー14</span></td></tr>
+        <tr><td>わざマシン互換表</td><td class="n">2,420</td><td><span class="pill done"><strong>FRLG の版から取り込み</strong>（1種あたり10.6技・v1.2-a）。FRLG に居ない20種だけ第9世代へ</span></td></tr>
         <tr><td>BattleSet</td><td class="n">64</td><td><span class="pill done">grade 1〜4 に16件ずつ</span></td></tr>
         <tr><td>施設</td><td class="n">4</td><td><span class="pill done">ルールセット駆動</span></td></tr>
         <tr><td>ネームド</td><td class="n">18</td><td><span class="pill done">原作・本気の2ティア</span> <span class="pill pending">極は v1.2</span></td></tr>
         <tr><td>カップ</td><td class="n">10</td><td><span class="pill done">ティア解放つき</span></td></tr>
         <tr><td>マップ</td><td class="n">198</td><td><span class="pill done">カントー全域＋ナナシマ＋拠点。出入口420か所</span></td></tr>
-        <tr><td>イベント</td><td class="n">627</td><td><span class="pill done">21種のコマンドで記述。<strong>トレーナー戦と落ちている道具は原本から組み立てる</strong>（v1.1-i）</span></td></tr>
+        <tr><td>イベント</td><td class="n">629</td><td><span class="pill done">21種のコマンドで記述。<strong>トレーナー戦と落ちている道具は原本から組み立てる</strong>（v1.1-i）</span></td></tr>
         <tr><td>トレーナー</td><td class="n">154</td><td><span class="pill done">TSV原本を持つ（v1.1-a）。地図に居るのは116人（v1.1-i）</span></td></tr>
         <tr><td>出現テーブル</td><td class="n">261</td><td><span class="pill done">公式データから取り込み（v1.1-a）</span></td></tr>
         <tr><td>進化</td><td class="n">106</td><td><span class="pill done">103件が今の機構で起きる</span> <span class="pill pending">3件は条件が未実装（<code>levelMove</code> 2・<code>levelExtra</code> 1）</span></td></tr>
         <tr><td>ショップ</td><td class="n">8</td><td><span class="pill done">品揃えだけを持ち、値段は道具側。<strong>わざマシンの値段は <code>machines.tsv</code> から</strong>（v1.1-i）</span></td></tr>
-        <tr><td>フラグ</td><td class="n">207</td><td><span class="pill done">宣言必須。未宣言は検証が落とす</span></td></tr>
+        <tr><td>フラグ</td><td class="n">211</td><td><span class="pill done">宣言必須。未宣言は検証が落とす</span></td></tr>
         <tr><td>性格</td><td class="n">25</td><td><span class="pill done">実数値の補正で使用中</span></td></tr>
         <tr><td>タイプ相性</td><td class="n">18×18</td><td><span class="pill done">疎な JSON から展開し完全性を検証</span></td></tr>
       </tbody>
@@ -2236,7 +2269,7 @@ packages/data/generated/ids.d.ts
         </tr>
         <tr>
           <td>規律を人間の注意力に預けない</td>
-          <td>120項目の判定を CI で回す。<strong>「遊ぶと成立しない」種類の誤りも検証項目に落とす</strong></td>
+          <td>122項目の判定を CI で回す。<strong>「遊ぶと成立しない」種類の誤りも検証項目に落とす</strong></td>
         </tr>
         <tr>
           <td>強さは情報量ではなく思考の深さで作る</td>
