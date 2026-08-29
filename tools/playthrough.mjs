@@ -1164,6 +1164,21 @@ expect("タケシ撃破が 記録される", afterGym.regions.kanto.flags["kanto
 await page.click("#settings-back");
 await page.waitForSelector("#field-canvas");
 
+// ── ニビの博物館 ―― 扉だけ繋がっていなかった建物（検証 #115・v1.1-g-3）──
+//
+// **確かめる場所の隣に居るうちに確かめる**（v1.1-k で移動）。
+// 元はカントーを一周したあとに置いていて、カビゴンを起こした場所から
+// おつきみやま を越えて歩かせていた ―― 世界が195枚に広がってからは、
+// その区間だけで予算（100回の引き直し）を使い切って届かなくなった。
+// **台本が測りたいのは「扉が繋がっているか」であって「そこまで歩けるか」ではない。**
+await goToMap("kanto-pewter-museum", 4, 2, 60);
+expect("ニビの 博物館に 入れる（扉が 繋がった）", (await spot()).map, "kanto-pewter-museum");
+await talk("ArrowUp");
+await drain(10);
+const bagAmber = (await readSave()).global.bag;
+expect("ひみつのコハク を もらう", `${bagAmber["old-amber"] ?? 0}`, "1");
+await shot("18-museum");
+
 // ── 13. ハナダ・クチバまで通す（v0.12-b の眼目）──
 //
 // **ここはコードを1行も足していない区間。** 町を2つとジムを2つ、
@@ -1724,22 +1739,6 @@ expect(
     return Object.values(save.pokemon ?? {}).some((p) => p.species === id);
   };
 
-  // ── 扉だけ繋がっていなかった2つ（検証 #115）──
-  //
-  // **そらをとぶ で近くまで行ってから歩く**（v1.1-k）。
-  // カビゴンを起こした場所からニビまで歩かせていたら、途中の おつきみやま で
-  // 野生に何度も割り込まれ、120回の引き直しを使い切って「たどりつけなかった」
-  // ―― 世界が広がるほど、**遠くを歩かせる区間は勝手に脆くなる。**
-  // **この区間では そらをとぶ をまだ覚えていない**（覚えるのは §15）。
-  // 町を1つ踏んでから中に入る ―― 1回で行こうとすると、
-  // 途中の おつきみやま の野生に予算を全部使われて届かない
-  await travel([["kanto-pewter-city", 7, 11], ["kanto-pewter-museum", 4, 2]]);
-  expect("ニビの 博物館に 入れる（扉が 繋がった）", (await spot()).map, "kanto-pewter-museum");
-  await talk("ArrowUp");
-  await drain(10);
-  const bagAmber = (await readSave()).global.bag;
-  expect("ひみつのコハク を もらう", `${bagAmber["old-amber"] ?? 0}`, "1");
-  await shot("35-museum");
 
   // ── おつきみやま B2F の かせき ―― 2つのうち1つだけ ──
   // **かせきは 8,1 に置いてある。立てるのは その左右だけ**
