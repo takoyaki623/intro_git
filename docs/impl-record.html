@@ -2200,7 +2200,12 @@ packages/data/generated/ids.d.ts
     <div class="card">
       <h3><code>tools/playthrough.mjs</code> — 画面の番人</h3>
       <p>ブラウザを実際に操作して同じ道行きを通す。<strong>型検査もテストも素通りする層</strong>（渡し忘れた技指定、描き分けられていないタイル、リロードで消える進行）がここでしか見つからないと分かって常設した。
-      v0.9 で 44項目、v1.1-g で <strong>191項目</strong>まで増え、経路探索は <code>core</code> の <code>neighborsOf</code> をそのまま呼ぶ形になっている。</p>
+      v0.9 で 44項目、v1.1-i で <strong>296項目</strong>まで増え、経路探索は <code>core</code> の <code>neighborsOf</code> をそのまま呼ぶ形になっている。</p>
+      <p><strong>台本は「待ち時間」を持たない方がよい。</strong> 1歩ぶんの待ちを
+      「歩けたときのアニメ」に合わせて決めていたが、ゲームは<strong>ぶつかったときに
+      <code>BUMP_MS</code>(110ms) 止まる</strong> ―― じてんしゃの1歩(95ms)より長い。
+      15msの差で z が飲み込まれ、ぶつかった相手に永久に話しかけられなかった。
+      いまは <code>data-busy</code> を読んで、<strong>受け付けるまで待つ</strong>（v1.1-i）。</p>
     </div>
   </div>
 </section>
