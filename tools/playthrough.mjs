@@ -1209,6 +1209,40 @@ expect("タケシ撃破が 記録される", afterGym.regions.kanto.flags["kanto
 await page.click("#settings-back");
 await page.waitForSelector("#field-canvas");
 
+// ── 技教え人（v1.2-d）──
+//
+// **道具を通らずに技が増える唯一の道。** わざマシンと同じ画面が出るので、
+// 確かめるのは「教わったあと、手持ちの技が1つ増えているか」だけ。
+// ヒトカゲは いわなだれ を教われる（`tutorMoves` に入っている）
+{
+  // **技を2本に減らしてから教わる。** 4本埋まっていると入れ替えの画面が出て、
+  // `drain` が最後のボタン（やめる）を押してしまう ―― 入れ替えの選ばせ方は
+  // わざマシンの区間がもう見ているので、ここでは「教わると増えるか」だけを見る
+  await page.click("#open-settings");
+  await page.waitForSelector("#save-export");
+  await page.click("#save-export");
+  const trimmed = JSON.parse(await page.inputValue("#save-text"));
+  const firstUid = Object.keys(trimmed.pokemon)[0];
+  const beforeMoves = trimmed.pokemon[firstUid].moves.length;
+  trimmed.pokemon[firstUid].moves = trimmed.pokemon[firstUid].moves.slice(0, 2);
+  await page.fill("#save-text", JSON.stringify(trimmed));
+  await page.click("#save-import");
+  await page.waitForTimeout(900);
+  await page.click("#settings-back");
+  await page.waitForSelector("#field-canvas");
+  await page.waitForTimeout(400);
+
+  await talkToObject("kanto-pewter-city", "pewter-tutor");
+  await drain(10);
+  const after = (await readSave()).pokemon[firstUid];
+  expect(
+    "技教え人が いわなだれ を おしえてくれる",
+    (after?.moves ?? []).some((m) => m.id === "rock-slide") ? "おぼえた" : "おぼえていない",
+    "おぼえた",
+  );
+  note("技の数", `${beforeMoves} → 2 → ${after?.moves.length ?? 0}`);
+}
+
 // ── ニビの博物館 ―― 扉だけ繋がっていなかった建物（検証 #115・v1.1-g-3）──
 //
 // **確かめる場所の隣に居るうちに確かめる**（v1.1-k で移動）。
