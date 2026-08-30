@@ -2929,6 +2929,7 @@ expect("そらをとぶ で マサラへ 戻れる", (await spot()).map, "kanto-
 
   // **氷の床。1入力で複数マス動く唯一の場所**（v1.1-k）。
   // 手順は「東を上がって突き当たる → 左へ滑って岩に当たる → 1歩上がる」
+  await powerUp();
   await goToMap("kanto-sevii-icefall-1f", 11, 7, 300);
   expect("こおりのぬけみち 1階に 入れる", (await spot()).map, "kanto-sevii-icefall-1f");
   await key("ArrowUp", 2, 420);
@@ -2957,6 +2958,15 @@ expect("そらをとぶ で マサラへ 戻れる", (await spot()).map, "kanto-
     `${beforeFall.x},${beforeFall.y}`,
     "5,2",
   );
+
+  // **ここで手当てする。**（v1.2-c）
+  // v1.2-c で技が25本増え、**レベル技が のべ 2299 → 2453件**になった ――
+  // 野生が覚える技が増えたぶんだけ野生が強くなる。
+  // 前の版はここまで無補給で歩けたが、この版は こおりのぬけみち で全滅し、
+  // セキエイの ポケモンセンターへ飛ばされて**そこから先が全部落ちた**
+  // （ナナシマへは船でしか行けないので、飛ばされると経路探索が戻れない）。
+  // 人がやることと同じで、長いダンジョンの前に回復しておく。
+  await powerUp();
 
   await talkToObject("kanto-sevii-four-island", "four-island-waterfall-man");
   await refreshFlags();
