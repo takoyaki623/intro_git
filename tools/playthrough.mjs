@@ -1233,13 +1233,21 @@ await page.waitForSelector("#field-canvas");
   await page.waitForSelector("#field-canvas");
   await page.waitForTimeout(400);
 
-  await talkToObject("kanto-pewter-city", "pewter-tutor");
-  // **`drain` を使わない。** あれは最後の選択肢を押すので、
-  // 「だれに おしえますか?」に「やめる」と答えてしまう（v1.2-d で1回落ちた）
-  await clear(6);
+  // **`drain` を通さない。** `talkToObject` の既定は `talk()` → `drain()` で、
+  // あれは最後の選択肢を押す ―― 「だれに おしえますか?」に
+  // 「やめる」と答えてしまう（伝説と会うときと同じ罠・v1.2-b）。
+  //
+  // 押す順番は探りを書いて実測した:
+  //   0: 会話=true 選択肢=0
+  //   1: 会話=true 選択肢=2 [ ヒトカゲ, やめる ]  ← ここで1匹目を押す
+  await talkToObject("kanto-pewter-city", "pewter-tutor", { drain: false });
+  for (let i = 0; i < 6 && !(await page.isVisible("#field-text .choices")); i += 1) {
+    await page.keyboard.press("z");
+    await page.waitForTimeout(300);
+  }
   await page.click("#field-text .choices button:nth-child(1)"); // 1匹目に教える
-  await page.waitForTimeout(600);
-  await drain(6);
+  await page.waitForTimeout(700);
+  await clear(6);
   const after = (await readSave()).pokemon[firstUid];
   expect(
     "技教え人が いわなだれ を おしえてくれる",
