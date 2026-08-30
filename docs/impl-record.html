@@ -221,7 +221,7 @@ a:focus-visible, summary:focus-visible {
     設計文書は <code>docs/design/</code>、上位方針は <code>docs/game-plan.md</code>。
   </p>
   <p class="meta">
-    テスト 413件 ／ 検証項目 122 ／ マップ 198枚 ／ 種族 228 ／ 技 253 ／ 道具 114
+    テスト 413件 ／ 検証項目 122 ／ マップ 210枚 ／ 種族 228 ／ 技 253 ／ 道具 116
     ―― 型チェック・検証スクリプト・通し確認・撮影すべて緑
   </p>
 </header>
@@ -231,7 +231,7 @@ a:focus-visible, summary:focus-visible {
   <div class="fig"><b class="num">228</b><span>種族</span></div>
   <div class="fig"><b class="num">253</b><span>技</span></div>
   <div class="fig"><b class="num">18</b><span>ネームド</span></div>
-  <div class="fig"><b class="num">198</b><span>マップ</span></div>
+  <div class="fig"><b class="num">210</b><span>マップ</span></div>
   <div class="fig"><b class="num">122</b><span>検証項目</span></div>
   <div class="fig"><b class="num">16,139</b><span>実装行 (TS)</span></div>
   <div class="fig"><b class="num">5,818</b><span>テスト行</span></div>
@@ -790,6 +790,7 @@ pokemon … 個体の実体。uid が主キー</code></pre>
           <tr><td><span class="ver">v1.1-k</span></td><td><strong>ナナシマ 4〜7のしま・氷の床</strong>（39枚・種 193→228・サファイアの筋）</td><td><code>TERRAINS.ice</code> ＋ <code>slideFrom</code></td><td>第2世代が<strong>48種</strong></td></tr>
           <tr><td><span class="ver">v1.1-i（密度）</span></td><td><strong>トレーナー 41→116人・地面の道具 52→75個・タマムシデパート4階建て</strong>（置き場所は道具が選ぶ）</td><td><strong>0行</strong>（取り込みが組み立てる）</td><td>150 / 151</td></tr>
           <tr><td><span class="ver">v1.2-a</span></td><td><strong>秘伝技が7つそろう</strong>（フラッシュ・たきのぼり・秘伝マシンを道具に）。マシン互換表の出典を <strong>FRLG の版</strong>へ</td><td><code>TERRAINS</code> 1語 ＋ <code>FieldRule.dark</code> 1欄</td><td>150 / 151</td></tr>
+          <tr><td><span class="ver">v1.2-b</span></td><td><strong>サンアンヌごう</strong>（丸ごと無かった）・ダンジョンを原作の階層数へ・<strong>期限の切れた但し書きを2つ回収</strong></td><td><strong>0行</strong></td><td>150 / 151</td></tr>
         </tbody>
       </table>
     </div>
@@ -2000,15 +2001,15 @@ Item = { …, price?: number, bpPrice?: number }  ← いくらかは道具側</
         <tr><td>種族</td><td class="n">228</td><td><span class="pill done">カントー151＋ナナシマの第2世代48＋ネームドが使う29</span></td></tr>
         <tr><td>技</td><td class="n">253</td><td><span class="pill done">全件が公式データ</span> <span class="pill pending">186件は未実装（理由つきで保留）</span></td></tr>
         <tr><td>特性</td><td class="n">74</td><td><span class="pill done">40件が戦闘中に働く</span> <span class="pill pending">34件は機構待ち（<code>inert</code>・理由つき）</span></td></tr>
-        <tr><td>道具</td><td class="n">114</td><td><span class="pill done">持ち物32・ボール10・回復17・<strong>わざマシン22・ひでんマシン6</strong>・進化13・キー14</span></td></tr>
+        <tr><td>道具</td><td class="n">116</td><td><span class="pill done">持ち物32・ボール10・回復17・<strong>わざマシン22・ひでんマシン6</strong>・進化13・キー14</span></td></tr>
         <tr><td>わざマシン互換表</td><td class="n">2,420</td><td><span class="pill done"><strong>FRLG の版から取り込み</strong>（1種あたり10.6技・v1.2-a）。FRLG に居ない20種だけ第9世代へ</span></td></tr>
         <tr><td>BattleSet</td><td class="n">64</td><td><span class="pill done">grade 1〜4 に16件ずつ</span></td></tr>
         <tr><td>施設</td><td class="n">4</td><td><span class="pill done">ルールセット駆動</span></td></tr>
         <tr><td>ネームド</td><td class="n">18</td><td><span class="pill done">原作・本気の2ティア</span> <span class="pill pending">極は v1.2</span></td></tr>
         <tr><td>カップ</td><td class="n">10</td><td><span class="pill done">ティア解放つき</span></td></tr>
-        <tr><td>マップ</td><td class="n">198</td><td><span class="pill done">カントー全域＋ナナシマ＋拠点。出入口420か所</span></td></tr>
+        <tr><td>マップ</td><td class="n">210</td><td><span class="pill done">カントー全域＋ナナシマ＋拠点。サンアンヌごう5枚・ダンジョンは原作の階層数（v1.2-b）</span></td></tr>
         <tr><td>イベント</td><td class="n">629</td><td><span class="pill done">21種のコマンドで記述。<strong>トレーナー戦と落ちている道具は原本から組み立てる</strong>（v1.1-i）</span></td></tr>
-        <tr><td>トレーナー</td><td class="n">154</td><td><span class="pill done">TSV原本を持つ（v1.1-a）。地図に居るのは116人（v1.1-i）</span></td></tr>
+        <tr><td>トレーナー</td><td class="n">165</td><td><span class="pill done">TSV原本を持つ（v1.1-a）。ライバル戦は7回（v1.2-b）</span></td></tr>
         <tr><td>出現テーブル</td><td class="n">261</td><td><span class="pill done">公式データから取り込み（v1.1-a）</span></td></tr>
         <tr><td>進化</td><td class="n">106</td><td><span class="pill done">103件が今の機構で起きる</span> <span class="pill pending">3件は条件が未実装（<code>levelMove</code> 2・<code>levelExtra</code> 1）</span></td></tr>
         <tr><td>ショップ</td><td class="n">8</td><td><span class="pill done">品揃えだけを持ち、値段は道具側。<strong>わざマシンの値段は <code>machines.tsv</code> から</strong>（v1.1-i）</span></td></tr>
