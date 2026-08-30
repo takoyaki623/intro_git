@@ -747,7 +747,7 @@ await shot("8-end");
  *   かせきの真上（岩）・景品の店員の真下（スロット台）・ポスターの真下（階段）。
  * どれも「隣に立って向く」という同じ動作なのに、座標だけが毎回ちがう。
  */
-async function talkToObject(mapId, objectId) {
+async function talkToObject(mapId, objectId, options = {}) {
   const map = MAPS.get(mapId);
   const target = map?.objects?.find((o) => o.id === objectId);
   if (target === undefined) {
@@ -775,7 +775,14 @@ async function talkToObject(mapId, objectId) {
   for (const spot0 of spots) {
     const here = await goToMap(mapId, spot0.x, spot0.y, 40);
     if (here.map !== mapId || here.x !== spot0.x || here.y !== spot0.y) continue;
-    await talk(spot0.dir);
+    // **選択肢が出る相手では流さない**（v1.2-b）。`drain()` は最後のボタンを押すので、
+    // 「ちかづきますか?」に「やめる」と答えてしまう ―― 伝説と会えなくなる
+    if (options.drain === false) {
+      await key(spot0.dir, 2, 200);
+      await key("z", 1, 400);
+    } else {
+      await talk(spot0.dir);
+    }
     return true;
   }
   note("話しかけられなかった", `${mapId}/${objectId}（立てる隣 ${spots.length}マス）`);
@@ -2760,10 +2767,14 @@ expect("そらをとぶ で マサラへ 戻れる", (await spot()).map, "kanto-
 {
   await goToMap("kanto-cerulean-cave", 6, 7, 200);
   expect("殿堂入りすると けいびが どく", (await spot()).map, "kanto-cerulean-cave");
-  // ミュウツーは (6,1)。真下（6,2）は壁なので、**横に立って調べる**
-  await goToMap("kanto-cerulean-cave", 5, 1, 20);
-  await key("ArrowRight", 2, 220);
-  await key("z", 1, 400);
+  // **ミュウツーは最奥（地下1階）へ移った**（v1.2-b）。1枚だった頃は入口の隣に居て、
+  // 「どうくつの奥」という手ざわりが階数でしか出せないものだった。
+  //
+  // 立つマスは決め打ちしない ―― 水に囲まれた島の上に居るので、
+  // 「真下は壁だから横に立つ」のような手書きの座標は移すたびに嘘になる（v1.1-g-3）
+  await goToMap("kanto-cerulean-cave-b1f", 6, 1, 200);
+  expect("どうくつの さいしんぶまで 降りられる", (await spot()).map, "kanto-cerulean-cave-b1f");
+  await talkToObject("kanto-cerulean-cave-b1f", "cerulean-cave-mewtwo", { drain: false });
   note("ミュウツー", ((await page.textContent("#field-text")) ?? "（何も出ない）").trim().replace(/\s+/g, " "));
   await choose("ちかづく");
   await drain(8);
