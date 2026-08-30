@@ -69,6 +69,7 @@
       "rock-smash",
       "sludge-bomb",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -159,6 +160,7 @@
       "rock-smash",
       "sludge-bomb",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -255,6 +257,7 @@
       "rock-smash",
       "sludge-bomb",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -342,6 +345,7 @@
       "overheat",
       "rock-smash",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -434,6 +438,7 @@
       "overheat",
       "rock-smash",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -541,6 +546,7 @@
       "overheat",
       "rock-smash",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -603,6 +609,10 @@
         "move": "water-pulse"
       },
       {
+        "level": 21,
+        "move": "rain-dance"
+      },
+      {
         "level": 24,
         "move": "aqua-tail"
       },
@@ -623,8 +633,10 @@
       "blizzard",
       "brick-break",
       "double-team",
+      "hail",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "rock-smash",
       "strength",
       "surf",
@@ -698,6 +710,10 @@
         "move": "water-pulse"
       },
       {
+        "level": 25,
+        "move": "rain-dance"
+      },
+      {
         "level": 30,
         "move": "aqua-tail"
       },
@@ -718,8 +734,10 @@
       "blizzard",
       "brick-break",
       "double-team",
+      "hail",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "rock-smash",
       "strength",
       "surf",
@@ -798,6 +816,10 @@
         "move": "water-pulse"
       },
       {
+        "level": 25,
+        "move": "rain-dance"
+      },
+      {
         "level": 30,
         "move": "aqua-tail"
       },
@@ -819,8 +841,10 @@
       "brick-break",
       "double-team",
       "earthquake",
+      "hail",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "rock-smash",
       "strength",
       "surf",
@@ -1013,7 +1037,9 @@
       "flash",
       "giga-drain",
       "psychic",
+      "rain-dance",
       "shadow-ball",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -1186,6 +1212,7 @@
       "giga-drain",
       "rock-smash",
       "sludge-bomb",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -1265,6 +1292,8 @@
     "tmMoves": [
       "aerial-ace",
       "double-team",
+      "rain-dance",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -1349,6 +1378,8 @@
     "tmMoves": [
       "aerial-ace",
       "double-team",
+      "rain-dance",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -1433,6 +1464,8 @@
     "tmMoves": [
       "aerial-ace",
       "double-team",
+      "rain-dance",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -1505,9 +1538,11 @@
       "double-team",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "rock-smash",
       "shadow-ball",
       "shock-wave",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic"
@@ -1596,10 +1631,12 @@
       "double-team",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "rock-smash",
       "shadow-ball",
       "shock-wave",
       "strength",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic"
@@ -1672,6 +1709,8 @@
     "tmMoves": [
       "aerial-ace",
       "double-team",
+      "rain-dance",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -1756,6 +1795,8 @@
     "tmMoves": [
       "aerial-ace",
       "double-team",
+      "rain-dance",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -1831,8 +1872,10 @@
       "earthquake",
       "giga-drain",
       "iron-tail",
+      "rain-dance",
       "sludge-bomb",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -1918,8 +1961,10 @@
       "earthquake",
       "giga-drain",
       "iron-tail",
+      "rain-dance",
       "sludge-bomb",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -2031,6 +2076,7 @@
       "double-team",
       "flash",
       "iron-tail",
+      "rain-dance",
       "rock-smash",
       "shock-wave",
       "strength",
@@ -2157,6 +2203,7 @@
       "double-team",
       "flash",
       "iron-tail",
+      "rain-dance",
       "rock-smash",
       "shock-wave",
       "strength",
@@ -2236,6 +2283,10 @@
         "move": "swords-dance"
       },
       {
+        "level": 42,
+        "move": "sandstorm"
+      },
+      {
         "level": 45,
         "move": "earthquake"
       }
@@ -2249,7 +2300,9 @@
       "iron-tail",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -2326,6 +2379,10 @@
         "move": "swords-dance"
       },
       {
+        "level": 56,
+        "move": "sandstorm"
+      },
+      {
         "level": 61,
         "move": "earthquake"
       }
@@ -2339,7 +2396,9 @@
       "iron-tail",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -2421,10 +2480,12 @@
       "double-team",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "rock-smash",
       "shock-wave",
       "sludge-bomb",
       "strength",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic",
@@ -2515,10 +2576,12 @@
       "double-team",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "rock-smash",
       "shock-wave",
       "sludge-bomb",
       "strength",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic",
@@ -2614,12 +2677,15 @@
       "flamethrower",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "shadow-ball",
       "shock-wave",
       "sludge-bomb",
       "strength",
+      "sunny-day",
       "surf",
       "thunder",
       "thunderbolt",
@@ -2700,10 +2766,12 @@
       "double-team",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "rock-smash",
       "shock-wave",
       "sludge-bomb",
       "strength",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic",
@@ -2789,10 +2857,12 @@
       "double-team",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "rock-smash",
       "shock-wave",
       "sludge-bomb",
       "strength",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic",
@@ -2887,12 +2957,15 @@
       "flamethrower",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "shadow-ball",
       "shock-wave",
       "sludge-bomb",
       "strength",
+      "sunny-day",
       "surf",
       "thunder",
       "thunderbolt",
@@ -2986,9 +3059,11 @@
       "ice-beam",
       "iron-tail",
       "psychic",
+      "rain-dance",
       "shadow-ball",
       "shock-wave",
       "strength",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic",
@@ -3087,9 +3162,11 @@
       "ice-beam",
       "iron-tail",
       "psychic",
+      "rain-dance",
       "shadow-ball",
       "shock-wave",
       "strength",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic",
@@ -3173,6 +3250,7 @@
       "flamethrower",
       "iron-tail",
       "overheat",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -3263,6 +3341,7 @@
       "flamethrower",
       "iron-tail",
       "overheat",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -3348,9 +3427,11 @@
       "flash",
       "ice-beam",
       "psychic",
+      "rain-dance",
       "shadow-ball",
       "shock-wave",
       "strength",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic",
@@ -3448,9 +3529,11 @@
       "flash",
       "ice-beam",
       "psychic",
+      "rain-dance",
       "shadow-ball",
       "shock-wave",
       "strength",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic",
@@ -3533,8 +3616,10 @@
       "aerial-ace",
       "double-team",
       "giga-drain",
+      "rain-dance",
       "shadow-ball",
       "sludge-bomb",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -3624,8 +3709,10 @@
       "aerial-ace",
       "double-team",
       "giga-drain",
+      "rain-dance",
       "shadow-ball",
       "sludge-bomb",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -3713,6 +3800,7 @@
       "flash",
       "giga-drain",
       "sludge-bomb",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -3801,6 +3889,7 @@
       "flash",
       "giga-drain",
       "sludge-bomb",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -3898,6 +3987,7 @@
       "flash",
       "giga-drain",
       "sludge-bomb",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -3974,6 +4064,7 @@
       "giga-drain",
       "rock-smash",
       "sludge-bomb",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -4060,6 +4151,7 @@
       "giga-drain",
       "rock-smash",
       "sludge-bomb",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -4150,6 +4242,7 @@
       "giga-drain",
       "psychic",
       "sludge-bomb",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -4250,6 +4343,7 @@
       "giga-drain",
       "psychic",
       "sludge-bomb",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -4313,6 +4407,10 @@
         "move": "slash"
       },
       {
+        "level": 28,
+        "move": "sandstorm"
+      },
+      {
         "level": 36,
         "move": "earth-power"
       },
@@ -4329,6 +4427,7 @@
       "rock-smash",
       "rock-tomb",
       "sludge-bomb",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -4405,6 +4504,10 @@
         "move": "slash"
       },
       {
+        "level": 30,
+        "move": "sandstorm"
+      },
+      {
         "level": 42,
         "move": "earth-power"
       },
@@ -4421,6 +4524,7 @@
       "rock-smash",
       "rock-tomb",
       "sludge-bomb",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -4505,8 +4609,10 @@
       "double-team",
       "flash",
       "iron-tail",
+      "rain-dance",
       "shadow-ball",
       "shock-wave",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic",
@@ -4604,8 +4710,10 @@
       "double-team",
       "flash",
       "iron-tail",
+      "rain-dance",
       "shadow-ball",
       "shock-wave",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic",
@@ -4690,8 +4798,10 @@
       "calm-mind",
       "double-team",
       "flash",
+      "hail",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "rock-smash",
       "strength",
       "surf",
@@ -4792,8 +4902,10 @@
       "calm-mind",
       "double-team",
       "flash",
+      "hail",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "rock-smash",
       "strength",
       "surf",
@@ -4872,9 +4984,11 @@
       "earthquake",
       "iron-tail",
       "overheat",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
       "strength",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic"
@@ -4956,9 +5070,11 @@
       "earthquake",
       "iron-tail",
       "overheat",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
       "strength",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic"
@@ -5052,6 +5168,7 @@
       "overheat",
       "rock-smash",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -5153,6 +5270,7 @@
       "overheat",
       "rock-smash",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -5207,6 +5325,10 @@
         "move": "bubble-beam"
       },
       {
+        "level": 24,
+        "move": "rain-dance"
+      },
+      {
         "level": 30,
         "move": "body-slam"
       },
@@ -5226,8 +5348,10 @@
     "tmMoves": [
       "blizzard",
       "double-team",
+      "hail",
       "ice-beam",
       "psychic",
+      "rain-dance",
       "surf",
       "toxic",
       "water-pulse",
@@ -5291,6 +5415,10 @@
         "move": "bubble-beam"
       },
       {
+        "level": 24,
+        "move": "rain-dance"
+      },
+      {
         "level": 32,
         "move": "body-slam"
       },
@@ -5312,8 +5440,10 @@
       "brick-break",
       "double-team",
       "earthquake",
+      "hail",
       "ice-beam",
       "psychic",
+      "rain-dance",
       "rock-smash",
       "strength",
       "surf",
@@ -5397,6 +5527,10 @@
       },
       {
         "level": 1,
+        "move": "rain-dance"
+      },
+      {
+        "level": 1,
         "move": "water-gun"
       }
     ],
@@ -5405,8 +5539,10 @@
       "brick-break",
       "double-team",
       "earthquake",
+      "hail",
       "ice-beam",
       "psychic",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
       "strength",
@@ -5457,8 +5593,10 @@
       "flash",
       "iron-tail",
       "psychic",
+      "rain-dance",
       "shadow-ball",
       "shock-wave",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -5541,8 +5679,10 @@
       "flash",
       "iron-tail",
       "psychic",
+      "rain-dance",
       "shadow-ball",
       "shock-wave",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -5624,8 +5764,10 @@
       "flash",
       "iron-tail",
       "psychic",
+      "rain-dance",
       "shadow-ball",
       "shock-wave",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -5710,9 +5852,11 @@
       "earthquake",
       "fire-blast",
       "flamethrower",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -5803,9 +5947,11 @@
       "earthquake",
       "fire-blast",
       "flamethrower",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -5895,9 +6041,11 @@
       "earthquake",
       "fire-blast",
       "flamethrower",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -5984,6 +6132,7 @@
       "flash",
       "giga-drain",
       "sludge-bomb",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -6076,6 +6225,7 @@
       "flash",
       "giga-drain",
       "sludge-bomb",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -6152,6 +6302,7 @@
       "flash",
       "giga-drain",
       "sludge-bomb",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -6244,7 +6395,9 @@
       "cut",
       "double-team",
       "giga-drain",
+      "hail",
       "ice-beam",
+      "rain-dance",
       "sludge-bomb",
       "surf",
       "toxic",
@@ -6347,7 +6500,9 @@
       "cut",
       "double-team",
       "giga-drain",
+      "hail",
       "ice-beam",
+      "rain-dance",
       "sludge-bomb",
       "surf",
       "toxic",
@@ -6427,7 +6582,9 @@
       "flamethrower",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -6509,7 +6666,9 @@
       "flamethrower",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -6590,7 +6749,9 @@
       "flamethrower",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -6680,6 +6841,7 @@
       "iron-tail",
       "overheat",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -6791,6 +6953,7 @@
       "iron-tail",
       "overheat",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -6868,6 +7031,10 @@
       {
         "level": 36,
         "move": "psychic"
+      },
+      {
+        "level": 42,
+        "move": "rain-dance"
       }
     ],
     "tmMoves": [
@@ -6878,11 +7045,14 @@
       "fire-blast",
       "flamethrower",
       "flash",
+      "hail",
       "ice-beam",
       "iron-tail",
       "psychic",
+      "rain-dance",
       "shadow-ball",
       "strength",
+      "sunny-day",
       "surf",
       "toxic",
       "water-pulse"
@@ -6977,6 +7147,10 @@
       {
         "level": 36,
         "move": "psychic"
+      },
+      {
+        "level": 46,
+        "move": "rain-dance"
       }
     ],
     "tmMoves": [
@@ -6988,12 +7162,15 @@
       "fire-blast",
       "flamethrower",
       "flash",
+      "hail",
       "ice-beam",
       "iron-tail",
       "psychic",
+      "rain-dance",
       "rock-smash",
       "shadow-ball",
       "strength",
+      "sunny-day",
       "surf",
       "toxic",
       "water-pulse"
@@ -7074,7 +7251,9 @@
     "tmMoves": [
       "double-team",
       "flash",
+      "rain-dance",
       "shock-wave",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic"
@@ -7165,7 +7344,9 @@
     "tmMoves": [
       "double-team",
       "flash",
+      "rain-dance",
       "shock-wave",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic"
@@ -7264,6 +7445,7 @@
       "cut",
       "double-team",
       "iron-tail",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -7338,6 +7520,7 @@
     "tmMoves": [
       "aerial-ace",
       "double-team",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -7422,6 +7605,7 @@
     "tmMoves": [
       "aerial-ace",
       "double-team",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -7503,7 +7687,9 @@
     "tmMoves": [
       "blizzard",
       "double-team",
+      "hail",
       "ice-beam",
+      "rain-dance",
       "surf",
       "toxic",
       "water-pulse",
@@ -7591,7 +7777,9 @@
     "tmMoves": [
       "blizzard",
       "double-team",
+      "hail",
       "ice-beam",
+      "rain-dance",
       "surf",
       "toxic",
       "water-pulse",
@@ -7682,9 +7870,11 @@
       "fire-blast",
       "flamethrower",
       "giga-drain",
+      "rain-dance",
       "rock-tomb",
       "shock-wave",
       "sludge-bomb",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic"
@@ -7781,11 +7971,13 @@
       "fire-blast",
       "flamethrower",
       "giga-drain",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
       "shock-wave",
       "sludge-bomb",
       "strength",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic"
@@ -7870,7 +8062,9 @@
     "tmMoves": [
       "blizzard",
       "double-team",
+      "hail",
       "ice-beam",
+      "rain-dance",
       "surf",
       "toxic",
       "water-pulse"
@@ -7969,7 +8163,9 @@
     "tmMoves": [
       "blizzard",
       "double-team",
+      "hail",
       "ice-beam",
+      "rain-dance",
       "surf",
       "toxic",
       "water-pulse"
@@ -8039,8 +8235,10 @@
       "double-team",
       "giga-drain",
       "psychic",
+      "rain-dance",
       "shadow-ball",
       "sludge-bomb",
+      "sunny-day",
       "thunderbolt",
       "toxic"
     ],
@@ -8119,8 +8317,10 @@
       "double-team",
       "giga-drain",
       "psychic",
+      "rain-dance",
       "shadow-ball",
       "sludge-bomb",
+      "sunny-day",
       "thunderbolt",
       "toxic"
     ],
@@ -8199,10 +8399,12 @@
       "double-team",
       "giga-drain",
       "psychic",
+      "rain-dance",
       "rock-smash",
       "shadow-ball",
       "sludge-bomb",
       "strength",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic"
@@ -8272,6 +8474,10 @@
         "move": "slam"
       },
       {
+        "level": 40,
+        "move": "sandstorm"
+      },
+      {
         "level": 48,
         "move": "iron-tail"
       },
@@ -8290,7 +8496,9 @@
       "iron-tail",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -8377,7 +8585,9 @@
       "double-team",
       "flash",
       "psychic",
+      "rain-dance",
       "shadow-ball",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -8464,7 +8674,9 @@
       "double-team",
       "flash",
       "psychic",
+      "rain-dance",
       "shadow-ball",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -8547,7 +8759,9 @@
       "blizzard",
       "cut",
       "double-team",
+      "hail",
       "ice-beam",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
       "strength",
@@ -8645,7 +8859,9 @@
       "blizzard",
       "cut",
       "double-team",
+      "hail",
       "ice-beam",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
       "strength",
@@ -8720,6 +8936,7 @@
     "tmMoves": [
       "double-team",
       "flash",
+      "rain-dance",
       "shock-wave",
       "thunder",
       "thunderbolt",
@@ -8798,6 +9015,7 @@
     "tmMoves": [
       "double-team",
       "flash",
+      "rain-dance",
       "shock-wave",
       "thunder",
       "thunderbolt",
@@ -8872,6 +9090,7 @@
       "psychic",
       "sludge-bomb",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -8969,6 +9188,7 @@
       "psychic",
       "sludge-bomb",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -9055,7 +9275,9 @@
       "iron-tail",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -9148,7 +9370,9 @@
       "iron-tail",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -9215,9 +9439,11 @@
       "brick-break",
       "double-team",
       "earthquake",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -9300,9 +9526,11 @@
       "brick-break",
       "double-team",
       "earthquake",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -9375,11 +9603,14 @@
       "flamethrower",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "shadow-ball",
       "shock-wave",
       "strength",
+      "sunny-day",
       "surf",
       "thunder",
       "thunderbolt",
@@ -9459,9 +9690,11 @@
       "fire-blast",
       "flamethrower",
       "flash",
+      "rain-dance",
       "shadow-ball",
       "shock-wave",
       "sludge-bomb",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic"
@@ -9553,9 +9786,11 @@
       "fire-blast",
       "flamethrower",
       "flash",
+      "rain-dance",
       "shadow-ball",
       "shock-wave",
       "sludge-bomb",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic"
@@ -9649,10 +9884,13 @@
       "flamethrower",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "shock-wave",
       "strength",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic"
@@ -9758,10 +9996,13 @@
       "flamethrower",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "shock-wave",
       "strength",
+      "sunny-day",
       "surf",
       "thunder",
       "thunderbolt",
@@ -9858,14 +10099,18 @@
       "fire-blast",
       "flamethrower",
       "flash",
+      "hail",
       "ice-beam",
       "iron-tail",
       "psychic",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "shadow-ball",
       "shock-wave",
       "strength",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic",
@@ -9956,6 +10201,7 @@
       "giga-drain",
       "rock-smash",
       "sludge-bomb",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -10036,13 +10282,17 @@
       "earthquake",
       "fire-blast",
       "flamethrower",
+      "hail",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "shadow-ball",
       "shock-wave",
       "strength",
+      "sunny-day",
       "surf",
       "thunder",
       "thunderbolt",
@@ -10119,12 +10369,18 @@
       {
         "level": 45,
         "move": "hydro-pump"
+      },
+      {
+        "level": 55,
+        "move": "rain-dance"
       }
     ],
     "tmMoves": [
       "blizzard",
       "double-team",
+      "hail",
       "ice-beam",
+      "rain-dance",
       "surf",
       "toxic",
       "water-pulse",
@@ -10206,12 +10462,18 @@
       {
         "level": 51,
         "move": "hydro-pump"
+      },
+      {
+        "level": 65,
+        "move": "rain-dance"
       }
     ],
     "tmMoves": [
       "blizzard",
       "double-team",
+      "hail",
       "ice-beam",
+      "rain-dance",
       "surf",
       "toxic",
       "water-pulse",
@@ -10291,7 +10553,9 @@
     "tmMoves": [
       "blizzard",
       "double-team",
+      "hail",
       "ice-beam",
+      "rain-dance",
       "surf",
       "toxic",
       "water-pulse",
@@ -10370,7 +10634,9 @@
     "tmMoves": [
       "blizzard",
       "double-team",
+      "hail",
       "ice-beam",
+      "rain-dance",
       "surf",
       "toxic",
       "water-pulse",
@@ -10464,8 +10730,10 @@
       "blizzard",
       "double-team",
       "flash",
+      "hail",
       "ice-beam",
       "psychic",
+      "rain-dance",
       "surf",
       "thunder",
       "thunderbolt",
@@ -10568,8 +10836,10 @@
       "blizzard",
       "double-team",
       "flash",
+      "hail",
       "ice-beam",
       "psychic",
+      "rain-dance",
       "surf",
       "thunder",
       "thunderbolt",
@@ -10640,8 +10910,10 @@
       "double-team",
       "flash",
       "psychic",
+      "rain-dance",
       "shadow-ball",
       "shock-wave",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic"
@@ -10727,7 +10999,9 @@
       "aerial-ace",
       "cut",
       "double-team",
+      "rain-dance",
       "rock-smash",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -10823,8 +11097,10 @@
       "calm-mind",
       "double-team",
       "flash",
+      "hail",
       "ice-beam",
       "psychic",
+      "rain-dance",
       "shadow-ball",
       "toxic",
       "water-pulse"
@@ -10911,6 +11187,7 @@
       "flash",
       "iron-tail",
       "psychic",
+      "rain-dance",
       "rock-smash",
       "shock-wave",
       "strength",
@@ -11000,6 +11277,10 @@
         "move": "flamethrower"
       },
       {
+        "level": 52,
+        "move": "sunny-day"
+      },
+      {
         "level": 58,
         "move": "fire-blast"
       }
@@ -11013,6 +11294,7 @@
       "psychic",
       "rock-smash",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -11098,9 +11380,11 @@
       "cut",
       "double-team",
       "earthquake",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -11179,10 +11463,13 @@
       "flamethrower",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "shock-wave",
       "strength",
+      "sunny-day",
       "surf",
       "thunder",
       "thunderbolt",
@@ -11306,6 +11593,10 @@
         "move": "crunch"
       },
       {
+        "level": 28,
+        "move": "rain-dance"
+      },
+      {
         "level": 32,
         "move": "aqua-tail"
       },
@@ -11324,8 +11615,11 @@
       "earthquake",
       "fire-blast",
       "flamethrower",
+      "hail",
       "ice-beam",
+      "rain-dance",
       "rock-smash",
+      "sandstorm",
       "strength",
       "surf",
       "thunder",
@@ -11407,6 +11701,10 @@
         "move": "ice-beam"
       },
       {
+        "level": 50,
+        "move": "rain-dance"
+      },
+      {
         "level": 55,
         "move": "hydro-pump"
       }
@@ -11414,9 +11712,11 @@
     "tmMoves": [
       "blizzard",
       "double-team",
+      "hail",
       "ice-beam",
       "iron-tail",
       "psychic",
+      "rain-dance",
       "rock-smash",
       "shock-wave",
       "strength",
@@ -11547,7 +11847,9 @@
     "tmMoves": [
       "double-team",
       "iron-tail",
+      "rain-dance",
       "shadow-ball",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -11698,9 +12000,12 @@
     "tmMoves": [
       "blizzard",
       "double-team",
+      "hail",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "shadow-ball",
+      "sunny-day",
       "surf",
       "toxic",
       "water-pulse",
@@ -11818,8 +12123,10 @@
       "double-team",
       "flash",
       "iron-tail",
+      "rain-dance",
       "shadow-ball",
       "shock-wave",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic"
@@ -11930,7 +12237,9 @@
       "flamethrower",
       "iron-tail",
       "overheat",
+      "rain-dance",
       "shadow-ball",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -12009,8 +12318,10 @@
       "ice-beam",
       "iron-tail",
       "psychic",
+      "rain-dance",
       "shadow-ball",
       "shock-wave",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic"
@@ -12087,9 +12398,12 @@
     "tmMoves": [
       "blizzard",
       "double-team",
+      "hail",
       "ice-beam",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "surf",
       "toxic",
       "water-pulse",
@@ -12177,9 +12491,12 @@
     "tmMoves": [
       "blizzard",
       "double-team",
+      "hail",
       "ice-beam",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "surf",
       "toxic",
       "water-pulse",
@@ -12271,9 +12588,12 @@
       "blizzard",
       "double-team",
       "giga-drain",
+      "hail",
       "ice-beam",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "surf",
       "toxic",
       "water-pulse",
@@ -12385,9 +12705,12 @@
       "cut",
       "double-team",
       "giga-drain",
+      "hail",
       "ice-beam",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "surf",
       "toxic",
       "water-pulse",
@@ -12474,9 +12797,12 @@
       "fire-blast",
       "flamethrower",
       "iron-tail",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -12560,10 +12886,13 @@
       "flamethrower",
       "ice-beam",
       "psychic",
+      "rain-dance",
       "rock-tomb",
+      "sandstorm",
       "shadow-ball",
       "shock-wave",
       "strength",
+      "sunny-day",
       "surf",
       "thunder",
       "thunderbolt",
@@ -12639,8 +12968,12 @@
       "aerial-ace",
       "blizzard",
       "double-team",
+      "hail",
       "ice-beam",
+      "rain-dance",
       "rock-smash",
+      "sandstorm",
+      "sunny-day",
       "toxic",
       "water-pulse"
     ],
@@ -12705,6 +13038,10 @@
         "move": "discharge"
       },
       {
+        "level": 50,
+        "move": "rain-dance"
+      },
+      {
         "level": 55,
         "move": "thunder"
       },
@@ -12717,8 +13054,11 @@
       "aerial-ace",
       "double-team",
       "flash",
+      "rain-dance",
       "rock-smash",
+      "sandstorm",
       "shock-wave",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic"
@@ -12788,6 +13128,10 @@
         "move": "heat-wave"
       },
       {
+        "level": 50,
+        "move": "sunny-day"
+      },
+      {
         "level": 55,
         "move": "hurricane"
       },
@@ -12802,7 +13146,10 @@
       "fire-blast",
       "flamethrower",
       "overheat",
+      "rain-dance",
       "rock-smash",
+      "sandstorm",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -12863,6 +13210,10 @@
       {
         "level": 35,
         "move": "dragon-rush"
+      },
+      {
+        "level": 45,
+        "move": "rain-dance"
       }
     ],
     "tmMoves": [
@@ -12870,9 +13221,12 @@
       "double-team",
       "fire-blast",
       "flamethrower",
+      "hail",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "shock-wave",
+      "sunny-day",
       "surf",
       "thunder",
       "thunderbolt",
@@ -12944,6 +13298,10 @@
       {
         "level": 39,
         "move": "dragon-rush"
+      },
+      {
+        "level": 53,
+        "move": "rain-dance"
       }
     ],
     "tmMoves": [
@@ -12951,9 +13309,12 @@
       "double-team",
       "fire-blast",
       "flamethrower",
+      "hail",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "shock-wave",
+      "sunny-day",
       "surf",
       "thunder",
       "thunderbolt",
@@ -13046,6 +13407,10 @@
       {
         "level": 39,
         "move": "dragon-rush"
+      },
+      {
+        "level": 53,
+        "move": "rain-dance"
       }
     ],
     "tmMoves": [
@@ -13058,12 +13423,16 @@
       "earthquake",
       "fire-blast",
       "flamethrower",
+      "hail",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "shock-wave",
       "strength",
+      "sunny-day",
       "surf",
       "thunder",
       "thunderbolt",
@@ -13149,14 +13518,18 @@
       "fire-blast",
       "flamethrower",
       "flash",
+      "hail",
       "ice-beam",
       "iron-tail",
       "psychic",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "shadow-ball",
       "shock-wave",
       "strength",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic",
@@ -13236,16 +13609,20 @@
       "flamethrower",
       "flash",
       "giga-drain",
+      "hail",
       "ice-beam",
       "iron-tail",
       "overheat",
       "psychic",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "shadow-ball",
       "shock-wave",
       "sludge-bomb",
       "strength",
+      "sunny-day",
       "surf",
       "thunder",
       "thunderbolt",
@@ -13323,6 +13700,10 @@
         "move": "slam"
       },
       {
+        "level": 40,
+        "move": "sandstorm"
+      },
+      {
         "level": 48,
         "move": "iron-tail"
       },
@@ -13342,7 +13723,9 @@
       "iron-tail",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -13432,6 +13815,10 @@
       {
         "level": 37,
         "move": "stone-edge"
+      },
+      {
+        "level": 47,
+        "move": "sandstorm"
       }
     ],
     "tmMoves": [
@@ -13446,10 +13833,13 @@
       "flamethrower",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "shock-wave",
       "strength",
+      "sunny-day",
       "surf",
       "thunder",
       "thunderbolt",
@@ -13530,6 +13920,10 @@
         "move": "hydro-pump"
       },
       {
+        "level": 65,
+        "move": "rain-dance"
+      },
+      {
         "level": 72,
         "move": "wave-crash"
       }
@@ -13537,7 +13931,9 @@
     "tmMoves": [
       "blizzard",
       "double-team",
+      "hail",
       "ice-beam",
+      "rain-dance",
       "surf",
       "toxic",
       "water-pulse",
@@ -13628,6 +14024,7 @@
       "flash",
       "giga-drain",
       "sludge-bomb",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -13729,7 +14126,9 @@
       "flash",
       "iron-tail",
       "psychic",
+      "rain-dance",
       "shadow-ball",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -13834,7 +14233,9 @@
       "flash",
       "iron-tail",
       "psychic",
+      "rain-dance",
       "shadow-ball",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -13917,6 +14318,10 @@
       {
         "level": 36,
         "move": "psychic"
+      },
+      {
+        "level": 42,
+        "move": "rain-dance"
       }
     ],
     "tmMoves": [
@@ -13928,12 +14333,15 @@
       "fire-blast",
       "flamethrower",
       "flash",
+      "hail",
       "ice-beam",
       "iron-tail",
       "psychic",
+      "rain-dance",
       "rock-smash",
       "shadow-ball",
       "strength",
+      "sunny-day",
       "surf",
       "toxic",
       "water-pulse"
@@ -14022,6 +14430,7 @@
       "shadow-ball",
       "sludge-bomb",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -14081,8 +14490,11 @@
       "brick-break",
       "double-team",
       "earthquake",
+      "rain-dance",
       "rock-smash",
+      "sandstorm",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -14183,8 +14595,11 @@
       "aerial-ace",
       "cut",
       "double-team",
+      "rain-dance",
       "rock-smash",
+      "sandstorm",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -14273,14 +14688,18 @@
       "fire-blast",
       "flamethrower",
       "flash",
+      "hail",
       "ice-beam",
       "iron-tail",
       "psychic",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "shadow-ball",
       "shock-wave",
       "strength",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic",
@@ -14375,8 +14794,10 @@
       "aerial-ace",
       "double-team",
       "giga-drain",
+      "rain-dance",
       "shadow-ball",
       "sludge-bomb",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -14452,6 +14873,10 @@
         "move": "surf"
       },
       {
+        "level": 44,
+        "move": "rain-dance"
+      },
+      {
         "level": 52,
         "move": "hydro-pump"
       }
@@ -14459,8 +14884,10 @@
     "tmMoves": [
       "blizzard",
       "double-team",
+      "hail",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "surf",
       "toxic",
       "water-pulse",
@@ -14539,6 +14966,7 @@
       "double-team",
       "flash",
       "iron-tail",
+      "rain-dance",
       "shock-wave",
       "strength",
       "thunder",
@@ -14640,8 +15068,10 @@
       "double-team",
       "flash",
       "psychic",
+      "rain-dance",
       "shadow-ball",
       "shock-wave",
+      "sunny-day",
       "thunderbolt",
       "toxic"
     ],
@@ -14698,9 +15128,11 @@
       "brick-break",
       "double-team",
       "earthquake",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
       "strength",
+      "sunny-day",
       "surf",
       "toxic"
     ],
@@ -14762,8 +15194,10 @@
       "double-team",
       "flash",
       "psychic",
+      "rain-dance",
       "shadow-ball",
       "shock-wave",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic"
@@ -14855,9 +15289,11 @@
       "fire-blast",
       "flamethrower",
       "iron-tail",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -14953,11 +15389,14 @@
       "earthquake",
       "flash",
       "psychic",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "shadow-ball",
       "sludge-bomb",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -15072,13 +15511,16 @@
       "mud-shot",
       "mud-slap",
       "poison-jab",
+      "rain-dance",
       "rock-blast",
       "rock-slide",
       "rock-tomb",
+      "sandstorm",
       "scary-face",
       "smart-strike",
       "stomping-tantrum",
       "stone-edge",
+      "sunny-day",
       "surf",
       "swords-dance",
       "take-down",
@@ -15161,10 +15603,12 @@
       "pin-missile",
       "poison-jab",
       "power-whip",
+      "rain-dance",
       "round",
       "seed-bomb",
       "shadow-ball",
       "sludge-bomb",
+      "sunny-day",
       "swift",
       "swords-dance",
       "venoshock"
@@ -15260,6 +15704,7 @@
       "seed-bomb",
       "sludge-bomb",
       "stomping-tantrum",
+      "sunny-day",
       "swords-dance"
     ],
     "evolutions": [],
@@ -15345,6 +15790,7 @@
       "mud-slap",
       "nasty-plot",
       "poison-jab",
+      "rain-dance",
       "rock-slide",
       "rock-tomb",
       "scary-face",
@@ -15352,6 +15798,7 @@
       "sludge-bomb",
       "sludge-wave",
       "stone-edge",
+      "sunny-day",
       "swords-dance",
       "take-down",
       "thunder-punch",
@@ -15436,6 +15883,10 @@
         "move": "flamethrower"
       },
       {
+        "level": 52,
+        "move": "sunny-day"
+      },
+      {
         "level": 58,
         "move": "fire-blast"
       }
@@ -15464,6 +15915,7 @@
       "rock-tomb",
       "scary-face",
       "stomping-tantrum",
+      "sunny-day",
       "take-down",
       "thunder-punch",
       "thunderbolt",
@@ -15560,6 +16012,7 @@
       "low-sweep",
       "metal-sound",
       "psychic",
+      "rain-dance",
       "rock-slide",
       "rock-tomb",
       "stomping-tantrum",
@@ -15635,6 +16088,10 @@
         "move": "dragon-claw"
       },
       {
+        "level": 62,
+        "move": "sandstorm"
+      },
+      {
         "level": 72,
         "move": "take-down"
       },
@@ -15663,11 +16120,14 @@
       "mud-shot",
       "poison-jab",
       "power-gem",
+      "rain-dance",
       "rock-slide",
       "rock-tomb",
+      "sandstorm",
       "scary-face",
       "stomping-tantrum",
       "stone-edge",
+      "sunny-day",
       "surf",
       "swift",
       "swords-dance",
@@ -15754,6 +16214,7 @@
       "icy-wind",
       "leaf-storm",
       "mud-slap",
+      "rain-dance",
       "rock-slide",
       "rock-tomb",
       "scary-face",
@@ -15855,9 +16316,11 @@
       "knock-off",
       "mud-shot",
       "mud-slap",
+      "rain-dance",
       "rock-blast",
       "rock-slide",
       "rock-tomb",
+      "sandstorm",
       "scary-face",
       "stomping-tantrum",
       "stone-edge",
@@ -15972,8 +16435,10 @@
       "icy-wind",
       "mud-shot",
       "mud-slap",
+      "rain-dance",
       "shadow-ball",
       "stored-power",
+      "sunny-day",
       "swift",
       "take-down",
       "water-pulse"
@@ -16062,6 +16527,10 @@
         "move": "baby-doll-eyes"
       },
       {
+        "level": 35,
+        "move": "sunny-day"
+      },
+      {
         "level": 40,
         "move": "giga-drain"
       },
@@ -16088,9 +16557,11 @@
       "leaf-storm",
       "mud-shot",
       "mud-slap",
+      "rain-dance",
       "seed-bomb",
       "shadow-ball",
       "stored-power",
+      "sunny-day",
       "swift",
       "swords-dance",
       "take-down",
@@ -16157,9 +16628,11 @@
       "psybeam",
       "psychic",
       "psyshock",
+      "rain-dance",
       "scary-face",
       "shadow-ball",
       "stored-power",
+      "sunny-day",
       "swift",
       "thunder",
       "thunder-wave",
@@ -16259,9 +16732,11 @@
       "icy-wind",
       "leech-life",
       "psychic",
+      "rain-dance",
       "rock-slide",
       "rock-tomb",
       "shadow-ball",
+      "sunny-day",
       "swift",
       "thunder-punch",
       "will-o-wisp"
@@ -16378,6 +16853,7 @@
       "payback",
       "pin-missile",
       "poison-jab",
+      "rain-dance",
       "retaliate",
       "rock-slide",
       "rock-tomb",
@@ -16387,6 +16863,7 @@
       "shadow-ball",
       "sludge-bomb",
       "stomping-tantrum",
+      "sunny-day",
       "swords-dance",
       "venoshock",
       "x-scissor"
@@ -16489,11 +16966,13 @@
       "play-rough",
       "psychic",
       "psyshock",
+      "rain-dance",
       "retaliate",
       "round",
       "shadow-ball",
       "smart-strike",
       "stored-power",
+      "sunny-day",
       "swift",
       "thunder-wave",
       "tri-attack",
@@ -16594,6 +17073,7 @@
       "sludge-bomb",
       "smart-strike",
       "stomping-tantrum",
+      "sunny-day",
       "swords-dance",
       "venoshock",
       "x-scissor"
@@ -16681,6 +17161,7 @@
       "overheat",
       "psychic",
       "shadow-ball",
+      "sunny-day",
       "will-o-wisp"
     ],
     "evolutions": [],
@@ -16737,6 +17218,10 @@
         "move": "metal-claw"
       },
       {
+        "level": 20,
+        "move": "sandstorm"
+      },
+      {
         "level": 28,
         "move": "rock-slide"
       },
@@ -16773,9 +17258,11 @@
       "rock-blast",
       "rock-slide",
       "rock-tomb",
+      "sandstorm",
       "scary-face",
       "smart-strike",
       "stomping-tantrum",
+      "sunny-day",
       "swords-dance",
       "take-down",
       "x-scissor"
@@ -16862,12 +17349,14 @@
       "knock-off",
       "low-sweep",
       "poison-jab",
+      "rain-dance",
       "rock-blast",
       "rock-slide",
       "rock-tomb",
       "scary-face",
       "stomping-tantrum",
       "stone-edge",
+      "sunny-day",
       "take-down",
       "thunder-punch"
     ],
@@ -16977,8 +17466,10 @@
       "play-rough",
       "psychic",
       "psyshock",
+      "rain-dance",
       "shadow-ball",
       "stored-power",
+      "sunny-day",
       "swift",
       "take-down"
     ],
@@ -17073,6 +17564,7 @@
       "flamethrower",
       "overheat",
       "rock-smash",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -17175,7 +17667,9 @@
       "overheat",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -17244,11 +17738,13 @@
       "flamethrower",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
       "shadow-ball",
       "shock-wave",
       "strength",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic",
@@ -17331,11 +17827,14 @@
       "calm-mind",
       "cut",
       "double-team",
+      "hail",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "rock-smash",
       "shadow-ball",
       "strength",
+      "sunny-day",
       "surf",
       "toxic"
     ],
@@ -17413,9 +17912,12 @@
       "blizzard",
       "double-team",
       "earthquake",
+      "hail",
       "ice-beam",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "strength",
       "toxic"
     ],
@@ -17471,7 +17973,9 @@
       "aerial-ace",
       "blizzard",
       "double-team",
+      "hail",
       "ice-beam",
+      "rain-dance",
       "toxic",
       "water-pulse"
     ],
@@ -17541,6 +18045,10 @@
         "move": "play-rough"
       },
       {
+        "level": 27,
+        "move": "rain-dance"
+      },
+      {
         "level": 30,
         "move": "hydro-pump"
       },
@@ -17553,8 +18061,10 @@
       "blizzard",
       "brick-break",
       "double-team",
+      "hail",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "rock-smash",
       "strength",
       "surf",
@@ -17610,6 +18120,10 @@
         "move": "water-gun"
       },
       {
+        "level": 4,
+        "move": "rain-dance"
+      },
+      {
         "level": 8,
         "move": "mud-shot"
       },
@@ -17643,9 +18157,12 @@
       "double-team",
       "earthquake",
       "flash",
+      "hail",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "rock-smash",
+      "sandstorm",
       "sludge-bomb",
       "surf",
       "toxic",
@@ -17742,6 +18259,7 @@
       "double-team",
       "flash",
       "giga-drain",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -17827,7 +18345,9 @@
     "tmMoves": [
       "blizzard",
       "double-team",
+      "hail",
       "ice-beam",
+      "rain-dance",
       "shadow-ball",
       "shock-wave",
       "sludge-bomb",
@@ -17908,6 +18428,8 @@
       "flamethrower",
       "ice-beam",
       "psychic",
+      "rain-dance",
+      "sunny-day",
       "surf",
       "toxic",
       "water-pulse",
@@ -17982,9 +18504,11 @@
       "flamethrower",
       "flash",
       "psychic",
+      "rain-dance",
       "rock-smash",
       "shadow-ball",
       "shock-wave",
+      "sunny-day",
       "toxic",
       "water-pulse"
     ],
@@ -18067,9 +18591,12 @@
       "blizzard",
       "double-team",
       "earthquake",
+      "hail",
       "ice-beam",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "strength",
       "toxic"
     ],
@@ -18145,6 +18672,10 @@
         "move": "play-rough"
       },
       {
+        "level": 35,
+        "move": "rain-dance"
+      },
+      {
         "level": 40,
         "move": "hydro-pump"
       },
@@ -18157,8 +18688,10 @@
       "blizzard",
       "brick-break",
       "double-team",
+      "hail",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "rock-smash",
       "strength",
       "surf",
@@ -18205,6 +18738,10 @@
       },
       {
         "level": 1,
+        "move": "rain-dance"
+      },
+      {
+        "level": 1,
         "move": "tail-whip"
       },
       {
@@ -18242,10 +18779,13 @@
       "double-team",
       "earthquake",
       "flash",
+      "hail",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "sludge-bomb",
       "strength",
       "surf",
@@ -18337,6 +18877,7 @@
       "double-team",
       "flash",
       "giga-drain",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -18429,6 +18970,7 @@
       "double-team",
       "flash",
       "giga-drain",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -18512,7 +19054,9 @@
       "flamethrower",
       "ice-beam",
       "psychic",
+      "rain-dance",
       "sludge-bomb",
+      "sunny-day",
       "surf",
       "toxic",
       "water-pulse",
@@ -18589,9 +19133,11 @@
       "flamethrower",
       "flash",
       "psychic",
+      "rain-dance",
       "rock-smash",
       "shadow-ball",
       "shock-wave",
+      "sunny-day",
       "toxic",
       "water-pulse"
     ],
@@ -18669,8 +19215,10 @@
       "flamethrower",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "shadow-ball",
       "shock-wave",
+      "sunny-day",
       "surf",
       "thunderbolt",
       "toxic",
@@ -18755,10 +19303,12 @@
       "flamethrower",
       "ice-beam",
       "iron-tail",
+      "rain-dance",
       "rock-smash",
       "shadow-ball",
       "shock-wave",
       "strength",
+      "sunny-day",
       "surf",
       "thunder",
       "thunderbolt",
@@ -18841,6 +19391,7 @@
       "double-team",
       "flash",
       "giga-drain",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -18925,6 +19476,7 @@
       "double-team",
       "flash",
       "giga-drain",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -19007,6 +19559,7 @@
       "giga-drain",
       "psychic",
       "sludge-bomb",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -19107,6 +19660,7 @@
       "giga-drain",
       "psychic",
       "sludge-bomb",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -19174,7 +19728,9 @@
       "flash",
       "giga-drain",
       "psychic",
+      "rain-dance",
       "shadow-ball",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -19252,7 +19808,9 @@
       "flash",
       "giga-drain",
       "psychic",
+      "rain-dance",
       "shadow-ball",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -19341,6 +19899,7 @@
       "giga-drain",
       "psychic",
       "shadow-ball",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -19401,7 +19960,9 @@
       "aerial-ace",
       "calm-mind",
       "double-team",
+      "rain-dance",
       "shadow-ball",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -19478,8 +20039,10 @@
       "double-team",
       "flash",
       "psychic",
+      "rain-dance",
       "shadow-ball",
       "shock-wave",
+      "sunny-day",
       "thunder",
       "thunderbolt",
       "toxic"
@@ -19610,9 +20173,11 @@
       "cut",
       "double-team",
       "earthquake",
+      "rain-dance",
       "rock-smash",
       "rock-tomb",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -19706,7 +20271,9 @@
       "blizzard",
       "double-team",
       "earthquake",
+      "hail",
       "ice-beam",
+      "rain-dance",
       "surf",
       "toxic",
       "water-pulse",
@@ -19803,6 +20370,8 @@
       "cut",
       "double-team",
       "rock-smash",
+      "sandstorm",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -19871,7 +20440,9 @@
       "iron-tail",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -19962,7 +20533,9 @@
       "iron-tail",
       "rock-smash",
       "rock-tomb",
+      "sandstorm",
       "strength",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [],
@@ -20045,13 +20618,20 @@
       {
         "level": 33,
         "move": "stone-edge"
+      },
+      {
+        "level": 39,
+        "move": "sandstorm"
       }
     ],
     "tmMoves": [
       "brick-break",
       "double-team",
       "earthquake",
+      "rain-dance",
       "rock-smash",
+      "sandstorm",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [
@@ -20143,13 +20723,20 @@
       {
         "level": 37,
         "move": "stone-edge"
+      },
+      {
+        "level": 47,
+        "move": "sandstorm"
       }
     ],
     "tmMoves": [
       "brick-break",
       "double-team",
       "earthquake",
+      "rain-dance",
       "rock-smash",
+      "sandstorm",
+      "sunny-day",
       "toxic"
     ],
     "evolutions": [

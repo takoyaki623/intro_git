@@ -16,7 +16,7 @@ import type { GameData } from "../gamedata.js";
 import type { Rng } from "../rng.js";
 import { calcAllStats, MAX_IVS, ZERO_STATS } from "../stats.js";
 import { effectivenessAgainst } from "../typechart.js";
-import type { Action, BattlePokemon, Move, StatId } from "../types.js";
+import type { Action, BattlePokemon, Move, StatId, WeatherId } from "../types.js";
 import { EMPTY_STAGES } from "../types.js";
 import type { AiConfig, AiView } from "./view.js";
 
@@ -68,10 +68,12 @@ function expectedDamage(
   defender: BattlePokemon,
   move: Move,
   rng: Rng,
+  weather: WeatherId | null,
 ): { damage: number; effectiveness: number } {
   const result = calcDamage(data, attacker, defender, move, rng, {
     forceCritical: false,
     forceRandom: AVERAGE_ROLL,
+    weather,
   });
   return { damage: result.damage, effectiveness: result.effectiveness };
 }
@@ -95,7 +97,7 @@ function scoreMove(
   const ownHpRatio = self.maxHp === 0 ? 0 : self.currentHp / self.maxHp;
 
   if (move.category !== "status") {
-    const { damage, effectiveness } = expectedDamage(data, self, foe, move, rng);
+    const { damage, effectiveness } = expectedDamage(data, self, foe, move, rng, view.weather);
     if (effectiveness === 0) return { score: -100, reason: "こうかがない" };
     const ratio = damage / Math.max(1, foe.currentHp);
     if (ratio >= 1) return { score: 300 + damage, reason: "確実に倒せる" };

@@ -13,18 +13,18 @@ tm03	3	water-pulse
 tm04	4	calm-mind		
 tm05	5	roar	技が未実装（moves-todo.tsv）	
 tm06	6	toxic		3000
-tm07	7	hail	技が未実装（moves-todo.tsv）	
+tm07	7	hail		
 tm08	8	bulk-up	技が未実装（moves-todo.tsv）	
 tm09	9	bullet-seed		
 tm10	10	hidden-power	技が未実装（moves-todo.tsv）	
-tm11	11	sunny-day	技が未実装（moves-todo.tsv）	
+tm11	11	sunny-day		
 tm12	12	taunt	技が未実装（moves-todo.tsv）	
 tm13	13	ice-beam		4000
 tm14	14	blizzard		
 tm15	15	hyper-beam	技が未実装（moves-todo.tsv）	
 tm16	16	light-screen	技が未実装（moves-todo.tsv）	
 tm17	17	protect	技が未実装（moves-todo.tsv）	
-tm18	18	rain-dance	技が未実装（moves-todo.tsv）	
+tm18	18	rain-dance		
 tm19	19	giga-drain		3500
 tm20	20	safeguard	技が未実装（moves-todo.tsv）	
 tm21	21	frustration	技が未実装（moves-todo.tsv）	
@@ -43,7 +43,7 @@ tm33	33	reflect	技が未実装（moves-todo.tsv）
 tm34	34	shock-wave	互換表に持つ種がいない（マシンの版と互換表の版が違う）	
 tm35	35	flamethrower		
 tm36	36	sludge-bomb		
-tm37	37	sandstorm	技が未実装（moves-todo.tsv）	
+tm37	37	sandstorm		
 tm38	38	fire-blast		
 tm39	39	rock-tomb		
 tm40	40	aerial-ace		

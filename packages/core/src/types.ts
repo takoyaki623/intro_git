@@ -1,7 +1,7 @@
 /**
  * 基本型。
  *
- * v0.5 で特性・持ち物が入った。天候・フィールドは未実装（v1.2）。
+ * v0.5 で特性・持ち物が入った。天気は v1.2-c で入った（フィールドはまだ）。
  * 型の側だけ先に用意しておくものは、その旨をコメントで示す。
  * 設計: docs/design/battle-system.md
  */
@@ -208,7 +208,14 @@ export type MoveEffect =
    * 逃げるのは「使った側」なので、野生のケーシィが使えば向こうが消える ――
    * これが無いと、ケーシィは Lv16 まで技を1つも持てず野生に出せない。
    */
-  | { kind: "fleeWild" };
+  | { kind: "fleeWild" }
+  /**
+   * 天気を変える（v1.2-c）。
+   *
+   * **同じ天気なら失敗する**（原作どおり）―― 上書きで延長できると、
+   * 1体で永久に降らせ続けられる。
+   */
+  | { kind: "weather"; weather: WeatherId; turns: number };
 
 // ─────────────────────────────────────────────
 // 特性・持ち物（v0.5）
@@ -514,6 +521,21 @@ export type RngState = {
  * **観点を並べる順が規則**であって、点数の計算式は持たない ――
  * 「HPの残りで比べ、同じなら与えたダメージで比べる」と読めることが要件。
  */
+/**
+ * 天気（v1.2-c）。**場に1つだけで、どちら側のものでもない。**
+ *
+ * わざマシン4本（あられ・にほんばれ・あまごい・すなあらし）がこの器1つで開く ――
+ * **器を1つ足すと複数のマシンが同時に通る**のが、この版の進め方。
+ */
+export const WEATHERS = ["sun", "rain", "sandstorm", "hail"] as const;
+export type WeatherId = (typeof WEATHERS)[number];
+
+/** その天気に削られないタイプ。すなあらし と あられ だけが削る。 */
+export const WEATHER_IMMUNE: Partial<Record<WeatherId, readonly Type[]>> = {
+  sandstorm: ["rock", "ground", "steel"],
+  hail: ["ice"],
+};
+
 export const JUDGE_CRITERIA = ["hpRatio", "damageDealt", "movesHit"] as const;
 export type JudgeCriterion = (typeof JUDGE_CRITERIA)[number];
 export type JudgeRule = { criteria: JudgeCriterion[] };
@@ -554,6 +576,13 @@ export type BattleState = {
   tally: [BattleTally, BattleTally];
   /** 野生戦で使ったボール（v0.8）。捕獲後の処理で誰が捕まえたかを見る。 */
   caughtWith?: ItemId;
+  /**
+   * 場の天気（v1.2-c）。**残りターンを持つのは天気のほうで、技ではない。**
+   *
+   * `sides` の外に置く ―― どちらの側のものでもないので、
+   * 側に持たせると「両方が別の天気を持つ」状態が書けてしまう。
+   */
+  weather: { kind: WeatherId; turns: number } | null;
   /**
    * ひんしにより交代を要求されている側。
    * 空でない間、次の step はその側の switch 行動のみを処理し、ターンを進めない。
@@ -617,6 +646,10 @@ export type BattleEvent =
   | { kind: "statusApplied"; side: SideIndex; status: StatusId }
   | { kind: "confused"; side: SideIndex }
   | { kind: "statusDamage"; side: SideIndex; status: StatusId; amount: number; remainingHp: number }
+  /** 天気（v1.2-c）。始まり・毎ターンの削り・終わりの3つ。 */
+  | { kind: "weatherStart"; weather: WeatherId }
+  | { kind: "weatherDamage"; side: SideIndex; weather: WeatherId; amount: number; remainingHp: number }
+  | { kind: "weatherEnd"; weather: WeatherId }
   | { kind: "statChange"; side: SideIndex; stat: StagedStat; delta: number; stage: number }
   | { kind: "statChangeFailed"; side: SideIndex; stat: StagedStat }
   | { kind: "faint"; side: SideIndex }

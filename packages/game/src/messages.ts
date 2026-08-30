@@ -8,6 +8,26 @@ import type { BattleEvent } from "@pkmn/core";
 import { gameData } from "@pkmn/data";
 import { STAT_LABEL, STATUS_LABEL, type BattleView } from "./view.js";
 
+/** 天気の文（v1.2-c）。**始まり・削り・終わりで別の言い方をする**（原作どおり）。 */
+const WEATHER_LABEL: Record<string, string> = {
+  sun: "ひざし",
+  rain: "あめ",
+  sandstorm: "すなあらし",
+  hail: "あられ",
+};
+const WEATHER_START: Record<string, string> = {
+  sun: "ひざしが つよくなった!",
+  rain: "あめが ふりはじめた!",
+  sandstorm: "すなあらしが ふきはじめた!",
+  hail: "あられが ふりはじめた!",
+};
+const WEATHER_END: Record<string, string> = {
+  sun: "ひざしが もとに もどった。",
+  rain: "あめが あがった。",
+  sandstorm: "すなあらしが おさまった。",
+  hail: "あられが やんだ。",
+};
+
 const BLOCK_TEXT: Record<string, (name: string) => string> = {
   sleep: (n) => `${n} は ぐうぐう ねむっている`,
   freeze: (n) => `${n} は こおって しまって うごけない`,
@@ -90,6 +110,12 @@ export function messageOf(event: BattleEvent, view: BattleView): string | null {
       return `${label(event.side)} は こんらんした!`;
     case "statusDamage":
       return `${label(event.side)} は ${STATUS_LABEL[event.status]} の ダメージを うけた!`;
+    case "weatherStart":
+      return WEATHER_START[event.weather] ?? null;
+    case "weatherDamage":
+      return `${label(event.side)} は ${WEATHER_LABEL[event.weather] ?? event.weather} の ダメージを うけた!`;
+    case "weatherEnd":
+      return WEATHER_END[event.weather] ?? null;
     case "statChange": {
       const stat = STAT_LABEL[event.stat] ?? event.stat;
       const n = Math.abs(event.delta);

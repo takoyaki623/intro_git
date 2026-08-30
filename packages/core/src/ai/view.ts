@@ -22,6 +22,7 @@ import type {
   StatStages,
   StatusId,
   Type,
+  WeatherId,
 } from "../types.js";
 
 export type AiConfig = {
@@ -53,6 +54,12 @@ export type AiView = {
     remaining: number;
   };
   turn: number;
+  /**
+   * 場の天気（v1.2-c）。**これは隠さない。**
+   * 天気は両者に見えているもので、隠すと AI が
+   * 「にほんばれ中の みずでっぽう」を最善手だと思い込む。
+   */
+  weather: WeatherId | null;
   legal: readonly Action[];
 };
 
@@ -125,6 +132,7 @@ export function toAiView(
       remaining: foeParty.filter((p) => p.currentHp > 0).length,
     },
     turn: state.turn,
+    weather: state.weather?.kind ?? null,
     legal: legalActions(data, state, side),
   };
 }

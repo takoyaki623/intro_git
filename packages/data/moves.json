@@ -3805,5 +3805,69 @@
       "stages": -1,
       "chance": 0.5
     }
+  },
+  {
+    "id": "sunny-day",
+    "name": "にほんばれ",
+    "type": "fire",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 5,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "weather",
+      "weather": "sun",
+      "turns": 5
+    }
+  },
+  {
+    "id": "rain-dance",
+    "name": "あまごい",
+    "type": "water",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 5,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "weather",
+      "weather": "rain",
+      "turns": 5
+    }
+  },
+  {
+    "id": "sandstorm",
+    "name": "すなあらし",
+    "type": "rock",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 10,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "weather",
+      "weather": "sandstorm",
+      "turns": 5
+    }
+  },
+  {
+    "id": "hail",
+    "name": "あられ",
+    "type": "ice",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 10,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "weather",
+      "weather": "hail",
+      "turns": 5
+    }
   }
 ]

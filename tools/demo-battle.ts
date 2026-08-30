@@ -73,6 +73,12 @@ function render(event: BattleEvent): string | null {
       return `  ${nameOf(event.side)} は 混乱した`;
     case "statusDamage":
       return `  ${nameOf(event.side)} は ${STATUS_LABEL[event.status]} で ${event.amount} (残り ${event.remainingHp})`;
+    case "weatherStart":
+      return `  天気が ${event.weather} になった`;
+    case "weatherDamage":
+      return `  ${nameOf(event.side)} は ${event.weather} で ${event.amount} (残り ${event.remainingHp})`;
+    case "weatherEnd":
+      return `  ${event.weather} が おさまった`;
     case "statChange":
       return `  ${nameOf(event.side)} の ${event.stat} が ${event.delta > 0 ? "あがった" : "さがった"} (${event.stage})`;
     case "statChangeFailed":

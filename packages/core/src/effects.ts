@@ -70,6 +70,23 @@ export const effectHandlers: Registry = {
   nothing: () => {},
 
   /**
+   * 天気を変える（v1.2-c）。
+   *
+   * **同じ天気なら失敗する**（原作どおり）。上書きで延長できると、
+   * 1体が撃ち続けるだけで永久に降らせられる ―― 効かなかったことを
+   * `landed` を立てないことで言う（「しかし うまく きまらなかった」になる）。
+   *
+   * 消えるのはターン終了時（`battle.ts`）。**減らす場所を効果側に書かない** ――
+   * 書くと「撃った側のターンだけ減る」ことになる。
+   */
+  weather: (effect, ctx) => {
+    if (ctx.state.weather?.kind === effect.weather) return;
+    ctx.state.weather = { kind: effect.weather, turns: effect.turns };
+    ctx.landed = true;
+    ctx.events.push({ kind: "weatherStart", weather: effect.weather });
+  },
+
+  /**
    * テレポート（v1.1-i）。**野生戦から抜ける。**
    *
    * 決着を書き込むだけでよい ―― ターンの処理は `draft.result` が

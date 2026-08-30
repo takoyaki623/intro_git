@@ -955,12 +955,34 @@
     "price": 3000
   },
   {
+    "id": "tm07",
+    "name": "わざマシン07 あられ",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "hail"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
     "id": "tm09",
     "name": "わざマシン09 タネマシンガン",
     "category": "tm",
     "use": {
       "kind": "teachMove",
       "move": "bullet-seed"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm11",
+    "name": "わざマシン11 にほんばれ",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "sunny-day"
     },
     "useScope": "field",
     "consumable": true
@@ -984,6 +1006,17 @@
     "use": {
       "kind": "teachMove",
       "move": "blizzard"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm18",
+    "name": "わざマシン18 あまごい",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "rain-dance"
     },
     "useScope": "field",
     "consumable": true
@@ -1107,6 +1140,17 @@
     "use": {
       "kind": "teachMove",
       "move": "sludge-bomb"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm37",
+    "name": "わざマシン37 すなあらし",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "sandstorm"
     },
     "useScope": "field",
     "consumable": true

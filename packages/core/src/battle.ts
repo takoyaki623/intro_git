@@ -56,8 +56,9 @@ import type {
   Side,
   SideIndex,
   StepResult,
+  WeatherId,
 } from "./types.js";
-import { EMPTY_STAGES } from "./types.js";
+import { EMPTY_STAGES, WEATHER_IMMUNE } from "./types.js";
 
 /** PP が尽きたときの代替行動。これが無いとバトルが終わらなくなる。 */
 const STRUGGLE: Move = {
@@ -71,6 +72,9 @@ const STRUGGLE: Move = {
   priority: 0,
   target: "foe",
 };
+/** すなあらし・あられ で削れる割合（最大HPの 1/16）。 */
+const WEATHER_CHIP_DENOMINATOR = 16;
+
 /** わるあがきの反動は与ダメージではなく最大HPの割合（第5世代以降）。 */
 const STRUGGLE_RECOIL_RATIO = 1 / 4;
 
@@ -105,6 +109,8 @@ export function createBattle(
     turn: 0,
     rng: createRngState(seed),
     isWild: options.isWild ?? false,
+    // 天気は「まだ何も起きていない」から始まる（v1.2-c）
+    weather: null,
     // サファリの段階（v1.1-h）。**サファリでなければ null。**
     // 「段階を持っているか」がそのまま「サファリか」の判定になるので、
     // `isSafari` のような真偽値をもう1つ持たずに済む
@@ -490,7 +496,12 @@ function performMove(
     if (activeOf(state, defender).currentHp <= 0) break;
 
     const target = activeOf(state, defender);
-    const result = calcDamage(data, self, target, move, rng, { typeless: isStruggle, ...power });
+    const result = calcDamage(data, self, target, move, rng, {
+      typeless: isStruggle,
+      // 天気は場に1つなので、どちら側が撃つかに関係なく同じものを渡す（v1.2-c）
+      weather: state.weather?.kind ?? null,
+      ...power,
+    });
     lastEffectiveness = result.effectiveness;
 
     if (result.effectiveness === 0) {
@@ -571,6 +582,20 @@ function performMove(
   }
 }
 
+/**
+ * 天気で削れる量（v1.2-c）。**削るのは すなあらし と あられ だけ。**
+ *
+ * にほんばれ・あまごい は威力を動かすだけで、ここでは 0 を返す
+ * ―― `WEATHER_IMMUNE` に載っていないことと、削られないことは別。
+ */
+function weatherChipDamage(weather: WeatherId | null, p: BattlePokemon): number {
+  if (weather === null) return 0;
+  const immune = WEATHER_IMMUNE[weather];
+  if (immune === undefined) return 0;
+  if (p.types.some((t) => immune.includes(t))) return 0;
+  return Math.max(1, Math.floor(p.maxHp / WEATHER_CHIP_DENOMINATOR));
+}
+
 /** ターン終了時のスリップダメージと、持ち物・特性のターン終了処理。 */
 function endOfTurn(
   data: GameData,
@@ -581,6 +606,20 @@ function endOfTurn(
   for (const side of speedOrder(data, state, rng)) {
     const p = activeOf(state, side);
     if (p.currentHp <= 0) continue;
+
+    // 天気 → 持ち物 → 状態異常 の順（原作の順序）
+    const chip = weatherChipDamage(state.weather?.kind ?? null, p);
+    if (chip > 0) {
+      const weather = state.weather!.kind;
+      dealDamage(state, side, chip, events, (amount, remainingHp) => ({
+        kind: "weatherDamage",
+        side,
+        weather,
+        amount,
+        remainingHp,
+      }));
+      if (p.currentHp <= 0) continue;
+    }
 
     // たべのこし等はスリップダメージより先（原作の順序）
     onEndOfTurnHeld(heldBase(data, state, side, rng, events));
@@ -601,6 +640,16 @@ function endOfTurn(
   }
 
   checkHeld(data, state, rng, events);
+
+  // 天気の残りターン。**削るのは全員が削られたあと** ――
+  // 先に減らすと、最後の1ターンだけ片側が削られないことになる
+  if (state.weather !== null) {
+    state.weather.turns -= 1;
+    if (state.weather.turns <= 0) {
+      events.push({ kind: "weatherEnd", weather: state.weather.kind });
+      state.weather = null;
+    }
+  }
 
   // ひるみは1ターン限り
   for (const side of [0, 1] as const) {

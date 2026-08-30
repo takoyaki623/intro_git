@@ -2,8 +2,8 @@
  * 自動生成ファイル。直接編集しないこと。
  *   再生成: npm run gen:ids
  *
- * 種族 228 / 技 253 / 性格 25 /
- * 特性 74 / 道具 116 /
+ * 種族 228 / 技 257 / 性格 25 /
+ * 特性 74 / 道具 120 /
  * BattleSet 64 / 施設 4 /
  * ネームド 18 / カップ 10 /
  * マップ 210 / イベント 339 / トレーナー 165 /
@@ -332,6 +332,7 @@ export type GeneratedMoveId =
   | "growl"
   | "gunk-shot"
   | "gust"
+  | "hail"
   | "hammer-arm"
   | "harden"
   | "headbutt"
@@ -412,6 +413,7 @@ export type GeneratedMoveId =
   | "quick-attack"
   | "rage-fist"
   | "raging-bull"
+  | "rain-dance"
   | "rapid-spin"
   | "razor-leaf"
   | "razor-shell"
@@ -426,6 +428,7 @@ export type GeneratedMoveId =
   | "rock-tomb"
   | "round"
   | "sand-attack"
+  | "sandstorm"
   | "scary-face"
   | "scratch"
   | "screech"
@@ -458,6 +461,7 @@ export type GeneratedMoveId =
   | "string-shot"
   | "stun-spore"
   | "submission"
+  | "sunny-day"
   | "supersonic"
   | "surf"
   | "sweet-kiss"
@@ -694,9 +698,12 @@ export type GeneratedItemId =
   | "tm03"
   | "tm04"
   | "tm06"
+  | "tm07"
   | "tm09"
+  | "tm11"
   | "tm13"
   | "tm14"
+  | "tm18"
   | "tm19"
   | "tm23"
   | "tm24"
@@ -708,6 +715,7 @@ export type GeneratedItemId =
   | "tm32"
   | "tm35"
   | "tm36"
+  | "tm37"
   | "tm38"
   | "tm39"
   | "tm40"

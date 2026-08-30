@@ -73,6 +73,9 @@ function parseEffect(src: string, where: string): unknown {
       return { kind, min: num(0), max: num(1) };
     case "statChange":
       return { kind, target: args[0], stat: args[1], stages: num(2), chance: num(3) };
+    // 天気（v1.2-c）。**場に1つで、どちら側のものでもない**ので target を取らない
+    case "weather":
+      return { kind, weather: args[0], turns: num(1) };
     default:
       err(where, `未知の効果 "${kind}"`);
       return undefined;

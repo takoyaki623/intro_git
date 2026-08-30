@@ -1,7 +1,6 @@
 id	english	reason	neededBy
 focus-energy	Focus Energy	未実装の状態	31
 helping-hand	Helping Hand	未実装の状態	28
-rain-dance	Rain Dance	天候	23
 ancient-power	Ancient Power	能力変化が複数	21
 defense-curl	Defense Curl	未実装の状態	21
 disable	Disable	未実装の状態	20
@@ -27,7 +26,6 @@ wrap	Wrap	未実装の状態	12
 curse	Curse	未実装の状態	11
 mean-look	Mean Look	効果を表せない	11
 night-shade	Night Shade	威力が可変	11
-sandstorm	Sandstorm	天候	11
 smack-down	Smack Down	未実装の状態	11
 toxic-spikes	Toxic Spikes	場の効果	11
 leech-seed	Leech Seed	未実装の状態	10
@@ -120,7 +118,6 @@ role-play	Role Play	効果を表せない	4
 shadow-sneak	shadow-sneak	追加できる（日本語名が要る）	4
 sheer-cold	Sheer Cold	特殊な命中判定	4
 snowscape	Snowscape	天候	4
-sunny-day	Sunny Day	天候	4
 u-turn	U-turn	交代を伴う技	4
 whirlpool	Whirlpool	未実装の状態	4
 acrobatics	acrobatics	追加できる（日本語名が要る）	3

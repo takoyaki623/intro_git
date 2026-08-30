@@ -17,7 +17,7 @@ import type { Rng } from "./rng.js";
 import { accuracyStageMultiplier, clampStage, effectiveStat } from "./stages.js";
 import { BURN_ATTACK_MULTIPLIER } from "./status.js";
 import { effectivenessAgainst } from "./typechart.js";
-import type { BattlePokemon, Effectiveness, Move } from "./types.js";
+import type { BattlePokemon, Effectiveness, Move, Type, WeatherId } from "./types.js";
 
 /** 急所ランク → 発生確率。 */
 const CRIT_CHANCE_BY_STAGE = [1 / 24, 1 / 8, 1 / 2, 1] as const;
@@ -62,6 +62,25 @@ export type DamageResult = {
  *
  * 補正は設計 §4 の順で適用する。v0.2 では 複数対象・天候は対象外。
  */
+/**
+ * 天気による威力の倍率（v1.2-c）。
+ *
+ * **表にしない。** 4つしか無く、効くのは2つだけ ――
+ * 表にすると「効かない2つ」を空欄で書くことになり、
+ * 書き忘れと見分けが付かなくなる。
+ */
+export function weatherMultiplier(weather: WeatherId | null, moveType: Type): number {
+  if (weather === "sun") {
+    if (moveType === "fire") return 1.5;
+    if (moveType === "water") return 0.5;
+  }
+  if (weather === "rain") {
+    if (moveType === "water") return 1.5;
+    if (moveType === "fire") return 0.5;
+  }
+  return 1;
+}
+
 export function calcDamage(
   data: GameData,
   attacker: BattlePokemon,
@@ -75,6 +94,12 @@ export function calcDamage(
     typeless?: boolean;
     /** 威力の上書き（混乱の自傷など）。 */
     powerOverride?: number;
+    /**
+     * 場の天気（v1.2-c）。**`BattleState` は渡さない** ――
+     * ここが状態の全部を見られるようにすると、次に何を足しても
+     * 「ダメージ計算が知っていること」が増え続ける。要るのは天気だけ。
+     */
+    weather?: WeatherId | null;
   } = {},
 ): DamageResult {
   const power = opts.powerOverride ?? move.power;
@@ -133,6 +158,13 @@ export function calcDamage(
   if (attacker.status === "burn" && physical && !ignoresBurnPenalty(data, attacker)) {
     dmg = Math.floor(dmg * BURN_ATTACK_MULTIPLIER);
   }
+
+  // 7.5 天気（v1.2-c）。**タイプ一致や相性と同じ「掛ける」段**に置く。
+  //
+  // にほんばれ は ほのお を1.5倍・みず を半分、あまごい はその逆。
+  // すなあらし と あられ は威力を変えない（削るのはターン終了時）。
+  const weatherRatio = weatherMultiplier(opts.weather ?? null, move.type);
+  if (!opts.typeless && weatherRatio !== 1) dmg = Math.floor(dmg * weatherRatio);
 
   // 8. その他（持ち物・特性）
   if (!opts.typeless) {
