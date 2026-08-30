@@ -1223,8 +1223,9 @@ await page.waitForSelector("#field-canvas");
   await page.click("#save-export");
   const trimmed = JSON.parse(await page.inputValue("#save-text"));
   const firstUid = Object.keys(trimmed.pokemon)[0];
-  const beforeMoves = trimmed.pokemon[firstUid].moves.length;
-  trimmed.pokemon[firstUid].moves = trimmed.pokemon[firstUid].moves.slice(0, 2);
+  const originalMoves = trimmed.pokemon[firstUid].moves;
+  const beforeMoves = originalMoves.length;
+  trimmed.pokemon[firstUid].moves = originalMoves.slice(0, 2);
   await page.fill("#save-text", JSON.stringify(trimmed));
   await page.click("#save-import");
   await page.waitForTimeout(900);
@@ -1233,7 +1234,12 @@ await page.waitForSelector("#field-canvas");
   await page.waitForTimeout(400);
 
   await talkToObject("kanto-pewter-city", "pewter-tutor");
-  await drain(10);
+  // **`drain` を使わない。** あれは最後の選択肢を押すので、
+  // 「だれに おしえますか?」に「やめる」と答えてしまう（v1.2-d で1回落ちた）
+  await clear(6);
+  await page.click("#field-text .choices button:nth-child(1)"); // 1匹目に教える
+  await page.waitForTimeout(600);
+  await drain(6);
   const after = (await readSave()).pokemon[firstUid];
   expect(
     "技教え人が いわなだれ を おしえてくれる",
@@ -1241,6 +1247,19 @@ await page.waitForSelector("#field-canvas");
     "おぼえた",
   );
   note("技の数", `${beforeMoves} → 2 → ${after?.moves.length ?? 0}`);
+
+  // **減らした技を戻す。** 戻さないと、この先の戦いを2本で戦うことになる ――
+  // v1.2-d で実際にそうなって、サンアンヌ号のライバルに負けた
+  const restored = await readSave();
+  restored.pokemon[firstUid].moves = originalMoves;
+  await page.click("#open-settings");
+  await page.waitForSelector("#save-export");
+  await page.fill("#save-text", JSON.stringify(restored));
+  await page.click("#save-import");
+  await page.waitForTimeout(900);
+  await page.click("#settings-back");
+  await page.waitForSelector("#field-canvas");
+  await page.waitForTimeout(400);
 }
 
 // ── ニビの博物館 ―― 扉だけ繋がっていなかった建物（検証 #115・v1.1-g-3）──
