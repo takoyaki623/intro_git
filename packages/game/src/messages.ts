@@ -168,6 +168,16 @@ export function messageOf(event: BattleEvent, view: BattleView): string | null {
       return `${label(event.side)} は こうかを よこどりした!`;
     case "focusBroken":
       return `${label(event.side)} は きあいが ぬけて わざが だせなかった!`;
+    case "substituteUp":
+      return `${label(event.side)} は みがわりを だした!`;
+    case "substituteHit":
+      return `みがわりが こうげきを うけとめた!`;
+    case "substituteBroke":
+      return `${label(event.side)} の みがわりは こわれた!`;
+    case "mimicked":
+      return `${label(event.side)} は ${gameData.move(event.move).name} を まねた!`;
+    case "calledMove":
+      return `${label(event.side)} は ${gameData.move(event.move).name} を くりだした!`;
     case "screenEnd":
       return `${label(event.side)} の ${SCREEN_LABEL[event.screen]} が きれた。`;
     case "statChange": {

@@ -78,6 +78,21 @@ const STRUGGLE: Move = {
   priority: 0,
   target: "foe",
 };
+/** カウンター が返す倍率（原作どおり2倍）。 */
+const COUNTER_MULTIPLIER = 2;
+
+/**
+ * ゆびをふる が呼べない技（v1.2-d）。
+ *
+ * **自分を呼べると終わらない**のが最初の理由で、残りは原作の除外表
+ * ―― どれも「相手の行動を前提にする技」で、呼ばれた瞬間には
+ * その前提が無い（カウンターは受けたダメージ、ものまねは相手の直前の技）。
+ */
+const UNCALLABLE = new Set<string>([
+  "metronome", "mimic", "counter", "protect", "detect", "snatch", "focus-punch",
+  "thief", "covet", "struggle",
+]);
+
 /** メロメロ で動けない確率（原作どおり半分）。 */
 const INFATUATION_BLOCK_CHANCE = 0.5;
 
@@ -509,6 +524,45 @@ function performMove(
   // 撃つ側になったら溜めは解ける（当たっても外れても）
   self.volatile.charging = null;
 
+  // ゆびをふる（v1.2-d）。**別の技を選んで、その場で撃ち直す。**
+  // 除外表を持つのは「呼べない技」を原作が決めているから ――
+  // 自分を呼べると終わらないので、まずそこが要る
+  if (move.effect?.kind === "metronome") {
+    const called = data.moveIds().filter((id) => !UNCALLABLE.has(id));
+    if (called.length === 0) {
+      events.push({ kind: "failed", side: attacker });
+      return;
+    }
+    const pick = data.move(rng.pick(called));
+    events.push({ kind: "calledMove", side: attacker, move: pick.id });
+    performMove(data, state, attacker, pick, false, rng, events);
+    return;
+  }
+
+  // ゆめくい（v1.2-d）。**眠っている相手にしか当たらない。**
+  if (move.effect?.kind === "drainAsleep" && foe.status !== "sleep") {
+    events.push({ kind: "failed", side: attacker });
+    return;
+  }
+
+  // カウンター（v1.2-d）。そのターンに受けた物理ダメージの2倍を返す
+  if (move.effect?.kind === "counter") {
+    const taken = self.volatile.physicalTaken;
+    if (taken <= 0 || foe.currentHp <= 0) {
+      events.push({ kind: "failed", side: attacker });
+      return;
+    }
+    dealDamage(state, defender, taken * COUNTER_MULTIPLIER, events, (amount, remainingHp) => ({
+      kind: "damage",
+      side: defender,
+      amount,
+      remainingHp,
+      effectiveness: 1,
+      critical: false,
+    }));
+    return;
+  }
+
   // きあいパンチ（v1.2-c）。**そのターンに攻撃を受けていたら失敗する。**
   // 優先度 −3 なので、たいてい先に殴られている ―― それが威力150の代償
   if (move.effect?.kind === "focus" && self.volatile.hitThisTurn) {
@@ -627,15 +681,35 @@ function performMove(
       return;
     }
 
+    // ちきゅうなげ（v1.2-d）。**威力ではなくダメージそのものがレベルで決まる。**
+    // 相性の無効（ゴーストに かくとう）はもう上で見ているので、ここは量だけ
+    const damage =
+      move.effect?.kind === "fixedDamage" ? Math.max(1, self.level) : result.damage;
+
+    // みがわり（v1.2-d）。**本体の前に立っているので、先に削れる。**
+    // 壊れたぶんは本体に届かない（原作どおり ―― 余りは通らない）
+    if (target.volatile.substitute > 0) {
+      const absorbed = Math.min(target.volatile.substitute, damage);
+      target.volatile.substitute -= absorbed;
+      totalDealt += absorbed;
+      events.push({ kind: "substituteHit", side: defender });
+      if (target.volatile.substitute <= 0) {
+        events.push({ kind: "substituteBroke", side: defender });
+      }
+      continue;
+    }
+
     // きあいのタスキ・がんじょう: HP満タンからの一撃を1で耐える
-    const endured = result.damage >= target.currentHp
-      ? enduresOf(data, target, result.damage)
+    const endured = damage >= target.currentHp
+      ? enduresOf(data, target, damage)
       : null;
-    const amount = endured === null ? result.damage : target.currentHp - 1;
+    const amount = endured === null ? damage : target.currentHp - 1;
 
     // きあいパンチ が見る「そのターンに受けたか」（v1.2-c）。
     // **ダメージが通ったところで立てる** ―― 外れた技では気合いは抜けない
     target.volatile.hitThisTurn = true;
+    // カウンター が返す量（v1.2-d）。**物理だけ**を数える
+    if (move.category === "physical") target.volatile.physicalTaken += amount;
     totalDealt += dealDamage(state, defender, amount, events, (dealt, remainingHp) => ({
       kind: "damage",
       side: defender,
@@ -794,6 +868,7 @@ function endOfTurn(
     p.volatile.protecting = false;
     p.volatile.snatching = false;
     p.volatile.hitThisTurn = false;
+    p.volatile.physicalTaken = 0;
     // ちょうはつ の残りターン（v1.2-c）
     if (p.volatile.tauntTurns > 0) {
       p.volatile.tauntTurns -= 1;

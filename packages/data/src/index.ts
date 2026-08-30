@@ -127,6 +127,7 @@ export const gameData: GameData = {
     if (m === undefined) throw new MissingDataError("move", id);
     return m;
   },
+  moveIds: () => [...movesById.keys()],
   nature: (id) => {
     const n = naturesById.get(id);
     if (n === undefined) throw new MissingDataError("nature", id);
@@ -181,6 +182,8 @@ export function createGameData(options: {
       if (m === undefined) throw new MissingDataError("move", id);
       return m;
     },
+    // 部分的な GameData でも答えられる（渡された技だけを返す）
+    moveIds: () => [...mv.keys()],
     nature: (id) => {
       const n = na.get(id);
       if (n === undefined) throw new MissingDataError("nature", id);

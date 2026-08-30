@@ -24,3 +24,4 @@ warps:
 
 objects:
 four-house-man 6,2 npc:oldman:static kanto.sevii.four-man
+four-tutor 3,3 npc:blackbelt:static kanto.tutor.counter

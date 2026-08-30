@@ -24,3 +24,4 @@ warps:
 
 objects:
 one-house-oldman 6,2 npc:oldman:static kanto.sevii.one-oldman
+one-tutor 5,4 npc:youngster:static kanto.tutor.metronome

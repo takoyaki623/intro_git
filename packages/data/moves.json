@@ -4358,5 +4358,178 @@
     "effect": {
       "kind": "focus"
     }
+  },
+  {
+    "id": "frenzy-plant",
+    "name": "ハードプラント",
+    "type": "grass",
+    "category": "special",
+    "power": 150,
+    "accuracy": 90,
+    "pp": 5,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "recharge"
+    }
+  },
+  {
+    "id": "blast-burn",
+    "name": "ブラストバーン",
+    "type": "fire",
+    "category": "special",
+    "power": 150,
+    "accuracy": 90,
+    "pp": 5,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "recharge"
+    }
+  },
+  {
+    "id": "hydro-cannon",
+    "name": "ハイドロカノン",
+    "type": "water",
+    "category": "special",
+    "power": 150,
+    "accuracy": 90,
+    "pp": 5,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "recharge"
+    }
+  },
+  {
+    "id": "seismic-toss",
+    "name": "ちきゅうなげ",
+    "type": "fighting",
+    "category": "physical",
+    "power": null,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "fixedDamage",
+      "from": "level"
+    }
+  },
+  {
+    "id": "night-shade",
+    "name": "ナイトヘッド",
+    "type": "ghost",
+    "category": "special",
+    "power": null,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "fixedDamage",
+      "from": "level"
+    }
+  },
+  {
+    "id": "explosion",
+    "name": "だいばくはつ",
+    "type": "normal",
+    "category": "physical",
+    "power": 250,
+    "accuracy": 100,
+    "pp": 5,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "selfDestruct"
+    }
+  },
+  {
+    "id": "self-destruct",
+    "name": "じばく",
+    "type": "normal",
+    "category": "physical",
+    "power": 200,
+    "accuracy": 100,
+    "pp": 5,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "selfDestruct"
+    }
+  },
+  {
+    "id": "dream-eater",
+    "name": "ゆめくい",
+    "type": "psychic",
+    "category": "special",
+    "power": 100,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "drainAsleep",
+      "ratio": 0.5
+    }
+  },
+  {
+    "id": "mimic",
+    "name": "ものまね",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "mimic"
+    }
+  },
+  {
+    "id": "counter",
+    "name": "カウンター",
+    "type": "fighting",
+    "category": "physical",
+    "power": null,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": -5,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "counter"
+    }
+  },
+  {
+    "id": "substitute",
+    "name": "みがわり",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 10,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "substitute"
+    }
+  },
+  {
+    "id": "metronome",
+    "name": "ゆびをふる",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 10,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "metronome"
+    }
   }
 ]

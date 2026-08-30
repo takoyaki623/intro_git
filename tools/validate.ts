@@ -265,10 +265,6 @@ const NEEDS_UNIMPLEMENTED_MECHANIC: Record<string, string> = {
   outrage: "複数ターンの連続行動と終了後の混乱",
   thrash: "複数ターンの連続行動と終了後の混乱",
   "petal-dance": "複数ターンの連続行動と終了後の混乱",
-  "night-shade": "レベルと同じ固定ダメージ",
-  "seismic-toss": "レベルと同じ固定ダメージ",
-  counter: "受けたダメージを倍返し",
-  substitute: "みがわり",
 };
 
 /**
@@ -311,6 +307,19 @@ const REQUIRES_EFFECT: Record<string, MoveEffect["kind"]> = {
   "close-combat": "statChange",
   superpower: "statChange",
   "bulk-up": "statChange",
+  // v1.2-d で機構が出来たぶん
+  "seismic-toss": "fixedDamage",
+  "night-shade": "fixedDamage",
+  counter: "counter",
+  substitute: "substitute",
+  mimic: "mimic",
+  metronome: "metronome",
+  "dream-eater": "drainAsleep",
+  explosion: "selfDestruct",
+  "self-destruct": "selfDestruct",
+  "frenzy-plant": "recharge",
+  "blast-burn": "recharge",
+  "hydro-cannon": "recharge",
 };
 
 function checkEngineSupport(): void {

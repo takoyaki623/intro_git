@@ -109,16 +109,21 @@ export function calcDamage(
     screens?: readonly ScreenId[];
   } = {},
 ): DamageResult {
-  const power = opts.powerOverride ?? move.power;
-  if (power === null || move.category === "status") {
-    return { damage: 0, effectiveness: 1, critical: false };
-  }
-
+  // **相性は威力より先に見る**（v1.2-d）。
+  //
+  // 順番が逆だったせいで、威力を持たない技（ちきゅうなげ・カウンター）が
+  // 「効果が無い」を報告できなかった ―― ゴーストに ちきゅうなげ が
+  // ダメージ0で当たったことになっていた。
   const effectiveness: Effectiveness = opts.typeless
     ? 1
     : effectivenessAgainst(data.typeChart, move.type, defender.types);
   if (effectiveness === 0) {
     return { damage: 0, effectiveness: 0, critical: false };
+  }
+
+  const power = opts.powerOverride ?? move.power;
+  if (power === null || move.category === "status") {
+    return { damage: 0, effectiveness, critical: false };
   }
 
   // 特性・持ち物は急所ランクを上げることも、急所そのものを封じることもある。

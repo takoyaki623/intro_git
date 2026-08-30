@@ -279,3 +279,15 @@ skill-swap	スキルスワップ	psychic	status	-	-	10	0	0	0	swapAbility	foe
 roar	ほえる	normal	status	-	-	20	-6	0	0	forceSwitch	foe
 snatch	よこどり	dark	status	-	-	10	4	0	0	snatch	self
 focus-punch	きあいパンチ	fighting	physical	150	100	20	-3	0	1	focus	foe
+frenzy-plant	ハードプラント	grass	special	150	90	5	0	0	0	recharge	foe
+blast-burn	ブラストバーン	fire	special	150	90	5	0	0	0	recharge	foe
+hydro-cannon	ハイドロカノン	water	special	150	90	5	0	0	0	recharge	foe
+seismic-toss	ちきゅうなげ	fighting	physical	-	100	20	0	0	1	fixedDamage:level	foe
+night-shade	ナイトヘッド	ghost	special	-	100	15	0	0	0	fixedDamage:level	foe
+explosion	だいばくはつ	normal	physical	250	100	5	0	0	0	selfDestruct	foe
+self-destruct	じばく	normal	physical	200	100	5	0	0	0	selfDestruct	foe
+dream-eater	ゆめくい	psychic	special	100	100	15	0	0	0	drainAsleep:0.5	foe
+mimic	ものまね	normal	status	-	-	10	0	0	0	mimic	foe
+counter	カウンター	fighting	physical	-	100	20	-5	0	1	counter	foe
+substitute	みがわり	normal	status	-	-	10	0	0	0	substitute	self
+metronome	ゆびをふる	normal	status	-	-	10	0	0	0	metronome	self

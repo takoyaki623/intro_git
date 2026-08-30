@@ -24,3 +24,4 @@ warps:
 objects:
 lavender-house-woman 4,2 npc:lass:static kanto.lavender.house-woman
 lavender-tutor 2,3 npc:oldman:static kanto.tutor.body-slam
+lavender-tutor2 4,4 npc:lass:static kanto.tutor.dream-eater

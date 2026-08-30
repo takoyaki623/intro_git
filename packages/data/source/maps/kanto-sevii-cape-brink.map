@@ -31,3 +31,6 @@ warps:
 objects:
 cape-item 8,7 item:max-potion kanto.sevii.cape-item if:kanto.sevii.cape-item-taken=false
 cape-fisher 5,3 npc:fisher:static kanto.sevii.cape-fisher
+brink-tutor-grass 3,3 npc:oldman:static kanto.tutor.frenzy-plant
+brink-tutor-fire 5,6 npc:oldman:static kanto.tutor.blast-burn
+brink-tutor-water 7,3 npc:oldman:static kanto.tutor.hydro-cannon

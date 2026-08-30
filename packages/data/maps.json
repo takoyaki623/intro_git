@@ -9861,6 +9861,19 @@
           "type": "sign"
         },
         "event": "kanto.lab.sign"
+      },
+      {
+        "id": "lab-tutor",
+        "at": {
+          "x": 1,
+          "y": 5
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "scientist",
+          "movement": "static"
+        },
+        "event": "kanto.tutor.explosion"
       }
     ],
     "bgm": "town"
@@ -13377,6 +13390,19 @@
           "movement": "static"
         },
         "event": "kanto.tutor.body-slam"
+      },
+      {
+        "id": "lavender-tutor2",
+        "at": {
+          "x": 4,
+          "y": 4
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "lass",
+          "movement": "static"
+        },
+        "event": "kanto.tutor.dream-eater"
       }
     ],
     "bgm": "house"
@@ -45716,6 +45742,19 @@
           "movement": "static"
         },
         "event": "kanto.tutor.mega-kick"
+      },
+      {
+        "id": "dojo-tutor2",
+        "at": {
+          "x": 2,
+          "y": 2
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "blackbelt",
+          "movement": "static"
+        },
+        "event": "kanto.tutor.seismic-toss"
       }
     ],
     "bgm": "gym"
@@ -52402,6 +52441,45 @@
           "movement": "static"
         },
         "event": "kanto.sevii.cape-fisher"
+      },
+      {
+        "id": "brink-tutor-grass",
+        "at": {
+          "x": 3,
+          "y": 3
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "oldman",
+          "movement": "static"
+        },
+        "event": "kanto.tutor.frenzy-plant"
+      },
+      {
+        "id": "brink-tutor-fire",
+        "at": {
+          "x": 5,
+          "y": 6
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "oldman",
+          "movement": "static"
+        },
+        "event": "kanto.tutor.blast-burn"
+      },
+      {
+        "id": "brink-tutor-water",
+        "at": {
+          "x": 7,
+          "y": 3
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "oldman",
+          "movement": "static"
+        },
+        "event": "kanto.tutor.hydro-cannon"
       }
     ],
     "encounters": [
@@ -54995,6 +55073,19 @@
           "movement": "static"
         },
         "event": "kanto.sevii.four-man"
+      },
+      {
+        "id": "four-tutor",
+        "at": {
+          "x": 3,
+          "y": 3
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "blackbelt",
+          "movement": "static"
+        },
+        "event": "kanto.tutor.counter"
       }
     ],
     "bgm": "pokecenter"
@@ -62235,6 +62326,19 @@
           "movement": "static"
         },
         "event": "kanto.sevii.one-oldman"
+      },
+      {
+        "id": "one-tutor",
+        "at": {
+          "x": 5,
+          "y": 4
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "youngster",
+          "movement": "static"
+        },
+        "event": "kanto.tutor.metronome"
       }
     ],
     "bgm": "pokecenter"
@@ -67941,6 +68045,19 @@
           "movement": "static"
         },
         "event": "kanto.sevii.seven-npc"
+      },
+      {
+        "id": "seven-tutor",
+        "at": {
+          "x": 3,
+          "y": 3
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "lass",
+          "movement": "static"
+        },
+        "event": "kanto.tutor.substitute"
       }
     ],
     "bgm": "pokecenter"
@@ -69238,6 +69355,19 @@
           "movement": "static"
         },
         "event": "kanto.sevii.six-npc"
+      },
+      {
+        "id": "six-tutor",
+        "at": {
+          "x": 3,
+          "y": 3
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "oldman",
+          "movement": "static"
+        },
+        "event": "kanto.tutor.mimic"
       }
     ],
     "bgm": "pokecenter"

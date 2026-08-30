@@ -21,7 +21,6 @@ roost	Roost	自分への継続効果	12
 wrap	Wrap	未実装の状態	12
 curse	Curse	未実装の状態	11
 mean-look	Mean Look	効果を表せない	11
-night-shade	Night Shade	威力が可変	11
 smack-down	Smack Down	未実装の状態	11
 toxic-spikes	Toxic Spikes	場の効果	11
 leech-seed	Leech Seed	未実装の状態	10
@@ -35,7 +34,6 @@ psych-up	Psych Up	効果を表せない	9
 belch	Belch	きのみを食べてからでないと出せない	8
 bind	Bind	未実装の状態	8
 destiny-bond	Destiny Bond	未実装の状態	8
-explosion	Explosion	個別処理	8
 fire-spin	Fire Spin	未実装の状態	8
 ice-fang	Ice Fang	追加効果が複数	8
 memento	Memento	個別処理	8
@@ -51,10 +49,7 @@ fury-cutter	Fury Cutter	個別処理	7
 giga-impact	Giga Impact	自分への継続効果	7
 grassy-terrain	Grassy Terrain	フィールド	7
 magnet-rise	Magnet Rise	未実装の状態	7
-metronome	Metronome	効果を表せない	7
 moonlight	Moonlight	効果を表せない	7
-seismic-toss	Seismic Toss	威力が可変	7
-self-destruct	Self-Destruct	個別処理	7
 spite	Spite	効果を表せない	7
 stockpile	Stockpile	未実装の状態	7
 tailwind	Tailwind	場の効果	7
@@ -95,8 +90,6 @@ uproar	Uproar	自分への継続効果	5
 whirlwind	Whirlwind	交代を伴う技	5
 acupressure	Acupressure	効果を表せない	4
 cosmic-power	Cosmic Power	能力変化が複数	4
-counter	Counter	個別処理	4
-dream-eater	Dream Eater	相手が眠っていないと当たらない	4
 echoed-voice	Echoed Voice	個別処理	4
 hone-claws	Hone Claws	能力変化が複数	4
 imprison	Imprison	未実装の状態	4
@@ -117,7 +110,6 @@ gravity	Gravity	場の効果	3
 guillotine	Guillotine	特殊な命中判定	3
 heavy-slam	Heavy Slam	威力が可変	3
 magical-leaf	magical-leaf	追加できる（日本語名が要る）	3
-mimic	Mimic	効果を表せない	3
 quiver-dance	Quiver Dance	能力変化が複数	3
 rage-powder	Rage Powder	未実装の状態	3
 recycle	Recycle	効果を表せない	3

@@ -24,3 +24,4 @@ warps:
 
 objects:
 seven-house-npc 6,2 npc:lass:static kanto.sevii.seven-npc
+seven-tutor 3,3 npc:lass:static kanto.tutor.substitute

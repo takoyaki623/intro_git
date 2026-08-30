@@ -24,3 +24,4 @@ warps:
 
 objects:
 six-house-npc 6,2 npc:lass:static kanto.sevii.six-npc
+six-tutor 3,3 npc:oldman:static kanto.tutor.mimic

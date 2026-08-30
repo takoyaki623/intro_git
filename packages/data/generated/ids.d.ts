@@ -2,11 +2,11 @@
  * 自動生成ファイル。直接編集しないこと。
  *   再生成: npm run gen:ids
  *
- * 種族 228 / 技 280 / 性格 25 /
+ * 種族 228 / 技 292 / 性格 25 /
  * 特性 74 / 道具 143 /
  * BattleSet 64 / 施設 4 /
  * ネームド 18 / カップ 10 /
- * マップ 210 / イベント 347 / トレーナー 165 /
+ * マップ 210 / イベント 357 / トレーナー 165 /
  * 出現テーブル 287 / ショップ 8 / 地方 9 /
  * フラグ 213
  */
@@ -260,6 +260,7 @@ export type GeneratedMoveId =
   | "aurora-beam"
   | "baby-doll-eyes"
   | "bite"
+  | "blast-burn"
   | "blaze-kick"
   | "blizzard"
   | "body-slam"
@@ -282,6 +283,7 @@ export type GeneratedMoveId =
   | "clear-smog"
   | "confuse-ray"
   | "confusion"
+  | "counter"
   | "covet"
   | "crabhammer"
   | "cross-chop"
@@ -303,6 +305,7 @@ export type GeneratedMoveId =
   | "dragon-rush"
   | "drain-punch"
   | "draining-kiss"
+  | "dream-eater"
   | "drill-peck"
   | "drill-run"
   | "dual-chop"
@@ -311,6 +314,7 @@ export type GeneratedMoveId =
   | "earthquake"
   | "eerie-impulse"
   | "ember"
+  | "explosion"
   | "extrasensory"
   | "extreme-speed"
   | "facade"
@@ -331,6 +335,7 @@ export type GeneratedMoveId =
   | "fly"
   | "focus-punch"
   | "freeze-dry"
+  | "frenzy-plant"
   | "frustration"
   | "fury-attack"
   | "fury-swipes"
@@ -349,6 +354,7 @@ export type GeneratedMoveId =
   | "horn-attack"
   | "howl"
   | "hurricane"
+  | "hydro-cannon"
   | "hydro-pump"
   | "hyper-beam"
   | "hyper-fang"
@@ -388,11 +394,14 @@ export type GeneratedMoveId =
   | "metal-claw"
   | "metal-sound"
   | "meteor-mash"
+  | "metronome"
+  | "mimic"
   | "moonblast"
   | "mud-shot"
   | "mud-slap"
   | "muddy-water"
   | "nasty-plot"
+  | "night-shade"
   | "night-slash"
   | "nuzzle"
   | "overheat"
@@ -449,6 +458,8 @@ export type GeneratedMoveId =
   | "screech"
   | "secret-power"
   | "seed-bomb"
+  | "seismic-toss"
+  | "self-destruct"
   | "shadow-ball"
   | "shadow-punch"
   | "shock-wave"
@@ -481,6 +492,7 @@ export type GeneratedMoveId =
   | "string-shot"
   | "stun-spore"
   | "submission"
+  | "substitute"
   | "sunny-day"
   | "supersonic"
   | "surf"
@@ -1390,12 +1402,22 @@ export type GeneratedEventId =
   | "kanto.tower.rocket"
   | "kanto.tower.rocket-win"
   | "kanto.tower.sign"
+  | "kanto.tutor.blast-burn"
   | "kanto.tutor.body-slam"
+  | "kanto.tutor.counter"
   | "kanto.tutor.double-edge"
+  | "kanto.tutor.dream-eater"
+  | "kanto.tutor.explosion"
+  | "kanto.tutor.frenzy-plant"
+  | "kanto.tutor.hydro-cannon"
   | "kanto.tutor.mega-kick"
   | "kanto.tutor.mega-punch"
+  | "kanto.tutor.metronome"
+  | "kanto.tutor.mimic"
   | "kanto.tutor.rock-slide"
+  | "kanto.tutor.seismic-toss"
   | "kanto.tutor.soft-boiled"
+  | "kanto.tutor.substitute"
   | "kanto.tutor.swords-dance"
   | "kanto.tutor.thunder-wave"
   | "kanto.underground.north-man"

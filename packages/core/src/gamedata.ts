@@ -28,6 +28,16 @@ import type {
 export interface GameData {
   species(id: SpeciesId): Species;
   move(id: MoveId): Move;
+  /**
+   * 全部の技の ID（v1.2-d）。**ゆびをふる だけが要る。**
+   *
+   * ここまで core は「id を渡して引く」しか持っていなかった ――
+   * 一覧を持たせると、次に何を足しても「core が世界の全部を見られる」
+   * 状態に近づく。それでも足したのは、ゆびをふる が
+   * **「全部の技から選ぶ」ことそのものが効果**の技だから。
+   * 引ける形（id の配列）に留めて、実体は返さない。
+   */
+  moveIds(): readonly MoveId[];
   nature(id: NatureId): NatureModifier;
   /** v0.5 で追加。特性・持ち物も他のマスタデータと同じく注入で受け取る。 */
   ability(id: AbilityId): Ability;

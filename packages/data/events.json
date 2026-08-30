@@ -7800,5 +7800,145 @@
         "move": "soft-boiled"
       }
     ]
+  },
+  {
+    "id": "kanto.tutor.frenzy-plant",
+    "commands": [
+      {
+        "kind": "message",
+        "speaker": "おじいさん",
+        "text": "くさの さいごの ちからを\nみせて やろう。"
+      },
+      {
+        "kind": "teachMove",
+        "move": "frenzy-plant"
+      }
+    ]
+  },
+  {
+    "id": "kanto.tutor.blast-burn",
+    "commands": [
+      {
+        "kind": "message",
+        "speaker": "おじいさん",
+        "text": "ほのおの さいごの ちからを\nみせて やろう。"
+      },
+      {
+        "kind": "teachMove",
+        "move": "blast-burn"
+      }
+    ]
+  },
+  {
+    "id": "kanto.tutor.hydro-cannon",
+    "commands": [
+      {
+        "kind": "message",
+        "speaker": "おじいさん",
+        "text": "みずの さいごの ちからを\nみせて やろう。"
+      },
+      {
+        "kind": "teachMove",
+        "move": "hydro-cannon"
+      }
+    ]
+  },
+  {
+    "id": "kanto.tutor.mimic",
+    "commands": [
+      {
+        "kind": "message",
+        "speaker": "おじいさん",
+        "text": "あいての わざを まねる こつ、\nしりたいかね?"
+      },
+      {
+        "kind": "teachMove",
+        "move": "mimic"
+      }
+    ]
+  },
+  {
+    "id": "kanto.tutor.substitute",
+    "commands": [
+      {
+        "kind": "message",
+        "speaker": "おねえさん",
+        "text": "みがわりを たてれば こわくないわ。"
+      },
+      {
+        "kind": "teachMove",
+        "move": "substitute"
+      }
+    ]
+  },
+  {
+    "id": "kanto.tutor.counter",
+    "commands": [
+      {
+        "kind": "message",
+        "speaker": "からておう",
+        "text": "うけた ぶんだけ かえす。\nそれが カウンターだ。"
+      },
+      {
+        "kind": "teachMove",
+        "move": "counter"
+      }
+    ]
+  },
+  {
+    "id": "kanto.tutor.seismic-toss",
+    "commands": [
+      {
+        "kind": "message",
+        "speaker": "からておう",
+        "text": "なげる ちからは レベルで きまる。"
+      },
+      {
+        "kind": "teachMove",
+        "move": "seismic-toss"
+      }
+    ]
+  },
+  {
+    "id": "kanto.tutor.dream-eater",
+    "commands": [
+      {
+        "kind": "message",
+        "speaker": "おねえさん",
+        "text": "ねむって いる あいてなら\nゆめを たべられるの。"
+      },
+      {
+        "kind": "teachMove",
+        "move": "dream-eater"
+      }
+    ]
+  },
+  {
+    "id": "kanto.tutor.metronome",
+    "commands": [
+      {
+        "kind": "message",
+        "speaker": "たんぱんこぞう",
+        "text": "ゆびを ふると なにが でるかな?"
+      },
+      {
+        "kind": "teachMove",
+        "move": "metronome"
+      }
+    ]
+  },
+  {
+    "id": "kanto.tutor.explosion",
+    "commands": [
+      {
+        "kind": "message",
+        "speaker": "けんきゅういん",
+        "text": "じぶんごと ふきとばす わざだ。\nかくごは いいか?"
+      },
+      {
+        "kind": "teachMove",
+        "move": "explosion"
+      }
+    ]
   }
 ]

@@ -30,3 +30,4 @@ warps:
 objects:
 lab-scientist 4,1 npc:scientist:static kanto.lab.revive
 lab-sign 6,3 sign kanto.lab.sign
+lab-tutor 1,5 npc:scientist:static kanto.tutor.explosion

@@ -109,6 +109,16 @@ function render(event: BattleEvent): string | null {
       return `  ${nameOf(event.side)} が よこどりした`;
     case "focusBroken":
       return `  ${nameOf(event.side)} は きあいが ぬけた`;
+    case "substituteUp":
+      return `  ${nameOf(event.side)} は みがわり を だした`;
+    case "substituteHit":
+      return `  みがわり が うけとめた`;
+    case "substituteBroke":
+      return `  ${nameOf(event.side)} の みがわり が こわれた`;
+    case "mimicked":
+      return `  ${nameOf(event.side)} は ${event.move} を まねた`;
+    case "calledMove":
+      return `  ${nameOf(event.side)} は ${event.move} を くりだした`;
     case "screenEnd":
       return `  ${nameOf(event.side)} の ${event.screen} が きれた`;
     case "statChange":

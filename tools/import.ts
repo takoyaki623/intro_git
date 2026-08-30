@@ -112,7 +112,20 @@ function parseEffect(src: string, where: string): unknown {
     case "forceSwitch":
     case "snatch":
     case "focus":
+    // v1.2-d。じばく・ものまね・カウンター・みがわり・ゆびをふる も引数を取らない
+    case "selfDestruct":
+    case "mimic":
+    case "counter":
+    case "substitute":
+    case "metronome":
       return { kind };
+    // レベルと同じ固定ダメージ（v1.2-d）。今は "level" しか無いが、
+    // 何で決まるかを書かせる ―― 書かないと次の1件で意味が変わる
+    case "fixedDamage":
+      return { kind, from: args[0] ?? "level" };
+    // ゆめくい（v1.2-d）。吸う割合は drain と同じ書き方
+    case "drainAsleep":
+      return { kind, ratio: num(0) };
     // 状況で決まる威力（v1.2-c）。からげんき だけ元の威力を持つ
     case "variablePower": {
       const out: { kind: string; from: string; base?: number } = { kind, from: args[0]! };

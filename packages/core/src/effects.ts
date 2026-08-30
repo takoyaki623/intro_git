@@ -74,6 +74,31 @@ function safeguarded(ctx: EffectContext, side: SideIndex): boolean {
   return true;
 }
 
+/** 与えたダメージのうち `ratio` を吸う（すいとる・ゆめくい で共有・v1.2-d）。 */
+function drainBy(ratio: number, ctx: EffectContext): void {
+  if (ctx.damageDealt <= 0) return;
+  const self = activeOf(ctx, ctx.attacker);
+  if (self.currentHp <= 0) return;
+  const amount = Math.max(1, Math.floor(ctx.damageDealt * ratio));
+  ctx.heal(ctx.attacker, amount, (applied, remainingHp) => ({
+    kind: "drain",
+    side: ctx.attacker,
+    amount: applied,
+    remainingHp,
+  }));
+  ctx.landed = true;
+}
+
+/**
+ * みがわり の後ろに居るか（v1.2-d）。
+ *
+ * **立っている間は、相手から掛かるものが全部止まる** ――
+ * 状態異常も混乱もひるみも能力低下も、身代わりが受ける。
+ * 「ダメージだけ肩代わりする」実装にすると、みがわり を立てた意味がほとんど無くなる。
+ */
+const behindSubstitute = (ctx: EffectContext): boolean =>
+  activeOf(ctx, ctx.defender).volatile.substitute > 0;
+
 /** りんぷんが防ぐのは「攻撃技の追加効果」だけ。変化技は防げない。 */
 const secondaryBlocked = (ctx: EffectContext): boolean =>
   ctx.isSecondary && blocksSecondary(ctx.data, activeOf(ctx, ctx.defender));
@@ -91,11 +116,17 @@ const secondaryBlocked = (ctx: EffectContext): boolean =>
 const DECIDES_POWER_AT_RUNTIME: ReadonlySet<MoveEffect["kind"]> = new Set([
   "present",
   "variablePower",
+  // v1.2-d。**威力ではなくダメージそのものを決める**ので、表の威力は空
+  "fixedDamage",
+  "counter",
 ]);
 
 /** その技が威力を実行時に決めるか（表の `power` が空でよいか）。 */
 export const decidesPowerAtRuntime = (effect: MoveEffect | undefined): boolean =>
   effect !== undefined && DECIDES_POWER_AT_RUNTIME.has(effect.kind);
+
+/** みがわり に払う割合（最大HPの 1/4）。身代わりのHPも同じ値。 */
+const SUBSTITUTE_COST_DENOMINATOR = 4;
 
 /** ねむる で眠るターン数（原作どおり必ず2ターン）。 */
 const REST_SLEEP_TURNS = 2;
@@ -196,19 +227,7 @@ export const effectHandlers: Registry = {
   },
 
   /** 与ダメージの一定割合を自分が回復する。 */
-  drain: (effect, ctx) => {
-    if (ctx.damageDealt <= 0) return;
-    const self = activeOf(ctx, ctx.attacker);
-    if (self.currentHp <= 0) return;
-    const amount = Math.max(1, Math.floor(ctx.damageDealt * effect.ratio));
-    ctx.heal(ctx.attacker, amount, (applied, remainingHp) => ({
-      kind: "drain",
-      side: ctx.attacker,
-      amount: applied,
-      remainingHp,
-    }));
-    ctx.landed = true;
-  },
+  drain: (effect, ctx) => drainBy(effect.ratio, ctx),
 
   /** 最大HPの一定割合を回復する（変化技）。満タンなら失敗。 */
   heal: (effect, ctx) => {
@@ -227,6 +246,7 @@ export const effectHandlers: Registry = {
   status: (effect, ctx) => {
     if (!ctx.rng.chance(effect.chance)) return;
     if (secondaryBlocked(ctx)) return;
+    if (behindSubstitute(ctx)) return;
     const target = activeOf(ctx, ctx.defender);
     if (target.currentHp <= 0) return;
     if (blocksStatus(ctx.data, target, effect.status)) return;
@@ -243,6 +263,7 @@ export const effectHandlers: Registry = {
   confuse: (effect, ctx) => {
     if (!ctx.rng.chance(effect.chance)) return;
     if (secondaryBlocked(ctx)) return;
+    if (behindSubstitute(ctx)) return;
     const target = activeOf(ctx, ctx.defender);
     if (target.currentHp <= 0) return;
     if (blocksConfusion(ctx.data, target)) return;
@@ -257,6 +278,7 @@ export const effectHandlers: Registry = {
   flinch: (effect, ctx) => {
     if (!ctx.rng.chance(effect.chance)) return;
     if (secondaryBlocked(ctx)) return;
+    if (behindSubstitute(ctx)) return;
     const target = activeOf(ctx, ctx.defender);
     if (target.currentHp <= 0) return;
     if (blocksFlinch(ctx.data, target)) return;
@@ -270,6 +292,7 @@ export const effectHandlers: Registry = {
     const side = effect.target === "self" ? ctx.attacker : ctx.defender;
     const target = activeOf(ctx, side);
     if (target.currentHp <= 0) return;
+    if (effect.target === "foe" && behindSubstitute(ctx)) return;
 
     // 相手の能力を下げる場合だけ、りんぷん・クリアボディ等が働く。
     // **抽選も、りんぷんの判定も1回だけ**（v1.2-c で複数の能力を動かせるようにした）――
@@ -330,6 +353,7 @@ export const effectHandlers: Registry = {
    * 変化技を持つ相手が何もできないまま終わる。
    */
   taunt: (effect, ctx) => {
+    if (behindSubstitute(ctx)) return;
     const target = activeOf(ctx, ctx.defender);
     if (target.volatile.tauntTurns > 0) return;
     target.volatile.tauntTurns = effect.turns;
@@ -339,6 +363,7 @@ export const effectHandlers: Registry = {
 
   /** いちゃもん（v1.2-c）。同じ技を続けて出せなくする。切れるのは交代のときだけ。 */
   torment: (_effect, ctx) => {
+    if (behindSubstitute(ctx)) return;
     const target = activeOf(ctx, ctx.defender);
     if (target.volatile.tormented) return;
     target.volatile.tormented = true;
@@ -353,6 +378,7 @@ export const effectHandlers: Registry = {
    * 性別を持たないので、施設ではほぼ効かない（原作でも同じ扱いになる）。
    */
   attract: (_effect, ctx) => {
+    if (behindSubstitute(ctx)) return;
     const self = activeOf(ctx, ctx.attacker);
     const target = activeOf(ctx, ctx.defender);
     if (self.gender === null || target.gender === null) return;
@@ -454,6 +480,83 @@ export const effectHandlers: Registry = {
   /** きあいパンチ（v1.2-c）。判定はダメージの前なので `performMove` が見る。 */
   focus: () => {
     // battle.ts の performMove で扱う
+  },
+
+  /**
+   * レベルと同じ固定ダメージ（v1.2-d）。ここでは何もしない。
+   * **威力ではなくダメージそのものを決める**ので、計算の外側で扱う。
+   */
+  fixedDamage: () => {
+    // battle.ts の performMove で扱う
+  },
+
+  /**
+   * ゆめくい（v1.2-d）。**吸う式は `drain` と同じ。**
+   * 違うのは撃てる条件（相手が眠っているか）だけで、それは performMove が見る。
+   */
+  drainAsleep: (effect, ctx) => drainBy(effect.ratio, ctx),
+
+  /** カウンター（v1.2-d）。返す量はダメージ計算を通さない。 */
+  counter: () => {
+    // battle.ts の performMove で扱う
+  },
+
+  /** ゆびをふる（v1.2-d）。撃ち直しは performMove の仕事。 */
+  metronome: () => {
+    // battle.ts の performMove で扱う
+  },
+
+  /** じばく・だいばくはつ（v1.2-d）。**当たったあとに自分が倒れる。** */
+  selfDestruct: (_effect, ctx) => {
+    const self = activeOf(ctx, ctx.attacker);
+    if (self.currentHp <= 0) return;
+    ctx.hurt(ctx.attacker, self.currentHp, (amount, remainingHp) => ({
+      kind: "recoil",
+      side: ctx.attacker,
+      amount,
+      remainingHp,
+    }));
+    ctx.landed = true;
+  },
+
+  /**
+   * ものまね（v1.2-d）。相手が直前に使った技を、この枠に上書きする。
+   *
+   * **バトルの中だけの書き換え。** `BattlePokemon.moves` は戦闘開始時に
+   * 作った写しなので、外の個体は変わらない（へんしん と同じ扱い）。
+   */
+  mimic: (_effect, ctx) => {
+    const self = activeOf(ctx, ctx.attacker);
+    const copied = activeOf(ctx, ctx.defender).volatile.lastMove;
+    if (copied === null) return;
+    if (self.moves.some((m) => m.id === copied)) return;
+    const slot = self.moves.findIndex((m) => m.id === "mimic");
+    if (slot < 0) return;
+    const move = ctx.data.move(copied);
+    self.moves[slot] = { id: copied, pp: move.pp, maxPp: move.pp };
+    ctx.landed = true;
+    ctx.events.push({ kind: "mimicked", side: ctx.attacker, move: copied });
+  },
+
+  /**
+   * みがわり（v1.2-d）。最大HPの1/4を払って身代わりを立てる。
+   *
+   * **払えないときは失敗する**（原作どおり）―― 残りHPちょうどでは立てない。
+   */
+  substitute: (_effect, ctx) => {
+    const self = activeOf(ctx, ctx.attacker);
+    if (self.volatile.substitute > 0) return;
+    const cost = Math.floor(self.maxHp / SUBSTITUTE_COST_DENOMINATOR);
+    if (cost <= 0 || self.currentHp <= cost) return;
+    ctx.hurt(ctx.attacker, cost, (amount, remainingHp) => ({
+      kind: "recoil",
+      side: ctx.attacker,
+      amount,
+      remainingHp,
+    }));
+    self.volatile.substitute = cost;
+    ctx.landed = true;
+    ctx.events.push({ kind: "substituteUp", side: ctx.attacker });
   },
 
   protect: (_effect, ctx) => {

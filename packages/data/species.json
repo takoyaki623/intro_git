@@ -87,6 +87,8 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
+      "mimic",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [
@@ -195,6 +197,8 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
+      "mimic",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [
@@ -311,6 +315,9 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
+      "frenzy-plant",
+      "mimic",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [],
@@ -412,10 +419,14 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
       "mega-punch",
+      "mimic",
       "rock-slide",
+      "seismic-toss",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [
@@ -522,10 +533,14 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
       "mega-punch",
+      "mimic",
       "rock-slide",
+      "seismic-toss",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [
@@ -650,11 +665,16 @@
       "toxic"
     ],
     "tutorMoves": [
+      "blast-burn",
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
       "mega-punch",
+      "mimic",
       "rock-slide",
+      "seismic-toss",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [],
@@ -767,9 +787,13 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
-      "mega-punch"
+      "mega-punch",
+      "mimic",
+      "seismic-toss",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -887,9 +911,13 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
-      "mega-punch"
+      "mega-punch",
+      "mimic",
+      "seismic-toss",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -1015,9 +1043,14 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "hydro-cannon",
       "mega-kick",
-      "mega-punch"
+      "mega-punch",
+      "mimic",
+      "seismic-toss",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 239,
@@ -1228,7 +1261,10 @@
       "toxic"
     ],
     "tutorMoves": [
-      "double-edge"
+      "double-edge",
+      "dream-eater",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 178,
@@ -1417,6 +1453,8 @@
     ],
     "tutorMoves": [
       "double-edge",
+      "mimic",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [],
@@ -1511,7 +1549,9 @@
       "toxic"
     ],
     "tutorMoves": [
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -1610,7 +1650,9 @@
       "toxic"
     ],
     "tutorMoves": [
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -1710,7 +1752,9 @@
       "toxic"
     ],
     "tutorMoves": [
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 216,
@@ -1803,7 +1847,10 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "mimic",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [
@@ -1914,7 +1961,10 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "mimic",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [],
@@ -2000,7 +2050,9 @@
       "toxic"
     ],
     "tutorMoves": [
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -2100,7 +2152,9 @@
       "toxic"
     ],
     "tutorMoves": [
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 155,
@@ -2195,7 +2249,9 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
-      "rock-slide"
+      "mimic",
+      "rock-slide",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -2301,7 +2357,9 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
-      "rock-slide"
+      "mimic",
+      "rock-slide",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 157,
@@ -2436,9 +2494,13 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
       "mega-punch",
+      "mimic",
+      "seismic-toss",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [
@@ -2586,9 +2648,13 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
       "mega-punch",
+      "mimic",
+      "seismic-toss",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [],
@@ -2701,8 +2767,12 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "mimic",
       "rock-slide",
+      "seismic-toss",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [
@@ -2818,8 +2888,12 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "mimic",
       "rock-slide",
+      "seismic-toss",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [],
@@ -2923,7 +2997,10 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "counter",
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -3032,7 +3109,10 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "counter",
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -3155,10 +3235,14 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
       "mega-punch",
-      "rock-slide"
+      "mimic",
+      "rock-slide",
+      "seismic-toss",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 227,
@@ -3256,7 +3340,10 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "counter",
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -3360,7 +3447,10 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "counter",
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -3482,10 +3572,14 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
       "mega-punch",
-      "rock-slide"
+      "mimic",
+      "rock-slide",
+      "seismic-toss",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 227,
@@ -3555,6 +3649,10 @@
         "move": "life-dew"
       },
       {
+        "level": 20,
+        "move": "metronome"
+      },
+      {
         "level": 32,
         "move": "meteor-mash"
       },
@@ -3600,10 +3698,16 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "dream-eater",
       "mega-kick",
       "mega-punch",
+      "metronome",
+      "mimic",
+      "seismic-toss",
       "soft-boiled",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [
@@ -3662,6 +3766,10 @@
       {
         "level": 1,
         "move": "meteor-mash"
+      },
+      {
+        "level": 1,
+        "move": "metronome"
       },
       {
         "level": 1,
@@ -3726,10 +3834,16 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "dream-eater",
       "mega-kick",
       "mega-punch",
+      "metronome",
+      "mimic",
+      "seismic-toss",
       "soft-boiled",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [],
@@ -3829,7 +3943,9 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -3939,7 +4055,9 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 177,
@@ -4011,6 +4129,10 @@
         "move": "body-slam"
       },
       {
+        "level": 28,
+        "move": "mimic"
+      },
+      {
         "level": 36,
         "move": "hyper-voice"
       },
@@ -4054,9 +4176,14 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "dream-eater",
       "mega-kick",
       "mega-punch",
+      "mimic",
+      "seismic-toss",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [
@@ -4123,6 +4250,10 @@
       },
       {
         "level": 1,
+        "move": "mimic"
+      },
+      {
+        "level": 1,
         "move": "pound"
       },
       {
@@ -4182,9 +4313,14 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "dream-eater",
       "mega-kick",
       "mega-punch",
+      "mimic",
+      "seismic-toss",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [],
@@ -4283,7 +4419,9 @@
       "toxic"
     ],
     "tutorMoves": [
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -4392,7 +4530,9 @@
       "toxic"
     ],
     "tutorMoves": [
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -4492,6 +4632,8 @@
     ],
     "tutorMoves": [
       "double-edge",
+      "mimic",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [
@@ -4593,6 +4735,8 @@
     ],
     "tutorMoves": [
       "double-edge",
+      "mimic",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [
@@ -4705,6 +4849,8 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
+      "mimic",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [],
@@ -4796,7 +4942,10 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "mimic",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [
@@ -4899,7 +5048,10 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "mimic",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [],
@@ -5004,7 +5156,9 @@
       "toxic"
     ],
     "tutorMoves": [
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -5119,7 +5273,9 @@
       "toxic"
     ],
     "tutorMoves": [
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 158,
@@ -5221,7 +5377,9 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
-      "rock-slide"
+      "mimic",
+      "rock-slide",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -5337,7 +5495,9 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
-      "rock-slide"
+      "mimic",
+      "rock-slide",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 149,
@@ -5448,7 +5608,10 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "double-edge",
+      "dream-eater",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -5571,7 +5734,10 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "double-edge",
+      "dream-eater",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 154,
@@ -5674,9 +5840,13 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
-      "mega-punch"
+      "mega-punch",
+      "mimic",
+      "seismic-toss",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -5794,9 +5964,13 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
-      "mega-punch"
+      "mega-punch",
+      "mimic",
+      "seismic-toss",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 175,
@@ -5846,6 +6020,10 @@
         "move": "fury-swipes"
       },
       {
+        "level": 12,
+        "move": "seismic-toss"
+      },
+      {
         "level": 22,
         "move": "cross-chop"
       },
@@ -5892,10 +6070,15 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
       "mega-punch",
-      "rock-slide"
+      "metronome",
+      "mimic",
+      "rock-slide",
+      "seismic-toss",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -5945,6 +6128,10 @@
       {
         "level": 5,
         "move": "fury-swipes"
+      },
+      {
+        "level": 15,
+        "move": "seismic-toss"
       },
       {
         "level": 22,
@@ -5998,10 +6185,15 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
       "mega-punch",
-      "rock-slide"
+      "metronome",
+      "mimic",
+      "rock-slide",
+      "seismic-toss",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 159,
@@ -6111,7 +6303,9 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -6232,7 +6426,9 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 194,
@@ -6329,7 +6525,9 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -6437,9 +6635,14 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
-      "mega-punch"
+      "mega-punch",
+      "metronome",
+      "mimic",
+      "seismic-toss",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -6555,9 +6758,14 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
-      "mega-punch"
+      "mega-punch",
+      "metronome",
+      "mimic",
+      "seismic-toss",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 230,
@@ -6625,9 +6833,15 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "dream-eater",
       "mega-kick",
       "mega-punch",
+      "metronome",
+      "mimic",
+      "seismic-toss",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [
@@ -6738,9 +6952,15 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "dream-eater",
       "mega-kick",
       "mega-punch",
+      "metronome",
+      "mimic",
+      "seismic-toss",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [
@@ -6851,9 +7071,15 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "dream-eater",
       "mega-kick",
       "mega-punch",
+      "metronome",
+      "mimic",
+      "seismic-toss",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [],
@@ -6924,6 +7150,10 @@
         "move": "bulk-up"
       },
       {
+        "level": 40,
+        "move": "seismic-toss"
+      },
+      {
         "level": 44,
         "move": "dynamic-punch"
       },
@@ -6962,10 +7192,15 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
       "mega-punch",
-      "rock-slide"
+      "metronome",
+      "mimic",
+      "rock-slide",
+      "seismic-toss",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -7041,6 +7276,10 @@
         "move": "bulk-up"
       },
       {
+        "level": 48,
+        "move": "seismic-toss"
+      },
+      {
         "level": 54,
         "move": "dynamic-punch"
       },
@@ -7079,10 +7318,15 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
       "mega-punch",
-      "rock-slide"
+      "metronome",
+      "mimic",
+      "rock-slide",
+      "seismic-toss",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -7157,6 +7401,10 @@
         "move": "bulk-up"
       },
       {
+        "level": 48,
+        "move": "seismic-toss"
+      },
+      {
         "level": 54,
         "move": "dynamic-punch"
       },
@@ -7196,10 +7444,15 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
       "mega-punch",
-      "rock-slide"
+      "metronome",
+      "mimic",
+      "rock-slide",
+      "seismic-toss",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 227,
@@ -7299,6 +7552,8 @@
     ],
     "tutorMoves": [
       "double-edge",
+      "mimic",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [
@@ -7405,6 +7660,8 @@
     ],
     "tutorMoves": [
       "double-edge",
+      "mimic",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [
@@ -7497,6 +7754,8 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
+      "mimic",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [],
@@ -7608,6 +7867,8 @@
     ],
     "tutorMoves": [
       "double-edge",
+      "mimic",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [
@@ -7726,6 +7987,8 @@
     ],
     "tutorMoves": [
       "double-edge",
+      "mimic",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [],
@@ -7777,12 +8040,20 @@
         "move": "rock-throw"
       },
       {
+        "level": 24,
+        "move": "self-destruct"
+      },
+      {
         "level": 30,
         "move": "rock-blast"
       },
       {
         "level": 34,
         "move": "earthquake"
+      },
+      {
+        "level": 36,
+        "move": "explosion"
       },
       {
         "level": 40,
@@ -7817,9 +8088,15 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "explosion",
       "mega-punch",
-      "rock-slide"
+      "metronome",
+      "mimic",
+      "rock-slide",
+      "seismic-toss",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -7876,12 +8153,20 @@
         "move": "rock-throw"
       },
       {
+        "level": 24,
+        "move": "self-destruct"
+      },
+      {
         "level": 34,
         "move": "rock-blast"
       },
       {
         "level": 40,
         "move": "earthquake"
+      },
+      {
+        "level": 44,
+        "move": "explosion"
       },
       {
         "level": 50,
@@ -7916,9 +8201,15 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "explosion",
       "mega-punch",
-      "rock-slide"
+      "metronome",
+      "mimic",
+      "rock-slide",
+      "seismic-toss",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -7974,12 +8265,20 @@
         "move": "bulldoze"
       },
       {
+        "level": 24,
+        "move": "self-destruct"
+      },
+      {
         "level": 34,
         "move": "rock-blast"
       },
       {
         "level": 40,
         "move": "earthquake"
+      },
+      {
+        "level": 44,
+        "move": "explosion"
       },
       {
         "level": 50,
@@ -8016,10 +8315,16 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "explosion",
       "mega-kick",
       "mega-punch",
-      "rock-slide"
+      "metronome",
+      "mimic",
+      "rock-slide",
+      "seismic-toss",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 223,
@@ -8121,7 +8426,9 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -8246,7 +8553,9 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 175,
@@ -8362,6 +8671,9 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
+      "dream-eater",
+      "mimic",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [
@@ -8496,9 +8808,14 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "dream-eater",
       "mega-kick",
       "mega-punch",
+      "mimic",
+      "seismic-toss",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [],
@@ -8597,6 +8914,8 @@
     ],
     "tutorMoves": [
       "double-edge",
+      "mimic",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [
@@ -8706,6 +9025,8 @@
     ],
     "tutorMoves": [
       "double-edge",
+      "mimic",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [],
@@ -8818,6 +9139,8 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
+      "mimic",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [],
@@ -8907,7 +9230,9 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -9009,7 +9334,9 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 165,
@@ -9117,7 +9444,9 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -9229,7 +9558,9 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 166,
@@ -9337,7 +9668,10 @@
       "toxic"
     ],
     "tutorMoves": [
-      "body-slam"
+      "body-slam",
+      "explosion",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -9456,7 +9790,10 @@
       "toxic"
     ],
     "tutorMoves": [
-      "body-slam"
+      "body-slam",
+      "explosion",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 175,
@@ -9557,7 +9894,10 @@
       "water-pulse"
     ],
     "tutorMoves": [
-      "double-edge"
+      "double-edge",
+      "explosion",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -9674,7 +10014,10 @@
       "water-pulse"
     ],
     "tutorMoves": [
-      "double-edge"
+      "double-edge",
+      "explosion",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 184,
@@ -9729,12 +10072,20 @@
         "move": "hex"
       },
       {
+        "level": 28,
+        "move": "night-shade"
+      },
+      {
         "level": 36,
         "move": "dark-pulse"
       },
       {
         "level": 40,
         "move": "shadow-ball"
+      },
+      {
+        "level": 48,
+        "move": "dream-eater"
       }
     ],
     "tmMoves": [
@@ -9760,7 +10111,12 @@
       "torment",
       "toxic"
     ],
-    "tutorMoves": [],
+    "tutorMoves": [
+      "dream-eater",
+      "explosion",
+      "mimic",
+      "substitute"
+    ],
     "evolutions": [
       {
         "to": "haunter",
@@ -9824,12 +10180,20 @@
         "move": "hex"
       },
       {
+        "level": 30,
+        "move": "night-shade"
+      },
+      {
         "level": 42,
         "move": "dark-pulse"
       },
       {
         "level": 48,
         "move": "shadow-ball"
+      },
+      {
+        "level": 60,
+        "move": "dream-eater"
       }
     ],
     "tmMoves": [
@@ -9855,7 +10219,12 @@
       "torment",
       "toxic"
     ],
-    "tutorMoves": [],
+    "tutorMoves": [
+      "dream-eater",
+      "explosion",
+      "mimic",
+      "substitute"
+    ],
     "evolutions": [
       {
         "to": "gengar",
@@ -9918,12 +10287,20 @@
         "move": "hex"
       },
       {
+        "level": 30,
+        "move": "night-shade"
+      },
+      {
         "level": 42,
         "move": "dark-pulse"
       },
       {
         "level": 48,
         "move": "shadow-ball"
+      },
+      {
+        "level": 60,
+        "move": "dream-eater"
       }
     ],
     "tmMoves": [
@@ -9957,9 +10334,16 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "dream-eater",
+      "explosion",
       "mega-kick",
-      "mega-punch"
+      "mega-punch",
+      "metronome",
+      "mimic",
+      "seismic-toss",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 225,
@@ -10071,7 +10455,10 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
-      "rock-slide"
+      "explosion",
+      "mimic",
+      "rock-slide",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -10180,9 +10567,15 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "dream-eater",
       "mega-kick",
       "mega-punch",
+      "metronome",
+      "mimic",
+      "seismic-toss",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [
@@ -10293,9 +10686,15 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "dream-eater",
       "mega-kick",
       "mega-punch",
+      "metronome",
+      "mimic",
+      "seismic-toss",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [],
@@ -10404,6 +10803,8 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
+      "mimic",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [
@@ -10523,6 +10924,8 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
+      "mimic",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [],
@@ -10585,12 +10988,20 @@
         "move": "swift"
       },
       {
+        "level": 26,
+        "move": "self-destruct"
+      },
+      {
         "level": 29,
         "move": "light-screen"
       },
       {
         "level": 37,
         "move": "discharge"
+      },
+      {
+        "level": 41,
+        "move": "explosion"
       }
     ],
     "tmMoves": [
@@ -10613,6 +11024,9 @@
       "toxic"
     ],
     "tutorMoves": [
+      "explosion",
+      "mimic",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [
@@ -10681,12 +11095,20 @@
         "move": "swift"
       },
       {
+        "level": 26,
+        "move": "self-destruct"
+      },
+      {
         "level": 29,
         "move": "light-screen"
       },
       {
         "level": 41,
         "move": "discharge"
+      },
+      {
+        "level": 47,
+        "move": "explosion"
       }
     ],
     "tmMoves": [
@@ -10710,6 +11132,9 @@
       "toxic"
     ],
     "tutorMoves": [
+      "explosion",
+      "mimic",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [],
@@ -10805,7 +11230,11 @@
       "toxic"
     ],
     "tutorMoves": [
-      "double-edge"
+      "double-edge",
+      "dream-eater",
+      "explosion",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -10927,7 +11356,11 @@
       "toxic"
     ],
     "tutorMoves": [
-      "double-edge"
+      "double-edge",
+      "dream-eater",
+      "explosion",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 186,
@@ -11030,10 +11463,14 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
       "mega-punch",
+      "mimic",
       "rock-slide",
+      "seismic-toss",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [
@@ -11144,10 +11581,14 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
       "mega-punch",
+      "mimic",
       "rock-slide",
+      "seismic-toss",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [],
@@ -11233,10 +11674,15 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
       "mega-punch",
-      "rock-slide"
+      "metronome",
+      "mimic",
+      "rock-slide",
+      "seismic-toss",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 159,
@@ -11314,6 +11760,10 @@
         "move": "mega-punch"
       },
       {
+        "level": 40,
+        "move": "counter"
+      },
+      {
         "level": 44,
         "move": "focus-punch"
       }
@@ -11341,10 +11791,15 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
       "mega-punch",
-      "rock-slide"
+      "metronome",
+      "mimic",
+      "rock-slide",
+      "seismic-toss",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 159,
@@ -11444,10 +11899,15 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "dream-eater",
       "mega-kick",
       "mega-punch",
+      "mimic",
       "rock-slide",
+      "seismic-toss",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [],
@@ -11510,12 +11970,20 @@
         "move": "sludge"
       },
       {
+        "level": 28,
+        "move": "self-destruct"
+      },
+      {
         "level": 32,
         "move": "sludge-bomb"
       },
       {
         "level": 36,
         "move": "toxic"
+      },
+      {
+        "level": 44,
+        "move": "explosion"
       }
     ],
     "tmMoves": [
@@ -11542,7 +12010,11 @@
       "torment",
       "toxic"
     ],
-    "tutorMoves": [],
+    "tutorMoves": [
+      "explosion",
+      "mimic",
+      "substitute"
+    ],
     "evolutions": [
       {
         "to": "weezing",
@@ -11617,12 +12089,20 @@
         "move": "sludge"
       },
       {
+        "level": 28,
+        "move": "self-destruct"
+      },
+      {
         "level": 32,
         "move": "sludge-bomb"
       },
       {
         "level": 38,
         "move": "toxic"
+      },
+      {
+        "level": 50,
+        "move": "explosion"
       }
     ],
     "tmMoves": [
@@ -11650,7 +12130,11 @@
       "torment",
       "toxic"
     ],
-    "tutorMoves": [],
+    "tutorMoves": [
+      "explosion",
+      "mimic",
+      "substitute"
+    ],
     "evolutions": [],
     "baseExp": 172,
     "catchRate": 60,
@@ -11763,8 +12247,11 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "mimic",
       "rock-slide",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [
@@ -11894,10 +12381,14 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
       "mega-punch",
+      "mimic",
       "rock-slide",
+      "seismic-toss",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [
@@ -12028,10 +12519,16 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "dream-eater",
       "mega-kick",
       "mega-punch",
+      "metronome",
+      "mimic",
+      "seismic-toss",
       "soft-boiled",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [
@@ -12135,6 +12632,8 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
+      "mimic",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [
@@ -12247,10 +12746,14 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
       "mega-punch",
-      "rock-slide"
+      "mimic",
+      "rock-slide",
+      "seismic-toss",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 172,
@@ -12347,7 +12850,9 @@
       "waterfall"
     ],
     "tutorMoves": [
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -12451,7 +12956,9 @@
       "waterfall"
     ],
     "tutorMoves": [
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -12543,7 +13050,9 @@
       "waterfall"
     ],
     "tutorMoves": [
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -12635,7 +13144,9 @@
       "waterfall"
     ],
     "tutorMoves": [
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 158,
@@ -12750,6 +13261,8 @@
     ],
     "tutorMoves": [
       "double-edge",
+      "mimic",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [
@@ -12874,6 +13387,9 @@
     ],
     "tutorMoves": [
       "double-edge",
+      "dream-eater",
+      "mimic",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [],
@@ -12923,6 +13439,10 @@
       {
         "level": 28,
         "move": "psybeam"
+      },
+      {
+        "level": 32,
+        "move": "mimic"
       },
       {
         "level": 36,
@@ -12983,9 +13503,15 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "dream-eater",
       "mega-kick",
       "mega-punch",
+      "metronome",
+      "mimic",
+      "seismic-toss",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [],
@@ -13085,7 +13611,10 @@
       "toxic"
     ],
     "tutorMoves": [
+      "counter",
       "double-edge",
+      "mimic",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [
@@ -13206,9 +13735,15 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "dream-eater",
       "mega-kick",
-      "mega-punch"
+      "mega-punch",
+      "metronome",
+      "mimic",
+      "seismic-toss",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 159,
@@ -13317,9 +13852,13 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
       "mega-punch",
+      "mimic",
+      "seismic-toss",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [
@@ -13440,9 +13979,13 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
-      "mega-punch"
+      "mega-punch",
+      "mimic",
+      "seismic-toss",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -13488,6 +14031,10 @@
       {
         "level": 1,
         "move": "vise-grip"
+      },
+      {
+        "level": 12,
+        "move": "seismic-toss"
       },
       {
         "level": 16,
@@ -13549,7 +14096,10 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
+      "mimic",
       "rock-slide",
+      "seismic-toss",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [],
@@ -13656,7 +14206,9 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 172,
@@ -13829,6 +14381,8 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
+      "mimic",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [],
@@ -13942,7 +14496,10 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "double-edge",
+      "dream-eater",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 187,
@@ -14080,7 +14637,9 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -14253,7 +14812,9 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 184,
@@ -14388,6 +14949,8 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
+      "mimic",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [],
@@ -14513,7 +15076,9 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 184,
@@ -14610,6 +15175,9 @@
     ],
     "tutorMoves": [
       "double-edge",
+      "dream-eater",
+      "mimic",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [],
@@ -14710,7 +15278,9 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
-      "rock-slide"
+      "mimic",
+      "rock-slide",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -14821,7 +15391,10 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
-      "rock-slide"
+      "mimic",
+      "rock-slide",
+      "seismic-toss",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 173,
@@ -14936,7 +15509,9 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
-      "rock-slide"
+      "mimic",
+      "rock-slide",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -15073,7 +15648,10 @@
       "body-slam",
       "double-edge",
       "mega-kick",
+      "mimic",
       "rock-slide",
+      "seismic-toss",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [],
@@ -15189,7 +15767,9 @@
     ],
     "tutorMoves": [
       "double-edge",
-      "rock-slide"
+      "mimic",
+      "rock-slide",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 180,
@@ -15229,6 +15809,10 @@
       {
         "level": 1,
         "move": "lick"
+      },
+      {
+        "level": 1,
+        "move": "metronome"
       },
       {
         "level": 1,
@@ -15301,10 +15885,15 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
       "mega-punch",
-      "rock-slide"
+      "metronome",
+      "mimic",
+      "rock-slide",
+      "seismic-toss",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 189,
@@ -15400,7 +15989,9 @@
       "water-pulse"
     ],
     "tutorMoves": [
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 261,
@@ -15505,6 +16096,8 @@
     ],
     "tutorMoves": [
       "double-edge",
+      "mimic",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [],
@@ -15612,7 +16205,9 @@
       "toxic"
     ],
     "tutorMoves": [
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 261,
@@ -15716,6 +16311,8 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
+      "mimic",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [
@@ -15826,6 +16423,8 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
+      "mimic",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [
@@ -15970,6 +16569,8 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
+      "mimic",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [],
@@ -16090,9 +16691,15 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "dream-eater",
       "mega-kick",
       "mega-punch",
+      "metronome",
+      "mimic",
+      "seismic-toss",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [],
@@ -16141,6 +16748,10 @@
       {
         "level": 50,
         "move": "nasty-plot"
+      },
+      {
+        "level": 60,
+        "move": "metronome"
       },
       {
         "level": 80,
@@ -16215,11 +16826,18 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "dream-eater",
+      "explosion",
       "mega-kick",
       "mega-punch",
+      "metronome",
+      "mimic",
       "rock-slide",
+      "seismic-toss",
       "soft-boiled",
+      "substitute",
       "swords-dance",
       "thunder-wave"
     ],
@@ -16340,7 +16958,10 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
-      "rock-slide"
+      "explosion",
+      "mimic",
+      "rock-slide",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 179,
@@ -16479,10 +17100,14 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
       "mega-punch",
+      "mimic",
       "rock-slide",
+      "seismic-toss",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [],
@@ -16588,7 +17213,9 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 243,
@@ -16690,6 +17317,8 @@
     ],
     "tutorMoves": [
       "double-edge",
+      "mimic",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [],
@@ -16810,7 +17439,10 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "double-edge",
+      "dream-eater",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 184,
@@ -16933,7 +17565,10 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "double-edge",
+      "dream-eater",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 184,
@@ -17057,9 +17692,14 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "dream-eater",
       "mega-kick",
       "mega-punch",
+      "mimic",
+      "seismic-toss",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [],
@@ -17173,7 +17813,11 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "counter",
+      "double-edge",
+      "dream-eater",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 175,
@@ -17230,6 +17874,10 @@
       {
         "level": 32,
         "move": "dig"
+      },
+      {
+        "level": 40,
+        "move": "counter"
       }
     ],
     "tmMoves": [
@@ -17255,9 +17903,13 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
-      "rock-slide"
+      "mimic",
+      "rock-slide",
+      "seismic-toss",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 159,
@@ -17375,7 +18027,10 @@
       "toxic"
     ],
     "tutorMoves": [
+      "counter",
       "double-edge",
+      "mimic",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [],
@@ -17501,10 +18156,16 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "dream-eater",
       "mega-kick",
       "mega-punch",
+      "metronome",
+      "mimic",
+      "seismic-toss",
       "soft-boiled",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [],
@@ -17617,7 +18278,9 @@
       "toxic"
     ],
     "tutorMoves": [
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 241,
@@ -17731,7 +18394,9 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 189,
@@ -17830,6 +18495,8 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
+      "mimic",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [],
@@ -17920,6 +18587,10 @@
       {
         "level": 49,
         "move": "moonblast"
+      },
+      {
+        "level": 56,
+        "move": "dream-eater"
       }
     ],
     "tmMoves": [
@@ -17953,6 +18624,9 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
+      "dream-eater",
+      "mimic",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [],
@@ -18008,6 +18682,10 @@
         "move": "bulk-up"
       },
       {
+        "level": 34,
+        "move": "seismic-toss"
+      },
+      {
         "level": 38,
         "move": "focus-punch"
       }
@@ -18037,10 +18715,15 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
       "mega-punch",
-      "rock-slide"
+      "metronome",
+      "mimic",
+      "rock-slide",
+      "seismic-toss",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 166,
@@ -18077,6 +18760,10 @@
       {
         "level": 1,
         "move": "knock-off"
+      },
+      {
+        "level": 1,
+        "move": "night-shade"
       },
       {
         "level": 1,
@@ -18124,6 +18811,10 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
+      "dream-eater",
+      "metronome",
+      "mimic",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [],
@@ -18242,7 +18933,9 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
-      "rock-slide"
+      "mimic",
+      "rock-slide",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 270,
@@ -18283,6 +18976,10 @@
       {
         "level": 1,
         "move": "confusion"
+      },
+      {
+        "level": 1,
+        "move": "explosion"
       },
       {
         "level": 1,
@@ -18363,7 +19060,10 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
-      "rock-slide"
+      "explosion",
+      "mimic",
+      "rock-slide",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 270,
@@ -18493,6 +19193,7 @@
       "smart-strike",
       "stomping-tantrum",
       "stone-edge",
+      "substitute",
       "sunny-day",
       "surf",
       "swords-dance",
@@ -18589,6 +19290,7 @@
       "shadow-ball",
       "sludge-bomb",
       "solar-beam",
+      "substitute",
       "sunny-day",
       "swift",
       "swords-dance",
@@ -18693,6 +19395,7 @@
       "sludge-bomb",
       "solar-beam",
       "stomping-tantrum",
+      "substitute",
       "sunny-day",
       "swords-dance",
       "thief"
@@ -18800,6 +19503,7 @@
       "sludge-bomb",
       "sludge-wave",
       "stone-edge",
+      "substitute",
       "sunny-day",
       "swords-dance",
       "take-down",
@@ -18920,6 +19624,7 @@
       "hyper-voice",
       "knock-off",
       "low-sweep",
+      "metronome",
       "overheat",
       "poison-jab",
       "protect",
@@ -18931,6 +19636,7 @@
       "scary-face",
       "solar-beam",
       "stomping-tantrum",
+      "substitute",
       "sunny-day",
       "take-down",
       "taunt",
@@ -19040,6 +19746,7 @@
       "light-screen",
       "low-sweep",
       "metal-sound",
+      "metronome",
       "protect",
       "psychic",
       "rain-dance",
@@ -19048,6 +19755,7 @@
       "rock-slide",
       "rock-tomb",
       "stomping-tantrum",
+      "substitute",
       "swift",
       "take-down",
       "taunt",
@@ -19171,6 +19879,7 @@
       "scary-face",
       "stomping-tantrum",
       "stone-edge",
+      "substitute",
       "sunny-day",
       "surf",
       "swift",
@@ -19271,6 +19980,7 @@
       "seed-bomb",
       "solar-beam",
       "stomping-tantrum",
+      "substitute",
       "swords-dance",
       "take-down",
       "water-pulse"
@@ -19383,6 +20093,7 @@
       "scary-face",
       "stomping-tantrum",
       "stone-edge",
+      "substitute",
       "take-down"
     ],
     "tutorMoves": [],
@@ -19504,6 +20215,7 @@
       "roar",
       "shadow-ball",
       "stored-power",
+      "substitute",
       "sunny-day",
       "swift",
       "take-down",
@@ -19635,6 +20347,7 @@
       "shadow-ball",
       "solar-beam",
       "stored-power",
+      "substitute",
       "sunny-day",
       "swift",
       "swords-dance",
@@ -19701,6 +20414,7 @@
       "hyper-voice",
       "icy-wind",
       "nasty-plot",
+      "night-shade",
       "power-gem",
       "protect",
       "psybeam",
@@ -19712,6 +20426,7 @@
       "shadow-ball",
       "skill-swap",
       "stored-power",
+      "substitute",
       "sunny-day",
       "swift",
       "taunt",
@@ -19783,6 +20498,10 @@
         "move": "confuse-ray"
       },
       {
+        "level": 16,
+        "move": "night-shade"
+      },
+      {
         "level": 20,
         "move": "payback"
       },
@@ -19817,6 +20536,8 @@
       "ice-punch",
       "icy-wind",
       "leech-life",
+      "metronome",
+      "night-shade",
       "protect",
       "psychic",
       "rain-dance",
@@ -19825,6 +20546,7 @@
       "rock-tomb",
       "shadow-ball",
       "skill-swap",
+      "substitute",
       "sunny-day",
       "swift",
       "taunt",
@@ -19961,6 +20683,7 @@
       "shadow-ball",
       "sludge-bomb",
       "stomping-tantrum",
+      "substitute",
       "sunny-day",
       "swords-dance",
       "taunt",
@@ -20036,6 +20759,10 @@
       },
       {
         "level": 1,
+        "move": "metronome"
+      },
+      {
+        "level": 1,
         "move": "pound"
       },
       {
@@ -20072,6 +20799,7 @@
       "light-screen",
       "mega-kick",
       "mega-punch",
+      "metronome",
       "nasty-plot",
       "play-rough",
       "protect",
@@ -20088,6 +20816,7 @@
       "solar-beam",
       "steel-wing",
       "stored-power",
+      "substitute",
       "sunny-day",
       "swift",
       "thunder-wave",
@@ -20201,6 +20930,7 @@
       "smart-strike",
       "solar-beam",
       "stomping-tantrum",
+      "substitute",
       "sunny-day",
       "swords-dance",
       "venoshock",
@@ -20262,6 +20992,10 @@
       },
       {
         "level": 1,
+        "move": "night-shade"
+      },
+      {
+        "level": 1,
         "move": "overheat"
       },
       {
@@ -20289,12 +21023,14 @@
       "heat-wave",
       "hex",
       "hyper-beam",
+      "night-shade",
       "overheat",
       "protect",
       "psychic",
       "rest",
       "shadow-ball",
       "solar-beam",
+      "substitute",
       "sunny-day",
       "taunt",
       "thief",
@@ -20408,6 +21144,7 @@
       "scary-face",
       "smart-strike",
       "stomping-tantrum",
+      "substitute",
       "sunny-day",
       "swords-dance",
       "take-down",
@@ -20518,6 +21255,7 @@
       "scary-face",
       "stomping-tantrum",
       "stone-edge",
+      "substitute",
       "sunny-day",
       "take-down",
       "taunt",
@@ -20651,6 +21389,7 @@
       "shadow-ball",
       "skill-swap",
       "stored-power",
+      "substitute",
       "sunny-day",
       "swift",
       "take-down"
@@ -20762,7 +21501,9 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
-      "rock-slide"
+      "mimic",
+      "rock-slide",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -20882,7 +21623,9 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
-      "rock-slide"
+      "mimic",
+      "rock-slide",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 151,
@@ -20974,8 +21717,12 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "dream-eater",
+      "mimic",
       "rock-slide",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [],
@@ -21084,7 +21831,11 @@
       "toxic"
     ],
     "tutorMoves": [
+      "counter",
       "double-edge",
+      "dream-eater",
+      "mimic",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [],
@@ -21184,7 +21935,9 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
-      "rock-slide"
+      "mimic",
+      "rock-slide",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -21256,9 +22009,13 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
-      "mega-punch"
+      "mega-punch",
+      "mimic",
+      "seismic-toss",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 116,
@@ -21366,7 +22123,10 @@
       "body-slam",
       "double-edge",
       "mega-kick",
-      "mega-punch"
+      "mega-punch",
+      "mimic",
+      "seismic-toss",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -21475,7 +22235,9 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -21580,6 +22342,8 @@
     ],
     "tutorMoves": [
       "double-edge",
+      "mimic",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [
@@ -21685,6 +22449,8 @@
     ],
     "tutorMoves": [
       "double-edge",
+      "mimic",
+      "substitute",
       "swords-dance",
       "thunder-wave"
     ],
@@ -21782,6 +22548,8 @@
     ],
     "tutorMoves": [
       "double-edge",
+      "mimic",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [
@@ -21843,6 +22611,10 @@
         "move": "charm"
       },
       {
+        "level": 24,
+        "move": "metronome"
+      },
+      {
         "level": 32,
         "move": "double-edge"
       },
@@ -21878,10 +22650,16 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "dream-eater",
       "mega-kick",
       "mega-punch",
+      "metronome",
+      "mimic",
+      "seismic-toss",
       "soft-boiled",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [
@@ -21987,7 +22765,9 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
-      "rock-slide"
+      "mimic",
+      "rock-slide",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -22102,7 +22882,10 @@
       "body-slam",
       "double-edge",
       "mega-kick",
-      "mega-punch"
+      "mega-punch",
+      "mimic",
+      "seismic-toss",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 189,
@@ -22210,9 +22993,13 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
       "mega-kick",
-      "mega-punch"
+      "mega-punch",
+      "mimic",
+      "seismic-toss",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 151,
@@ -22311,6 +23098,8 @@
     ],
     "tutorMoves": [
       "double-edge",
+      "mimic",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [
@@ -22417,6 +23206,8 @@
     ],
     "tutorMoves": [
       "double-edge",
+      "mimic",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [],
@@ -22523,6 +23314,9 @@
     ],
     "tutorMoves": [
       "double-edge",
+      "mimic",
+      "seismic-toss",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [],
@@ -22584,6 +23378,10 @@
         "move": "charm"
       },
       {
+        "level": 24,
+        "move": "metronome"
+      },
+      {
         "level": 32,
         "move": "double-edge"
       },
@@ -22625,10 +23423,16 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "dream-eater",
       "mega-kick",
       "mega-punch",
+      "metronome",
+      "mimic",
+      "seismic-toss",
       "soft-boiled",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [
@@ -22731,7 +23535,9 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -22842,7 +23648,9 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 145,
@@ -22952,6 +23760,8 @@
     "tutorMoves": [
       "double-edge",
       "mega-punch",
+      "mimic",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [
@@ -23069,6 +23879,8 @@
     "tutorMoves": [
       "double-edge",
       "mega-punch",
+      "mimic",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [],
@@ -23121,6 +23933,10 @@
         "move": "scary-face"
       },
       {
+        "level": 15,
+        "move": "night-shade"
+      },
+      {
         "level": 22,
         "move": "fury-swipes"
       },
@@ -23166,7 +23982,9 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -23236,6 +24054,10 @@
         "move": "scary-face"
       },
       {
+        "level": 15,
+        "move": "night-shade"
+      },
+      {
         "level": 23,
         "move": "fury-swipes"
       },
@@ -23282,7 +24104,9 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 140,
@@ -23338,6 +24162,10 @@
         "move": "confuse-ray"
       },
       {
+        "level": 20,
+        "move": "night-shade"
+      },
+      {
         "level": 35,
         "move": "psychic"
       }
@@ -23369,6 +24197,9 @@
     ],
     "tutorMoves": [
       "double-edge",
+      "dream-eater",
+      "mimic",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [
@@ -23435,6 +24266,10 @@
         "move": "confuse-ray"
       },
       {
+        "level": 20,
+        "move": "night-shade"
+      },
+      {
         "level": 41,
         "move": "psychic"
       }
@@ -23468,6 +24303,9 @@
     ],
     "tutorMoves": [
       "double-edge",
+      "dream-eater",
+      "mimic",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [],
@@ -23570,7 +24408,10 @@
       "toxic"
     ],
     "tutorMoves": [
-      "double-edge"
+      "double-edge",
+      "dream-eater",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 78,
@@ -23622,6 +24463,10 @@
         "move": "wing-attack"
       },
       {
+        "level": 21,
+        "move": "night-shade"
+      },
+      {
         "level": 25,
         "move": "assurance"
       },
@@ -23658,6 +24503,9 @@
     ],
     "tutorMoves": [
       "double-edge",
+      "dream-eater",
+      "mimic",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [],
@@ -23756,6 +24604,9 @@
     ],
     "tutorMoves": [
       "double-edge",
+      "dream-eater",
+      "mimic",
+      "substitute",
       "thunder-wave"
     ],
     "evolutions": [
@@ -23802,6 +24653,10 @@
       {
         "level": 1,
         "move": "charm"
+      },
+      {
+        "level": 1,
+        "move": "counter"
       },
       {
         "level": 1,
@@ -23868,6 +24723,10 @@
         "move": "horn-attack"
       },
       {
+        "level": 25,
+        "move": "counter"
+      },
+      {
         "level": 30,
         "move": "brick-break"
       },
@@ -23910,8 +24769,12 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
+      "mimic",
       "rock-slide",
+      "seismic-toss",
+      "substitute",
       "swords-dance"
     ],
     "evolutions": [],
@@ -24022,7 +24885,9 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 170,
@@ -24137,8 +25002,11 @@
       "toxic"
     ],
     "tutorMoves": [
+      "counter",
       "double-edge",
-      "rock-slide"
+      "mimic",
+      "rock-slide",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 163,
@@ -24221,7 +25089,10 @@
     ],
     "tutorMoves": [
       "body-slam",
-      "double-edge"
+      "counter",
+      "double-edge",
+      "mimic",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -24327,8 +25198,11 @@
     ],
     "tutorMoves": [
       "body-slam",
+      "counter",
       "double-edge",
-      "rock-slide"
+      "mimic",
+      "rock-slide",
+      "substitute"
     ],
     "evolutions": [],
     "baseExp": 175,
@@ -24444,7 +25318,9 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
-      "rock-slide"
+      "mimic",
+      "rock-slide",
+      "substitute"
     ],
     "evolutions": [
       {
@@ -24569,7 +25445,9 @@
     "tutorMoves": [
       "body-slam",
       "double-edge",
-      "rock-slide"
+      "mimic",
+      "rock-slide",
+      "substitute"
     ],
     "evolutions": [
       {

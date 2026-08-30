@@ -293,7 +293,49 @@ export type MoveEffect =
    *
    * ここでは何もしない ―― 判定はダメージの前なので `performMove` が見る。
    */
-  | { kind: "focus" };
+  | { kind: "focus" }
+  /**
+   * レベルと同じ固定ダメージ（v1.2-d・ちきゅうなげ／ナイトヘッド）。
+   *
+   * **相性は見るが、威力は見ない。** ゴーストに かくとう が効かないのは
+   * ダメージの計算より前の話なので、無効の判定はそのまま通す。
+   */
+  | { kind: "fixedDamage"; from: "level" }
+  /** じばく・だいばくはつ（v1.2-d）。**撃った側が倒れる。** */
+  | { kind: "selfDestruct" }
+  /**
+   * ゆめくい（v1.2-d）。**眠っている相手にしか当たらない。**
+   *
+   * `drain` に印を足す形にした ―― 吸う量の計算は同じで、
+   * 違うのは「撃てる条件」だけ。別の kind にすると回復の式が2つになる。
+   */
+  | { kind: "drainAsleep"; ratio: number }
+  /**
+   * ものまね（v1.2-d）。**相手が直前に使った技を、この枠に上書きする。**
+   *
+   * 上書きするのは「ものまね」の枠 ―― 1体が2つ持つことはないので、
+   * 枠番号を持ち回さずに技の ID で探せる。
+   */
+  | { kind: "mimic" }
+  /**
+   * カウンター（v1.2-d）。**そのターンに受けた物理ダメージの2倍を返す。**
+   *
+   * 受けていなければ失敗する ―― 優先度 −5 で後攻になるのが前提の技。
+   */
+  | { kind: "counter" }
+  /**
+   * みがわり（v1.2-d）。最大HPの1/4を削って身代わりを立てる。
+   *
+   * 立っている間、**ダメージも状態異常も身代わりが受ける。**
+   */
+  | { kind: "substitute" }
+  /**
+   * ゆびをふる（v1.2-d）。**別の技を1つ選んで、その場で撃つ。**
+   *
+   * 選べない技（ゆびをふる自身・ものまね・カウンター・まもる など）は
+   * 原作どおり除く ―― でないと自分を呼び続けて終わらない。
+   */
+  | { kind: "metronome" };
 
 // ─────────────────────────────────────────────
 // 特性・持ち物（v0.5）
@@ -601,6 +643,18 @@ export type Volatile = {
    * 誰が戻すかを迷わなくて済む。
    */
   hitThisTurn: boolean;
+  /**
+   * そのターンに受けた物理ダメージ（v1.2-d）。**カウンター が見る。**
+   * `hitThisTurn` と同じくターン終了時に戻す。
+   */
+  physicalTaken: number;
+  /**
+   * みがわり の残りHP（v1.2-d）。0 なら立っていない。
+   *
+   * **本体のHPとは別に持つ。** 同じ数字で表そうとすると
+   * 「身代わりが壊れた」と「本体が倒れた」が区別できなくなる。
+   */
+  substitute: number;
 };
 
 export type BattlePokemon = {
@@ -822,6 +876,10 @@ export type BattleEvent =
   | { kind: "abilitySwapped"; side: SideIndex }
   | { kind: "snatching" | "snatched"; side: SideIndex }
   | { kind: "focusBroken"; side: SideIndex }
+  /** みがわり・ものまね・ゆびをふる（v1.2-d）。 */
+  | { kind: "substituteUp" | "substituteHit" | "substituteBroke"; side: SideIndex }
+  | { kind: "mimicked"; side: SideIndex; move: MoveId }
+  | { kind: "calledMove"; side: SideIndex; move: MoveId }
   | { kind: "statChange"; side: SideIndex; stat: StagedStat; delta: number; stage: number }
   | { kind: "statChangeFailed"; side: SideIndex; stat: StagedStat }
   | { kind: "faint"; side: SideIndex }
@@ -904,4 +962,6 @@ export const freshVolatile = (): Volatile => ({
   protectStreak: 0,
   snatching: false,
   hitThisTurn: false,
+  physicalTaken: 0,
+  substitute: 0,
 });
