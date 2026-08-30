@@ -9,7 +9,7 @@
 import { describe, expect, it } from "vitest";
 import {
   TYPES, calcDamage, createBattle, createRng, createRngState, legalActions, step,
-  toBattlePokemon, walkCommands,
+  decidesPowerAtRuntime, toBattlePokemon, walkCommands,
 } from "@pkmn/core";
 import {
   allArt,
@@ -265,16 +265,16 @@ describe("データの網羅性", () => {
   });
 
   /**
-   * v1.1-k で例外がひとつ増えた ―― **威力を実行時に決める技**（プレゼント）。
+   * 例外は **威力を実行時に決める技**（プレゼント・おんがえし ほか）。
    * `damage.ts` の `powerOverride` を使う側なので、表の `power` は空でよい。
-   * 「書き忘れ」と「決めようが無い」を分けるため、**効果の種類で見分ける**
-   * （id で例外を並べると、次の1件でまた id を足すことになる）。
+   *
+   * **一覧はここに書かない**（v1.2-c）―― 検証とテストの2か所に同じ列挙があり、
+   * 片方だけ直した跡ができた。core の `decidesPowerAtRuntime` を読む。
    */
   it("変化技は威力を持たず、攻撃技は必ず威力を持つ（実行時に決める技を除く）", () => {
-    const decidesPower = new Set(["present"]);
     for (const m of allMoves) {
       if (m.category === "status") expect(m.power, m.id).toBeNull();
-      else if (decidesPower.has(m.effect?.kind ?? "")) expect(m.power, m.id).toBeNull();
+      else if (decidesPowerAtRuntime(m.effect)) expect(m.power, m.id).toBeNull();
       else expect(m.power, m.id).toBeGreaterThan(0);
     }
   });

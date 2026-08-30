@@ -2,8 +2,8 @@
  * 自動生成ファイル。直接編集しないこと。
  *   再生成: npm run gen:ids
  *
- * 種族 228 / 技 268 / 性格 25 /
- * 特性 74 / 道具 131 /
+ * 種族 228 / 技 274 / 性格 25 /
+ * 特性 74 / 道具 137 /
  * BattleSet 64 / 施設 4 /
  * ネームド 18 / カップ 10 /
  * マップ 210 / イベント 339 / トレーナー 165 /
@@ -312,6 +312,7 @@ export type GeneratedMoveId =
   | "ember"
   | "extrasensory"
   | "extreme-speed"
+  | "facade"
   | "fairy-wind"
   | "fake-tears"
   | "false-swipe"
@@ -328,6 +329,7 @@ export type GeneratedMoveId =
   | "flash-cannon"
   | "fly"
   | "freeze-dry"
+  | "frustration"
   | "fury-attack"
   | "fury-swipes"
   | "giga-drain"
@@ -425,7 +427,9 @@ export type GeneratedMoveId =
   | "razor-shell"
   | "recover"
   | "reflect"
+  | "rest"
   | "retaliate"
+  | "return"
   | "revenge"
   | "rock-blast"
   | "rock-polish"
@@ -440,6 +444,7 @@ export type GeneratedMoveId =
   | "scary-face"
   | "scratch"
   | "screech"
+  | "secret-power"
   | "seed-bomb"
   | "shadow-ball"
   | "shadow-punch"
@@ -461,6 +466,7 @@ export type GeneratedMoveId =
   | "spark"
   | "splash"
   | "spore"
+  | "steel-wing"
   | "stomp"
   | "stomping-tantrum"
   | "stone-edge"
@@ -722,11 +728,13 @@ export type GeneratedItemId =
   | "tm18"
   | "tm19"
   | "tm20"
+  | "tm21"
   | "tm22"
   | "tm23"
   | "tm24"
   | "tm25"
   | "tm26"
+  | "tm27"
   | "tm28"
   | "tm29"
   | "tm30"
@@ -740,7 +748,11 @@ export type GeneratedItemId =
   | "tm39"
   | "tm40"
   | "tm41"
+  | "tm42"
+  | "tm43"
+  | "tm44"
   | "tm45"
+  | "tm47"
   | "tm50"
   | "toxic-orb"
   | "twisted-spoon"

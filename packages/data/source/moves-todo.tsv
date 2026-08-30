@@ -39,7 +39,6 @@ explosion	Explosion	個別処理	8
 fire-spin	Fire Spin	未実装の状態	8
 ice-fang	Ice Fang	追加効果が複数	8
 memento	Memento	個別処理	8
-rest	Rest	効果を表せない	8
 shell-smash	Shell Smash	能力変化が複数	8
 swagger	Swagger	相手の攻撃を2段階上げる代償がある	8
 thunder-fang	Thunder Fang	追加効果が複数	8
@@ -176,7 +175,6 @@ skill-swap	Skill Swap	効果を表せない	1
 sleep-talk	Sleep Talk	効果を表せない	1
 snarl	snarl	追加できる（日本語名が要る）	1
 snore	Snore	自分が眠っていないと出せない	1
-steel-wing	steel-wing	追加できる（日本語名が要る）	1
 throat-chop	Throat Chop	個別処理	1
 trick	Trick	効果を表せない	1
 triple-kick	Triple Kick	特殊な命中判定	1

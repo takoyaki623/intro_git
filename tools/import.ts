@@ -96,6 +96,15 @@ function parseEffect(src: string, where: string): unknown {
     // ちょうはつ（v1.2-c）
     case "taunt":
       return { kind, turns: num(0) };
+    // ねむる（v1.2-c）。引数を取らない
+    case "rest":
+      return { kind };
+    // 状況で決まる威力（v1.2-c）。からげんき だけ元の威力を持つ
+    case "variablePower": {
+      const out: { kind: string; from: string; base?: number } = { kind, from: args[0]! };
+      if (args[1] !== undefined) out.base = num(1);
+      return out;
+    }
     default:
       err(where, `未知の効果 "${kind}"`);
       return undefined;

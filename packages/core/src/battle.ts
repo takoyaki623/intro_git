@@ -12,6 +12,7 @@ import {
   applyEffect,
   resolveHitCount,
   resolvePresent,
+  resolveVariablePower,
   type EffectContext,
   type HpMutator,
 } from "./effects.js";
@@ -558,7 +559,15 @@ function performMove(
     }));
     return;
   }
-  const power = present?.kind === "power" ? { powerOverride: present.power } : {};
+  // 威力の上書きは2通りある（v1.1-k のプレゼント・v1.2-c の状況で決まる技）。
+  // **どちらも calcDamage の前**で決まっていなければならない
+  const variable = resolveVariablePower(move.effect, self);
+  const power =
+    present?.kind === "power"
+      ? { powerOverride: present.power }
+      : variable !== null
+        ? { powerOverride: variable }
+        : {};
 
   const hits = resolveHitCount(move.effect, rng);
   let totalDealt = 0;

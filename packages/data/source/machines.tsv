@@ -27,13 +27,13 @@ tm17	17	protect
 tm18	18	rain-dance		
 tm19	19	giga-drain		3500
 tm20	20	safeguard		
-tm21	21	frustration	技が未実装（moves-todo.tsv）	
+tm21	21	frustration		
 tm22	22	solar-beam		
 tm23	23	iron-tail		
 tm24	24	thunderbolt		4500
 tm25	25	thunder		
 tm26	26	earthquake		
-tm27	27	return	技が未実装（moves-todo.tsv）	
+tm27	27	return		
 tm28	28	dig		
 tm29	29	psychic		
 tm30	30	shadow-ball		
@@ -48,12 +48,12 @@ tm38	38	fire-blast
 tm39	39	rock-tomb		
 tm40	40	aerial-ace		
 tm41	41	torment		
-tm42	42	facade	技が未実装（moves-todo.tsv）	
-tm43	43	secret-power	技が未実装（moves-todo.tsv）	
-tm44	44	rest	技が未実装（moves-todo.tsv）	
+tm42	42	facade		
+tm43	43	secret-power		
+tm44	44	rest		
 tm45	45	attract		
 tm46	46	thief	技が未実装（moves-todo.tsv）	
-tm47	47	steel-wing	技が未実装（moves-todo.tsv）	
+tm47	47	steel-wing		
 tm48	48	skill-swap	技が未実装（moves-todo.tsv）	
 tm49	49	snatch	技が未実装（moves-todo.tsv）	
 tm50	50	overheat		

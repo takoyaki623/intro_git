@@ -267,3 +267,9 @@ taunt	ちょうはつ	dark	status	-	100	20	0	0	0	taunt:3	foe
 torment	いちゃもん	dark	status	-	100	15	0	0	0	torment	foe
 attract	メロメロ	normal	status	-	100	15	0	0	0	attract	foe
 protect	まもる	normal	status	-	-	10	4	0	0	protect	self
+return	おんがえし	normal	physical	-	100	20	0	0	1	variablePower:friendship	foe
+frustration	やつあたり	normal	physical	-	100	20	0	0	1	variablePower:frustration	foe
+facade	からげんき	normal	physical	-	100	20	0	0	1	variablePower:statusDouble:70	foe
+rest	ねむる	psychic	status	-	-	10	0	0	0	rest	self
+steel-wing	はがねのつばさ	steel	physical	70	90	25	0	0	1	statChange:self:def:1:0.1	foe
+secret-power	ひみつのちから	normal	physical	70	100	20	0	0	1	status:paralysis:0.3	foe

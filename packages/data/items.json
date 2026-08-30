@@ -1099,6 +1099,17 @@
     "consumable": true
   },
   {
+    "id": "tm21",
+    "name": "わざマシン21 やつあたり",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "frustration"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
     "id": "tm22",
     "name": "わざマシン22 ソーラービーム",
     "category": "tm",
@@ -1150,6 +1161,17 @@
     "use": {
       "kind": "teachMove",
       "move": "earthquake"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm27",
+    "name": "わざマシン27 おんがえし",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "return"
     },
     "useScope": "field",
     "consumable": true
@@ -1298,12 +1320,56 @@
     "consumable": true
   },
   {
+    "id": "tm42",
+    "name": "わざマシン42 からげんき",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "facade"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm43",
+    "name": "わざマシン43 ひみつのちから",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "secret-power"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm44",
+    "name": "わざマシン44 ねむる",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "rest"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
     "id": "tm45",
     "name": "わざマシン45 メロメロ",
     "category": "tm",
     "use": {
       "kind": "teachMove",
       "move": "attract"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm47",
+    "name": "わざマシン47 はがねのつばさ",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "steel-wing"
     },
     "useScope": "field",
     "consumable": true

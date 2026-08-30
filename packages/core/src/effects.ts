@@ -19,6 +19,7 @@ import {
   sleepTurnsMultiplier,
 } from "./held.js";
 import type { Rng } from "./rng.js";
+import { MAX_FRIENDSHIP } from "./pokemon.js";
 import { applyStageChange } from "./stages.js";
 import { applyConfusion, applyStatus } from "./status.js";
 import type { BattleEvent, BattlePokemon, BattleState, MoveEffect, SideIndex } from "./types.js";
@@ -76,6 +77,28 @@ function safeguarded(ctx: EffectContext, side: SideIndex): boolean {
 /** りんぷんが防ぐのは「攻撃技の追加効果」だけ。変化技は防げない。 */
 const secondaryBlocked = (ctx: EffectContext): boolean =>
   ctx.isSecondary && blocksSecondary(ctx.data, activeOf(ctx, ctx.defender));
+
+/**
+ * 威力を実行時に決める効果（v1.1-k で1つ・v1.2-c で2つめ）。
+ *
+ * これらの技は表の `power` を持たない ―― 数字を書くと
+ * 「その数字なのに使われない」ことになる。
+ *
+ * **この集合が住むのは core。** 同じことを検証とテストの2か所に書いていて、
+ * v1.2-c で片方だけ直した跡ができた（検証は通ってテストが落ちた）。
+ * 決めるのは1か所にして、検証もテストもここを読む。
+ */
+const DECIDES_POWER_AT_RUNTIME: ReadonlySet<MoveEffect["kind"]> = new Set([
+  "present",
+  "variablePower",
+]);
+
+/** その技が威力を実行時に決めるか（表の `power` が空でよいか）。 */
+export const decidesPowerAtRuntime = (effect: MoveEffect | undefined): boolean =>
+  effect !== undefined && DECIDES_POWER_AT_RUNTIME.has(effect.kind);
+
+/** ねむる で眠るターン数（原作どおり必ず2ターン）。 */
+const REST_SLEEP_TURNS = 2;
 
 export const effectHandlers: Registry = {
   /** はねる。**何も起きないことが効果**（書き忘れと区別するために要る）。 */
@@ -344,6 +367,39 @@ export const effectHandlers: Registry = {
    * 続けて使うたび成功率が半分になる。回数を数えるのは `battle.ts` 側
    * （ほかの技を出したら 0 に戻す）で、ここは抽選と結果だけを持つ。
    */
+  /**
+   * 威力が状況で決まる技（v1.2-c）。ここでは何もしない。
+   *
+   * **威力はダメージ計算の前**に要るので、追加効果の段では間に合わない ――
+   * `resolveVariablePower` を `performMove` が読む（プレゼントと同じ形）。
+   */
+  variablePower: () => {
+    // battle.ts の resolveVariablePower で扱う
+  },
+
+  /**
+   * ねむる（v1.2-c）。全回復して2ターン眠る。
+   *
+   * **`applyStatus` を通さない** ―― あれは「効かない状態異常」を弾く道で、
+   * ねむる は自分から眠るので、ほのおタイプでも ねむり でも掛かる…
+   * ではなく、**すでに眠っているときだけ失敗する**。
+   */
+  rest: (_effect, ctx) => {
+    const self = activeOf(ctx, ctx.attacker);
+    if (self.currentHp >= self.maxHp) return;
+    if (self.status === "sleep") return;
+    ctx.heal(ctx.attacker, self.maxHp, (applied, remainingHp) => ({
+      kind: "heal",
+      side: ctx.attacker,
+      amount: applied,
+      remainingHp,
+    }));
+    self.status = "sleep";
+    self.statusCounter = REST_SLEEP_TURNS;
+    ctx.landed = true;
+    ctx.events.push({ kind: "statusApplied", side: ctx.attacker, status: "sleep" });
+  },
+
   protect: (_effect, ctx) => {
     const self = activeOf(ctx, ctx.attacker);
     if (!ctx.rng.chance(1 / 2 ** self.volatile.protectStreak)) return;
@@ -381,6 +437,26 @@ export function resolveHitCount(effect: MoveEffect | undefined, rng: Rng): numbe
  *
  * 原作の配分: 40%で威力40・30%で80・10%で120・20%で相手を回復。
  */
+/**
+ * 状況で決まる威力（v1.2-c）。**乱数を使わない**ので rng を取らない。
+ *
+ * おんがえし・やつあたり は なつき度 255 で威力 102 になる（原作の式）。
+ * からげんき は状態異常のとき2倍 ―― 元の威力を渡してもらって掛ける。
+ */
+export function resolveVariablePower(
+  effect: MoveEffect | undefined,
+  attacker: BattlePokemon,
+): number | null {
+  if (effect?.kind !== "variablePower") return null;
+  if (effect.from === "statusDouble") {
+    const base = effect.base ?? 0;
+    return attacker.status === null ? base : base * 2;
+  }
+  const friendship =
+    effect.from === "friendship" ? attacker.friendship : MAX_FRIENDSHIP - attacker.friendship;
+  return Math.max(1, Math.floor((friendship * 2) / 5));
+}
+
 export function resolvePresent(
   effect: MoveEffect | undefined,
   rng: Rng,

@@ -245,7 +245,22 @@ export type MoveEffect =
    *
    * 続けて使うと成功率が半分ずつになる ―― でないと撃ち続けるのが最善手になる。
    */
-  | { kind: "protect" };
+  | { kind: "protect" }
+  /**
+   * 威力が状況で決まる技（v1.2-c）。
+   *
+   * **威力の欄は `null`** ―― 数字を書くと「その数字なのに使われない」ことになる。
+   * `friendship` なつき度に比例（おんがえし）／
+   * `frustration` なつき度が低いほど高い（やつあたり）／
+   * `statusDouble` 状態異常なら2倍（からげんき）。
+   */
+  | { kind: "variablePower"; from: "friendship" | "frustration" | "statusDouble"; base?: number }
+  /**
+   * ねむる（v1.2-c）。**自分を眠らせて全回復。**
+   *
+   * 満タンのとき・すでに眠っているときは失敗する（原作どおり）。
+   */
+  | { kind: "rest" };
 
 // ─────────────────────────────────────────────
 // 特性・持ち物（v0.5）

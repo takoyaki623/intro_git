@@ -44,6 +44,7 @@ import {
   type MapObject,
   type Warp,
   type WorldState,
+  decidesPowerAtRuntime,
   type Move,
   type MoveEffect,
   type Species,
@@ -200,10 +201,11 @@ function checkReferences(): void {
 // 技データの妥当性
 // ─────────────────────────────────────────────
 /**
- * 威力を実行時に決める効果（v1.1-k）。
- * `damage.ts` の `powerOverride` を使う側 ―― 表の `power` は空でよい。
+ * 威力を実行時に決める効果。**一覧は core が持つ**（`DECIDES_POWER_AT_RUNTIME`）――
+ * ここと reference-data.test.ts に同じ列挙を書いていて、
+ * v1.2-c で片方だけ直した跡ができた。
  */
-const DECIDES_POWER = new Set<string>(["present"]);
+
 
 function checkMoves(): void {
   for (const m of allMoves) {
@@ -215,7 +217,7 @@ function checkMoves(): void {
       // **威力を実行時に決める技は、表に威力を持たない**（v1.1-k の プレゼント）。
       // 「書き忘れ」と「決めようが無い」を分ける ―― 効果の種類で見分けがつくので、
       // 例外を id で並べない（並べると、次の1件でまた id を足すことになる）
-      if (!DECIDES_POWER.has(m.effect?.kind ?? "")) {
+      if (!decidesPowerAtRuntime(m.effect)) {
         fail("move-power", `${m.id}: 攻撃技に威力がない`);
       }
     }
@@ -269,7 +271,6 @@ const NEEDS_UNIMPLEMENTED_MECHANIC: Record<string, string> = {
   "close-combat": "2つの能力が同時に下がる（効果は1つまで）",
   superpower: "2つの能力が同時に下がる（効果は1つまで）",
   substitute: "みがわり",
-  rest: "自分を眠らせて全回復",
 };
 
 /**
@@ -296,6 +297,10 @@ const REQUIRES_EFFECT: Record<string, MoveEffect["kind"]> = {
   taunt: "taunt",
   torment: "torment",
   attract: "attract",
+  rest: "rest",
+  return: "variablePower",
+  frustration: "variablePower",
+  facade: "variablePower",
 };
 
 function checkEngineSupport(): void {

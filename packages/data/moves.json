@@ -4035,5 +4035,104 @@
     "effect": {
       "kind": "protect"
     }
+  },
+  {
+    "id": "return",
+    "name": "おんがえし",
+    "type": "normal",
+    "category": "physical",
+    "power": null,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "variablePower",
+      "from": "friendship"
+    }
+  },
+  {
+    "id": "frustration",
+    "name": "やつあたり",
+    "type": "normal",
+    "category": "physical",
+    "power": null,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "variablePower",
+      "from": "frustration"
+    }
+  },
+  {
+    "id": "facade",
+    "name": "からげんき",
+    "type": "normal",
+    "category": "physical",
+    "power": null,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "variablePower",
+      "from": "statusDouble",
+      "base": 70
+    }
+  },
+  {
+    "id": "rest",
+    "name": "ねむる",
+    "type": "psychic",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 10,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "rest"
+    }
+  },
+  {
+    "id": "steel-wing",
+    "name": "はがねのつばさ",
+    "type": "steel",
+    "category": "physical",
+    "power": 70,
+    "accuracy": 90,
+    "pp": 25,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "statChange",
+      "target": "self",
+      "stat": "def",
+      "stages": 1,
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "secret-power",
+    "name": "ひみつのちから",
+    "type": "normal",
+    "category": "physical",
+    "power": 70,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "status",
+      "status": "paralysis",
+      "chance": 0.3
+    }
   }
 ]
