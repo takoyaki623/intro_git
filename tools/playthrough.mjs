@@ -2332,6 +2332,28 @@ await goToMap("kanto-cinnabar-island", 6, 1, 200);
 expect("なみのり で グレンじまに つく", (await spot()).map, "kanto-cinnabar-island");
 await shot("28-cinnabar");
 
+// ── ひみつのカギ（v1.2-b）――
+//
+// **グレンジムは施錠されている。** 原作の ポケモンやしき は鍵の在り処で、
+// v1.1-g-2 で建てたときは鍵も施錠も無く、出現表を持つだけの建物だった。
+// 先に「開かないこと」を確かめてから取りに行く ――
+// 正解だけ試すと「どちらでも開く扉」を通してしまう（クイズ扉と同じ形）。
+expect(
+  "カギが 無いと グレンジムに 入れない",
+  (await goToMap("kanto-cinnabar-gym", 4, 8, 6)).map,
+  "kanto-cinnabar-island",
+);
+await goToMap("kanto-pokemon-mansion-b1f", 6, 3, 120);
+expect("やしきの 地下まで 降りられる", (await spot()).map, "kanto-pokemon-mansion-b1f");
+await talkToObject("kanto-pokemon-mansion-b1f", "mansion-secret-key");
+await drain(8);
+expect(
+  "ひみつのカギ を 拾う",
+  `${(await readSave()).global.bag["secret-key"] ?? 0}`,
+  "1",
+);
+await shot("28d-secret-key");
+
 // ── クイズ扉（v1.1-g）──
 //
 // **間違えたら開かない**ところまで確かめる。正解だけ試すと、

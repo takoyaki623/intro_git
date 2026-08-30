@@ -49,7 +49,12 @@ warps:
 
 objects:
 vermilion-sign-gym 4,10 sign kanto.vermilion.sign-gym
-vermilion-sailor 9,10 npc:sailor:static kanto.vermilion.sailor
+# **ふなつきばの扉の前を空ける**（v1.2-b）。
+# 扉(10,9)に立てるのは真下の(10,10)だけで、その左右に せんいん と つりびと が
+# 立っていた ―― **陸からは入れず、なみのり で岸伝いに来るしか無かった。**
+# v1.1-j の台本はナナシマ区間（殿堂入り後＝なみのり あり）でしか通らなかったので、
+# 誰も落ちなかった。サンアンヌごうを ジム3の前に置いた日に初めて火を噴いた。
+vermilion-sailor 2,10 npc:sailor:static kanto.vermilion.sailor
 vermilion-boy 9,1 npc:youngster:static kanto.vermilion.boy
 vermilion-tree 5,10 obstacle:cut
 vermilion-island 9,12 item:hyper-potion kanto.vermilion.island if:kanto.vermilion.island-taken=false
