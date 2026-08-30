@@ -860,6 +860,16 @@
     "useScope": "field"
   },
   {
+    "id": "hm02",
+    "name": "ひでんマシン02 そらをとぶ",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "fly"
+    },
+    "useScope": "field"
+  },
+  {
     "id": "hm03",
     "name": "ひでんマシン03 なみのり",
     "category": "tm",
@@ -1011,6 +1021,17 @@
     "consumable": true
   },
   {
+    "id": "tm15",
+    "name": "わざマシン15 はかいこうせん",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "hyper-beam"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
     "id": "tm16",
     "name": "わざマシン16 ひかりのかべ",
     "category": "tm",
@@ -1056,6 +1077,17 @@
     "consumable": true
   },
   {
+    "id": "tm22",
+    "name": "わざマシン22 ソーラービーム",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "solar-beam"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
     "id": "tm23",
     "name": "わざマシン23 アイアンテール",
     "category": "tm",
@@ -1096,6 +1128,17 @@
     "use": {
       "kind": "teachMove",
       "move": "earthquake"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm28",
+    "name": "わざマシン28 あなをほる",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "dig"
     },
     "useScope": "field",
     "consumable": true

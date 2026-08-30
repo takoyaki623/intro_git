@@ -222,7 +222,18 @@ export type MoveEffect =
    * **同じ壁が張ってあれば失敗する** ―― 天気と同じ理由で、
    * 重ね張りで延長できると切れないものになる。
    */
-  | { kind: "screen"; screen: ScreenId; turns: number };
+  | { kind: "screen"; screen: ScreenId; turns: number }
+  /**
+   * 溜め技（v1.2-c）。**1ターン目は溜めるだけ**で、撃つのは次のターン。
+   *
+   * `hidden` は溜めている間その姿が見えないこと（そらをとぶ・あなをほる）――
+   * 見えない間は技が当たらない。
+   * `sunSkips` は にほんばれ 中に溜めを飛ばす（ソーラービーム）。
+   * **天気の群とここで会う** ―― 器を別々に足しても、原作では繋がっている。
+   */
+  | { kind: "charge"; hidden?: boolean; sunSkips?: boolean }
+  /** 撃ったあと1ターン動けない（v1.2-c・はかいこうせん）。 */
+  | { kind: "recharge" };
 
 // ─────────────────────────────────────────────
 // 特性・持ち物（v0.5）
@@ -483,6 +494,20 @@ export type Volatile = {
     moves: BattleMove[];
     ability: AbilityId | null;
   } | null;
+  /**
+   * 溜め中の技（v1.2-c）。**次のターンはこれしか出せない。**
+   *
+   * 「溜めた回数」ではなく「溜めている技」を持つ ――
+   * 回数だと、溜めている途中で別の技を選べてしまう。
+   */
+  charging: MoveId | null;
+  /**
+   * 反動で次のターン動けない（v1.2-c・はかいこうせん）。
+   *
+   * 解けるのは**行動しようとしたとき**で、ターン終了時ではない ――
+   * 終了時に解くと、休みが1ターンも効かない。
+   */
+  mustRecharge: boolean;
 };
 
 export type BattlePokemon = {
@@ -640,7 +665,10 @@ export type Action =
 export type Effectiveness = 0 | 0.25 | 0.5 | 1 | 2 | 4;
 
 /** 行動できなかった理由。 */
-export type BlockedReason = "sleep" | "freeze" | "paralysis" | "confusion" | "flinch";
+export type BlockedReason =
+  | "sleep" | "freeze" | "paralysis" | "confusion" | "flinch"
+  /** はかいこうせん の反動（v1.2-c）。 */
+  | "recharge";
 
 /**
  * UI はこのイベント列を順に消費して演出する。
@@ -679,6 +707,8 @@ export type BattleEvent =
   | { kind: "screenStart"; side: SideIndex; screen: ScreenId }
   | { kind: "screenBlocked"; side: SideIndex; screen: ScreenId }
   | { kind: "screenEnd"; side: SideIndex; screen: ScreenId }
+  /** 溜めに入った（v1.2-c）。文は技ごとに違うので、技の ID を渡す。 */
+  | { kind: "charging"; side: SideIndex; move: MoveId }
   | { kind: "statChange"; side: SideIndex; stat: StagedStat; delta: number; stage: number }
   | { kind: "statChangeFailed"; side: SideIndex; stat: StagedStat }
   | { kind: "faint"; side: SideIndex }

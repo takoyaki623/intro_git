@@ -79,6 +79,17 @@ function parseEffect(src: string, where: string): unknown {
     // 壁（v1.2-c）。張るのは使った側なので、こちらも target を取らない
     case "screen":
       return { kind, screen: args[0], turns: num(1) };
+    // 溜め技（v1.2-c）。印は並び順ではなく名前で書く ――
+    // charge:hidden:sun のどちらが欠けても読めるように
+    case "charge": {
+      const out: { kind: string; hidden?: boolean; sunSkips?: boolean } = { kind };
+      if (args.includes("hidden")) out.hidden = true;
+      if (args.includes("sun")) out.sunSkips = true;
+      return out;
+    }
+    // 撃ったあとの休み（v1.2-c）。引数を取らない
+    case "recharge":
+      return { kind };
     default:
       err(where, `未知の効果 "${kind}"`);
       return undefined;

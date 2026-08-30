@@ -259,3 +259,7 @@ hail	あられ	ice	status	-	-	10	0	0	0	weather:hail:5	self
 reflect	リフレクター	psychic	status	-	-	20	0	0	0	screen:reflect:5	self
 light-screen	ひかりのかべ	psychic	status	-	-	30	0	0	0	screen:lightScreen:5	self
 safeguard	しんぴのまもり	normal	status	-	-	25	0	0	0	screen:safeguard:5	self
+fly	そらをとぶ	flying	physical	90	95	15	0	0	1	charge:hidden	foe
+dig	あなをほる	ground	physical	80	100	10	0	0	1	charge:hidden	foe
+solar-beam	ソーラービーム	grass	special	120	100	10	0	0	0	charge:sun	foe
+hyper-beam	はかいこうせん	normal	special	150	90	5	0	0	0	recharge	foe

@@ -45,6 +45,7 @@ import {
   type Warp,
   type WorldState,
   type Move,
+  type MoveEffect,
   type Species,
   type TierId,
   type UseEffect,
@@ -259,14 +260,9 @@ const IMPLEMENTED_EFFECTS = new Set(Object.keys(effectHandlers));
  * 機構を実装したらここから外す。
  */
 const NEEDS_UNIMPLEMENTED_MECHANIC: Record<string, string> = {
-  "hyper-beam": "次ターンの反動",
-  "giga-impact": "次ターンの反動",
   outrage: "複数ターンの連続行動と終了後の混乱",
   thrash: "複数ターンの連続行動と終了後の混乱",
   "petal-dance": "複数ターンの連続行動と終了後の混乱",
-  dig: "2ターン技（1ターン目は攻撃を受けない）",
-  fly: "2ターン技（1ターン目は攻撃を受けない）",
-  "solar-beam": "2ターン技（溜め）",
   "night-shade": "レベルと同じ固定ダメージ",
   "seismic-toss": "レベルと同じ固定ダメージ",
   counter: "受けたダメージを倍返し",
@@ -277,7 +273,39 @@ const NEEDS_UNIMPLEMENTED_MECHANIC: Record<string, string> = {
   rest: "自分を眠らせて全回復",
 };
 
+/**
+ * 機構が出来たあと、**その機構を持っていることを要求する技**（#123・v1.2-c）。
+ *
+ * 上の表は「機構が無いから入れるな」と言う。機構が出来た技はそこから外れるが、
+ * **外しただけだと、次に誰かが効果を書き忘れて足したときに黙って通る** ――
+ * はかいこうせん が威力150のただの技として入ってしまう。
+ * 出来た機構は、禁止の表から要求の表へ移す。
+ *
+ * まだ moves.tsv に無い技もここに書ける（例: ギガインパクト）――
+ * 無い技には何も言わず、足した日に効く。
+ */
+const REQUIRES_EFFECT: Record<string, MoveEffect["kind"]> = {
+  "hyper-beam": "recharge",
+  "giga-impact": "recharge",
+  fly: "charge",
+  dig: "charge",
+  "solar-beam": "charge",
+  "razor-wind": "charge",
+  "skull-bash": "charge",
+};
+
 function checkEngineSupport(): void {
+  for (const [id, kind] of Object.entries(REQUIRES_EFFECT)) {
+    const move = allMoves.find((m) => m.id === id);
+    if (move === undefined) continue; // まだ入れていない技には何も言わない
+    if (move.effect?.kind !== kind) {
+      fail(
+        "required-effect",
+        `${id}: 効果 "${kind}" が要る（無いと原作より強い別の技になる）`,
+      );
+    }
+  }
+
   for (const m of allMoves) {
     const mechanic = NEEDS_UNIMPLEMENTED_MECHANIC[m.id];
     if (mechanic !== undefined) {

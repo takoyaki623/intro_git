@@ -1,6 +1,6 @@
 id	number	move	skip	price
 hm01	101	cut		
-hm02	102	fly	そらをとぶ は溜め技。機構が無いので技として実装していない（v1.2-c）	
+hm02	102	fly		
 hm03	103	surf		
 hm04	104	strength		
 hm05	105	flash		
@@ -21,20 +21,20 @@ tm11	11	sunny-day
 tm12	12	taunt	技が未実装（moves-todo.tsv）	
 tm13	13	ice-beam		4000
 tm14	14	blizzard		
-tm15	15	hyper-beam	技が未実装（moves-todo.tsv）	
+tm15	15	hyper-beam		
 tm16	16	light-screen		
 tm17	17	protect	技が未実装（moves-todo.tsv）	
 tm18	18	rain-dance		
 tm19	19	giga-drain		3500
 tm20	20	safeguard		
 tm21	21	frustration	技が未実装（moves-todo.tsv）	
-tm22	22	solar-beam	技が未実装（moves-todo.tsv）	
+tm22	22	solar-beam		
 tm23	23	iron-tail		
 tm24	24	thunderbolt		4500
 tm25	25	thunder		
 tm26	26	earthquake		
 tm27	27	return	技が未実装（moves-todo.tsv）	
-tm28	28	dig	技が未実装（moves-todo.tsv）	
+tm28	28	dig		
 tm29	29	psychic		
 tm30	30	shadow-ball		
 tm31	31	brick-break		

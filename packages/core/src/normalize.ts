@@ -139,6 +139,8 @@ export function toBattlePokemon(
       choiceLocked: null,
       boostedMoveType: null,
       transformedFrom: null,
+      charging: null,
+      mustRecharge: false,
     },
   };
 }

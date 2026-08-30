@@ -2,8 +2,8 @@
  * 自動生成ファイル。直接編集しないこと。
  *   再生成: npm run gen:ids
  *
- * 種族 228 / 技 260 / 性格 25 /
- * 特性 74 / 道具 123 /
+ * 種族 228 / 技 264 / 性格 25 /
+ * 特性 74 / 道具 127 /
  * BattleSet 64 / 施設 4 /
  * ネームド 18 / カップ 10 /
  * マップ 210 / イベント 339 / トレーナー 165 /
@@ -288,6 +288,7 @@ export type GeneratedMoveId =
   | "cut"
   | "dark-pulse"
   | "dazzling-gleam"
+  | "dig"
   | "disarming-voice"
   | "discharge"
   | "double-edge"
@@ -324,6 +325,7 @@ export type GeneratedMoveId =
   | "flare-blitz"
   | "flash"
   | "flash-cannon"
+  | "fly"
   | "freeze-dry"
   | "fury-attack"
   | "fury-swipes"
@@ -343,6 +345,7 @@ export type GeneratedMoveId =
   | "howl"
   | "hurricane"
   | "hydro-pump"
+  | "hyper-beam"
   | "hyper-fang"
   | "hyper-voice"
   | "hypnosis"
@@ -452,6 +455,7 @@ export type GeneratedMoveId =
   | "smog"
   | "smokescreen"
   | "soft-boiled"
+  | "solar-beam"
   | "spark"
   | "splash"
   | "spore"
@@ -638,6 +642,7 @@ export type GeneratedItemId =
   | "hard-stone"
   | "helix-fossil"
   | "hm01"
+  | "hm02"
   | "hm03"
   | "hm04"
   | "hm05"
@@ -706,14 +711,17 @@ export type GeneratedItemId =
   | "tm11"
   | "tm13"
   | "tm14"
+  | "tm15"
   | "tm16"
   | "tm18"
   | "tm19"
   | "tm20"
+  | "tm22"
   | "tm23"
   | "tm24"
   | "tm25"
   | "tm26"
+  | "tm28"
   | "tm29"
   | "tm30"
   | "tm31"

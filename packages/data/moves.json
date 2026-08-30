@@ -3917,5 +3917,66 @@
       "screen": "safeguard",
       "turns": 5
     }
+  },
+  {
+    "id": "fly",
+    "name": "そらをとぶ",
+    "type": "flying",
+    "category": "physical",
+    "power": 90,
+    "accuracy": 95,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "charge",
+      "hidden": true
+    }
+  },
+  {
+    "id": "dig",
+    "name": "あなをほる",
+    "type": "ground",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "charge",
+      "hidden": true
+    }
+  },
+  {
+    "id": "solar-beam",
+    "name": "ソーラービーム",
+    "type": "grass",
+    "category": "special",
+    "power": 120,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "charge",
+      "sunSkips": true
+    }
+  },
+  {
+    "id": "hyper-beam",
+    "name": "はかいこうせん",
+    "type": "normal",
+    "category": "special",
+    "power": 150,
+    "accuracy": 90,
+    "pp": 5,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "recharge"
+    }
   }
 ]

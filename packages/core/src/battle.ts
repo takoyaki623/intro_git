@@ -198,6 +198,13 @@ export function usableMoveIndices(
   side: SideIndex,
 ): number[] {
   const active = activeOf(state, side);
+  // 溜め中は、溜めている技しか出せない（v1.2-c）。
+  // **PP もこだわりも見ない** ―― もう払ってあり、選び直す余地が無い
+  if (active.volatile.charging !== null) {
+    const charging = active.volatile.charging;
+    const index = active.moves.findIndex((m) => m.id === charging);
+    return index < 0 ? [] : [index];
+  }
   const banStatus = bansStatusMoves(data, active);
   const locked = active.volatile.choiceLocked;
   const out: number[] = [];
@@ -352,6 +359,14 @@ function canAct(
 ): boolean {
   const p = activeOf(state, side);
 
+  // 反動の休み（v1.2-c）。**ひるみより先に見る** ――
+  // 休んでいる側はひるみようが無いので、休みのほうが強い
+  if (p.volatile.mustRecharge) {
+    p.volatile.mustRecharge = false;
+    events.push({ kind: "blocked", side, reason: "recharge" });
+    return false;
+  }
+
   if (p.volatile.flinched) {
     events.push({ kind: "blocked", side, reason: "flinch" });
     return false;
@@ -411,6 +426,13 @@ function canAct(
   return true;
 }
 
+/** そらをとぶ・あなをほる の溜め中か（v1.2-c）。この間は技が当たらない。 */
+function hiddenWhileCharging(data: GameData, p: BattlePokemon): boolean {
+  if (p.volatile.charging === null) return false;
+  const effect = data.move(p.volatile.charging).effect;
+  return effect?.kind === "charge" && effect.hidden === true;
+}
+
 function performMove(
   data: GameData,
   state: BattleState,
@@ -453,6 +475,29 @@ function performMove(
       applyAbsorbGain(heldBase(data, state, defender, rng, events), absorbed.ref, absorbed.gain);
       return;
     }
+  }
+
+  // ── 溜め技（v1.2-c）──
+  //
+  // **1ターン目で抜ける。** 溜めている技を持っておき、次のターンは
+  // その技しか選べない（`step` の技の確定でそうしている）。
+  const charge = move.effect?.kind === "charge" ? move.effect : null;
+  if (charge !== null && self.volatile.charging !== move.id) {
+    // ソーラービーム は にほんばれ 中だけ溜めを飛ばす ―― 天気の群とここで会う
+    if (!(charge.sunSkips === true && state.weather?.kind === "sun")) {
+      self.volatile.charging = move.id;
+      events.push({ kind: "charging", side: attacker, move: move.id });
+      return;
+    }
+  }
+  // 撃つ側になったら溜めは解ける（当たっても外れても）
+  self.volatile.charging = null;
+
+  // **見えない相手には当たらない**（そらをとぶ・あなをほる の溜め中）。
+  // 命中判定より先 ―― 当たる当たらない以前に、そこに居ない
+  if (hiddenWhileCharging(data, foe)) {
+    events.push({ kind: "missed", side: attacker });
+    return;
   }
 
   if (!rollAccuracy(data, self, foe, move, rng)) {
@@ -886,13 +931,20 @@ export function step(
     if (action.kind !== "move") return null;
 
     const active = activeOf(draft, side);
+    // 溜め中は選択を無視してその技を撃つ（v1.2-c）。
+    // **PP はもう払ってある**ので、2ターン目は払わない
+    const charging = active.volatile.charging;
+    if (charging !== null) {
+      const index = active.moves.findIndex((m) => m.id === charging);
+      return { move: data.move(charging), isStruggle: false, slotIndex: index, free: true };
+    }
     if (usableMoveIndices(data, draft, side).length === 0) {
-      return { move: STRUGGLE, isStruggle: true, slotIndex: -1 };
+      return { move: STRUGGLE, isStruggle: true, slotIndex: -1, free: false };
     }
     const slot = active.moves[action.moveIndex];
     if (slot === undefined) throw new RangeError(`invalid move index: ${action.moveIndex}`);
     if (slot.pp <= 0) throw new Error(`move "${slot.id}" has no PP left`);
-    return { move: data.move(slot.id), isStruggle: false, slotIndex: action.moveIndex };
+    return { move: data.move(slot.id), isStruggle: false, slotIndex: action.moveIndex, free: false };
   });
 
   // ── 3. 技（優先度 → 素早さ → 乱数）──
@@ -916,7 +968,7 @@ export function step(
       continue;
     }
 
-    if (!pick.isStruggle) {
+    if (!pick.isStruggle && !pick.free) {
       // プレッシャーは相手の PP を余分に減らす
       const cost = 1 + extraPpCost(data, activeOf(draft, other(side)));
       const slot = activeOf(draft, side).moves[pick.slotIndex]!;

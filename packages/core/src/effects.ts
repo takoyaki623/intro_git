@@ -281,6 +281,22 @@ export const effectHandlers: Registry = {
   present: () => {
     // battle.ts の resolvePresent で扱う
   },
+
+  /**
+   * 溜め技（v1.2-c）。ここでは何もしない。
+   *
+   * **溜めはダメージの前**に決まらなければならないので、
+   * 追加効果の段（ここ）では間に合わない ―― `performMove` の頭で見る。
+   */
+  charge: () => {
+    // battle.ts の performMove で扱う
+  },
+
+  /** 撃ったあとの休み。**これは追加効果の段でよい** ―― 効くのは次のターンなので。 */
+  recharge: (_effect, ctx) => {
+    activeOf(ctx, ctx.attacker).volatile.mustRecharge = true;
+    ctx.landed = true;
+  },
 };
 
 export function applyEffect(effect: MoveEffect, ctx: EffectContext): void {

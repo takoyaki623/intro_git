@@ -17,6 +17,7 @@ import {
   type Action,
   type BattleEvent,
   type BattlePokemonSource,
+  type BlockedReason,
   type SideIndex,
 } from "@pkmn/core";
 import { gameData } from "@pkmn/data";
@@ -42,9 +43,10 @@ const STATUS_LABEL: Record<string, string> = {
   poison: "どく", toxic: "もうどく", paralysis: "まひ",
   burn: "やけど", sleep: "ねむり", freeze: "こおり",
 };
-const BLOCK_LABEL: Record<string, string> = {
+const BLOCK_LABEL: Record<BlockedReason, string> = {
   sleep: "眠っている", freeze: "こおっている", paralysis: "体が しびれて 動けない",
   confusion: "わけも わからず 自分を 攻撃した", flinch: "ひるんで 動けない",
+  recharge: "攻撃の反動で 動けない",
 };
 
 function render(event: BattleEvent): string | null {
@@ -83,6 +85,8 @@ function render(event: BattleEvent): string | null {
       return `  ${nameOf(event.side)} は ${event.screen} を はった`;
     case "screenBlocked":
       return `  ${nameOf(event.side)} は ${event.screen} に まもられた`;
+    case "charging":
+      return `  ${nameOf(event.side)} は ${event.move} を ためている`;
     case "screenEnd":
       return `  ${nameOf(event.side)} の ${event.screen} が きれた`;
     case "statChange":

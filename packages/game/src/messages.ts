@@ -4,7 +4,7 @@
  * 設計: docs/design/ui-flow.md §8
  */
 
-import type { BattleEvent } from "@pkmn/core";
+import type { BattleEvent, BlockedReason } from "@pkmn/core";
 import { gameData } from "@pkmn/data";
 import { STAT_LABEL, STATUS_LABEL, type BattleView } from "./view.js";
 
@@ -29,18 +29,34 @@ const WEATHER_END: Record<string, string> = {
 };
 
 /** 壁の名前（v1.2-c）。張る・防ぐ・切れる の3つの文がこれを使う。 */
+/**
+ * 溜めの文（v1.2-c）。**技ごとに違う**ので、技の ID で引く。
+ * 表に無い技は「ちからを ためている!」に落ちる（新しい溜め技を足しても文は出る）。
+ */
+const CHARGING_TEXT: Record<string, string> = {
+  fly: "そらたかく とびあがった!",
+  dig: "ちちゅうに もぐった!",
+  "solar-beam": "こうげきの じゅんびを ととのえた!",
+};
+
 const SCREEN_LABEL: Record<string, string> = {
   reflect: "リフレクター",
   lightScreen: "ひかりのかべ",
   safeguard: "しんぴのまもり",
 };
 
-const BLOCK_TEXT: Record<string, (name: string) => string> = {
+/**
+ * 行動できなかった理由の文。**`Record<BlockedReason, …>` で持つ**（v1.2-c）――
+ * `Record<string, …>` だと理由を1つ足したときに黙って undefined を呼び、
+ * 落ちるのが画面のほうになる。
+ */
+const BLOCK_TEXT: Record<BlockedReason, (name: string) => string> = {
   sleep: (n) => `${n} は ぐうぐう ねむっている`,
   freeze: (n) => `${n} は こおって しまって うごけない`,
   paralysis: (n) => `${n} は からだが しびれて うごけない`,
   confusion: (n) => `${n} は わけも わからず じぶんを こうげきした`,
   flinch: (n) => `${n} は ひるんで わざが だせない`,
+  recharge: (n) => `${n} は こうげきの はんどうで うごけない!`,
 };
 
 /** 演出の基準時間（ミリ秒）。実際の待ち時間は速度設定で割られる。 */
@@ -83,7 +99,7 @@ export function messageOf(event: BattleEvent, view: BattleView): string | null {
     case "struggle":
       return `${label(event.side)} の わるあがき!`;
     case "blocked":
-      return BLOCK_TEXT[event.reason]!(label(event.side));
+      return BLOCK_TEXT[event.reason](label(event.side));
     case "wokeUp":
       return `${label(event.side)} は めを さました!`;
     case "thawed":
@@ -127,6 +143,8 @@ export function messageOf(event: BattleEvent, view: BattleView): string | null {
       return `${label(event.side)} は ${SCREEN_LABEL[event.screen]} に つつまれた!`;
     case "screenBlocked":
       return `${label(event.side)} は ${SCREEN_LABEL[event.screen]} に まもられている!`;
+    case "charging":
+      return `${label(event.side)} は ${CHARGING_TEXT[event.move] ?? "ちからを ためている!"}`;
     case "screenEnd":
       return `${label(event.side)} の ${SCREEN_LABEL[event.screen]} が きれた。`;
     case "statChange": {

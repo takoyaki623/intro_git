@@ -57,7 +57,7 @@ function estimateFoe(data: GameData, view: AiView): BattlePokemon {
     status: view.foe.status,
     statusCounter: 0,
     statStages: { ...view.foe.statStages },
-    volatile: { confusionTurns: 0, flinched: false, choiceLocked: null, boostedMoveType: null, transformedFrom: null },
+    volatile: { confusionTurns: 0, flinched: false, choiceLocked: null, boostedMoveType: null, transformedFrom: null, charging: null, mustRecharge: false },
   };
 }
 

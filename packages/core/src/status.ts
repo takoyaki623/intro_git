@@ -105,6 +105,10 @@ export function onSwitchOut(pokemon: BattlePokemon): void {
     choiceLocked: null,
     boostedMoveType: null,
     transformedFrom: null,
+    // 溜めも反動の休みも交代で解ける（v1.2-c）。
+    // **場に居ないものは溜められない**
+    charging: null,
+    mustRecharge: false,
   };
   // トレースで書き換わった特性は戻る。持ち物の消費は戻らない。
   pokemon.ability = pokemon.innateAbility;
