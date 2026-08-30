@@ -169,7 +169,13 @@ export type MoveEffect =
   | {
       kind: "statChange";
       target: "self" | "foe";
-      stat: StagedStat;
+      /**
+       * 動かす能力（v1.2-c で複数になった）。
+       *
+       * **1つでも配列で持つ。** ビルドアップ のように2つ動かす技のために
+       * 別の kind を作ると、りんぷん・クリアボディ の判定を2か所に書くことになる。
+       */
+      stats: readonly StagedStat[];
       stages: number;
       chance: number;
     }
@@ -260,7 +266,27 @@ export type MoveEffect =
    *
    * 満タンのとき・すでに眠っているときは失敗する（原作どおり）。
    */
-  | { kind: "rest" };
+  | { kind: "rest" }
+  /** どろぼう（v1.2-c）。**自分が何も持っていないときだけ**奪える。 */
+  | { kind: "steal" }
+  /** スキルスワップ（v1.2-c）。特性を入れ替える。 */
+  | { kind: "swapAbility" }
+  /**
+   * ほえる（v1.2-c）。相手を引っ込めさせる。
+   *
+   * 野生戦では**バトルが終わる**（吹き飛ばす）―― 相手に控えが居ないため。
+   */
+  | { kind: "forceSwitch" }
+  /**
+   * よこどり（v1.2-c）。**その turn、相手が自分に掛ける変化技を横取りする。**
+   */
+  | { kind: "snatch" }
+  /**
+   * きあいパンチ（v1.2-c）。**そのターンに攻撃を受けていたら失敗する。**
+   *
+   * ここでは何もしない ―― 判定はダメージの前なので `performMove` が見る。
+   */
+  | { kind: "focus" };
 
 // ─────────────────────────────────────────────
 // 特性・持ち物（v0.5）
@@ -559,6 +585,15 @@ export type Volatile = {
    * ほかの技を出した時点で 0 に戻る。
    */
   protectStreak: number;
+  /** よこどり の構え（v1.2-c）。そのターンだけ立つ。 */
+  snatching: boolean;
+  /**
+   * そのターンに攻撃を受けたか（v1.2-c）。**きあいパンチ が見る。**
+   *
+   * ターン終了時に戻す ―― 「受けた」の範囲が1ターンだと決まっているので、
+   * 誰が戻すかを迷わなくて済む。
+   */
+  hitThisTurn: boolean;
 };
 
 export type BattlePokemon = {
@@ -775,6 +810,11 @@ export type BattleEvent =
   | { kind: "taunted" | "tauntEnded" | "tormented" | "infatuatedWith"; side: SideIndex }
   /** まもる が成功した／守り切った（v1.2-c）。 */
   | { kind: "protecting" | "protected"; side: SideIndex }
+  /** どろぼう・スキルスワップ・よこどり・きあいパンチ（v1.2-c）。 */
+  | { kind: "itemStolen"; side: SideIndex; item: ItemId }
+  | { kind: "abilitySwapped"; side: SideIndex }
+  | { kind: "snatching" | "snatched"; side: SideIndex }
+  | { kind: "focusBroken"; side: SideIndex }
   | { kind: "statChange"; side: SideIndex; stat: StagedStat; delta: number; stage: number }
   | { kind: "statChangeFailed"; side: SideIndex; stat: StagedStat }
   | { kind: "faint"; side: SideIndex }
@@ -855,4 +895,6 @@ export const freshVolatile = (): Volatile => ({
   infatuated: null,
   protecting: false,
   protectStreak: 0,
+  snatching: false,
+  hitThisTurn: false,
 });

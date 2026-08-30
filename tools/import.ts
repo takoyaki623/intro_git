@@ -71,8 +71,16 @@ function parseEffect(src: string, where: string): unknown {
       return { kind, ratio: num(0) };
     case "multiHit":
       return { kind, min: num(0), max: num(1) };
+    // 能力変化（v1.2-c で複数になった）。**`+` で並べる** ――
+    // statChange:self:atk+def:1:1 で ビルドアップ が書ける
     case "statChange":
-      return { kind, target: args[0], stat: args[1], stages: num(2), chance: num(3) };
+      return {
+        kind,
+        target: args[0],
+        stats: (args[1] ?? "").split("+"),
+        stages: num(2),
+        chance: num(3),
+      };
     // 天気（v1.2-c）。**場に1つで、どちら側のものでもない**ので target を取らない
     case "weather":
       return { kind, weather: args[0], turns: num(1) };
@@ -96,8 +104,14 @@ function parseEffect(src: string, where: string): unknown {
     // ちょうはつ（v1.2-c）
     case "taunt":
       return { kind, turns: num(0) };
-    // ねむる（v1.2-c）。引数を取らない
+    // ねむる・どろぼう・スキルスワップ・ほえる・よこどり・きあいパンチ（v1.2-c）。
+    // どれも引数を取らない
     case "rest":
+    case "steal":
+    case "swapAbility":
+    case "forceSwitch":
+    case "snatch":
+    case "focus":
       return { kind };
     // 状況で決まる威力（v1.2-c）。からげんき だけ元の威力を持つ
     case "variablePower": {

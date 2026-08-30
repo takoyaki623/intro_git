@@ -2,8 +2,8 @@
  * 自動生成ファイル。直接編集しないこと。
  *   再生成: npm run gen:ids
  *
- * 種族 228 / 技 274 / 性格 25 /
- * 特性 74 / 道具 137 /
+ * 種族 228 / 技 280 / 性格 25 /
+ * 特性 74 / 道具 143 /
  * BattleSet 64 / 施設 4 /
  * ネームド 18 / カップ 10 /
  * マップ 210 / イベント 339 / トレーナー 165 /
@@ -272,6 +272,7 @@ export type GeneratedMoveId =
   | "bubble-beam"
   | "bug-bite"
   | "bug-buzz"
+  | "bulk-up"
   | "bulldoze"
   | "bullet-punch"
   | "bullet-seed"
@@ -328,6 +329,7 @@ export type GeneratedMoveId =
   | "flash"
   | "flash-cannon"
   | "fly"
+  | "focus-punch"
   | "freeze-dry"
   | "frustration"
   | "fury-attack"
@@ -431,6 +433,7 @@ export type GeneratedMoveId =
   | "retaliate"
   | "return"
   | "revenge"
+  | "roar"
   | "rock-blast"
   | "rock-polish"
   | "rock-slide"
@@ -451,6 +454,7 @@ export type GeneratedMoveId =
   | "shock-wave"
   | "silver-wind"
   | "sing"
+  | "skill-swap"
   | "slack-off"
   | "slam"
   | "slash"
@@ -461,6 +465,7 @@ export type GeneratedMoveId =
   | "smart-strike"
   | "smog"
   | "smokescreen"
+  | "snatch"
   | "soft-boiled"
   | "solar-beam"
   | "spark"
@@ -489,6 +494,7 @@ export type GeneratedMoveId =
   | "taunt"
   | "teeter-dance"
   | "teleport"
+  | "thief"
   | "thunder"
   | "thunder-punch"
   | "thunder-shock"
@@ -712,11 +718,14 @@ export type GeneratedItemId =
   | "super-rod"
   | "thunder-stone"
   | "timer-ball"
+  | "tm01"
   | "tm02"
   | "tm03"
   | "tm04"
+  | "tm05"
   | "tm06"
   | "tm07"
+  | "tm08"
   | "tm09"
   | "tm11"
   | "tm12"
@@ -752,7 +761,10 @@ export type GeneratedItemId =
   | "tm43"
   | "tm44"
   | "tm45"
+  | "tm46"
   | "tm47"
+  | "tm48"
+  | "tm49"
   | "tm50"
   | "toxic-orb"
   | "twisted-spoon"

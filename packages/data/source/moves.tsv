@@ -116,7 +116,7 @@ earth-power	だいちのちから	ground	special	90	100	10	0	0	0	statChange:foe:
 fury-swipes	みだれひっかき	normal	physical	18	80	15	0	0	1	multiHit:2:5	foe
 mud-shot	マッドショット	ground	special	55	95	15	0	0	0	statChange:foe:spe:-1:1	foe
 brine	しおみず	water	special	65	100	10	0	0	0		foe
-covet	ほしがる	normal	physical	60	100	25	0	0	1		foe
+covet	ほしがる	normal	physical	60	100	25	0	0	1	steal	foe
 discharge	ほうでん	electric	special	80	100	15	0	0	0	status:paralysis:0.3	foe
 slam	たたきつける	normal	physical	80	75	20	0	0	1		foe
 stomp	ふみつけ	normal	physical	65	100	20	0	0	1	flinch:0.3	foe
@@ -273,3 +273,9 @@ facade	からげんき	normal	physical	-	100	20	0	0	1	variablePower:statusDouble
 rest	ねむる	psychic	status	-	-	10	0	0	0	rest	self
 steel-wing	はがねのつばさ	steel	physical	70	90	25	0	0	1	statChange:self:def:1:0.1	foe
 secret-power	ひみつのちから	normal	physical	70	100	20	0	0	1	status:paralysis:0.3	foe
+bulk-up	ビルドアップ	fighting	status	-	-	20	0	0	0	statChange:self:atk+def:1:1	self
+thief	どろぼう	dark	physical	60	100	25	0	0	1	steal	foe
+skill-swap	スキルスワップ	psychic	status	-	-	10	0	0	0	swapAbility	foe
+roar	ほえる	normal	status	-	-	20	-6	0	0	forceSwitch	foe
+snatch	よこどり	dark	status	-	-	10	4	0	0	snatch	self
+focus-punch	きあいパンチ	fighting	physical	150	100	20	-3	0	1	focus	foe

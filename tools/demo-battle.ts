@@ -99,6 +99,16 @@ function render(event: BattleEvent): string | null {
       return `  ${nameOf(event.side)} は まもった`;
     case "protected":
       return `  ${nameOf(event.side)} の こうげきは まもられた`;
+    case "itemStolen":
+      return `  ${nameOf(event.side)} は ${event.item} を うばった`;
+    case "abilitySwapped":
+      return `  ${nameOf(event.side)} が とくせいを いれかえた`;
+    case "snatching":
+      return `  ${nameOf(event.side)} は よこどり の かまえ`;
+    case "snatched":
+      return `  ${nameOf(event.side)} が よこどりした`;
+    case "focusBroken":
+      return `  ${nameOf(event.side)} は きあいが ぬけた`;
     case "screenEnd":
       return `  ${nameOf(event.side)} の ${event.screen} が きれた`;
     case "statChange":

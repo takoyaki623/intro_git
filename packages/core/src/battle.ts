@@ -509,6 +509,13 @@ function performMove(
   // 撃つ側になったら溜めは解ける（当たっても外れても）
   self.volatile.charging = null;
 
+  // きあいパンチ（v1.2-c）。**そのターンに攻撃を受けていたら失敗する。**
+  // 優先度 −3 なので、たいてい先に殴られている ―― それが威力150の代償
+  if (move.effect?.kind === "focus" && self.volatile.hitThisTurn) {
+    events.push({ kind: "focusBroken", side: attacker });
+    return;
+  }
+
   // **見えない相手には当たらない**（そらをとぶ・あなをほる の溜め中）。
   // 命中判定より先 ―― 当たる当たらない以前に、そこに居ない
   // まもる（v1.2-c）。**命中判定より先** ―― 当たる当たらない以前に届かない。
@@ -534,6 +541,35 @@ function performMove(
       events.push({ kind: "failed", side: attacker });
       return;
     }
+
+    // よこどり（v1.2-c）。**自分に掛ける変化技だけ**を横取りする ――
+    // 相手に掛ける技（ちょうはつ 等）は奪っても意味が無い
+    if (move.target === "self" && foe.volatile.snatching) {
+      foe.volatile.snatching = false;
+      events.push({ kind: "snatched", side: defender });
+      applyEffect(move.effect, { ...ctx, attacker: defender, defender: attacker });
+      return;
+    }
+
+    // ほえる（v1.2-c）。野生なら吹き飛ばし、トレーナー戦なら控えと入れ替える
+    if (move.effect.kind === "forceSwitch") {
+      if (state.isWild) {
+        state.result = { winner: null, reason: "escaped" };
+        events.push({ kind: "fled" });
+        events.push({ kind: "battleEnd", winner: null });
+        return;
+      }
+      const bench = state.sides[defender].party
+        .map((p, i) => ({ p, i }))
+        .filter(({ p, i }) => p.currentHp > 0 && i !== state.sides[defender].activeIndex);
+      if (bench.length === 0) {
+        events.push({ kind: "failed", side: attacker });
+        return;
+      }
+      performSwitch(data, state, defender, rng.pick(bench).i, rng, events);
+      return;
+    }
+
     applyEffect(move.effect, ctx);
     if (!ctx.landed) events.push({ kind: "failed", side: attacker });
     return;
@@ -597,6 +633,9 @@ function performMove(
       : null;
     const amount = endured === null ? result.damage : target.currentHp - 1;
 
+    // きあいパンチ が見る「そのターンに受けたか」（v1.2-c）。
+    // **ダメージが通ったところで立てる** ―― 外れた技では気合いは抜けない
+    target.volatile.hitThisTurn = true;
     totalDealt += dealDamage(state, defender, amount, events, (dealt, remainingHp) => ({
       kind: "damage",
       side: defender,
@@ -753,6 +792,8 @@ function endOfTurn(
     const p = activeOf(state, side);
     p.volatile.flinched = false;
     p.volatile.protecting = false;
+    p.volatile.snatching = false;
+    p.volatile.hitThisTurn = false;
     // ちょうはつ の残りターン（v1.2-c）
     if (p.volatile.tauntTurns > 0) {
       p.volatile.tauntTurns -= 1;

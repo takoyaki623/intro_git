@@ -158,6 +158,16 @@ export function messageOf(event: BattleEvent, view: BattleView): string | null {
       return `${label(event.side)} は まもりの たいせいに はいった!`;
     case "protected":
       return `${label(event.side)} は こうげきを まもった!`;
+    case "itemStolen":
+      return `${label(event.side)} は あいての ${gameData.item(event.item).name} を うばった!`;
+    case "abilitySwapped":
+      return `${label(event.side)} は とくせいを いれかえた!`;
+    case "snatching":
+      return `${label(event.side)} は よこどりの かまえを とった!`;
+    case "snatched":
+      return `${label(event.side)} は こうかを よこどりした!`;
+    case "focusBroken":
+      return `${label(event.side)} は きあいが ぬけて わざが だせなかった!`;
     case "screenEnd":
       return `${label(event.side)} の ${SCREEN_LABEL[event.screen]} が きれた。`;
     case "statChange": {

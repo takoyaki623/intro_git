@@ -7,16 +7,16 @@ hm05	105	flash
 hm06	106	rock-smash		
 hm07	107	waterfall		
 hm08	108	dive	潜る水面が1マスも無い。使う場所が無い機構は入れない（v1.2-a）	
-tm01	1	focus-punch	技が未実装（moves-todo.tsv）	
+tm01	1	focus-punch		
 tm02	2	dragon-claw		
 tm03	3	water-pulse		
 tm04	4	calm-mind		
-tm05	5	roar	技が未実装（moves-todo.tsv）	
+tm05	5	roar		
 tm06	6	toxic		3000
 tm07	7	hail		
-tm08	8	bulk-up	技が未実装（moves-todo.tsv）	
+tm08	8	bulk-up		
 tm09	9	bullet-seed		
-tm10	10	hidden-power	技が未実装（moves-todo.tsv）	
+tm10	10	hidden-power	めざめるパワーは個体ごとにタイプが変わる。値ではなく型が動くので入れない（v1.2-c）	
 tm11	11	sunny-day		
 tm12	12	taunt		
 tm13	13	ice-beam		4000
@@ -52,8 +52,8 @@ tm42	42	facade
 tm43	43	secret-power		
 tm44	44	rest		
 tm45	45	attract		
-tm46	46	thief	技が未実装（moves-todo.tsv）	
+tm46	46	thief		
 tm47	47	steel-wing		
-tm48	48	skill-swap	技が未実装（moves-todo.tsv）	
-tm49	49	snatch	技が未実装（moves-todo.tsv）	
+tm48	48	skill-swap		
+tm49	49	snatch		
 tm50	50	overheat		

@@ -271,22 +271,24 @@ export const effectHandlers: Registry = {
     const target = activeOf(ctx, side);
     if (target.currentHp <= 0) return;
 
-    // 相手の能力を下げる場合だけ、りんぷん・クリアボディ等が働く
-    if (effect.target === "foe" && effect.stages < 0) {
-      if (secondaryBlocked(ctx)) return;
-      if (blocksStatDrop(ctx.data, target, effect.stat)) {
-        ctx.events.push({ kind: "statChangeFailed", side, stat: effect.stat });
-        return;
-      }
-    }
+    // 相手の能力を下げる場合だけ、りんぷん・クリアボディ等が働く。
+    // **抽選も、りんぷんの判定も1回だけ**（v1.2-c で複数の能力を動かせるようにした）――
+    // 能力ごとに引き直すと、ビルドアップ で片方だけ上がる版ができてしまう
+    if (effect.target === "foe" && effect.stages < 0 && secondaryBlocked(ctx)) return;
 
-    const { applied, stage } = applyStageChange(target, effect.stat, effect.stages);
-    if (applied === 0) {
-      ctx.events.push({ kind: "statChangeFailed", side, stat: effect.stat });
-      return;
+    for (const stat of effect.stats) {
+      if (effect.target === "foe" && effect.stages < 0 && blocksStatDrop(ctx.data, target, stat)) {
+        ctx.events.push({ kind: "statChangeFailed", side, stat });
+        continue;
+      }
+      const { applied, stage } = applyStageChange(target, stat, effect.stages);
+      if (applied === 0) {
+        ctx.events.push({ kind: "statChangeFailed", side, stat });
+        continue;
+      }
+      ctx.events.push({ kind: "statChange", side, stat, delta: applied, stage });
+      ctx.landed = true;
     }
-    ctx.events.push({ kind: "statChange", side, stat: effect.stat, delta: applied, stage });
-    ctx.landed = true;
   },
 
   /**
@@ -398,6 +400,60 @@ export const effectHandlers: Registry = {
     self.statusCounter = REST_SLEEP_TURNS;
     ctx.landed = true;
     ctx.events.push({ kind: "statusApplied", side: ctx.attacker, status: "sleep" });
+  },
+
+  /**
+   * どろぼう（v1.2-c）。**自分が何も持っていないときだけ**奪える。
+   *
+   * 奪った持ち物はバトルが終われば消える ―― `itemConsumed` と同じ扱いで、
+   * **バトルの外の持ち物は書き換えない**（書き換えると、負けた側の
+   * 手持ちから道具が永久に消える）。
+   */
+  steal: (_effect, ctx) => {
+    const self = activeOf(ctx, ctx.attacker);
+    const target = activeOf(ctx, ctx.defender);
+    if (self.item !== null || target.item === null) return;
+    if (target.currentHp <= 0) return;
+    self.item = target.item;
+    target.item = null;
+    ctx.landed = true;
+    ctx.events.push({ kind: "itemStolen", side: ctx.attacker, item: self.item });
+  },
+
+  /**
+   * スキルスワップ（v1.2-c）。特性を入れ替える。
+   *
+   * `innateAbility` は動かさない ―― 交代したら元に戻る（へんしん と同じ形）。
+   */
+  swapAbility: (_effect, ctx) => {
+    const self = activeOf(ctx, ctx.attacker);
+    const target = activeOf(ctx, ctx.defender);
+    if (self.ability === target.ability) return;
+    [self.ability, target.ability] = [target.ability, self.ability];
+    ctx.landed = true;
+    ctx.events.push({ kind: "abilitySwapped", side: ctx.attacker });
+  },
+
+  /**
+   * ほえる（v1.2-c）。ここでは何もしない。
+   *
+   * **交代させるのは battle.ts の仕事** ―― 入れ替えとひんし判定は
+   * `performSwitch` が持っていて、効果の側から呼ぶと2本目の道ができる。
+   */
+  forceSwitch: () => {
+    // battle.ts の performMove で扱う
+  },
+
+  /** よこどり（v1.2-c）。構えるだけ。横取りするのは `performMove`。 */
+  snatch: (_effect, ctx) => {
+    activeOf(ctx, ctx.attacker).volatile.snatching = true;
+    ctx.landed = true;
+    ctx.events.push({ kind: "snatching", side: ctx.attacker });
+  },
+
+  /** きあいパンチ（v1.2-c）。判定はダメージの前なので `performMove` が見る。 */
+  focus: () => {
+    // battle.ts の performMove で扱う
   },
 
   protect: (_effect, ctx) => {

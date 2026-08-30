@@ -77,7 +77,6 @@ wide-guard	Wide Guard	場の効果	6
 wish	Wish	場の効果	6
 worry-seed	Worry Seed	効果を表せない	6
 after-you	After You	効果を表せない	5
-bulk-up	Bulk Up	能力変化が複数	5
 coil	Coil	能力変化が複数	5
 detect	Detect	未実装の状態	5
 dragon-tail	Dragon Tail	交代を伴う技	5
@@ -89,7 +88,6 @@ mirror-move	Mirror Move	効果を表せない	5
 power-swap	Power Swap	効果を表せない	5
 pursuit	Pursuit	個別処理	5
 reversal	Reversal	威力が可変	5
-roar	Roar	交代を伴う技	5
 sand-tomb	Sand Tomb	未実装の状態	5
 stealth-rock	Stealth Rock	場の効果	5
 superpower	Superpower	能力変化が複数	5
@@ -115,7 +113,6 @@ acrobatics	acrobatics	追加できる（日本語名が要る）	3
 aromatherapy	Aromatherapy	効果を表せない	3
 cotton-spore	cotton-spore	追加できる（日本語名が要る）	3
 fissure	Fissure	特殊な命中判定	3
-focus-punch	Focus Punch	個別処理	3
 gravity	Gravity	場の効果	3
 guillotine	Guillotine	特殊な命中判定	3
 heavy-slam	Heavy Slam	威力が可変	3
@@ -171,7 +168,6 @@ poison-tail	poison-tail	追加できる（日本語名が要る）	1
 quash	Quash	効果を表せない	1
 rage	Rage	自分への継続効果	1
 rock-wrecker	Rock Wrecker	自分への継続効果	1
-skill-swap	Skill Swap	効果を表せない	1
 sleep-talk	Sleep Talk	効果を表せない	1
 snarl	snarl	追加できる（日本語名が要る）	1
 snore	Snore	自分が眠っていないと出せない	1

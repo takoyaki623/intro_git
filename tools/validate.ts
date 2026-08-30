@@ -268,8 +268,6 @@ const NEEDS_UNIMPLEMENTED_MECHANIC: Record<string, string> = {
   "night-shade": "レベルと同じ固定ダメージ",
   "seismic-toss": "レベルと同じ固定ダメージ",
   counter: "受けたダメージを倍返し",
-  "close-combat": "2つの能力が同時に下がる（効果は1つまで）",
-  superpower: "2つの能力が同時に下がる（効果は1つまで）",
   substitute: "みがわり",
 };
 
@@ -301,6 +299,18 @@ const REQUIRES_EFFECT: Record<string, MoveEffect["kind"]> = {
   return: "variablePower",
   frustration: "variablePower",
   facade: "variablePower",
+  "focus-punch": "focus",
+  roar: "forceSwitch",
+  whirlwind: "forceSwitch",
+  thief: "steal",
+  covet: "steal",
+  "skill-swap": "swapAbility",
+  snatch: "snatch",
+  // 2つの能力が同時に動く技（v1.2-c で表せるようになった）。
+  // **威力だけ足されると強すぎる**ので、能力変化を持つことを要求する
+  "close-combat": "statChange",
+  superpower: "statChange",
+  "bulk-up": "statChange",
 };
 
 function checkEngineSupport(): void {

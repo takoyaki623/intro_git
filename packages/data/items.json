@@ -920,6 +920,17 @@
     "useScope": "field"
   },
   {
+    "id": "tm01",
+    "name": "わざマシン01 きあいパンチ",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "focus-punch"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
     "id": "tm02",
     "name": "わざマシン02 ドラゴンクロー",
     "category": "tm",
@@ -953,6 +964,17 @@
     "consumable": true
   },
   {
+    "id": "tm05",
+    "name": "わざマシン05 ほえる",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "roar"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
     "id": "tm06",
     "name": "わざマシン06 どくどく",
     "category": "tm",
@@ -971,6 +993,17 @@
     "use": {
       "kind": "teachMove",
       "move": "hail"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm08",
+    "name": "わざマシン08 ビルドアップ",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "bulk-up"
     },
     "useScope": "field",
     "consumable": true
@@ -1364,12 +1397,45 @@
     "consumable": true
   },
   {
+    "id": "tm46",
+    "name": "わざマシン46 どろぼう",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "thief"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
     "id": "tm47",
     "name": "わざマシン47 はがねのつばさ",
     "category": "tm",
     "use": {
       "kind": "teachMove",
       "move": "steel-wing"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm48",
+    "name": "わざマシン48 スキルスワップ",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "skill-swap"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm49",
+    "name": "わざマシン49 よこどり",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "snatch"
     },
     "useScope": "field",
     "consumable": true
