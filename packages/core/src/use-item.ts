@@ -186,25 +186,8 @@ export const useHandlers: { [K in UseEffect["kind"]]: Handler } = {
    * 断る理由を3つに分けてある ―― **「使えなかった」だけでは、
    * 覚えられないのか もう覚えているのかが分からない。**
    */
-  teachMove: (ctx, effect, target, name) => {
-    if (effect.kind !== "teachMove") return NEVER;
-    const move = ctx.data.move(effect.move);
-    if (!ctx.data.species(target.species).tmMoves.includes(effect.move)) {
-      return { reason: `${name} には ${move.name} は おぼえられない。` };
-    }
-    if (target.moves.some((m) => m.id === effect.move)) {
-      return { reason: `${name} は すでに ${move.name} を おぼえている。` };
-    }
-    // 空きがあればその場で覚える。埋まっていれば入れ替えを UI に渡す
-    // （レベルアップの `learned` / `canLearn` と同じ分かれ方・postbattle.ts）
-    if (target.moves.length >= MAX_MOVES) {
-      return { target, message: "", then: { kind: "learnMove", move: effect.move } };
-    }
-    return {
-      target: { ...target, moves: [...target.moves, { id: effect.move, pp: move.pp, maxPp: move.pp }] },
-      message: `${name} は ${move.name} を おぼえた!`,
-    };
-  },
+  teachMove: (ctx, effect, target, name) =>
+    effect.kind === "teachMove" ? teachMove(ctx.data, effect.move, target, name, "machine") : NEVER,
 
   /**
    * 進化させる道具（v1.1-b）。
@@ -222,6 +205,46 @@ export const useHandlers: { [K in UseEffect["kind"]]: Handler } = {
 
 /** 技は4つまで（原作どおり）。postbattle.ts と同じ上限。 */
 const MAX_MOVES = 4;
+
+/** 教わり方（v1.2-d）。**どちらの表を見るかが違うだけ。** */
+export type TeachSource = "machine" | "tutor";
+
+/**
+ * 技を覚えさせる（わざマシン v1.1-b / 技教え人 v1.2-d）。
+ *
+ * **1つの関数にした。** 断る理由も入れ替えの渡し方も同じで、
+ * 違うのは「どちらの互換表を見るか」だけ ―― 2つに書き分けると、
+ * 片方だけ「すでに覚えている」を言い忘れる日が来る。
+ *
+ * 断る理由を3つに分けてある ―― **「使えなかった」だけでは、
+ * 覚えられないのか もう覚えているのかが分からない。**
+ */
+export function teachMove(
+  data: GameData,
+  move: MoveId,
+  target: UseTarget,
+  name: string,
+  from: TeachSource,
+): UseOutcome {
+  const learned = data.move(move);
+  const species = data.species(target.species);
+  const table = from === "machine" ? species.tmMoves : species.tutorMoves;
+  if (!table.includes(move)) {
+    return { reason: `${name} には ${learned.name} は おぼえられない。` };
+  }
+  if (target.moves.some((m) => m.id === move)) {
+    return { reason: `${name} は すでに ${learned.name} を おぼえている。` };
+  }
+  // 空きがあればその場で覚える。埋まっていれば入れ替えを UI に渡す
+  // （レベルアップの `learned` / `canLearn` と同じ分かれ方・postbattle.ts）
+  if (target.moves.length >= MAX_MOVES) {
+    return { target, message: "", then: { kind: "learnMove", move } };
+  }
+  return {
+    target: { ...target, moves: [...target.moves, { id: move, pp: learned.pp, maxPp: learned.pp }] },
+    message: `${name} は ${learned.name} を おぼえた!`,
+  };
+}
 
 /** 個体を作り替える道具。バトル中は使えない（v1.1-b）。 */
 export const REBUILDS_INSTANCE = new Set<UseEffect["kind"]>(["teachMove", "evolveByItem"]);
@@ -317,6 +340,30 @@ export function useOnInstance(
       // **技は本数が変わりうる**（わざマシンで空きに入る・v1.1-b）ので、
       // 元の配列に重ねるのではなく `target` の側を正とする
       moves: target.moves.map((m) => ({ id: m.id, pp: m.pp })),
+    },
+    message: outcome.message,
+    ...(outcome.then === undefined ? {} : { then: outcome.then }),
+  };
+}
+
+/**
+ * 技教え人が1体に教える（v1.2-d）。
+ *
+ * `useOnInstance` と同じ形 ―― 変換して・教えて・戻すだけ。
+ * **道具を経由しない**（教え技は道具ではない）ので入口だけ別にしてある。
+ */
+export function teachToInstance(
+  data: GameData,
+  move: MoveId,
+  instance: PokemonInstance,
+): { instance: PokemonInstance; message: string; then?: UseFollowUp } | UseRefusal {
+  const name = instance.nickname ?? data.species(instance.species).name;
+  const outcome = teachMove(data, move, instanceTarget(data, instance), name, "tutor");
+  if (refused(outcome)) return outcome;
+  return {
+    instance: {
+      ...instance,
+      moves: outcome.target.moves.map((m) => ({ id: m.id, pp: m.pp })),
     },
     message: outcome.message,
     ...(outcome.then === undefined ? {} : { then: outcome.then }),

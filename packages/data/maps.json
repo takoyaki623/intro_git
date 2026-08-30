@@ -7872,6 +7872,19 @@
           "movement": "static"
         },
         "event": "kanto.cerulean.trade"
+      },
+      {
+        "id": "cerulean-tutor",
+        "at": {
+          "x": 5,
+          "y": 4
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "lass",
+          "movement": "static"
+        },
+        "event": "kanto.tutor.thunder-wave"
       }
     ],
     "bgm": "house"
@@ -13351,6 +13364,19 @@
           "movement": "static"
         },
         "event": "kanto.lavender.house-woman"
+      },
+      {
+        "id": "lavender-tutor",
+        "at": {
+          "x": 2,
+          "y": 3
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "oldman",
+          "movement": "static"
+        },
+        "event": "kanto.tutor.body-slam"
       }
     ],
     "bgm": "house"
@@ -19055,6 +19081,19 @@
           "movement": "static"
         },
         "event": "kanto.pewter.hiker"
+      },
+      {
+        "id": "pewter-tutor",
+        "at": {
+          "x": 3,
+          "y": 5
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "hiker",
+          "movement": "static"
+        },
+        "event": "kanto.tutor.rock-slide"
       }
     ],
     "flyPoint": {
@@ -33872,6 +33911,19 @@
           "movement": "static"
         },
         "event": "kanto.route2.trade"
+      },
+      {
+        "id": "route2-tutor",
+        "at": {
+          "x": 2,
+          "y": 3
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "blackbelt",
+          "movement": "static"
+        },
+        "event": "kanto.tutor.mega-punch"
       }
     ],
     "bgm": "town"
@@ -45651,6 +45703,19 @@
           "flag": "kanto.dojo.won",
           "value": true
         }
+      },
+      {
+        "id": "dojo-tutor",
+        "at": {
+          "x": 6,
+          "y": 4
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "blackbelt",
+          "movement": "static"
+        },
+        "event": "kanto.tutor.mega-kick"
       }
     ],
     "bgm": "gym"
@@ -47339,6 +47404,19 @@
           "movement": "static"
         },
         "event": "kanto.saffron.house-man"
+      },
+      {
+        "id": "saffron-tutor",
+        "at": {
+          "x": 2,
+          "y": 3
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "blackbelt",
+          "movement": "static"
+        },
+        "event": "kanto.tutor.swords-dance"
       }
     ],
     "bgm": "house"
@@ -53045,6 +53123,19 @@
           "movement": "static"
         },
         "event": "kanto.sevii.five-npc"
+      },
+      {
+        "id": "five-tutor",
+        "at": {
+          "x": 3,
+          "y": 3
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "lass",
+          "movement": "static"
+        },
+        "event": "kanto.tutor.soft-boiled"
       }
     ],
     "bgm": "pokecenter"
@@ -73805,6 +73896,19 @@
           "type": "sign"
         },
         "event": "kanto.sevii.two-sign"
+      },
+      {
+        "id": "two-tutor",
+        "at": {
+          "x": 2,
+          "y": 7
+        },
+        "kind": {
+          "type": "npc",
+          "sprite": "youngster",
+          "movement": "static"
+        },
+        "event": "kanto.tutor.double-edge"
       }
     ],
     "bgm": "lavender-town"

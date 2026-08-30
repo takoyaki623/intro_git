@@ -24,3 +24,4 @@ warps:
 
 objects:
 five-house-npc 6,2 npc:lass:static kanto.sevii.five-npc
+five-tutor 3,3 npc:lass:static kanto.tutor.soft-boiled

@@ -130,6 +130,8 @@ export type EventEffect =
   | { kind: "openHall" }
   | { kind: "wildBattle"; species: SpeciesId; level: number }
   | { kind: "gotItem"; item: ItemId; count: number }
+  /** 技教え人（v1.2-d）。誰に教えるかは UI が選ばせる。 */
+  | { kind: "teachMove"; move: MoveId }
   | { kind: "gotPokemon"; species: SpeciesId; level: number; moves: MoveId[] }
   | { kind: "gavePokemon"; species: SpeciesId }
   | { kind: "moneyChanged"; delta: number }
@@ -145,6 +147,8 @@ const BLOCKING = new Set<EventEffect["kind"]>([
   "shop",
   "openBox",
   "openDex",
+  // 技教え人（v1.2-d）。誰に教えるか選ばせるので、閉じるまで止める
+  "teachMove",
   // 拠点（v0.10）。どれも別画面を開くので、閉じるまでイベントを止める
   "enterRegion",
   "returnToHub",
@@ -250,6 +254,13 @@ const handlers: { [K in EventCommand["kind"]]: Handler } = {
     world.partySpecies.push(c.species);
     // 技の指定はここで落とさない。落とすと「データに書いたのに反映されない」になる
     effects.push({ kind: "gotPokemon", species: c.species, level: c.level, moves: c.moves ?? [] });
+  },
+
+  teachMove: (c, _w, _r, effects) => {
+    if (c.kind !== "teachMove") return;
+    // **誰に教えるかは `world` では決まらない。** 手持ちの中身は UI が持っていて、
+    // `WorldState` は種族の並びしか知らない ―― 選ばせるところまで渡す
+    effects.push({ kind: "teachMove", move: c.move });
   },
 
   giveMoney: (c, world, _r, effects) => {

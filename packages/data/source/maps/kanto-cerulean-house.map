@@ -24,3 +24,4 @@ warps:
 objects:
 cerulean-house-man 4,2 npc:oldman:static kanto.cerulean.house-man
 cerulean-trader 1,3 npc:oldman:static kanto.cerulean.trade
+cerulean-tutor 5,4 npc:lass:static kanto.tutor.thunder-wave

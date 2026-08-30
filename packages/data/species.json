@@ -84,6 +84,11 @@
       "sunny-day",
       "toxic"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "swords-dance"
+    ],
     "evolutions": [
       {
         "to": "ivysaur",
@@ -186,6 +191,11 @@
       "strength",
       "sunny-day",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "swords-dance"
     ],
     "evolutions": [
       {
@@ -298,6 +308,11 @@
       "sunny-day",
       "toxic"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "swords-dance"
+    ],
     "evolutions": [],
     "baseExp": 236,
     "catchRate": 45,
@@ -394,6 +409,14 @@
       "strength",
       "sunny-day",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "rock-slide",
+      "swords-dance"
     ],
     "evolutions": [
       {
@@ -496,6 +519,14 @@
       "strength",
       "sunny-day",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "rock-slide",
+      "swords-dance"
     ],
     "evolutions": [
       {
@@ -618,6 +649,14 @@
       "sunny-day",
       "toxic"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "rock-slide",
+      "swords-dance"
+    ],
     "evolutions": [],
     "baseExp": 240,
     "catchRate": 45,
@@ -725,6 +764,12 @@
       "toxic",
       "water-pulse",
       "waterfall"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch"
     ],
     "evolutions": [
       {
@@ -839,6 +884,12 @@
       "toxic",
       "water-pulse",
       "waterfall"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch"
     ],
     "evolutions": [
       {
@@ -962,6 +1013,12 @@
       "water-pulse",
       "waterfall"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch"
+    ],
     "evolutions": [],
     "baseExp": 239,
     "catchRate": 45,
@@ -1007,6 +1064,7 @@
       }
     ],
     "tmMoves": [],
+    "tutorMoves": [],
     "evolutions": [
       {
         "to": "metapod",
@@ -1050,6 +1108,7 @@
       }
     ],
     "tmMoves": [],
+    "tutorMoves": [],
     "evolutions": [
       {
         "to": "butterfree",
@@ -1168,6 +1227,9 @@
       "thief",
       "toxic"
     ],
+    "tutorMoves": [
+      "double-edge"
+    ],
     "evolutions": [],
     "baseExp": 178,
     "catchRate": 45,
@@ -1215,6 +1277,7 @@
       }
     ],
     "tmMoves": [],
+    "tutorMoves": [],
     "evolutions": [
       {
         "to": "kakuna",
@@ -1259,6 +1322,7 @@
       }
     ],
     "tmMoves": [],
+    "tutorMoves": [],
     "evolutions": [
       {
         "to": "beedrill",
@@ -1351,6 +1415,10 @@
       "thief",
       "toxic"
     ],
+    "tutorMoves": [
+      "double-edge",
+      "swords-dance"
+    ],
     "evolutions": [],
     "baseExp": 178,
     "catchRate": 45,
@@ -1441,6 +1509,9 @@
       "sunny-day",
       "thief",
       "toxic"
+    ],
+    "tutorMoves": [
+      "double-edge"
     ],
     "evolutions": [
       {
@@ -1537,6 +1608,9 @@
       "sunny-day",
       "thief",
       "toxic"
+    ],
+    "tutorMoves": [
+      "double-edge"
     ],
     "evolutions": [
       {
@@ -1635,6 +1709,9 @@
       "thief",
       "toxic"
     ],
+    "tutorMoves": [
+      "double-edge"
+    ],
     "evolutions": [],
     "baseExp": 216,
     "catchRate": 45,
@@ -1723,6 +1800,11 @@
       "thunder",
       "thunderbolt",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "thunder-wave"
     ],
     "evolutions": [
       {
@@ -1830,6 +1912,11 @@
       "thunderbolt",
       "toxic"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "thunder-wave"
+    ],
     "evolutions": [],
     "baseExp": 145,
     "catchRate": 127,
@@ -1911,6 +1998,9 @@
       "sunny-day",
       "thief",
       "toxic"
+    ],
+    "tutorMoves": [
+      "double-edge"
     ],
     "evolutions": [
       {
@@ -2009,6 +2099,9 @@
       "thief",
       "toxic"
     ],
+    "tutorMoves": [
+      "double-edge"
+    ],
     "evolutions": [],
     "baseExp": 155,
     "catchRate": 90,
@@ -2098,6 +2191,11 @@
       "thief",
       "torment",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "rock-slide"
     ],
     "evolutions": [
       {
@@ -2199,6 +2297,11 @@
       "thief",
       "torment",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "rock-slide"
     ],
     "evolutions": [],
     "baseExp": 157,
@@ -2330,6 +2433,13 @@
       "thunder",
       "thunderbolt",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "thunder-wave"
     ],
     "evolutions": [
       {
@@ -2474,6 +2584,13 @@
       "thunderbolt",
       "toxic"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "thunder-wave"
+    ],
     "evolutions": [],
     "baseExp": 218,
     "catchRate": 75,
@@ -2581,6 +2698,12 @@
       "sunny-day",
       "thief",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "rock-slide",
+      "swords-dance"
     ],
     "evolutions": [
       {
@@ -2693,6 +2816,12 @@
       "thief",
       "toxic"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "rock-slide",
+      "swords-dance"
+    ],
     "evolutions": [],
     "baseExp": 158,
     "catchRate": 90,
@@ -2791,6 +2920,10 @@
       "thunderbolt",
       "toxic",
       "water-pulse"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
     ],
     "evolutions": [
       {
@@ -2896,6 +3029,10 @@
       "thunderbolt",
       "toxic",
       "water-pulse"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
     ],
     "evolutions": [
       {
@@ -3016,6 +3153,13 @@
       "toxic",
       "water-pulse"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "rock-slide"
+    ],
     "evolutions": [],
     "baseExp": 227,
     "catchRate": 45,
@@ -3109,6 +3253,10 @@
       "thunderbolt",
       "toxic",
       "water-pulse"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
     ],
     "evolutions": [
       {
@@ -3209,6 +3357,10 @@
       "thunderbolt",
       "toxic",
       "water-pulse"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
     ],
     "evolutions": [
       {
@@ -3328,6 +3480,13 @@
       "toxic",
       "water-pulse"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "rock-slide"
+    ],
     "evolutions": [],
     "baseExp": 227,
     "catchRate": 45,
@@ -3438,6 +3597,14 @@
       "thunderbolt",
       "toxic",
       "water-pulse"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "soft-boiled",
+      "thunder-wave"
     ],
     "evolutions": [
       {
@@ -3557,6 +3724,14 @@
       "toxic",
       "water-pulse"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "soft-boiled",
+      "thunder-wave"
+    ],
     "evolutions": [],
     "baseExp": 217,
     "catchRate": 25,
@@ -3651,6 +3826,10 @@
       "secret-power",
       "sunny-day",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
     ],
     "evolutions": [
       {
@@ -3757,6 +3936,10 @@
       "secret-power",
       "sunny-day",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
     ],
     "evolutions": [],
     "baseExp": 177,
@@ -3868,6 +4051,13 @@
       "thunderbolt",
       "toxic",
       "water-pulse"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "thunder-wave"
     ],
     "evolutions": [
       {
@@ -3990,6 +4180,13 @@
       "toxic",
       "water-pulse"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "thunder-wave"
+    ],
     "evolutions": [],
     "baseExp": 196,
     "catchRate": 50,
@@ -4084,6 +4281,9 @@
       "thief",
       "torment",
       "toxic"
+    ],
+    "tutorMoves": [
+      "double-edge"
     ],
     "evolutions": [
       {
@@ -4191,6 +4391,9 @@
       "torment",
       "toxic"
     ],
+    "tutorMoves": [
+      "double-edge"
+    ],
     "evolutions": [
       {
         "to": "crobat",
@@ -4286,6 +4489,10 @@
       "solar-beam",
       "sunny-day",
       "toxic"
+    ],
+    "tutorMoves": [
+      "double-edge",
+      "swords-dance"
     ],
     "evolutions": [
       {
@@ -4383,6 +4590,10 @@
       "solar-beam",
       "sunny-day",
       "toxic"
+    ],
+    "tutorMoves": [
+      "double-edge",
+      "swords-dance"
     ],
     "evolutions": [
       {
@@ -4491,6 +4702,11 @@
       "sunny-day",
       "toxic"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "swords-dance"
+    ],
     "evolutions": [],
     "baseExp": 221,
     "catchRate": 45,
@@ -4577,6 +4793,11 @@
       "sunny-day",
       "thief",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "swords-dance"
     ],
     "evolutions": [
       {
@@ -4675,6 +4896,11 @@
       "sunny-day",
       "thief",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "swords-dance"
     ],
     "evolutions": [],
     "baseExp": 142,
@@ -4776,6 +5002,9 @@
       "sunny-day",
       "thief",
       "toxic"
+    ],
+    "tutorMoves": [
+      "double-edge"
     ],
     "evolutions": [
       {
@@ -4889,6 +5118,9 @@
       "thief",
       "toxic"
     ],
+    "tutorMoves": [
+      "double-edge"
+    ],
     "evolutions": [],
     "baseExp": 158,
     "catchRate": 75,
@@ -4985,6 +5217,11 @@
       "sunny-day",
       "thief",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "rock-slide"
     ],
     "evolutions": [
       {
@@ -5097,6 +5334,11 @@
       "thief",
       "toxic"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "rock-slide"
+    ],
     "evolutions": [],
     "baseExp": 149,
     "catchRate": 50,
@@ -5203,6 +5445,10 @@
       "torment",
       "toxic",
       "water-pulse"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
     ],
     "evolutions": [
       {
@@ -5323,6 +5569,10 @@
       "toxic",
       "water-pulse"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
+    ],
     "evolutions": [],
     "baseExp": 154,
     "catchRate": 90,
@@ -5421,6 +5671,12 @@
       "toxic",
       "water-pulse",
       "waterfall"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch"
     ],
     "evolutions": [
       {
@@ -5536,6 +5792,12 @@
       "water-pulse",
       "waterfall"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch"
+    ],
     "evolutions": [],
     "baseExp": 175,
     "catchRate": 75,
@@ -5627,6 +5889,13 @@
       "thunder",
       "thunderbolt",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "rock-slide"
     ],
     "evolutions": [
       {
@@ -5726,6 +5995,13 @@
       "thunder",
       "thunderbolt",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "rock-slide"
     ],
     "evolutions": [],
     "baseExp": 159,
@@ -5832,6 +6108,10 @@
       "sunny-day",
       "thief",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
     ],
     "evolutions": [
       {
@@ -5950,6 +6230,10 @@
       "thief",
       "toxic"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
+    ],
     "evolutions": [],
     "baseExp": 194,
     "catchRate": 75,
@@ -6042,6 +6326,10 @@
       "toxic",
       "water-pulse",
       "waterfall"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
     ],
     "evolutions": [
       {
@@ -6146,6 +6434,12 @@
       "toxic",
       "water-pulse",
       "waterfall"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch"
     ],
     "evolutions": [
       {
@@ -6259,6 +6553,12 @@
       "water-pulse",
       "waterfall"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch"
+    ],
     "evolutions": [],
     "baseExp": 230,
     "catchRate": 45,
@@ -6322,6 +6622,13 @@
       "thief",
       "torment",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "thunder-wave"
     ],
     "evolutions": [
       {
@@ -6429,6 +6736,13 @@
       "torment",
       "toxic"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "thunder-wave"
+    ],
     "evolutions": [
       {
         "to": "alakazam",
@@ -6535,6 +6849,13 @@
       "torment",
       "toxic"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "thunder-wave"
+    ],
     "evolutions": [],
     "baseExp": 225,
     "catchRate": 50,
@@ -6638,6 +6959,13 @@
       "sunny-day",
       "thief",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "rock-slide"
     ],
     "evolutions": [
       {
@@ -6749,6 +7077,13 @@
       "thief",
       "toxic"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "rock-slide"
+    ],
     "evolutions": [
       {
         "to": "machamp",
@@ -6859,6 +7194,13 @@
       "thief",
       "toxic"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "rock-slide"
+    ],
     "evolutions": [],
     "baseExp": 227,
     "catchRate": 45,
@@ -6954,6 +7296,10 @@
       "sunny-day",
       "thief",
       "toxic"
+    ],
+    "tutorMoves": [
+      "double-edge",
+      "swords-dance"
     ],
     "evolutions": [
       {
@@ -7057,6 +7403,10 @@
       "thief",
       "toxic"
     ],
+    "tutorMoves": [
+      "double-edge",
+      "swords-dance"
+    ],
     "evolutions": [
       {
         "to": "victreebel",
@@ -7143,6 +7493,11 @@
       "sunny-day",
       "thief",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "swords-dance"
     ],
     "evolutions": [],
     "baseExp": 221,
@@ -7250,6 +7605,10 @@
       "toxic",
       "water-pulse",
       "waterfall"
+    ],
+    "tutorMoves": [
+      "double-edge",
+      "swords-dance"
     ],
     "evolutions": [
       {
@@ -7365,6 +7724,10 @@
       "water-pulse",
       "waterfall"
     ],
+    "tutorMoves": [
+      "double-edge",
+      "swords-dance"
+    ],
     "evolutions": [],
     "baseExp": 180,
     "catchRate": 60,
@@ -7451,6 +7814,12 @@
       "strength",
       "sunny-day",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-punch",
+      "rock-slide"
     ],
     "evolutions": [
       {
@@ -7545,6 +7914,12 @@
       "sunny-day",
       "toxic"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-punch",
+      "rock-slide"
+    ],
     "evolutions": [
       {
         "to": "golem",
@@ -7638,6 +8013,13 @@
       "strength",
       "sunny-day",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "rock-slide"
     ],
     "evolutions": [],
     "baseExp": 223,
@@ -7736,6 +8118,10 @@
       "strength",
       "sunny-day",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
     ],
     "evolutions": [
       {
@@ -7858,6 +8244,10 @@
       "sunny-day",
       "toxic"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
+    ],
     "evolutions": [],
     "baseExp": 175,
     "catchRate": 60,
@@ -7968,6 +8358,11 @@
       "surf",
       "toxic",
       "water-pulse"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "thunder-wave"
     ],
     "evolutions": [
       {
@@ -8099,6 +8494,13 @@
       "toxic",
       "water-pulse"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "thunder-wave"
+    ],
     "evolutions": [],
     "baseExp": 172,
     "catchRate": 75,
@@ -8192,6 +8594,10 @@
       "thunder",
       "thunderbolt",
       "toxic"
+    ],
+    "tutorMoves": [
+      "double-edge",
+      "thunder-wave"
     ],
     "evolutions": [
       {
@@ -8297,6 +8703,10 @@
       "thunder",
       "thunderbolt",
       "toxic"
+    ],
+    "tutorMoves": [
+      "double-edge",
+      "thunder-wave"
     ],
     "evolutions": [],
     "baseExp": 163,
@@ -8405,6 +8815,11 @@
       "thief",
       "toxic"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "swords-dance"
+    ],
     "evolutions": [],
     "baseExp": 132,
     "catchRate": 45,
@@ -8489,6 +8904,10 @@
       "sunny-day",
       "thief",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
     ],
     "evolutions": [
       {
@@ -8587,6 +9006,10 @@
       "thief",
       "torment",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
     ],
     "evolutions": [],
     "baseExp": 165,
@@ -8691,6 +9114,10 @@
       "toxic",
       "water-pulse",
       "waterfall"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
     ],
     "evolutions": [
       {
@@ -8800,6 +9227,10 @@
       "water-pulse",
       "waterfall"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
+    ],
     "evolutions": [],
     "baseExp": 166,
     "catchRate": 75,
@@ -8904,6 +9335,9 @@
       "thunderbolt",
       "torment",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam"
     ],
     "evolutions": [
       {
@@ -9021,6 +9455,9 @@
       "torment",
       "toxic"
     ],
+    "tutorMoves": [
+      "body-slam"
+    ],
     "evolutions": [],
     "baseExp": 175,
     "catchRate": 75,
@@ -9118,6 +9555,9 @@
       "surf",
       "toxic",
       "water-pulse"
+    ],
+    "tutorMoves": [
+      "double-edge"
     ],
     "evolutions": [
       {
@@ -9233,6 +9673,9 @@
       "toxic",
       "water-pulse"
     ],
+    "tutorMoves": [
+      "double-edge"
+    ],
     "evolutions": [],
     "baseExp": 184,
     "catchRate": 60,
@@ -9317,6 +9760,7 @@
       "torment",
       "toxic"
     ],
+    "tutorMoves": [],
     "evolutions": [
       {
         "to": "haunter",
@@ -9411,6 +9855,7 @@
       "torment",
       "toxic"
     ],
+    "tutorMoves": [],
     "evolutions": [
       {
         "to": "gengar",
@@ -9509,6 +9954,12 @@
       "thunderbolt",
       "torment",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch"
     ],
     "evolutions": [],
     "baseExp": 225,
@@ -9617,6 +10068,11 @@
       "torment",
       "toxic"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "rock-slide"
+    ],
     "evolutions": [
       {
         "to": "steelix",
@@ -9721,6 +10177,13 @@
       "thief",
       "torment",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "thunder-wave"
     ],
     "evolutions": [
       {
@@ -9828,6 +10291,13 @@
       "torment",
       "toxic"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "thunder-wave"
+    ],
     "evolutions": [],
     "baseExp": 169,
     "catchRate": 75,
@@ -9930,6 +10400,11 @@
       "thief",
       "toxic",
       "water-pulse"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "swords-dance"
     ],
     "evolutions": [
       {
@@ -10045,6 +10520,11 @@
       "toxic",
       "water-pulse"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "swords-dance"
+    ],
     "evolutions": [],
     "baseExp": 166,
     "catchRate": 60,
@@ -10131,6 +10611,9 @@
       "thunderbolt",
       "torment",
       "toxic"
+    ],
+    "tutorMoves": [
+      "thunder-wave"
     ],
     "evolutions": [
       {
@@ -10226,6 +10709,9 @@
       "torment",
       "toxic"
     ],
+    "tutorMoves": [
+      "thunder-wave"
+    ],
     "evolutions": [],
     "baseExp": 172,
     "catchRate": 60,
@@ -10317,6 +10803,9 @@
       "sunny-day",
       "thief",
       "toxic"
+    ],
+    "tutorMoves": [
+      "double-edge"
     ],
     "evolutions": [
       {
@@ -10437,6 +10926,9 @@
       "thief",
       "toxic"
     ],
+    "tutorMoves": [
+      "double-edge"
+    ],
     "evolutions": [],
     "baseExp": 186,
     "catchRate": 45,
@@ -10535,6 +11027,14 @@
       "sunny-day",
       "thief",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "rock-slide",
+      "swords-dance"
     ],
     "evolutions": [
       {
@@ -10642,6 +11142,14 @@
       "thief",
       "toxic"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "rock-slide",
+      "swords-dance"
+    ],
     "evolutions": [],
     "baseExp": 149,
     "catchRate": 75,
@@ -10722,6 +11230,13 @@
       "sunny-day",
       "thief",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "rock-slide"
     ],
     "evolutions": [],
     "baseExp": 159,
@@ -10824,6 +11339,13 @@
       "thief",
       "toxic"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "rock-slide"
+    ],
     "evolutions": [],
     "baseExp": 159,
     "catchRate": 45,
@@ -10920,6 +11442,14 @@
       "toxic",
       "water-pulse"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "rock-slide",
+      "swords-dance"
+    ],
     "evolutions": [],
     "baseExp": 77,
     "catchRate": 45,
@@ -11012,6 +11542,7 @@
       "torment",
       "toxic"
     ],
+    "tutorMoves": [],
     "evolutions": [
       {
         "to": "weezing",
@@ -11119,6 +11650,7 @@
       "torment",
       "toxic"
     ],
+    "tutorMoves": [],
     "evolutions": [],
     "baseExp": 172,
     "catchRate": 60,
@@ -11228,6 +11760,12 @@
       "thunder",
       "thunderbolt",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "rock-slide",
+      "swords-dance"
     ],
     "evolutions": [
       {
@@ -11353,6 +11891,14 @@
       "thunder",
       "thunderbolt",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "rock-slide",
+      "swords-dance"
     ],
     "evolutions": [
       {
@@ -11480,6 +12026,14 @@
       "toxic",
       "water-pulse"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "soft-boiled",
+      "thunder-wave"
+    ],
     "evolutions": [
       {
         "to": "blissey",
@@ -11577,6 +12131,11 @@
       "sunny-day",
       "thief",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "swords-dance"
     ],
     "evolutions": [
       {
@@ -11686,6 +12245,13 @@
       "toxic",
       "water-pulse"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "rock-slide"
+    ],
     "evolutions": [],
     "baseExp": 172,
     "catchRate": 45,
@@ -11779,6 +12345,9 @@
       "toxic",
       "water-pulse",
       "waterfall"
+    ],
+    "tutorMoves": [
+      "double-edge"
     ],
     "evolutions": [
       {
@@ -11881,6 +12450,9 @@
       "water-pulse",
       "waterfall"
     ],
+    "tutorMoves": [
+      "double-edge"
+    ],
     "evolutions": [
       {
         "to": "kingdra",
@@ -11970,6 +12542,9 @@
       "water-pulse",
       "waterfall"
     ],
+    "tutorMoves": [
+      "double-edge"
+    ],
     "evolutions": [
       {
         "to": "seaking",
@@ -12058,6 +12633,9 @@
       "toxic",
       "water-pulse",
       "waterfall"
+    ],
+    "tutorMoves": [
+      "double-edge"
     ],
     "evolutions": [],
     "baseExp": 158,
@@ -12169,6 +12747,10 @@
       "toxic",
       "water-pulse",
       "waterfall"
+    ],
+    "tutorMoves": [
+      "double-edge",
+      "thunder-wave"
     ],
     "evolutions": [
       {
@@ -12290,6 +12872,10 @@
       "water-pulse",
       "waterfall"
     ],
+    "tutorMoves": [
+      "double-edge",
+      "thunder-wave"
+    ],
     "evolutions": [],
     "baseExp": 182,
     "catchRate": 60,
@@ -12395,6 +12981,13 @@
       "torment",
       "toxic"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "thunder-wave"
+    ],
     "evolutions": [],
     "baseExp": 161,
     "catchRate": 45,
@@ -12490,6 +13083,10 @@
       "sunny-day",
       "thief",
       "toxic"
+    ],
+    "tutorMoves": [
+      "double-edge",
+      "swords-dance"
     ],
     "evolutions": [
       {
@@ -12607,6 +13204,12 @@
       "toxic",
       "water-pulse"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch"
+    ],
     "evolutions": [],
     "baseExp": 159,
     "catchRate": 45,
@@ -12711,6 +13314,13 @@
       "thunder",
       "thunderbolt",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "thunder-wave"
     ],
     "evolutions": [
       {
@@ -12828,6 +13438,12 @@
       "thief",
       "toxic"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch"
+    ],
     "evolutions": [
       {
         "to": "magmortar",
@@ -12929,6 +13545,12 @@
       "sunny-day",
       "thief",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "rock-slide",
+      "swords-dance"
     ],
     "evolutions": [],
     "baseExp": 175,
@@ -13032,6 +13654,10 @@
       "toxic",
       "water-pulse"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
+    ],
     "evolutions": [],
     "baseExp": 172,
     "catchRate": 45,
@@ -13074,6 +13700,7 @@
       }
     ],
     "tmMoves": [],
+    "tutorMoves": [],
     "evolutions": [
       {
         "to": "gyarados",
@@ -13199,6 +13826,11 @@
       "water-pulse",
       "waterfall"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "thunder-wave"
+    ],
     "evolutions": [],
     "baseExp": 189,
     "catchRate": 45,
@@ -13308,6 +13940,10 @@
       "water-pulse",
       "waterfall"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
+    ],
     "evolutions": [],
     "baseExp": 187,
     "catchRate": 45,
@@ -13345,6 +13981,7 @@
       }
     ],
     "tmMoves": [],
+    "tutorMoves": [],
     "evolutions": [],
     "baseExp": 101,
     "catchRate": 35,
@@ -13440,6 +14077,10 @@
       "shadow-ball",
       "sunny-day",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
     ],
     "evolutions": [
       {
@@ -13610,6 +14251,10 @@
       "water-pulse",
       "waterfall"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
+    ],
     "evolutions": [],
     "baseExp": 184,
     "catchRate": 45,
@@ -13740,6 +14385,11 @@
       "thunderbolt",
       "toxic"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "thunder-wave"
+    ],
     "evolutions": [],
     "baseExp": 184,
     "catchRate": 45,
@@ -13861,6 +14511,10 @@
       "sunny-day",
       "toxic"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
+    ],
     "evolutions": [],
     "baseExp": 184,
     "catchRate": 45,
@@ -13953,6 +14607,10 @@
       "thunder",
       "thunderbolt",
       "toxic"
+    ],
+    "tutorMoves": [
+      "double-edge",
+      "thunder-wave"
     ],
     "evolutions": [],
     "baseExp": 79,
@@ -14048,6 +14706,11 @@
       "toxic",
       "water-pulse",
       "waterfall"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "rock-slide"
     ],
     "evolutions": [
       {
@@ -14154,6 +14817,11 @@
       "toxic",
       "water-pulse",
       "waterfall"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "rock-slide"
     ],
     "evolutions": [],
     "baseExp": 173,
@@ -14264,6 +14932,11 @@
       "toxic",
       "water-pulse",
       "waterfall"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "rock-slide"
     ],
     "evolutions": [
       {
@@ -14396,6 +15069,13 @@
       "water-pulse",
       "waterfall"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "rock-slide",
+      "swords-dance"
+    ],
     "evolutions": [],
     "baseExp": 173,
     "catchRate": 45,
@@ -14507,6 +15187,10 @@
       "torment",
       "toxic"
     ],
+    "tutorMoves": [
+      "double-edge",
+      "rock-slide"
+    ],
     "evolutions": [],
     "baseExp": 180,
     "catchRate": 45,
@@ -14615,6 +15299,13 @@
       "toxic",
       "water-pulse"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "rock-slide"
+    ],
     "evolutions": [],
     "baseExp": 189,
     "catchRate": 25,
@@ -14707,6 +15398,9 @@
       "sunny-day",
       "toxic",
       "water-pulse"
+    ],
+    "tutorMoves": [
+      "double-edge"
     ],
     "evolutions": [],
     "baseExp": 261,
@@ -14808,6 +15502,10 @@
       "thunder",
       "thunderbolt",
       "toxic"
+    ],
+    "tutorMoves": [
+      "double-edge",
+      "thunder-wave"
     ],
     "evolutions": [],
     "baseExp": 261,
@@ -14913,6 +15611,9 @@
       "sunny-day",
       "toxic"
     ],
+    "tutorMoves": [
+      "double-edge"
+    ],
     "evolutions": [],
     "baseExp": 261,
     "catchRate": 3,
@@ -15011,6 +15712,11 @@
       "toxic",
       "water-pulse",
       "waterfall"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "thunder-wave"
     ],
     "evolutions": [
       {
@@ -15116,6 +15822,11 @@
       "toxic",
       "water-pulse",
       "waterfall"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "thunder-wave"
     ],
     "evolutions": [
       {
@@ -15256,6 +15967,11 @@
       "water-pulse",
       "waterfall"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "thunder-wave"
+    ],
     "evolutions": [],
     "baseExp": 270,
     "catchRate": 45,
@@ -15371,6 +16087,13 @@
       "torment",
       "toxic",
       "water-pulse"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "thunder-wave"
     ],
     "evolutions": [],
     "baseExp": 306,
@@ -15490,6 +16213,16 @@
       "water-pulse",
       "waterfall"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "rock-slide",
+      "soft-boiled",
+      "swords-dance",
+      "thunder-wave"
+    ],
     "evolutions": [],
     "baseExp": 270,
     "catchRate": 45,
@@ -15603,6 +16336,11 @@
       "taunt",
       "torment",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "rock-slide"
     ],
     "evolutions": [],
     "baseExp": 179,
@@ -15739,6 +16477,14 @@
       "toxic",
       "water-pulse"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "rock-slide",
+      "thunder-wave"
+    ],
     "evolutions": [],
     "baseExp": 270,
     "catchRate": 45,
@@ -15840,6 +16586,10 @@
       "water-pulse",
       "waterfall"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
+    ],
     "evolutions": [],
     "baseExp": 243,
     "catchRate": 45,
@@ -15937,6 +16687,10 @@
       "solar-beam",
       "sunny-day",
       "toxic"
+    ],
+    "tutorMoves": [
+      "double-edge",
+      "swords-dance"
     ],
     "evolutions": [],
     "baseExp": 221,
@@ -16053,6 +16807,10 @@
       "skill-swap",
       "sunny-day",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
     ],
     "evolutions": [],
     "baseExp": 184,
@@ -16172,6 +16930,10 @@
       "taunt",
       "torment",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
     ],
     "evolutions": [],
     "baseExp": 184,
@@ -16293,6 +17055,13 @@
       "toxic",
       "water-pulse"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "thunder-wave"
+    ],
     "evolutions": [],
     "baseExp": 172,
     "catchRate": 70,
@@ -16402,6 +17171,10 @@
       "torment",
       "toxic"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
+    ],
     "evolutions": [],
     "baseExp": 175,
     "catchRate": 45,
@@ -16479,6 +17252,12 @@
       "sunny-day",
       "thief",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "rock-slide"
     ],
     "evolutions": [],
     "baseExp": 159,
@@ -16594,6 +17373,10 @@
       "sunny-day",
       "thief",
       "toxic"
+    ],
+    "tutorMoves": [
+      "double-edge",
+      "swords-dance"
     ],
     "evolutions": [],
     "baseExp": 175,
@@ -16716,6 +17499,14 @@
       "toxic",
       "water-pulse"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "soft-boiled",
+      "thunder-wave"
+    ],
     "evolutions": [],
     "baseExp": 608,
     "catchRate": 30,
@@ -16824,6 +17615,9 @@
       "thief",
       "torment",
       "toxic"
+    ],
+    "tutorMoves": [
+      "double-edge"
     ],
     "evolutions": [],
     "baseExp": 241,
@@ -16935,6 +17729,10 @@
       "water-pulse",
       "waterfall"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
+    ],
     "evolutions": [],
     "baseExp": 189,
     "catchRate": 60,
@@ -17028,6 +17826,11 @@
       "thunder",
       "thunderbolt",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "thunder-wave"
     ],
     "evolutions": [],
     "baseExp": 166,
@@ -17147,6 +17950,11 @@
       "torment",
       "toxic"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "thunder-wave"
+    ],
     "evolutions": [],
     "baseExp": 233,
     "catchRate": 45,
@@ -17227,6 +18035,13 @@
       "surf",
       "toxic"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "rock-slide"
+    ],
     "evolutions": [],
     "baseExp": 166,
     "catchRate": 200,
@@ -17305,6 +18120,11 @@
       "thunderbolt",
       "torment",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "thunder-wave"
     ],
     "evolutions": [],
     "baseExp": 159,
@@ -17418,6 +18238,11 @@
       "strength",
       "sunny-day",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "rock-slide"
     ],
     "evolutions": [],
     "baseExp": 270,
@@ -17534,6 +18359,11 @@
       "strength",
       "sunny-day",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "rock-slide"
     ],
     "evolutions": [],
     "baseExp": 270,
@@ -17672,6 +18502,7 @@
       "thunder-punch",
       "thunderbolt"
     ],
+    "tutorMoves": [],
     "evolutions": [],
     "baseExp": 241,
     "catchRate": 30,
@@ -17763,6 +18594,7 @@
       "swords-dance",
       "venoshock"
     ],
+    "tutorMoves": [],
     "evolutions": [],
     "baseExp": 232,
     "catchRate": 75,
@@ -17865,6 +18697,7 @@
       "swords-dance",
       "thief"
     ],
+    "tutorMoves": [],
     "evolutions": [],
     "baseExp": 187,
     "catchRate": 30,
@@ -17978,6 +18811,7 @@
       "venoshock",
       "x-scissor"
     ],
+    "tutorMoves": [],
     "evolutions": [],
     "baseExp": 172,
     "catchRate": 75,
@@ -18105,6 +18939,7 @@
       "thunderbolt",
       "will-o-wisp"
     ],
+    "tutorMoves": [],
     "evolutions": [],
     "baseExp": 243,
     "catchRate": 30,
@@ -18222,6 +19057,7 @@
       "thunder-wave",
       "thunderbolt"
     ],
+    "tutorMoves": [],
     "evolutions": [],
     "baseExp": 243,
     "catchRate": 30,
@@ -18341,6 +19177,7 @@
       "swords-dance",
       "take-down"
     ],
+    "tutorMoves": [],
     "evolutions": [],
     "baseExp": 270,
     "catchRate": 45,
@@ -18438,6 +19275,7 @@
       "take-down",
       "water-pulse"
     ],
+    "tutorMoves": [],
     "evolutions": [],
     "baseExp": 173,
     "catchRate": 60,
@@ -18547,6 +19385,7 @@
       "stone-edge",
       "take-down"
     ],
+    "tutorMoves": [],
     "evolutions": [],
     "baseExp": 239,
     "catchRate": 50,
@@ -18670,6 +19509,7 @@
       "take-down",
       "water-pulse"
     ],
+    "tutorMoves": [],
     "evolutions": [],
     "baseExp": 184,
     "catchRate": 45,
@@ -18801,6 +19641,7 @@
       "take-down",
       "x-scissor"
     ],
+    "tutorMoves": [],
     "evolutions": [],
     "baseExp": 184,
     "catchRate": 45,
@@ -18880,6 +19721,7 @@
       "thunderbolt",
       "will-o-wisp"
     ],
+    "tutorMoves": [],
     "evolutions": [],
     "baseExp": 173,
     "catchRate": 45,
@@ -18990,6 +19832,7 @@
       "thunder-punch",
       "will-o-wisp"
     ],
+    "tutorMoves": [],
     "evolutions": [],
     "baseExp": 236,
     "catchRate": 45,
@@ -19125,6 +19968,7 @@
       "venoshock",
       "x-scissor"
     ],
+    "tutorMoves": [],
     "evolutions": [],
     "baseExp": 175,
     "catchRate": 45,
@@ -19250,6 +20094,7 @@
       "tri-attack",
       "zen-headbutt"
     ],
+    "tutorMoves": [],
     "evolutions": [],
     "baseExp": 245,
     "catchRate": 30,
@@ -19361,6 +20206,7 @@
       "venoshock",
       "x-scissor"
     ],
+    "tutorMoves": [],
     "evolutions": [],
     "baseExp": 218,
     "catchRate": 45,
@@ -19454,6 +20300,7 @@
       "thief",
       "will-o-wisp"
     ],
+    "tutorMoves": [],
     "evolutions": [],
     "baseExp": 234,
     "catchRate": 45,
@@ -19566,6 +20413,7 @@
       "take-down",
       "x-scissor"
     ],
+    "tutorMoves": [],
     "evolutions": [],
     "baseExp": 178,
     "catchRate": 60,
@@ -19676,6 +20524,7 @@
       "thief",
       "thunder-punch"
     ],
+    "tutorMoves": [],
     "evolutions": [],
     "baseExp": 227,
     "catchRate": 45,
@@ -19806,6 +20655,7 @@
       "swift",
       "take-down"
     ],
+    "tutorMoves": [],
     "evolutions": [],
     "baseExp": 184,
     "catchRate": 45,
@@ -19908,6 +20758,11 @@
       "secret-power",
       "sunny-day",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "rock-slide"
     ],
     "evolutions": [
       {
@@ -20024,6 +20879,11 @@
       "sunny-day",
       "toxic"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "rock-slide"
+    ],
     "evolutions": [],
     "baseExp": 151,
     "catchRate": 75,
@@ -20111,6 +20971,12 @@
       "thunderbolt",
       "toxic",
       "water-pulse"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "rock-slide",
+      "thunder-wave"
     ],
     "evolutions": [],
     "baseExp": 145,
@@ -20217,6 +21083,10 @@
       "torment",
       "toxic"
     ],
+    "tutorMoves": [
+      "double-edge",
+      "swords-dance"
+    ],
     "evolutions": [],
     "baseExp": 86,
     "catchRate": 60,
@@ -20311,6 +21181,11 @@
       "strength",
       "toxic"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "rock-slide"
+    ],
     "evolutions": [
       {
         "to": "piloswine",
@@ -20378,6 +21253,12 @@
       "thief",
       "toxic",
       "water-pulse"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch"
     ],
     "evolutions": [],
     "baseExp": 116,
@@ -20480,6 +21361,12 @@
       "toxic",
       "water-pulse",
       "waterfall"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch"
     ],
     "evolutions": [
       {
@@ -20586,6 +21473,10 @@
       "water-pulse",
       "waterfall"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
+    ],
     "evolutions": [
       {
         "to": "quagsire",
@@ -20686,6 +21577,10 @@
       "solar-beam",
       "sunny-day",
       "toxic"
+    ],
+    "tutorMoves": [
+      "double-edge",
+      "swords-dance"
     ],
     "evolutions": [
       {
@@ -20788,6 +21683,11 @@
       "water-pulse",
       "waterfall"
     ],
+    "tutorMoves": [
+      "double-edge",
+      "swords-dance",
+      "thunder-wave"
+    ],
     "evolutions": [],
     "baseExp": 88,
     "catchRate": 45,
@@ -20880,6 +21780,10 @@
       "water-pulse",
       "waterfall"
     ],
+    "tutorMoves": [
+      "double-edge",
+      "thunder-wave"
+    ],
     "evolutions": [
       {
         "to": "octillery",
@@ -20971,6 +21875,14 @@
       "sunny-day",
       "toxic",
       "water-pulse"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "soft-boiled",
+      "thunder-wave"
     ],
     "evolutions": [
       {
@@ -21071,6 +21983,11 @@
       "secret-power",
       "strength",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "rock-slide"
     ],
     "evolutions": [
       {
@@ -21181,6 +22098,12 @@
       "water-pulse",
       "waterfall"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch"
+    ],
     "evolutions": [],
     "baseExp": 189,
     "catchRate": 75,
@@ -21285,6 +22208,12 @@
       "water-pulse",
       "waterfall"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch"
+    ],
     "evolutions": [],
     "baseExp": 151,
     "catchRate": 90,
@@ -21379,6 +22308,10 @@
       "solar-beam",
       "sunny-day",
       "toxic"
+    ],
+    "tutorMoves": [
+      "double-edge",
+      "swords-dance"
     ],
     "evolutions": [
       {
@@ -21482,6 +22415,10 @@
       "sunny-day",
       "toxic"
     ],
+    "tutorMoves": [
+      "double-edge",
+      "swords-dance"
+    ],
     "evolutions": [],
     "baseExp": 207,
     "catchRate": 45,
@@ -21584,6 +22521,10 @@
       "water-pulse",
       "waterfall"
     ],
+    "tutorMoves": [
+      "double-edge",
+      "thunder-wave"
+    ],
     "evolutions": [],
     "baseExp": 168,
     "catchRate": 75,
@@ -21682,6 +22623,14 @@
       "toxic",
       "water-pulse"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "mega-kick",
+      "mega-punch",
+      "soft-boiled",
+      "thunder-wave"
+    ],
     "evolutions": [
       {
         "to": "togekiss",
@@ -21779,6 +22728,10 @@
       "thunderbolt",
       "toxic",
       "water-pulse"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
     ],
     "evolutions": [
       {
@@ -21887,6 +22840,10 @@
       "toxic",
       "water-pulse"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
+    ],
     "evolutions": [],
     "baseExp": 145,
     "catchRate": 90,
@@ -21991,6 +22948,11 @@
       "sunny-day",
       "thief",
       "toxic"
+    ],
+    "tutorMoves": [
+      "double-edge",
+      "mega-punch",
+      "swords-dance"
     ],
     "evolutions": [
       {
@@ -22104,6 +23066,11 @@
       "thief",
       "toxic"
     ],
+    "tutorMoves": [
+      "double-edge",
+      "mega-punch",
+      "swords-dance"
+    ],
     "evolutions": [],
     "baseExp": 137,
     "catchRate": 90,
@@ -22196,6 +23163,10 @@
       "sunny-day",
       "thief",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
     ],
     "evolutions": [
       {
@@ -22309,6 +23280,10 @@
       "thief",
       "toxic"
     ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
+    ],
     "evolutions": [],
     "baseExp": 140,
     "catchRate": 90,
@@ -22391,6 +23366,10 @@
       "sunny-day",
       "thief",
       "toxic"
+    ],
+    "tutorMoves": [
+      "double-edge",
+      "thunder-wave"
     ],
     "evolutions": [
       {
@@ -22486,6 +23465,10 @@
       "sunny-day",
       "thief",
       "toxic"
+    ],
+    "tutorMoves": [
+      "double-edge",
+      "thunder-wave"
     ],
     "evolutions": [],
     "baseExp": 165,
@@ -22586,6 +23569,9 @@
       "thief",
       "toxic"
     ],
+    "tutorMoves": [
+      "double-edge"
+    ],
     "evolutions": [],
     "baseExp": 78,
     "catchRate": 75,
@@ -22669,6 +23655,10 @@
       "thief",
       "torment",
       "toxic"
+    ],
+    "tutorMoves": [
+      "double-edge",
+      "thunder-wave"
     ],
     "evolutions": [],
     "baseExp": 81,
@@ -22764,6 +23754,10 @@
       "torment",
       "toxic"
     ],
+    "tutorMoves": [
+      "double-edge",
+      "thunder-wave"
+    ],
     "evolutions": [
       {
         "to": "mismagius",
@@ -22819,6 +23813,7 @@
       }
     ],
     "tmMoves": [],
+    "tutorMoves": [],
     "evolutions": [],
     "baseExp": 142,
     "catchRate": 45,
@@ -22912,6 +23907,12 @@
       "sunny-day",
       "thief",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "rock-slide",
+      "swords-dance"
     ],
     "evolutions": [],
     "baseExp": 175,
@@ -23018,6 +24019,10 @@
       "toxic",
       "water-pulse",
       "waterfall"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
     ],
     "evolutions": [],
     "baseExp": 170,
@@ -23131,6 +24136,10 @@
       "torment",
       "toxic"
     ],
+    "tutorMoves": [
+      "double-edge",
+      "rock-slide"
+    ],
     "evolutions": [],
     "baseExp": 163,
     "catchRate": 25,
@@ -23209,6 +24218,10 @@
       "strength",
       "sunny-day",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge"
     ],
     "evolutions": [
       {
@@ -23311,6 +24324,11 @@
       "strength",
       "sunny-day",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "rock-slide"
     ],
     "evolutions": [],
     "baseExp": 175,
@@ -23422,6 +24440,11 @@
       "taunt",
       "torment",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "rock-slide"
     ],
     "evolutions": [
       {
@@ -23542,6 +24565,11 @@
       "taunt",
       "torment",
       "toxic"
+    ],
+    "tutorMoves": [
+      "body-slam",
+      "double-edge",
+      "rock-slide"
     ],
     "evolutions": [
       {

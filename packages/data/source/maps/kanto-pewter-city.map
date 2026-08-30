@@ -48,3 +48,4 @@ pewter-sign-museum 4,4 sign kanto.pewter.sign-museum
 pewter-boy 9,5 npc:youngster:static kanto.pewter.boy
 pewter-museum-guide 7,4 npc:scientist:static kanto.pewter.museum-guide
 pewter-hiker 10,5 npc:hiker:static kanto.pewter.hiker
+pewter-tutor 3,5 npc:hiker:static kanto.tutor.rock-slide

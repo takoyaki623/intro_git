@@ -448,6 +448,8 @@ type SpeciesOut = {
   abilities: string[];
   learnset: { level: number; move: string }[];
   tmMoves: string[];
+  /** 技教え人が教えられる技（v1.2-d）。 */
+  tutorMoves: string[];
   catchRate: number; expType: string;
   evYield: Record<string, number>;
   genderRatio: number | null;
@@ -516,6 +518,12 @@ type OfficialLearnset = {
   learnset: { level: number; move: string }[];
   /** わざマシンで覚えられる技（v1.1-a）。fetch-official.ts が `'M'` を選って書く。 */
   tm: string[];
+  /**
+   * 技教え人が教えられる技（v1.2-d）。**マシンとは別の表。**
+   * FRLG の版で「マシンでは覚えないが教えてもらえる」種が実在するので、
+   * 使い回すと覚えられる技が変わってしまう。
+   */
+  tutor: string[];
 };
 
 function officialLearnsets(): Map<string, OfficialLearnset> {
@@ -536,7 +544,8 @@ function officialLearnsets(): Map<string, OfficialLearnset> {
       })
       .sort((a, b) => a.level - b.level || a.move.localeCompare(b.move));
     const tm = (r["tm"] ?? "").split(",").filter(Boolean).sort();
-    out.set(r["species"]!, { gen: Number(r["gen"]), learnset, tm });
+    const tutor = (r["tutor"] ?? "").split(",").filter(Boolean).sort();
+    out.set(r["species"]!, { gen: Number(r["gen"]), learnset, tm, tutor });
   }
   return out;
 }
@@ -726,6 +735,9 @@ function buildSpecies(moves: MoveOut[]): SpeciesOut[] {
     for (const move of found?.tm ?? []) {
       if (!known.has(move)) err(where, `learnsets.tsv の tm "${move}" が moves.tsv に無い`);
     }
+    for (const move of found?.tutor ?? []) {
+      if (!known.has(move)) err(where, `learnsets.tsv の tutor "${move}" が moves.tsv に無い`);
+    }
 
     return {
       id: r["id"]!,
@@ -736,6 +748,7 @@ function buildSpecies(moves: MoveOut[]): SpeciesOut[] {
       abilities: (r["abilities"] ?? "").split(",").filter(Boolean),
       learnset,
       tmMoves: found?.tm ?? [],
+      tutorMoves: found?.tutor ?? [],
       evolutions: evolutions.get(r["id"]!) ?? [],
       baseExp: num?.baseExp ?? 0, // 無ければ進化段階から推定（importSpecies の第2周）
       catchRate: num?.catchRate ?? 255,
@@ -1146,6 +1159,12 @@ function main(): void {
   console.log(
     `  わざマシン互換 のべ ${tmTotal} 件（1種あたり ${(tmTotal / species.length).toFixed(1)} 技` +
       `${tmNone === 0 ? "" : ` / 0件の種 ${tmNone}`}）`,
+  );
+  const tutorTotal = species.reduce((n, s) => n + s.tutorMoves.length, 0);
+  const tutorNone = species.filter((s) => s.tutorMoves.length === 0).length;
+  console.log(
+    `  教え技互換 のべ ${tutorTotal} 件（1種あたり ${(tutorTotal / species.length).toFixed(1)} 技` +
+      `${tutorNone === 0 ? "" : ` / 0件の種 ${tutorNone}`}）`,
   );
   console.log(`  特性 ${abilities.length}（うち ${inert} 件は機構未実装のため inert）`);
   const evoCount = species.reduce((n, s) => n + s.evolutions.length, 0);

@@ -69,6 +69,13 @@ export type Species = {
    * ここは互換表だけを持つ。
    */
   tmMoves: MoveId[];
+  /**
+   * 技教え人が教えられる技（v1.2-d）。**`tmMoves` とは別の表。**
+   *
+   * FRLG には「マシンでは覚えないが教えてもらえる」種が実在する ――
+   * 使い回すと覚えられる技が変わる。**用途が違うデータは出典も列も分ける。**
+   */
+  tutorMoves: MoveId[];
   /** 進化の枝（v0.8）。条件が未実装の枝も、無視される形で残す。 */
   evolutions: Evolution[];
   catchRate: number;

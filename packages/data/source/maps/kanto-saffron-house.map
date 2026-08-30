@@ -23,3 +23,4 @@ warps:
 
 objects:
 saffron-house-man 4,2 npc:oldman:static kanto.saffron.house-man
+saffron-tutor 2,3 npc:blackbelt:static kanto.tutor.swords-dance

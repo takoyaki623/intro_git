@@ -30,3 +30,4 @@ dojo-student 2,4 trainer:kanto-dojo-student:3:right kanto.dojo.student if:kanto.
 dojo-master 4,1 npc:blackbelt:static kanto.dojo.master
 dojo-prize-lee 3,2 npc:pokeball:static kanto.dojo.prize-lee if:kanto.dojo.won=true
 dojo-prize-chan 5,2 npc:pokeball:static kanto.dojo.prize-chan if:kanto.dojo.won=true
+dojo-tutor 6,4 npc:blackbelt:static kanto.tutor.mega-kick

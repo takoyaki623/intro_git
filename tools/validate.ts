@@ -2448,6 +2448,9 @@ function checkWorld(): void {
   // ── #124 マシンは世界のどこかで手に入る（v1.2-c）──
   checkMachinesObtainable();
 
+  // ── #125 技教え人が教える技は、教わる相手が居る（v1.2-d）──
+  checkTutorsTeachable();
+
   // ── #80 地方の入口から、その地方の全マップに歩いて行けること（v0.12-b）──
   checkRegionConnectivity();
 
@@ -2518,6 +2521,31 @@ function checkMachinesObtainable(): void {
     if (!item.id.startsWith("tm") && !item.id.startsWith("hm")) continue;
     if (sources.has(item.id)) continue;
     fail("machine-source", `${item.id}（${item.name}）: 世界のどこにも置かれていない`);
+  }
+}
+
+/**
+ * 技教え人は、教われる種が1種以上いる技を教えるか（#125・v1.2-d）。
+ *
+ * **マシンの #79 と同じ形**（あちらは `tmMoves`、こちらは `tutorMoves`）。
+ * 表を間違えて `tmMoves` を見ていると「誰も教われない教え人」ができ、
+ * 立っているのに何も起きない ―― 遊ぶ側からは壊れているのか
+ * 覚えられないのかが区別できない。
+ */
+function checkTutorsTeachable(): void {
+  for (const event of allEvents) {
+    for (const c of walkCommands(event.commands)) {
+      if (c.kind !== "teachMove") continue;
+      const move = allMoves.find((m) => m.id === c.move);
+      if (move === undefined) {
+        fail("tutor-move", `${event.id}: 存在しない技 "${c.move}" を教えようとしている`);
+        continue;
+      }
+      const learners = allSpecies.filter((s) => s.tutorMoves.includes(c.move));
+      if (learners.length === 0) {
+        fail("tutor-move", `${event.id}: "${c.move}" を おそわれる種が1種もいない`);
+      }
+    }
   }
 }
 

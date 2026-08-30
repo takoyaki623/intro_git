@@ -37,3 +37,4 @@ warps:
 
 objects:
 two-island-sign 6,1 sign kanto.sevii.two-sign
+two-tutor 2,7 npc:youngster:static kanto.tutor.double-edge

@@ -6,7 +6,7 @@
  * 特性 74 / 道具 143 /
  * BattleSet 64 / 施設 4 /
  * ネームド 18 / カップ 10 /
- * マップ 210 / イベント 339 / トレーナー 165 /
+ * マップ 210 / イベント 347 / トレーナー 165 /
  * 出現テーブル 287 / ショップ 8 / 地方 9 /
  * フラグ 213
  */
@@ -1390,6 +1390,14 @@ export type GeneratedEventId =
   | "kanto.tower.rocket"
   | "kanto.tower.rocket-win"
   | "kanto.tower.sign"
+  | "kanto.tutor.body-slam"
+  | "kanto.tutor.double-edge"
+  | "kanto.tutor.mega-kick"
+  | "kanto.tutor.mega-punch"
+  | "kanto.tutor.rock-slide"
+  | "kanto.tutor.soft-boiled"
+  | "kanto.tutor.swords-dance"
+  | "kanto.tutor.thunder-wave"
   | "kanto.underground.north-man"
   | "kanto.underground.south-man"
   | "kanto.vermilion.arrive"

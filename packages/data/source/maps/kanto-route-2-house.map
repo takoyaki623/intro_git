@@ -22,3 +22,4 @@ warps:
 
 objects:
 route2-trader 4,1 npc:lass:static kanto.route2.trade
+route2-tutor 2,3 npc:blackbelt:static kanto.tutor.mega-punch

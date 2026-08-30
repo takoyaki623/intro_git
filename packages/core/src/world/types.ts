@@ -345,6 +345,14 @@ export type EventCommand =
   | { kind: "takePokemon"; species: SpeciesId }
   | { kind: "giveMoney"; amount: number }
   /**
+   * 技教え人（v1.2-d）。**手持ちの1体に技を1つ教える。**
+   *
+   * わざマシンと同じ効果を、道具を介さずイベントから呼ぶ ――
+   * 覚えさせる側のコードは1行も増えない（`teachMove` を共有する）。
+   * 覚えられるかどうかは `Species.tutorMoves` が決める（マシンとは別の表）。
+   */
+  | { kind: "teachMove"; move: MoveId }
+  /**
    * バッジを渡す（v0.12）。`count` は「これで何個目になるか」。
    *
    * 増分ではなく**到達点**にしてあるので、同じイベントを2回踏んでも増えない。

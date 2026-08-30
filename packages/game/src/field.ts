@@ -15,6 +15,7 @@ import {
   addCaught,
   isUsable,
   refused,
+  teachToInstance,
   useOnInstance,
   applyBattleResult,
   chooseOption,
@@ -719,6 +720,32 @@ export function playField(rebuild: () => void): FieldHandle {
         // v0.8 まではここでも足していて、**同じ道具を2回もらっていた**
         const item = gameData.item(effect.item);
         await say(`${item.name} を ${effect.count}こ てにいれた!`);
+        return;
+      }
+      case "teachMove": {
+        // 技教え人（v1.2-d）。**わざマシンと同じ道を通る** ――
+        // 誰に教えるか選ばせ、4つ埋まっていれば入れ替えを選ばせるところまで、
+        // 道具のときと同じ関数（`chooseMember` / `offerMove`）を使う。
+        // 覚えられるかどうかは `tutorMoves` が決める（マシンとは別の表）
+        const taught = gameData.move(effect.move);
+        const target = await chooseMember(`${taught.name} を だれに おしえますか?`);
+        if (target === null) {
+          hideText();
+          return;
+        }
+        const result = teachToInstance(gameData, effect.move, target);
+        if (refused(result)) {
+          await say(result.reason);
+          hideText();
+          return;
+        }
+        player.storage = replaceInstance(player.storage, result.instance);
+        if (result.message !== "") await say(result.message);
+        if (result.then?.kind === "learnMove") {
+          await offerMove(result.instance.uid, result.then.move);
+        }
+        hideText();
+        await autosave();
         return;
       }
       case "gavePokemon": {
@@ -1963,7 +1990,7 @@ export function playField(rebuild: () => void): FieldHandle {
 
     $("#panel-close").onclick = closePanel;
     bindPanel("data-use", async (id) => {
-      const target = await chooseMember(gameData.item(id).name);
+      const target = await chooseMember(`${gameData.item(id).name} を だれに つかう?`);
       if (target === null) return;
       const result = useOnInstance(gameData, id, target);
       if (refused(result)) {
@@ -1993,11 +2020,16 @@ export function playField(rebuild: () => void): FieldHandle {
     }, showBag);
   }
 
-  /** 誰に使うか選ぶ。倒れている個体も選べる（げんきのかけら）。 */
-  async function chooseMember(itemName: string): Promise<PokemonInstance | null> {
+  /**
+   * 誰に使うか選ぶ。倒れている個体も選べる（げんきのかけら）。
+   *
+   * **問いの文ごと受け取る**（v1.2-d）―― 道具は「つかう」、技教え人は「おしえる」で、
+   * 語尾だけ違う2つ目の関数を作ると、選ばせ方が2通りになる。
+   */
+  async function chooseMember(prompt: string): Promise<PokemonInstance | null> {
     const members = party();
     const choice = await ask(
-      `${itemName} を だれに つかう?`,
+      prompt,
       [...members.map((p) => p.nickname ?? gameData.species(p.species).name), "やめる"],
     );
     hideText();

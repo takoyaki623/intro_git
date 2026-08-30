@@ -7688,5 +7688,117 @@
         "text": "ちぇっ! つよく なったな。\nおれも まけて られないぜ!"
       }
     ]
+  },
+  {
+    "id": "kanto.tutor.rock-slide",
+    "commands": [
+      {
+        "kind": "message",
+        "speaker": "やまおとこ",
+        "text": "やまの いわが くずれる ようすを\nおしえて やろうか?"
+      },
+      {
+        "kind": "teachMove",
+        "move": "rock-slide"
+      }
+    ]
+  },
+  {
+    "id": "kanto.tutor.thunder-wave",
+    "commands": [
+      {
+        "kind": "message",
+        "speaker": "おねえさん",
+        "text": "しびれさせる わざ、しりたい?"
+      },
+      {
+        "kind": "teachMove",
+        "move": "thunder-wave"
+      }
+    ]
+  },
+  {
+    "id": "kanto.tutor.body-slam",
+    "commands": [
+      {
+        "kind": "message",
+        "speaker": "おじいさん",
+        "text": "からだごと ぶつかる わざが あってのう。"
+      },
+      {
+        "kind": "teachMove",
+        "move": "body-slam"
+      }
+    ]
+  },
+  {
+    "id": "kanto.tutor.swords-dance",
+    "commands": [
+      {
+        "kind": "message",
+        "speaker": "からておう",
+        "text": "つるぎの まいは こうげきの こころえだ。"
+      },
+      {
+        "kind": "teachMove",
+        "move": "swords-dance"
+      }
+    ]
+  },
+  {
+    "id": "kanto.tutor.mega-punch",
+    "commands": [
+      {
+        "kind": "message",
+        "speaker": "からておう",
+        "text": "こぶしの ふりかたを おしえよう。"
+      },
+      {
+        "kind": "teachMove",
+        "move": "mega-punch"
+      }
+    ]
+  },
+  {
+    "id": "kanto.tutor.mega-kick",
+    "commands": [
+      {
+        "kind": "message",
+        "speaker": "からておう",
+        "text": "けりの ふみこみは こしで きまる。"
+      },
+      {
+        "kind": "teachMove",
+        "move": "mega-kick"
+      }
+    ]
+  },
+  {
+    "id": "kanto.tutor.double-edge",
+    "commands": [
+      {
+        "kind": "message",
+        "speaker": "たんぱんこぞう",
+        "text": "みを すてる かくごが あるなら\nおしえて あげるよ。"
+      },
+      {
+        "kind": "teachMove",
+        "move": "double-edge"
+      }
+    ]
+  },
+  {
+    "id": "kanto.tutor.soft-boiled",
+    "commands": [
+      {
+        "kind": "message",
+        "speaker": "おねえさん",
+        "text": "きずを いやす わざ、おぼえる?"
+      },
+      {
+        "kind": "teachMove",
+        "move": "soft-boiled"
+      }
+    ]
   }
 ]

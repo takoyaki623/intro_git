@@ -53,8 +53,9 @@ function levelUpMoves(sources: readonly string[], gen: number): number[] {
  * TM 互換表が公式データで揃う ―― どのマシンが何番かは veekun `machines.csv` の仕事で、
  * ここが持つのは「この種はこの技を機械で覚えるか」だけ。
  *
- * 教え技（`T`）は入れない。原作では別の入手経路（技教え人）で、
- * 道具として存在しない ―― **機構が無いまま形だけ作らない**（world.md §9.7）。
+ * 教え技（`T`）はここでは入れない ―― **道具ではないので、道具の表に混ぜない。**
+ * v1.2-d で技教え人の機構ができたので、教え技は下の `frlgMoves("3")` から
+ * **別の列**（`tutor`）として書き出す。**用途が違うデータは出典も列も分ける。**
  */
 function machineMoves(sources: readonly string[], gen: number): boolean {
   return sources.some((source) => source === `${gen}M`);
@@ -62,8 +63,9 @@ function machineMoves(sources: readonly string[], gen: number): boolean {
 
 /** FRLG の版（veekun の version_group 7）。 */
 const FRLG_VERSION_GROUP = "7";
-/** veekun の習得方法 4 = マシン。 */
+/** veekun の習得方法。4 = マシン、3 = 技教え人（v1.2-d）。 */
 const BY_MACHINE = "4";
+const BY_TUTOR = "3";
 
 /**
  * **FRLG のマシン互換表**（v1.2-a）。
@@ -81,7 +83,7 @@ const BY_MACHINE = "4";
  * FRLG に居ない種（ナナシマ以降の第4世代以上・ネームドが使う種）だけは
  * 第9世代の表へ落とす。**落ちた種は名指しで報告する**（黙って空にしない）。
  */
-function frlgMachineMoves(): { has: (id: string) => boolean; of: (id: string) => string[] } {
+function frlgMoves(method: string): { has: (id: string) => boolean; of: (id: string) => string[] } {
   const moveById = new Map(parseCsv("moves.csv").map((r) => [r["id"]!, r["identifier"]!]));
   const pokemonById = new Map(parseCsv("pokemon.csv").map((r) => [r["id"]!, r["identifier"]!]));
 
@@ -98,7 +100,7 @@ function frlgMachineMoves(): { has: (id: string) => boolean; of: (id: string) =>
   const table = new Map<string, Set<string>>();
   for (const r of parseCsv("pokemon_moves.csv")) {
     if (r["version_group_id"] !== FRLG_VERSION_GROUP) continue;
-    if (r["pokemon_move_method_id"] !== BY_MACHINE) continue;
+    if (r["pokemon_move_method_id"] !== method) continue;
     const species = pokemonById.get(r["pokemon_id"]!);
     const move = moveById.get(r["move_id"]!);
     if (species === undefined || move === undefined) continue;
@@ -133,11 +135,16 @@ async function main(): Promise<void> {
   let kept = 0;
   let tmTotal = 0;
   let tmKept = 0;
+  let tutorTotal = 0;
+  let tutorKept = 0;
   /** マシン技が1つも無い種。「入れ忘れ」と区別が付くよう名前で出す。 */
   const tmEmpty: string[] = [];
   /** FRLG に居ないので第9世代の表へ落ちた種（v1.2-a）。黙って落とさない。 */
   const notInFrlg: string[] = [];
-  const frlgMachines = frlgMachineMoves();
+  const frlgMachines = frlgMoves(BY_MACHINE);
+  // 教え技（v1.2-d）。**FRLG に居ない種には無い** ―― 落とし先を作らない。
+  // マシンと違って「別の版から借りる」意味が無いので、居なければ空のまま
+  const frlgTutors = frlgMoves(BY_TUTOR);
 
   for (const s of species) {
     const learnset = await dex.learnsets.get(s.id);
@@ -176,6 +183,12 @@ async function main(): Promise<void> {
         }
       }
     }
+    // 教え技（v1.2-d）。**マシンと同じ形で、別の列に置く**
+    const tutorRaw = frlgTutors.has(s.id) ? frlgTutors.of(s.id).map(flat) : [];
+    tutorTotal += tutorRaw.length;
+    const tutor = [...new Set(tutorRaw.map((m) => byFlat.get(m)).filter((m): m is string => m !== undefined))].sort();
+    tutorKept += tutor.length;
+
     tmTotal += machine.length;
     const tm = [...new Set(machine.map((m) => byFlat.get(m)).filter((m): m is string => m !== undefined))].sort();
     tmKept += tm.length;
@@ -206,11 +219,12 @@ async function main(): Promise<void> {
       .sort((a, b) => a.level - b.level || a.move.localeCompare(b.move));
 
     rows.push(
-      `${s.id}\t${picked.gen}\t${list.map((l) => `${l.level}:${l.move}`).join(",")}\t${tm.join(",")}`,
+      [s.id, picked.gen, list.map((l) => `${l.level}:${l.move}`).join(","), tm.join(","), tutor.join(",")]
+        .join("\t"),
     );
   }
 
-  writeFileSync(OUT, `species\tgen\tlearnset\ttm\n${rows.join("\n")}\n`, "utf8");
+  writeFileSync(OUT, `species\tgen\tlearnset\ttm\ttutor\n${rows.join("\n")}\n`, "utf8");
   console.log(`${OUT} … ${rows.length} 種`);
   console.log(
     `  採用世代: ${[...usedGen].sort((a, b) => b[0] - a[0]).map(([g, n]) => `第${g}世代 ${n}種`).join(" / ")}`,
@@ -218,6 +232,9 @@ async function main(): Promise<void> {
   console.log(`  レベル技 のべ ${total} 件 / 当プロジェクトに存在 ${kept} 件 (${((kept / total) * 100).toFixed(0)}%)`);
   console.log(
     `  マシン技 のべ ${tmTotal} 件 / 当プロジェクトに存在 ${tmKept} 件 (${((tmKept / tmTotal) * 100).toFixed(0)}%)`,
+  );
+  console.log(
+    `  教え技 のべ ${tutorTotal} 件 / 当プロジェクトに存在 ${tutorKept} 件 (${((tutorKept / tutorTotal) * 100).toFixed(0)}%)`,
   );
   if (tmEmpty.length > 0) {
     console.log(`  ⚠ マシン技が0件の種 ${tmEmpty.length} 件: ${tmEmpty.slice(0, 8).join(" ")}`);
