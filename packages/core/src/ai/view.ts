@@ -9,7 +9,7 @@
  * 設計: docs/design/ai.md §2
  */
 
-import { legalActions } from "../battle.js";
+import { activeScreens, legalActions } from "../battle.js";
 import type { GameData } from "../gamedata.js";
 import type {
   Action,
@@ -18,6 +18,7 @@ import type {
   BattleState,
   MoveId,
   SideIndex,
+  ScreenId,
   SpeciesId,
   StatStages,
   StatusId,
@@ -37,6 +38,8 @@ export type AiView = {
     active: BattlePokemon;
     party: readonly BattlePokemon[];
     activeIndex: number;
+    /** 自分の側に張ってある壁（v1.2-c）。重ね張りを最善手だと思わないために要る。 */
+    screens: readonly ScreenId[];
   };
   foe: {
     species: SpeciesId;
@@ -49,6 +52,8 @@ export type AiView = {
     statStages: StatStages;
     /** 一度でも使われた技だけ。 */
     revealedMoves: readonly MoveId[];
+    /** 相手の側の壁（v1.2-c）。**これも隠さない** ―― 張られたのは見えている。 */
+    screens: readonly ScreenId[];
     /** 一度でも場に出た個体だけ。partial 知識なら控えも見える。 */
     revealedParty: readonly SpeciesId[];
     remaining: number;
@@ -114,6 +119,7 @@ export function toAiView(
       active: activeOf(state, side),
       party: state.sides[side].party,
       activeIndex: state.sides[side].activeIndex,
+      screens: activeScreens(state.sides[side]),
     },
     foe: {
       species: foe.species,
@@ -124,6 +130,7 @@ export function toAiView(
       status: foe.status,
       statStages: foe.statStages,
       revealedMoves: [...knowledge.revealedMoves],
+      screens: activeScreens(state.sides[foeSide]),
       // partial 知識でも見えるのは種族名だけ。技と持ち物は最後まで見えない
       revealedParty:
         config.knowledge === "partial"

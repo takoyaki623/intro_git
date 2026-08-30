@@ -3869,5 +3869,53 @@
       "weather": "hail",
       "turns": 5
     }
+  },
+  {
+    "id": "reflect",
+    "name": "リフレクター",
+    "type": "psychic",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 20,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "screen",
+      "screen": "reflect",
+      "turns": 5
+    }
+  },
+  {
+    "id": "light-screen",
+    "name": "ひかりのかべ",
+    "type": "psychic",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 30,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "screen",
+      "screen": "lightScreen",
+      "turns": 5
+    }
+  },
+  {
+    "id": "safeguard",
+    "name": "しんぴのまもり",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 25,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "screen",
+      "screen": "safeguard",
+      "turns": 5
+    }
   }
 ]

@@ -1027,6 +1027,10 @@
         "move": "air-slash"
       },
       {
+        "level": 28,
+        "move": "safeguard"
+      },
+      {
         "level": 32,
         "move": "bug-buzz"
       }
@@ -1038,6 +1042,7 @@
       "giga-drain",
       "psychic",
       "rain-dance",
+      "safeguard",
       "shadow-ball",
       "sunny-day",
       "toxic"
@@ -2067,6 +2072,10 @@
         "move": "thunderbolt"
       },
       {
+        "level": 40,
+        "move": "light-screen"
+      },
+      {
         "level": 44,
         "move": "thunder"
       }
@@ -2076,6 +2085,7 @@
       "double-team",
       "flash",
       "iron-tail",
+      "light-screen",
       "rain-dance",
       "rock-smash",
       "shock-wave",
@@ -2151,6 +2161,10 @@
       },
       {
         "level": 1,
+        "move": "light-screen"
+      },
+      {
+        "level": 1,
         "move": "nasty-plot"
       },
       {
@@ -2203,6 +2217,7 @@
       "double-team",
       "flash",
       "iron-tail",
+      "light-screen",
       "rain-dance",
       "rock-smash",
       "shock-wave",
@@ -3058,8 +3073,11 @@
       "flash",
       "ice-beam",
       "iron-tail",
+      "light-screen",
       "psychic",
       "rain-dance",
+      "reflect",
+      "safeguard",
       "shadow-ball",
       "shock-wave",
       "strength",
@@ -3161,8 +3179,11 @@
       "flash",
       "ice-beam",
       "iron-tail",
+      "light-screen",
       "psychic",
       "rain-dance",
+      "reflect",
+      "safeguard",
       "shadow-ball",
       "shock-wave",
       "strength",
@@ -3236,6 +3257,10 @@
         "move": "flamethrower"
       },
       {
+        "level": 44,
+        "move": "safeguard"
+      },
+      {
         "level": 48,
         "move": "inferno"
       },
@@ -3250,6 +3275,7 @@
       "flamethrower",
       "iron-tail",
       "overheat",
+      "safeguard",
       "sunny-day",
       "toxic"
     ],
@@ -3328,6 +3354,10 @@
       },
       {
         "level": 1,
+        "move": "safeguard"
+      },
+      {
+        "level": 1,
         "move": "tail-whip"
       },
       {
@@ -3341,6 +3371,7 @@
       "flamethrower",
       "iron-tail",
       "overheat",
+      "safeguard",
       "sunny-day",
       "toxic"
     ],
@@ -3426,8 +3457,11 @@
       "flamethrower",
       "flash",
       "ice-beam",
+      "light-screen",
       "psychic",
       "rain-dance",
+      "reflect",
+      "safeguard",
       "shadow-ball",
       "shock-wave",
       "strength",
@@ -3528,8 +3562,11 @@
       "flamethrower",
       "flash",
       "ice-beam",
+      "light-screen",
       "psychic",
       "rain-dance",
+      "reflect",
+      "safeguard",
       "shadow-ball",
       "shock-wave",
       "strength",
@@ -5592,8 +5629,11 @@
       "double-team",
       "flash",
       "iron-tail",
+      "light-screen",
       "psychic",
       "rain-dance",
+      "reflect",
+      "safeguard",
       "shadow-ball",
       "shock-wave",
       "sunny-day",
@@ -5653,6 +5693,10 @@
         "move": "psybeam"
       },
       {
+        "level": 10,
+        "move": "reflect"
+      },
+      {
         "level": 20,
         "move": "psycho-cut"
       },
@@ -5678,8 +5722,11 @@
       "double-team",
       "flash",
       "iron-tail",
+      "light-screen",
       "psychic",
       "rain-dance",
+      "reflect",
+      "safeguard",
       "shadow-ball",
       "shock-wave",
       "sunny-day",
@@ -5738,6 +5785,10 @@
         "move": "psybeam"
       },
       {
+        "level": 10,
+        "move": "reflect"
+      },
+      {
         "level": 20,
         "move": "psycho-cut"
       },
@@ -5763,8 +5814,11 @@
       "double-team",
       "flash",
       "iron-tail",
+      "light-screen",
       "psychic",
       "rain-dance",
+      "reflect",
+      "safeguard",
       "shadow-ball",
       "shock-wave",
       "sunny-day",
@@ -7050,6 +7104,7 @@
       "iron-tail",
       "psychic",
       "rain-dance",
+      "safeguard",
       "shadow-ball",
       "strength",
       "sunny-day",
@@ -7168,6 +7223,7 @@
       "psychic",
       "rain-dance",
       "rock-smash",
+      "safeguard",
       "shadow-ball",
       "strength",
       "sunny-day",
@@ -7244,6 +7300,10 @@
         "move": "metal-sound"
       },
       {
+        "level": 44,
+        "move": "light-screen"
+      },
+      {
         "level": 52,
         "move": "zap-cannon"
       }
@@ -7252,6 +7312,7 @@
       "double-team",
       "flash",
       "rain-dance",
+      "reflect",
       "shock-wave",
       "sunny-day",
       "thunder",
@@ -7337,6 +7398,10 @@
         "move": "metal-sound"
       },
       {
+        "level": 52,
+        "move": "light-screen"
+      },
+      {
         "level": 64,
         "move": "zap-cannon"
       }
@@ -7345,6 +7410,7 @@
       "double-team",
       "flash",
       "rain-dance",
+      "reflect",
       "shock-wave",
       "sunny-day",
       "thunder",
@@ -7682,6 +7748,10 @@
       {
         "level": 47,
         "move": "ice-beam"
+      },
+      {
+        "level": 51,
+        "move": "safeguard"
       }
     ],
     "tmMoves": [
@@ -7690,6 +7760,7 @@
       "hail",
       "ice-beam",
       "rain-dance",
+      "safeguard",
       "surf",
       "toxic",
       "water-pulse",
@@ -7772,6 +7843,10 @@
       {
         "level": 55,
         "move": "ice-beam"
+      },
+      {
+        "level": 61,
+        "move": "safeguard"
       }
     ],
     "tmMoves": [
@@ -7780,6 +7855,7 @@
       "hail",
       "ice-beam",
       "rain-dance",
+      "safeguard",
       "surf",
       "toxic",
       "water-pulse",
@@ -8584,8 +8660,11 @@
       "calm-mind",
       "double-team",
       "flash",
+      "light-screen",
       "psychic",
       "rain-dance",
+      "reflect",
+      "safeguard",
       "shadow-ball",
       "sunny-day",
       "toxic"
@@ -8673,8 +8752,11 @@
       "calm-mind",
       "double-team",
       "flash",
+      "light-screen",
       "psychic",
       "rain-dance",
+      "reflect",
+      "safeguard",
       "shadow-ball",
       "sunny-day",
       "toxic"
@@ -8929,6 +9011,10 @@
         "move": "swift"
       },
       {
+        "level": 29,
+        "move": "light-screen"
+      },
+      {
         "level": 37,
         "move": "discharge"
       }
@@ -8936,6 +9022,7 @@
     "tmMoves": [
       "double-team",
       "flash",
+      "light-screen",
       "rain-dance",
       "shock-wave",
       "thunder",
@@ -9008,6 +9095,10 @@
         "move": "swift"
       },
       {
+        "level": 29,
+        "move": "light-screen"
+      },
+      {
         "level": 41,
         "move": "discharge"
       }
@@ -9015,6 +9106,7 @@
     "tmMoves": [
       "double-team",
       "flash",
+      "light-screen",
       "rain-dance",
       "shock-wave",
       "thunder",
@@ -9062,6 +9154,10 @@
         "move": "hypnosis"
       },
       {
+        "level": 5,
+        "move": "reflect"
+      },
+      {
         "level": 15,
         "move": "mega-drain"
       },
@@ -9087,7 +9183,9 @@
       "double-team",
       "flash",
       "giga-drain",
+      "light-screen",
       "psychic",
+      "reflect",
       "sludge-bomb",
       "strength",
       "sunny-day",
@@ -9169,6 +9267,10 @@
       },
       {
         "level": 1,
+        "move": "reflect"
+      },
+      {
+        "level": 1,
         "move": "seed-bomb"
       },
       {
@@ -9185,7 +9287,9 @@
       "double-team",
       "flash",
       "giga-drain",
+      "light-screen",
       "psychic",
+      "reflect",
       "sludge-bomb",
       "strength",
       "sunny-day",
@@ -10082,6 +10186,10 @@
         "move": "take-down"
       },
       {
+        "level": 36,
+        "move": "light-screen"
+      },
+      {
         "level": 40,
         "move": "double-edge"
       },
@@ -10102,10 +10210,12 @@
       "hail",
       "ice-beam",
       "iron-tail",
+      "light-screen",
       "psychic",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
+      "safeguard",
       "sandstorm",
       "shadow-ball",
       "shock-wave",
@@ -10706,6 +10816,10 @@
         "move": "brine"
       },
       {
+        "level": 32,
+        "move": "light-screen"
+      },
+      {
         "level": 36,
         "move": "power-gem"
       },
@@ -10732,8 +10846,10 @@
       "flash",
       "hail",
       "ice-beam",
+      "light-screen",
       "psychic",
       "rain-dance",
+      "reflect",
       "surf",
       "thunder",
       "thunderbolt",
@@ -10797,6 +10913,10 @@
       },
       {
         "level": 1,
+        "move": "light-screen"
+      },
+      {
+        "level": 1,
         "move": "power-gem"
       },
       {
@@ -10838,8 +10958,10 @@
       "flash",
       "hail",
       "ice-beam",
+      "light-screen",
       "psychic",
       "rain-dance",
+      "reflect",
       "surf",
       "thunder",
       "thunderbolt",
@@ -10892,6 +11014,18 @@
         "move": "psybeam"
       },
       {
+        "level": 36,
+        "move": "light-screen"
+      },
+      {
+        "level": 36,
+        "move": "reflect"
+      },
+      {
+        "level": 36,
+        "move": "safeguard"
+      },
+      {
         "level": 44,
         "move": "dazzling-gleam"
       },
@@ -10909,8 +11043,11 @@
       "calm-mind",
       "double-team",
       "flash",
+      "light-screen",
       "psychic",
       "rain-dance",
+      "reflect",
+      "safeguard",
       "shadow-ball",
       "shock-wave",
       "sunny-day",
@@ -11099,8 +11236,10 @@
       "flash",
       "hail",
       "ice-beam",
+      "light-screen",
       "psychic",
       "rain-dance",
+      "reflect",
       "shadow-ball",
       "toxic",
       "water-pulse"
@@ -11177,6 +11316,10 @@
         "move": "thunderbolt"
       },
       {
+        "level": 52,
+        "move": "light-screen"
+      },
+      {
         "level": 58,
         "move": "thunder"
       }
@@ -11186,6 +11329,7 @@
       "double-team",
       "flash",
       "iron-tail",
+      "light-screen",
       "psychic",
       "rain-dance",
       "rock-smash",
@@ -11718,6 +11862,7 @@
       "psychic",
       "rain-dance",
       "rock-smash",
+      "safeguard",
       "shock-wave",
       "strength",
       "surf",
@@ -12940,6 +13085,10 @@
         "move": "powder-snow"
       },
       {
+        "level": 10,
+        "move": "reflect"
+      },
+      {
         "level": 15,
         "move": "ice-shard"
       },
@@ -12971,6 +13120,7 @@
       "hail",
       "ice-beam",
       "rain-dance",
+      "reflect",
       "rock-smash",
       "sandstorm",
       "sunny-day",
@@ -13022,6 +13172,10 @@
         "move": "thunder-shock"
       },
       {
+        "level": 10,
+        "move": "light-screen"
+      },
+      {
         "level": 15,
         "move": "pluck"
       },
@@ -13054,6 +13208,7 @@
       "aerial-ace",
       "double-team",
       "flash",
+      "light-screen",
       "rain-dance",
       "rock-smash",
       "sandstorm",
@@ -13108,6 +13263,10 @@
         "move": "ember"
       },
       {
+        "level": 10,
+        "move": "safeguard"
+      },
+      {
         "level": 15,
         "move": "wing-attack"
       },
@@ -13148,6 +13307,7 @@
       "overheat",
       "rain-dance",
       "rock-smash",
+      "safeguard",
       "sandstorm",
       "sunny-day",
       "toxic"
@@ -13212,6 +13372,10 @@
         "move": "dragon-rush"
       },
       {
+        "level": 40,
+        "move": "safeguard"
+      },
+      {
         "level": 45,
         "move": "rain-dance"
       }
@@ -13225,6 +13389,7 @@
       "ice-beam",
       "iron-tail",
       "rain-dance",
+      "safeguard",
       "shock-wave",
       "sunny-day",
       "surf",
@@ -13300,6 +13465,10 @@
         "move": "dragon-rush"
       },
       {
+        "level": 46,
+        "move": "safeguard"
+      },
+      {
         "level": 53,
         "move": "rain-dance"
       }
@@ -13313,6 +13482,7 @@
       "ice-beam",
       "iron-tail",
       "rain-dance",
+      "safeguard",
       "shock-wave",
       "sunny-day",
       "surf",
@@ -13409,6 +13579,10 @@
         "move": "dragon-rush"
       },
       {
+        "level": 46,
+        "move": "safeguard"
+      },
+      {
         "level": 53,
         "move": "rain-dance"
       }
@@ -13429,6 +13603,7 @@
       "rain-dance",
       "rock-smash",
       "rock-tomb",
+      "safeguard",
       "sandstorm",
       "shock-wave",
       "strength",
@@ -13488,6 +13663,10 @@
         "move": "psycho-cut"
       },
       {
+        "level": 24,
+        "move": "safeguard"
+      },
+      {
         "level": 32,
         "move": "amnesia"
       },
@@ -13521,10 +13700,13 @@
       "hail",
       "ice-beam",
       "iron-tail",
+      "light-screen",
       "psychic",
       "rain-dance",
+      "reflect",
       "rock-smash",
       "rock-tomb",
+      "safeguard",
       "sandstorm",
       "shadow-ball",
       "shock-wave",
@@ -13612,11 +13794,14 @@
       "hail",
       "ice-beam",
       "iron-tail",
+      "light-screen",
       "overheat",
       "psychic",
       "rain-dance",
+      "reflect",
       "rock-smash",
       "rock-tomb",
+      "safeguard",
       "sandstorm",
       "shadow-ball",
       "shock-wave",
@@ -14023,6 +14208,7 @@
       "double-team",
       "flash",
       "giga-drain",
+      "safeguard",
       "sludge-bomb",
       "sunny-day",
       "toxic"
@@ -14125,8 +14311,10 @@
       "double-team",
       "flash",
       "iron-tail",
+      "light-screen",
       "psychic",
       "rain-dance",
+      "reflect",
       "shadow-ball",
       "sunny-day",
       "toxic"
@@ -14339,6 +14527,7 @@
       "psychic",
       "rain-dance",
       "rock-smash",
+      "safeguard",
       "shadow-ball",
       "strength",
       "sunny-day",
@@ -14671,6 +14860,10 @@
         "move": "take-down"
       },
       {
+        "level": 36,
+        "move": "light-screen"
+      },
+      {
         "level": 40,
         "move": "double-edge"
       },
@@ -14691,10 +14884,12 @@
       "hail",
       "ice-beam",
       "iron-tail",
+      "light-screen",
       "psychic",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
+      "safeguard",
       "sandstorm",
       "shadow-ball",
       "shock-wave",
@@ -14869,6 +15064,10 @@
         "move": "aqua-tail"
       },
       {
+        "level": 36,
+        "move": "safeguard"
+      },
+      {
         "level": 40,
         "move": "surf"
       },
@@ -14888,6 +15087,7 @@
       "ice-beam",
       "iron-tail",
       "rain-dance",
+      "safeguard",
       "surf",
       "toxic",
       "water-pulse",
@@ -15067,8 +15267,11 @@
       "calm-mind",
       "double-team",
       "flash",
+      "light-screen",
       "psychic",
       "rain-dance",
+      "reflect",
+      "safeguard",
       "shadow-ball",
       "shock-wave",
       "sunny-day",
@@ -15388,8 +15591,10 @@
       "double-team",
       "earthquake",
       "flash",
+      "light-screen",
       "psychic",
       "rain-dance",
+      "reflect",
       "rock-smash",
       "rock-tomb",
       "sandstorm",
@@ -15698,6 +15903,7 @@
       "payback",
       "poison-jab",
       "power-whip",
+      "reflect",
       "rock-slide",
       "rock-tomb",
       "round",
@@ -15993,6 +16199,10 @@
         "move": "thunderbolt"
       },
       {
+        "level": 52,
+        "move": "light-screen"
+      },
+      {
         "level": 58,
         "move": "thunder"
       }
@@ -16009,10 +16219,12 @@
       "flamethrower",
       "ice-punch",
       "knock-off",
+      "light-screen",
       "low-sweep",
       "metal-sound",
       "psychic",
       "rain-dance",
+      "reflect",
       "rock-slide",
       "rock-tomb",
       "stomping-tantrum",
@@ -16317,6 +16529,7 @@
       "mud-shot",
       "mud-slap",
       "rain-dance",
+      "reflect",
       "rock-blast",
       "rock-slide",
       "rock-tomb",
@@ -16939,6 +17152,10 @@
       },
       {
         "level": 1,
+        "move": "safeguard"
+      },
+      {
+        "level": 1,
         "move": "sweet-kiss"
       },
       {
@@ -16960,6 +17177,7 @@
       "flamethrower",
       "heat-wave",
       "hyper-voice",
+      "light-screen",
       "mega-kick",
       "mega-punch",
       "nasty-plot",
@@ -16967,8 +17185,10 @@
       "psychic",
       "psyshock",
       "rain-dance",
+      "reflect",
       "retaliate",
       "round",
+      "safeguard",
       "shadow-ball",
       "smart-strike",
       "stored-power",
@@ -17444,6 +17664,10 @@
         "move": "swift"
       },
       {
+        "level": 25,
+        "move": "light-screen"
+      },
+      {
         "level": 30,
         "move": "draining-kiss"
       },
@@ -17462,11 +17686,13 @@
       "draining-kiss",
       "fake-tears",
       "hyper-voice",
+      "light-screen",
       "mud-slap",
       "play-rough",
       "psychic",
       "psyshock",
       "rain-dance",
+      "reflect",
       "shadow-ball",
       "stored-power",
       "sunny-day",
@@ -17562,7 +17788,9 @@
       "double-team",
       "fire-blast",
       "flamethrower",
+      "light-screen",
       "overheat",
+      "reflect",
       "rock-smash",
       "sunny-day",
       "toxic"
@@ -17664,7 +17892,9 @@
       "earthquake",
       "fire-blast",
       "flamethrower",
+      "light-screen",
       "overheat",
+      "reflect",
       "rock-smash",
       "rock-tomb",
       "sandstorm",
@@ -17914,7 +18144,9 @@
       "earthquake",
       "hail",
       "ice-beam",
+      "light-screen",
       "rain-dance",
+      "reflect",
       "rock-smash",
       "rock-tomb",
       "sandstorm",
@@ -18496,6 +18728,10 @@
       {
         "level": 32,
         "move": "double-edge"
+      },
+      {
+        "level": 36,
+        "move": "safeguard"
       }
     ],
     "tmMoves": [
@@ -18503,9 +18739,12 @@
       "fire-blast",
       "flamethrower",
       "flash",
+      "light-screen",
       "psychic",
       "rain-dance",
+      "reflect",
       "rock-smash",
+      "safeguard",
       "shadow-ball",
       "shock-wave",
       "sunny-day",
@@ -18593,7 +18832,9 @@
       "earthquake",
       "hail",
       "ice-beam",
+      "light-screen",
       "rain-dance",
+      "reflect",
       "rock-smash",
       "rock-tomb",
       "sandstorm",
@@ -19123,6 +19364,10 @@
       {
         "level": 32,
         "move": "double-edge"
+      },
+      {
+        "level": 36,
+        "move": "safeguard"
       }
     ],
     "tmMoves": [
@@ -19132,9 +19377,12 @@
       "fire-blast",
       "flamethrower",
       "flash",
+      "light-screen",
       "psychic",
       "rain-dance",
+      "reflect",
       "rock-smash",
+      "safeguard",
       "shadow-ball",
       "shock-wave",
       "sunny-day",
@@ -19361,6 +19609,18 @@
         "move": "swift"
       },
       {
+        "level": 12,
+        "move": "light-screen"
+      },
+      {
+        "level": 12,
+        "move": "reflect"
+      },
+      {
+        "level": 12,
+        "move": "safeguard"
+      },
+      {
         "level": 15,
         "move": "mach-punch"
       },
@@ -19391,6 +19651,9 @@
       "double-team",
       "flash",
       "giga-drain",
+      "light-screen",
+      "reflect",
+      "safeguard",
       "sunny-day",
       "toxic"
     ],
@@ -19446,6 +19709,18 @@
         "move": "tackle"
       },
       {
+        "level": 12,
+        "move": "light-screen"
+      },
+      {
+        "level": 12,
+        "move": "reflect"
+      },
+      {
+        "level": 12,
+        "move": "safeguard"
+      },
+      {
         "level": 15,
         "move": "mach-punch"
       },
@@ -19476,6 +19751,9 @@
       "double-team",
       "flash",
       "giga-drain",
+      "light-screen",
+      "reflect",
+      "safeguard",
       "sunny-day",
       "toxic"
     ],
@@ -19727,8 +20005,10 @@
       "double-team",
       "flash",
       "giga-drain",
+      "light-screen",
       "psychic",
       "rain-dance",
+      "reflect",
       "shadow-ball",
       "sunny-day",
       "toxic"
@@ -19807,8 +20087,10 @@
       "double-team",
       "flash",
       "giga-drain",
+      "light-screen",
       "psychic",
       "rain-dance",
+      "reflect",
       "shadow-ball",
       "sunny-day",
       "toxic"
@@ -20091,6 +20373,10 @@
       {
         "level": 1,
         "move": "charm"
+      },
+      {
+        "level": 1,
+        "move": "safeguard"
       },
       {
         "level": 1,

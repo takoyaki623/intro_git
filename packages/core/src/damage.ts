@@ -17,12 +17,14 @@ import type { Rng } from "./rng.js";
 import { accuracyStageMultiplier, clampStage, effectiveStat } from "./stages.js";
 import { BURN_ATTACK_MULTIPLIER } from "./status.js";
 import { effectivenessAgainst } from "./typechart.js";
-import type { BattlePokemon, Effectiveness, Move, Type, WeatherId } from "./types.js";
+import type { BattlePokemon, Effectiveness, Move, ScreenId, Type, WeatherId } from "./types.js";
 
 /** 急所ランク → 発生確率。 */
 const CRIT_CHANCE_BY_STAGE = [1 / 24, 1 / 8, 1 / 2, 1] as const;
 const CRIT_MULTIPLIER = 1.5;
 const STAB_MULTIPLIER = 1.5;
+/** リフレクター・ひかりのかべ の軽減率（1対1なので半分）。 */
+const SCREEN_MULTIPLIER = 0.5;
 
 export function critChance(stage: number): number {
   const i = Math.max(0, Math.min(stage, CRIT_CHANCE_BY_STAGE.length - 1));
@@ -100,6 +102,11 @@ export function calcDamage(
      * 「ダメージ計算が知っていること」が増え続ける。要るのは天気だけ。
      */
     weather?: WeatherId | null;
+    /**
+     * **受ける側**に張られている壁（v1.2-c）。
+     * どちらの側のものかを間違えないよう、渡すのは防御側の分だけ。
+     */
+    screens?: readonly ScreenId[];
   } = {},
 ): DamageResult {
   const power = opts.powerOverride ?? move.power;
@@ -141,6 +148,15 @@ export function calcDamage(
 
   // 3. 急所
   if (critical) dmg = Math.floor(dmg * CRIT_MULTIPLIER);
+
+  // 3.5 壁（v1.2-c）。**急所は壁を貫く**（原作どおり）ので、急所の段のすぐ後ろ。
+  //
+  // リフレクター は物理を、ひかりのかべ は特殊を半分にする。
+  // しんぴのまもり はダメージに効かない ―― ここに書くことは無い。
+  const wall: ScreenId = physical ? "reflect" : "lightScreen";
+  if (!critical && !opts.typeless && opts.screens?.includes(wall)) {
+    dmg = Math.floor(dmg * SCREEN_MULTIPLIER);
+  }
 
   // 4. 乱数 85〜100
   const roll = opts.forceRandom ?? rng.range(85, 100);

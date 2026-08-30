@@ -215,7 +215,14 @@ export type MoveEffect =
    * **同じ天気なら失敗する**（原作どおり）―― 上書きで延長できると、
    * 1体で永久に降らせ続けられる。
    */
-  | { kind: "weather"; weather: WeatherId; turns: number };
+  | { kind: "weather"; weather: WeatherId; turns: number }
+  /**
+   * 自分の側に壁を張る（v1.2-c）。
+   *
+   * **同じ壁が張ってあれば失敗する** ―― 天気と同じ理由で、
+   * 重ね張りで延長できると切れないものになる。
+   */
+  | { kind: "screen"; screen: ScreenId; turns: number };
 
 // ─────────────────────────────────────────────
 // 特性・持ち物（v0.5）
@@ -507,6 +514,14 @@ export type BattlePokemon = {
 export type Side = {
   party: BattlePokemon[];
   activeIndex: number;
+  /**
+   * 張られている壁と残りターン（v1.2-c）。
+   *
+   * **張られていない壁は載せない。** 0 を持たせると
+   * 「切れた」と「張っていない」が同じ形になり、
+   * 切れたことに気付かないまま数え続ける書き方が通ってしまう。
+   */
+  screens: { [K in ScreenId]?: number };
 };
 
 export type RngState = {
@@ -535,6 +550,16 @@ export const WEATHER_IMMUNE: Partial<Record<WeatherId, readonly Type[]>> = {
   sandstorm: ["rock", "ground", "steel"],
   hail: ["ice"],
 };
+
+/**
+ * 壁（v1.2-c）。**天気と対になる形で、こちらは側ごとに持つ。**
+ *
+ * リフレクター・ひかりのかべ はダメージを半分にし、
+ * しんぴのまもり は状態異常と混乱を防ぐ ―― 効き方は3つとも違うが、
+ * 「側に張られ、ターンで切れる」という形は同じなので1つの器にまとめる。
+ */
+export const SCREENS = ["reflect", "lightScreen", "safeguard"] as const;
+export type ScreenId = (typeof SCREENS)[number];
 
 export const JUDGE_CRITERIA = ["hpRatio", "damageDealt", "movesHit"] as const;
 export type JudgeCriterion = (typeof JUDGE_CRITERIA)[number];
@@ -650,6 +675,10 @@ export type BattleEvent =
   | { kind: "weatherStart"; weather: WeatherId }
   | { kind: "weatherDamage"; side: SideIndex; weather: WeatherId; amount: number; remainingHp: number }
   | { kind: "weatherEnd"; weather: WeatherId }
+  /** 壁（v1.2-c）。張った・防いだ・切れた の3つ。 */
+  | { kind: "screenStart"; side: SideIndex; screen: ScreenId }
+  | { kind: "screenBlocked"; side: SideIndex; screen: ScreenId }
+  | { kind: "screenEnd"; side: SideIndex; screen: ScreenId }
   | { kind: "statChange"; side: SideIndex; stat: StagedStat; delta: number; stage: number }
   | { kind: "statChangeFailed"; side: SideIndex; stat: StagedStat }
   | { kind: "faint"; side: SideIndex }

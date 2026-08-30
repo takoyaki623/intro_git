@@ -76,6 +76,9 @@ function parseEffect(src: string, where: string): unknown {
     // 天気（v1.2-c）。**場に1つで、どちら側のものでもない**ので target を取らない
     case "weather":
       return { kind, weather: args[0], turns: num(1) };
+    // 壁（v1.2-c）。張るのは使った側なので、こちらも target を取らない
+    case "screen":
+      return { kind, screen: args[0], turns: num(1) };
     default:
       err(where, `未知の効果 "${kind}"`);
       return undefined;

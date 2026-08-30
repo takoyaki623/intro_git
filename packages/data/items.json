@@ -1011,6 +1011,17 @@
     "consumable": true
   },
   {
+    "id": "tm16",
+    "name": "わざマシン16 ひかりのかべ",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "light-screen"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
     "id": "tm18",
     "name": "わざマシン18 あまごい",
     "category": "tm",
@@ -1032,6 +1043,17 @@
     "useScope": "field",
     "consumable": true,
     "price": 3500
+  },
+  {
+    "id": "tm20",
+    "name": "わざマシン20 しんぴのまもり",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "safeguard"
+    },
+    "useScope": "field",
+    "consumable": true
   },
   {
     "id": "tm23",
@@ -1118,6 +1140,17 @@
     "use": {
       "kind": "teachMove",
       "move": "double-team"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm33",
+    "name": "わざマシン33 リフレクター",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "reflect"
     },
     "useScope": "field",
     "consumable": true

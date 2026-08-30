@@ -79,6 +79,12 @@ function render(event: BattleEvent): string | null {
       return `  ${nameOf(event.side)} は ${event.weather} で ${event.amount} (残り ${event.remainingHp})`;
     case "weatherEnd":
       return `  ${event.weather} が おさまった`;
+    case "screenStart":
+      return `  ${nameOf(event.side)} は ${event.screen} を はった`;
+    case "screenBlocked":
+      return `  ${nameOf(event.side)} は ${event.screen} に まもられた`;
+    case "screenEnd":
+      return `  ${nameOf(event.side)} の ${event.screen} が きれた`;
     case "statChange":
       return `  ${nameOf(event.side)} の ${event.stat} が ${event.delta > 0 ? "あがった" : "さがった"} (${event.stage})`;
     case "statChangeFailed":

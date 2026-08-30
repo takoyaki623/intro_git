@@ -28,6 +28,13 @@ const WEATHER_END: Record<string, string> = {
   hail: "あられが やんだ。",
 };
 
+/** 壁の名前（v1.2-c）。張る・防ぐ・切れる の3つの文がこれを使う。 */
+const SCREEN_LABEL: Record<string, string> = {
+  reflect: "リフレクター",
+  lightScreen: "ひかりのかべ",
+  safeguard: "しんぴのまもり",
+};
+
 const BLOCK_TEXT: Record<string, (name: string) => string> = {
   sleep: (n) => `${n} は ぐうぐう ねむっている`,
   freeze: (n) => `${n} は こおって しまって うごけない`,
@@ -116,6 +123,12 @@ export function messageOf(event: BattleEvent, view: BattleView): string | null {
       return `${label(event.side)} は ${WEATHER_LABEL[event.weather] ?? event.weather} の ダメージを うけた!`;
     case "weatherEnd":
       return WEATHER_END[event.weather] ?? null;
+    case "screenStart":
+      return `${label(event.side)} は ${SCREEN_LABEL[event.screen]} に つつまれた!`;
+    case "screenBlocked":
+      return `${label(event.side)} は ${SCREEN_LABEL[event.screen]} に まもられている!`;
+    case "screenEnd":
+      return `${label(event.side)} の ${SCREEN_LABEL[event.screen]} が きれた。`;
     case "statChange": {
       const stat = STAT_LABEL[event.stat] ?? event.stat;
       const n = Math.abs(event.delta);

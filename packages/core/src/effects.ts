@@ -61,6 +61,18 @@ type Registry = { [K in MoveEffect["kind"]]: EffectHandler<K> };
 const activeOf = (ctx: EffectContext, side: SideIndex): BattlePokemon =>
   ctx.state.sides[side].party[ctx.state.sides[side].activeIndex]!;
 
+/**
+ * しんぴのまもり（v1.2-c）。状態異常と混乱を防ぐ。
+ *
+ * **防いだことをイベントで言う。** 黙って何も起きないと、
+ * 「外れた」のか「守られた」のかがプレイヤーに区別できない。
+ */
+function safeguarded(ctx: EffectContext, side: SideIndex): boolean {
+  if (ctx.state.sides[side].screens.safeguard === undefined) return false;
+  ctx.events.push({ kind: "screenBlocked", side, screen: "safeguard" });
+  return true;
+}
+
 /** りんぷんが防ぐのは「攻撃技の追加効果」だけ。変化技は防げない。 */
 const secondaryBlocked = (ctx: EffectContext): boolean =>
   ctx.isSecondary && blocksSecondary(ctx.data, activeOf(ctx, ctx.defender));
@@ -84,6 +96,20 @@ export const effectHandlers: Registry = {
     ctx.state.weather = { kind: effect.weather, turns: effect.turns };
     ctx.landed = true;
     ctx.events.push({ kind: "weatherStart", weather: effect.weather });
+  },
+
+  /**
+   * 壁を張る（v1.2-c）。**張るのは「使った側」**で、相手ではない ――
+   * 技の `target` が self なのはそのため。
+   *
+   * 天気と同じく、切れるのはターン終了時（`battle.ts`）。
+   */
+  screen: (effect, ctx) => {
+    const side = ctx.state.sides[ctx.attacker];
+    if (side.screens[effect.screen] !== undefined) return;
+    side.screens[effect.screen] = effect.turns;
+    ctx.landed = true;
+    ctx.events.push({ kind: "screenStart", side: ctx.attacker, screen: effect.screen });
   },
 
   /**
@@ -181,6 +207,7 @@ export const effectHandlers: Registry = {
     const target = activeOf(ctx, ctx.defender);
     if (target.currentHp <= 0) return;
     if (blocksStatus(ctx.data, target, effect.status)) return;
+    if (safeguarded(ctx, ctx.defender)) return;
     const turns = effect.status === "sleep" ? sleepTurnsMultiplier(ctx.data, target) : 1;
     if (applyStatus(target, effect.status, ctx.rng, turns)) {
       ctx.events.push({ kind: "statusApplied", side: ctx.defender, status: effect.status });
@@ -196,6 +223,7 @@ export const effectHandlers: Registry = {
     const target = activeOf(ctx, ctx.defender);
     if (target.currentHp <= 0) return;
     if (blocksConfusion(ctx.data, target)) return;
+    if (safeguarded(ctx, ctx.defender)) return;
     if (applyConfusion(target, ctx.rng)) {
       ctx.events.push({ kind: "confused", side: ctx.defender });
       ctx.landed = true;

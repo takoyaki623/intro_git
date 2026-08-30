@@ -256,3 +256,6 @@ sunny-day	にほんばれ	fire	status	-	-	5	0	0	0	weather:sun:5	self
 rain-dance	あまごい	water	status	-	-	5	0	0	0	weather:rain:5	self
 sandstorm	すなあらし	rock	status	-	-	10	0	0	0	weather:sandstorm:5	self
 hail	あられ	ice	status	-	-	10	0	0	0	weather:hail:5	self
+reflect	リフレクター	psychic	status	-	-	20	0	0	0	screen:reflect:5	self
+light-screen	ひかりのかべ	psychic	status	-	-	30	0	0	0	screen:lightScreen:5	self
+safeguard	しんぴのまもり	normal	status	-	-	25	0	0	0	screen:safeguard:5	self

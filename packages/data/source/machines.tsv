@@ -22,11 +22,11 @@ tm12	12	taunt	技が未実装（moves-todo.tsv）
 tm13	13	ice-beam		4000
 tm14	14	blizzard		
 tm15	15	hyper-beam	技が未実装（moves-todo.tsv）	
-tm16	16	light-screen	技が未実装（moves-todo.tsv）	
+tm16	16	light-screen		
 tm17	17	protect	技が未実装（moves-todo.tsv）	
 tm18	18	rain-dance		
 tm19	19	giga-drain		3500
-tm20	20	safeguard	技が未実装（moves-todo.tsv）	
+tm20	20	safeguard		
 tm21	21	frustration	技が未実装（moves-todo.tsv）	
 tm22	22	solar-beam	技が未実装（moves-todo.tsv）	
 tm23	23	iron-tail		
@@ -39,7 +39,7 @@ tm29	29	psychic
 tm30	30	shadow-ball		
 tm31	31	brick-break		
 tm32	32	double-team		
-tm33	33	reflect	技が未実装（moves-todo.tsv）	
+tm33	33	reflect		
 tm34	34	shock-wave	互換表に持つ種がいない（マシンの版と互換表の版が違う）	
 tm35	35	flamethrower		
 tm36	36	sludge-bomb		

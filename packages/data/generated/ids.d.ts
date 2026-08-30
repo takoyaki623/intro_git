@@ -2,8 +2,8 @@
  * 自動生成ファイル。直接編集しないこと。
  *   再生成: npm run gen:ids
  *
- * 種族 228 / 技 257 / 性格 25 /
- * 特性 74 / 道具 120 /
+ * 種族 228 / 技 260 / 性格 25 /
+ * 特性 74 / 道具 123 /
  * BattleSet 64 / 施設 4 /
  * ネームド 18 / カップ 10 /
  * マップ 210 / イベント 339 / トレーナー 165 /
@@ -367,6 +367,7 @@ export type GeneratedMoveId =
   | "leer"
   | "lick"
   | "life-dew"
+  | "light-screen"
   | "liquidation"
   | "lovely-kiss"
   | "low-sweep"
@@ -418,6 +419,7 @@ export type GeneratedMoveId =
   | "razor-leaf"
   | "razor-shell"
   | "recover"
+  | "reflect"
   | "retaliate"
   | "revenge"
   | "rock-blast"
@@ -427,6 +429,7 @@ export type GeneratedMoveId =
   | "rock-throw"
   | "rock-tomb"
   | "round"
+  | "safeguard"
   | "sand-attack"
   | "sandstorm"
   | "scary-face"
@@ -703,8 +706,10 @@ export type GeneratedItemId =
   | "tm11"
   | "tm13"
   | "tm14"
+  | "tm16"
   | "tm18"
   | "tm19"
+  | "tm20"
   | "tm23"
   | "tm24"
   | "tm25"
@@ -713,6 +718,7 @@ export type GeneratedItemId =
   | "tm30"
   | "tm31"
   | "tm32"
+  | "tm33"
   | "tm35"
   | "tm36"
   | "tm37"

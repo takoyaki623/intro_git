@@ -55,10 +55,15 @@ import type {
   Move,
   Side,
   SideIndex,
+  ScreenId,
   StepResult,
   WeatherId,
 } from "./types.js";
-import { EMPTY_STAGES, WEATHER_IMMUNE } from "./types.js";
+import { EMPTY_STAGES, SCREENS, WEATHER_IMMUNE } from "./types.js";
+
+/** その側に張られている壁の一覧。`calcDamage` と AI に渡す形。 */
+export const activeScreens = (side: Side): ScreenId[] =>
+  SCREENS.filter((screen) => side.screens[screen] !== undefined);
 
 /** PP が尽きたときの代替行動。これが無いとバトルが終わらなくなる。 */
 const STRUGGLE: Move = {
@@ -102,7 +107,7 @@ export function createBattle(
 ): BattleState {
   const build = (sources: readonly BattlePokemonSource[]): Side => {
     if (sources.length === 0) throw new Error("party must not be empty");
-    return { party: sources.map((s) => toBattlePokemon(data, s)), activeIndex: 0 };
+    return { party: sources.map((s) => toBattlePokemon(data, s)), activeIndex: 0, screens: {} };
   };
   return {
     sides: [build(parties[0]), build(parties[1])],
@@ -500,6 +505,7 @@ function performMove(
       typeless: isStruggle,
       // 天気は場に1つなので、どちら側が撃つかに関係なく同じものを渡す（v1.2-c）
       weather: state.weather?.kind ?? null,
+      screens: activeScreens(state.sides[defender]),
       ...power,
     });
     lastEffectiveness = result.effectiveness;
@@ -640,6 +646,21 @@ function endOfTurn(
   }
 
   checkHeld(data, state, rng, events);
+
+  // 壁の残りターン（v1.2-c）。天気と同じく、削るのは全員の処理が済んでから
+  for (const side of [0, 1] as const) {
+    const screens = state.sides[side].screens;
+    for (const screen of SCREENS) {
+      const turns = screens[screen];
+      if (turns === undefined) continue;
+      if (turns > 1) {
+        screens[screen] = turns - 1;
+        continue;
+      }
+      delete screens[screen];
+      events.push({ kind: "screenEnd", side, screen });
+    }
+  }
 
   // 天気の残りターン。**削るのは全員が削られたあと** ――
   // 先に減らすと、最後の1ターンだけ片側が削られないことになる

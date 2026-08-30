@@ -16,7 +16,7 @@ import type { GameData } from "../gamedata.js";
 import type { Rng } from "../rng.js";
 import { calcAllStats, MAX_IVS, ZERO_STATS } from "../stats.js";
 import { effectivenessAgainst } from "../typechart.js";
-import type { Action, BattlePokemon, Move, StatId, WeatherId } from "../types.js";
+import type { Action, BattlePokemon, Move, ScreenId, StatId, WeatherId } from "../types.js";
 import { EMPTY_STAGES } from "../types.js";
 import type { AiConfig, AiView } from "./view.js";
 
@@ -69,11 +69,13 @@ function expectedDamage(
   move: Move,
   rng: Rng,
   weather: WeatherId | null,
+  screens: readonly ScreenId[],
 ): { damage: number; effectiveness: number } {
   const result = calcDamage(data, attacker, defender, move, rng, {
     forceCritical: false,
     forceRandom: AVERAGE_ROLL,
     weather,
+    screens,
   });
   return { damage: result.damage, effectiveness: result.effectiveness };
 }
@@ -97,7 +99,7 @@ function scoreMove(
   const ownHpRatio = self.maxHp === 0 ? 0 : self.currentHp / self.maxHp;
 
   if (move.category !== "status") {
-    const { damage, effectiveness } = expectedDamage(data, self, foe, move, rng, view.weather);
+    const { damage, effectiveness } = expectedDamage(data, self, foe, move, rng, view.weather, view.foe.screens);
     if (effectiveness === 0) return { score: -100, reason: "こうかがない" };
     const ratio = damage / Math.max(1, foe.currentHp);
     if (ratio >= 1) return { score: 300 + damage, reason: "確実に倒せる" };
@@ -119,6 +121,14 @@ function scoreMove(
         : { score: 45, reason: "状態異常をいれる" };
     case "confuse":
       return { score: 30, reason: "混乱をいれる" };
+    case "weather":
+      return view.weather === effect.weather
+        ? { score: -30, reason: "同じ天気がもう出ている" }
+        : { score: 35, reason: "天気を変える" };
+    case "screen":
+      return view.own.screens.includes(effect.screen)
+        ? { score: -30, reason: "同じ壁がもう張ってある" }
+        : { score: 45, reason: "壁を張る" };
     case "statChange": {
       // 積み技は序盤かつ余裕があるときだけ。終盤に積んでも間に合わない
       const early = view.turn <= 4;

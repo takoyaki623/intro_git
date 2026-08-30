@@ -5,11 +5,9 @@ ancient-power	Ancient Power	能力変化が複数	21
 defense-curl	Defense Curl	未実装の状態	21
 disable	Disable	未実装の状態	20
 baton-pass	Baton Pass	交代を伴う技	19
-safeguard	Safeguard	場の効果	18
 sucker-punch	Sucker Punch	相手が攻撃技を選んだときしか成功しない	18
 copycat	Copycat	効果を表せない	17
 last-resort	Last Resort	他の技を全て使ってからでないと出せない	17
-light-screen	Light Screen	場の効果	17
 growth	Growth	能力変化が複数	15
 rollout	Rollout	個別処理	15
 protect	Protect	未実装の状態	14
@@ -44,7 +42,6 @@ explosion	Explosion	個別処理	8
 fire-spin	Fire Spin	未実装の状態	8
 ice-fang	Ice Fang	追加効果が複数	8
 memento	Memento	個別処理	8
-reflect	Reflect	場の効果	8
 rest	Rest	効果を表せない	8
 shell-smash	Shell Smash	能力変化が複数	8
 swagger	Swagger	相手の攻撃を2段階上げる代償がある	8
