@@ -264,7 +264,9 @@ const PLACES = [
   { file: "mansion-celadon", name: "タマムシマンション", note: "イーブイ1匹で、石で分かれる3種が開く（v1.1-g-3）", to: ["kanto-celadon-mansion", 4, 3] },
   { file: "dojo", name: "カラテどうじょう", note: "勝つと どちらか1匹（v1.1-g-3）", to: ["kanto-saffron-dojo", 4, 3] },
   { file: "ss-anne", name: "サンアンヌごう", note: "**船が丸ごと無かった**（v1.2-b）。いあいぎり は町の船長ではなく船長室で教わる", to: ["kanto-ss-anne-1f", 6, 2] },
-  { file: "mansion-b1f", name: "ポケモンやしき ちか", note: "**ひみつのカギ** はここ（v1.2-b）。やしきが在る理由そのもの", to: ["kanto-pokemon-mansion-b1f", 6, 3] },
+  // **カギを拾った印を落として撮る。** 立てたままだとカギが消えていて、
+  // 「ひみつのカギ はここ」と書いた絵にカギが写らない（v1.2-b）
+  { file: "mansion-b1f", name: "ポケモンやしき ちか", note: "**ひみつのカギ** はここ（v1.2-b）。やしきが在る理由そのもの", to: ["kanto-pokemon-mansion-b1f", 6, 3], without: ["kanto.mansion.secret-key-taken"] },
   { file: "cerulean-cave-b1f", name: "ハナダのどうくつ さいしんぶ", note: "ミュウツーを最奥へ戻した（v1.2-b）。1枚だった頃は入口の隣に居た", to: ["kanto-cerulean-cave-b1f", 6, 1] },
   { file: "rock-tunnel-dark", name: "イワヤマトンネル（フラッシュ前）", note: "暗い洞窟（v1.2-a）。見えるのは半径2マス ―― **壁ではなく幕**なので、覚えていなくても歩けるし戦える", to: ["kanto-rock-tunnel-1f", 6, 7], without: ["kanto.ability.flash"] },
   { file: "dept-store", name: "タマムシデパート", note: "品揃えを**階で**分けた（v1.1-i）。2かい どうぐ／3かい わざマシン／4かい しんかの どうぐ", to: ["kanto-celadon-dept-2f", 4, 4] },
