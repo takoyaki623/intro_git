@@ -27,3 +27,4 @@ ss-anne-engineer 5,5 npc:scientist:static kanto.ssanne.engineer
 ssanneb1f-sailor-1 1,1 trainer:kanto-ss-anne-b1f-sailor-1:2:down kanto.ssanneb1f.sailor1 if:kanto.ssanneb1f.sailor1-beaten=false
 ssanneb1f-sailor-2 11,5 trainer:kanto-ss-anne-b1f-sailor-2:2:left kanto.ssanneb1f.sailor2 if:kanto.ssanneb1f.sailor2-beaten=false
 ssanneb1f-max-ether-1 8,2 item:max-ether kanto.ssanneb1f.max-ether1 if:kanto.ssanneb1f.max-ether1-taken=false
+ssanneb1f-tm08-1 10,5 item:tm08 kanto.ssanneb1f.tm081 if:kanto.ssanneb1f.tm081-taken=false

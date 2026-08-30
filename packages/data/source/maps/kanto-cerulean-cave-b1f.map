@@ -31,3 +31,4 @@ warps:
 objects:
 cerulean-cave-mewtwo 6,4 npc:mewtwo:static kanto.cave.mewtwo if:kanto.cave.mewtwo-caught=false
 cerulean-cave-item 11,1 item:max-revive kanto.cave.item if:kanto.cave.item-taken=false
+ceruleancaveb1f-tm48-1 11,6 item:tm48 kanto.ceruleancaveb1f.tm481 if:kanto.ceruleancaveb1f.tm481-taken=false

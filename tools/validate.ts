@@ -2445,6 +2445,9 @@ function checkWorld(): void {
     }
   }
 
+  // ── #124 マシンは世界のどこかで手に入る（v1.2-c）──
+  checkMachinesObtainable();
+
   // ── #80 地方の入口から、その地方の全マップに歩いて行けること（v0.12-b）──
   checkRegionConnectivity();
 
@@ -2487,6 +2490,36 @@ const IN_PRINCIPLE = {
   ignoreObstacles: true,
   ignorePushable: true,
 } as const;
+
+/**
+ * マシンは世界のどこかで手に入るか（#124・v1.2-c）。
+ *
+ * **「作った」と「置いた」は別**。v1.2-c で わざマシンを 22 → 48本に増やしたとき、
+ * 増えた分はどこにも置かれていなかった ―― 道具としては在るのに、
+ * 一生バッグに入らない。**秘伝マシンは v1.2-a から7本ぜんぶそうだった**
+ * （技を覚えさせられるようにしたのに、渡す場所を作っていなかった）。
+ *
+ * 持ち物は #67 が同じことを見ている。マシンは `category` が違うので届かない。
+ */
+function checkMachinesObtainable(): void {
+  const sources = new Set<string>();
+  for (const shop of allShops) for (const item of shop.items) sources.add(item);
+  for (const event of allEvents) {
+    for (const c of walkCommands(event.commands)) {
+      if (c.kind === "giveItem") sources.add(c.item);
+    }
+  }
+  for (const map of allMaps) {
+    for (const object of map.objects) {
+      if (object.kind.type === "item") sources.add(object.kind.item);
+    }
+  }
+  for (const item of allItems) {
+    if (!item.id.startsWith("tm") && !item.id.startsWith("hm")) continue;
+    if (sources.has(item.id)) continue;
+    fail("machine-source", `${item.id}（${item.name}）: 世界のどこにも置かれていない`);
+  }
+}
 
 /**
  * `walk` を与える能力が、本当に何かを閉じているか（#121・v1.2-a）。

@@ -34,3 +34,4 @@ objects:
 seafoam-b3f-shutter 5,5 sign kanto.seafoam.shutter-b3 if:kanto.seafoam.switch-b3=false
 seafoam-b3f-switch 4,6 switch kanto.seafoam.press-b3
 seafoam-b3f-boulder 2,6 boulder:strength
+seafoamb3f-tm14-1 11,6 item:tm14 kanto.seafoamb3f.tm141 if:kanto.seafoamb3f.tm141-taken=false

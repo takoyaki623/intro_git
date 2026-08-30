@@ -48,3 +48,4 @@ warps:
 objects:
 one-island-sign 6,1 sign kanto.sevii.one-sign
 one-island-girl 2,7 npc:lass:static kanto.sevii.one-girl
+seviioneisland-tm11-1 11,10 item:tm11 kanto.seviioneisland.tm111 if:kanto.seviioneisland.tm111-taken=false

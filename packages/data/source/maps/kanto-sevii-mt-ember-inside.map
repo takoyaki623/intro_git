@@ -30,3 +30,4 @@ objects:
 ember-inside-item 1,1 item:hyper-potion kanto.sevii.ember-item if:kanto.sevii.ember-item-taken=false
 ember-inside-rock 9,5 obstacle:rockSmash
 ember-moltres 9,1 npc:moltres:static kanto.sevii.moltres if:kanto.sevii.moltres-caught=false
+seviimtemberinside-tm50-1 8,5 item:tm50 kanto.seviimtemberinside.tm501 if:kanto.seviimtemberinside.tm501-taken=false

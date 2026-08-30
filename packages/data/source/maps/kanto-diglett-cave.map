@@ -32,3 +32,4 @@ warps:
 
 objects:
 diglett-sign 7,3 sign kanto.diglett.sign
+diglettcave-tm28-1 12,5 item:tm28 kanto.diglettcave.tm281 if:kanto.diglettcave.tm281-taken=false

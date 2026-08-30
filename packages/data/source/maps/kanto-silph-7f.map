@@ -34,3 +34,4 @@ objects:
 silph-7f-grunt 4,1 trainer:kanto-silph-grunt-7f:2:down kanto.silph.grunt7 if:kanto.silph.grunt7-beaten=false
 silph-7f-staff 3,4 npc:scientist:static kanto.silph.lapras
 silph-rival 5,5 npc:rival:static kanto.silph.rival if:kanto.silph.rival-beaten=false
+silph7f-tm29-1 6,5 item:tm29 kanto.silph7f.tm291 if:kanto.silph7f.tm291-taken=false

@@ -28,3 +28,4 @@ warps:
 objects:
 silph-boss 4,3 npc:leader:static kanto.silph.giovanni
 silph-president 4,1 npc:oldman:static kanto.silph.president if:kanto.silph.giovanni-beaten=true
+silph11f-tm15-1 7,5 item:tm15 kanto.silph11f.tm151 if:kanto.silph11f.tm151-taken=false

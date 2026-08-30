@@ -30,3 +30,4 @@ warps:
 objects:
 seafoam-articuno 6,4 npc:articuno:static kanto.seafoam.articuno if:kanto.seafoam.articuno-caught=false
 seafoam-item 11,1 item:max-revive kanto.seafoam.item if:kanto.seafoam.item-taken=false
+seafoamb4f-tm07-1 11,6 item:tm07 kanto.seafoamb4f.tm071 if:kanto.seafoamb4f.tm071-taken=false

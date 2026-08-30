@@ -34,3 +34,4 @@ route16-snorlax 6,8 npc:snorlax:static kanto.route16.snorlax if:kanto.route16.sn
 route16-hidden 2,6 item:full-heal:hidden kanto.route16.hidden if:kanto.route16.hidden-taken=false
 route16-biker-1 1,1 trainer:kanto-route-16-biker-1:2:down kanto.route16.biker1 if:kanto.route16.biker1-beaten=false
 route16-biker-2 11,8 trainer:kanto-route-16-biker-2:2:left kanto.route16.biker2 if:kanto.route16.biker2-beaten=false
+route16-tm47-1 10,8 item:tm47 kanto.route16.tm471 if:kanto.route16.tm471-taken=false

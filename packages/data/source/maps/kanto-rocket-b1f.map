@@ -33,3 +33,4 @@ warps:
 objects:
 rocket-b1f-grunt 5,5 trainer:kanto-rocket-b1f:2:left kanto.rocket.b1f-grunt if:kanto.rocket.b1f-beaten=false
 rocket-b1f-item 1,7 item:super-potion kanto.rocket.b1f-item if:kanto.rocket.b1f-item-taken=false
+rocketb1f-tm46-1 6,7 item:tm46 kanto.rocketb1f.tm461 if:kanto.rocketb1f.tm461-taken=false

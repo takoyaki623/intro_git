@@ -30,3 +30,4 @@ warps:
 objects:
 route23-sign 6,2 sign kanto.route23.sign
 route23-guard 5,1 npc:guard:static kanto.route23.guard if:kanto.league.gate-open=false
+route23-tm37-1 10,9 item:tm37 kanto.route23.tm371 if:kanto.route23.tm371-taken=false

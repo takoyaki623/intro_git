@@ -27,3 +27,4 @@ warps:
 objects:
 rocket-b2f-grunt 5,3 trainer:kanto-rocket-b2f:2:down kanto.rocket.b2f-grunt if:kanto.rocket.b2f-beaten=false
 rocket-b2f-item 3,7 item:full-heal kanto.rocket.b2f-item if:kanto.rocket.b2f-item-taken=false
+rocketb2f-tm12-1 6,7 item:tm12 kanto.rocketb2f.tm121 if:kanto.rocketb2f.tm121-taken=false

@@ -30,6 +30,21 @@
     ]
   },
   {
+    "id": "kanto.ceruleancave2f.tm021",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm02",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ceruleancave2f.tm021-taken",
+        "value": true
+      }
+    ]
+  },
+  {
     "id": "kanto.cave.item",
     "commands": [
       {
@@ -45,6 +60,21 @@
     ]
   },
   {
+    "id": "kanto.ceruleancaveb1f.tm481",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm48",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ceruleancaveb1f.tm481-taken",
+        "value": true
+      }
+    ]
+  },
+  {
     "id": "kanto.cave.item-1",
     "commands": [
       {
@@ -55,6 +85,21 @@
       {
         "kind": "setFlag",
         "flag": "kanto.cave.item-1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.diglettcave.tm281",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm28",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.diglettcave.tm281-taken",
         "value": true
       }
     ]
@@ -150,6 +195,21 @@
     ]
   },
   {
+    "id": "kanto.pokemonmansion3f.tm351",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm35",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.pokemonmansion3f.tm351-taken",
+        "value": true
+      }
+    ]
+  },
+  {
     "id": "kanto.mansion.secret-key",
     "commands": [
       {
@@ -225,6 +285,21 @@
     ]
   },
   {
+    "id": "kanto.pokemontower6f.tm301",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm30",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.pokemontower6f.tm301-taken",
+        "value": true
+      }
+    ]
+  },
+  {
     "id": "kanto.power.item",
     "commands": [
       {
@@ -235,6 +310,21 @@
       {
         "kind": "setFlag",
         "flag": "kanto.power.item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.powerplant.tm251",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm25",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.powerplant.tm251-taken",
         "value": true
       }
     ]
@@ -285,6 +375,21 @@
     ]
   },
   {
+    "id": "kanto.rocktunnelb1f.tm311",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm31",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.rocktunnelb1f.tm311-taken",
+        "value": true
+      }
+    ]
+  },
+  {
     "id": "kanto.rocket.b1f-item",
     "commands": [
       {
@@ -300,6 +405,21 @@
     ]
   },
   {
+    "id": "kanto.rocketb1f.tm461",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm46",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.rocketb1f.tm461-taken",
+        "value": true
+      }
+    ]
+  },
+  {
     "id": "kanto.rocket.b2f-item",
     "commands": [
       {
@@ -310,6 +430,21 @@
       {
         "kind": "setFlag",
         "flag": "kanto.rocket.b2f-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocketb2f.tm121",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm12",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.rocketb2f.tm121-taken",
         "value": true
       }
     ]
@@ -340,6 +475,21 @@
       {
         "kind": "setFlag",
         "flag": "kanto.rocket.b4f-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocketb4f.tm361",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm36",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.rocketb4f.tm361-taken",
         "value": true
       }
     ]
@@ -435,6 +585,21 @@
     ]
   },
   {
+    "id": "kanto.route13.tm451",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm45",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route13.tm451-taken",
+        "value": true
+      }
+    ]
+  },
+  {
     "id": "kanto.route14.super-potion1",
     "commands": [
       {
@@ -465,6 +630,21 @@
     ]
   },
   {
+    "id": "kanto.route15.tm421",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm42",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route15.tm421-taken",
+        "value": true
+      }
+    ]
+  },
+  {
     "id": "kanto.route16.hidden",
     "commands": [
       {
@@ -480,6 +660,21 @@
     ]
   },
   {
+    "id": "kanto.route16.tm471",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm47",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route16.tm471-taken",
+        "value": true
+      }
+    ]
+  },
+  {
     "id": "kanto.route17.item",
     "commands": [
       {
@@ -490,6 +685,21 @@
       {
         "kind": "setFlag",
         "flag": "kanto.route17.item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route17.tm401",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm40",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route17.tm401-taken",
         "value": true
       }
     ]
@@ -535,6 +745,36 @@
       {
         "kind": "setFlag",
         "flag": "kanto.route2.potion-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route21.tm181",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm18",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route21.tm181-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route23.tm371",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm37",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route23.tm371-taken",
         "value": true
       }
     ]
@@ -735,6 +975,21 @@
     ]
   },
   {
+    "id": "kanto.safarinorth.tm431",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm43",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.safarinorth.tm431-taken",
+        "value": true
+      }
+    ]
+  },
+  {
     "id": "kanto.safari.west-item",
     "commands": [
       {
@@ -780,6 +1035,21 @@
     ]
   },
   {
+    "id": "kanto.seafoamb3f.tm141",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm14",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.seafoamb3f.tm141-taken",
+        "value": true
+      }
+    ]
+  },
+  {
     "id": "kanto.seafoam.item",
     "commands": [
       {
@@ -790,6 +1060,21 @@
       {
         "kind": "setFlag",
         "flag": "kanto.seafoam.item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.seafoamb4f.tm071",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm07",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.seafoamb4f.tm071-taken",
         "value": true
       }
     ]
@@ -825,6 +1110,21 @@
     ]
   },
   {
+    "id": "kanto.seviiberryforest.tm221",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm22",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.seviiberryforest.tm221-taken",
+        "value": true
+      }
+    ]
+  },
+  {
     "id": "kanto.sevii.cape-item",
     "commands": [
       {
@@ -835,6 +1135,21 @@
       {
         "kind": "setFlag",
         "flag": "kanto.sevii.cape-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.seviifourisland.tm271",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm27",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.seviifourisland.tm271-taken",
         "value": true
       }
     ]
@@ -870,6 +1185,21 @@
     ]
   },
   {
+    "id": "kanto.seviiicefallcave.tm231",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm23",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.seviiicefallcave.tm231-taken",
+        "value": true
+      }
+    ]
+  },
+  {
     "id": "kanto.sevii.kindle-item",
     "commands": [
       {
@@ -900,6 +1230,21 @@
     ]
   },
   {
+    "id": "kanto.seviilostcave3.tm211",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm21",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.seviilostcave3.tm211-taken",
+        "value": true
+      }
+    ]
+  },
+  {
     "id": "kanto.sevii.ember-item",
     "commands": [
       {
@@ -910,6 +1255,21 @@
       {
         "kind": "setFlag",
         "flag": "kanto.sevii.ember-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.seviimtemberinside.tm501",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm50",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.seviimtemberinside.tm501-taken",
         "value": true
       }
     ]
@@ -930,6 +1290,21 @@
     ]
   },
   {
+    "id": "kanto.seviioneisland.tm111",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm11",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.seviioneisland.tm111-taken",
+        "value": true
+      }
+    ]
+  },
+  {
     "id": "kanto.sevii.outcast-item",
     "commands": [
       {
@@ -940,6 +1315,21 @@
       {
         "kind": "setFlag",
         "flag": "kanto.sevii.outcast-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.seviioutcastisland.tm491",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm49",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.seviioutcastisland.tm491-taken",
         "value": true
       }
     ]
@@ -985,6 +1375,21 @@
       {
         "kind": "setFlag",
         "flag": "kanto.sevii.sapphire-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.seviirocketwarehouse.tm411",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm41",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.seviirocketwarehouse.tm411-taken",
         "value": true
       }
     ]
@@ -1065,6 +1470,21 @@
     ]
   },
   {
+    "id": "kanto.silph11f.tm151",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm15",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.silph11f.tm151-taken",
+        "value": true
+      }
+    ]
+  },
+  {
     "id": "kanto.silph.3f-item",
     "commands": [
       {
@@ -1090,6 +1510,21 @@
       {
         "kind": "setFlag",
         "flag": "kanto.silph.card-key-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.silph7f.tm291",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm29",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.silph7f.tm291-taken",
         "value": true
       }
     ]
@@ -1155,6 +1590,21 @@
     ]
   },
   {
+    "id": "kanto.ssanneb1f.tm081",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm08",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ssanneb1f.tm081-taken",
+        "value": true
+      }
+    ]
+  },
+  {
     "id": "kanto.ssannedeck.hyper-potion1",
     "commands": [
       {
@@ -1210,6 +1660,21 @@
       {
         "kind": "setFlag",
         "flag": "kanto.vermilion.hidden-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.victoryroad2f.tm011",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm01",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.victoryroad2f.tm011-taken",
         "value": true
       }
     ]

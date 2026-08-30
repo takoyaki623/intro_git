@@ -30,3 +30,4 @@ warps:
 
 objects:
 cerulean-cave-2f-item 6,3 item:full-restore kanto.cave.item-2 if:kanto.cave.item-2-taken=false
+ceruleancave2f-tm02-1 11,7 item:tm02 kanto.ceruleancave2f.tm021 if:kanto.ceruleancave2f.tm021-taken=false

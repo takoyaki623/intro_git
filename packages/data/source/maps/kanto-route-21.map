@@ -33,3 +33,4 @@ objects:
 
 route21-swimmer-1 1,1 trainer:kanto-route-21-swimmer-1:2:down kanto.route21.swimmer1 if:kanto.route21.swimmer1-beaten=false
 route21-swimmer-2 9,10 trainer:kanto-route-21-swimmer-2:2:left kanto.route21.swimmer2 if:kanto.route21.swimmer2-beaten=false
+route21-tm18-1 5,10 item:tm18 kanto.route21.tm181 if:kanto.route21.tm181-taken=false

@@ -5540,6 +5540,24 @@
           "flag": "kanto.cave.item-2-taken",
           "value": false
         }
+      },
+      {
+        "id": "ceruleancave2f-tm02-1",
+        "at": {
+          "x": 11,
+          "y": 7
+        },
+        "kind": {
+          "type": "item",
+          "item": "tm02",
+          "hidden": false
+        },
+        "event": "kanto.ceruleancave2f.tm021",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.ceruleancave2f.tm021-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -5926,6 +5944,24 @@
         "condition": {
           "kind": "flag",
           "flag": "kanto.cave.item-taken",
+          "value": false
+        }
+      },
+      {
+        "id": "ceruleancaveb1f-tm48-1",
+        "at": {
+          "x": 11,
+          "y": 6
+        },
+        "kind": {
+          "type": "item",
+          "item": "tm48",
+          "hidden": false
+        },
+        "event": "kanto.ceruleancaveb1f.tm481",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.ceruleancaveb1f.tm481-taken",
           "value": false
         }
       }
@@ -10679,6 +10715,24 @@
           "type": "sign"
         },
         "event": "kanto.diglett.sign"
+      },
+      {
+        "id": "diglettcave-tm28-1",
+        "at": {
+          "x": 12,
+          "y": 5
+        },
+        "kind": {
+          "type": "item",
+          "item": "tm28",
+          "hidden": false
+        },
+        "event": "kanto.diglettcave.tm281",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.diglettcave.tm281-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -21265,6 +21319,24 @@
           "flag": "kanto.mansion.item-3-taken",
           "value": false
         }
+      },
+      {
+        "id": "pokemonmansion3f-tm35-1",
+        "at": {
+          "x": 11,
+          "y": 7
+        },
+        "kind": {
+          "type": "item",
+          "item": "tm35",
+          "hidden": false
+        },
+        "event": "kanto.pokemonmansion3f.tm351",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.pokemonmansion3f.tm351-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -23722,6 +23794,24 @@
           "flag": "kanto.field.silph-scope",
           "value": true
         }
+      },
+      {
+        "id": "pokemontower6f-tm30-1",
+        "at": {
+          "x": 6,
+          "y": 6
+        },
+        "kind": {
+          "type": "item",
+          "item": "tm30",
+          "hidden": false
+        },
+        "event": "kanto.pokemontower6f.tm301",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.pokemontower6f.tm301-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -24877,6 +24967,24 @@
           "type": "sign"
         },
         "event": "kanto.power.sign"
+      },
+      {
+        "id": "powerplant-tm25-1",
+        "at": {
+          "x": 11,
+          "y": 9
+        },
+        "kind": {
+          "type": "item",
+          "item": "tm25",
+          "hidden": false
+        },
+        "event": "kanto.powerplant.tm251",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.powerplant.tm251-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -25923,6 +26031,24 @@
           "flag": "kanto.rocktunnelb1f.revive1-taken",
           "value": false
         }
+      },
+      {
+        "id": "rocktunnelb1f-tm31-1",
+        "at": {
+          "x": 11,
+          "y": 6
+        },
+        "kind": {
+          "type": "item",
+          "item": "tm31",
+          "hidden": false
+        },
+        "event": "kanto.rocktunnelb1f.tm311",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.rocktunnelb1f.tm311-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -26258,6 +26384,24 @@
           "flag": "kanto.rocket.b1f-item-taken",
           "value": false
         }
+      },
+      {
+        "id": "rocketb1f-tm46-1",
+        "at": {
+          "x": 6,
+          "y": 7
+        },
+        "kind": {
+          "type": "item",
+          "item": "tm46",
+          "hidden": false
+        },
+        "event": "kanto.rocketb1f.tm461",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.rocketb1f.tm461-taken",
+          "value": false
+        }
       }
     ],
     "bgm": "rocket"
@@ -26586,6 +26730,24 @@
         "condition": {
           "kind": "flag",
           "flag": "kanto.rocket.b2f-item-taken",
+          "value": false
+        }
+      },
+      {
+        "id": "rocketb2f-tm12-1",
+        "at": {
+          "x": 6,
+          "y": 7
+        },
+        "kind": {
+          "type": "item",
+          "item": "tm12",
+          "hidden": false
+        },
+        "event": "kanto.rocketb2f.tm121",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.rocketb2f.tm121-taken",
           "value": false
         }
       }
@@ -27262,6 +27424,24 @@
         "condition": {
           "kind": "flag",
           "flag": "kanto.rocket.b4f-item-taken",
+          "value": false
+        }
+      },
+      {
+        "id": "rocketb4f-tm36-1",
+        "at": {
+          "x": 6,
+          "y": 7
+        },
+        "kind": {
+          "type": "item",
+          "item": "tm36",
+          "hidden": false
+        },
+        "event": "kanto.rocketb4f.tm361",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.rocketb4f.tm361-taken",
           "value": false
         }
       }
@@ -30320,6 +30500,24 @@
           "flag": "kanto.route13.great-ball1-taken",
           "value": false
         }
+      },
+      {
+        "id": "route13-tm45-1",
+        "at": {
+          "x": 10,
+          "y": 7
+        },
+        "kind": {
+          "type": "item",
+          "item": "tm45",
+          "hidden": false
+        },
+        "event": "kanto.route13.tm451",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route13.tm451-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -31265,6 +31463,24 @@
           "flag": "kanto.route15.revive1-taken",
           "value": false
         }
+      },
+      {
+        "id": "route15-tm42-1",
+        "at": {
+          "x": 10,
+          "y": 6
+        },
+        "kind": {
+          "type": "item",
+          "item": "tm42",
+          "hidden": false
+        },
+        "event": "kanto.route15.tm421",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route15.tm421-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -31810,6 +32026,24 @@
         "condition": {
           "kind": "flag",
           "flag": "kanto.route16.biker2-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route16-tm47-1",
+        "at": {
+          "x": 10,
+          "y": 8
+        },
+        "kind": {
+          "type": "item",
+          "item": "tm47",
+          "hidden": false
+        },
+        "event": "kanto.route16.tm471",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route16.tm471-taken",
           "value": false
         }
       }
@@ -32430,6 +32664,24 @@
         "condition": {
           "kind": "flag",
           "flag": "kanto.route17.biker3-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "route17-tm40-1",
+        "at": {
+          "x": 7,
+          "y": 12
+        },
+        "kind": {
+          "type": "item",
+          "item": "tm40",
+          "hidden": false
+        },
+        "event": "kanto.route17.tm401",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route17.tm401-taken",
           "value": false
         }
       }
@@ -35561,6 +35813,24 @@
           "flag": "kanto.route21.swimmer2-beaten",
           "value": false
         }
+      },
+      {
+        "id": "route21-tm18-1",
+        "at": {
+          "x": 5,
+          "y": 10
+        },
+        "kind": {
+          "type": "item",
+          "item": "tm18",
+          "hidden": false
+        },
+        "event": "kanto.route21.tm181",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route21.tm181-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -36541,6 +36811,24 @@
         "condition": {
           "kind": "flag",
           "flag": "kanto.league.gate-open",
+          "value": false
+        }
+      },
+      {
+        "id": "route23-tm37-1",
+        "at": {
+          "x": 10,
+          "y": 9
+        },
+        "kind": {
+          "type": "item",
+          "item": "tm37",
+          "hidden": false
+        },
+        "event": "kanto.route23.tm371",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.route23.tm371-taken",
           "value": false
         }
       }
@@ -43001,6 +43289,24 @@
           "flag": "kanto.safari.north-item-taken",
           "value": false
         }
+      },
+      {
+        "id": "safarinorth-tm43-1",
+        "at": {
+          "x": 11,
+          "y": 8
+        },
+        "kind": {
+          "type": "item",
+          "item": "tm43",
+          "hidden": false
+        },
+        "event": "kanto.safarinorth.tm431",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.safarinorth.tm431-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -49183,6 +49489,24 @@
           "type": "boulder",
           "pushedBy": "strength"
         }
+      },
+      {
+        "id": "seafoamb3f-tm14-1",
+        "at": {
+          "x": 11,
+          "y": 6
+        },
+        "kind": {
+          "type": "item",
+          "item": "tm14",
+          "hidden": false
+        },
+        "event": "kanto.seafoamb3f.tm141",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.seafoamb3f.tm141-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -49573,6 +49897,24 @@
         "condition": {
           "kind": "flag",
           "flag": "kanto.seafoam.item-taken",
+          "value": false
+        }
+      },
+      {
+        "id": "seafoamb4f-tm07-1",
+        "at": {
+          "x": 11,
+          "y": 6
+        },
+        "kind": {
+          "type": "item",
+          "item": "tm07",
+          "hidden": false
+        },
+        "event": "kanto.seafoamb4f.tm071",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.seafoamb4f.tm071-taken",
           "value": false
         }
       }
@@ -50388,6 +50730,24 @@
         "condition": {
           "kind": "flag",
           "flag": "kanto.sevii.berry-hidden-taken",
+          "value": false
+        }
+      },
+      {
+        "id": "seviiberryforest-tm22-1",
+        "at": {
+          "x": 11,
+          "y": 11
+        },
+        "kind": {
+          "type": "item",
+          "item": "tm22",
+          "hidden": false
+        },
+        "event": "kanto.seviiberryforest.tm221",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.seviiberryforest.tm221-taken",
           "value": false
         }
       }
@@ -55125,6 +55485,24 @@
           "movement": "static"
         },
         "event": "kanto.sevii.waterfall-man"
+      },
+      {
+        "id": "seviifourisland-tm27-1",
+        "at": {
+          "x": 11,
+          "y": 9
+        },
+        "kind": {
+          "type": "item",
+          "item": "tm27",
+          "hidden": false
+        },
+        "event": "kanto.seviifourisland.tm271",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.seviifourisland.tm271-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -57242,6 +57620,24 @@
           "flag": "kanto.sevii.icefall-item-taken",
           "value": false
         }
+      },
+      {
+        "id": "seviiicefallcave-tm23-1",
+        "at": {
+          "x": 11,
+          "y": 10
+        },
+        "kind": {
+          "type": "item",
+          "item": "tm23",
+          "hidden": false
+        },
+        "event": "kanto.seviiicefallcave.tm231",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.seviiicefallcave.tm231-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -59109,6 +59505,24 @@
           "flag": "kanto.sevii.lost-cave-item-taken",
           "value": false
         }
+      },
+      {
+        "id": "seviilostcave3-tm21-1",
+        "at": {
+          "x": 11,
+          "y": 7
+        },
+        "kind": {
+          "type": "item",
+          "item": "tm21",
+          "hidden": false
+        },
+        "event": "kanto.seviilostcave3.tm211",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.seviilostcave3.tm211-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -60338,6 +60752,24 @@
         "condition": {
           "kind": "flag",
           "flag": "kanto.sevii.moltres-caught",
+          "value": false
+        }
+      },
+      {
+        "id": "seviimtemberinside-tm50-1",
+        "at": {
+          "x": 8,
+          "y": 5
+        },
+        "kind": {
+          "type": "item",
+          "item": "tm50",
+          "hidden": false
+        },
+        "event": "kanto.seviimtemberinside.tm501",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.seviimtemberinside.tm501-taken",
           "value": false
         }
       }
@@ -62345,6 +62777,24 @@
           "movement": "static"
         },
         "event": "kanto.sevii.one-girl"
+      },
+      {
+        "id": "seviioneisland-tm11-1",
+        "at": {
+          "x": 11,
+          "y": 10
+        },
+        "kind": {
+          "type": "item",
+          "item": "tm11",
+          "hidden": false
+        },
+        "event": "kanto.seviioneisland.tm111",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.seviioneisland.tm111-taken",
+          "value": false
+        }
       }
     ],
     "encounters": [
@@ -63046,6 +63496,24 @@
         "condition": {
           "kind": "flag",
           "flag": "kanto.sevii.outcast-item-taken",
+          "value": false
+        }
+      },
+      {
+        "id": "seviioutcastisland-tm49-1",
+        "at": {
+          "x": 8,
+          "y": 7
+        },
+        "kind": {
+          "type": "item",
+          "item": "tm49",
+          "hidden": false
+        },
+        "event": "kanto.seviioutcastisland.tm491",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.seviioutcastisland.tm491-taken",
           "value": false
         }
       }
@@ -64425,6 +64893,24 @@
         "condition": {
           "kind": "flag",
           "flag": "kanto.sevii.sapphire-taken",
+          "value": false
+        }
+      },
+      {
+        "id": "seviirocketwarehouse-tm41-1",
+        "at": {
+          "x": 7,
+          "y": 4
+        },
+        "kind": {
+          "type": "item",
+          "item": "tm41",
+          "hidden": false
+        },
+        "event": "kanto.seviirocketwarehouse.tm411",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.seviirocketwarehouse.tm411-taken",
           "value": false
         }
       }
@@ -74869,6 +75355,24 @@
           "flag": "kanto.silph.giovanni-beaten",
           "value": true
         }
+      },
+      {
+        "id": "silph11f-tm15-1",
+        "at": {
+          "x": 7,
+          "y": 5
+        },
+        "kind": {
+          "type": "item",
+          "item": "tm15",
+          "hidden": false
+        },
+        "event": "kanto.silph11f.tm151",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.silph11f.tm151-taken",
+          "value": false
+        }
       }
     ],
     "bgm": "silph"
@@ -75987,6 +76491,24 @@
         "condition": {
           "kind": "flag",
           "flag": "kanto.silph.rival-beaten",
+          "value": false
+        }
+      },
+      {
+        "id": "silph7f-tm29-1",
+        "at": {
+          "x": 6,
+          "y": 5
+        },
+        "kind": {
+          "type": "item",
+          "item": "tm29",
+          "hidden": false
+        },
+        "event": "kanto.silph7f.tm291",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.silph7f.tm291-taken",
           "value": false
         }
       }
@@ -77192,6 +77714,24 @@
         "condition": {
           "kind": "flag",
           "flag": "kanto.ssanneb1f.max-ether1-taken",
+          "value": false
+        }
+      },
+      {
+        "id": "ssanneb1f-tm08-1",
+        "at": {
+          "x": 10,
+          "y": 5
+        },
+        "kind": {
+          "type": "item",
+          "item": "tm08",
+          "hidden": false
+        },
+        "event": "kanto.ssanneb1f.tm081",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.ssanneb1f.tm081-taken",
           "value": false
         }
       }
@@ -80977,6 +81517,24 @@
         "kind": {
           "type": "boulder",
           "pushedBy": "strength"
+        }
+      },
+      {
+        "id": "victoryroad2f-tm01-1",
+        "at": {
+          "x": 11,
+          "y": 6
+        },
+        "kind": {
+          "type": "item",
+          "item": "tm01",
+          "hidden": false
+        },
+        "event": "kanto.victoryroad2f.tm011",
+        "condition": {
+          "kind": "flag",
+          "flag": "kanto.victoryroad2f.tm011-taken",
+          "value": false
         }
       }
     ],

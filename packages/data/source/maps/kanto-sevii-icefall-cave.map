@@ -31,3 +31,4 @@ warps:
 
 objects:
 icefall-item 10,9 item:full-restore kanto.sevii.icefall-item if:kanto.sevii.icefall-item-taken=false
+seviiicefallcave-tm23-1 11,10 item:tm23 kanto.seviiicefallcave.tm231 if:kanto.seviiicefallcave.tm231-taken=false

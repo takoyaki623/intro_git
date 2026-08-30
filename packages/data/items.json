@@ -972,7 +972,8 @@
       "move": "roar"
     },
     "useScope": "field",
-    "consumable": true
+    "consumable": true,
+    "price": 1500
   },
   {
     "id": "tm06",
@@ -1017,7 +1018,8 @@
       "move": "bullet-seed"
     },
     "useScope": "field",
-    "consumable": true
+    "consumable": true,
+    "price": 2000
   },
   {
     "id": "tm11",
@@ -1084,7 +1086,8 @@
       "move": "light-screen"
     },
     "useScope": "field",
-    "consumable": true
+    "consumable": true,
+    "price": 3000
   },
   {
     "id": "tm17",
@@ -1095,7 +1098,8 @@
       "move": "protect"
     },
     "useScope": "field",
-    "consumable": true
+    "consumable": true,
+    "price": 3000
   },
   {
     "id": "tm18",
@@ -1129,7 +1133,8 @@
       "move": "safeguard"
     },
     "useScope": "field",
-    "consumable": true
+    "consumable": true,
+    "price": 3000
   },
   {
     "id": "tm21",
@@ -1262,7 +1267,8 @@
       "move": "double-team"
     },
     "useScope": "field",
-    "consumable": true
+    "consumable": true,
+    "price": 3500
   },
   {
     "id": "tm33",
@@ -1273,7 +1279,8 @@
       "move": "reflect"
     },
     "useScope": "field",
-    "consumable": true
+    "consumable": true,
+    "price": 3000
   },
   {
     "id": "tm35",
@@ -1383,7 +1390,8 @@
       "move": "rest"
     },
     "useScope": "field",
-    "consumable": true
+    "consumable": true,
+    "price": 3000
   },
   {
     "id": "tm45",

@@ -2490,6 +2490,11 @@
           {
             "kind": "message",
             "text": "いわくだき の こつを おそわった!\n（バッジが 1つ あれば つかえる）"
+          },
+          {
+            "kind": "giveItem",
+            "item": "hm06",
+            "count": 1
           }
         ],
         "else": [
@@ -2531,6 +2536,11 @@
           {
             "kind": "message",
             "text": "いあいぎり の こつを おそわった!\n（バッジが 2つ あれば つかえる）"
+          },
+          {
+            "kind": "giveItem",
+            "item": "hm01",
+            "count": 1
           }
         ],
         "else": [
@@ -2572,6 +2582,11 @@
           {
             "kind": "message",
             "text": "そらをとぶ の こつを おそわった!\n（バッジが 3つ あれば つかえる）"
+          },
+          {
+            "kind": "giveItem",
+            "item": "hm02",
+            "count": 1
           }
         ],
         "else": [
@@ -2613,6 +2628,11 @@
           {
             "kind": "message",
             "text": "かいりき の こつを おそわった!\n（バッジが 4つ あれば つかえる）"
+          },
+          {
+            "kind": "giveItem",
+            "item": "hm04",
+            "count": 1
           }
         ],
         "else": [
@@ -2654,6 +2674,11 @@
           {
             "kind": "message",
             "text": "なみのり の こつを おそわった!\n（バッジが 5つ あれば つかえる）"
+          },
+          {
+            "kind": "giveItem",
+            "item": "hm03",
+            "count": 1
           }
         ],
         "else": [
@@ -7438,6 +7463,11 @@
           {
             "kind": "message",
             "text": "フラッシュ の こつを おそわった!\n（バッジが 1つ あれば つかえる）"
+          },
+          {
+            "kind": "giveItem",
+            "item": "hm05",
+            "count": 1
           }
         ],
         "else": [
@@ -7479,6 +7509,11 @@
           {
             "kind": "message",
             "text": "たきのぼり の こつを おそわった!\n（バッジが 8つ あれば つかえる）"
+          },
+          {
+            "kind": "giveItem",
+            "item": "hm07",
+            "count": 1
           }
         ],
         "else": [

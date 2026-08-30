@@ -25,3 +25,4 @@ warps:
 objects:
 warehouse-grunt 4,3 trainer:kanto-sevii-warehouse:2:down kanto.sevii.warehouse-grunt if:kanto.sevii.warehouse-beaten=false
 warehouse-sapphire 6,2 item:sapphire kanto.sevii.sapphire if:kanto.sevii.sapphire-taken=false
+seviirocketwarehouse-tm41-1 7,4 item:tm41 kanto.seviirocketwarehouse.tm411 if:kanto.seviirocketwarehouse.tm411-taken=false

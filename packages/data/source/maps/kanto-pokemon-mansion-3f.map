@@ -32,3 +32,4 @@ warps:
 
 objects:
 mansion-3f-item 6,6 item:full-restore kanto.mansion.item-3 if:kanto.mansion.item-3-taken=false
+pokemonmansion3f-tm35-1 11,7 item:tm35 kanto.pokemonmansion3f.tm351 if:kanto.pokemonmansion3f.tm351-taken=false

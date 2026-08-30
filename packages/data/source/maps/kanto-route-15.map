@@ -30,3 +30,4 @@ route15-ace-1 2,1 trainer:kanto-route-15-ace-1:2:down kanto.route15.ace1 if:kant
 route15-ace-2 11,5 trainer:kanto-route-15-ace-2:2:left kanto.route15.ace2 if:kanto.route15.ace2-beaten=false
 route15-ace-3 4,6 trainer:kanto-route-15-ace-3:2:left kanto.route15.ace3 if:kanto.route15.ace3-beaten=false
 route15-revive-1 11,6 item:revive kanto.route15.revive1 if:kanto.route15.revive1-taken=false
+route15-tm42-1 10,6 item:tm42 kanto.route15.tm421 if:kanto.route15.tm421-taken=false

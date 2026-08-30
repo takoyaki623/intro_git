@@ -29,3 +29,4 @@ warps:
 
 objects:
 safari-north-item 11,1 item:max-revive kanto.safari.north-item if:kanto.safari.north-item-taken=false
+safarinorth-tm43-1 11,8 item:tm43 kanto.safarinorth.tm431 if:kanto.safarinorth.tm431-taken=false

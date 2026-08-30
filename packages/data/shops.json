@@ -105,10 +105,18 @@
   {
     "id": "kanto-celadon-tms",
     "items": [
+      "tm05",
       "tm06",
+      "tm09",
       "tm13",
+      "tm16",
+      "tm17",
       "tm19",
-      "tm24"
+      "tm20",
+      "tm24",
+      "tm32",
+      "tm33",
+      "tm44"
     ],
     "name": "デパート 3かい"
   }

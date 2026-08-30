@@ -41,3 +41,4 @@ four-island-sign 7,1 sign kanto.sevii.four-sign
 # **たきのぼりを教える人**（v1.2-a）。こおりのぬけみちの入口の手前 ――
 # フラッシュと同じで、使う場所の隣で教わる
 four-island-waterfall-man 6,1 npc:fisher:static kanto.sevii.waterfall-man
+seviifourisland-tm27-1 11,9 item:tm27 kanto.seviifourisland.tm271 if:kanto.seviifourisland.tm271-taken=false

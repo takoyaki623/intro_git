@@ -30,3 +30,4 @@ objects:
 power-plant-zapdos 6,3 npc:zapdos:static kanto.power.zapdos if:kanto.power.zapdos-caught=false
 power-plant-item 11,1 item:max-elixir kanto.power.item if:kanto.power.item-taken=false
 power-plant-sign 1,9 sign kanto.power.sign
+powerplant-tm25-1 11,9 item:tm25 kanto.powerplant.tm251 if:kanto.powerplant.tm251-taken=false

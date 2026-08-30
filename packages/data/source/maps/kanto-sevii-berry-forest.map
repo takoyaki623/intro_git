@@ -34,3 +34,4 @@ warps:
 objects:
 berry-item 9,4 item:revive kanto.sevii.berry-item if:kanto.sevii.berry-item-taken=false
 berry-hidden 4,11 item:max-revive:hidden kanto.sevii.berry-hidden if:kanto.sevii.berry-hidden-taken=false
+seviiberryforest-tm22-1 11,11 item:tm22 kanto.seviiberryforest.tm221 if:kanto.seviiberryforest.tm221-taken=false

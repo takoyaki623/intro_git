@@ -26,3 +26,4 @@ warps:
 
 objects:
 lost-cave-item 3,3 item:max-elixir kanto.sevii.lost-cave-item if:kanto.sevii.lost-cave-item-taken=false
+seviilostcave3-tm21-1 11,7 item:tm21 kanto.seviilostcave3.tm211 if:kanto.seviilostcave3.tm211-taken=false

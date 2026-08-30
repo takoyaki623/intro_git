@@ -34,3 +34,4 @@ objects:
 tower-6f-item 1,5 item:elixir kanto.tower.6f-item if:kanto.tower.6f-item-taken=false
 tower-6f-ghost 4,3 sign kanto.tower.ghost-hidden if:kanto.field.silph-scope=false
 tower-6f-ghost-seen 4,3 npc:ghost:static kanto.tower.ghost-seen if:kanto.field.silph-scope=true
+pokemontower6f-tm30-1 6,6 item:tm30 kanto.pokemontower6f.tm301 if:kanto.pokemontower6f.tm301-taken=false

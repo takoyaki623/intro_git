@@ -33,3 +33,4 @@ objects:
 victory-2f-shutter 11,4 sign kanto.victory.shutter-2f if:kanto.victory.switch-2f=false
 victory-2f-switch 7,3 switch kanto.victory.press-2f
 victory-2f-boulder 5,3 boulder:strength
+victoryroad2f-tm01-1 11,6 item:tm01 kanto.victoryroad2f.tm011 if:kanto.victoryroad2f.tm011-taken=false
