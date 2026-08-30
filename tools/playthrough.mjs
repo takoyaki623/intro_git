@@ -1344,6 +1344,14 @@ expect(
   liveFlags.has("kanto.ability.cut") ? "おそわった" : "おそわっていない",
   "おそわった",
 );
+// **こつと一緒に機械ももらう**（v1.2-c）。
+// v1.2-a で秘伝マシンを道具にしたのに、渡す場所を作っていなかった ――
+// 覚えさせられるようにした、と言えるのはバッグに入ってから
+expect(
+  "ひでんマシン01 も もらえる",
+  `${(await readSave()).global.bag["hm01"] ?? 0}`,
+  "1",
+);
 await goToMap("kanto-vermilion-city", 6, 10, 60);
 await useAbility("ArrowLeft", "kanto-vermilion-city:vermilion-tree");
 note("き を きったあと", await at());
@@ -1739,6 +1747,14 @@ expect(
     deptTms.some((t) => t.includes("わざマシン")) ? "ある" : "ない",
     "ある",
   );
+  // v1.2-c で品ぞろえが 4 → 12本になった。**増えたぶんを1本名指しで見る** ――
+  // 「わざマシンが1つでもある」だけだと、11本減っても気付かない
+  expect(
+    "3階で まもる が 買える",
+    deptTms.some((t) => t.includes("まもる")) ? "ある" : "ない",
+    "ある",
+  );
+  note("3階の品ぞろえ", `${deptTms.length} 品`);
 
   const stones = await dept("kanto-celadon-dept-4f", { x: 3, y: 4 }, "ArrowLeft", "デパート4階");
   expect(
