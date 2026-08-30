@@ -10,7 +10,6 @@ copycat	Copycat	効果を表せない	17
 last-resort	Last Resort	他の技を全て使ってからでないと出せない	17
 growth	Growth	能力変化が複数	15
 rollout	Rollout	個別処理	15
-protect	Protect	未実装の状態	14
 thrash	Thrash	自分への継続効果	14
 fire-fang	Fire Fang	追加効果が複数	13
 flail	Flail	威力が可変	13
@@ -95,7 +94,6 @@ roar	Roar	交代を伴う技	5
 sand-tomb	Sand Tomb	未実装の状態	5
 stealth-rock	Stealth Rock	場の効果	5
 superpower	Superpower	能力変化が複数	5
-taunt	Taunt	未実装の状態	5
 uproar	Uproar	自分への継続効果	5
 whirlwind	Whirlwind	交代を伴う技	5
 acupressure	Acupressure	効果を表せない	4
@@ -151,11 +149,9 @@ sticky-web	Sticky Web	場の効果	2
 super-fang	Super Fang	威力が可変	2
 switcheroo	Switcheroo	効果を表せない	2
 tickle	Tickle	能力変化が複数	2
-torment	Torment	未実装の状態	2
 toxic-thread	toxic-thread	追加できる（日本語名が要る）	2
 venom-drench	Venom Drench	効果を表せない	2
 wonder-room	Wonder Room	場の効果	2
-attract	Attract	未実装の状態	1
 aurora-veil	Aurora Veil	場の効果	1
 autotomize	autotomize	追加できる（日本語名が要る）	1
 axe-kick	Axe Kick	外すと自分がダメージを受ける	1

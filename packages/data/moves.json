@@ -3978,5 +3978,62 @@
     "effect": {
       "kind": "recharge"
     }
+  },
+  {
+    "id": "taunt",
+    "name": "ちょうはつ",
+    "type": "dark",
+    "category": "status",
+    "power": null,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "taunt",
+      "turns": 3
+    }
+  },
+  {
+    "id": "torment",
+    "name": "いちゃもん",
+    "type": "dark",
+    "category": "status",
+    "power": null,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "torment"
+    }
+  },
+  {
+    "id": "attract",
+    "name": "メロメロ",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "attract"
+    }
+  },
+  {
+    "id": "protect",
+    "name": "まもる",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 10,
+    "priority": 4,
+    "target": "self",
+    "effect": {
+      "kind": "protect"
+    }
   }
 ]

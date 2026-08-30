@@ -21,7 +21,7 @@ import type {
   StatSpread,
   StatusId,
 } from "./types.js";
-import { EMPTY_STAGES, STATS } from "./types.js";
+import { EMPTY_STAGES, freshVolatile, STATS } from "./types.js";
 
 /** 「Lv50のリザードン」という設計図。BattleSet もこの形に落としてから渡す。 */
 export type PartySpec = {
@@ -50,7 +50,19 @@ export type PartySpec = {
   hpRatio?: number;
   /** 技ごとの残りPP。`moves` と同じ並び。 */
   ppLeft?: number[];
+  /** なつき度（v1.2-c）。おんがえし・やつあたり の威力になる。 */
+  friendship?: number;
+  /** 性別（v1.2-c）。メロメロ が見る。省略すると性別なし扱い。 */
+  gender?: "male" | "female" | null;
 };
+
+/**
+ * 設計図から作られた相手のなつき度（v1.2-c）。
+ *
+ * **捕まえた直後と同じ値**にしてある ―― 相手のなつき度は原作でも
+ * 見えないので、おんがえし の威力が読めないのはむしろ正しい。
+ */
+export const DEFAULT_FRIENDSHIP = 70;
 
 export type BattlePokemonSource = PartySpec;
 
@@ -133,14 +145,8 @@ export function toBattlePokemon(
     status: source.status ?? null,
     statusCounter: 0,
     statStages: { ...EMPTY_STAGES },
-    volatile: {
-      confusionTurns: 0,
-      flinched: false,
-      choiceLocked: null,
-      boostedMoveType: null,
-      transformedFrom: null,
-      charging: null,
-      mustRecharge: false,
-    },
+    friendship: source.friendship ?? DEFAULT_FRIENDSHIP,
+    gender: source.gender ?? null,
+    volatile: freshVolatile(),
   };
 }

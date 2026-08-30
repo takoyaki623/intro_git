@@ -18,12 +18,12 @@ tm08	8	bulk-up	技が未実装（moves-todo.tsv）
 tm09	9	bullet-seed		
 tm10	10	hidden-power	技が未実装（moves-todo.tsv）	
 tm11	11	sunny-day		
-tm12	12	taunt	技が未実装（moves-todo.tsv）	
+tm12	12	taunt		
 tm13	13	ice-beam		4000
 tm14	14	blizzard		
 tm15	15	hyper-beam		
 tm16	16	light-screen		
-tm17	17	protect	技が未実装（moves-todo.tsv）	
+tm17	17	protect		
 tm18	18	rain-dance		
 tm19	19	giga-drain		3500
 tm20	20	safeguard		
@@ -47,11 +47,11 @@ tm37	37	sandstorm
 tm38	38	fire-blast		
 tm39	39	rock-tomb		
 tm40	40	aerial-ace		
-tm41	41	torment	技が未実装（moves-todo.tsv）	
+tm41	41	torment		
 tm42	42	facade	技が未実装（moves-todo.tsv）	
 tm43	43	secret-power	技が未実装（moves-todo.tsv）	
 tm44	44	rest	技が未実装（moves-todo.tsv）	
-tm45	45	attract	技が未実装（moves-todo.tsv）	
+tm45	45	attract		
 tm46	46	thief	技が未実装（moves-todo.tsv）	
 tm47	47	steel-wing	技が未実装（moves-todo.tsv）	
 tm48	48	skill-swap	技が未実装（moves-todo.tsv）	

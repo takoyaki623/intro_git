@@ -57,6 +57,7 @@ const BLOCK_TEXT: Record<BlockedReason, (name: string) => string> = {
   confusion: (n) => `${n} は わけも わからず じぶんを こうげきした`,
   flinch: (n) => `${n} は ひるんで わざが だせない`,
   recharge: (n) => `${n} は こうげきの はんどうで うごけない!`,
+  infatuation: (n) => `${n} は メロメロで わざが だせない!`,
 };
 
 /** 演出の基準時間（ミリ秒）。実際の待ち時間は速度設定で割られる。 */
@@ -145,6 +146,18 @@ export function messageOf(event: BattleEvent, view: BattleView): string | null {
       return `${label(event.side)} は ${SCREEN_LABEL[event.screen]} に まもられている!`;
     case "charging":
       return `${label(event.side)} は ${CHARGING_TEXT[event.move] ?? "ちからを ためている!"}`;
+    case "taunted":
+      return `${label(event.side)} は ちょうはつ に のった!`;
+    case "tauntEnded":
+      return `${label(event.side)} の ちょうはつ が とけた。`;
+    case "tormented":
+      return `${label(event.side)} は いちゃもんを つけられた!`;
+    case "infatuatedWith":
+      return `${label(event.side)} は メロメロに なった!`;
+    case "protecting":
+      return `${label(event.side)} は まもりの たいせいに はいった!`;
+    case "protected":
+      return `${label(event.side)} は こうげきを まもった!`;
     case "screenEnd":
       return `${label(event.side)} の ${SCREEN_LABEL[event.screen]} が きれた。`;
     case "statChange": {

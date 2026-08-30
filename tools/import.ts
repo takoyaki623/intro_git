@@ -87,9 +87,15 @@ function parseEffect(src: string, where: string): unknown {
       if (args.includes("sun")) out.sunSkips = true;
       return out;
     }
-    // 撃ったあとの休み（v1.2-c）。引数を取らない
+    // 撃ったあとの休み・いちゃもん・メロメロ・まもる（v1.2-c）。引数を取らない
     case "recharge":
+    case "torment":
+    case "attract":
+    case "protect":
       return { kind };
+    // ちょうはつ（v1.2-c）
+    case "taunt":
+      return { kind, turns: num(0) };
     default:
       err(where, `未知の効果 "${kind}"`);
       return undefined;

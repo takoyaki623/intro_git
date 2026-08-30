@@ -297,6 +297,60 @@ export const effectHandlers: Registry = {
     activeOf(ctx, ctx.attacker).volatile.mustRecharge = true;
     ctx.landed = true;
   },
+
+  /**
+   * ちょうはつ（v1.2-c）。相手の変化技を封じる。
+   *
+   * **重ねがけできない** ―― 掛け直しで永久に封じられると、
+   * 変化技を持つ相手が何もできないまま終わる。
+   */
+  taunt: (effect, ctx) => {
+    const target = activeOf(ctx, ctx.defender);
+    if (target.volatile.tauntTurns > 0) return;
+    target.volatile.tauntTurns = effect.turns;
+    ctx.landed = true;
+    ctx.events.push({ kind: "taunted", side: ctx.defender });
+  },
+
+  /** いちゃもん（v1.2-c）。同じ技を続けて出せなくする。切れるのは交代のときだけ。 */
+  torment: (_effect, ctx) => {
+    const target = activeOf(ctx, ctx.defender);
+    if (target.volatile.tormented) return;
+    target.volatile.tormented = true;
+    ctx.landed = true;
+    ctx.events.push({ kind: "tormented", side: ctx.defender });
+  },
+
+  /**
+   * メロメロ（v1.2-c）。**性別が違うときだけ効く。**
+   *
+   * どちらかが性別なしなら失敗する ―― 設計図から作られた相手は
+   * 性別を持たないので、施設ではほぼ効かない（原作でも同じ扱いになる）。
+   */
+  attract: (_effect, ctx) => {
+    const self = activeOf(ctx, ctx.attacker);
+    const target = activeOf(ctx, ctx.defender);
+    if (self.gender === null || target.gender === null) return;
+    if (self.gender === target.gender) return;
+    if (target.volatile.infatuated !== null) return;
+    target.volatile.infatuated = ctx.attacker;
+    ctx.landed = true;
+    ctx.events.push({ kind: "infatuatedWith", side: ctx.defender });
+  },
+
+  /**
+   * まもる（v1.2-c）。**成功したかどうかがここで決まる。**
+   *
+   * 続けて使うたび成功率が半分になる。回数を数えるのは `battle.ts` 側
+   * （ほかの技を出したら 0 に戻す）で、ここは抽選と結果だけを持つ。
+   */
+  protect: (_effect, ctx) => {
+    const self = activeOf(ctx, ctx.attacker);
+    if (!ctx.rng.chance(1 / 2 ** self.volatile.protectStreak)) return;
+    self.volatile.protecting = true;
+    ctx.landed = true;
+    ctx.events.push({ kind: "protecting", side: ctx.attacker });
+  },
 };
 
 export function applyEffect(effect: MoveEffect, ctx: EffectContext): void {

@@ -201,6 +201,10 @@ export function instanceToSpec(data: GameData, instance: PokemonInstance): Party
     uid: instance.uid,
     hpRatio: full === 0 ? 0 : instance.currentHp / full,
     ppLeft: instance.moves.map((m) => m.pp),
+    // なつき度と性別（v1.2-c）。おんがえし の威力と メロメロ が見る ――
+    // **実個体だけが持っている値**で、設計図から作られた相手は既定値になる
+    friendship: instance.friendship,
+    gender: instance.gender,
   };
   if (instance.nickname !== undefined) spec.nickname = instance.nickname;
   if (instance.item !== null) spec.item = instance.item;

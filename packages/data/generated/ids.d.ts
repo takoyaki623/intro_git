@@ -2,8 +2,8 @@
  * 自動生成ファイル。直接編集しないこと。
  *   再生成: npm run gen:ids
  *
- * 種族 228 / 技 264 / 性格 25 /
- * 特性 74 / 道具 127 /
+ * 種族 228 / 技 268 / 性格 25 /
+ * 特性 74 / 道具 131 /
  * BattleSet 64 / 施設 4 /
  * ネームド 18 / カップ 10 /
  * マップ 210 / イベント 339 / トレーナー 165 /
@@ -255,6 +255,7 @@ export type GeneratedMoveId =
   | "aqua-tail"
   | "assurance"
   | "astonish"
+  | "attract"
   | "aura-sphere"
   | "aurora-beam"
   | "baby-doll-eyes"
@@ -409,6 +410,7 @@ export type GeneratedMoveId =
   | "power-gem"
   | "power-whip"
   | "present"
+  | "protect"
   | "psybeam"
   | "psychic"
   | "psycho-cut"
@@ -478,6 +480,7 @@ export type GeneratedMoveId =
   | "tackle"
   | "tail-whip"
   | "take-down"
+  | "taunt"
   | "teeter-dance"
   | "teleport"
   | "thunder"
@@ -485,6 +488,7 @@ export type GeneratedMoveId =
   | "thunder-shock"
   | "thunder-wave"
   | "thunderbolt"
+  | "torment"
   | "toxic"
   | "transform"
   | "tri-attack"
@@ -709,10 +713,12 @@ export type GeneratedItemId =
   | "tm07"
   | "tm09"
   | "tm11"
+  | "tm12"
   | "tm13"
   | "tm14"
   | "tm15"
   | "tm16"
+  | "tm17"
   | "tm18"
   | "tm19"
   | "tm20"
@@ -733,6 +739,8 @@ export type GeneratedItemId =
   | "tm38"
   | "tm39"
   | "tm40"
+  | "tm41"
+  | "tm45"
   | "tm50"
   | "toxic-orb"
   | "twisted-spoon"

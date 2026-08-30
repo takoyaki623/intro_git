@@ -77,6 +77,9 @@ const STRUGGLE: Move = {
   priority: 0,
   target: "foe",
 };
+/** メロメロ で動けない確率（原作どおり半分）。 */
+const INFATUATION_BLOCK_CHANCE = 0.5;
+
 /** すなあらし・あられ で削れる割合（最大HPの 1/16）。 */
 const WEATHER_CHIP_DENOMINATOR = 16;
 
@@ -205,12 +208,17 @@ export function usableMoveIndices(
     const index = active.moves.findIndex((m) => m.id === charging);
     return index < 0 ? [] : [index];
   }
-  const banStatus = bansStatusMoves(data, active);
+  // ちょうはつ は とつげきチョッキ と同じ封じ方をする（v1.2-c）――
+  // 効き目が同じものを2通りに書かない
+  const banStatus = bansStatusMoves(data, active) || active.volatile.tauntTurns > 0;
   const locked = active.volatile.choiceLocked;
+  // いちゃもん（v1.2-c）。**直前に出した技だけ**を封じる
+  const tormented = active.volatile.tormented ? active.volatile.lastMove : null;
   const out: number[] = [];
   for (const [i, slot] of active.moves.entries()) {
     if (slot.pp <= 0) continue;
     if (locked !== null && slot.id !== locked) continue;
+    if (slot.id === tormented) continue;
     if (banStatus && data.move(slot.id).category === "status") continue;
     out.push(i);
   }
@@ -367,6 +375,13 @@ function canAct(
     return false;
   }
 
+  // メロメロ（v1.2-c）。**半分の確率で動けない。**
+  // 相手が場を去っても解けない ―― 解くのは交代したときだけ
+  if (p.volatile.infatuated !== null && rng.chance(INFATUATION_BLOCK_CHANCE)) {
+    events.push({ kind: "blocked", side, reason: "infatuation" });
+    return false;
+  }
+
   if (p.volatile.flinched) {
     events.push({ kind: "blocked", side, reason: "flinch" });
     return false;
@@ -495,6 +510,13 @@ function performMove(
 
   // **見えない相手には当たらない**（そらをとぶ・あなをほる の溜め中）。
   // 命中判定より先 ―― 当たる当たらない以前に、そこに居ない
+  // まもる（v1.2-c）。**命中判定より先** ―― 当たる当たらない以前に届かない。
+  // 自分に掛ける技（変化技の target が self）は守りを抜ける
+  if (foe.volatile.protecting && move.target === "foe") {
+    events.push({ kind: "protected", side: defender });
+    return;
+  }
+
   if (hiddenWhileCharging(data, foe)) {
     events.push({ kind: "missed", side: attacker });
     return;
@@ -717,9 +739,16 @@ function endOfTurn(
     }
   }
 
-  // ひるみは1ターン限り
+  // ひるみと まもる は1ターン限り
   for (const side of [0, 1] as const) {
-    activeOf(state, side).volatile.flinched = false;
+    const p = activeOf(state, side);
+    p.volatile.flinched = false;
+    p.volatile.protecting = false;
+    // ちょうはつ の残りターン（v1.2-c）
+    if (p.volatile.tauntTurns > 0) {
+      p.volatile.tauntTurns -= 1;
+      if (p.volatile.tauntTurns === 0) events.push({ kind: "tauntEnded", side });
+    }
   }
 }
 
@@ -975,6 +1004,13 @@ export function step(
       slot.pp = Math.max(0, slot.pp - cost);
     }
     performMove(data, draft, side, pick.move, pick.isStruggle, rng, events);
+    // 直前の技と まもる の連続回数（v1.2-c）。
+    // **撃った直後にここで数える** ―― 効果の側で数えると、
+    // 「守りが失敗したターン」に回数が増えるかどうかが効果ごとにぶれる
+    const acted = activeOf(draft, side);
+    acted.volatile.lastMove = pick.isStruggle ? null : pick.move.id;
+    acted.volatile.protectStreak =
+      pick.move.effect?.kind === "protect" ? acted.volatile.protectStreak + 1 : 0;
     checkHeld(data, draft, rng, events);
     updateBattleStatus(draft, events);
     if (draft.result !== null) break;

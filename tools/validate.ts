@@ -268,7 +268,6 @@ const NEEDS_UNIMPLEMENTED_MECHANIC: Record<string, string> = {
   counter: "受けたダメージを倍返し",
   "close-combat": "2つの能力が同時に下がる（効果は1つまで）",
   superpower: "2つの能力が同時に下がる（効果は1つまで）",
-  protect: "その他の防御機構",
   substitute: "みがわり",
   rest: "自分を眠らせて全回復",
 };
@@ -292,6 +291,11 @@ const REQUIRES_EFFECT: Record<string, MoveEffect["kind"]> = {
   "solar-beam": "charge",
   "razor-wind": "charge",
   "skull-bash": "charge",
+  protect: "protect",
+  detect: "protect",
+  taunt: "taunt",
+  torment: "torment",
+  attract: "attract",
 };
 
 function checkEngineSupport(): void {

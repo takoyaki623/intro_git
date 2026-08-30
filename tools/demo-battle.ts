@@ -46,7 +46,7 @@ const STATUS_LABEL: Record<string, string> = {
 const BLOCK_LABEL: Record<BlockedReason, string> = {
   sleep: "眠っている", freeze: "こおっている", paralysis: "体が しびれて 動けない",
   confusion: "わけも わからず 自分を 攻撃した", flinch: "ひるんで 動けない",
-  recharge: "攻撃の反動で 動けない",
+  recharge: "攻撃の反動で 動けない", infatuation: "メロメロで 動けない",
 };
 
 function render(event: BattleEvent): string | null {
@@ -87,6 +87,18 @@ function render(event: BattleEvent): string | null {
       return `  ${nameOf(event.side)} は ${event.screen} に まもられた`;
     case "charging":
       return `  ${nameOf(event.side)} は ${event.move} を ためている`;
+    case "taunted":
+      return `  ${nameOf(event.side)} は ちょうはつ を うけた`;
+    case "tauntEnded":
+      return `  ${nameOf(event.side)} の ちょうはつ が とけた`;
+    case "tormented":
+      return `  ${nameOf(event.side)} は いちゃもん を うけた`;
+    case "infatuatedWith":
+      return `  ${nameOf(event.side)} は メロメロ に なった`;
+    case "protecting":
+      return `  ${nameOf(event.side)} は まもった`;
+    case "protected":
+      return `  ${nameOf(event.side)} の こうげきは まもられた`;
     case "screenEnd":
       return `  ${nameOf(event.side)} の ${event.screen} が きれた`;
     case "statChange":

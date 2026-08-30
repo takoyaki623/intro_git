@@ -233,7 +233,19 @@ export type MoveEffect =
    */
   | { kind: "charge"; hidden?: boolean; sunSkips?: boolean }
   /** 撃ったあと1ターン動けない（v1.2-c・はかいこうせん）。 */
-  | { kind: "recharge" };
+  | { kind: "recharge" }
+  /** ちょうはつ（v1.2-c）。相手の変化技を封じる。 */
+  | { kind: "taunt"; turns: number }
+  /** いちゃもん（v1.2-c）。同じ技を続けて出せなくする。 */
+  | { kind: "torment" }
+  /** メロメロ（v1.2-c）。**性別が違うときだけ効く。** */
+  | { kind: "attract" }
+  /**
+   * まもる（v1.2-c）。**そのターン、相手の技を全て防ぐ。**
+   *
+   * 続けて使うと成功率が半分ずつになる ―― でないと撃ち続けるのが最善手になる。
+   */
+  | { kind: "protect" };
 
 // ─────────────────────────────────────────────
 // 特性・持ち物（v0.5）
@@ -508,6 +520,30 @@ export type Volatile = {
    * 終了時に解くと、休みが1ターンも効かない。
    */
   mustRecharge: boolean;
+  /**
+   * ちょうはつ の残りターン（v1.2-c）。0 なら受けていない。
+   * **変化技だけを封じる** ―― とつげきチョッキ と同じ封じ方をする。
+   */
+  tauntTurns: number;
+  /**
+   * いちゃもん を受けている（v1.2-c）。**ターンでは切れない。**
+   *
+   * 切れるのは交代したときだけ ―― だから残りターンではなく真偽値で持つ。
+   */
+  tormented: boolean;
+  /** 直前に使った技（v1.2-c）。いちゃもん が「同じ技」を見るのに要る。 */
+  lastMove: MoveId | null;
+  /** メロメロの相手（v1.2-c）。null なら受けていない。 */
+  infatuated: SideIndex | null;
+  /** まもる が成功して守っている（v1.2-c）。そのターンだけ立つ。 */
+  protecting: boolean;
+  /**
+   * まもる を続けて選んだ回数（v1.2-c）。**続けるほど成功率が半分になる。**
+   *
+   * この数字が無いと まもる を撃ち続けるのが最善手になる。
+   * ほかの技を出した時点で 0 に戻る。
+   */
+  protectStreak: number;
 };
 
 export type BattlePokemon = {
@@ -533,6 +569,15 @@ export type BattlePokemon = {
   /** ねむりの残りターン / もうどくの経過ターン。 */
   statusCounter: number;
   statStages: StatStages;
+  /**
+   * なつき度（v1.2-c）。おんがえし・やつあたり の威力になる。
+   *
+   * **バトルの外の値をバトルへ持ち込む2つ目**（HP・PP に続く）。
+   * 設計図から作られた相手には既定値が入る。
+   */
+  friendship: number;
+  /** 性別（v1.2-c）。メロメロ が見る。`null` は性別なし ―― メロメロは効かない。 */
+  gender: "male" | "female" | null;
   volatile: Volatile;
 };
 
@@ -668,7 +713,9 @@ export type Effectiveness = 0 | 0.25 | 0.5 | 1 | 2 | 4;
 export type BlockedReason =
   | "sleep" | "freeze" | "paralysis" | "confusion" | "flinch"
   /** はかいこうせん の反動（v1.2-c）。 */
-  | "recharge";
+  | "recharge"
+  /** メロメロ で動けない（v1.2-c）。 */
+  | "infatuation";
 
 /**
  * UI はこのイベント列を順に消費して演出する。
@@ -709,6 +756,10 @@ export type BattleEvent =
   | { kind: "screenEnd"; side: SideIndex; screen: ScreenId }
   /** 溜めに入った（v1.2-c）。文は技ごとに違うので、技の ID を渡す。 */
   | { kind: "charging"; side: SideIndex; move: MoveId }
+  /** ちょうはつ・いちゃもん・メロメロ の始まりと終わり（v1.2-c）。 */
+  | { kind: "taunted" | "tauntEnded" | "tormented" | "infatuatedWith"; side: SideIndex }
+  /** まもる が成功した／守り切った（v1.2-c）。 */
+  | { kind: "protecting" | "protected"; side: SideIndex }
   | { kind: "statChange"; side: SideIndex; stat: StagedStat; delta: number; stage: number }
   | { kind: "statChangeFailed"; side: SideIndex; stat: StagedStat }
   | { kind: "faint"; side: SideIndex }
@@ -767,3 +818,26 @@ export type StepResult = {
 export const EMPTY_STAGES: StatStages = {
   atk: 0, def: 0, spa: 0, spd: 0, spe: 0, accuracy: 0, evasion: 0,
 };
+
+/**
+ * 何も掛かっていない volatile（v1.2-c）。
+ *
+ * **作る場所が4つある**（入場・交代・AI の推定・テスト）ので、1か所にまとめる ――
+ * 4つに書き分けると、欄を足した日に片方だけ直した跡が残る。
+ * 関数で返すのは、共有された1つのオブジェクトを4人で書き換えないため。
+ */
+export const freshVolatile = (): Volatile => ({
+  confusionTurns: 0,
+  flinched: false,
+  choiceLocked: null,
+  boostedMoveType: null,
+  transformedFrom: null,
+  charging: null,
+  mustRecharge: false,
+  tauntTurns: 0,
+  tormented: false,
+  lastMove: null,
+  infatuated: null,
+  protecting: false,
+  protectStreak: 0,
+});

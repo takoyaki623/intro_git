@@ -12,12 +12,13 @@
  */
 
 import { calcDamage } from "../damage.js";
+import { DEFAULT_FRIENDSHIP } from "../normalize.js";
 import type { GameData } from "../gamedata.js";
 import type { Rng } from "../rng.js";
 import { calcAllStats, MAX_IVS, ZERO_STATS } from "../stats.js";
 import { effectivenessAgainst } from "../typechart.js";
 import type { Action, BattlePokemon, Move, ScreenId, StatId, WeatherId } from "../types.js";
-import { EMPTY_STAGES } from "../types.js";
+import { EMPTY_STAGES, freshVolatile } from "../types.js";
 import type { AiConfig, AiView } from "./view.js";
 
 export type ScoredAction = {
@@ -57,7 +58,9 @@ function estimateFoe(data: GameData, view: AiView): BattlePokemon {
     status: view.foe.status,
     statusCounter: 0,
     statStages: { ...view.foe.statStages },
-    volatile: { confusionTurns: 0, flinched: false, choiceLocked: null, boostedMoveType: null, transformedFrom: null, charging: null, mustRecharge: false },
+    friendship: DEFAULT_FRIENDSHIP,
+    gender: null,
+    volatile: freshVolatile(),
   };
 }
 

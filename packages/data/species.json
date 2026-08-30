@@ -65,11 +65,13 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "bullet-seed",
       "cut",
       "double-team",
       "flash",
       "giga-drain",
+      "protect",
       "rock-smash",
       "sludge-bomb",
       "solar-beam",
@@ -161,11 +163,13 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "bullet-seed",
       "cut",
       "double-team",
       "flash",
       "giga-drain",
+      "protect",
       "rock-smash",
       "sludge-bomb",
       "solar-beam",
@@ -262,6 +266,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "bullet-seed",
       "cut",
       "double-team",
@@ -269,6 +274,7 @@
       "flash",
       "giga-drain",
       "hyper-beam",
+      "protect",
       "rock-smash",
       "sludge-bomb",
       "solar-beam",
@@ -351,6 +357,7 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "brick-break",
       "cut",
       "dig",
@@ -360,6 +367,7 @@
       "flamethrower",
       "iron-tail",
       "overheat",
+      "protect",
       "rock-smash",
       "strength",
       "sunny-day",
@@ -445,6 +453,7 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "brick-break",
       "cut",
       "dig",
@@ -454,6 +463,7 @@
       "flamethrower",
       "iron-tail",
       "overheat",
+      "protect",
       "rock-smash",
       "strength",
       "sunny-day",
@@ -553,6 +563,7 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "brick-break",
       "cut",
       "dig",
@@ -565,6 +576,7 @@
       "hyper-beam",
       "iron-tail",
       "overheat",
+      "protect",
       "rock-smash",
       "strength",
       "sunny-day",
@@ -630,6 +642,10 @@
         "move": "water-pulse"
       },
       {
+        "level": 18,
+        "move": "protect"
+      },
+      {
         "level": 21,
         "move": "rain-dance"
       },
@@ -651,6 +667,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "brick-break",
       "dig",
@@ -658,6 +675,7 @@
       "hail",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "rock-smash",
       "strength",
@@ -732,6 +750,10 @@
         "move": "water-pulse"
       },
       {
+        "level": 20,
+        "move": "protect"
+      },
+      {
         "level": 25,
         "move": "rain-dance"
       },
@@ -753,6 +775,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "brick-break",
       "dig",
@@ -760,6 +783,7 @@
       "hail",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "rock-smash",
       "strength",
@@ -839,6 +863,10 @@
         "move": "water-pulse"
       },
       {
+        "level": 20,
+        "move": "protect"
+      },
+      {
         "level": 25,
         "move": "rain-dance"
       },
@@ -860,6 +888,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "brick-break",
       "dig",
@@ -869,6 +898,7 @@
       "hyper-beam",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "rock-smash",
       "strength",
@@ -1062,10 +1092,12 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "double-team",
       "flash",
       "giga-drain",
       "hyper-beam",
+      "protect",
       "psychic",
       "rain-dance",
       "safeguard",
@@ -1238,11 +1270,13 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "brick-break",
       "cut",
       "double-team",
       "giga-drain",
       "hyper-beam",
+      "protect",
       "rock-smash",
       "sludge-bomb",
       "solar-beam",
@@ -1325,8 +1359,10 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "double-team",
       "fly",
+      "protect",
       "rain-dance",
       "sunny-day",
       "toxic"
@@ -1412,8 +1448,10 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "double-team",
       "fly",
+      "protect",
       "rain-dance",
       "sunny-day",
       "toxic"
@@ -1499,9 +1537,11 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "double-team",
       "fly",
       "hyper-beam",
+      "protect",
       "rain-dance",
       "sunny-day",
       "toxic"
@@ -1571,17 +1611,20 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "cut",
       "dig",
       "double-team",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "rock-smash",
       "shadow-ball",
       "shock-wave",
       "sunny-day",
+      "taunt",
       "thunder",
       "thunderbolt",
       "toxic"
@@ -1665,6 +1708,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "cut",
       "dig",
@@ -1672,12 +1716,14 @@
       "hyper-beam",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "rock-smash",
       "shadow-ball",
       "shock-wave",
       "strength",
       "sunny-day",
+      "taunt",
       "thunder",
       "thunderbolt",
       "toxic"
@@ -1749,8 +1795,10 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "double-team",
       "fly",
+      "protect",
       "rain-dance",
       "sunny-day",
       "toxic"
@@ -1836,9 +1884,11 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "double-team",
       "fly",
       "hyper-beam",
+      "protect",
       "rain-dance",
       "sunny-day",
       "toxic"
@@ -1912,15 +1962,18 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "dig",
       "double-team",
       "earthquake",
       "giga-drain",
       "iron-tail",
+      "protect",
       "rain-dance",
       "sludge-bomb",
       "strength",
       "sunny-day",
+      "torment",
       "toxic"
     ],
     "evolutions": [
@@ -2002,16 +2055,19 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "dig",
       "double-team",
       "earthquake",
       "giga-drain",
       "hyper-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "sludge-bomb",
       "strength",
       "sunny-day",
+      "torment",
       "toxic"
     ],
     "evolutions": [],
@@ -2123,12 +2179,14 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "brick-break",
       "dig",
       "double-team",
       "flash",
       "iron-tail",
       "light-screen",
+      "protect",
       "rain-dance",
       "rock-smash",
       "shock-wave",
@@ -2256,6 +2314,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "brick-break",
       "dig",
       "double-team",
@@ -2263,6 +2322,7 @@
       "hyper-beam",
       "iron-tail",
       "light-screen",
+      "protect",
       "rain-dance",
       "rock-smash",
       "shock-wave",
@@ -2357,12 +2417,14 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "brick-break",
       "cut",
       "dig",
       "double-team",
       "earthquake",
       "iron-tail",
+      "protect",
       "rock-smash",
       "rock-tomb",
       "sandstorm",
@@ -2458,6 +2520,7 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "brick-break",
       "cut",
       "dig",
@@ -2465,6 +2528,7 @@
       "earthquake",
       "hyper-beam",
       "iron-tail",
+      "protect",
       "rock-smash",
       "rock-tomb",
       "sandstorm",
@@ -2546,12 +2610,14 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "blizzard",
       "cut",
       "dig",
       "double-team",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "rock-smash",
       "shock-wave",
@@ -2643,12 +2709,14 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "blizzard",
       "cut",
       "dig",
       "double-team",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "rock-smash",
       "shock-wave",
@@ -2741,6 +2809,7 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "blizzard",
       "brick-break",
       "cut",
@@ -2752,6 +2821,7 @@
       "hyper-beam",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
@@ -2762,8 +2832,10 @@
       "strength",
       "sunny-day",
       "surf",
+      "taunt",
       "thunder",
       "thunderbolt",
+      "torment",
       "toxic",
       "water-pulse"
     ],
@@ -2836,12 +2908,14 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "cut",
       "dig",
       "double-team",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "rock-smash",
       "shock-wave",
@@ -2928,12 +3002,14 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "cut",
       "dig",
       "double-team",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "rock-smash",
       "shock-wave",
@@ -3025,6 +3101,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "brick-break",
       "cut",
@@ -3036,6 +3113,7 @@
       "hyper-beam",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
@@ -3046,8 +3124,10 @@
       "strength",
       "sunny-day",
       "surf",
+      "taunt",
       "thunder",
       "thunderbolt",
+      "torment",
       "toxic",
       "water-pulse"
     ],
@@ -3128,6 +3208,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "brick-break",
       "calm-mind",
@@ -3139,6 +3220,7 @@
       "ice-beam",
       "iron-tail",
       "light-screen",
+      "protect",
       "psychic",
       "rain-dance",
       "reflect",
@@ -3236,6 +3318,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "brick-break",
       "calm-mind",
@@ -3248,6 +3331,7 @@
       "ice-beam",
       "iron-tail",
       "light-screen",
+      "protect",
       "psychic",
       "rain-dance",
       "reflect",
@@ -3339,12 +3423,14 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "dig",
       "double-team",
       "fire-blast",
       "flamethrower",
       "iron-tail",
       "overheat",
+      "protect",
       "safeguard",
       "sunny-day",
       "toxic"
@@ -3436,6 +3522,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "dig",
       "double-team",
       "fire-blast",
@@ -3443,6 +3530,7 @@
       "hyper-beam",
       "iron-tail",
       "overheat",
+      "protect",
       "safeguard",
       "sunny-day",
       "toxic"
@@ -3522,6 +3610,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "brick-break",
       "dig",
@@ -3531,6 +3620,7 @@
       "flash",
       "ice-beam",
       "light-screen",
+      "protect",
       "psychic",
       "rain-dance",
       "reflect",
@@ -3629,6 +3719,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "brick-break",
       "dig",
@@ -3639,6 +3730,7 @@
       "hyper-beam",
       "ice-beam",
       "light-screen",
+      "protect",
       "psychic",
       "rain-dance",
       "reflect",
@@ -3728,12 +3820,16 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "double-team",
       "giga-drain",
+      "protect",
       "rain-dance",
       "shadow-ball",
       "sludge-bomb",
       "sunny-day",
+      "taunt",
+      "torment",
       "toxic"
     ],
     "evolutions": [
@@ -3821,13 +3917,17 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "double-team",
       "giga-drain",
       "hyper-beam",
+      "protect",
       "rain-dance",
       "shadow-ball",
       "sludge-bomb",
       "sunny-day",
+      "taunt",
+      "torment",
       "toxic"
     ],
     "evolutions": [
@@ -3909,11 +4009,13 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "bullet-seed",
       "cut",
       "double-team",
       "flash",
       "giga-drain",
+      "protect",
       "sludge-bomb",
       "solar-beam",
       "sunny-day",
@@ -3999,11 +4101,13 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "bullet-seed",
       "cut",
       "double-team",
       "flash",
       "giga-drain",
+      "protect",
       "sludge-bomb",
       "solar-beam",
       "sunny-day",
@@ -4098,12 +4202,14 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "bullet-seed",
       "cut",
       "double-team",
       "flash",
       "giga-drain",
       "hyper-beam",
+      "protect",
       "sludge-bomb",
       "solar-beam",
       "sunny-day",
@@ -4176,12 +4282,14 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "bullet-seed",
       "cut",
       "dig",
       "double-team",
       "flash",
       "giga-drain",
+      "protect",
       "rock-smash",
       "sludge-bomb",
       "solar-beam",
@@ -4265,6 +4373,7 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "bullet-seed",
       "cut",
       "dig",
@@ -4272,6 +4381,7 @@
       "flash",
       "giga-drain",
       "hyper-beam",
+      "protect",
       "rock-smash",
       "sludge-bomb",
       "solar-beam",
@@ -4361,9 +4471,11 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "double-team",
       "flash",
       "giga-drain",
+      "protect",
       "psychic",
       "sludge-bomb",
       "solar-beam",
@@ -4463,10 +4575,12 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "double-team",
       "flash",
       "giga-drain",
       "hyper-beam",
+      "protect",
       "psychic",
       "sludge-bomb",
       "solar-beam",
@@ -4552,10 +4666,12 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "cut",
       "dig",
       "double-team",
       "earthquake",
+      "protect",
       "rock-smash",
       "rock-tomb",
       "sludge-bomb",
@@ -4654,11 +4770,13 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "cut",
       "dig",
       "double-team",
       "earthquake",
       "hyper-beam",
+      "protect",
       "rock-smash",
       "rock-tomb",
       "sludge-bomb",
@@ -4717,6 +4835,10 @@
         "move": "bite"
       },
       {
+        "level": 20,
+        "move": "taunt"
+      },
+      {
         "level": 24,
         "move": "assurance"
       },
@@ -4743,17 +4865,21 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "cut",
       "dig",
       "double-team",
       "flash",
       "iron-tail",
+      "protect",
       "rain-dance",
       "shadow-ball",
       "shock-wave",
       "sunny-day",
+      "taunt",
       "thunder",
       "thunderbolt",
+      "torment",
       "toxic",
       "water-pulse"
     ],
@@ -4819,6 +4945,10 @@
         "move": "bite"
       },
       {
+        "level": 20,
+        "move": "taunt"
+      },
+      {
         "level": 24,
         "move": "assurance"
       },
@@ -4845,18 +4975,22 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "cut",
       "dig",
       "double-team",
       "flash",
       "hyper-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "shadow-ball",
       "shock-wave",
       "sunny-day",
+      "taunt",
       "thunder",
       "thunderbolt",
+      "torment",
       "toxic",
       "water-pulse"
     ],
@@ -4934,6 +5068,7 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "blizzard",
       "brick-break",
       "calm-mind",
@@ -4943,6 +5078,7 @@
       "hail",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "rock-smash",
       "strength",
@@ -5039,6 +5175,7 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "blizzard",
       "brick-break",
       "calm-mind",
@@ -5049,6 +5186,7 @@
       "hyper-beam",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "rock-smash",
       "strength",
@@ -5123,17 +5261,20 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "brick-break",
       "dig",
       "double-team",
       "earthquake",
       "iron-tail",
       "overheat",
+      "protect",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
       "strength",
       "sunny-day",
+      "taunt",
       "thunder",
       "thunderbolt",
       "toxic"
@@ -5210,6 +5351,7 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "brick-break",
       "dig",
       "double-team",
@@ -5217,11 +5359,13 @@
       "hyper-beam",
       "iron-tail",
       "overheat",
+      "protect",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
       "strength",
       "sunny-day",
+      "taunt",
       "thunder",
       "thunderbolt",
       "toxic"
@@ -5308,12 +5452,14 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "dig",
       "double-team",
       "fire-blast",
       "flamethrower",
       "iron-tail",
       "overheat",
+      "protect",
       "rock-smash",
       "strength",
       "sunny-day",
@@ -5411,6 +5557,7 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "dig",
       "double-team",
       "fire-blast",
@@ -5418,6 +5565,7 @@
       "hyper-beam",
       "iron-tail",
       "overheat",
+      "protect",
       "rock-smash",
       "strength",
       "sunny-day",
@@ -5496,11 +5644,13 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "dig",
       "double-team",
       "hail",
       "ice-beam",
+      "protect",
       "psychic",
       "rain-dance",
       "surf",
@@ -5587,6 +5737,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "brick-break",
       "dig",
@@ -5594,6 +5745,7 @@
       "earthquake",
       "hail",
       "ice-beam",
+      "protect",
       "psychic",
       "rain-dance",
       "rock-smash",
@@ -5687,6 +5839,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "brick-break",
       "dig",
@@ -5695,6 +5848,7 @@
       "hail",
       "hyper-beam",
       "ice-beam",
+      "protect",
       "psychic",
       "rain-dance",
       "rock-smash",
@@ -5742,11 +5896,13 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "calm-mind",
       "double-team",
       "flash",
       "iron-tail",
       "light-screen",
+      "protect",
       "psychic",
       "rain-dance",
       "reflect",
@@ -5754,6 +5910,8 @@
       "shadow-ball",
       "shock-wave",
       "sunny-day",
+      "taunt",
+      "torment",
       "toxic"
     ],
     "evolutions": [
@@ -5835,11 +5993,13 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "calm-mind",
       "double-team",
       "flash",
       "iron-tail",
       "light-screen",
+      "protect",
       "psychic",
       "rain-dance",
       "reflect",
@@ -5847,6 +6007,8 @@
       "shadow-ball",
       "shock-wave",
       "sunny-day",
+      "taunt",
+      "torment",
       "toxic"
     ],
     "evolutions": [
@@ -5927,12 +6089,14 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "calm-mind",
       "double-team",
       "flash",
       "hyper-beam",
       "iron-tail",
       "light-screen",
+      "protect",
       "psychic",
       "rain-dance",
       "reflect",
@@ -5940,6 +6104,8 @@
       "shadow-ball",
       "shock-wave",
       "sunny-day",
+      "taunt",
+      "torment",
       "toxic"
     ],
     "evolutions": [],
@@ -6019,12 +6185,14 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "brick-break",
       "dig",
       "double-team",
       "earthquake",
       "fire-blast",
       "flamethrower",
+      "protect",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
@@ -6115,12 +6283,14 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "brick-break",
       "dig",
       "double-team",
       "earthquake",
       "fire-blast",
       "flamethrower",
+      "protect",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
@@ -6210,6 +6380,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "brick-break",
       "dig",
       "double-team",
@@ -6217,6 +6388,7 @@
       "fire-blast",
       "flamethrower",
       "hyper-beam",
+      "protect",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
@@ -6302,11 +6474,13 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "bullet-seed",
       "cut",
       "double-team",
       "flash",
       "giga-drain",
+      "protect",
       "sludge-bomb",
       "solar-beam",
       "sunny-day",
@@ -6396,11 +6570,13 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "bullet-seed",
       "cut",
       "double-team",
       "flash",
       "giga-drain",
+      "protect",
       "sludge-bomb",
       "solar-beam",
       "sunny-day",
@@ -6474,12 +6650,14 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "bullet-seed",
       "cut",
       "double-team",
       "flash",
       "giga-drain",
       "hyper-beam",
+      "protect",
       "sludge-bomb",
       "solar-beam",
       "sunny-day",
@@ -6571,12 +6749,14 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "cut",
       "double-team",
       "giga-drain",
       "hail",
       "ice-beam",
+      "protect",
       "rain-dance",
       "sludge-bomb",
       "surf",
@@ -6676,6 +6856,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "cut",
       "double-team",
@@ -6683,6 +6864,7 @@
       "hail",
       "hyper-beam",
       "ice-beam",
+      "protect",
       "rain-dance",
       "sludge-bomb",
       "surf",
@@ -6756,12 +6938,14 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "brick-break",
       "dig",
       "double-team",
       "earthquake",
       "fire-blast",
       "flamethrower",
+      "protect",
       "rock-smash",
       "rock-tomb",
       "sandstorm",
@@ -6841,12 +7025,14 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "brick-break",
       "dig",
       "double-team",
       "earthquake",
       "fire-blast",
       "flamethrower",
+      "protect",
       "rock-smash",
       "rock-tomb",
       "sandstorm",
@@ -6925,6 +7111,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "brick-break",
       "dig",
       "double-team",
@@ -6932,6 +7119,7 @@
       "fire-blast",
       "flamethrower",
       "hyper-beam",
+      "protect",
       "rock-smash",
       "rock-tomb",
       "sandstorm",
@@ -7020,11 +7208,13 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "double-team",
       "fire-blast",
       "flamethrower",
       "iron-tail",
       "overheat",
+      "protect",
       "solar-beam",
       "strength",
       "sunny-day",
@@ -7133,12 +7323,14 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "double-team",
       "fire-blast",
       "flamethrower",
       "hyper-beam",
       "iron-tail",
       "overheat",
+      "protect",
       "solar-beam",
       "strength",
       "sunny-day",
@@ -7226,6 +7418,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "calm-mind",
       "dig",
@@ -7237,6 +7430,7 @@
       "hail",
       "ice-beam",
       "iron-tail",
+      "protect",
       "psychic",
       "rain-dance",
       "safeguard",
@@ -7344,6 +7538,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "brick-break",
       "calm-mind",
@@ -7357,6 +7552,7 @@
       "hyper-beam",
       "ice-beam",
       "iron-tail",
+      "protect",
       "psychic",
       "rain-dance",
       "rock-smash",
@@ -7448,6 +7644,7 @@
     "tmMoves": [
       "double-team",
       "flash",
+      "protect",
       "rain-dance",
       "reflect",
       "shock-wave",
@@ -7547,6 +7744,7 @@
       "double-team",
       "flash",
       "hyper-beam",
+      "protect",
       "rain-dance",
       "reflect",
       "shock-wave",
@@ -7646,10 +7844,12 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "cut",
       "double-team",
       "fly",
       "iron-tail",
+      "protect",
       "sunny-day",
       "toxic"
     ],
@@ -7724,8 +7924,10 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "double-team",
       "fly",
+      "protect",
       "sunny-day",
       "toxic"
     ],
@@ -7810,10 +8012,14 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "double-team",
       "fly",
       "hyper-beam",
+      "protect",
       "sunny-day",
+      "taunt",
+      "torment",
       "toxic"
     ],
     "evolutions": [],
@@ -7897,10 +8103,12 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "double-team",
       "hail",
       "ice-beam",
+      "protect",
       "rain-dance",
       "safeguard",
       "surf",
@@ -7992,11 +8200,13 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "double-team",
       "hail",
       "hyper-beam",
       "ice-beam",
+      "protect",
       "rain-dance",
       "safeguard",
       "surf",
@@ -8085,18 +8295,22 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "dig",
       "double-team",
       "fire-blast",
       "flamethrower",
       "giga-drain",
+      "protect",
       "rain-dance",
       "rock-tomb",
       "shock-wave",
       "sludge-bomb",
       "sunny-day",
+      "taunt",
       "thunder",
       "thunderbolt",
+      "torment",
       "toxic"
     ],
     "evolutions": [
@@ -8186,6 +8400,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "brick-break",
       "dig",
       "double-team",
@@ -8193,6 +8408,7 @@
       "flamethrower",
       "giga-drain",
       "hyper-beam",
+      "protect",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
@@ -8200,8 +8416,10 @@
       "sludge-bomb",
       "strength",
       "sunny-day",
+      "taunt",
       "thunder",
       "thunderbolt",
+      "torment",
       "toxic"
     ],
     "evolutions": [],
@@ -8265,6 +8483,10 @@
         "move": "aurora-beam"
       },
       {
+        "level": 28,
+        "move": "protect"
+      },
+      {
         "level": 32,
         "move": "razor-shell"
       },
@@ -8282,10 +8504,12 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "double-team",
       "hail",
       "ice-beam",
+      "protect",
       "rain-dance",
       "surf",
       "toxic",
@@ -8363,6 +8587,10 @@
       },
       {
         "level": 1,
+        "move": "protect"
+      },
+      {
+        "level": 1,
         "move": "supersonic"
       },
       {
@@ -8383,13 +8611,16 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "double-team",
       "hail",
       "hyper-beam",
       "ice-beam",
+      "protect",
       "rain-dance",
       "surf",
+      "torment",
       "toxic",
       "water-pulse"
     ],
@@ -8455,14 +8686,18 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "double-team",
       "giga-drain",
+      "protect",
       "psychic",
       "rain-dance",
       "shadow-ball",
       "sludge-bomb",
       "sunny-day",
+      "taunt",
       "thunderbolt",
+      "torment",
       "toxic"
     ],
     "evolutions": [
@@ -8537,14 +8772,18 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "double-team",
       "giga-drain",
+      "protect",
       "psychic",
       "rain-dance",
       "shadow-ball",
       "sludge-bomb",
       "sunny-day",
+      "taunt",
       "thunderbolt",
+      "torment",
       "toxic"
     ],
     "evolutions": [
@@ -8618,10 +8857,12 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "brick-break",
       "double-team",
       "giga-drain",
       "hyper-beam",
+      "protect",
       "psychic",
       "rain-dance",
       "rock-smash",
@@ -8629,8 +8870,10 @@
       "sludge-bomb",
       "strength",
       "sunny-day",
+      "taunt",
       "thunder",
       "thunderbolt",
+      "torment",
       "toxic"
     ],
     "evolutions": [],
@@ -8719,15 +8962,19 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "dig",
       "double-team",
       "earthquake",
       "iron-tail",
+      "protect",
       "rock-smash",
       "rock-tomb",
       "sandstorm",
       "strength",
       "sunny-day",
+      "taunt",
+      "torment",
       "toxic"
     ],
     "evolutions": [
@@ -8809,17 +9056,21 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "brick-break",
       "calm-mind",
       "double-team",
       "flash",
       "light-screen",
+      "protect",
       "psychic",
       "rain-dance",
       "reflect",
       "safeguard",
       "shadow-ball",
       "sunny-day",
+      "taunt",
+      "torment",
       "toxic"
     ],
     "evolutions": [
@@ -8901,18 +9152,22 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "brick-break",
       "calm-mind",
       "double-team",
       "flash",
       "hyper-beam",
       "light-screen",
+      "protect",
       "psychic",
       "rain-dance",
       "reflect",
       "safeguard",
       "shadow-ball",
       "sunny-day",
+      "taunt",
+      "torment",
       "toxic"
     ],
     "evolutions": [],
@@ -8967,6 +9222,10 @@
         "move": "mud-shot"
       },
       {
+        "level": 16,
+        "move": "protect"
+      },
+      {
         "level": 20,
         "move": "bubble-beam"
       },
@@ -8992,12 +9251,14 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "cut",
       "dig",
       "double-team",
       "hail",
       "ice-beam",
+      "protect",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
@@ -9068,6 +9329,10 @@
         "move": "mud-shot"
       },
       {
+        "level": 16,
+        "move": "protect"
+      },
+      {
         "level": 20,
         "move": "bubble-beam"
       },
@@ -9093,6 +9358,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "cut",
       "dig",
@@ -9100,6 +9366,7 @@
       "hail",
       "hyper-beam",
       "ice-beam",
+      "protect",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
@@ -9180,10 +9447,13 @@
       "double-team",
       "flash",
       "light-screen",
+      "protect",
       "rain-dance",
       "shock-wave",
+      "taunt",
       "thunder",
       "thunderbolt",
+      "torment",
       "toxic"
     ],
     "evolutions": [
@@ -9265,10 +9535,13 @@
       "flash",
       "hyper-beam",
       "light-screen",
+      "protect",
       "rain-dance",
       "shock-wave",
+      "taunt",
       "thunder",
       "thunderbolt",
+      "torment",
       "toxic"
     ],
     "evolutions": [],
@@ -9341,11 +9614,13 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "bullet-seed",
       "double-team",
       "flash",
       "giga-drain",
       "light-screen",
+      "protect",
       "psychic",
       "reflect",
       "sludge-bomb",
@@ -9450,12 +9725,14 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "bullet-seed",
       "double-team",
       "flash",
       "giga-drain",
       "hyper-beam",
       "light-screen",
+      "protect",
       "psychic",
       "reflect",
       "sludge-bomb",
@@ -9538,6 +9815,7 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "blizzard",
       "brick-break",
       "dig",
@@ -9547,6 +9825,7 @@
       "flamethrower",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rock-smash",
       "rock-tomb",
       "sandstorm",
@@ -9634,6 +9913,7 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "blizzard",
       "brick-break",
       "dig",
@@ -9644,6 +9924,7 @@
       "hyper-beam",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rock-smash",
       "rock-tomb",
       "sandstorm",
@@ -9712,9 +9993,11 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "brick-break",
       "double-team",
       "earthquake",
+      "protect",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
@@ -9799,9 +10082,11 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "brick-break",
       "double-team",
       "earthquake",
+      "protect",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
@@ -9870,6 +10155,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "brick-break",
       "cut",
@@ -9881,6 +10167,7 @@
       "hyper-beam",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
@@ -9965,17 +10252,21 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "double-team",
       "fire-blast",
       "flamethrower",
       "flash",
+      "protect",
       "rain-dance",
       "shadow-ball",
       "shock-wave",
       "sludge-bomb",
       "sunny-day",
+      "taunt",
       "thunder",
       "thunderbolt",
+      "torment",
       "toxic"
     ],
     "evolutions": [
@@ -10061,18 +10352,22 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "double-team",
       "fire-blast",
       "flamethrower",
       "flash",
       "hyper-beam",
+      "protect",
       "rain-dance",
       "shadow-ball",
       "shock-wave",
       "sludge-bomb",
       "sunny-day",
+      "taunt",
       "thunder",
       "thunderbolt",
+      "torment",
       "toxic"
     ],
     "evolutions": [],
@@ -10157,6 +10452,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "dig",
       "double-team",
@@ -10165,6 +10461,7 @@
       "flamethrower",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
@@ -10268,6 +10565,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "brick-break",
       "cut",
@@ -10279,6 +10577,7 @@
       "hyper-beam",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
@@ -10378,6 +10677,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "brick-break",
       "calm-mind",
@@ -10391,6 +10691,7 @@
       "ice-beam",
       "iron-tail",
       "light-screen",
+      "protect",
       "psychic",
       "rain-dance",
       "rock-smash",
@@ -10485,12 +10786,14 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "bullet-seed",
       "cut",
       "double-team",
       "flash",
       "giga-drain",
       "hyper-beam",
+      "protect",
       "rock-smash",
       "sludge-bomb",
       "solar-beam",
@@ -10568,6 +10871,7 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "blizzard",
       "brick-break",
       "cut",
@@ -10580,6 +10884,7 @@
       "hyper-beam",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
@@ -10672,10 +10977,12 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "double-team",
       "hail",
       "ice-beam",
+      "protect",
       "rain-dance",
       "surf",
       "toxic",
@@ -10765,11 +11072,13 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "double-team",
       "hail",
       "hyper-beam",
       "ice-beam",
+      "protect",
       "rain-dance",
       "surf",
       "toxic",
@@ -10848,10 +11157,12 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "double-team",
       "hail",
       "ice-beam",
+      "protect",
       "rain-dance",
       "surf",
       "toxic",
@@ -10929,11 +11240,13 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "double-team",
       "hail",
       "hyper-beam",
       "ice-beam",
+      "protect",
       "rain-dance",
       "surf",
       "toxic",
@@ -11035,6 +11348,7 @@
       "hail",
       "ice-beam",
       "light-screen",
+      "protect",
       "psychic",
       "rain-dance",
       "reflect",
@@ -11148,6 +11462,7 @@
       "hyper-beam",
       "ice-beam",
       "light-screen",
+      "protect",
       "psychic",
       "rain-dance",
       "reflect",
@@ -11199,6 +11514,10 @@
         "move": "confusion"
       },
       {
+        "level": 20,
+        "move": "protect"
+      },
+      {
         "level": 28,
         "move": "psybeam"
       },
@@ -11228,12 +11547,14 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "brick-break",
       "calm-mind",
       "double-team",
       "flash",
       "hyper-beam",
       "light-screen",
+      "protect",
       "psychic",
       "rain-dance",
       "reflect",
@@ -11242,8 +11563,10 @@
       "shock-wave",
       "solar-beam",
       "sunny-day",
+      "taunt",
       "thunder",
       "thunderbolt",
+      "torment",
       "toxic"
     ],
     "evolutions": [],
@@ -11325,9 +11648,11 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "cut",
       "double-team",
       "hyper-beam",
+      "protect",
       "rain-dance",
       "rock-smash",
       "sunny-day",
@@ -11421,6 +11746,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "brick-break",
       "calm-mind",
@@ -11430,10 +11756,13 @@
       "hyper-beam",
       "ice-beam",
       "light-screen",
+      "protect",
       "psychic",
       "rain-dance",
       "reflect",
       "shadow-ball",
+      "taunt",
+      "torment",
       "toxic",
       "water-pulse"
     ],
@@ -11518,12 +11847,14 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "brick-break",
       "double-team",
       "flash",
       "hyper-beam",
       "iron-tail",
       "light-screen",
+      "protect",
       "psychic",
       "rain-dance",
       "rock-smash",
@@ -11628,12 +11959,14 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "brick-break",
       "double-team",
       "fire-blast",
       "flamethrower",
       "hyper-beam",
       "iron-tail",
+      "protect",
       "psychic",
       "rock-smash",
       "strength",
@@ -11719,12 +12052,14 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "brick-break",
       "cut",
       "dig",
       "double-team",
       "earthquake",
       "hyper-beam",
+      "protect",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
@@ -11801,6 +12136,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "double-team",
       "earthquake",
@@ -11809,6 +12145,7 @@
       "hyper-beam",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
@@ -11961,6 +12298,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "double-team",
       "earthquake",
@@ -11969,13 +12307,16 @@
       "hail",
       "hyper-beam",
       "ice-beam",
+      "protect",
       "rain-dance",
       "rock-smash",
       "sandstorm",
       "strength",
       "surf",
+      "taunt",
       "thunder",
       "thunderbolt",
+      "torment",
       "toxic",
       "water-pulse",
       "waterfall"
@@ -12062,12 +12403,14 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "double-team",
       "hail",
       "hyper-beam",
       "ice-beam",
       "iron-tail",
+      "protect",
       "psychic",
       "rain-dance",
       "rock-smash",
@@ -12199,9 +12542,11 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "dig",
       "double-team",
       "iron-tail",
+      "protect",
       "rain-dance",
       "shadow-ball",
       "sunny-day",
@@ -12353,6 +12698,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "dig",
       "double-team",
@@ -12360,6 +12706,7 @@
       "hyper-beam",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "shadow-ball",
       "sunny-day",
@@ -12477,11 +12824,13 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "dig",
       "double-team",
       "flash",
       "hyper-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "shadow-ball",
       "shock-wave",
@@ -12591,6 +12940,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "dig",
       "double-team",
       "fire-blast",
@@ -12598,6 +12948,7 @@
       "hyper-beam",
       "iron-tail",
       "overheat",
+      "protect",
       "rain-dance",
       "shadow-ball",
       "sunny-day",
@@ -12679,6 +13030,7 @@
       "hyper-beam",
       "ice-beam",
       "iron-tail",
+      "protect",
       "psychic",
       "rain-dance",
       "shadow-ball",
@@ -12746,6 +13098,10 @@
         "move": "brine"
       },
       {
+        "level": 41,
+        "move": "protect"
+      },
+      {
         "level": 45,
         "move": "rock-blast"
       },
@@ -12759,10 +13115,12 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "double-team",
       "hail",
       "ice-beam",
+      "protect",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
@@ -12839,6 +13197,10 @@
         "move": "brine"
       },
       {
+        "level": 43,
+        "move": "protect"
+      },
+      {
         "level": 49,
         "move": "rock-blast"
       },
@@ -12852,11 +13214,13 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "double-team",
       "hail",
       "hyper-beam",
       "ice-beam",
+      "protect",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
@@ -12931,6 +13295,10 @@
         "move": "brine"
       },
       {
+        "level": 41,
+        "move": "protect"
+      },
+      {
         "level": 45,
         "move": "leech-life"
       },
@@ -12949,12 +13317,14 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "blizzard",
       "dig",
       "double-team",
       "giga-drain",
       "hail",
       "ice-beam",
+      "protect",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
@@ -13047,6 +13417,10 @@
         "move": "brine"
       },
       {
+        "level": 43,
+        "move": "protect"
+      },
+      {
         "level": 49,
         "move": "leech-life"
       },
@@ -13065,6 +13439,7 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "blizzard",
       "brick-break",
       "cut",
@@ -13074,6 +13449,7 @@
       "hail",
       "hyper-beam",
       "ice-beam",
+      "protect",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
@@ -13162,6 +13538,7 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "double-team",
       "dragon-claw",
       "earthquake",
@@ -13170,12 +13547,15 @@
       "fly",
       "hyper-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
       "sandstorm",
       "strength",
       "sunny-day",
+      "taunt",
+      "torment",
       "toxic"
     ],
     "evolutions": [],
@@ -13251,6 +13631,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "brick-break",
       "double-team",
@@ -13259,6 +13640,7 @@
       "flamethrower",
       "hyper-beam",
       "ice-beam",
+      "protect",
       "psychic",
       "rain-dance",
       "rock-tomb",
@@ -13351,6 +13733,7 @@
       "hail",
       "hyper-beam",
       "ice-beam",
+      "protect",
       "rain-dance",
       "reflect",
       "rock-smash",
@@ -13443,6 +13826,7 @@
       "fly",
       "hyper-beam",
       "light-screen",
+      "protect",
       "rain-dance",
       "rock-smash",
       "sandstorm",
@@ -13541,6 +13925,7 @@
       "fly",
       "hyper-beam",
       "overheat",
+      "protect",
       "rain-dance",
       "rock-smash",
       "safeguard",
@@ -13621,6 +14006,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "double-team",
       "fire-blast",
@@ -13629,6 +14015,7 @@
       "hyper-beam",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "safeguard",
       "shock-wave",
@@ -13719,6 +14106,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "double-team",
       "fire-blast",
@@ -13727,6 +14115,7 @@
       "hyper-beam",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "safeguard",
       "shock-wave",
@@ -13839,6 +14228,7 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "blizzard",
       "brick-break",
       "cut",
@@ -13852,6 +14242,7 @@
       "hyper-beam",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
@@ -13954,6 +14345,7 @@
       "ice-beam",
       "iron-tail",
       "light-screen",
+      "protect",
       "psychic",
       "rain-dance",
       "reflect",
@@ -13966,8 +14358,10 @@
       "solar-beam",
       "strength",
       "sunny-day",
+      "taunt",
       "thunder",
       "thunderbolt",
+      "torment",
       "toxic",
       "water-pulse"
     ],
@@ -14033,6 +14427,7 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "blizzard",
       "brick-break",
       "bullet-seed",
@@ -14053,6 +14448,7 @@
       "iron-tail",
       "light-screen",
       "overheat",
+      "protect",
       "psychic",
       "rain-dance",
       "reflect",
@@ -14067,8 +14463,10 @@
       "strength",
       "sunny-day",
       "surf",
+      "taunt",
       "thunder",
       "thunderbolt",
+      "torment",
       "toxic",
       "water-pulse",
       "waterfall"
@@ -14164,17 +14562,21 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "cut",
       "dig",
       "double-team",
       "earthquake",
       "hyper-beam",
       "iron-tail",
+      "protect",
       "rock-smash",
       "rock-tomb",
       "sandstorm",
       "strength",
       "sunny-day",
+      "taunt",
+      "torment",
       "toxic"
     ],
     "evolutions": [],
@@ -14276,6 +14678,7 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "blizzard",
       "brick-break",
       "cut",
@@ -14288,6 +14691,7 @@
       "hyper-beam",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
@@ -14296,8 +14700,10 @@
       "strength",
       "sunny-day",
       "surf",
+      "taunt",
       "thunder",
       "thunderbolt",
+      "torment",
       "toxic",
       "water-pulse"
     ],
@@ -14384,11 +14790,13 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "double-team",
       "hail",
       "hyper-beam",
       "ice-beam",
+      "protect",
       "rain-dance",
       "surf",
       "toxic",
@@ -14474,12 +14882,14 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "bullet-seed",
       "cut",
       "double-team",
       "flash",
       "giga-drain",
       "hyper-beam",
+      "protect",
       "safeguard",
       "sludge-bomb",
       "solar-beam",
@@ -14579,6 +14989,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "calm-mind",
       "cut",
       "dig",
@@ -14587,6 +14998,7 @@
       "hyper-beam",
       "iron-tail",
       "light-screen",
+      "protect",
       "psychic",
       "rain-dance",
       "reflect",
@@ -14691,16 +15103,20 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "cut",
       "dig",
       "double-team",
       "flash",
       "hyper-beam",
       "iron-tail",
+      "protect",
       "psychic",
       "rain-dance",
       "shadow-ball",
       "sunny-day",
+      "taunt",
+      "torment",
       "toxic"
     ],
     "evolutions": [],
@@ -14790,6 +15206,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "brick-break",
       "calm-mind",
@@ -14803,6 +15220,7 @@
       "hyper-beam",
       "ice-beam",
       "iron-tail",
+      "protect",
       "psychic",
       "rain-dance",
       "rock-smash",
@@ -14876,6 +15294,10 @@
         "move": "incinerate"
       },
       {
+        "level": 35,
+        "move": "torment"
+      },
+      {
         "level": 50,
         "move": "flamethrower"
       },
@@ -14889,18 +15311,22 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "double-team",
       "fire-blast",
       "flamethrower",
       "hyper-beam",
       "iron-tail",
       "overheat",
+      "protect",
       "rock-smash",
       "shadow-ball",
       "sludge-bomb",
       "solar-beam",
       "strength",
       "sunny-day",
+      "taunt",
+      "torment",
       "toxic"
     ],
     "evolutions": [],
@@ -14961,10 +15387,12 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "brick-break",
       "dig",
       "double-team",
       "earthquake",
+      "protect",
       "rain-dance",
       "rock-smash",
       "sandstorm",
@@ -15068,9 +15496,11 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "cut",
       "double-team",
       "hyper-beam",
+      "protect",
       "rain-dance",
       "rock-smash",
       "sandstorm",
@@ -15160,6 +15590,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "brick-break",
       "calm-mind",
@@ -15173,6 +15604,7 @@
       "ice-beam",
       "iron-tail",
       "light-screen",
+      "protect",
       "psychic",
       "rain-dance",
       "rock-smash",
@@ -15276,14 +15708,18 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "double-team",
       "fly",
       "giga-drain",
       "hyper-beam",
+      "protect",
       "rain-dance",
       "shadow-ball",
       "sludge-bomb",
       "sunny-day",
+      "taunt",
+      "torment",
       "toxic"
     ],
     "evolutions": [],
@@ -15343,6 +15779,10 @@
         "move": "twister"
       },
       {
+        "level": 16,
+        "move": "attract"
+      },
+      {
         "level": 20,
         "move": "life-dew"
       },
@@ -15372,12 +15812,14 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "double-team",
       "hail",
       "hyper-beam",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "safeguard",
       "surf",
@@ -15455,10 +15897,12 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "double-team",
       "flash",
       "hyper-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "shock-wave",
       "strength",
@@ -15557,11 +16001,13 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "calm-mind",
       "double-team",
       "flash",
       "hyper-beam",
       "light-screen",
+      "protect",
       "psychic",
       "rain-dance",
       "reflect",
@@ -15569,7 +16015,9 @@
       "shadow-ball",
       "shock-wave",
       "sunny-day",
+      "taunt",
       "thunderbolt",
+      "torment",
       "toxic"
     ],
     "evolutions": [],
@@ -15622,11 +16070,13 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "brick-break",
       "dig",
       "double-team",
       "earthquake",
       "hyper-beam",
+      "protect",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
@@ -15689,17 +16139,21 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "calm-mind",
       "double-team",
       "flash",
       "hyper-beam",
+      "protect",
       "psychic",
       "rain-dance",
       "shadow-ball",
       "shock-wave",
       "sunny-day",
+      "taunt",
       "thunder",
       "thunderbolt",
+      "torment",
       "toxic"
     ],
     "evolutions": [],
@@ -15755,6 +16209,10 @@
         "move": "leer"
       },
       {
+        "level": 1,
+        "move": "protect"
+      },
+      {
         "level": 15,
         "move": "headbutt"
       },
@@ -15785,6 +16243,7 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "brick-break",
       "cut",
       "double-team",
@@ -15795,6 +16254,7 @@
       "fly",
       "hyper-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
@@ -15900,6 +16360,7 @@
       "flash",
       "hyper-beam",
       "light-screen",
+      "protect",
       "psychic",
       "rain-dance",
       "reflect",
@@ -16026,6 +16487,7 @@
       "mud-shot",
       "mud-slap",
       "poison-jab",
+      "protect",
       "rain-dance",
       "rock-blast",
       "rock-slide",
@@ -16110,6 +16572,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "body-slam",
       "bullet-seed",
       "dazzling-gleam",
@@ -16119,6 +16582,7 @@
       "pin-missile",
       "poison-jab",
       "power-whip",
+      "protect",
       "rain-dance",
       "round",
       "seed-bomb",
@@ -16205,6 +16669,7 @@
     ],
     "tmMoves": [
       "amnesia",
+      "attract",
       "body-slam",
       "brick-break",
       "bulldoze",
@@ -16216,6 +16681,7 @@
       "payback",
       "poison-jab",
       "power-whip",
+      "protect",
       "reflect",
       "rock-slide",
       "rock-tomb",
@@ -16273,6 +16739,10 @@
         "move": "poison-sting"
       },
       {
+        "level": 1,
+        "move": "taunt"
+      },
+      {
         "level": 20,
         "move": "venoshock"
       },
@@ -16312,6 +16782,7 @@
       "mud-slap",
       "nasty-plot",
       "poison-jab",
+      "protect",
       "rain-dance",
       "rock-slide",
       "rock-tomb",
@@ -16323,6 +16794,7 @@
       "sunny-day",
       "swords-dance",
       "take-down",
+      "taunt",
       "thunder-punch",
       "toxic",
       "vacuum-wave",
@@ -16437,6 +16909,7 @@
       "low-sweep",
       "overheat",
       "poison-jab",
+      "protect",
       "psychic",
       "rock-slide",
       "rock-tomb",
@@ -16445,6 +16918,7 @@
       "stomping-tantrum",
       "sunny-day",
       "take-down",
+      "taunt",
       "thunder-punch",
       "thunderbolt",
       "will-o-wisp"
@@ -16546,6 +17020,7 @@
       "light-screen",
       "low-sweep",
       "metal-sound",
+      "protect",
       "psychic",
       "rain-dance",
       "reflect",
@@ -16554,6 +17029,7 @@
       "stomping-tantrum",
       "swift",
       "take-down",
+      "taunt",
       "thunder",
       "thunder-punch",
       "thunder-wave",
@@ -16662,6 +17138,7 @@
       "mud-shot",
       "poison-jab",
       "power-gem",
+      "protect",
       "rain-dance",
       "rock-slide",
       "rock-tomb",
@@ -16757,6 +17234,7 @@
       "icy-wind",
       "leaf-storm",
       "mud-slap",
+      "protect",
       "rain-dance",
       "rock-slide",
       "rock-tomb",
@@ -16862,6 +17340,7 @@
       "knock-off",
       "mud-shot",
       "mud-slap",
+      "protect",
       "rain-dance",
       "reflect",
       "rock-blast",
@@ -16984,6 +17463,7 @@
       "icy-wind",
       "mud-shot",
       "mud-slap",
+      "protect",
       "rain-dance",
       "shadow-ball",
       "stored-power",
@@ -17108,6 +17588,7 @@
       "leaf-storm",
       "mud-shot",
       "mud-slap",
+      "protect",
       "rain-dance",
       "seed-bomb",
       "shadow-ball",
@@ -17178,6 +17659,7 @@
       "icy-wind",
       "nasty-plot",
       "power-gem",
+      "protect",
       "psybeam",
       "psychic",
       "psyshock",
@@ -17187,6 +17669,7 @@
       "stored-power",
       "sunny-day",
       "swift",
+      "taunt",
       "thunder",
       "thunder-wave",
       "thunderbolt",
@@ -17285,6 +17768,7 @@
       "ice-punch",
       "icy-wind",
       "leech-life",
+      "protect",
       "psychic",
       "rain-dance",
       "rock-slide",
@@ -17292,6 +17776,7 @@
       "shadow-ball",
       "sunny-day",
       "swift",
+      "taunt",
       "thunder-punch",
       "will-o-wisp"
     ],
@@ -17393,6 +17878,7 @@
     "tmMoves": [
       "agility",
       "assurance",
+      "attract",
       "brick-break",
       "bug-buzz",
       "bulldoze",
@@ -17409,6 +17895,7 @@
       "payback",
       "pin-missile",
       "poison-jab",
+      "protect",
       "rain-dance",
       "retaliate",
       "rock-slide",
@@ -17421,6 +17908,7 @@
       "stomping-tantrum",
       "sunny-day",
       "swords-dance",
+      "taunt",
       "venoshock",
       "x-scissor"
     ],
@@ -17509,6 +17997,7 @@
     "tmMoves": [
       "air-slash",
       "amnesia",
+      "attract",
       "aura-sphere",
       "body-slam",
       "brick-break",
@@ -17527,6 +18016,7 @@
       "mega-punch",
       "nasty-plot",
       "play-rough",
+      "protect",
       "psychic",
       "psyshock",
       "rain-dance",
@@ -17587,6 +18077,10 @@
         "move": "poison-sting"
       },
       {
+        "level": 1,
+        "move": "protect"
+      },
+      {
         "level": 16,
         "move": "screech"
       },
@@ -17622,6 +18116,7 @@
     "tmMoves": [
       "agility",
       "assurance",
+      "attract",
       "bulldoze",
       "cross-poison",
       "dig",
@@ -17634,6 +18129,7 @@
       "payback",
       "pin-missile",
       "poison-jab",
+      "protect",
       "rock-slide",
       "rock-tomb",
       "round",
@@ -17729,10 +18225,12 @@
       "hex",
       "hyper-beam",
       "overheat",
+      "protect",
       "psychic",
       "shadow-ball",
       "solar-beam",
       "sunny-day",
+      "taunt",
       "will-o-wisp"
     ],
     "evolutions": [],
@@ -17832,6 +18330,7 @@
       "mud-shot",
       "mud-slap",
       "poison-jab",
+      "protect",
       "rock-blast",
       "rock-slide",
       "rock-tomb",
@@ -17928,6 +18427,7 @@
       "knock-off",
       "low-sweep",
       "poison-jab",
+      "protect",
       "rain-dance",
       "rock-blast",
       "rock-slide",
@@ -17937,6 +18437,7 @@
       "stone-edge",
       "sunny-day",
       "take-down",
+      "taunt",
       "thunder-punch"
     ],
     "evolutions": [],
@@ -18050,6 +18551,7 @@
       "light-screen",
       "mud-slap",
       "play-rough",
+      "protect",
       "psychic",
       "psyshock",
       "rain-dance",
@@ -18146,11 +18648,13 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "double-team",
       "fire-blast",
       "flamethrower",
       "light-screen",
       "overheat",
+      "protect",
       "reflect",
       "rock-smash",
       "sunny-day",
@@ -18249,6 +18753,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "double-team",
       "earthquake",
       "fire-blast",
@@ -18256,6 +18761,7 @@
       "hyper-beam",
       "light-screen",
       "overheat",
+      "protect",
       "reflect",
       "rock-smash",
       "rock-tomb",
@@ -18322,6 +18828,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "calm-mind",
       "dig",
@@ -18331,6 +18838,7 @@
       "flamethrower",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
@@ -18386,6 +18894,10 @@
         "move": "scratch"
       },
       {
+        "level": 6,
+        "move": "taunt"
+      },
+      {
         "level": 12,
         "move": "quick-attack"
       },
@@ -18416,6 +18928,7 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "blizzard",
       "brick-break",
       "calm-mind",
@@ -18425,12 +18938,15 @@
       "hail",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "rock-smash",
       "shadow-ball",
       "strength",
       "sunny-day",
       "surf",
+      "taunt",
+      "torment",
       "toxic"
     ],
     "evolutions": [],
@@ -18504,6 +19020,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "dig",
       "double-team",
@@ -18511,6 +19028,7 @@
       "hail",
       "ice-beam",
       "light-screen",
+      "protect",
       "rain-dance",
       "reflect",
       "rock-smash",
@@ -18569,11 +19087,13 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "blizzard",
       "double-team",
       "fly",
       "hail",
       "ice-beam",
+      "protect",
       "rain-dance",
       "toxic",
       "water-pulse"
@@ -18657,6 +19177,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "brick-break",
       "dig",
@@ -18664,6 +19185,7 @@
       "hail",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "rock-smash",
       "strength",
@@ -18753,6 +19275,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "dig",
       "double-team",
@@ -18761,6 +19284,7 @@
       "hail",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "rock-smash",
       "sandstorm",
@@ -18856,10 +19380,12 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "bullet-seed",
       "double-team",
       "flash",
       "giga-drain",
+      "protect",
       "solar-beam",
       "sunny-day",
       "toxic"
@@ -18945,10 +19471,12 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "double-team",
       "hail",
       "ice-beam",
+      "protect",
       "rain-dance",
       "shadow-ball",
       "shock-wave",
@@ -19028,12 +19556,14 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "double-team",
       "fire-blast",
       "flamethrower",
       "hyper-beam",
       "ice-beam",
+      "protect",
       "psychic",
       "rain-dance",
       "sunny-day",
@@ -19110,11 +19640,13 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "double-team",
       "fire-blast",
       "flamethrower",
       "flash",
       "light-screen",
+      "protect",
       "psychic",
       "rain-dance",
       "reflect",
@@ -19203,6 +19735,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "dig",
       "double-team",
@@ -19211,6 +19744,7 @@
       "hyper-beam",
       "ice-beam",
       "light-screen",
+      "protect",
       "rain-dance",
       "reflect",
       "rock-smash",
@@ -19304,6 +19838,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "brick-break",
       "dig",
@@ -19312,6 +19847,7 @@
       "hyper-beam",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "rock-smash",
       "strength",
@@ -19395,6 +19931,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "brick-break",
       "dig",
@@ -19405,6 +19942,7 @@
       "hyper-beam",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
@@ -19496,10 +20034,12 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "bullet-seed",
       "double-team",
       "flash",
       "giga-drain",
+      "protect",
       "solar-beam",
       "sunny-day",
       "toxic"
@@ -19590,11 +20130,13 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "bullet-seed",
       "double-team",
       "flash",
       "giga-drain",
       "hyper-beam",
+      "protect",
       "solar-beam",
       "sunny-day",
       "toxic"
@@ -19677,6 +20219,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "bullet-seed",
       "double-team",
@@ -19684,6 +20227,7 @@
       "flamethrower",
       "hyper-beam",
       "ice-beam",
+      "protect",
       "psychic",
       "rain-dance",
       "sludge-bomb",
@@ -19762,6 +20306,7 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "brick-break",
       "double-team",
       "fire-blast",
@@ -19770,6 +20315,7 @@
       "fly",
       "hyper-beam",
       "light-screen",
+      "protect",
       "psychic",
       "rain-dance",
       "reflect",
@@ -19850,6 +20396,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "brick-break",
       "cut",
       "dig",
@@ -19857,6 +20404,7 @@
       "flamethrower",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "shadow-ball",
       "shock-wave",
@@ -19939,6 +20487,7 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "blizzard",
       "brick-break",
       "cut",
@@ -19948,6 +20497,7 @@
       "hyper-beam",
       "ice-beam",
       "iron-tail",
+      "protect",
       "rain-dance",
       "rock-smash",
       "shadow-ball",
@@ -20045,12 +20595,14 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "brick-break",
       "dig",
       "double-team",
       "flash",
       "giga-drain",
       "light-screen",
+      "protect",
       "reflect",
       "safeguard",
       "solar-beam",
@@ -20147,6 +20699,7 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "brick-break",
       "dig",
       "double-team",
@@ -20154,6 +20707,7 @@
       "giga-drain",
       "hyper-beam",
       "light-screen",
+      "protect",
       "reflect",
       "safeguard",
       "solar-beam",
@@ -20235,10 +20789,12 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "dig",
       "double-team",
       "flash",
       "giga-drain",
+      "protect",
       "psychic",
       "sludge-bomb",
       "solar-beam",
@@ -20338,11 +20894,13 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "dig",
       "double-team",
       "flash",
       "giga-drain",
       "hyper-beam",
+      "protect",
       "psychic",
       "sludge-bomb",
       "solar-beam",
@@ -20409,11 +20967,13 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "calm-mind",
       "double-team",
       "flash",
       "giga-drain",
       "light-screen",
+      "protect",
       "psychic",
       "rain-dance",
       "reflect",
@@ -20492,6 +21052,7 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "calm-mind",
       "double-team",
       "flash",
@@ -20499,6 +21060,7 @@
       "giga-drain",
       "hyper-beam",
       "light-screen",
+      "protect",
       "psychic",
       "rain-dance",
       "reflect",
@@ -20588,9 +21150,11 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "double-team",
       "flash",
       "giga-drain",
+      "protect",
       "psychic",
       "shadow-ball",
       "solar-beam",
@@ -20649,16 +21213,28 @@
       {
         "level": 25,
         "move": "assurance"
+      },
+      {
+        "level": 31,
+        "move": "taunt"
+      },
+      {
+        "level": 55,
+        "move": "torment"
       }
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "calm-mind",
       "double-team",
       "fly",
+      "protect",
       "rain-dance",
       "shadow-ball",
       "sunny-day",
+      "taunt",
+      "torment",
       "toxic"
     ],
     "evolutions": [],
@@ -20731,16 +21307,20 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "calm-mind",
       "double-team",
       "flash",
+      "protect",
       "psychic",
       "rain-dance",
       "shadow-ball",
       "shock-wave",
       "sunny-day",
+      "taunt",
       "thunder",
       "thunderbolt",
+      "torment",
       "toxic"
     ],
     "evolutions": [
@@ -20869,12 +21449,14 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "brick-break",
       "cut",
       "dig",
       "double-team",
       "earthquake",
       "hyper-beam",
+      "protect",
       "rain-dance",
       "rock-smash",
       "rock-tomb",
@@ -20970,11 +21552,13 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "blizzard",
       "double-team",
       "earthquake",
       "hail",
       "ice-beam",
+      "protect",
       "rain-dance",
       "surf",
       "toxic",
@@ -21069,12 +21653,16 @@
     ],
     "tmMoves": [
       "aerial-ace",
+      "attract",
       "cut",
       "double-team",
       "fly",
+      "protect",
       "rock-smash",
       "sandstorm",
       "sunny-day",
+      "taunt",
+      "torment",
       "toxic"
     ],
     "evolutions": [],
@@ -21138,9 +21726,11 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "double-team",
       "earthquake",
       "iron-tail",
+      "protect",
       "rock-smash",
       "rock-tomb",
       "sandstorm",
@@ -21231,10 +21821,12 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "double-team",
       "earthquake",
       "hyper-beam",
       "iron-tail",
+      "protect",
       "rock-smash",
       "rock-tomb",
       "sandstorm",
@@ -21333,15 +21925,19 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "brick-break",
       "dig",
       "double-team",
       "earthquake",
       "hyper-beam",
+      "protect",
       "rain-dance",
       "rock-smash",
       "sandstorm",
       "sunny-day",
+      "taunt",
+      "torment",
       "toxic"
     ],
     "evolutions": [
@@ -21444,15 +22040,19 @@
       }
     ],
     "tmMoves": [
+      "attract",
       "brick-break",
       "dig",
       "double-team",
       "earthquake",
       "hyper-beam",
+      "protect",
       "rain-dance",
       "rock-smash",
       "sandstorm",
       "sunny-day",
+      "taunt",
+      "torment",
       "toxic"
     ],
     "evolutions": [

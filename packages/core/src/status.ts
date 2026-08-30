@@ -5,6 +5,7 @@
 
 import type { Rng } from "./rng.js";
 import type { BattlePokemon, StatusId, Type } from "./types.js";
+import { freshVolatile } from "./types.js";
 
 /** そのタイプは該当の状態異常にならない。 */
 const IMMUNE_TYPES: Record<StatusId, readonly Type[]> = {
@@ -99,17 +100,9 @@ export function onSwitchOut(pokemon: BattlePokemon): void {
     pokemon.moves = was.moves;
     pokemon.ability = was.ability;
   }
-  pokemon.volatile = {
-    confusionTurns: 0,
-    flinched: false,
-    choiceLocked: null,
-    boostedMoveType: null,
-    transformedFrom: null,
-    // 溜めも反動の休みも交代で解ける（v1.2-c）。
-    // **場に居ないものは溜められない**
-    charging: null,
-    mustRecharge: false,
-  };
+  // 溜めも反動の休みも ちょうはつ も、交代で解ける（v1.2-c）――
+  // **場に居ないものには掛からない**
+  pokemon.volatile = freshVolatile();
   // トレースで書き換わった特性は戻る。持ち物の消費は戻らない。
   pokemon.ability = pokemon.innateAbility;
   if (pokemon.status === "toxic") pokemon.statusCounter = 1;

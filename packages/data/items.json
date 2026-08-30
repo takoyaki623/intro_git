@@ -998,6 +998,17 @@
     "consumable": true
   },
   {
+    "id": "tm12",
+    "name": "わざマシン12 ちょうはつ",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "taunt"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
     "id": "tm13",
     "name": "わざマシン13 れいとうビーム",
     "category": "tm",
@@ -1038,6 +1049,17 @@
     "use": {
       "kind": "teachMove",
       "move": "light-screen"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm17",
+    "name": "わざマシン17 まもる",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "protect"
     },
     "useScope": "field",
     "consumable": true
@@ -1260,6 +1282,28 @@
     "use": {
       "kind": "teachMove",
       "move": "aerial-ace"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm41",
+    "name": "わざマシン41 いちゃもん",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "torment"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm45",
+    "name": "わざマシン45 メロメロ",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "attract"
     },
     "useScope": "field",
     "consumable": true
