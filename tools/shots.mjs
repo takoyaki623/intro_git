@@ -593,7 +593,9 @@ for (const size of [
       await backOnMap();
     }
     const file = `${place.file}-${size.label}.png`;
-    await page.locator("#field-canvas").screenshot({ path: join(OUT, file) });
+    // **撮るのは画面（v1.3-a）。** canvas だけだと会話窓とメニューが写らない ――
+    // 原作の画面は「地図＋窓」で1枚なので、器のほうを撮る
+    await page.locator("#screen").screenshot({ path: join(OUT, file) });
     const where = await at();
     console.log(
       ok

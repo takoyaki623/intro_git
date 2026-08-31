@@ -99,9 +99,24 @@ import { buildingsOf, drawBuilding } from "./art/buildings.js";
 import { drawTile, shade, TILE_ALIAS, type TileView } from "./art/tiles.js";
 import { STATUS_LABEL, TYPE_COLOR, TYPE_LABEL } from "./view.js";
 
-const TILE = 28;
+/**
+ * 1マスの大きさ（v1.3-a で 28 → 16）。
+ *
+ * **原作の GBA と同じ 16px** にした。`VIEW` の 15×10 と掛け合わせて
+ * ちょうど 240×160 ―― GBA の画面そのものの大きさになる。
+ * 拡大は CSS（`#screen` の `--px`）がやるので、ここは論理の大きさだけ持つ。
+ */
+const TILE = 16;
 /** 表示するマス数。マップが小さいときは切り詰める。 */
-const VIEW = { w: 15, h: 11 };
+/**
+ * 見える範囲（v1.3-a で 15×11 → 15×10）。
+ *
+ * **原作の GBA が映すのと同じマス数。** 11 だったのは 28px のときに
+ * 縦横の比を見て決めた数で、原作に合わせた数字ではなかった。
+ */
+const VIEW = { w: 15, h: 10 };
+/** GBA の画面の大きさ。`TILE × VIEW` と一致する（ずれたら型ではなく検査で気づく）。 */
+const SCREEN = { w: TILE * VIEW.w, h: TILE * VIEW.h };
 const WALK_MS = 130;
 /**
  * じてんしゃ（v1.1-b）。**持っているだけで速い。**
@@ -222,8 +237,12 @@ export function playField(rebuild: () => void): FieldHandle {
         <strong id="field-place"></strong>
         <span class="dim" id="field-party"></span>
       </div>
-      <canvas id="field-canvas"></canvas>
-      <div id="field-text" class="hidden"></div>
+      <div class="screen-box">
+        <div id="screen">
+          <canvas id="field-canvas"></canvas>
+          <div id="field-text" class="hidden"></div>
+        </div>
+      </div>
       <div id="field-panel" class="hidden"></div>
       <div class="field-pad">
         <div class="pad-cross">
@@ -248,6 +267,26 @@ export function playField(rebuild: () => void): FieldHandle {
 
   const canvas = $<HTMLCanvasElement>("#field-canvas");
   const ctx = canvas.getContext("2d")!;
+
+  /**
+   * 画面の拡大率を決める（v1.3-a）。
+   *
+   * **CSS では決められない。** 「入る幅を 240 で割る」は長さ ÷ 長さで、
+   * CSS の `calc()` は倍率（単位なしの数）を作れない ―― 最初 CSS で書いて
+   * `--px` が丸ごと無効になり、原寸のまま出た。
+   *
+   * **整数倍が入るなら整数倍**（ドットが濁らない）。入らない幅では
+   * 幅に合わせる ―― スマホで小さい画面のまま遊ぶより、少し濁っても大きい方がよい。
+   */
+  const box = $<HTMLElement>(".screen-box");
+  function fitScreen(): void {
+    const room = (box.parentElement?.clientWidth ?? window.innerWidth) - 6;
+    const raw = room / SCREEN.w;
+    const px = raw >= 2 ? Math.min(4, Math.floor(raw)) : Math.max(1, raw);
+    box.style.setProperty("--px", `${px}`);
+  }
+  fitScreen();
+  window.addEventListener("resize", fitScreen);
 
   const currentMap = (): MapData => mapById(player.position.map);
 
@@ -2131,6 +2170,7 @@ export function playField(rebuild: () => void): FieldHandle {
       heldDirection = null;
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("keyup", onKeyUp);
+      window.removeEventListener("resize", fitScreen);
     },
   };
 }

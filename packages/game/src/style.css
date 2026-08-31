@@ -21,6 +21,16 @@
   --accent: #3d6bff;
   --logbg: #ffffff;
   --shadow: 0 1px 2px rgba(20, 30, 50, 0.06), 0 4px 14px rgba(20, 30, 50, 0.06);
+  /*
+   * 画面の中の窓（v1.3-a）。**テーマで変えない。**
+   * 画面の中は「ゲーム」で、原作の窓は暗い設定でも白いまま ――
+   * ここを OS のテーマに従わせると、原作と違う画面が既定になる。
+   */
+  --win-bg: #f8f8f8;
+  --win-ink: #202020;
+  --win-line: #6890c8;
+  --win-edge: #f8f8f8;
+  --win-shadow: #a8b8d0;
 }
 /*
  * テーマは3状態ある: 明示的に light / 明示的に dark / 未指定(OS依存)。
@@ -428,25 +438,87 @@ h1 { letter-spacing: .06em; }
   flex-wrap: wrap;
 }
 
+/* ─────────────────────────────────────────────
+   v1.3-a GBA の1画面（240×160）
+
+   **画面を1つ置いて、中身は全部その中に入れる。**
+   原作は 240×160 の1枚で、会話もメニューもバトルもその中にある ――
+   いままでは地図の canvas の「下に」会話窓と十字キーが縦に並んでいて、
+   そこが原作といちばん違って見える所だった。
+
+   **canvas に全部描き直すことはしない。**
+   `playthrough`（321件）と `shots`（74か所）はどちらも DOM のセレクタで
+   動いていて、canvas へ移すと**壊れていないことを確かめる道具が2本とも死ぬ。**
+   器だけ作り、中の要素は今のまま絶対配置して、まとめて拡大する。
+   ───────────────────────────────────────────── */
+
+/*
+ * 拡大率。**整数倍が入るなら整数倍**（ドットが濁らない）、
+ * 入らない幅（スマホ）では幅に合わせる ―― 遊べることを優先する。
+ */
+.screen-box {
+  /* **倍率は JS が入れる**（`fitScreen`）。CSS では長さ ÷ 長さで倍率を作れない */
+  --px: 1;
+  width: calc(240px * var(--px));
+  height: calc(160px * var(--px));
+  /* 画面そのものは拡大されるが、**場所取りはここが持つ** ――
+     transform は周りの並びを動かさないので、箱が無いと下の要素が重なる */
+  flex: none;
+}
+
+#screen {
+  /* **中身は 240×160 の座標で書く。** 拡大はこの1行がまとめてやる */
+  width: 240px;
+  height: 160px;
+  transform: scale(var(--px));
+  transform-origin: top left;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid #202020;
+  background: #000;
+  font-family: var(--game-font);
+  -webkit-font-smoothing: none;
+  /* 画面の中の文字は小さいので、行間を詰めておく */
+  line-height: 1.4;
+}
+
 #field-canvas {
   image-rendering: pixelated;
-  border: 3px solid #222;
-  border-radius: 6px;
-  max-width: 100%;
+  position: absolute;
+  inset: 0;
+  width: 240px;
+  height: 160px;
   background: #111;
 }
 
+/*
+ * 会話窓（v1.3-a）。**画面の中の下段に置く。**
+ *
+ * 原作の窓は「白地・角の丸い青い二重枠」。`ui/frame` の素材があれば
+ * そちらに差し替わる（v1.3-d）ので、ここは無いときの絵になる。
+ */
 #field-text {
-  width: min(100%, 420px);
-  min-height: 76px;
-  padding: 10px 12px;
-  border: 3px solid #222;
-  border-radius: 8px;
-  background: #fbf8ee;
-  color: #1c1c1c;
-  line-height: 1.7;
+  position: absolute;
+  left: 4px;
+  bottom: 4px;
+  width: 232px;
+  /*
+   * **原作の窓は画面の下 1/4 ほど。** 文字が多いときだけ伸びるが、
+   * 伸びっぱなしにすると地図が隠れるので上限を置く（超えたら中で送る）。
+   */
+  min-height: 40px;
+  max-height: 66px;
+  overflow-y: auto;
+  padding: 4px 6px;
+  border: 2px solid var(--win-line);
+  outline: 1px solid var(--win-edge);
+  outline-offset: 1px;
+  border-radius: 4px;
+  background: var(--win-bg);
+  color: var(--win-ink);
+  font-size: 10px;
+  line-height: 1.35;
   cursor: pointer;
-  position: relative;
   /* 会話送りはタップで行うので、ボタンと同じ抑制をかける */
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
@@ -454,19 +526,26 @@ h1 { letter-spacing: .06em; }
 }
 
 #field-text.hidden { display: none; }
-#field-text .speaker { font-weight: 700; margin-bottom: 2px; }
-#field-text .next { position: absolute; right: 10px; bottom: 6px; opacity: .55; }
+#field-text .speaker { font-weight: 700; margin-bottom: 1px; }
+#field-text .next { position: absolute; right: 5px; bottom: 2px; opacity: .8; font-size: 9px; }
 
+/* 選択肢は原作と同じく**窓の中に縦に並べる**（横並びだと 232px に入らない） */
 #field-text .choices {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 8px;
+  gap: 3px;
+  margin-top: 4px;
 }
 
 #field-text .choices button {
-  padding: 6px 14px;
-  border-radius: 6px;
+  padding: 1px 6px;
+  min-height: 0;
+  font-size: 11px;
+  font-family: inherit;
+  border: 1px solid var(--win-line);
+  border-radius: 3px;
+  background: var(--win-bg);
+  color: var(--win-ink);
   cursor: pointer;
 }
 
