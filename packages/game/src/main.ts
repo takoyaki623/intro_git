@@ -52,8 +52,12 @@ $("#app").innerHTML = `
     <button id="screen-back" class="back hidden"></button>
     <section id="menu" class="hidden"></section>
     <div id="battle" class="hidden">
-      <section id="field"></section>
-      <section id="log"></section>
+      <div class="screen-box">
+        <div id="screen" class="battle-screen">
+          <section id="field"></section>
+          <section id="log"></section>
+        </div>
+      </div>
       <p id="prompt"></p>
       <section id="controls"></section>
     </div>

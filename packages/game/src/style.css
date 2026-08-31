@@ -105,15 +105,36 @@ button:active { transform: translateY(1px); }
 .speed button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
 
 /* ── 場 ── */
+/*
+ * バトルの画面（v1.3-c で GBA の1画面の中へ）。
+ *
+ * 原作の並びは **相手が右上・自分が左下**、HP箱はその反対側の隅。
+ * いままでは上下2段のカードで、どちらも同じ大きさ・同じ向きだった ――
+ * 「向かい合っている」ように見えなかったのはそのため。
+ *
+ * 技のボタン（`#controls`）は**画面の外に残す** ―― 十字キーと同じで、
+ * 原作の物理ボタンの代わり（v1.3-a の線）。
+ */
 #field {
-  display: grid; gap: 10px;
-  background: var(--panel); border: 1px solid var(--line);
-  border-radius: 12px; padding: 14px; box-shadow: var(--shadow);
+  position: absolute;
+  inset: 0;
+  /* 背景。`battle/bg-*` の素材があれば差し替わる（v1.3-d） */
+  background: linear-gradient(#a8d8f0 0%, #a8d8f0 58%, #d8c890 58%, #c8b878 100%);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
 }
 
-.mon { display: flex; gap: 14px; align-items: center; }
-.mon.foe { flex-direction: row-reverse; text-align: right; }
-.mon.foe .row, .mon.foe .types, .mon.foe .stages { justify-content: flex-end; }
+/* 姿と HP箱を、画面の中の決まった場所に置く */
+.mon { position: absolute; display: block; }
+.mon.foe { left: 6px; top: 5px; text-align: left; }
+.mon.ally { right: 6px; top: 68px; text-align: left; }
+.mon .figure { position: absolute; }
+/* 相手は右上、自分は左下（原作の並び） */
+.mon.foe .figure { left: 142px; top: 2px; width: 56px; height: 56px; }
+/* 自分の姿は**メッセージ窓の上**に収める（窓は下から 50px を占める） */
+.mon.ally .figure { right: 140px; top: -18px; width: 60px; height: 60px; }
 
 /* アセットが1枚も無い状態の代替表現（設計 game-plan.md §10） */
 .figure {
@@ -129,7 +150,32 @@ button:active { transform: translateY(1px); }
 .figure img.flip { transform: scaleX(-1); }
 .mon.foe .figure { width: 66px; height: 66px; }
 
-.panel { flex: 1; min-width: 0; }
+/*
+ * HP箱（v1.3-c）。原作は**枠のある箱**が隅にあり、中に名前・Lv・HPバーが入る。
+ * 角丸のピルをやめて箱にする ―― 丸いバーは今の Web の作法で、原作の形ではない。
+ */
+.mon .panel {
+  width: 104px;
+  border: 2px solid var(--win-line);
+  outline: 1px solid var(--win-edge);
+  border-radius: 3px;
+  background: var(--win-bg);
+  color: var(--win-ink);
+  padding: 2px 4px;
+  font-size: 9px;
+  line-height: 1.3;
+}
+.mon .row { gap: 4px; }
+.mon .row.small { font-size: 8px; color: #6a7280; margin-top: 1px; }
+.mon .lv { font-size: 8px; color: #6a7280; }
+.mon .mon-name { font-size: 9.5px; }
+/* 画面が狭いので、タイプ・ランク・持ち物は箱に入れない（原作にも無い） */
+.mon .types, .mon .stages, .mon .gears { display: none; }
+.mon .hpbar { height: 4px; border-radius: 2px; margin: 1px 0; }
+.mon .fill { border-radius: 2px; }
+.mon .status { font-size: 7px; padding: 0 3px; }
+.mon .balls { gap: 2px; }
+.mon .ball { width: 5px; height: 5px; }
 .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 .row.small { font-size: 12px; color: var(--muted); margin-top: 3px; }
 .lv { font-size: 12px; color: var(--muted); }
@@ -179,7 +225,8 @@ button:active { transform: translateY(1px); }
  * 作り直しをやめたのが先で、この節はその後にしか意味を持たない。
  * ────────────────────────────────────────── */
 
-#field { position: relative; overflow: hidden; }
+/* `position` は上の v1.3-c の規則が持つ（ここで `relative` に戻すと画面から外れる） */
+#field { overflow: hidden; }
 
 /* 技のタイプで場を1瞬だけ染める。色は TYPE_COLOR がそのまま入る */
 #field::after {
@@ -277,11 +324,29 @@ button:active { transform: translateY(1px); }
 }
 
 /* ── ログ ── */
+/*
+ * バトルのメッセージ窓（v1.3-c で画面の中の下段へ）。
+ *
+ * 原作は「いま起きたこと」1〜2行だけを出す。こちらは**履歴を残す** ――
+ * 演出を飛ばす速度で遊ぶので、流れた文を後から読めないと何が起きたか分からない。
+ * 窓の形は原作、中身はログという折衷にしてある。
+ */
 #log {
-  margin-top: 12px; height: 168px; overflow-y: auto;
-  background: var(--logbg); border: 1px solid var(--line);
-  border-radius: 12px; padding: 10px 14px; font-size: 13px;
-  box-shadow: var(--shadow);
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+  height: 46px;
+  overflow-y: auto;
+  border: 2px solid var(--win-line);
+  outline: 1px solid var(--win-edge);
+  outline-offset: 1px;
+  border-radius: 4px;
+  background: var(--win-bg);
+  color: var(--win-ink);
+  padding: 3px 6px;
+  margin: 0;
+  box-shadow: none;
 }
 .line { padding: 1px 0; }
 .line:last-child { color: var(--ink); font-weight: 600; }
@@ -296,7 +361,7 @@ button:active { transform: translateY(1px); }
 @media (max-width: 520px) {
   #app { padding: 12px; }
   .moves { grid-template-columns: 1fr; }
-  #log { height: 116px; }
+  /* #log の高さは画面の中で決まる（v1.3-c）ので、ここでは触らない */
   .switches { display: grid; grid-template-columns: 1fr; }
   header { gap: 8px; }
 }
@@ -335,8 +400,10 @@ h1 { letter-spacing: .06em; }
 .mon-name { letter-spacing: .04em; }
 
 /* ドット字は字面が小さいので、少しだけ大きくする */
-#field-text { font-size: 15px; }
-#log { font-size: 13.5px; }
+#field-text { font-size: 10px; }
+/* 画面の中の尺（240×160）に合わせる（v1.3-c） */
+#log { font-size: 9.5px; line-height: 1.35; }
+#log .line:last-child { color: var(--win-ink); }
 
 /* ── v0.5: モード切り替え・メニュー・施設 ── */
 .hidden { display: none !important; }
