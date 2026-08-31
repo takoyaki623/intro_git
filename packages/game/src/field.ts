@@ -95,6 +95,7 @@ import {
   sendToStorage,
 } from "./player.js";
 import { openExchangeScreen, openFacilityScreen, openTournamentScreen } from "./screens.js";
+import { fitScreens } from "./screen.js";
 import { buildingsOf, drawBuilding } from "./art/buildings.js";
 import { drawTile, shade, TILE_ALIAS, type TileView } from "./art/tiles.js";
 import { STATUS_LABEL, TYPE_COLOR, TYPE_LABEL } from "./view.js";
@@ -115,8 +116,6 @@ const TILE = 16;
  * 縦横の比を見て決めた数で、原作に合わせた数字ではなかった。
  */
 const VIEW = { w: 15, h: 10 };
-/** GBA の画面の大きさ。`TILE × VIEW` と一致する（ずれたら型ではなく検査で気づく）。 */
-const SCREEN = { w: TILE * VIEW.w, h: TILE * VIEW.h };
 const WALK_MS = 130;
 /**
  * じてんしゃ（v1.1-b）。**持っているだけで速い。**
@@ -268,25 +267,9 @@ export function playField(rebuild: () => void): FieldHandle {
   const canvas = $<HTMLCanvasElement>("#field-canvas");
   const ctx = canvas.getContext("2d")!;
 
-  /**
-   * 画面の拡大率を決める（v1.3-a）。
-   *
-   * **CSS では決められない。** 「入る幅を 240 で割る」は長さ ÷ 長さで、
-   * CSS の `calc()` は倍率（単位なしの数）を作れない ―― 最初 CSS で書いて
-   * `--px` が丸ごと無効になり、原寸のまま出た。
-   *
-   * **整数倍が入るなら整数倍**（ドットが濁らない）。入らない幅では
-   * 幅に合わせる ―― スマホで小さい画面のまま遊ぶより、少し濁っても大きい方がよい。
-   */
-  const box = $<HTMLElement>(".screen-box");
-  function fitScreen(): void {
-    const room = (box.parentElement?.clientWidth ?? window.innerWidth) - 6;
-    const raw = room / SCREEN.w;
-    const px = raw >= 2 ? Math.min(4, Math.floor(raw)) : Math.max(1, raw);
-    box.style.setProperty("--px", `${px}`);
-  }
-  fitScreen();
-  window.addEventListener("resize", fitScreen);
+  // 画面の拡大率（`screen.ts`）。**探索の画面はここで作られる**ので、
+  // 作った直後に1回掛ける（窓の大きさが変わったときは main.ts が掛け直す）
+  fitScreens();
 
   const currentMap = (): MapData => mapById(player.position.map);
 
@@ -2170,7 +2153,6 @@ export function playField(rebuild: () => void): FieldHandle {
       heldDirection = null;
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("keyup", onKeyUp);
-      window.removeEventListener("resize", fitScreen);
     },
   };
 }

@@ -20,6 +20,7 @@
 
 import { allMoves, allNamed, allSpecies } from "@pkmn/data";
 import { $, setSpeed, type Speed } from "./battle-screen.js";
+import { fitScreens } from "./screen.js";
 import { playField, type FieldHandle } from "./field.js";
 import { loadPlayer, save, setSave, useStore, SLOT } from "./player.js";
 import { createLocalSaveStore } from "./save.js";
@@ -145,4 +146,8 @@ void (async () => {
   }
 
   showField();
+  // 画面の拡大率（v1.3-a）。**画面は2つある**（探索とバトル）ので、
+  // 窓の大きさが変わったら両方に掛け直す
+  fitScreens();
+  window.addEventListener("resize", fitScreens);
 })();
