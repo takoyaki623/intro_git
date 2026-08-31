@@ -618,16 +618,66 @@ h1 { letter-spacing: .06em; }
   cursor: pointer;
 }
 
+/*
+ * てもち・どうぐ・ずかん の窓（v1.3-b で画面の中へ）。
+ *
+ * **操作するものは画面の外、見せるものは画面の中。**
+ * 十字キーと「てもち／どうぐ／ずかん」のボタンは、原作の物理ボタンの代わりなので
+ * 画面の外に残す（v1.3-a の判断）。開いた中身は原作では画面の中の窓なので、
+ * こちらは中へ入れる。
+ *
+ * 240×160 に全部は載らないので、**原作と同じく中で送る**（`overflow-y`）。
+ */
 #field-panel {
-  width: min(100%, 460px);
-  max-height: 46vh;
+  position: absolute;
+  inset: 4px;
   overflow-y: auto;
-  border: 2px solid var(--line);
-  border-radius: 10px;
-  background: var(--panel);
-  padding: 10px 12px;
+  border: 2px solid var(--win-line);
+  outline: 1px solid var(--win-edge);
+  outline-offset: 1px;
+  border-radius: 4px;
+  background: var(--win-bg);
+  color: var(--win-ink);
+  padding: 4px 6px;
+  font-size: 10px;
+  line-height: 1.35;
 }
 #field-panel.hidden { display: none; }
+
+/* 窓の中の細かい所を 240×160 の尺に合わせる（v1.3-b） */
+#field-panel .panel-head {
+  padding: 0 0 3px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--win-line);
+  font-size: 10px;
+  gap: 6px;
+}
+#field-panel .panel-head strong { font-size: 11px; }
+#field-panel button {
+  font-family: inherit;
+  font-size: 10px;
+  min-height: 0;
+  padding: 1px 6px;
+  border: 1px solid var(--win-line);
+  border-radius: 3px;
+  background: var(--win-bg);
+  color: var(--win-ink);
+}
+#field-panel .mon-list li, #field-panel .dex-list li {
+  padding: 2px 0;
+  gap: 5px;
+  border-bottom: 1px solid var(--win-shadow);
+}
+#field-panel .meta, #field-panel .dim { font-size: 9px; color: #6a7280; }
+#field-panel .mon-icon { width: 18px; height: 18px; }
+/*
+ * **原作のカーソル（▶）は入れない。**
+ *
+ * あれは「いまどの行を選んでいるか」を表すもので、
+ * この画面は押して選ぶ（選択位置という状態が無い）。
+ * ホバーでだけ出す形も考えたが、主な遊び場はスマホで、
+ * **そこでは一度も出ない飾り**になる。
+ */
 
 .panel-head {
   display: flex;

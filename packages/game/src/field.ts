@@ -240,10 +240,10 @@ export function playField(rebuild: () => void): FieldHandle {
       <div class="screen-box">
         <div id="screen">
           <canvas id="field-canvas"></canvas>
+          <div id="field-panel" class="hidden"></div>
           <div id="field-text" class="hidden"></div>
         </div>
       </div>
-      <div id="field-panel" class="hidden"></div>
       <div class="field-pad">
         <div class="pad-cross">
           <button data-d="up">↑</button>
