@@ -98,6 +98,7 @@ import { openExchangeScreen, openFacilityScreen, openTournamentScreen } from "./
 import { fitScreens } from "./screen.js";
 import { buildingsOf, drawBuilding } from "./art/buildings.js";
 import { drawTile, shade, TILE_ALIAS, type TileView } from "./art/tiles.js";
+import { wipeShut, wipeThrough } from "./art/wipe.js";
 import { STATUS_LABEL, TYPE_COLOR, TYPE_LABEL } from "./view.js";
 
 /**
@@ -956,17 +957,31 @@ export function playField(rebuild: () => void): FieldHandle {
 
   const alive = () => party().filter((p) => p.currentHp > 0);
 
-  function enterBattle(): void {
+  /**
+   * バトルへ入る。**開けるのはここではない**（`art/wipe.ts`）。
+   *
+   * バトルの画面は `runBattle` の中で出るので、覆いを開けるのはそちら。
+   * ここでやるのは閉じるところまで。
+   */
+  async function enterBattle(kind: "wild" | "trainer"): Promise<void> {
     // 押しっぱなしのままバトルに入ると、戻ってきた瞬間に歩き出してしまう
     heldDirection = null;
-    $("#run").classList.add("hidden");
     hideText();
+    // **覆ってから隠す。** 先に `#run` を隠すと、マップの画面もバトルの画面も
+    // どちらも出ていない一瞬ができ、覆いが**重ねる先を見失って何もしない**
+    // ―― 実際そうなっていて、野生が出ても縞が1枚も出なかった。
+    await wipeShut(kind);
+    $("#run").classList.add("hidden");
   }
 
-  function leaveBattle(): void {
-    $("#battle").classList.add("hidden");
-    $("#run").classList.remove("hidden");
-    draw();
+  async function leaveBattle(): Promise<void> {
+    // 戻りは扉と同じ暗転。**縞で戻らない** ―― 縞は「何か出た」の合図なので、
+    // 終わったところで出すと、もう1戦始まるように見える
+    await wipeThrough("door", () => {
+      $("#battle").classList.add("hidden");
+      $("#run").classList.remove("hidden");
+      draw();
+    });
   }
 
   /**
@@ -1141,7 +1156,7 @@ export function playField(rebuild: () => void): FieldHandle {
     const rule = ruleHere();
     const safari = rule !== null && !rule.canFight;
 
-    enterBattle();
+    await enterBattle("wild");
     const outcome = await runBattle({
       parties: [playable(), [instanceToSpec(gameData, target)]],
       seed: rng.int(1_000_000),
@@ -1161,7 +1176,7 @@ export function playField(rebuild: () => void): FieldHandle {
       items: () => (safari ? [] : usableItems("battle")),
       onItemUsed: spendItem,
     });
-    leaveBattle();
+    await leaveBattle();
 
     // **ボールが尽きたらそこで終わり**（v1.1-h）。
     // 歩数と並ぶもう1つの終わり方で、原作と同じ
@@ -1224,7 +1239,7 @@ export function playField(rebuild: () => void): FieldHandle {
       hideText();
       return;
     }
-    enterBattle();
+    await enterBattle("trainer");
     const outcome = await runBattle({
       parties: [playable(), trainer.party],
       seed: rng.int(1_000_000),
@@ -1233,7 +1248,7 @@ export function playField(rebuild: () => void): FieldHandle {
       items: () => usableItems("battle"),
       onItemUsed: spendItem,
     });
-    leaveBattle();
+    await leaveBattle();
 
     await afterBattle(outcome, false);
     const next = outcome.winner === 0 ? onWin : onLose;
@@ -1370,10 +1385,13 @@ export function playField(rebuild: () => void): FieldHandle {
   }
 
   async function doWarp(warp: { to: { map: string; x: number; y: number; facing: Direction } }) {
-    player.position = { map: warp.to.map, x: warp.to.x, y: warp.to.y, facing: warp.to.facing };
-    encounter = emptyEncounterState();
-    draw();
-    await new Promise((r) => setTimeout(r, 80));
+    // **暗転の裏で移す。** ここが 80ms 待つだけだった頃は、
+    // 扉をくぐった瞬間に別の部屋が現れ、どこへ出たのかが目で追えなかった
+    await wipeThrough("door", () => {
+      player.position = { map: warp.to.map, x: warp.to.x, y: warp.to.y, facing: warp.to.facing };
+      encounter = emptyEncounterState();
+      draw();
+    });
     // マップ遷移はセーブ点（save-data.md §6）。落ちても直前の建物には戻れる
     await autosave();
     await arrive();

@@ -29,6 +29,7 @@ import {
 import { artFor, gameData } from "@pkmn/data";
 import { baseDelayOf, extraMessagesOf, messageOf } from "./messages.js";
 import { allowMotion, enter, faint, heal, hit, lunge, tick, tint } from "./art/effects.js";
+import { reveal } from "./art/wipe.js";
 import { speciesFigure } from "./art/sprites.js";
 import {
   applyEvent,
@@ -475,6 +476,9 @@ export async function runBattle(options: BattleOptions): Promise<BattleOutcome> 
   $("#log").innerHTML = "";
   $("#battle").classList.remove("hidden");
   renderField();
+  // フィールドから来たなら覆いが下りている。**覆っていなければ素通りする**ので、
+  // フリーバトル・カップ・タワーの入り口を1つも触らずに済む（art/wipe.ts）
+  await reveal();
   for (const line of typeof options.headline === "string" ? [options.headline] : options.headline) {
     log(line);
   }
