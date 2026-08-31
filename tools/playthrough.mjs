@@ -1423,12 +1423,27 @@ await shot("20a-ss-anne");
 
 // **ライバルは船長室の手前**（原作どおり）。倒さないと先へ進めるが、
 // 視線が廊下を睨むので、先に片付けてから船長へ向かう
-await talkToObject("kanto-ss-anne-2f", "ss-anne-rival");
-await drain(8);
-if (await page.isVisible("#battle")) {
+// **「始まらなかった」と「負けた」を分ける**（v1.2-e）。
+// ここは1回だけ話しかけて、フラグだけを見て「戦っていない」と言っていた ――
+// 落ちたときに、話しかけ損ねたのか勝てなかったのかが分からない。
+// ジムの `challengeGym` と同じで、**負けることは異常ではない**ので3回まで挑む。
+for (let attempt = 1; attempt <= 3; attempt += 1) {
+  await refreshFlags();
+  if (liveFlags.has("kanto.ssanne.rival-beaten")) break;
+  await talkToObject("kanto-ss-anne-2f", "ss-anne-rival");
+  await drain(8);
+  const started = await page.isVisible("#battle");
+  if (!started) {
+    note("ライバル戦", `${attempt}回目: バトルが 始まらなかった（いま ${await at()}）`);
+    continue;
+  }
   await fight();
   await page.waitForTimeout(800);
-  await drain();
+  await drain(30);
+  await refreshFlags();
+  if (!liveFlags.has("kanto.ssanne.rival-beaten")) {
+    note("ライバル戦", `${attempt}回目: 負けた（いま ${await at()}）`);
+  }
 }
 await refreshFlags();
 expect(
