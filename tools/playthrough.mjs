@@ -447,7 +447,17 @@ async function accept(limit = 20) {
 async function useAbility(direction, key2) {
   await key(direction, 2, 220);
   await key("z", 1, 350);
-  note("フィールド技", ((await page.textContent("#field-text")) ?? "（何も出ない）").trim().replace(/\s+/g, " "));
+  // **出なかったときに、何が出なかったのかを言う**（v1.3-d）。
+  // チャンピオンロードの かいりき が4回に1回すべって、
+  // 記録が「フィールド技: 」の空文字だけだった ―― あれでは
+  // 「窓が出ていない」のか「窓は出たが文が無い」のか区別できない。
+  const text = ((await page.textContent("#field-text")) ?? "").trim().replace(/\s+/g, " ");
+  note(
+    "フィールド技",
+    text !== ""
+      ? text
+      : `（出なかった: 窓=${await page.isVisible("#field-text")} / いま ${await at()}）`,
+  );
   await accept();
   await clear();
   cleared.add(key2);
