@@ -446,6 +446,22 @@ async function accept(limit = 20) {
  */
 async function useAbility(direction, key2) {
   await key(direction, 2, 220);
+  // **野生に出くわしたら、先に片付ける**（v1.3-e）。
+  //
+  // `goToMap` は最初から野生を片付けているのに、ここは見ていなかった ――
+  // **同じ道具に2つの流儀を持たせない。**
+  //
+  // ただし**これはチャンピオンロードの間欠の正体ではない。**
+  // そう疑って測ったが、岩へ近づく2歩で野生が出た回数は
+  // **24回中0回**だった（あの通路は出現地形ではない）。
+  // 正体はまだ分かっていない ―― 直したことにしない。
+  if (await page.isVisible("#battle")) {
+    note("フィールド技の前に 野生", await at());
+    await fight();
+    await page.waitForTimeout(800);
+    await drain();
+    await key(direction, 2, 220);
+  }
   await key("z", 1, 350);
   // **出なかったときに、何が出なかったのかを言う**（v1.3-d）。
   // チャンピオンロードの かいりき が4回に1回すべって、
@@ -2792,7 +2808,8 @@ expect(
   (await goToMap("kanto-indigo-plateau", 4, 9, 6)).map,
   "kanto-victory-road",
 );
-// 岩は1階の縦道（1,4）にある。立てるのは下どなり（1,5）だけ
+// 岩は1階の縦道（1,3）。**2マス下の (1,5) から上へ2回**で、1歩あるいてぶつかる
+// （ここは長らく「岩は 1,4」と書いてあったが、地図は 1,3 に置いている）
 await goToMap("kanto-victory-road", 1, 5, 30);
 await useAbility("ArrowUp", "kanto-victory-road:victory-boulder");
 await goToMap("kanto-victory-road-2f", 2, 6, 40);
