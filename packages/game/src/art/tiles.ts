@@ -100,9 +100,24 @@ export type TileView = {
   hint: string | undefined;
   /** **同じ種類**が隣にあるか。種類の判定は呼び出し側（同じ文字 or 同じ地形）。 */
   same: Neighbors;
+  /**
+   * 地図の上の位置。**模様を置く場所を決めるのに使う**（v1.3-f）。
+   *
+   * 画面の座標では駄目だった ―― `camera()` は行数が偶数だと半マスずれるので、
+   * 歩くたびに模様の位置が変わり、**地面が這って見える。**
+   * 模様は地面に属するものなので、地面の座標から決める。
+   */
+  cell: { x: number; y: number };
 };
 
-const CORNER = 5;
+/**
+ * 角を丸く見せる大きさ。**1マスに対する割合で持つ**（v1.3-f）。
+ *
+ * ここは長らく固定の 5px だった。1マスが 28px の頃は 18% で収まっていたが、
+ * **v1.3-a で 16px にしたとき 31% になり**、角が面を食い始めていた
+ * ―― 大きさを変えたら、大きさに紐づく数字も一緒に動かす。
+ */
+const cornerOf = (size: number): number => Math.max(2, Math.round(size / 6));
 
 /**
  * 1マス描く。
@@ -154,14 +169,15 @@ export function drawTile(
   // ── 角 ──
   // 2辺が同時に外を向いているところだけ、少し丸く見せる
   ctx.fillStyle = shade(base, -0.18);
+  const corner = cornerOf(size);
   const corners = [
     [!same.up && !same.left, x, y],
-    [!same.up && !same.right, x + size - CORNER, y],
-    [!same.down && !same.left, x, y + size - CORNER],
-    [!same.down && !same.right, x + size - CORNER, y + size - CORNER],
+    [!same.up && !same.right, x + size - corner, y],
+    [!same.down && !same.left, x, y + size - corner],
+    [!same.down && !same.right, x + size - corner, y + size - corner],
   ] as const;
   for (const [on, cx, cy] of corners) {
-    if (on) ctx.fillRect(cx, cy, CORNER, CORNER);
+    if (on) ctx.fillRect(cx, cy, corner, corner);
   }
 
   drawPattern(ctx, view, x, y, size);
@@ -178,14 +194,35 @@ function drawPattern(
   const base = baseColor(view.terrain, view.blocked, view.hint);
 
   if (view.terrain === "grass") {
-    // 草むらは「入ると野生が出る」印でもあるので、必ず見分けがつくようにする
+    // 草むらは「入ると野生が出る」印でもあるので、必ず見分けがつくようにする。
+    //
+    // **原作の草は小さな株が2つ**（v1.3-f）。
+    // 1マスいっぱいの縦棒3本に濃い根元を敷いたら、並べたときに
+    // **横縞と縦の筋が立って畑に見えた** ―― 一度描いて、見て、やめた形。
+    // 高さと位置をずらした株を2つにすると、隣のマスと筋が揃わない。
+    const w = Math.max(1, Math.round(size / 12));
+    const tufts = [
+      { cx: 0.14, cy: 0.3 },
+      { cx: 0.54, cy: 0.46 },
+    ] as const;
+    ctx.fillStyle = shade(base, -0.3);
+    for (const { cx, cy } of tufts) {
+      const bx = x + size * cx;
+      const by = y + size * cy;
+      const h = size * 0.3;
+      ctx.fillRect(bx, by + h * 0.4, w, h * 0.6); // 左の葉
+      ctx.fillRect(bx + size * 0.11, by, w, h); // 真ん中の葉（一番高い）
+      ctx.fillRect(bx + size * 0.22, by + h * 0.4, w, h * 0.6); // 右の葉
+    }
+    // 株の足元だけ影を置く。**マス全体には敷かない** ―― 敷くと横縞になる
     ctx.fillStyle = shade(base, -0.16);
-    for (const [gx, gy] of [
-      [0.2, 0.62],
-      [0.47, 0.42],
-      [0.72, 0.66],
-    ] as const) {
-      ctx.fillRect(x + size * gx, y + size * gy, Math.max(2, size / 10), Math.max(5, size / 4));
+    for (const { cx, cy } of tufts) {
+      ctx.fillRect(
+        x + size * cx,
+        y + size * cy + size * 0.3,
+        size * 0.22 + w,
+        Math.max(1, Math.round(size / 16)),
+      );
     }
     return;
   }
@@ -206,13 +243,60 @@ function drawPattern(
     return;
   }
 
-  // 木は幹を見せる。1マス1色だと「緑の四角」でしかない
+  /*
+   * 木（v1.3-f）。1マス1色だと「緑の四角」でしかない。
+   *
+   * **林に見えるのは、木そのものより木と木の間の隙間。**
+   * 隣がどうであれ四隅にごく薄い影を置くと、面が丸に割れて
+   * 1本ずつの樹冠が並んでいるように見える ――
+   * 林の**外周**の丸みは `drawTile` の角がすでに持っているので、ここでは足さない。
+   *
+   * 一度、ここで四隅を「地面色で削る」つもりで `shade(base, -0.42)` を塗った。
+   * 木の緑は元が暗いので**黒に振り切れ**、林が「黒い穴の並んだ格子」になった
+   * ―― 数字だけ見ても分からず、撮って見て初めて分かる類の失敗。
+   */
   if (view.hint === "T") {
-    ctx.fillStyle = shade(base, -0.3);
-    ctx.fillRect(x + size / 2 - 2, y + size * 0.62, 4, size * 0.34);
-    ctx.fillStyle = shade(base, 0.13);
-    ctx.beginPath();
-    ctx.arc(x + size * 0.36, y + size * 0.36, Math.max(2, size / 9), 0, Math.PI * 2);
-    ctx.fill();
+    const gap = Math.max(1, Math.round(size / 6));
+    ctx.fillStyle = shade(base, -0.12);
+    for (const [gx, gy] of [
+      [x, y],
+      [x + size - gap, y],
+      [x, y + size - gap],
+      [x + size - gap, y + size - gap],
+    ] as const) {
+      ctx.fillRect(gx, gy, gap, gap);
+    }
+    // 幹
+    const tw = Math.max(2, Math.round(size / 7));
+    ctx.fillStyle = shade(base, -0.16);
+    ctx.fillRect(x + (size - tw) / 2, y + size * 0.7, tw, size * 0.3);
+    // 葉の明るい所。**真ん中に置かない** ―― 幹と縦に並ぶと「T」の字に見える
+    ctx.fillStyle = shade(base, 0.14);
+    ctx.fillRect(
+      x + size * 0.24,
+      y + size * 0.24,
+      Math.max(2, Math.round(size / 5)),
+      Math.max(2, Math.round(size / 7)),
+    );
+    ctx.fillStyle = shade(base, -0.09);
+    ctx.fillRect(x + size * 0.5, y + size * 0.46, size * 0.3, Math.max(1, Math.round(size / 8)));
+    return;
+  }
+
+  /*
+   * 地面（v1.3-f）。**平らな塗りに、ごく薄い斑を1つだけ置く。**
+   *
+   * 原作の地面には模様があり、こちらは1色で塗っていたので
+   * 広い町が「砂色の面」に見えていた。模様を細かく描くと 16px では潰れるので、
+   * **マスごとに位置の変わる点を1つ**だけ ―― 並べたときに目が拾う程度でよい。
+   */
+  const plain = view.hint === undefined || TILE_HINT[view.hint] === undefined;
+  if (!view.blocked && plain && view.terrain === "normal") {
+    const px = Math.max(1, Math.round(size / 8));
+    // 地図の座標から決める。**画面の座標だと歩くたびに動く**（TileView.cell）
+    const jx = (view.cell.x * 7 + view.cell.y * 3) % 5;
+    const jy = (view.cell.x * 3 + view.cell.y * 5) % 5;
+    ctx.fillStyle = shade(base, -0.06);
+    ctx.fillRect(x + (jx + 1.5) * (size / 8), y + (jy + 1.5) * (size / 8), px, px);
   }
 }

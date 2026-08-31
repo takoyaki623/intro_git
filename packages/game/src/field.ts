@@ -370,6 +370,7 @@ export function playField(rebuild: () => void): FieldHandle {
             left: kindAt(mx - 1, my) === kind,
             right: kindAt(mx + 1, my) === kind,
           },
+          cell: { x: mx, y: my },
         };
         drawTile(ctx, view, toScreenX(mx), toScreenY(my), TILE);
       }
@@ -532,6 +533,7 @@ export function playField(rebuild: () => void): FieldHandle {
             blocked: true,
             hint: over,
             same: { up: false, down: false, left: false, right: false },
+            cell: { x: mx, y: my },
           },
           toScreenX(mx),
           toScreenY(my),
