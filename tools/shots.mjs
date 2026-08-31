@@ -354,9 +354,10 @@ for (const size of [
    * イワヤマトンネルは、フラッシュを覚える前と後で別の絵になる。
    * どちらか片方しか撮れないなら、**見るための道具として足りていない。**
    */
-  async function loadShootingSave(without = []) {
+  async function loadShootingSave(without = [], position = null) {
     const save = JSON.parse(JSON.stringify(SHOOTING_SAVE));
     for (const flag of without) delete save.regions.kanto.flags[flag];
+    if (position !== null) save.regions.kanto.position = position;
     await page.click("#open-settings");
     await page.waitForSelector("#save-text");
     await page.fill("#save-text", JSON.stringify(save));
@@ -559,7 +560,25 @@ for (const size of [
       await loadShootingSave(place.without);
       region = "kanto";
     }
-    let ok = await goTo(map, x, y);
+    // **撮りたいのは絵であって、道のりではない**（v1.2-e）。
+    //
+    // ここは長らく1枚ごとに目的地まで**歩いて**いた。74か所ぶんの道のりで
+    // 30分かかっていて、しかもその歩きが確かめているのは「行けるか」――
+    // それは検証 #55・#80・#117 と台本がもう見ている。
+    // **撮影の道具が2重に確かめる必要は無い。**
+    //
+    // セーブの `position` はそのまま「いまどこに居るか」なので、
+    // 読み込み直すだけでその場に立てる。着いたかどうかは今までどおり
+    // 確かめる ―― 立てない座標を書いていたら、これまでと同じく `△` が出る。
+    let ok = false;
+    if (want === "kanto") {
+      await loadShootingSave(place.without ?? [], { map, x, y, facing: place.facing ?? "down" });
+      region = "kanto";
+      const now = await spot();
+      ok = now.map === map && now.x === x && now.y === y;
+    } else {
+      ok = await goTo(map, x, y);
+    }
     await clearBattle();
     // **撮る前に、地図が戻っているか確かめる**（v1.1-g-2）。
     // ダンジョンを足して野生が増えたぶん、道中で全滅して復活の演出が
