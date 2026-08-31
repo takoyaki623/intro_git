@@ -53,7 +53,7 @@ $("#app").innerHTML = `
     <section id="menu" class="hidden"></section>
     <div id="battle" class="hidden">
       <div class="screen-box">
-        <div id="screen" class="battle-screen">
+        <div id="battle-screen" class="screen">
           <section id="field"></section>
           <section id="log"></section>
         </div>

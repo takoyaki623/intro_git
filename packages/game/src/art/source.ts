@@ -15,13 +15,16 @@
  * だから既定は「コードで描く」で、素材はあくまで手元での差し替えになる。
  * 素材が無い状態が**逃げ道ではなく通常動作**、というのは v0.7 からの方針のまま。
  *
- * ## 手元の素材の入れ方（2経路）
+ * ## 手元の素材の入れ方
  *
- * - 開発時（`npm run dev`）… `assets/tiles/*.png` を vite が配信する
- * - 遊べる版（Artifact）… **利用者が自分の端末から読み込み、IndexedDB に置く。**
- *   ページには同梱しないので、公衆送信にならない
+ * **設定画面から自分の端末の画像を選ぶ。** 選んだものは IndexedDB に入り、
+ * ページには同梱されないので公衆送信にならない。開発でも遊ぶときでも同じ道。
  *
- * どちらも「無ければ `drawn`」なので、素材が欠けていても絵が消えるだけで遊べる。
+ * ここには長らく「開発時は `assets/tiles/*.png` を vite が配信する」と書いてあったが、
+ * **それを読みに行くコードは無い**（v1.3-d で確かめた）。
+ * `assets/` を置いても何も起きないので、書き置きのほうを実際に合わせた。
+ *
+ * 無ければ `drawn` に落ちるので、素材が欠けていても絵が変わるだけで遊べる。
  */
 
 /** 画像の置き場。ここに無い名前は `drawn` が描く。 */
@@ -33,6 +36,8 @@ export const artMode = (): "drawn" | "local" => mode;
 
 export function useArtMode(next: "drawn" | "local"): void {
   mode = next;
+  // `hasImage` は mode を見るので、切り替えたら貼り直す
+  publishSkins();
 }
 
 /**
@@ -43,6 +48,7 @@ export function useArtMode(next: "drawn" | "local"): void {
  */
 export function putImage(name: string, image: HTMLImageElement): void {
   images.set(name, image);
+  publishSkins();
 }
 
 export const hasImage = (name: string): boolean => mode === "local" && images.has(name);
@@ -85,4 +91,46 @@ export const imageCount = (): number => images.size;
 
 export function clearImages(): void {
   images.clear();
+  publishSkins();
+}
+
+/**
+ * DOM に貼る素材の口（v1.3-d）。
+ *
+ * ここまで差し替えられたのは**タイルと姿だけ**だった。
+ * 画面の作りを原作に寄せた（v1.3-a〜c）ので、**窓の枠・HP箱・バトルの背景**にも
+ * 同じ口を用意する ―― 手元に素材を置けば、そこも原作の絵になる。
+ *
+ * | ファイル名 | 貼る先 | 無いとき |
+ * | --- | --- | --- |
+ * | `ui-frame.png` | 会話窓・てもち/どうぐ/ずかん の窓 | CSS で描く枠 |
+ * | `ui-frame-battle.png` | バトルのメッセージ窓（無ければ `ui-frame`） | 同上 |
+ * | `ui-hpbox-foe.png` / `ui-hpbox-own.png` | HP箱 | CSS の箱 |
+ * | `battle-bg.png` | バトルの背景 | 空と地面の2色 |
+ *
+ * **名前は平たくする**（`ui/frame` ではなく `ui-frame`）。
+ * 絵の名前はファイル名そのままという規約（`store.ts` の `artName`）なので、
+ * 斜線を含む名前は**ファイル名では作れない** ―― 作っても永久に差し替わらない口になる。
+ *
+ * **枠の素材は縁 8px で切る**（`border-image` の 9分割）。
+ * 中央は伸ばすので、角と辺が 8px の枠なら形が崩れない。
+ *
+ * 貼り方は CSS 変数にする ―― 画面ごとに「素材があるか」を聞いて回ると、
+ * 聞き忘れた画面だけ差し替わらない。**1か所で全部の変数を出し直す。**
+ */
+const SKINS: readonly { name: string; varName: string; fallback?: string }[] = [
+  { name: "ui-frame", varName: "--ui-frame" },
+  { name: "ui-frame-battle", varName: "--ui-frame-battle", fallback: "ui-frame" },
+  { name: "ui-hpbox-foe", varName: "--ui-hpbox-foe" },
+  { name: "ui-hpbox-own", varName: "--ui-hpbox-own" },
+  { name: "battle-bg", varName: "--battle-bg" },
+];
+
+export function publishSkins(): void {
+  const root = document.documentElement;
+  for (const skin of SKINS) {
+    const src = imageSrc(skin.name) ?? (skin.fallback === undefined ? null : imageSrc(skin.fallback));
+    if (src === null) root.style.removeProperty(skin.varName);
+    else root.style.setProperty(skin.varName, `url("${src}")`);
+  }
 }

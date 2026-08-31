@@ -238,7 +238,7 @@ export function playField(rebuild: () => void): FieldHandle {
         <span class="dim" id="field-party"></span>
       </div>
       <div class="screen-box">
-        <div id="screen">
+        <div id="screen" class="screen">
           <canvas id="field-canvas"></canvas>
           <div id="field-panel" class="hidden"></div>
           <div id="field-text" class="hidden"></div>
