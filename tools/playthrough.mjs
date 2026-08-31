@@ -52,19 +52,48 @@ const talking = () => page.isVisible("#field-text");
  * 5番・6番道路のちかつうろ出口で台本が60回引き直して諦めていた。
  * 「歩く」と「ぶつかる」で長さが違うものを、片方の数字で待っていたのが間違い。
  */
-async function ready(limit = 12) {
+/**
+ * 入力を受け付けるまで待つ（v1.1-i / 刻みを詰めたのは v1.2-e）。
+ *
+ * **刻みは 40ms → 8ms、上限は 12 → 60**（待てる最大は 480ms のまま）。
+ * 40ms 刻みだと、62ms で終わるアニメに 1回まるまる払っていた。
+ * Playwright の往復は 2ms・`waitForTimeout(8)` は実測 9ms なので、
+ * 細かく見に行っても値段はほとんど増えない ―― **粗く待つほうが高い。**
+ */
+async function ready(limit = 60) {
+  const t0 = Date.now();
   for (let i = 0; i < limit; i += 1) {
+    cost.readyPolls += 1;
     const busy = await page.getAttribute("#field-canvas", "data-busy").catch(() => null);
-    if (busy !== "1") return;
-    await page.waitForTimeout(40);
+    if (busy !== "1") {
+      cost.readyMs += Date.now() - t0;
+      return;
+    }
+    await page.waitForTimeout(8);
   }
+  // **待ち切った回数を数える。** ここが総キー数と同じ数字になったら、
+  // それは「待っている」のではなく「旗が下りていない」
+  cost.stalls += 1;
+  cost.readyMs += Date.now() - t0;
 }
+
+/**
+ * 道具が自分の値段を数える（v1.2-e）。
+ *
+ * **どこで時間を使っているかを、道具自身に言わせる。** これが無かったので、
+ * `data-busy` が下りずに1歩あたり 500ms 余計に払っていたことに、
+ * 版をまたいで誰も気づかなかった（世界が広がったから遅いのだと思っていた）。
+ */
+const cost = { keys: 0, keyMs: 0, readyPolls: 0, readyMs: 0, stalls: 0 };
 
 async function key(k, n = 1, wait = 200) {
   for (let i = 0; i < n; i += 1) {
+    const t0 = Date.now();
     await page.keyboard.press(k);
     await page.waitForTimeout(wait);
     await ready();
+    cost.keys += 1;
+    cost.keyMs += Date.now() - t0;
   }
 }
 
@@ -78,8 +107,20 @@ async function key(k, n = 1, wait = 200) {
  * **1入力＝1マスは変えない。** 速さは待ち時間だけの話にしてある
  * （2マス進む実装にすると台本と撮影が同時に、しかも黙ってずれる・world.md §9.9）。
  */
-let stepWait = 175;
-const RIDING_MS = 95;
+/**
+ * 1歩ぶんの**先出しの待ち**（v1.2-e で意味が変わった）。
+ *
+ * 元は「歩行アニメと同じ長さ」だった ―― `data-busy` が当てにならなかったので、
+ * 時間で数えるしかなかったため。旗がちゃんと下りるようになった今、
+ * ここが受け持つのは「押した直後に見に行って空振りしない」ぶんだけでよく、
+ * **残りは `ready()` が 8ms 刻みで拾う。**
+ */
+let stepWait = 60;
+/**
+ * じてんしゃに乗ってからの先出しの待ち（v1.2-e で 95 → 40）。
+ * 歩行アニメは 62ms なので、40ms 出しておけば `ready()` が2〜3回で拾う。
+ */
+const RIDING_MS = 40;
 async function clear(limit = 14) {
   for (let i = 0; i < limit && (await talking()); i += 1) {
     await page.keyboard.press("z");
@@ -2055,7 +2096,7 @@ expect(
   // **サファリの中では歩数を数えるので、自転車をやめて歩きに戻す。**
   // 台本の待ち時間（`stepWait`）と歩行アニメを合わせておかないと、
   // 押した回数と歩いた歩数がずれる
-  stepWait = 175;
+  stepWait = 60;
   /** 画面に出ている のこり歩数（v1.1-h）。出ていなければ空文字。 */
   const stepsLeft = async () =>
     (await page.getAttribute("#field-canvas", "data-steps").catch(() => null)) ?? "";
@@ -3107,9 +3148,20 @@ await shot("34-hall-monument");
 await page.click("#panel-close").catch(() => {});
 await drain();
 
+const totalMs = Date.now() - startedAt;
 console.log(
-  `\n所要 ${((Date.now() - startedAt) / 60000).toFixed(1)} 分 / 検査 ${log.length} 件` +
+  `\n所要 ${(totalMs / 60000).toFixed(1)} 分 / 検査 ${log.length} 件` +
     `（1歩 ${stepWait}ms）`,
+);
+// **道具の値段を、道具自身が言う**（v1.2-e）
+console.log(
+  `  キー ${cost.keys} 回 / 1回 ${(cost.keyMs / Math.max(1, cost.keys)).toFixed(1)}ms` +
+    ` ―― 全体の ${((cost.keyMs / totalMs) * 100).toFixed(0)}%`,
+);
+console.log(
+  `  受付待ち ${cost.readyPolls} 回見に行って ${(cost.readyMs / 1000).toFixed(1)}秒` +
+    ` / 待ち切り ${cost.stalls} 回` +
+    `${cost.stalls > cost.keys / 4 ? "  ← 旗が下りていない疑い" : ""}`,
 );
 console.log(`スクリーンショット: ${SHOTS}`);
 console.log(errors.length === 0 ? "JS エラーなし" : `JS エラー ${errors.length} 件:\n${errors.join("\n")}`);

@@ -435,11 +435,18 @@ for (const size of [
   }
 
   /** ゲームが次の入力を受け付けるまで待つ（v1.2-a・`playthrough.mjs` と同じ）。 */
-  async function ready(limit = 20) {
+  /**
+   * 入力を受け付けるまで待つ（v1.2-a / 刻みを詰めたのは v1.2-e）。
+   *
+   * **刻み 40ms → 8ms、上限 20 → 100**（待てる最大は 800ms のまま）。
+   * 40ms 刻みは、62ms で終わるアニメに 1回まるまる払う値段だった。
+   * **道具が2本あるなら、直しも2本に要る** ―― 台本と同じ直しをここにも。
+   */
+  async function ready(limit = 100) {
     for (let i = 0; i < limit; i += 1) {
       const busy = await page.getAttribute("#field-canvas", "data-busy").catch(() => null);
       if (busy !== "1") return;
-      await page.waitForTimeout(40);
+      await page.waitForTimeout(8);
     }
   }
 
@@ -453,7 +460,8 @@ for (const size of [
       if (path === null) return false;
       for (const key of path) {
         await page.keyboard.press(key);
-        await page.waitForTimeout(150);
+        // 先出しの待ち（v1.2-e で 150 → 40）。残りは `ready()` が 8ms 刻みで拾う
+        await page.waitForTimeout(40);
         // **ゲームが動き終わるまで待つ**（v1.2-a）。150ms は「1歩ぶんの歩行アニメ」に
         // 合わせた数字で、**氷を滑るあいだ**（1マス55ms × 滑った枚数）も
         // **ぶつかったとき**（110ms）も足りない。足りないと位置が予測とずれ、

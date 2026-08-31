@@ -572,7 +572,12 @@ export function playField(rebuild: () => void): FieldHandle {
     // 差は15msで、じてんしゃに乗った版でだけ z が飲み込まれ、
     // ぶつかった相手に永久に話しかけられなくなっていた。
     // **時間を数え直すのではなく、受け付けているかを言う。**
-    canvas.dataset["busy"] = busy ? "1" : "0";
+    //
+    // **`draw()` だけに任せると下りない**（v1.2-e）。歩き終わりの最後の一枚は
+    // まだ `busy = true` の最中に描かれ、そのあと誰も描かないので
+    // `1` のまま貼りついていた ―― 台本は毎回「待ち切り」まで待たされ、
+    // 1歩に 500ms 余計に払っていた。`publishBusy()` を旗の上げ下げと同じ場所で呼ぶ。
+    publishBusy();
     // **のこり歩数は見せる**（v1.1-h）。
     //
     // 見せないと「あと何歩か分からないまま追い出される」＝理不尽になる。
@@ -1507,10 +1512,21 @@ export function playField(rebuild: () => void): FieldHandle {
     if (action !== "ok" && heldDirection === action) heldDirection = null;
   }
 
+  /**
+   * 「いま入力を受け付けているか」を DOM に出す（v1.1-i / v1.2-e）。
+   *
+   * **旗を動かした場所で呼ぶ。** 描画のついでに出していた頃は、
+   * 下ろした瞬間に描く人が居なくて `1` のまま残っていた。
+   */
+  function publishBusy(): void {
+    canvas.dataset["busy"] = busy ? "1" : "0";
+  }
+
   /** 押している間だけ歩く。二重に走らないよう busy で入口を1つに絞る。 */
   async function walkWhileHeld(): Promise<void> {
     if (busy) return;
     busy = true;
+    publishBusy();
     try {
       // 1回は必ず歩く（軽いタップでも反応する）
       do {
@@ -1521,17 +1537,20 @@ export function playField(rebuild: () => void): FieldHandle {
       await arrive();
     } finally {
       busy = false;
+      publishBusy();
     }
   }
 
   async function once(action: () => Promise<void>): Promise<void> {
     if (busy) return;
     busy = true;
+    publishBusy();
     try {
       await action();
       await arrive();
     } finally {
       busy = false;
+      publishBusy();
     }
   }
 
