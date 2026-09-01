@@ -27,8 +27,10 @@ import {
   SLOT,
 } from "./player.js";
 import { saveAvailable } from "./save.js";
+import { allMaps, allSpecies, allTrainers } from "@pkmn/data";
 import { openFreeBattle } from "./screens.js";
-import { imageCount, useArtMode } from "./art/source.js";
+import { imageCount, imageNames, useArtMode } from "./art/source.js";
+import { allSlots } from "./art/slots.js";
 import { artAvailable, clearArt, countArt, loadArt, putArtFiles } from "./art/store.js";
 
 const when = (at: number): string => new Date(at).toLocaleString("ja-JP");
@@ -39,6 +41,58 @@ const when = (at: number): string => new Date(at).toLocaleString("ja-JP");
  * v0.10 でタブが消えたので、**ここが常設の出口になった**（main.ts）。
  * `onClose` はマップへ戻る道 ―― 出口の無い画面を作らないための約束。
  */
+/**
+ * 口の一覧と、いま入っているものの突き合わせ（v1.6）。
+ *
+ * **「210まい つかえます」だけでは、どの18枚が名前違いか分からない。**
+ * 群ごとに「入っている / まだ」を出し、名前の一覧をそのまま置く ――
+ * 228種ぶんの名前は、書いていないと**誰も知りようがない。**
+ */
+function slotReport(loaded: readonly string[]): string {
+  const slots = allSlots({ species: allSpecies, maps: allMaps, trainers: allTrainers });
+  const have = new Set(loaded);
+  const groups = new Map<string, { total: number; found: number; missing: string[] }>();
+  for (const slot of slots) {
+    const g = groups.get(slot.group) ?? { total: 0, found: 0, missing: [] };
+    g.total += 1;
+    if (have.has(slot.name)) g.found += 1;
+    else g.missing.push(slot.name);
+    groups.set(slot.group, g);
+  }
+  // 名前が1つも当たっていない絵。**入れたのに出ない、の正体はだいたいこれ**
+  const known = new Set(slots.map((s) => s.name));
+  const unused = loaded.filter((n) => !known.has(n) && !/-(up|down|left|right)$/.test(n));
+
+  const rows = [...groups]
+    .map(([name, g]) =>
+      `<tr><th>${escape(name)}</th><td>${g.found} / ${g.total} まい`
+      + `${
+        g.found === g.total
+          ? ""
+          : `<br /><span class="dim">まだ: ${escape(g.missing.slice(0, 4).join(" "))}${
+              g.missing.length > 4 ? " ほか" : ""
+            }</span>`
+      }</td></tr>`,
+    )
+    .join("");
+
+  return `
+    <table class="record">${rows}</table>
+    ${
+      unused.length === 0
+        ? ""
+        : `<p class="problems">なまえが あわない ${unused.length}まい: ${escape(
+            unused.slice(0, 6).join(" "),
+          )}${unused.length > 6 ? " ほか" : ""}</p>`
+    }
+    <details>
+      <summary>なまえの いちらん（${slots.length}こ）</summary>
+      <textarea rows="8" spellcheck="false" readonly>${escape(
+        slots.map((s) => `${s.name}\t${s.label}`).join("\n"),
+      )}</textarea>
+    </details>`;
+}
+
 export function settingsScreen(onClose: () => void): void {
   // 施設・トーナメントと同じ `#menu` に描く。
   // `#run` は連戦の進行表示（flex の1行）で、**文書を入れる場所ではない** ――
@@ -118,9 +172,15 @@ export function settingsScreen(onClose: () => void): void {
         <button id="art-clear" class="danger">そざいを すてる</button>
       </p>
       <p class="dim">
-        なまえの きまり: <code>tile-T.png</code> なら 木の マス、<code>tile-grass.png</code> なら くさむら。
-        ファイルめいが そのまま えの なまえに なります（あわない ものは つかわれないだけ）。
+        フォルダごと えらぶ: <input type="file" id="art-folder" webkitdirectory />
+        <br /><span class="dim">（228種ぶんを 1まいずつ えらばなくて よいように）</span>
       </p>
+      <p class="dim">
+        なまえの きまり: <strong>ファイルめいが そのまま えの なまえ</strong>に なります
+        ―― <code>species-pikachu.png</code> なら ピカチュウ、<code>tile-grass.png</code> なら くさむら。
+        <strong>あわない ものは つかわれないだけ</strong>で、こわれません。
+      </p>
+      ${slotReport(imageNames())}
 
       <h3>バックアップ</h3>
       <p class="dim">
@@ -189,8 +249,14 @@ export function settingsScreen(onClose: () => void): void {
       );
     };
 
-    $("#art-files").onchange = (e) => {
-      const picked = (e.target as HTMLInputElement).files;
+    /**
+     * 素材を入れる（v1.6 でフォルダごとにも対応）。
+     *
+     * **228種ぶんを1枚ずつ選ばせない。** `webkitdirectory` はフォルダの中を
+     * 丸ごと渡してくるので、画像でないものは `putArtFiles` が弾く。
+     * 口が2つあっても**やることは同じ**なので、handler は1つにする。
+     */
+    const takeFiles = (picked: FileList | null): void => {
       if (picked === null || picked.length === 0) return;
       void putArtFiles([...picked])
         .then(async ({ added, rejected }) => {
@@ -207,6 +273,8 @@ export function settingsScreen(onClose: () => void): void {
           refresh("そざいを いれられませんでした。");
         });
     };
+    $("#art-files").onchange = (e) => takeFiles((e.target as HTMLInputElement).files);
+    $("#art-folder").onchange = (e) => takeFiles((e.target as HTMLInputElement).files);
 
     $("#art-clear").onclick = () => {
       if (!confirm("よみこんだ そざいを すべて すてますか?\nぼうけんの データは きえません。")) return;

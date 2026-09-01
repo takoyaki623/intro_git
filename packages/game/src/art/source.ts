@@ -89,6 +89,16 @@ export const imageSrc = (name: string): string | null =>
 /** 覚えている素材の数。設定画面が「何枚読み込めているか」を出すのに使う。 */
 export const imageCount = (): number => images.size;
 
+/**
+ * いま入っている絵の名前（v1.6）。
+ *
+ * **数だけでは足りなかった。** 228枚入れて「210まい つかえます」と出ても、
+ * どの18枚が名前違いなのかが分からない ―― 名前が当たらない絵は
+ * 黙って使われないだけなので（`store.ts` の `artName`）、
+ * **突き合わせるための材料**をここから出す。
+ */
+export const imageNames = (): readonly string[] => [...images.keys()];
+
 export function clearImages(): void {
   images.clear();
   publishSkins();
