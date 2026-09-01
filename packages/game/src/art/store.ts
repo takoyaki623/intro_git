@@ -22,6 +22,7 @@
  */
 
 import { clearImages, imageCount, putImage } from "./source.js";
+import type { ArtMatch } from "./match.js";
 
 const DB_NAME = "pkmn-rpg-art";
 const DB_VERSION = 1;
@@ -65,30 +66,74 @@ const finished = (tx: IDBTransaction): Promise<void> =>
  */
 export const artName = (fileName: string): string => fileName.replace(/\.[^.]+$/, "");
 
-/** 素材を受け取ってしまう。画像でないものは名前を返して弾く。 */
+export type PutResult = {
+  added: number;
+  /** 画像でないので入れなかったもの。 */
+  rejected: string[];
+  /** 名前を直して入れたもの（`001.png` → `species-bulbasaur`）。 */
+  renamed: number;
+  /** 2種に当たったので**入れなかった**もの。 */
+  ambiguous: string[];
+  /** どの口にも当たらなかったもの。入れてはあるが使われない。 */
+  unknown: string[];
+};
+
+/**
+ * 素材を受け取ってしまう。
+ *
+ * **入り口で名前を直す**（v1.6-c）。差し替え口の名前は `species-pikachu` だが、
+ * 手元の素材は `001.png` や `pikachu.png` で来る ――
+ * パソコンなら `tools/collect-art.ts` で先に直せるが、
+ * **スマホには node が無い。** 判定は `art/match.ts` にあるものを共有する。
+ *
+ * すでに当たっている名前（`tile-grass.png` など）は触らない。
+ * 触ると、正しく名付けた人のファイルを勝手に読み替えることになる。
+ */
 export async function putArtFiles(
   files: readonly File[],
-): Promise<{ added: number; rejected: string[] }> {
+  resolve?: (fileName: string) => ArtMatch,
+): Promise<PutResult> {
   const rejected: string[] = [];
   const keep = files.filter((file) => {
     if (file.type.startsWith("image/")) return true;
     rejected.push(file.name);
     return false;
   });
-  if (keep.length === 0) return { added: 0, rejected };
+
+  const ambiguous: string[] = [];
+  const unknown: string[] = [];
+  let renamed = 0;
+  const planned: { name: string; file: File }[] = [];
+  for (const file of keep) {
+    const found = resolve?.(file.name) ?? { kind: "already" as const, name: artName(file.name) };
+    if (found.kind === "ambiguous") {
+      // **迷ったら入れない。** 入れてしまうと、報告を読んだときには
+      // もう間違った絵が使われている
+      ambiguous.push(`${file.name} → ${found.candidates.join(" / ")}`);
+      continue;
+    }
+    if (found.kind === "unknown") {
+      unknown.push(file.name);
+      planned.push({ name: artName(file.name), file });
+      continue;
+    }
+    if (found.kind === "renamed") renamed += 1;
+    planned.push({ name: found.name, file });
+  }
+  if (planned.length === 0) return { added: 0, rejected, renamed, ambiguous, unknown };
 
   const db = await openDb();
   try {
     const tx = db.transaction(ART, "readwrite");
     const store = tx.objectStore(ART);
-    for (const file of keep) {
-      store.put({ name: artName(file.name), blob: file } satisfies ArtRecord);
+    for (const { name, file } of planned) {
+      store.put({ name, blob: file } satisfies ArtRecord);
     }
     await finished(tx);
   } finally {
     db.close();
   }
-  return { added: keep.length, rejected };
+  return { added: planned.length, rejected, renamed, ambiguous, unknown };
 }
 
 /** Blob を1枚の画像にする。読めなければ `null`（**1枚欠けても止めない**）。 */

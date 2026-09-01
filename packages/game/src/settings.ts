@@ -31,6 +31,7 @@ import { allMaps, allSpecies, allTrainers } from "@pkmn/data";
 import { openFreeBattle } from "./screens.js";
 import { imageCount, imageNames, useArtMode } from "./art/source.js";
 import { allSlots } from "./art/slots.js";
+import { buildIndex, matchArtName } from "./art/match.js";
 import { artAvailable, clearArt, countArt, loadArt, putArtFiles } from "./art/store.js";
 
 const when = (at: number): string => new Date(at).toLocaleString("ja-JP");
@@ -258,15 +259,34 @@ export function settingsScreen(onClose: () => void): void {
      */
     const takeFiles = (picked: FileList | null): void => {
       if (picked === null || picked.length === 0) return;
-      void putArtFiles([...picked])
-        .then(async ({ added, rejected }) => {
+      /*
+       * **名前は入り口で直す**（v1.6-c）。`001.png` も `ピカチュウ.png` も
+       * その場で `species-pikachu` になる ―― スマホには道具を回す手段が無い。
+       * 判定は `art/match.ts`（パソコンの `collect-art.ts` と同じもの）。
+       */
+      const known = new Set(
+        allSlots({ species: allSpecies, maps: allMaps, trainers: allTrainers }).map((x) => x.name),
+      );
+      const index = buildIndex(allSpecies);
+      void putArtFiles([...picked], (name) => matchArtName(name, index, known))
+        .then(async ({ added, rejected, renamed, ambiguous, unknown }) => {
           // 入れたのに使われない、を避けるため **入れたら local に切り替える**
           useArtMode("local");
           setSave({ ...save, settings: { ...save.settings, artSource: "local" } });
           await autosave();
           const count = await loadArt();
-          const skipped = rejected.length === 0 ? "" : `（がぞうでない ${rejected.length}けんは いれていません）`;
-          refresh(`${added}まい いれました。いま ${count}まい つかえます。${skipped}`);
+          const parts = [`${added}まい いれました。いま ${count}まい つかえます。`];
+          if (renamed > 0) parts.push(`なまえを なおしたのは ${renamed}まい。`);
+          if (rejected.length > 0) parts.push(`がぞうでない ${rejected.length}けんは いれていません。`);
+          if (ambiguous.length > 0) {
+            parts.push(`どちらか きめられない ${ambiguous.length}まいは いれていません: ${
+              ambiguous.slice(0, 3).join(" / ")
+            }`);
+          }
+          if (unknown.length > 0) {
+            parts.push(`なまえが あわない ${unknown.length}まい: ${unknown.slice(0, 3).join(" ")}`);
+          }
+          refresh(parts.join(" "));
         })
         .catch((error: unknown) => {
           console.warn("そざいを いれられませんでした", error);

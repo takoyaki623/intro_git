@@ -32,7 +32,7 @@
     "fetch:art": "vite-node tools/fetch-art.ts",
     "sprites": "vite-node tools/sprite-sheet.ts",
     "art:names": "vite-node tools/art-names.ts",
-    "art:collect": "node tools/collect-art.mjs"
+    "art:collect": "vite-node tools/collect-art.ts"
   },
   "devDependencies": {
     "@pkmn/dex": "^0.10.11",
