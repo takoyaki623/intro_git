@@ -9,7 +9,7 @@ legend:
 W !normal
 B !normal
 C !normal
-T !normal
+t !normal
 D normal
 
 grid:
@@ -17,7 +17,7 @@ WWWWWWWW
 WBB..CCW
 W......W
 W......W
-W..TT..W
+W..tt..W
 W......W
 W......W
 WWWDWWWW

@@ -8,14 +8,14 @@ legend:
 . normal
 W !normal
 B !normal
-T !normal
+t !normal
 D normal
 
 grid:
 WWWWWWW
 WBB...W
 W.....W
-W..T..W
+W..t..W
 W.....W
 W.....W
 WWWDWWW

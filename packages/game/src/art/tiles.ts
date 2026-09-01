@@ -41,6 +41,7 @@ export const TILE_HINT: Record<string, string> = {
   G: "#d8cba0", // ゲート前の敷石（拠点）
   D: "#8a5f33", // ドア
   I: "#cbbf9c", // 見えない壁（床と同じ色。v1.1-g）
+  t: "#9a6b42", // 机・テーブル（v1.4-b）
 };
 
 /**
@@ -280,6 +281,150 @@ function drawPattern(
     );
     ctx.fillStyle = shade(base, -0.09);
     ctx.fillRect(x + size * 0.5, y + size * 0.46, size * 0.3, Math.max(1, Math.round(size / 8)));
+    return;
+  }
+
+  /*
+   * ── 屋内のもの（v1.4-b）──
+   *
+   * 屋外は v0.10.5 のオートタイルと v1.3-f の模様で形が出るようになったが、
+   * **屋内はずっと1マス1色のままだった** ―― ベッドが紫の帯、テレビが青い帯、
+   * カウンターが茶色の帯で、部屋が「板の並び」に見えていた。
+   *
+   * ここでも足すのは1つだけ。
+   *
+   * > **上と下を見る。**
+   *
+   * 家具は上から見た箱なので、**上の縁が天面、下の縁が前面**になる。
+   * どちらが縁かは `view.same` がすでに知っている（オートタイルと同じ材料）
+   * ―― だから塊の大きさを測り直す必要が無い。1マスずつ描いても
+   * 「カウンターの手前側」「ベッドの枕側」が揃う。
+   */
+  const { same } = view;
+  /** 天面（上が外を向いている側）と前面（下が外を向いている側）の帯の高さ。 */
+  const face = Math.max(2, Math.round(size / 3));
+
+  if (view.hint === "W" || view.hint === "X") {
+    // 屋内の壁。**下端だけ幅木**を入れると、床と壁の境が読める。
+    // 石壁（X）は目地を入れて、同じ形にしない
+    if (view.hint === "X") {
+      ctx.fillStyle = shade(base, -0.12);
+      const course = Math.max(1, Math.round(size / 8));
+      ctx.fillRect(x, y + size / 2 - course / 2, size, 1);
+      // 段ごとに継ぎ目をずらす（レンガ）
+      const shift = view.cell.y % 2 === 0 ? 0 : size / 2;
+      ctx.fillRect(x + ((shift + size / 2) % size), y, 1, size / 2);
+      ctx.fillRect(x + (shift % size), y + size / 2, 1, size / 2);
+    } else {
+      // 壁紙。**縦に薄い筋**を1本 ―― 細かく描くと 16px では潰れる
+      ctx.fillStyle = shade(base, 0.05);
+      ctx.fillRect(x + (view.cell.x % 2 === 0 ? size * 0.3 : size * 0.7), y, 1, size);
+    }
+    if (!same.down) {
+      const skirt = Math.max(2, Math.round(size / 5));
+      ctx.fillStyle = shade(base, -0.2);
+      ctx.fillRect(x, y + size - skirt, size, skirt);
+      ctx.fillStyle = shade(base, 0.12);
+      ctx.fillRect(x, y + size - skirt, size, 1);
+    }
+    return;
+  }
+
+  if (view.hint === "S") {
+    // カウンター。天面を明るく、前面を暗く、継ぎ目を1本
+    if (!same.up) {
+      ctx.fillStyle = shade(base, 0.12);
+      ctx.fillRect(x, y, size, face);
+      ctx.fillStyle = shade(base, 0.22);
+      ctx.fillRect(x, y, size, 1);
+    }
+    if (!same.down) {
+      ctx.fillStyle = shade(base, -0.16);
+      ctx.fillRect(x, y + size - face, size, face);
+      ctx.fillStyle = shade(base, -0.3);
+      ctx.fillRect(x, y + size - face, size, 1);
+    }
+    // 板の継ぎ目。**マスごとに1本**なので、並べると等間隔の板になる
+    ctx.fillStyle = shade(base, -0.1);
+    ctx.fillRect(x + size - 1, y + (same.up ? 0 : face), 1, size - (same.up ? 0 : face));
+    return;
+  }
+
+  if (view.hint === "C" || view.hint === "M") {
+    // パソコン（C）と機械・棚（M）。**上の面に画面、下の面に台。**
+    if (!same.up) {
+      const w = Math.round(size * 0.7);
+      const h = Math.round(size * 0.42);
+      ctx.fillStyle = shade(base, -0.34);
+      ctx.fillRect(x + (size - w) / 2, y + Math.round(size * 0.18), w, h);
+      ctx.fillStyle = shade(base, 0.3);
+      ctx.fillRect(x + (size - w) / 2 + 1, y + Math.round(size * 0.18) + 1, w - 2, 2);
+      // 動いている印のランプを2つ（機械は光っているもの）
+      ctx.fillStyle = view.hint === "M" ? "#e8d16a" : "#7fd4e8";
+      ctx.fillRect(x + (size - w) / 2 + 1, y + Math.round(size * 0.18) + h - 3, 2, 2);
+      ctx.fillRect(x + (size + w) / 2 - 3, y + Math.round(size * 0.18) + h - 3, 2, 2);
+    } else {
+      // 棚板／筐体の横線
+      ctx.fillStyle = shade(base, -0.16);
+      ctx.fillRect(x + 2, y + Math.round(size / 3), size - 4, 1);
+      ctx.fillRect(x + 2, y + Math.round((size * 2) / 3), size - 4, 1);
+    }
+    if (!same.down) {
+      ctx.fillStyle = shade(base, -0.22);
+      ctx.fillRect(x, y + size - Math.max(2, Math.round(size / 5)), size, Math.max(2, Math.round(size / 5)));
+    }
+    return;
+  }
+
+  if (view.hint === "B") {
+    // ベッド。**枕は上**（原作もそう置いてある）。掛け布団に折り目を1本
+    if (!same.up) {
+      ctx.fillStyle = "#f2f0e6";
+      ctx.fillRect(x + 2, y + 2, size - 4, Math.max(2, Math.round(size / 3)));
+      ctx.fillStyle = shade("#f2f0e6", -0.12);
+      ctx.fillRect(x + 2, y + 2 + Math.max(2, Math.round(size / 3)) - 1, size - 4, 1);
+    } else {
+      ctx.fillStyle = shade(base, 0.12);
+      ctx.fillRect(x + 2, y + Math.round(size / 2), size - 4, 1);
+    }
+    if (!same.down) {
+      ctx.fillStyle = shade(base, -0.18);
+      ctx.fillRect(x, y + size - Math.max(2, Math.round(size / 4)), size, Math.max(2, Math.round(size / 4)));
+    }
+    return;
+  }
+
+  if (view.hint === "t") {
+    /*
+     * 机（v1.4-b）。**ここは長らく `T`（木）と同じ文字だった。**
+     *
+     * 通行不可という規則は同じなので誰も困らなかったが、v1.3-f で木に
+     * 樹冠を描いた瞬間、**研究所の実験台と自分の家の机が緑の茂みになった。**
+     * 見た目を足すと、それまで見えていなかったデータの兼用が見える ――
+     * 直したのは絵ではなく凡例のほう（屋内3枚・7マス）。
+     */
+    ctx.fillStyle = shade(base, 0.14);
+    ctx.fillRect(x, y, size, Math.max(2, Math.round(size / 4)));
+    ctx.fillStyle = shade(base, 0.24);
+    ctx.fillRect(x, y, size, 1);
+    if (!same.down) {
+      ctx.fillStyle = shade(base, -0.2);
+      ctx.fillRect(x, y + size - face, size, face);
+    }
+    // 天板の木目を1本
+    ctx.fillStyle = shade(base, -0.08);
+    ctx.fillRect(x + 2, y + Math.round(size / 2), size - 4, 1);
+    return;
+  }
+
+  if (view.hint === "D") {
+    // ドア。枠を1回り内側に置いて、右にノブ
+    ctx.fillStyle = shade(base, -0.24);
+    ctx.fillRect(x + 2, y + 1, size - 4, size - 1);
+    ctx.fillStyle = shade(base, 0.14);
+    ctx.fillRect(x + 3, y + 2, size - 6, 1);
+    ctx.fillStyle = "#e8d16a";
+    ctx.fillRect(x + size - 5, y + Math.round(size / 2), 2, 2);
     return;
   }
 
