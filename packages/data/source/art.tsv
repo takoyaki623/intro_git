@@ -1,229 +1,229 @@
-species	shape	color	size	parts
-bulbasaur	quadruped	green	small	plant,drip
-ivysaur	quadruped	green	small	plant,drip
-venusaur	quadruped	green	large	plant,drip
-charmander	upright	red	small	flame
-charmeleon	upright	red	medium	flame
-charizard	upright	red	medium	flame,wing
-squirtle	upright	blue	tiny	fin
-wartortle	upright	blue	small	fin
-blastoise	upright	blue	medium	fin
-caterpie	armor	green	tiny	antenna
-metapod	squiggle	green	small	antenna
-butterfree	bug-wings	white	medium	antenna,wing
-weedle	armor	brown	tiny	antenna,drip
-kakuna	squiggle	yellow	small	antenna,drip
-beedrill	bug-wings	yellow	small	antenna,drip
-pidgey	wings	brown	tiny	wing
-pidgeotto	wings	brown	medium	wing
-pidgeot	wings	brown	medium	wing
-rattata	quadruped	purple	tiny	
-raticate	quadruped	brown	small	
-spearow	wings	brown	tiny	wing
-fearow	wings	brown	medium	wing
-ekans	squiggle	purple	large	drip
-arbok	squiggle	purple	large	drip
-pikachu	quadruped	yellow	tiny	spark
-raichu	upright	yellow	small	spark
-sandshrew	upright	yellow	small	spike
-sandslash	upright	yellow	small	spike
-nidoran-f	quadruped	blue	tiny	drip
-nidorina	quadruped	blue	small	drip
-nidoqueen	upright	blue	medium	drip,spike
-nidoran-m	quadruped	purple	tiny	drip
-nidorino	quadruped	purple	small	drip
-nidoking	upright	purple	medium	drip,spike
-clefairy	upright	pink	small	sparkle
-clefable	upright	pink	medium	sparkle
-vulpix	quadruped	brown	small	flame
-ninetales	quadruped	yellow	medium	flame
-jigglypuff	humanoid	pink	tiny	sparkle
-wigglytuff	humanoid	pink	small	sparkle
-zubat	wings	purple	small	drip,wing
-golbat	wings	purple	medium	drip,wing
-oddish	legs	blue	tiny	plant,drip
-gloom	humanoid	blue	small	plant,drip
-vileplume	humanoid	red	medium	plant,drip
-paras	armor	red	tiny	antenna,plant
-parasect	armor	red	small	antenna,plant
-venonat	humanoid	purple	small	antenna,drip
-venomoth	bug-wings	purple	medium	antenna,drip
-diglett	blob	brown	tiny	spike
-dugtrio	heads	brown	small	spike
-meowth	quadruped	yellow	tiny	
-persian	quadruped	yellow	small	
-psyduck	upright	yellow	small	fin
-golduck	upright	blue	medium	fin
-mankey	upright	brown	tiny	band
-primeape	upright	brown	small	band
-growlithe	quadruped	brown	small	flame
-arcanine	quadruped	brown	large	flame
-poliwag	legs	blue	small	fin
-poliwhirl	humanoid	blue	small	fin
-poliwrath	humanoid	blue	medium	fin,band
-abra	upright	brown	small	aura
-kadabra	upright	brown	medium	aura
-alakazam	humanoid	brown	medium	aura
-machop	upright	gray	small	band
-machoke	humanoid	gray	medium	band
-machamp	humanoid	gray	medium	band
-bellsprout	humanoid	green	small	plant,drip
-weepinbell	blob	green	small	plant,drip
-victreebel	blob	green	medium	plant,drip
-tentacool	tentacles	blue	small	fin,drip
-tentacruel	tentacles	blue	medium	fin,drip
-geodude	arms	brown	tiny	spike
-graveler	humanoid	brown	small	spike
-golem	humanoid	brown	medium	spike
-ponyta	quadruped	yellow	small	flame
-rapidash	quadruped	yellow	medium	flame
-slowpoke	quadruped	pink	medium	fin,aura
-slowbro	upright	pink	medium	fin,aura
-magnemite	arms	gray	tiny	spark,plate
-magneton	heads	gray	small	spark,plate
-farfetchd	wings	brown	small	wing
-doduo	legs	brown	medium	wing
-dodrio	legs	brown	large	wing
-seel	fish	white	medium	fin
-dewgong	fish	white	medium	fin,crystal
-grimer	arms	purple	small	drip
-muk	arms	purple	medium	drip
-shellder	ball	purple	tiny	fin
-cloyster	ball	purple	medium	fin,crystal
-gastly	ball	purple	medium	aura,drip
-haunter	arms	purple	medium	aura,drip
-gengar	upright	purple	medium	aura,drip
-onix	squiggle	gray	large	spike
-drowzee	humanoid	yellow	small	aura
-hypno	humanoid	yellow	medium	aura
-krabby	armor	red	tiny	fin
-kingler	armor	red	medium	fin
-voltorb	ball	red	tiny	spark
-electrode	ball	red	medium	spark
-exeggcute	heads	pink	tiny	plant,aura
-exeggutor	legs	yellow	large	plant,aura
-cubone	upright	brown	tiny	spike
-marowak	upright	brown	small	spike
-hitmonlee	humanoid	brown	medium	band
-hitmonchan	humanoid	brown	medium	band
-lickitung	upright	pink	medium	
-koffing	ball	purple	small	drip
-weezing	heads	purple	medium	drip
-rhyhorn	quadruped	gray	small	spike
-rhydon	upright	gray	large	spike
-chansey	upright	pink	medium	
-tangela	legs	blue	small	plant
-kangaskhan	upright	brown	large	
-horsea	blob	blue	tiny	fin
-seadra	blob	blue	medium	fin
-goldeen	fish	red	small	fin
-seaking	fish	red	medium	fin
-staryu	blob	brown	small	fin
-starmie	blob	purple	medium	fin,aura
-mr-mime	humanoid	pink	medium	aura,sparkle
-scyther	bug-wings	green	medium	antenna,wing
-jynx	humanoid	red	medium	crystal,aura
-electabuzz	upright	yellow	medium	spark
-magmar	upright	red	medium	flame
-pinsir	humanoid	brown	medium	antenna
-tauros	quadruped	brown	medium	
-magikarp	fish	red	small	fin
-gyarados	squiggle	blue	large	fin,wing
-lapras	fish	blue	large	fin,crystal
-ditto	ball	purple	tiny	
-eevee	quadruped	brown	tiny	
-vaporeon	quadruped	blue	small	fin
-jolteon	quadruped	yellow	small	spark
-flareon	quadruped	red	small	flame
-porygon	legs	pink	small	
-omanyte	tentacles	blue	tiny	spike,fin
-omastar	tentacles	blue	small	spike,fin
-kabuto	armor	brown	tiny	spike,fin
-kabutops	upright	brown	medium	spike,fin
-aerodactyl	wings	purple	large	spike,wing
-snorlax	humanoid	black	large	
-articuno	wings	blue	medium	crystal,wing
-zapdos	wings	yellow	medium	spark,wing
-moltres	wings	yellow	large	flame,wing
-dratini	squiggle	blue	large	horn
-dragonair	squiggle	blue	large	horn
-dragonite	upright	brown	large	horn,wing
-mewtwo	upright	purple	large	aura
-mew	upright	pink	tiny	aura
-steelix	squiggle	gray	large	plate,spike
-tyranitar	upright	green	large	spike,aura
-kingdra	blob	blue	large	fin,horn
-bellossom	humanoid	green	tiny	plant
-espeon	quadruped	purple	small	aura
-umbreon	quadruped	black	small	aura
-slowking	upright	pink	large	fin,aura
-houndoom	quadruped	black	medium	aura,flame
-hitmontop	upright	brown	medium	band
-scizor	bug-wings	red	large	antenna,plate
-blissey	humanoid	pink	medium	
-crobat	bug-wings	purple	large	drip,wing
-milotic	squiggle	pink	large	fin
-manectric	quadruped	yellow	medium	spark
-gardevoir	humanoid	white	medium	aura,sparkle
-hariyama	humanoid	brown	large	band
-banette	upright	black	medium	aura
-salamence	quadruped	blue	medium	horn,wing
-metagross	heads	blue	medium	plate,aura
-rhyperior	upright	gray	large	spike
-roserade	humanoid	green	small	plant,drip
-tangrowth	humanoid	blue	large	plant
-toxicroak	humanoid	blue	medium	drip,band
-magmortar	upright	red	medium	flame
-electivire	upright	yellow	large	spark
-garchomp	upright	blue	large	horn,spike
-abomasnow	upright	white	large	plant,crystal
-mamoswine	quadruped	brown	large	crystal,spike
-glaceon	quadruped	blue	small	crystal
-leafeon	quadruped	green	small	plant
-mismagius	ball	purple	small	aura
-dusknoir	arms	black	large	aura
-drapion	armor	purple	medium	drip,aura
-togekiss	wings	white	medium	sparkle,wing
-scolipede	armor	red	large	antenna,drip
-chandelure	arms	black	small	aura,flame
-excadrill	humanoid	gray	small	spike,plate
-conkeldurr	humanoid	brown	medium	band
-sylveon	quadruped	pink	small	sparkle
-slugma	squiggle	red	small	flame
-magcargo	squiggle	red	small	flame,spike
-dunsparce	squiggle	yellow	medium	
-sneasel	upright	black	small	aura,crystal
-swinub	quadruped	brown	tiny	crystal,spike
-delibird	wings	red	small	crystal,wing
-marill	upright	blue	tiny	fin,sparkle
-wooper	legs	blue	tiny	fin,spike
-hoppip	upright	pink	tiny	plant,wing
-qwilfish	fish	gray	tiny	fin,drip
-remoraid	fish	gray	small	fin
-togepi	humanoid	white	tiny	sparkle
-piloswine	quadruped	brown	medium	crystal,spike
-azumarill	upright	blue	small	fin,sparkle
-quagsire	upright	blue	medium	fin,spike
-skiploom	upright	green	small	plant,wing
-jumpluff	upright	blue	small	plant,wing
-octillery	tentacles	red	small	fin
-togetic	humanoid	white	small	sparkle,wing
-sentret	quadruped	brown	small	
-furret	quadruped	brown	large	
-ledyba	wings	red	small	antenna,wing
-ledian	wings	red	medium	antenna,wing
-spinarak	armor	green	tiny	antenna,drip
-ariados	armor	red	medium	antenna,drip
-natu	wings	green	tiny	aura,wing
-xatu	wings	green	medium	aura,wing
-yanma	bug-wings	red	medium	antenna,wing
-murkrow	wings	black	tiny	aura,wing
-misdreavus	ball	gray	small	aura
-wobbuffet	blob	blue	medium	aura
-heracross	humanoid	blue	medium	antenna,band
-mantine	wings	purple	large	fin,wing
-skarmory	wings	gray	medium	plate,wing
-phanpy	quadruped	blue	tiny	spike
-donphan	quadruped	gray	medium	spike
-larvitar	upright	green	small	spike
-pupitar	squiggle	gray	medium	spike
+species	shape	color	size	parts	accent	ears	tail	mark
+bulbasaur	quadruped	green	small	plant,drip	teal	pointed	none	spots
+ivysaur	quadruped	green	medium	plant,drip	teal	pointed	none	spots
+venusaur	quadruped	green	large	plant,drip	teal	pointed	none	spots
+charmander	upright	red	small	flame	cream	none	flame	belly
+charmeleon	upright	red	medium	flame,horn	cream	none	flame	none
+charizard	upright	red	large	flame,wing	cream	none	flame	belly
+squirtle	upright	blue	tiny	fin	cream	round	curl	belly
+wartortle	upright	blue	small	fin	cream	round	bushy	belly
+blastoise	upright	blue	large	fin,plate	cream	none	thin	belly
+caterpie	armor	green	tiny	antenna	yellow	none	none	band
+metapod	squiggle	green	small	antenna	green	none	none	none
+butterfree	bug-wings	white	medium	antenna,wing	purple	none	none	none
+weedle	armor	brown	tiny	antenna,drip,horn	cream	none	spike	none
+kakuna	squiggle	yellow	small	antenna,drip	brown	none	none	none
+beedrill	bug-wings	yellow	small	antenna,drip	black	none	spike	stripes
+pidgey	wings	brown	tiny	wing	cream	tuft	fan	none
+pidgeotto	wings	brown	medium	wing	red	tuft	fan	none
+pidgeot	wings	brown	large	wing	red	tuft	fan	stripes
+rattata	quadruped	purple	tiny		cream	round	thin	belly
+raticate	quadruped	brown	small		cream	pointed	thin	belly
+spearow	wings	brown	tiny	wing	tan	tuft	fan	mask
+fearow	wings	brown	large	wing	tan	tuft	fan	none
+ekans	squiggle	purple	large	drip	cream	none	none	band
+arbok	squiggle	purple	large	drip	cream	none	spike	mask
+pikachu	upright	yellow	small	spark	red	long	bolt	cheeks
+raichu	upright	yellow	medium	spark	orange	long	bolt	cheeks
+sandshrew	upright	yellow	small	spike	cream	round	curl	belly
+sandslash	upright	yellow	medium	spike	cream	round	spike	spots
+nidoran-f	quadruped	blue	tiny	drip	cream	long	thin	none
+nidorina	quadruped	blue	small	drip	cream	long	thin	none
+nidoqueen	upright	blue	large	drip,spike,plate	cream	pointed	spike	belly
+nidoran-m	quadruped	purple	tiny	drip	cream	long	thin	spots
+nidorino	quadruped	purple	small	drip	cream	pointed	spike	spots
+nidoking	upright	purple	large	drip,spike,plate	cream	pointed	spike	stripes
+clefairy	upright	pink	small	sparkle	pink	pointed	curl	none
+clefable	upright	pink	medium	sparkle	cream	long	curl	none
+vulpix	quadruped	brown	small	flame	cream	pointed	bushy	none
+ninetales	quadruped	yellow	large	flame,sparkle	cream	pointed	bushy	none
+jigglypuff	humanoid	pink	tiny	sparkle	cream	round	curl	none
+wigglytuff	humanoid	pink	medium	sparkle	cream	long	curl	none
+zubat	wings	purple	small	drip,wing	purple	none	none	none
+golbat	wings	purple	large	drip,wing	purple	none	none	none
+oddish	legs	blue	tiny	plant,drip	navy	none	none	none
+gloom	humanoid	blue	small	plant,drip	brown	none	none	none
+vileplume	humanoid	red	medium	plant,drip	red	none	none	spots
+paras	armor	red	tiny	antenna,plant	orange	none	none	spots
+parasect	armor	red	medium	antenna,plant	red	none	none	spots
+venonat	humanoid	purple	small	antenna,drip	purple	round	none	none
+venomoth	bug-wings	purple	medium	antenna,drip	purple	none	none	none
+diglett	blob	brown	tiny	spike	pink	none	none	none
+dugtrio	heads	brown	medium	spike	pink	none	none	none
+meowth	quadruped	yellow	tiny	sparkle	cream	pointed	curl	none
+persian	quadruped	yellow	medium	sparkle	cream	pointed	thin	none
+psyduck	upright	yellow	small	fin	cream	none	none	none
+golduck	upright	blue	medium	fin	cream	fin	thin	none
+mankey	upright	brown	tiny	band	cream	round	thin	none
+primeape	upright	brown	medium	band	cream	round	thin	band
+growlithe	quadruped	brown	small	flame	cream	pointed	bushy	stripes
+arcanine	quadruped	brown	large	flame	cream	pointed	bushy	stripes
+poliwag	legs	blue	small	fin	cream	none	thin	swirl
+poliwhirl	humanoid	blue	small	fin	cream	none	none	swirl
+poliwrath	humanoid	blue	medium	fin,band	cream	none	none	swirl
+abra	upright	brown	small	aura	cream	pointed	thin	none
+kadabra	upright	brown	medium	aura	cream	pointed	thin	stripes
+alakazam	humanoid	brown	large	aura,horn	cream	pointed	thin	none
+machop	upright	gray	small	band	gray	pointed	none	none
+machoke	humanoid	gray	medium	band	gray	pointed	none	band
+machamp	humanoid	gray	large	band,plate	gray	pointed	none	none
+bellsprout	humanoid	green	small	plant,drip	green	none	none	none
+weepinbell	blob	green	small	plant,drip	green	none	none	none
+victreebel	blob	green	large	plant,drip	yellow	none	none	none
+tentacool	tentacles	blue	small	fin,drip	red	none	none	none
+tentacruel	tentacles	blue	large	fin,drip	red	none	none	none
+geodude	arms	brown	tiny	spike	gray	none	none	none
+graveler	humanoid	brown	medium	spike	gray	none	none	none
+golem	humanoid	brown	large	spike	green	none	none	band
+ponyta	quadruped	yellow	small	flame	cream	pointed	flame	none
+rapidash	quadruped	yellow	large	flame,horn	cream	pointed	flame	none
+slowpoke	quadruped	pink	medium	fin,aura	cream	round	curl	none
+slowbro	upright	pink	medium	fin,aura	cream	round	curl	belly
+magnemite	arms	gray	tiny	spark,plate	gray	none	none	none
+magneton	heads	gray	medium	spark,plate	gray	none	none	none
+farfetchd	wings	brown	small	wing,plant	cream	tuft	fan	none
+doduo	legs	brown	medium	wing	cream	tuft	fan	none
+dodrio	legs	brown	large	wing	cream	tuft	fan	none
+seel	fish	white	medium	fin,horn	cream	none	fin	none
+dewgong	fish	white	large	fin,crystal,horn	cream	fin	fin	none
+grimer	arms	purple	small	drip	purple	none	none	none
+muk	arms	purple	medium	drip	purple	none	none	none
+shellder	ball	purple	tiny	fin	purple	none	none	none
+cloyster	ball	purple	medium	fin,crystal,spike	purple	none	spike	none
+gastly	ball	purple	medium	aura,drip	purple	none	none	none
+haunter	arms	purple	medium	aura,drip	purple	none	none	none
+gengar	upright	purple	medium	aura,drip	purple	pointed	spike	none
+onix	squiggle	gray	large	spike,horn	gray	none	none	none
+drowzee	humanoid	yellow	small	aura	cream	pointed	none	band
+hypno	humanoid	yellow	medium	aura	cream	pointed	none	none
+krabby	armor	red	tiny	fin	cream	none	none	none
+kingler	armor	red	medium	fin	cream	none	none	none
+voltorb	ball	red	tiny	spark	white	none	none	band
+electrode	ball	red	medium	spark	white	none	none	band
+exeggcute	heads	pink	tiny	plant,aura	cream	none	none	none
+exeggutor	legs	yellow	large	plant,aura	green	tuft	none	none
+cubone	upright	brown	tiny	spike	cream	none	thin	mask
+marowak	upright	brown	small	spike	cream	none	thin	mask
+hitmonlee	humanoid	brown	medium	band	cream	none	none	none
+hitmonchan	humanoid	brown	medium	band	cream	none	none	band
+lickitung	upright	pink	medium		cream	none	thin	none
+koffing	ball	purple	small	drip	gray	none	none	spots
+weezing	heads	purple	medium	drip	gray	none	none	spots
+rhyhorn	quadruped	gray	small	spike	gray	none	thin	band
+rhydon	upright	gray	large	spike,horn,plate	gray	none	thin	band
+chansey	upright	pink	medium		white	none	none	belly
+tangela	legs	blue	small	plant	navy	none	none	none
+kangaskhan	upright	brown	large		cream	pointed	thin	belly
+horsea	blob	blue	tiny	fin	cream	fin	curl	none
+seadra	blob	blue	small	fin,spike	cream	fin	curl	none
+goldeen	fish	red	small	fin,horn	white	fin	fan	none
+seaking	fish	red	medium	fin,horn	white	fin	fan	stripes
+staryu	blob	brown	small	fin	red	none	none	none
+starmie	blob	purple	medium	fin,aura,sparkle	red	none	none	none
+mr-mime	humanoid	pink	medium	aura,sparkle	red	none	none	none
+scyther	bug-wings	green	medium	antenna,wing	cream	none	none	none
+jynx	humanoid	red	medium	crystal,aura	red	none	none	none
+electabuzz	upright	yellow	medium	spark	black	pointed	bolt	stripes
+magmar	upright	red	medium	flame	red	tuft	flame	none
+pinsir	humanoid	brown	medium	antenna,horn	cream	none	none	none
+tauros	quadruped	brown	medium	horn	cream	pointed	bushy	spots
+magikarp	fish	red	small	fin	white	fin	fan	none
+gyarados	squiggle	blue	large	fin,wing,spike	cream	fin	fan	none
+lapras	quadruped	blue	large	fin,crystal,plate	cream	none	none	belly
+ditto	ball	purple	tiny		purple	none	none	none
+eevee	quadruped	brown	tiny		cream	pointed	bushy	none
+vaporeon	quadruped	blue	small	fin	cream	fin	fin	none
+jolteon	quadruped	yellow	small	spark,spike	cream	pointed	spike	none
+flareon	quadruped	red	small	flame	cream	pointed	bushy	none
+porygon	legs	pink	small		blue	none	none	none
+omanyte	tentacles	blue	tiny	spike,fin	cream	none	none	swirl
+omastar	tentacles	blue	small	spike,fin	cream	none	spike	swirl
+kabuto	armor	brown	tiny	spike,fin	cream	none	none	none
+kabutops	upright	brown	medium	spike,fin	cream	none	none	none
+aerodactyl	wings	purple	large	spike,wing	gray	tuft	spike	none
+snorlax	humanoid	black	large		cream	round	none	belly
+articuno	wings	blue	medium	crystal,wing	teal	tuft	fan	none
+zapdos	wings	yellow	medium	spark,wing	black	tuft	spike	none
+moltres	wings	yellow	large	flame,wing	orange	tuft	flame	none
+dratini	squiggle	blue	large	horn,fin	white	fin	none	none
+dragonair	squiggle	blue	large	horn,fin,crystal	white	fin	none	none
+dragonite	upright	brown	large	horn,wing	cream	pointed	thin	belly
+mewtwo	upright	purple	large	aura	purple	pointed	thin	none
+mew	upright	pink	tiny	aura	pink	pointed	thin	none
+steelix	squiggle	gray	large	plate,spike	gray	none	none	none
+tyranitar	upright	green	large	spike,aura,plate	cream	none	spike	belly
+kingdra	blob	blue	large	fin,horn	cream	fin	curl	none
+bellossom	humanoid	green	tiny	plant	green	none	none	none
+espeon	quadruped	purple	small	aura	cream	pointed	spike	none
+umbreon	quadruped	black	small	aura	yellow	pointed	thin	band
+slowking	upright	pink	large	fin,aura	cream	round	curl	none
+houndoom	quadruped	black	medium	aura,flame,horn	orange	pointed	spike	band
+hitmontop	upright	brown	medium	band	cream	none	spike	none
+scizor	bug-wings	red	large	antenna,plate,wing	gray	none	none	none
+blissey	humanoid	pink	medium		white	none	none	belly
+crobat	bug-wings	purple	large	drip,wing	purple	none	none	none
+milotic	squiggle	pink	large	fin	pink	fin	fan	none
+manectric	quadruped	yellow	medium	spark	yellow	pointed	spike	none
+gardevoir	humanoid	white	medium	aura,sparkle	white	none	none	none
+hariyama	humanoid	brown	large	band	cream	none	none	band
+banette	upright	black	medium	aura	purple	none	none	none
+salamence	quadruped	blue	medium	horn,wing	red	pointed	spike	none
+metagross	heads	blue	medium	plate,aura	teal	none	none	none
+rhyperior	upright	gray	large	spike,horn,plate	orange	none	spike	band
+roserade	humanoid	green	small	plant,drip	white	none	none	none
+tangrowth	humanoid	blue	large	plant	navy	none	none	none
+toxicroak	humanoid	blue	medium	drip,band	red	none	none	none
+magmortar	upright	red	large	flame	yellow	tuft	flame	none
+electivire	upright	yellow	large	spark	black	pointed	bolt	band
+garchomp	upright	blue	large	horn,spike,fin	red	fin	fan	none
+abomasnow	upright	white	large	plant,crystal	white	none	none	none
+mamoswine	quadruped	brown	large	crystal,spike,horn	brown	round	none	none
+glaceon	quadruped	blue	small	crystal	blue	pointed	spike	none
+leafeon	quadruped	green	small	plant	brown	pointed	spike	none
+mismagius	ball	purple	small	aura	purple	none	none	none
+dusknoir	arms	black	large	aura	yellow	none	none	band
+drapion	armor	purple	medium	drip,aura	purple	none	spike	none
+togekiss	wings	white	medium	sparkle,wing	red	none	fan	spots
+scolipede	armor	red	large	antenna,drip,horn	red	none	spike	stripes
+chandelure	arms	black	small	aura,flame	yellow	none	none	none
+excadrill	humanoid	gray	small	spike,plate	red	none	spike	none
+conkeldurr	humanoid	brown	medium	band,plate	brown	none	none	none
+sylveon	quadruped	pink	small	sparkle	pink	long	fan	none
+slugma	squiggle	red	small	flame	orange	none	none	none
+magcargo	squiggle	red	small	flame,spike	gray	none	none	none
+dunsparce	squiggle	yellow	medium	wing	cream	none	spike	stripes
+sneasel	upright	black	small	aura,crystal	red	pointed	thin	none
+swinub	quadruped	brown	tiny	crystal,spike	cream	round	none	none
+delibird	wings	red	small	crystal,wing	white	tuft	fan	belly
+marill	upright	blue	tiny	fin,sparkle	white	round	ball	belly
+wooper	legs	blue	tiny	fin,spike	pink	fin	thin	none
+hoppip	upright	pink	tiny	plant,wing	green	none	none	none
+qwilfish	fish	gray	tiny	fin,drip,spike	cream	none	fan	spots
+remoraid	fish	gray	small	fin	cream	fin	fan	none
+togepi	humanoid	white	tiny	sparkle	red	none	none	spots
+piloswine	quadruped	brown	medium	crystal,spike,horn	cream	round	none	none
+azumarill	upright	blue	small	fin,sparkle	white	round	ball	spots
+quagsire	upright	blue	medium	fin,spike	cream	fin	thin	none
+skiploom	upright	green	small	plant,wing	green	none	none	none
+jumpluff	upright	blue	small	plant,wing	white	none	none	none
+octillery	tentacles	red	small	fin	cream	none	none	none
+togetic	humanoid	white	small	sparkle,wing	red	none	none	spots
+sentret	quadruped	brown	small		cream	round	bushy	stripes
+furret	quadruped	brown	medium		cream	round	bushy	stripes
+ledyba	wings	red	small	antenna,wing	black	none	none	spots
+ledian	wings	red	medium	antenna,wing	black	none	none	spots
+spinarak	armor	green	tiny	antenna,drip	green	none	none	mask
+ariados	armor	red	medium	antenna,drip	yellow	none	none	stripes
+natu	wings	green	tiny	aura,wing	red	tuft	fan	band
+xatu	wings	green	medium	aura,wing	red	tuft	fan	band
+yanma	bug-wings	red	medium	antenna,wing	red	none	none	none
+murkrow	wings	black	tiny	aura,wing	red	tuft	fan	none
+misdreavus	ball	gray	small	aura	red	none	none	none
+wobbuffet	blob	blue	medium	aura	black	none	thin	none
+heracross	humanoid	blue	medium	antenna,band,horn	cream	none	none	none
+mantine	wings	purple	large	fin,wing	cream	fin	thin	spots
+skarmory	wings	gray	medium	plate,wing	red	tuft	spike	none
+phanpy	quadruped	blue	tiny	spike	cream	round	thin	none
+donphan	quadruped	gray	medium	spike	gray	round	thin	band
+larvitar	upright	green	small	spike	green	none	spike	none
+pupitar	squiggle	gray	medium	spike	gray	none	none	none

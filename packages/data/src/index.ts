@@ -288,9 +288,13 @@ export type ArtRecipe = {
   species: string;
   shape: string;
   color: string;
-  /** 公式の高さから4段階に丸めたもの。**進化前後が同じ絵にならない**のに効く。 */
   size: string;
-  parts: string[];
+  parts: readonly string[];
+  /** 差し色・耳・しっぽ・模様（v1.5）。**種を見分ける4つ。** */
+  accent: string;
+  ears: string;
+  tail: string;
+  mark: string;
 };
 
 export const allArt = artJson as unknown as readonly ArtRecipe[];
@@ -299,7 +303,12 @@ const artIndex = new Map(allArt.map((a) => [a.species, a]));
 
 /** レシピが無い種は、まるい既定の姿にする（絵が消えるより形が出るほうがよい）。 */
 export function artFor(id: string): ArtRecipe {
-  return artIndex.get(id) ?? { species: id, shape: "blob", color: "gray", size: "medium", parts: [] };
+  return (
+    artIndex.get(id) ?? {
+      species: id, shape: "blob", color: "gray", size: "medium", parts: [],
+      accent: "", ears: "none", tail: "none", mark: "none",
+    }
+  );
 }
 
 export function regionById(id: string): RegionDefinition {

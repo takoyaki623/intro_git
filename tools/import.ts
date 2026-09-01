@@ -1059,7 +1059,32 @@ const COLORS = [
 
 const SIZES = ["tiny", "small", "medium", "large"] as const;
 
-type ArtOut = { species: string; shape: string; color: string; size: string; parts: string[] };
+/** 耳・しっぽ・模様（v1.5）。**綴りはここが唯一の正解表。** */
+const EARS = ["none", "round", "long", "pointed", "tuft", "fin"] as const;
+const TAILS = [
+  "none", "thin", "bushy", "flame", "bolt", "curl", "fan", "spike", "ball", "fin",
+] as const;
+const MARKS = [
+  "none", "belly", "spots", "stripes", "band", "mask", "swirl", "cheeks",
+] as const;
+
+type ArtOut = {
+  species: string;
+  shape: string;
+  color: string;
+  size: string;
+  parts: string[];
+  accent: string;
+  ears: string;
+  tail: string;
+  mark: string;
+};
+
+/** 差し色に使える色。**体色10種＋差し色だけの6種**（`sprites.ts` の `BODY`）。 */
+const ACCENTS = [
+  "", "black", "blue", "brown", "gray", "green", "pink", "purple", "red", "white", "yellow",
+  "cream", "orange", "tan", "teal", "navy", "lime",
+] as const;
 
 function importArt(): ArtOut[] {
   return readTsv("art.tsv").map((r) => {
@@ -1075,7 +1100,29 @@ function importArt(): ArtOut[] {
     for (const part of parts) {
       if (!(PARTS as readonly string[]).includes(part)) err(where, `未知の飾り "${part}"`);
     }
-    return { species: r["species"]!, shape, color, size, parts };
+    /*
+     * 差し色・耳・しっぽ・模様（v1.5）。**空欄は "none"（差し色は体色から作る）。**
+     * 綴り違いをここで落とす ―― 落とさないと、絵に出ないだけで気づけない
+     * （`ears: "pointy"` と書いても画面は何も言わない）。
+     */
+    const accent = (r["accent"] ?? "").trim();
+    if (!(ACCENTS as readonly string[]).includes(accent)) err(where, `未知の差し色 "${accent}"`);
+    const pick = (col: string, allowed: readonly string[]): string => {
+      const value = (r[col] ?? "").trim() || "none";
+      if (!allowed.includes(value)) err(where, `未知の${col} "${value}"`);
+      return value;
+    };
+    return {
+      species: r["species"]!,
+      shape,
+      color,
+      size,
+      parts,
+      accent,
+      ears: pick("ears", EARS),
+      tail: pick("tail", TAILS),
+      mark: pick("mark", MARKS),
+    };
   });
 }
 

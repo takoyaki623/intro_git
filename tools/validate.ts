@@ -1168,6 +1168,14 @@ const PART_NAMES = [
   "flame", "plant", "fin", "spark", "crystal", "drip", "aura",
   "horn", "spike", "plate", "antenna", "wing", "band", "sparkle",
 ];
+/** 耳・しっぽ・模様（v1.5）。上と同じ理由でここにも持つ。 */
+const EAR_NAMES = ["none", "round", "long", "pointed", "tuft", "fin"];
+const TAIL_NAMES = [
+  "none", "thin", "bushy", "flame", "bolt", "curl", "fan", "spike", "ball", "fin",
+];
+const MARK_NAMES = [
+  "none", "belly", "spots", "stripes", "band", "mask", "swirl", "cheeks",
+];
 
 // ─────────────────────────────────────────────
 // #119 特性の日本語名が公式と一致する（v1.1-j）
@@ -1228,19 +1236,32 @@ function checkArt(): void {
     }
   }
 
-  // **同じ見た目になる種がどれだけ居るか**を数える（警告）。
-  // シルエットを描き分けるのが目的なので、被りの多さはそのまま出来の指標になる
+  for (const a of allArt) {
+    if (!EAR_NAMES.includes(a.ears)) fail("art", `${a.species}: 描けない耳 "${a.ears}"`);
+    if (!TAIL_NAMES.includes(a.tail)) fail("art", `${a.species}: 描けないしっぽ "${a.tail}"`);
+    if (!MARK_NAMES.includes(a.mark)) fail("art", `${a.species}: 描けない模様 "${a.mark}"`);
+  }
+
+  /*
+   * **同じ見た目になる種が居ないこと**（#126・v1.5）。
+   *
+   * v0.12.5 からここは**警告**だった ―― 体型・体色・大きさ・飾りの4つしか
+   * 語彙が無く、228種を並べると 37種（17組）が完全に同じ絵になる。
+   * どうやっても 0 にできないものを「落ちる」にはできないので、数えるだけにしていた。
+   *
+   * v1.5 で差し色・耳・しっぽ・模様の4つを足し、**0 にできるようになった**ので
+   * 関門に上げる。**一度も 0 にならない検査は、無いのと同じ**だったのが、
+   * これで「種を足したときに同じ絵にならないか」を必ず見る場所になる。
+   *
+   * ここが落ちたら、絵を直すのではなく `art.tsv` の4列のどれかを変える。
+   */
   const key = (a: (typeof allArt)[number]) =>
-    `${a.shape}/${a.color}/${a.size}/${[...a.parts].sort().join(",")}`;
+    `${a.shape}/${a.color}/${a.size}/${[...a.parts].sort().join(",")}`
+    + `/${a.accent}/${a.ears}/${a.tail}/${a.mark}`;
   const groups = new Map<string, string[]>();
   for (const a of allArt) groups.set(key(a), [...(groups.get(key(a)) ?? []), a.species]);
-  const collided = [...groups.values()].filter((g) => g.length > 1);
-  const worst = collided.sort((a, b) => b.length - a.length)[0];
-  if (collided.length > 0) {
-    warn(
-      "art-collision",
-      `見た目が同じ組み合わせが ${collided.length} 組（最大 ${worst!.length} 種: ${worst!.slice(0, 6).join(" ")}）`,
-    );
+  for (const group of [...groups.values()].filter((g) => g.length > 1)) {
+    fail("art", `見た目が同じ: ${group.join(" / ")}`);
   }
 }
 
