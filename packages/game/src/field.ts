@@ -97,6 +97,7 @@ import {
 import { openExchangeScreen, openFacilityScreen, openTournamentScreen } from "./screens.js";
 import { fitScreens } from "./screen.js";
 import { buildingsOf, drawBuilding } from "./art/buildings.js";
+import { drawPerson, SKIN, type Person } from "./art/people.js";
 import { drawTile, shade, TILE_ALIAS, type TileView } from "./art/tiles.js";
 import { wipeShut, wipeThrough } from "./art/wipe.js";
 import { STATUS_LABEL, TYPE_COLOR, TYPE_LABEL } from "./view.js";
@@ -153,6 +154,48 @@ const OBJECT_COLOR: Record<string, string> = {
   boulder: "#7d7266",
   switch: "#5a6b7d",
 };
+
+/**
+ * 人の色（v1.4-c）。
+ *
+ * **名前で引く表と、名前から作る色の両方を持つ。**
+ * 決まった人（オーキド・ママ・ライバル）は表に置くが、
+ * それ以外は `sprite` の文字から色を決める ――
+ * 表だけにすると、**NPC を1人足すたびにここへ1行**という作業が生まれ、
+ * 書き忘れた人だけ同じ色で立つことになる（トレーナー165人ぶん）。
+ */
+const NAMED_LOOK: Record<string, Person> = {
+  oak: { shirt: "#eceae2", hair: "#c8c4bc", skin: SKIN },
+  mom: { shirt: "#c85f8a", hair: "#7a4a2a", skin: SKIN },
+  rival: { shirt: "#8a5fc8", hair: "#c86a3a", skin: SKIN },
+  nurse: { shirt: "#f2f2f2", hair: "#e0709a", skin: SKIN },
+  clerk: { shirt: "#3f6fa8", hair: "#3a2a1a", skin: SKIN },
+  rocket: { shirt: "#2a2a2a", hair: "#2a2a2a", skin: SKIN, cap: "#2a2a2a" },
+  man: { shirt: "#5a8a5a", hair: "#4a3a2a", skin: SKIN },
+  woman: { shirt: "#d98a5f", hair: "#5a3a2a", skin: SKIN },
+};
+
+/** 服と髪の候補。**名前から選ぶ**ので、同じ人はいつも同じ色になる。 */
+const SHIRTS = ["#d95f5f", "#3f6fa8", "#5a8a5a", "#c8a03a", "#8a5fc8", "#3aa0a0", "#d97f3a"];
+const HAIRS = ["#3a2a1a", "#5a3a2a", "#2a2a2a", "#7a5a3a", "#c86a3a"];
+
+/** 文字列から決まる数。**乱数にしない** ―― 毎フレーム色が変わる人になる。 */
+function hashOf(text: string): number {
+  let n = 0;
+  for (let i = 0; i < text.length; i += 1) n = (n * 31 + text.charCodeAt(i)) >>> 0;
+  return n;
+}
+
+function lookOf(key: string): Person {
+  const named = NAMED_LOOK[key];
+  if (named !== undefined) return named;
+  const n = hashOf(key);
+  return {
+    shirt: SHIRTS[n % SHIRTS.length]!,
+    hair: HAIRS[(n >> 3) % HAIRS.length]!,
+    skin: SKIN,
+  };
+}
 
 // ─────────────────────────────────────────────
 // 画面
@@ -420,15 +463,19 @@ export function playField(rebuild: () => void): FieldHandle {
       const dx = dir === "left" ? -1 : dir === "right" ? 1 : 0;
       const dy = dir === "up" ? -1 : dir === "down" ? 1 : 0;
 
-      // 向いている側の頭に印を置く（1マス先が壁でも、向きは分かるように）
-      ctx.fillStyle = "#f5f0dc";
-      ctx.fillRect(
-        ox + TILE / 2 - 3 + dx * (TILE / 2 - 5),
-        oy + TILE / 2 - 3 + dy * (TILE / 2 - 5),
-        6,
-        6,
-      );
-
+      /*
+       * **向きの印は外した**（v1.4-c）。
+       *
+       * ここには「向いている側の頭に置く白い印」があった。理由は
+       * v0.12 のコメントに書いてあるとおり **姿がただの四角だったから**で、
+       * それ以外に向きを知る手がかりが無かった。
+       *
+       * v1.4-c で人に髪と顔が付き、**後ろ向きには目が無い**ので、
+       * 向きは姿そのもので分かる ―― 印は腰のあたりに貼り付いた白い箱に
+       * しか見えなくなっていた。**理由が消えたものは一緒に消す。**
+       * 視線の帯（下）は残す。あれは向きではなく**届く距離**を見せていて、
+       * 姿からは分からない。
+       */
       ctx.save();
       // 薄すぎると「なんとなく明るい」で終わって読めない。
       // 濃すぎると地形が見えなくなる ―― 撮って見比べてこの辺りにした
@@ -449,8 +496,11 @@ export function playField(rebuild: () => void): FieldHandle {
     // ── オブジェクト ──
     // **スイッチを先に描く**（v1.1-f）。床なので、乗っている岩に隠れる側でないと
     // 「岩の上に板が浮いている」絵になる
+    // **南のものを後に描く**（v1.4-c）。人が1マスより背が高くなったので、
+    // 順番が地図の並び順のままだと、南に立つ人が北の人の頭に隠れる
     const drawn = [...visibleObjects(map, world)].sort(
-      (a, b) => Number(a.kind.type !== "switch") - Number(b.kind.type !== "switch"),
+      (a, b) =>
+        Number(a.kind.type !== "switch") - Number(b.kind.type !== "switch") || a.at.y - b.at.y,
     );
     for (const object of drawn) {
       const x = toScreenX(object.at.x);
@@ -495,12 +545,15 @@ export function playField(rebuild: () => void): FieldHandle {
         ctx.fillRect(x + 5, y + 5, TILE - 10, TILE * 0.46);
         continue;
       }
-      // NPC。**足元に影を落とすと、地面の上に立って見える**
-      dropShadow(x + TILE / 2, y + TILE * 0.84, TILE * 0.3);
-      ctx.fillStyle = color;
-      ctx.fillRect(x + 6, y + 4, TILE - 12, TILE - 9);
-      ctx.fillStyle = shade(color, -0.28);
-      ctx.fillRect(x + 6, y + TILE - 8, TILE - 12, 3);
+      // ── 人 ──（v1.4-c）
+      // 見た目の元は `sprite`（NPC）と トレーナーID。**役割ではなく個人で決める**
+      const key = object.kind.type === "npc"
+        ? object.kind.sprite
+        : object.kind.type === "trainer"
+          ? object.kind.trainer
+          : object.id;
+      const facing = object.kind.type === "trainer" ? object.kind.direction : "down";
+      drawPerson(ctx, x, y, TILE, facing, lookOf(key), 0, `npc-${key}`);
 
       // トレーナーは**視線を見せる**（v0.12）。
       // 姿がただの四角である以上、どちらを向いているか分からないまま
@@ -511,14 +564,15 @@ export function playField(rebuild: () => void): FieldHandle {
     // ── プレイヤー ──
     const sx = toScreenX(shown.x);
     const sy = toScreenY(shown.y);
-    dropShadow(sx + TILE / 2, sy + TILE * 0.86, TILE * 0.3);
-    ctx.fillStyle = "#f4f2ee";
-    ctx.fillRect(sx + 6, sy + 4, TILE - 12, TILE - 9);
-    ctx.fillStyle = "#c9c4bb";
-    ctx.fillRect(sx + 6, sy + TILE - 8, TILE - 12, 3);
-    ctx.fillStyle = "#2a2a2a";
-    const eye = { up: [0, -1], down: [0, 4], left: [-4, 1], right: [4, 1] }[player.position.facing]!;
-    ctx.fillRect(sx + TILE / 2 - 3 + eye[0]!, sy + TILE / 2 - 2 + eye[1]!, 6, 3);
+    // **歩いている間だけ足を開く**（v1.4-c）。歩数を別に数えなくてよい ――
+    // マスの途中に居るかどうかが、そのまま「いま歩いている」なので
+    const walking = shown.x !== player.position.x || shown.y !== player.position.y;
+    drawPerson(
+      ctx, sx, sy, TILE, player.position.facing,
+      { shirt: "#4a6fbf", hair: "#6a4a2a", skin: SKIN, cap: "#d94a3a" },
+      walking ? 1 : 0,
+      "player",
+    );
 
     // ── overhead ──
     // 木の下に入ったら上に葉がかぶる。**データにある層を初めて使う**（v0.7 から空だった）
