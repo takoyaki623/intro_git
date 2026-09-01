@@ -31,7 +31,8 @@
     "mapgraph": "node tools/mapgraph.mjs",
     "fetch:art": "vite-node tools/fetch-art.ts",
     "sprites": "vite-node tools/sprite-sheet.ts",
-    "art:names": "vite-node tools/art-names.ts"
+    "art:names": "vite-node tools/art-names.ts",
+    "art:collect": "node tools/collect-art.mjs"
   },
   "devDependencies": {
     "@pkmn/dex": "^0.10.11",
