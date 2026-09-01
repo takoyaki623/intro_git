@@ -16,6 +16,84 @@ import { FIELD_ABILITIES, emptyWorldState, neighborsOf, walkableTerrains } from 
 import { allFieldAbilities } from "@pkmn/data";
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
+
+const run = promisify(execFile);
+
+/**
+ * 書体を1枚だけ取ってくる。**組み立ては1回だけ**（失敗したら `null`）。
+ *
+ * 古い Safari を名乗ると、Google Fonts は**切り分けていない1枚**を返す。
+ * 今の Chrome 宛ての CSS は 100 以上の woff2 に分かれていて、
+ * 必要な字が出るたびに1本ずつ取りに行くことになる。
+ */
+let fontCss;
+async function buildFontCss() {
+  if (fontCss !== undefined) return fontCss;
+  const UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) "
+    + "AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50";
+  const grab = async (url, binary) => {
+    const { stdout } = await run(
+      "curl",
+      ["-s", "--compressed", "--max-time", "30", "-A", UA, "--output", "-", url],
+      { encoding: binary ? "buffer" : "utf8", maxBuffer: 32 * 1024 * 1024 },
+    );
+    if (stdout.length === 0) throw new Error(`空: ${url}`);
+    return stdout;
+  };
+  try {
+    const faces = [];
+    for (const subset of ["latin", "japanese"]) {
+      const css = await grab(
+        `https://fonts.googleapis.com/css?family=DotGothic16&subset=${subset}`, false,
+      );
+      const url = /https:\/\/[^)]+/.exec(css)?.[0];
+      if (url === undefined) throw new Error(`url が無い: ${subset}`);
+      const woff = await grab(url, true);
+      faces.push(
+        "@font-face{font-family:'DotGothic16';font-style:normal;font-weight:400;"
+        + `font-display:block;src:url(data:font/woff;base64,${woff.toString("base64")}) `
+        + "format('woff');}",
+      );
+    }
+    fontCss = faces.join("\n");
+  } catch {
+    fontCss = null;
+  }
+  return fontCss;
+}
+
+/**
+ * 書体を、この箱の中の Chromium に届ける。
+ *
+ * 画面の文字は DotGothic16（Google Fonts・§10 で唯一許した外部ホスト）だが、
+ * **この箱の Chromium は proxy を通していないので取りに行けない。**
+ * 気づかないまま撮っていて、**撮れていたのは代替書体の画面**だった ――
+ * 「見た目に自動判定は無いから撮って見る」と決めた道具が、
+ * 本物と違うものを見せていたことになる。
+ *
+ * ## 通信に手を出さない
+ *
+ * 最初は `page.route` で Google Fonts の要求を横取りし、curl で取って返した。
+ * **それで撮影が壊れた** ―― 74か所中 9〜13 か所で、セーブの読み込みが
+ * 効かないまま次へ進んだ（`△`）。切り分けの無い1枚に替えても 6件 残った。
+ * 原因を1つに絞り切ってはいないが、**素の run では 0件**で、
+ * 横取りを入れた run だけ出る、というところまでは実測で分かっている。
+ *
+ * だから**横取りをやめた。** 書体は先に curl で1枚だけ取っておき、
+ * 読み込み後に `@font-face` を1枚差し込むだけにする ――
+ * ページの通信には一切触らない。ページ自身の `@import` は今までどおり
+ * 失敗するが、差し込んだほうが効くので画面は本物の書体で写る。
+ *
+ * 取れなければ差し込まない。そのときは今までどおり代替書体で写る。
+ */
+async function serveFonts(page) {
+  const css = await buildFontCss();
+  if (css === null) return;
+  await page.addStyleTag({ content: css }).catch(() => {});
+  await page.evaluate(() => document.fonts.ready).catch(() => {});
+}
 
 const URL = process.argv[2] ?? "http://localhost:5173/";
 const OUT = "dist/shots";
@@ -332,6 +410,7 @@ for (const size of [
 
   await page.goto(URL);
   await page.waitForSelector("#field-canvas");
+  await serveFonts(page);
   await page.waitForTimeout(900);
 
   const at = () => page.getAttribute("#field-canvas", "data-at");
@@ -358,14 +437,51 @@ for (const size of [
     const save = JSON.parse(JSON.stringify(SHOOTING_SAVE));
     for (const flag of without) delete save.regions.kanto.flags[flag];
     if (position !== null) save.regions.kanto.position = position;
-    await page.click("#open-settings");
-    await page.waitForSelector("#save-text");
-    await page.fill("#save-text", JSON.stringify(save));
-    await page.click("#save-import");
-    await page.waitForTimeout(800);
+    const json = JSON.stringify(save);
+
+    /*
+     * **読み込めたかどうかを、押した回数ではなく画面の返事で確かめる**（v1.4-a）。
+     *
+     * ここは長らく「開く・書く・押す・800ms 待つ」だった。ところが
+     * `#save-import` は失敗したときも黙っている ―― 画面には
+     * 「よみこめませんでした」と出るのに、台本はそれを読んでいなかった。
+     * 読めなかった回はそのまま次へ進み、**前の場所を撮って
+     * 「ねらいと違う」と報告していた**（`△` が6件）。
+     *
+     * 失敗する筋は1つ見えている: 直前の読み込みの `refresh()` が
+     * 設定画面を作り直すので、**書いた直後に textarea ごと差し替わる**と
+     * 空文字を読ませることになる。だから書いた値をもう一度読んで確かめ、
+     * 返事が出るまで待ち、駄目なら開き直してやり直す。
+     */
+    let loaded = false;
+    for (let attempt = 0; attempt < 4 && !loaded; attempt += 1) {
+      await page.click("#open-settings");
+      await page.waitForSelector("#save-text");
+      await page.waitForTimeout(150);
+      await page.fill("#save-text", json);
+      // 書いたものが残っているか（作り直しに巻き込まれていないか）
+      if ((await page.inputValue("#save-text")) !== json) continue;
+      await page.click("#save-import");
+      for (let i = 0; i < 30; i += 1) {
+        const note = (await page.textContent("#save-note").catch(() => "")) ?? "";
+        if (note.includes("よみこみました")) { loaded = true; break; }
+        if (note.includes("よみこめませんでした")) break;
+        await page.waitForTimeout(100);
+      }
+    }
+    if (!loaded) console.log("    ! セーブを よみこめませんでした（4回ためした）");
+
     await page.click("#settings-back");
     await page.waitForSelector("#field-canvas");
     await page.waitForTimeout(400);
+    // 着いたかを現在地で確かめる（時間を数えるのをやめる・v1.1-i と同じ線）
+    if (position !== null) {
+      for (let i = 0; i < 30; i += 1) {
+        const now = (await at()) ?? "";
+        if (now.startsWith(`${position.map} ${position.x},${position.y}`)) break;
+        await page.waitForTimeout(120);
+      }
+    }
     // 会話が出ていたら消す
     for (let i = 0; i < 6 && (await page.isVisible("#field-text")); i += 1) {
       await page.keyboard.press("z");
@@ -576,6 +692,20 @@ for (const size of [
       region = "kanto";
       const now = await spot();
       ok = now.map === map && now.x === x && now.y === y;
+      if (!ok) {
+        // **なぜ着いていないのかを、その場で書き残す**（推測で直さないため）
+        const state = await page.evaluate(() => ({
+          busy: document.getElementById("field-canvas")?.dataset.busy ?? "-",
+          battle: !document.getElementById("battle")?.classList.contains("hidden"),
+          text: !document.getElementById("field-text")?.classList.contains("hidden"),
+          panel: !document.getElementById("field-panel")?.classList.contains("hidden"),
+          wipe: (() => { const el = document.getElementById("screen-wipe"); return el !== null && el.style.display !== "none"; })(),
+        }));
+        await page.waitForTimeout(1500);
+        const after = await at();
+        console.log(`    ↳ busy=${state.busy} battle=${state.battle} text=${state.text} `
+          + `panel=${state.panel} wipe=${state.wipe} / 1.5秒後=${after}`);
+      }
     } else {
       ok = await goTo(map, x, y);
     }

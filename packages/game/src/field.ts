@@ -1649,6 +1649,24 @@ export function playField(rebuild: () => void): FieldHandle {
     panel.innerHTML = "";
   };
 
+  /**
+   * まだ下に続いているか（v1.4-a）。会話窓の ▼ と同じ意味の印を出す。
+   *
+   * 240×160 に一覧が載りきらないので窓の中で送るのだが、
+   * **送れることが見えていなかった。** 行が下端で切れているだけに見え、
+   * 実際「壊れている」と読まれた ―― 印が無いのは、無いのと同じ。
+   *
+   * **書く口を1つにしていない。** 窓の中身を書く所は5つあり、
+   * どれかで呼び忘れれば印だけ古くなる。だから呼ぶのをやめて、
+   * **中身が変わったことを見張る**（`MutationObserver`）―― 呼び忘れが起こらない形。
+   */
+  const markMore = () => {
+    const more = panel.scrollHeight - panel.scrollTop - panel.clientHeight > 2;
+    panel.dataset["more"] = more ? "1" : "0";
+  };
+  panel.addEventListener("scroll", markMore);
+  new MutationObserver(markMore).observe(panel, { childList: true, subtree: true });
+
   /** 一覧に出す小さい姿（v0.12.5）。バトル画面と同じレシピで描く。 */
   const iconOf = (id: string) => `<span class="mon-icon">${speciesFigure(artFor(id))}</span>`;
 

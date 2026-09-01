@@ -714,6 +714,9 @@ h1 { letter-spacing: .06em; }
 #field-panel {
   position: absolute;
   inset: 4px;
+  /* **送るのはこの箱そのもの。** 中に「本文の箱」を作ると、
+     中身を書く5か所ぜんぶがその形を知っていなければならなくなる ――
+     題が動かないのは `position: sticky` だけで足りる */
   overflow-y: auto;
   border: 2px solid var(--win-line);
   border-image: var(--ui-frame, none) 8 fill / 8px;
@@ -722,38 +725,137 @@ h1 { letter-spacing: .06em; }
   border-radius: 4px;
   background: var(--win-bg);
   color: var(--win-ink);
-  padding: 4px 6px;
+  padding: 0 5px 5px;
   font-size: 10px;
   line-height: 1.35;
 }
 #field-panel.hidden { display: none; }
 
-/* 窓の中の細かい所を 240×160 の尺に合わせる（v1.3-b） */
+/*
+ * 窓の題は**帯にする**（v1.4-a）。
+ *
+ * それまでは本文と同じ地に大きな字を置き、下に青い罫を1本引いていた ――
+ * Web の見出しの作法で、原作の窓には無い。原作は題が枠の一部として帯になっていて、
+ * **どこまでが1つの窓か**が帯で分かる。
+ *
+ * `position: sticky` にしてあるのは、送っている間に題が消えると
+ * 「何の一覧を見ているか」が分からなくなるため ―― 原作は送っても題が残る。
+ */
+#field-panel > .panel-head:first-child {
+  position: sticky;
+  /* 上下左右の余白は本文だけに要る。題は端まで伸ばしたいので、
+     箱の padding ではなく**要素ごと**に持たせている */
+  top: -1px;
+  z-index: 2;
+  margin: 0 -5px 3px;
+  width: calc(100% + 10px);
+  padding: 2px 5px;
+  border-bottom: 0;
+  background: var(--win-line);
+  color: #fff;
+  font-size: 10px;
+  gap: 6px;
+  /* **折り返させない。** 題が2行になると帯が窓の1/3を食う（ずかんで実際そうなった） */
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  overflow: hidden;
+}
+#field-panel > .panel-head:first-child .dim {
+  color: #dce6f5;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#field-panel > .panel-head:first-child strong { font-size: 10px; font-weight: 400; }
+#field-panel > .panel-head:first-child button {
+  border-color: #fff;
+  background: transparent;
+  color: #fff;
+  box-shadow: none;
+}
+
+/** 中の小見出し（「ちほうボックス」など）。帯にはしない ―― 窓は1つだから。 */
 #field-panel .panel-head {
-  padding: 0 0 3px;
-  margin-bottom: 4px;
-  border-bottom: 1px solid var(--win-line);
+  padding: 3px 0 2px;
+  margin: 2px 0 3px;
+  border-bottom: 1px solid var(--win-shadow);
   font-size: 10px;
   gap: 6px;
 }
-#field-panel .panel-head strong { font-size: 11px; }
+#field-panel .panel-head strong { font-size: 10px; }
+
+/*
+ * 押す所は**角の無い箱**（v1.4-a）。
+ *
+ * 角丸・青枠・高さ32px は今の Web の作法で、原作の窓の中には1つも無い。
+ * 影を右下に1px 落として、押すとその1px ぶん沈む ―― GBA の窓の押し心地。
+ */
 #field-panel button {
   font-family: inherit;
   font-size: 10px;
   min-height: 0;
-  padding: 1px 6px;
-  border: 1px solid var(--win-line);
-  border-radius: 3px;
+  padding: 0 5px;
+  border: 1px solid var(--win-ink);
+  border-radius: 0;
   background: var(--win-bg);
   color: var(--win-ink);
+  box-shadow: 1px 1px 0 var(--win-shadow);
+  transition: none;
 }
+/* 外の UI の :hover（青枠）が効いてしまうので、窓の中だけ打ち消す */
+#field-panel button:not(:disabled):hover { border-color: var(--win-ink); }
+#field-panel button:not(:disabled):active {
+  background: var(--win-ink);
+  color: var(--win-bg);
+  box-shadow: none;
+  transform: translate(1px, 1px);
+}
+#field-panel .row-actions { gap: 3px; }
+#field-panel .row-actions button { min-height: 0; padding: 0 5px; font-size: 10px; }
+
+/** 一覧の行。**罫で区切らない** ―― 10px の字に罫を挟むと、字より罫が目立つ */
 #field-panel .mon-list li, #field-panel .dex-list li {
-  padding: 2px 0;
-  gap: 5px;
-  border-bottom: 1px solid var(--win-shadow);
+  padding: 1px 0;
+  gap: 4px;
+  border-bottom: 0;
 }
 #field-panel .meta, #field-panel .dim { font-size: 9px; color: #6a7280; }
-#field-panel .mon-icon { width: 18px; height: 18px; }
+#field-panel .mon-icon { width: 16px; height: 16px; }
+#field-panel p { margin: 2px 0; }
+
+/**
+ * まだ下に続いている印（v1.4-a）。**会話窓の ▼ と同じ意味**にしてある。
+ *
+ * 送れることが分からないと、切れた行が「壊れている」ように見える ――
+ * 実際そう見えていた。出す/出さないは JS が測って `data-more` に書く。
+ */
+#field-panel[data-more="1"]::after {
+  content: "▼";
+  position: absolute;
+  right: 3px;
+  bottom: 1px;
+  color: var(--win-line);
+  font-size: 9px;
+  animation: next-bounce 1s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  #field-panel[data-more="1"]::after { animation: none !important; }
+}
+/*
+ * 画面の中の**丸いものを平らにする**（v1.4-a）。
+ *
+ * タイプ・状態異常のピル（`border-radius: 999px`）と丸い HPバーは、
+ * v0.11 で Web の作法として入れたもの。240×160 の中に置くと、
+ * **そこだけ別のアプリの部品**に見える ―― 原作にある似たものは全部四角い。
+ * 外の UI（設定画面など）はそのままでよいので、`.screen` の中だけに掛ける。
+ */
+.screen .type, .screen .status, .screen .stage, .screen .gear {
+  border-radius: 2px;
+  letter-spacing: 0;
+}
+.screen .hpbar, .screen .hpbar .fill { border-radius: 0; }
+.screen .ball { border-radius: 2px; }
+
 /*
  * **原作のカーソル（▶）は入れない。**
  *
