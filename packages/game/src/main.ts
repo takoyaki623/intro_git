@@ -23,7 +23,7 @@ import { $, setSpeed, type Speed } from "./battle-screen.js";
 import { fitScreens } from "./screen.js";
 import { playField, type FieldHandle } from "./field.js";
 import { loadPlayer, save, setSave, useStore, SLOT } from "./player.js";
-import { createLocalSaveStore } from "./save.js";
+import { createLocalSaveStore, saveAvailable } from "./save.js";
 import { useArtMode } from "./art/source.js";
 import { loadArt } from "./art/store.js";
 import { settingsScreen } from "./settings.js";
@@ -126,7 +126,17 @@ $("#open-settings").onclick = () => {
 // ─────────────────────────────────────────────
 
 void (async () => {
-  const loaded = await store.load(SLOT);
+  /*
+   * **起動は何があっても画面まで行く**（v1.6-e）。
+   *
+   * `store.load` の例外がここまで上がって、`showField()` の手前で
+   * 起動ごと止まっていた ―― 画面には何も組まれず、端末が暗い配色なら
+   * 真っ黒な画面になる。**読めないことと、遊べないことは別。**
+   */
+  const loaded = await store.load(SLOT).catch((error: unknown) => {
+    console.warn("セーブを よみこめませんでした（つづきからは できません）", error);
+    return null;
+  });
   // 読めなくても遊べる。**黙って新規データを作る**のはここだけ（他は null を返す）
   if (loaded !== null) loadPlayer(loaded);
   setSpeed(save.settings.battleSpeed);
@@ -150,4 +160,20 @@ void (async () => {
   // 窓の大きさが変わったら両方に掛け直す
   fitScreens();
   window.addEventListener("resize", fitScreens);
+
+  /*
+   * **保存できないことを、黙っていない**（v1.6-e）。
+   *
+   * `file://` で開いた1枚や、プライベートウィンドウでは保存が効かない。
+   * 遊べはするが、閉じたら消える ―― 何時間か進めてから気づくのが一番悪い。
+   * 設定画面には前から書いてあったが、そこを開く人ばかりではない。
+   */
+  if (!(await saveAvailable())) {
+    const notice = document.createElement("p");
+    notice.className = "problems";
+    notice.textContent =
+      "この ひらきかたでは セーブできません。"
+      + "とじると きえます（「セーブ」→ バックアップ で 文字に して のこせます）。";
+    $("main").prepend(notice);
+  }
 })();

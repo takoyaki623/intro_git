@@ -154,7 +154,43 @@ export function createLocalSaveStore(): SaveStore {
     console.warn("この環境では セーブできません（IndexedDB が無い）");
     return createMemorySaveStore();
   }
-  return createIndexedDbStore();
+  return degradeOnFailure(createIndexedDbStore());
+}
+
+/**
+ * **開けなかったら、記憶だけで続ける**（v1.6-e）。
+ *
+ * `typeof indexedDB === "undefined"` だけを見ていた。ところが
+ * **「ある」けれど「開けない」**環境がある ―― `file://` で開いたページ、
+ * Safari のプライベート、保存を止めた設定。そこでは `open()` が
+ * `SecurityError` を投げる。
+ *
+ * その例外は `main.ts` の起動の `await` まで上がり、
+ * **`showField()` に着く前に起動ごと止まっていた。** 画面には何も組まれず、
+ * 端末が暗い配色なら**真っ黒な画面**になる ―― 実際そう報告された。
+ *
+ * この形は `saveAvailable()` が最初から try/catch で吸っていた。
+ * **同じことを2箇所で知っていて、片方だけが構えていなかった。**
+ *
+ * 一度落ちたら以後は記憶だけの入れ物に固定する ―― 毎回投げさせて
+ * 毎回握り潰すと、遅いうえに console が warning で埋まる。
+ */
+function degradeOnFailure(store: SaveStore): SaveStore {
+  let fallen: SaveStore | null = null;
+  const via = <T>(run: (s: SaveStore) => Promise<T>): Promise<T> => {
+    if (fallen !== null) return run(fallen);
+    return run(store).catch((error: unknown) => {
+      console.warn("セーブできない環境なので、記憶だけで続けます", error);
+      fallen = createMemorySaveStore();
+      return run(fallen);
+    });
+  };
+  return {
+    load: (slot) => via((s) => s.load(slot)),
+    save: (slot, data) => via((s) => s.save(slot, data)),
+    clear: (slot) => via((s) => s.clear(slot)),
+    listSlots: () => via((s) => s.listSlots()),
+  };
 }
 
 /** 保存先が実際に使えるか。設定画面の表示に使う。 */
