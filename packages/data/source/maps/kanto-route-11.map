@@ -1,0 +1,40 @@
+# 11番道路。クチバシティの東。ここからシオンタウンへ抜ける。
+id: kanto-route-11
+name: 11ばんどうろ
+region: kanto
+encounters: kanto-route-11-grass kanto-route-11-surf kanto-route-11-fishing-old kanto-route-11-fishing-good kanto-route-11-fishing-super
+bgm: route-11
+
+legend:
+. normal
+, grass
+T !normal
+= ledge
+
+grid:
+TTTTTTTTTTTTTTT
+...............
+T..,,,,.......T
+T..,,,,.......T
+T.............T
+T.....===.....T
+T.............T
+T........,,,..T
+T........,,,..T
+T.............T
+TTTTTTTTTTTTTTT
+
+warps:
+0,1 step kanto-vermilion-city 12,1 left
+14,1 step kanto-route-12 1,8 right
+4,3 step kanto-diglett-cave 13,4 up
+
+objects:
+route11-sign 2,4 sign kanto.route11.sign
+route11-gambler 6,7 trainer:kanto-route11-gambler:3:left kanto.route11.gambler if:kanto.route11.gambler-beaten=false
+route11-aide 3,7 npc:oldman:static kanto.route11.aide
+route11-hidden 12,8 item:super-potion:hidden kanto.route11.hidden if:kanto.route11.hidden-taken=false
+route11-gambler-1 2,1 trainer:kanto-route-11-gambler-1:2:down kanto.route11.gambler1 if:kanto.route11.gambler1-beaten=false
+route11-gambler-2 13,8 trainer:kanto-route-11-gambler-2:2:left kanto.route11.gambler2 if:kanto.route11.gambler2-beaten=false
+route11-gambler-3 4,9 trainer:kanto-route-11-gambler-3:2:left kanto.route11.gambler3 if:kanto.route11.gambler3-beaten=false
+route11-great-ball-1 13,9 item:great-ball kanto.route11.great-ball1 if:kanto.route11.great-ball1-taken=false

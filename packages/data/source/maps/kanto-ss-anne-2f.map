@@ -1,0 +1,29 @@
+# サンアンヌごう 2階。**ライバルはここで待っている**（原作でも船長室の手前）。
+id: kanto-ss-anne-2f
+name: サンアンヌごう
+region: kanto
+bgm: vermilion-city
+
+legend:
+. normal
+S !normal
+D normal
+
+grid:
+SSSSSSSSSSSSS
+S.........D.S
+S.SSSSS.SSS.S
+S.S...S.....S
+S.S.S.S.SSS.S
+S...S...S...S
+SSSSSSSSSSSSS
+
+warps:
+10,1 step kanto-ss-anne-1f 10,2 up
+
+objects:
+ss-anne-rival 6,5 npc:rival:static kanto.ssanne.rival if:kanto.ssanne.rival-beaten=false
+ss-anne-2f-item 3,3 item:max-ether kanto.ssanne.item-2 if:kanto.ssanne.item-2-taken=false
+ssanne2f-sailor-1 11,1 trainer:kanto-ss-anne-2f-sailor-1:2:down kanto.ssanne2f.sailor1 if:kanto.ssanne2f.sailor1-beaten=false
+ssanne2f-sailor-2 7,5 trainer:kanto-ss-anne-2f-sailor-2:2:up kanto.ssanne2f.sailor2 if:kanto.ssanne2f.sailor2-beaten=false
+ssanne2f-gentleman-1 3,5 trainer:kanto-ss-anne-2f-gentleman-1:2:down kanto.ssanne2f.gentleman1 if:kanto.ssanne2f.gentleman1-beaten=false

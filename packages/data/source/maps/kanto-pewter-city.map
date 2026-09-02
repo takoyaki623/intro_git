@@ -1,0 +1,51 @@
+# ニビシティ。**最初のジムがある町。**
+# ジム（G）・ポケモンセンター（P）・フレンドリィショップ（F）・博物館（M）。
+id: kanto-pewter-city
+name: ニビシティ
+region: kanto
+fly: 6,1 kanto.fly.pewter
+onEnter: kanto.pewter.arrive
+bgm: pewter-city
+
+legend:
+. normal
+T !normal
+G !normal
+P !normal
+F !normal
+M !normal
+D normal
+
+grid:
+TTTTTTTTTTTTTT
+T............T
+T..MMMM......T
+T..MMDM......T
+T............T
+T............T
+T..GGGG......T
+T..GGDG......T
+T............T
+T.......PPPP.T
+T.......PPDP.T
+T.............
+T.......FFFF.T
+T.......FFDF.T
+T............T
+TTTTTTT.TTTTTT
+
+warps:
+5,3 step kanto-pewter-museum 4,5 up
+5,7 step kanto-pewter-gym 4,8 up
+10,10 step kanto-pewter-pokecenter 4,5 up
+10,13 step kanto-pewter-mart 4,5 up
+7,15 step kanto-route-2-north 4,1 down
+13,11 step kanto-route-3 1,5 right
+
+objects:
+pewter-sign-gym 4,8 sign kanto.pewter.sign-gym
+pewter-sign-museum 4,4 sign kanto.pewter.sign-museum
+pewter-boy 9,5 npc:youngster:static kanto.pewter.boy
+pewter-museum-guide 7,4 npc:scientist:static kanto.pewter.museum-guide
+pewter-hiker 10,5 npc:hiker:static kanto.pewter.hiker
+pewter-tutor 3,5 npc:hiker:static kanto.tutor.rock-slide

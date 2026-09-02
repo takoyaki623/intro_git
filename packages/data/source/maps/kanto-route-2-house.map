@@ -1,0 +1,25 @@
+# 2番道路の家（v1.1-i）。**バリヤード の交換相手が居る。**
+id: kanto-route-2-house
+name: 2ばんどうろのいえ
+region: kanto
+bgm: town
+
+legend:
+. normal
+W !normal
+B !normal
+D normal
+
+grid:
+WWWWWWW
+WB....W
+W.....W
+W.....W
+WWWDWWW
+
+warps:
+3,4 step kanto-route-2 7,14 down
+
+objects:
+route2-trader 4,1 npc:lass:static kanto.route2.trade
+route2-tutor 2,3 npc:blackbelt:static kanto.tutor.mega-punch

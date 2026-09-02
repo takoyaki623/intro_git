@@ -1,0 +1,36 @@
+# 21番水道。グレンじま と マサラタウン を結ぶ。
+# **この1本でカントーが輪になる**（v0.12-e）―― ここまでは木だった。
+id: kanto-route-21
+name: 21ばんすいどう
+region: kanto
+encounters: kanto-route-21-grass kanto-route-21-surf kanto-route-21-fishing-old kanto-route-21-fishing-good kanto-route-21-fishing-super
+bgm: route-21
+
+legend:
+~ !water
+s sand
+T !normal
+
+grid:
+TTTTTsTTTTT
+T~~~~s~~~~T
+T~~~~~~~~~T
+T~~~~~~~~~T
+T~~~~~~~~~T
+T~~~~~~~~~T
+T~~~~~~~~~T
+T~~~~~~~~~T
+T~~~~~~~~~T
+T~~~~~~~~~T
+T~~~~s~~~~T
+TTTTTsTTTTT
+
+warps:
+5,0 step kanto-cinnabar-island 6,12 up
+5,11 step kanto-pallet-town 5,11 down
+
+objects:
+
+route21-swimmer-1 1,1 trainer:kanto-route-21-swimmer-1:2:down kanto.route21.swimmer1 if:kanto.route21.swimmer1-beaten=false
+route21-swimmer-2 9,10 trainer:kanto-route-21-swimmer-2:2:left kanto.route21.swimmer2 if:kanto.route21.swimmer2-beaten=false
+route21-tm18-1 5,10 item:tm18 kanto.route21.tm181 if:kanto.route21.tm181-taken=false

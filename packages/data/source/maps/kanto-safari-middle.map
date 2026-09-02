@@ -1,0 +1,41 @@
+# サファリゾーン 中央。セキチクの北のゲートから入る。
+#
+# **`rules: safari` はこの1行だけ**（v1.1-h）。歩数制限・エサ/イシ・戦闘不可は
+# `field-rules.json` が持つ ―― `Ruleset`（施設の編成と連戦の型）には寄せない。
+# あれは `teamSource` / `levelMode` / `streakCap` で、
+# 歩数もエサも入る場所が無く、4施設すべてが無視する欄が8個増えるだけになる。
+id: kanto-safari-middle
+name: サファリゾーン
+region: kanto
+rules: safari
+encounters: kanto-safari-middle-grass kanto-safari-middle-surf kanto-safari-middle-fishing-old kanto-safari-middle-fishing-good kanto-safari-middle-fishing-super
+bgm: safari
+
+legend:
+. normal
+, grass
+T !normal
+~ !water
+
+grid:
+TTTTTT.TTTTTT
+T...........T
+T..,,,,,,,..T
+T..,,,,,,,..T
+T...........T
+T.~~~~...,,,T
+......,......
+T...........T
+T..,,,..,,,.T
+T..,,,..,,,.T
+T...........T
+TTTTTT.TTTTTT
+
+warps:
+6,0 step kanto-safari-north 6,8 up
+0,6 step kanto-safari-west 11,6 left
+12,6 step kanto-safari-east 1,6 right
+6,11 step kanto-safari-gate 3,1 down
+
+objects:
+safari-middle-sign 3,1 sign kanto.safari.sign

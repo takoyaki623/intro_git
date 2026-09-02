@@ -1,0 +1,33 @@
+# 4番道路。おつきみやまを抜けてハナダシティへ下りる短い道。
+id: kanto-route-4
+name: 4ばんどうろ
+region: kanto
+encounters: kanto-route-4-grass kanto-route-4-surf kanto-route-4-fishing-old kanto-route-4-fishing-good kanto-route-4-fishing-super
+bgm: route-4
+
+legend:
+. normal
+, grass
+T !normal
+= ledge
+
+grid:
+TTTTTT.TTTTT
+T..........T
+T..,,,,....T
+T..,,,,....T
+T..........T
+T....==....T
+T..........T
+T..........T
+TTTTTTTTTT.T
+
+warps:
+6,0 step kanto-mt-moon 10,11 up
+10,8 step kanto-cerulean-city 1,1 down
+
+objects:
+route4-sign 3,6 sign kanto.route4.sign
+route4-bug 8,3 trainer:kanto-route4-bug:2:left kanto.route4.bug if:kanto.route4.bug-beaten=false
+route4-lass-1 1,1 trainer:kanto-route-4-lass-1:2:down kanto.route4.lass1 if:kanto.route4.lass1-beaten=false
+route4-potion-1 10,7 item:potion kanto.route4.potion1 if:kanto.route4.potion1-taken=false

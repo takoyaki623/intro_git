@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 2,
+  "global": {
+    "bp": 120,
+    "endgame": {
+      "facilityRecords": {
+        "battle-tower": { "bestStreak": 20, "totalWins": 55, "earnedBp": 90 }
+      },
+      "tournamentRecords": {
+        "kanto-gym-cup": { "clearedTiers": ["original"] }
+      }
+    }
+  },
+  "settings": { "battleSpeed": "logOnly" }
+}

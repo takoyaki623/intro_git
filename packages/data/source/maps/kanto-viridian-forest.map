@@ -1,0 +1,41 @@
+# トキワの森。木で迷路になっていて、草むらが濃い。
+# **視線が2本重なる場所を1つだけ作ってある** ―― 近い方が先に来る規則
+# （core の spotterAt）が実際に効いていることを、遊んで確かめられるように。
+id: kanto-viridian-forest
+name: トキワのもり
+region: kanto
+encounters: kanto-viridian-forest-grass
+bgm: viridian-forest
+
+legend:
+. normal
+, grass
+T !normal
+
+grid:
+TTTTTTTTTT.TT
+TT.........TT
+TT.,,,.,,,.TT
+TT.,,,.,,,.TT
+TT.....T...TT
+TT.TTT.T.T.TT
+TT.T...T.T.TT
+TT.T.T.T.T.TT
+TT...T...T.TT
+TT,,,T,,,T.TT
+TT,,,T,,,T.TT
+TT.........TT
+TT.........TT
+TTTTT.TTTTTTT
+
+warps:
+10,0 step kanto-route-2-north 4,6 up
+5,13 step kanto-route-2 5,1 down
+
+objects:
+forest-sign 4,12 sign kanto.forest.sign
+forest-bug-1 3,1 trainer:kanto-forest-bug-1:3:down kanto.forest.bug-1 if:kanto.forest.bug-1-beaten=false
+forest-bug-2 10,11 trainer:kanto-forest-bug-2:2:left kanto.forest.bug-2 if:kanto.forest.bug-2-beaten=false
+forest-antidote 2,1 item:antidote kanto.forest.antidote if:kanto.forest.antidote-taken=false
+viridianforest-potion-1 10,12 item:potion kanto.viridianforest.potion1 if:kanto.viridianforest.potion1-taken=false
+viridianforest-antidote-1 4,4 item:antidote:hidden kanto.viridianforest.antidote1 if:kanto.viridianforest.antidote1-taken=false

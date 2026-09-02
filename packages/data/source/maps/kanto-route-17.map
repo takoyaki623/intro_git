@@ -1,0 +1,45 @@
+# 17番道路（サイクリングロード）。タマムシ側から南へ下る長い坂。
+#
+# 原作の性格は**段差だらけで、下りは速いが登りは回り道になる**こと。
+# 段差は幅いっぱいには置かない ―― 塞ぐと二度と北へ戻れなくなり、
+# 「道」ではなく「一方通行の落とし穴」になる。
+id: kanto-route-17
+name: 17ばんどうろ
+region: kanto
+encounters: kanto-route-17-grass
+bgm: route-16
+
+legend:
+. normal
+, grass
+T !normal
+= ledge
+
+grid:
+TTTTT.TTTTT
+T.........T
+T...===...T
+T.........T
+T..,,,....T
+T..,,,....T
+T.........T
+T..===....T
+T.........T
+T....,,,..T
+T....,,,..T
+T...===...T
+T.........T
+TTTTT.TTTTT
+
+warps:
+5,0 step kanto-route-16 6,8 up
+5,13 step kanto-route-18 5,1 down
+
+objects:
+route17-sign 2,1 sign kanto.route17.sign
+route17-biker 7,4 trainer:kanto-route17-biker:3:left kanto.route17.biker if:kanto.route17.biker-beaten=false
+route17-item 8,12 item:max-ether kanto.route17.item if:kanto.route17.item-taken=false
+route17-biker-1 1,1 trainer:kanto-route-17-biker-1:2:down kanto.route17.biker1 if:kanto.route17.biker1-beaten=false
+route17-biker-2 9,12 trainer:kanto-route-17-biker-2:2:left kanto.route17.biker2 if:kanto.route17.biker2-beaten=false
+route17-biker-3 9,2 trainer:kanto-route-17-biker-3:2:down kanto.route17.biker3 if:kanto.route17.biker3-beaten=false
+route17-tm40-1 7,12 item:tm40 kanto.route17.tm401 if:kanto.route17.tm401-taken=false

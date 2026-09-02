@@ -1,0 +1,33 @@
+# 22番道路。トキワシティの西。**ライバルが待っている。**
+id: kanto-route-22
+name: 22ばんどうろ
+region: kanto
+encounters: kanto-route-22-grass kanto-route-22-surf kanto-route-22-fishing-old kanto-route-22-fishing-good kanto-route-22-fishing-super
+bgm: route-22
+
+legend:
+. normal
+, grass
+T !normal
+
+grid:
+TTTTTTTTTTTT
+T..........T
+T..,,,.....T
+T..,,,.....T
+T..........T
+............
+T..........T
+T..,,,,....T
+T..,,,,....T
+T..........T
+TTTTTTTTTTTT
+
+warps:
+11,5 step kanto-viridian-city 1,5 right
+0,5 step kanto-route-23 10,5 left
+
+objects:
+route22-sign 6,4 sign kanto.route22.sign
+route22-rival 3,5 npc:rival:static kanto.route22.rival if:kanto.route22.rival-beaten=false
+route22-rival-a 3,3 npc:rival:static kanto.route22.rival-a if:kanto.route22.rival-a-beaten=false

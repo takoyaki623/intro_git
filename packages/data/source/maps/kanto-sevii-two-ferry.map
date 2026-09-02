@@ -1,0 +1,29 @@
+# 2のしまの ふなつきば。西が 1のしま、東が 3のしま。
+id: kanto-sevii-two-ferry
+name: ふなつきば
+region: kanto
+bgm: pokecenter
+
+legend:
+. normal
+W !normal
+S !normal
+G normal
+D normal
+
+grid:
+WGWWWWWGW
+W.......W
+W..SSS..W
+W.......W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+1,0 step kanto-sevii-one-ferry 7,1 down
+7,0 step kanto-sevii-three-ferry 1,1 down
+4,6 step kanto-sevii-two-island 6,8 up
+
+objects:
+two-ferry-sailor 4,3 npc:sailor:static kanto.sevii.two-sailor

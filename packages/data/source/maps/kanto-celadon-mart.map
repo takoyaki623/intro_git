@@ -1,0 +1,36 @@
+# タマムシデパート 1階（v1.1-i）。
+#
+# v1.1-b の時点で「階を分けるのは v1.1-i」と書いてあった宿題。
+# 品揃えは階で分ける ―― **同じ店員に品目を足していくと、
+# 「バッジで増える品揃え」と「階で違う品揃え」が1つの表に混ざる。**
+#
+# **バッジで品揃えが変わる店員（`kanto.celadon.clerk`）は、この版で消した。**
+# 原作の タマムシ に フレンドリィショップ は無く、デパートがその役をしている。
+# 建物が無くなったので店員も居ない ―― 入れ忘れではない。
+# 仕掛け自体（`kanto-mart-1/2/3` をバッジで選ぶ）は他の5つの町で今も動いている。
+id: kanto-celadon-mart
+name: タマムシデパート
+region: kanto
+bgm: mart
+
+legend:
+. normal
+W !normal
+S !normal
+D normal
+
+grid:
+WWWWWWWWW
+W......DW
+W.......W
+W.......W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,6 step kanto-celadon-city 10,13 down
+7,1 step kanto-celadon-dept-2f 1,2 down
+
+objects:
+dept-guide 4,2 npc:clerk:static kanto.celadon.dept-guide

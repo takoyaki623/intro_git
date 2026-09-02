@@ -1,0 +1,144 @@
+[
+  {
+    "id": "kanto",
+    "name": "カントー",
+    "difficulty": 1,
+    "available": true,
+    "description": "最初の1地方。マサラタウンから始まる。",
+    "start": {
+      "map": "kanto-players-house-1f",
+      "x": 3,
+      "y": 5,
+      "facing": "down"
+    },
+    "starters": [
+      "bulbasaur",
+      "charmander",
+      "squirtle"
+    ],
+    "challenge": {
+      "kind": "gyms",
+      "gyms": [
+        "brock",
+        "misty",
+        "lt-surge",
+        "erika",
+        "koga",
+        "sabrina",
+        "blaine",
+        "giovanni"
+      ],
+      "elite4": [
+        "lorelei",
+        "bruno",
+        "agatha",
+        "lance"
+      ],
+      "champion": "blue"
+    },
+    "levelBands": [
+      {
+        "badges": 0,
+        "min": 5,
+        "max": 12
+      },
+      {
+        "badges": 1,
+        "min": 12,
+        "max": 18
+      },
+      {
+        "badges": 2,
+        "min": 18,
+        "max": 24
+      },
+      {
+        "badges": 3,
+        "min": 24,
+        "max": 30
+      },
+      {
+        "badges": 4,
+        "min": 30,
+        "max": 36
+      },
+      {
+        "badges": 5,
+        "min": 36,
+        "max": 42
+      },
+      {
+        "badges": 6,
+        "min": 42,
+        "max": 47
+      },
+      {
+        "badges": 7,
+        "min": 47,
+        "max": 52
+      },
+      {
+        "badges": 8,
+        "min": 52,
+        "max": 60
+      }
+    ],
+    "intro": "いえの そとに でて、オーキドはかせを たずねよう。"
+  },
+  {
+    "id": "johto",
+    "name": "ジョウト",
+    "difficulty": 1,
+    "available": false,
+    "description": "じゅんびちゅう。"
+  },
+  {
+    "id": "hoenn",
+    "name": "ホウエン",
+    "difficulty": 2,
+    "available": false,
+    "description": "じゅんびちゅう。"
+  },
+  {
+    "id": "sinnoh",
+    "name": "シンオウ",
+    "difficulty": 2,
+    "available": false,
+    "description": "じゅんびちゅう。"
+  },
+  {
+    "id": "unova",
+    "name": "イッシュ",
+    "difficulty": 2,
+    "available": false,
+    "description": "じゅんびちゅう。"
+  },
+  {
+    "id": "kalos",
+    "name": "カロス",
+    "difficulty": 2,
+    "available": false,
+    "description": "じゅんびちゅう。"
+  },
+  {
+    "id": "alola",
+    "name": "アローラ",
+    "difficulty": 3,
+    "available": false,
+    "description": "じゅんびちゅう。しまめぐり。"
+  },
+  {
+    "id": "galar",
+    "name": "ガラル",
+    "difficulty": 3,
+    "available": false,
+    "description": "じゅんびちゅう。"
+  },
+  {
+    "id": "paldea",
+    "name": "パルデア",
+    "difficulty": 3,
+    "available": false,
+    "description": "じゅんびちゅう。オープンワールド。"
+  }
+]

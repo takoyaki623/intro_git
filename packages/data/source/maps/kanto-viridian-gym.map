@@ -1,0 +1,35 @@
+# トキワジム。ジムリーダーは サカキ（じめん）。**8つめのバッジ。**
+# バッジ7つまで受付が通さない ―― ヤマブキと同じ「条件で塞ぐ」形。
+id: kanto-viridian-gym
+name: トキワジム
+region: kanto
+bgm: gym
+
+legend:
+. normal
+W !normal
+X !normal
+D normal
+
+grid:
+WWWWWWWWW
+W.......W
+W.X...X.W
+W.......W
+W.XX.XX.W
+W.......W
+W.X...X.W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,9 step kanto-viridian-city 9,11 down
+
+objects:
+viridian-gym-jr 1,7 trainer:kanto-viridian-gym-jr:3:right kanto.viridian.gym-jr if:kanto.viridian.gym-jr-beaten=false
+viridian-giovanni 4,1 npc:leader:static kanto.viridian.giovanni
+viridian-gym-sign 7,8 sign kanto.viridian.gym-sign
+viridiangym-gymjr-1 1,1 trainer:kanto-viridian-gym-gymjr-1:2:down kanto.viridiangym.gymjr1 if:kanto.viridiangym.gymjr1-beaten=false
+viridiangym-gymjr-2 7,7 trainer:kanto-viridian-gym-gymjr-2:2:left kanto.viridiangym.gymjr2 if:kanto.viridiangym.gymjr2-beaten=false
+viridiangym-gymjr-3 1,8 trainer:kanto-viridian-gym-gymjr-3:2:up kanto.viridiangym.gymjr3 if:kanto.viridiangym.gymjr3-beaten=false

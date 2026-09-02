@@ -1,0 +1,34 @@
+# 3のしまの みなと。**ノコッチ が出るのはここだけ。**
+# 原作では暴走族がたむろしている ―― 1人だけ置いた（密度は v1.1-i の仕事）。
+id: kanto-sevii-three-isle-port
+name: 3のしまの みなと
+region: kanto
+encounters: kanto-sevii-three-isle-port-grass
+bgm: route-12
+
+legend:
+. normal
+g grass
+s sand
+~ !water
+T !normal
+
+grid:
+TTTTTT.TTTTTT
+T...........T
+T..ggg......T
+T..ggg......T
+T...........T
+T.....ggg...T
+T.....ggg...T
+T...........T
+TsssssssssssT
+T~~~~~~~~~~~T
+TTTTTTTTTTTTT
+
+warps:
+6,0 step kanto-sevii-three-island 6,11 down
+
+objects:
+port-biker 4,7 trainer:kanto-sevii-biker:2:up kanto.sevii.biker if:kanto.sevii.biker-beaten=false
+port-sign 8,1 sign kanto.sevii.port-sign

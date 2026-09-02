@@ -1,0 +1,83 @@
+[
+  {
+    "id": "poke-ball",
+    "bonus": {
+      "kind": "flat",
+      "value": 1
+    }
+  },
+  {
+    "id": "great-ball",
+    "bonus": {
+      "kind": "flat",
+      "value": 1.5
+    }
+  },
+  {
+    "id": "ultra-ball",
+    "bonus": {
+      "kind": "flat",
+      "value": 2
+    }
+  },
+  {
+    "id": "master-ball",
+    "bonus": {
+      "kind": "guaranteed"
+    }
+  },
+  {
+    "id": "net-ball",
+    "bonus": {
+      "kind": "type",
+      "types": [
+        "bug",
+        "water"
+      ],
+      "value": 3.5,
+      "fallback": 1
+    }
+  },
+  {
+    "id": "quick-ball",
+    "bonus": {
+      "kind": "turnAtMost",
+      "turns": 1,
+      "value": 5,
+      "fallback": 1
+    }
+  },
+  {
+    "id": "timer-ball",
+    "bonus": {
+      "kind": "turnAtLeast",
+      "turns": 10,
+      "value": 4,
+      "fallback": 1
+    }
+  },
+  {
+    "id": "dusk-ball",
+    "bonus": {
+      "kind": "terrain",
+      "terrain": "cave",
+      "value": 3,
+      "fallback": 1
+    }
+  },
+  {
+    "id": "repeat-ball",
+    "bonus": {
+      "kind": "alreadyCaught",
+      "value": 3.5,
+      "fallback": 1
+    }
+  },
+  {
+    "id": "safari-ball",
+    "bonus": {
+      "kind": "flat",
+      "value": 1.5
+    }
+  }
+]

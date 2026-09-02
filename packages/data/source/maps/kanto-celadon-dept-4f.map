@@ -1,0 +1,26 @@
+# タマムシデパート 4F階。**しんかの どうぐの階**。v1.1-b からの店員はここへ移した。
+id: kanto-celadon-dept-4f
+name: タマムシデパート
+region: kanto
+bgm: mart
+
+legend:
+. normal
+W !normal
+S !normal
+D normal
+
+grid:
+WWWWWWWWW
+WD......W
+W.......W
+W.SSS...W
+W.......W
+W.......W
+WWWWWWWWW
+
+warps:
+1,1 step kanto-celadon-dept-3f 7,2 down
+
+objects:
+dept-4f-clerk 2,4 npc:clerk:static kanto.celadon.stone-clerk

@@ -1,0 +1,46 @@
+# マサラタウン。北の出口が1番道路へ、南は海。
+id: kanto-pallet-town
+name: マサラタウン
+region: kanto
+fly: 6,1 kanto.fly.pallet
+onEnter: kanto.pallet.arrive
+encounters: kanto-pallet-town-surf kanto-pallet-town-fishing-old kanto-pallet-town-fishing-good kanto-pallet-town-fishing-super
+bgm: pallet-town
+
+legend:
+. normal
+, grass
+T !normal
+H !normal
+D normal
+~ !water
+s sand
+
+grid:
+TTTTT.TTTTTT
+T..........T
+T..........T
+T.HHH..HHH.T
+T.HDH..HHH.T
+T..........T
+T....TT....T
+T.,........T
+T.HHHHH....T
+T.HHDHH....T
+T..........T
+T..........T
+T~~~~s~~~~~T
+TTTTTTTTTTTT
+
+warps:
+5,0 step kanto-route-1 5,16 up
+3,4 step kanto-players-house-1f 3,6 up
+4,9 step kanto-oak-lab 4,6 up
+5,12 step kanto-route-21 5,10 up
+
+objects:
+pallet-sign-town 8,7 sign kanto.pallet.sign-town
+pallet-sign-lab 7,9 sign kanto.pallet.sign-lab
+pallet-oak-blocker 5,1 npc:oak:static kanto.pallet.oak-block if:kanto.pallet.got-starter=false
+pallet-kid 8,6 npc:boy:static kanto.pallet.kid
+pallet-hub-gate 9,11 npc:gate:static kanto.pallet.hub-gate

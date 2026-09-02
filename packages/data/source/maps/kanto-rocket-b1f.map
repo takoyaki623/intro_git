@@ -1,0 +1,36 @@
+# ロケット団アジト 地下1階（v1.1-g-3）。
+#
+# **回転床は作らなかった。** 原作の「乗ると止まるまで滑る床」は
+# 氷の床と同じ機構（`StepOutcome` に `slid`）で、v1.1-f で
+# **カントーに氷が1枚も無いのでジョウトへ送る**と決めている。
+# ここだけのために先に作ると、その決定が意味を失う（world.md §9.12）。
+# 代わりに**テレポート床**（自分自身への warp・v1.1-g-1）で階を繋ぐ。
+id: kanto-rocket-b1f
+name: ロケットだんアジト
+region: kanto
+bgm: rocket
+
+legend:
+. normal
+W !normal
+D normal
+
+grid:
+WWWWWWWWW
+W.......W
+W.W.W.W.W
+W.......W
+W.W.W.W.W
+W.......W
+W.W.W.W.W
+W.......W
+WWWWWWWWW
+
+warps:
+4,1 step kanto-celadon-gamecorner 9,4 down
+7,7 step kanto-rocket-b2f 2,1 down
+
+objects:
+rocket-b1f-grunt 5,5 trainer:kanto-rocket-b1f:2:left kanto.rocket.b1f-grunt if:kanto.rocket.b1f-beaten=false
+rocket-b1f-item 1,7 item:super-potion kanto.rocket.b1f-item if:kanto.rocket.b1f-item-taken=false
+rocketb1f-tm46-1 6,7 item:tm46 kanto.rocketb1f.tm461 if:kanto.rocketb1f.tm461-taken=false

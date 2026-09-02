@@ -1,0 +1,30 @@
+# 主人公の家 1階。
+id: kanto-players-house-1f
+name: じぶんの いえ
+region: kanto
+bgm: pallet-town
+
+legend:
+. normal
+W !normal
+B !normal
+C !normal
+t !normal
+D normal
+
+grid:
+WWWWWWWW
+WBB..CCW
+W......W
+W......W
+W..tt..W
+W......W
+W......W
+WWWDWWWW
+
+warps:
+3,7 step kanto-pallet-town 3,5 down
+
+objects:
+house-mom 5,3 npc:mom:static kanto.pallet.mom
+house-tv 4,1 sign kanto.pallet.tv

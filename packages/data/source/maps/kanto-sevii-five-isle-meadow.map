@@ -1,0 +1,36 @@
+# くさむらの道（5のしま）。ロケット団の そうこ はこの草地の奥。
+id: kanto-sevii-five-isle-meadow
+name: くさむらの みち
+region: kanto
+encounters: kanto-sevii-five-isle-meadow-grass kanto-sevii-five-isle-meadow-surf kanto-sevii-five-isle-meadow-fishing-old kanto-sevii-five-isle-meadow-fishing-good kanto-sevii-five-isle-meadow-fishing-super
+bgm: route-12
+
+legend:
+. normal
+g grass
+~ !water
+H !normal
+D normal
+T !normal
+
+grid:
+TTTTTT.TTTTTT
+T...........T
+T..ggg......T
+T..ggg...HHHT
+T........HDHT
+T...........T
+T.....ggg...T
+T.....ggg...T
+T...........T
+T~~~........T
+T~~~........T
+TTTTTT.TTTTTT
+
+warps:
+6,0 step kanto-sevii-memorial-pillar 6,9 up
+6,11 step kanto-sevii-five-island 5,1 down
+10,4 step kanto-sevii-rocket-warehouse 4,4 up
+
+objects:
+meadow-grunt 10,5 npc:rocket:static kanto.sevii.warehouse-guard if:kanto.sevii.warehouse-open=false

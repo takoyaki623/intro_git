@@ -1,0 +1,30 @@
+# みどりの道（6のしま）。海沿いの細い道。西は はぐれ島。
+id: kanto-sevii-green-path
+name: みどりの みち
+region: kanto
+encounters: kanto-sevii-green-path-surf kanto-sevii-green-path-fishing-old kanto-sevii-green-path-fishing-good kanto-sevii-green-path-fishing-super
+bgm: route-12
+
+legend:
+. normal
+~ !water
+T !normal
+
+grid:
+TTTTTTTTTTTTT
+T~~~~~~~~~~~T
+T~~~~~~~~~~~T
+T...........T
+T...........T
+.............
+T...........T
+T~~~~~~~~~~~T
+T~~~~~~~~~~~T
+TTTTTTTTTTTTT
+
+warps:
+12,5 step kanto-sevii-water-path 1,5 right
+0,5 step kanto-sevii-outcast-island 11,5 left
+
+objects:
+green-fisher 6,4 npc:fisher:static kanto.sevii.green-fisher

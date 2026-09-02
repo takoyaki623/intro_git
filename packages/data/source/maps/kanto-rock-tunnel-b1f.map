@@ -1,0 +1,35 @@
+# イワヤマトンネル 地下1階。抜けると10番道路（シオン側）。
+id: kanto-rock-tunnel-b1f
+name: イワヤマトンネル
+region: kanto
+encounters: kanto-rock-tunnel-b1f-cave kanto-rock-tunnel-b1f-rock-smash
+rules: dark-cave
+bgm: cave
+
+legend:
+. normal
+R !normal
+: cave
+
+grid:
+RRRRRRRRRRRRR
+R:RRRR:RRRR:R
+R:RRRR:RRRR:R
+R::::::::::::
+RRRRR:RRRRRRR
+RRRRR:RRRRRRR
+RRRRR:::::::R
+RRRRRRRRRRR:R
+RRRRRRRRRRR:R
+RRRRRRRRRRRRR
+
+warps:
+1,1 step kanto-rock-tunnel-1f 11,5 up
+6,1 step kanto-rock-tunnel-1f 6,7 up
+12,3 step kanto-route-10 1,1 right
+
+objects:
+rock-tunnel-b1f-rock 5,6 obstacle:rockSmash
+rock-tunnel-b1f-item 11,8 item:max-ether kanto.rocktunnel.item2 if:kanto.rocktunnel.item2-taken=false
+rocktunnelb1f-revive-1 11,7 item:revive kanto.rocktunnelb1f.revive1 if:kanto.rocktunnelb1f.revive1-taken=false
+rocktunnelb1f-tm31-1 11,6 item:tm31 kanto.rocktunnelb1f.tm311 if:kanto.rocktunnelb1f.tm311-taken=false

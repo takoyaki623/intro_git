@@ -1,0 +1,35 @@
+# ポケモンやしき 3階（v1.2-b）。原作は4階層あり、2階までしか作っていなかった。
+#
+# **間取りは原作を写していない。** 手元に原作の地図が無いので、
+# 階数と出現表だけを原作に合わせ、部屋の形はこの世界のものとして引いた
+# ―― マップの日本語名を機械に任せられなかったのと同じ線引き（world.md §9.19）。
+# 1階・2階が同じ型紙の使い回しなので、**この階は別の形**にする（焼けた大広間）。
+id: kanto-pokemon-mansion-3f
+name: ポケモンやしき
+region: kanto
+encounters: kanto-pokemon-mansion-3f-cave
+bgm: cave
+
+legend:
+. normal
+W !normal
+: cave
+
+grid:
+WWWWWWWWWWWWW
+W:::::::::::W
+W::WWWWWWW::W
+W::W:::::W::W
+W::W:WWW:W::W
+W::W:W:W:W::W
+W::W:W:W:W::W
+W::::::W::::W
+WWWWWWWWWWWWW
+
+warps:
+1,1 step kanto-pokemon-mansion-2f 11,2 up
+11,1 step kanto-pokemon-mansion-b1f 1,2 down
+
+objects:
+mansion-3f-item 6,6 item:full-restore kanto.mansion.item-3 if:kanto.mansion.item-3-taken=false
+pokemonmansion3f-tm35-1 11,7 item:tm35 kanto.pokemonmansion3f.tm351 if:kanto.pokemonmansion3f.tm351-taken=false

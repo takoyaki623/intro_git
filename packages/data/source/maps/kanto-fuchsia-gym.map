@@ -1,0 +1,44 @@
+# セキチクジム。ジムリーダーは キョウ（どく）。
+#
+# 原作の**見えない壁の迷路**（v1.1-g）。凡例の `I` は通行不可だが、
+# 描画では床と同じ文字として扱う（art/tiles.ts の TILE_ALIAS）――
+# **凡例は「見た目（文字）」と「規則（地形＋!）」が別**なので、
+# ゲームの規則を1つも変えずに「見えないのにぶつかる壁」が書ける。
+#
+# 迷路は左右対称にしていない。対称だとどちらへ回っても同じ手数になり、
+# 「どこが空いているか探す」という遊びが消える。
+id: kanto-fuchsia-gym
+name: セキチクジム
+region: kanto
+bgm: gym
+
+legend:
+. normal
+W !normal
+I !normal
+D normal
+
+grid:
+WWWWWWWWW
+W.......W
+WIII.IIIW
+W.......W
+W.IIIIIIW
+W.......W
+WIII.IIIW
+W.......W
+WIIIIII.W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,11 step kanto-fuchsia-city 5,4 down
+
+objects:
+fuchsia-gym-jr 1,9 trainer:kanto-fuchsia-gym-jr:3:right kanto.fuchsia.gym-jr if:kanto.fuchsia.gym-jr-beaten=false
+fuchsia-koga 7,1 npc:leader:static kanto.fuchsia.koga
+fuchsia-gym-sign 7,10 sign kanto.fuchsia.gym-sign
+fuchsiagym-gymjr-1 1,1 trainer:kanto-fuchsia-gym-gymjr-1:2:right kanto.fuchsiagym.gymjr1 if:kanto.fuchsiagym.gymjr1-beaten=false
+fuchsiagym-gymjr-2 6,10 trainer:kanto-fuchsia-gym-gymjr-2:2:left kanto.fuchsiagym.gymjr2 if:kanto.fuchsiagym.gymjr2-beaten=false
+fuchsiagym-gymjr-3 7,3 trainer:kanto-fuchsia-gym-gymjr-3:2:left kanto.fuchsiagym.gymjr3 if:kanto.fuchsiagym.gymjr3-beaten=false

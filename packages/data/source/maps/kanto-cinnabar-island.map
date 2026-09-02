@@ -1,0 +1,55 @@
+# グレンじま。ジム7（カツラ）。なみのり でしか来られない島。
+# ポケモンやしき は v1.x（かぎ と 手記の機構が要る）ので、看板だけ置く。
+id: kanto-cinnabar-island
+name: グレンじま
+region: kanto
+encounters: kanto-cinnabar-island-surf kanto-cinnabar-island-fishing-old kanto-cinnabar-island-fishing-good kanto-cinnabar-island-fishing-super
+fly: 6,1 kanto.fly.cinnabar
+onEnter: kanto.cinnabar.arrive
+bgm: cinnabar-island
+
+legend:
+. normal
+K !normal
+T !normal
+G !normal
+P !normal
+F !normal
+M !normal
+D normal
+
+grid:
+TTTTTT.TTTTTT
+T...........T
+T..GGGG.....T
+T..GGDG.....T
+T...........T
+T..MMMM.....T
+T..MDMM.....T
+T.......PPPPT
+T.......PPDPT
+T..KKKK.....T
+T..KKDK.FFFFT
+T.......FFDFT
+T...........T
+TTTTTT.TTTTTT
+
+warps:
+6,0 step kanto-route-20 5,10 up
+4,6 step kanto-pokemon-mansion 6,9 up
+5,10 step kanto-cinnabar-lab 4,5 up
+5,3 step kanto-cinnabar-gym 4,11 up
+10,8 step kanto-cinnabar-pokecenter 4,5 up
+10,11 step kanto-cinnabar-mart 4,5 up
+6,13 step kanto-route-21 5,1 down
+
+objects:
+# **ジムは施錠されている**（v1.2-b）。原作の グレンジム は ひみつのカギ で開く ――
+# あのカギは ポケモンやしき の地下にあり、**やしきが在る理由そのもの。**
+# v1.1-g-2 で やしきを建てたときは カギ も 施錠 も無く、
+# 出現表を持つだけの建物だった。扉の前に立つのは 条件つきオブジェクト1つで、
+# 新しい機構は0（ハナダのどうくつの けいび と同じ形）
+cinnabar-gym-lock 5,4 sign kanto.cinnabar.gym-lock if:kanto.mansion.secret-key-taken=false
+cinnabar-sign-gym 4,4 sign kanto.cinnabar.sign-gym
+cinnabar-sign-mansion 2,7 sign kanto.cinnabar.sign-mansion
+cinnabar-scientist 9,4 npc:scientist:static kanto.cinnabar.scientist

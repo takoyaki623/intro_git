@@ -1,0 +1,28 @@
+# ロケットだんの そうこ（5のしま）。**盗まれた サファイア はここ。**
+# 入口は「合言葉」で開く ―― 新しい条件は作らず、団員の会話がフラグを立てる形（v1.1-g-3 と同じ）。
+id: kanto-sevii-rocket-warehouse
+name: ロケットだんの そうこ
+region: kanto
+bgm: rocket-hideout
+
+legend:
+. normal
+W !normal
+M !normal
+D normal
+
+grid:
+WWWWWWWWW
+W.MM.MM.W
+W.......W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,5 step kanto-sevii-five-isle-meadow 10,5 down
+
+objects:
+warehouse-grunt 4,3 trainer:kanto-sevii-warehouse:2:down kanto.sevii.warehouse-grunt if:kanto.sevii.warehouse-beaten=false
+warehouse-sapphire 6,2 item:sapphire kanto.sevii.sapphire if:kanto.sevii.sapphire-taken=false
+seviirocketwarehouse-tm41-1 7,4 item:tm41 kanto.seviirocketwarehouse.tm411 if:kanto.seviirocketwarehouse.tm411-taken=false

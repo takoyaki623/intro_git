@@ -1,0 +1,46 @@
+# 2番道路（南）。トキワシティの北。ここで初めて**視線を持つトレーナー**が出る（v0.12）。
+# 草むらを避けて歩くと視線に入る、という置き方にしてある ――
+# 「どちらのリスクを取るか」が1画面で成立するのが道路の役目。
+id: kanto-route-2
+name: 2ばんどうろ
+region: kanto
+encounters: kanto-route-2-grass
+bgm: route-2
+
+legend:
+. normal
+B !normal
+D normal
+, grass
+T !normal
+= ledge
+
+grid:
+TTTTT.TTTTT
+T.........T
+T..,,,....T
+T..,,,....T
+T.........T
+T....==...T
+T.........T
+T...,,,,..T
+T...,,,,..T
+T.........T
+T.........T
+T..,,.....T
+T..,,.BBB.T
+T.....BDB.T
+T.........T
+TTTTT.TTTTT
+
+warps:
+5,0 step kanto-viridian-forest 5,12 up
+5,15 step kanto-viridian-city 6,1 down
+6,9 step kanto-diglett-cave 1,2 up
+7,13 step kanto-route-2-house 3,3 up
+
+objects:
+route2-sign 4,13 sign kanto.route2.sign
+route2-bug-catcher 5,7 trainer:kanto-route2-bug-catcher:3:down kanto.route2.bug-catcher if:kanto.route2.bug-catcher-beaten=false
+route2-potion 9,2 item:potion kanto.route2.potion if:kanto.route2.potion-taken=false
+route2-bug-1 1,1 trainer:kanto-route-2-bug-1:2:down kanto.route2.bug1 if:kanto.route2.bug1-beaten=false

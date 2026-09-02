@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "global": {
+    "bp": 42,
+    "endgame": {
+      "facilityRecords": {
+        "battle-tower": { "bestStreak": 13, "totalWins": 20, "earnedBp": 42 }
+      }
+    }
+  },
+  "settings": { "battleSpeed": "fast" }
+}

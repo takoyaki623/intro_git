@@ -1,0 +1,5642 @@
+[
+  {
+    "id": "kanto.route2.bug-catcher",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route2.bug-catcher-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "むしポケモンは よわくない!\nみせて やる!",
+            "speaker": "むしとりしょうねん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route2-bug-catcher",
+            "onWin": "kanto.route2.bug-catcher-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "うーん...\nもりの ほうが つよいのが いるぞ。",
+            "speaker": "むしとりしょうねん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route2.bug-catcher-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route2.bug-catcher-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "うーん...\nもりの ほうが つよいのが いるぞ。",
+        "speaker": "むしとりしょうねん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.forest.bug-1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.forest.bug-1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "この もりの むしは\nぼくが いちばん しってる!",
+            "speaker": "むしとりしょうねん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-forest-bug-1",
+            "onWin": "kanto.forest.bug-1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ううっ...\nまだまだ あつめるぞ。",
+            "speaker": "むしとりしょうねん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.forest.bug-1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.forest.bug-1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "ううっ...\nまだまだ あつめるぞ。",
+        "speaker": "むしとりしょうねん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.forest.bug-2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.forest.bug-2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "バタフリーの つよさを\nおしえて あげるよ!",
+            "speaker": "むしとりしょうねん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-forest-bug-2",
+            "onWin": "kanto.forest.bug-2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "そんな...\nバタフリーが まけるなんて。",
+            "speaker": "むしとりしょうねん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.forest.bug-2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.forest.bug-2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "そんな...\nバタフリーが まけるなんて。",
+        "speaker": "むしとりしょうねん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.pewter.gym-jr",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.pewter.gym-jr-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "タケシさんに あいたければ\nぼくを たおしてからだ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-pewter-gym-jr",
+            "onWin": "kanto.pewter.gym-jr-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "...つよいな。\nタケシさんは もっと つよいぞ。",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.pewter.gym-jr-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.pewter.gym-jr-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "...つよいな。\nタケシさんは もっと つよいぞ。",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route3.lass",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route3.lass-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "かわいい ポケモンが すきなの。\nでも しょうぶは べつよ!",
+            "speaker": "ミニスカート"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route3-lass",
+            "onWin": "kanto.route3.lass-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "つよいのね。\nおつきみやまは くらいから きをつけて。",
+            "speaker": "ミニスカート"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route3.lass-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route3.lass-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "つよいのね。\nおつきみやまは くらいから きをつけて。",
+        "speaker": "ミニスカート"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route3.youngster",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route3.youngster-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "はんズボンが ぼくの じまん!\nいくぞー!",
+            "speaker": "たんぱんこぞう"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route3-youngster",
+            "onWin": "kanto.route3.youngster-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "まけたー!\nでも たのしかった!",
+            "speaker": "たんぱんこぞう"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route3.youngster-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route3.youngster-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "まけたー!\nでも たのしかった!",
+        "speaker": "たんぱんこぞう"
+      }
+    ]
+  },
+  {
+    "id": "kanto.moon.hiker",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.moon.hiker-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "この やまの いわは\nおれが いちばん しっとる!",
+            "speaker": "やまおとこ"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-moon-hiker",
+            "onWin": "kanto.moon.hiker-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "うーむ みごとじゃ。\nおくに ロケットだんが おるぞ。",
+            "speaker": "やまおとこ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.moon.hiker-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.moon.hiker-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "うーむ みごとじゃ。\nおくに ロケットだんが おるぞ。",
+        "speaker": "やまおとこ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.moon.rocket",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.moon.rocket-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ここは ロケットだんが かりた!\nかえれ かえれ!",
+            "speaker": "したっぱ"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-moon-rocket",
+            "onWin": "kanto.moon.rocket-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ちくしょう...\nボスに しかられる。",
+            "speaker": "したっぱ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.moon.rocket-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.moon.rocket-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "ちくしょう...\nボスに しかられる。",
+        "speaker": "したっぱ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route4.bug",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route4.bug-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "しんかした むしポケモンは\nつよいんだぞ!",
+            "speaker": "むしとりしょうねん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route4-bug",
+            "onWin": "kanto.route4.bug-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "バタフリーも だめか...",
+            "speaker": "むしとりしょうねん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route4.bug-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route4.bug-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "バタフリーも だめか...",
+        "speaker": "むしとりしょうねん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.cerulean.gym-jr",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.cerulean.gym-jr-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "みずの ジムに ようこそ!\nまずは わたしと!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-cerulean-gym-jr",
+            "onWin": "kanto.cerulean.gym-jr-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "...つよい。\nカスミさんは もっとよ。",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.cerulean.gym-jr-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.cerulean.gym-jr-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "...つよい。\nカスミさんは もっとよ。",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route5.hiker",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route5.hiker-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "やまで きたえた ちからを\nみせてやろう!",
+            "speaker": "やまおとこ"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route5-hiker",
+            "onWin": "kanto.route5.hiker-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ぬぬ...\nまだまだ きたえるぞ。",
+            "speaker": "やまおとこ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route5.hiker-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route5.hiker-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "ぬぬ...\nまだまだ きたえるぞ。",
+        "speaker": "やまおとこ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route6.camper",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route6.camper-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "キャンプの あとは しょうぶ!",
+            "speaker": "キャンプボーイ"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route6-camper",
+            "onWin": "kanto.route6.camper-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "まいったな。\nクチバの ジムは でんきだよ。",
+            "speaker": "キャンプボーイ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route6.camper-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route6.camper-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "まいったな。\nクチバの ジムは でんきだよ。",
+        "speaker": "キャンプボーイ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.vermilion.gym-jr",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.vermilion.gym-jr-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "マチスさんに あう まえに\nおれと やろうぜ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-vermilion-gym-jr",
+            "onWin": "kanto.vermilion.gym-jr-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "しびれたぜ...\nいってこい!",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.vermilion.gym-jr-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.vermilion.gym-jr-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "しびれたぜ...\nいってこい!",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route11.gambler",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route11.gambler-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "かけごとは しない。\nしょうぶは べつだ!",
+            "speaker": "ギャンブラー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route11-gambler",
+            "onWin": "kanto.route11.gambler-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ツキが なかったな。",
+            "speaker": "ギャンブラー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route11.gambler-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route11.gambler-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "ツキが なかったな。",
+        "speaker": "ギャンブラー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.tower.channeler",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.tower.channeler-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "...かえりなさい。\nここは あなたの ばしょでは ない。",
+            "speaker": "れいばいし"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-tower-channeler",
+            "onWin": "kanto.tower.channeler-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "...いきなさい。\nあなたには まだ さきが ある。",
+            "speaker": "れいばいし"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.tower.channeler-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.tower.channeler-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "...いきなさい。\nあなたには まだ さきが ある。",
+        "speaker": "れいばいし"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route8.lass",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route8.lass-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "かわいい ポケモン すきでしょ?\nでも つよいのよ!",
+            "speaker": "ミニスカート"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route8-lass",
+            "onWin": "kanto.route8.lass-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "かわいさだけじゃ\nかてないのね。",
+            "speaker": "ミニスカート"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route8.lass-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route8.lass-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "かわいさだけじゃ\nかてないのね。",
+        "speaker": "ミニスカート"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route7.camper",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route7.camper-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "タマムシの ジムは くさタイプ。\nそのまえに ぼくと!",
+            "speaker": "キャンプボーイ"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route7-camper",
+            "onWin": "kanto.route7.camper-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ほのおが あると ラクだよ。",
+            "speaker": "キャンプボーイ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route7.camper-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route7.camper-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "ほのおが あると ラクだよ。",
+        "speaker": "キャンプボーイ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.celadon.gym-jr",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.celadon.gym-jr-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "エリカさまの おにわを\nあらすのは だれ?",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-celadon-gym-jr",
+            "onWin": "kanto.celadon.gym-jr-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "...どうぞ おすすみください。",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.celadon.gym-jr-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.celadon.gym-jr-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "...どうぞ おすすみください。",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route16.biker",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route16.biker-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "この みちは おれたちの ものだ!",
+            "speaker": "ライダー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route16-biker",
+            "onWin": "kanto.route16.biker-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ちっ...\nとおって いいぜ。",
+            "speaker": "ライダー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route16.biker-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route16.biker-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "ちっ...\nとおって いいぜ。",
+        "speaker": "ライダー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.fuchsia.gym-jr",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.fuchsia.gym-jr-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "にんぽう... かげぬい!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-fuchsia-gym-jr",
+            "onWin": "kanto.fuchsia.gym-jr-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "みやぶられたか。",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.fuchsia.gym-jr-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.fuchsia.gym-jr-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "みやぶられたか。",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.saffron.gym-jr",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.saffron.gym-jr-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "あなたの かんがえは\nぜんぶ わかっています。",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-saffron-gym-jr",
+            "onWin": "kanto.saffron.gym-jr-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "...よめませんでした。",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.saffron.gym-jr-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.saffron.gym-jr-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "...よめませんでした。",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.cinnabar.gym-jr",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.cinnabar.gym-jr-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ここは あついよ!",
+            "speaker": "かえんむすめ"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-cinnabar-gym-jr",
+            "onWin": "kanto.cinnabar.gym-jr-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "みずタイプ、もってきた?",
+            "speaker": "かえんむすめ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.cinnabar.gym-jr-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.cinnabar.gym-jr-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "みずタイプ、もってきた?",
+        "speaker": "かえんむすめ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridian.gym-jr",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.viridian.gym-jr-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ボスの じゃまは させん!",
+            "speaker": "ボスの したっぱ"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-viridian-gym-jr",
+            "onWin": "kanto.viridian.gym-jr-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ボスは おくだ。",
+            "speaker": "ボスの したっぱ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridian.gym-jr-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.viridian.gym-jr-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "ボスは おくだ。",
+        "speaker": "ボスの したっぱ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.victory.cooltrainer",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.victory.cooltrainer-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ここを ぬけられる やつは すくない。",
+            "speaker": "エリートトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-victory-cooltrainer",
+            "onWin": "kanto.victory.cooltrainer-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "いってこい。",
+            "speaker": "エリートトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.victory.cooltrainer-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.victory.cooltrainer-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "いってこい。",
+        "speaker": "エリートトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route17.biker",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route17.biker-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ここは くだり ざかだ!\nついてこれるか!",
+            "speaker": "ライダー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route17-biker",
+            "onWin": "kanto.route17.biker-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "はやいな\nみとめてやる。",
+            "speaker": "ライダー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route17.biker-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route17.biker-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "はやいな\nみとめてやる。",
+        "speaker": "ライダー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route18.birdkeeper",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route18.birdkeeper-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "とりポケモンは はやいぞ!",
+            "speaker": "とりつかい"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route18-birdkeeper",
+            "onWin": "kanto.route18.birdkeeper-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "はねが おれた きぶんだ…",
+            "speaker": "とりつかい"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route18.birdkeeper-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route18.birdkeeper-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "はねが おれた きぶんだ…",
+        "speaker": "とりつかい"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route24.camper",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route24.camper-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "はしの うえは わたさないぞ!",
+            "speaker": "キャンプボーイ"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route24-camper",
+            "onWin": "kanto.route24.camper-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "むこうに いっても いいよ。",
+            "speaker": "キャンプボーイ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route24.camper-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route24.camper-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "むこうに いっても いいよ。",
+        "speaker": "キャンプボーイ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route25.hiker",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route25.hiker-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "この みちは とおさんぞ!",
+            "speaker": "やまおとこ"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route25-hiker",
+            "onWin": "kanto.route25.hiker-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "マサキ の いえは この さきだ。",
+            "speaker": "やまおとこ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route25.hiker-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route25.hiker-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "マサキ の いえは この さきだ。",
+        "speaker": "やまおとこ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.dojo.student",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.dojo.student-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "カラテおうに あう まえに\nおれと やろう!",
+            "speaker": "からてか"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-dojo-student",
+            "onWin": "kanto.dojo.student-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "おくの カラテおうに いどめ!",
+            "speaker": "からてか"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.dojo.student-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.dojo.student-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "おくの カラテおうに いどめ!",
+        "speaker": "からてか"
+      }
+    ]
+  },
+  {
+    "id": "kanto.silph.grunt3",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.silph.grunt3-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ここから さきは とおさん!",
+            "speaker": "したっぱ"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-silph-grunt-3f",
+            "onWin": "kanto.silph.grunt3-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "…もう すきに しろ。",
+            "speaker": "したっぱ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.silph.grunt3-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.silph.grunt3-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "…もう すきに しろ。",
+        "speaker": "したっぱ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.silph.grunt5",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.silph.grunt5-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ここから さきは とおさん!",
+            "speaker": "したっぱ"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-silph-grunt-5f",
+            "onWin": "kanto.silph.grunt5-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "…もう すきに しろ。",
+            "speaker": "したっぱ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.silph.grunt5-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.silph.grunt5-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "…もう すきに しろ。",
+        "speaker": "したっぱ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.silph.grunt7",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.silph.grunt7-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ここから さきは とおさん!",
+            "speaker": "したっぱ"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-silph-grunt-7f",
+            "onWin": "kanto.silph.grunt7-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "…もう すきに しろ。",
+            "speaker": "したっぱ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.silph.grunt7-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.silph.grunt7-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "…もう すきに しろ。",
+        "speaker": "したっぱ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.tower.channeler3",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.tower.channeler3-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "うらめしや…",
+            "speaker": "れいばいし"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-tower-channeler-3f",
+            "onWin": "kanto.tower.channeler3-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "たましいが しずまった…",
+            "speaker": "れいばいし"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.tower.channeler3-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.tower.channeler3-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "たましいが しずまった…",
+        "speaker": "れいばいし"
+      }
+    ]
+  },
+  {
+    "id": "kanto.tower.channeler5",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.tower.channeler5-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "うらめしや…",
+            "speaker": "れいばいし"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-tower-channeler-5f",
+            "onWin": "kanto.tower.channeler5-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "たましいが しずまった…",
+            "speaker": "れいばいし"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.tower.channeler5-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.tower.channeler5-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "たましいが しずまった…",
+        "speaker": "れいばいし"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.rocket-1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.sevii.rocket-1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "この さきは とおさん!",
+            "speaker": "ロケットだん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-sevii-rocket-1",
+            "onWin": "kanto.sevii.rocket-1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ちくしょう… ボスに しかられる。",
+            "speaker": "ロケットだん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.rocket-1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.rocket-1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "ちくしょう… ボスに しかられる。",
+        "speaker": "ロケットだん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.rocket-2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.sevii.rocket-2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ルビーは わたさん!",
+            "speaker": "ロケットだん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-sevii-rocket-2",
+            "onWin": "kanto.sevii.rocket-2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "…もう すきに しろ。",
+            "speaker": "ロケットだん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.rocket-2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.rocket-2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "…もう すきに しろ。",
+        "speaker": "ロケットだん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.biker",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.sevii.biker-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "この みなとは おれたちの ばしょだ!",
+            "speaker": "ぼうそうぞく"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-sevii-biker",
+            "onWin": "kanto.sevii.biker-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "…にあわねえ まねは やめとくか。",
+            "speaker": "ぼうそうぞく"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.biker-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.biker-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "…にあわねえ まねは やめとくか。",
+        "speaker": "ぼうそうぞく"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route2.bug1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route2.bug1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "むしポケモンは かっこいい!",
+            "speaker": "むしとりしょうねん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-2-bug-1",
+            "onWin": "kanto.route2.bug1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "むしは よわくないんだ…",
+            "speaker": "むしとりしょうねん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route2.bug1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route2.bug1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "むしは よわくないんだ…",
+        "speaker": "むしとりしょうねん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route3.lass1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route3.lass1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "かわいい ポケモン つれてる?",
+            "speaker": "ミニスカート"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-3-lass-1",
+            "onWin": "kanto.route3.lass1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "つよいのね。",
+            "speaker": "ミニスカート"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route3.lass1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route3.lass1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "つよいのね。",
+        "speaker": "ミニスカート"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route3.lass2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route3.lass2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "しょうぶ しましょ!",
+            "speaker": "ミニスカート"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-3-lass-2",
+            "onWin": "kanto.route3.lass2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "まいったわ…",
+            "speaker": "ミニスカート"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route3.lass2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route3.lass2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "まいったわ…",
+        "speaker": "ミニスカート"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route3.youngster1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route3.youngster1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ぼくの ポケモンは まけないぞ!",
+            "speaker": "たんぱんこぞう"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-3-youngster-1",
+            "onWin": "kanto.route3.youngster1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "つよいなあ…",
+            "speaker": "たんぱんこぞう"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route3.youngster1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route3.youngster1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "つよいなあ…",
+        "speaker": "たんぱんこぞう"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route4.lass1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route4.lass1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "かわいい ポケモン つれてる?",
+            "speaker": "ミニスカート"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-4-lass-1",
+            "onWin": "kanto.route4.lass1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "つよいのね。",
+            "speaker": "ミニスカート"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route4.lass1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route4.lass1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "つよいのね。",
+        "speaker": "ミニスカート"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route5.youngster1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route5.youngster1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ぼくの ポケモンは まけないぞ!",
+            "speaker": "たんぱんこぞう"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-5-youngster-1",
+            "onWin": "kanto.route5.youngster1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "つよいなあ…",
+            "speaker": "たんぱんこぞう"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route5.youngster1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route5.youngster1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "つよいなあ…",
+        "speaker": "たんぱんこぞう"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route5.youngster2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route5.youngster2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "はんズボンは うごきやすいんだ!",
+            "speaker": "たんぱんこぞう"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-5-youngster-2",
+            "onWin": "kanto.route5.youngster2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "まけちゃった!",
+            "speaker": "たんぱんこぞう"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route5.youngster2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route5.youngster2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "まけちゃった!",
+        "speaker": "たんぱんこぞう"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route6.lass1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route6.lass1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "かわいい ポケモン つれてる?",
+            "speaker": "ミニスカート"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-6-lass-1",
+            "onWin": "kanto.route6.lass1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "つよいのね。",
+            "speaker": "ミニスカート"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route6.lass1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route6.lass1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "つよいのね。",
+        "speaker": "ミニスカート"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route6.lass2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route6.lass2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "しょうぶ しましょ!",
+            "speaker": "ミニスカート"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-6-lass-2",
+            "onWin": "kanto.route6.lass2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "まいったわ…",
+            "speaker": "ミニスカート"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route6.lass2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route6.lass2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "まいったわ…",
+        "speaker": "ミニスカート"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route7.picnicker1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route7.picnicker1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "おべんとうの まえに しょうぶ!",
+            "speaker": "ピクニックガール"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-7-picnicker-1",
+            "onWin": "kanto.route7.picnicker1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "おべんとうに しよう…",
+            "speaker": "ピクニックガール"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route7.picnicker1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route7.picnicker1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "おべんとうに しよう…",
+        "speaker": "ピクニックガール"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route7.picnicker2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route7.picnicker2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ピクニックの きねんに どう?",
+            "speaker": "ピクニックガール"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-7-picnicker-2",
+            "onWin": "kanto.route7.picnicker2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "つよいのね!",
+            "speaker": "ピクニックガール"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route7.picnicker2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route7.picnicker2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "つよいのね!",
+        "speaker": "ピクニックガール"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route8.youngster1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route8.youngster1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ぼくの ポケモンは まけないぞ!",
+            "speaker": "たんぱんこぞう"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-8-youngster-1",
+            "onWin": "kanto.route8.youngster1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "つよいなあ…",
+            "speaker": "たんぱんこぞう"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route8.youngster1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route8.youngster1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "つよいなあ…",
+        "speaker": "たんぱんこぞう"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route8.youngster2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route8.youngster2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "はんズボンは うごきやすいんだ!",
+            "speaker": "たんぱんこぞう"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-8-youngster-2",
+            "onWin": "kanto.route8.youngster2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "まけちゃった!",
+            "speaker": "たんぱんこぞう"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route8.youngster2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route8.youngster2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "まけちゃった!",
+        "speaker": "たんぱんこぞう"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route8.youngster3",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route8.youngster3-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ぼくの ポケモンは まけないぞ!",
+            "speaker": "たんぱんこぞう"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-8-youngster-3",
+            "onWin": "kanto.route8.youngster3-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "つよいなあ…",
+            "speaker": "たんぱんこぞう"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route8.youngster3-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route8.youngster3-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "つよいなあ…",
+        "speaker": "たんぱんこぞう"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route9.youngster1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route9.youngster1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ぼくの ポケモンは まけないぞ!",
+            "speaker": "たんぱんこぞう"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-9-youngster-1",
+            "onWin": "kanto.route9.youngster1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "つよいなあ…",
+            "speaker": "たんぱんこぞう"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route9.youngster1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route9.youngster1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "つよいなあ…",
+        "speaker": "たんぱんこぞう"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route9.youngster2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route9.youngster2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "はんズボンは うごきやすいんだ!",
+            "speaker": "たんぱんこぞう"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-9-youngster-2",
+            "onWin": "kanto.route9.youngster2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "まけちゃった!",
+            "speaker": "たんぱんこぞう"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route9.youngster2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route9.youngster2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "まけちゃった!",
+        "speaker": "たんぱんこぞう"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route9.youngster3",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route9.youngster3-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ぼくの ポケモンは まけないぞ!",
+            "speaker": "たんぱんこぞう"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-9-youngster-3",
+            "onWin": "kanto.route9.youngster3-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "つよいなあ…",
+            "speaker": "たんぱんこぞう"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route9.youngster3-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route9.youngster3-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "つよいなあ…",
+        "speaker": "たんぱんこぞう"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route10.hiker1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route10.hiker1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "やまを なめるなよ!",
+            "speaker": "やまおとこ"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-10-hiker-1",
+            "onWin": "kanto.route10.hiker1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "やまは きびしいな…",
+            "speaker": "やまおとこ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route10.hiker1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route10.hiker1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "やまは きびしいな…",
+        "speaker": "やまおとこ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route10.hiker2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route10.hiker2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "いわの ポケモンは かたいぞ!",
+            "speaker": "やまおとこ"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-10-hiker-2",
+            "onWin": "kanto.route10.hiker2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "みごとだ!",
+            "speaker": "やまおとこ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route10.hiker2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route10.hiker2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "みごとだ!",
+        "speaker": "やまおとこ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route11.gambler1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route11.gambler1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "かける ものは ポケモンさ!",
+            "speaker": "ギャンブラー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-11-gambler-1",
+            "onWin": "kanto.route11.gambler1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ついてないな…",
+            "speaker": "ギャンブラー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route11.gambler1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route11.gambler1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "ついてないな…",
+        "speaker": "ギャンブラー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route11.gambler2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route11.gambler2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "うんが いいのは どっちかな?",
+            "speaker": "ギャンブラー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-11-gambler-2",
+            "onWin": "kanto.route11.gambler2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "はずれか…",
+            "speaker": "ギャンブラー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route11.gambler2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route11.gambler2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "はずれか…",
+        "speaker": "ギャンブラー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route11.gambler3",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route11.gambler3-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "かける ものは ポケモンさ!",
+            "speaker": "ギャンブラー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-11-gambler-3",
+            "onWin": "kanto.route11.gambler3-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ついてないな…",
+            "speaker": "ギャンブラー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route11.gambler3-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route11.gambler3-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "ついてないな…",
+        "speaker": "ギャンブラー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route12.fisher1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route12.fisher1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "つりの じゃまを するな!",
+            "speaker": "つりびと"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-12-fisher-1",
+            "onWin": "kanto.route12.fisher1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "きょうは つれないな…",
+            "speaker": "つりびと"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route12.fisher1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route12.fisher1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "きょうは つれないな…",
+        "speaker": "つりびと"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route12.fisher2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route12.fisher2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "みずの ポケモンは つよいぞ!",
+            "speaker": "つりびと"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-12-fisher-2",
+            "onWin": "kanto.route12.fisher2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "まいった!",
+            "speaker": "つりびと"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route12.fisher2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route12.fisher2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "まいった!",
+        "speaker": "つりびと"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route12.fisher3",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route12.fisher3-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "つりの じゃまを するな!",
+            "speaker": "つりびと"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-12-fisher-3",
+            "onWin": "kanto.route12.fisher3-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "きょうは つれないな…",
+            "speaker": "つりびと"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route12.fisher3-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route12.fisher3-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "きょうは つれないな…",
+        "speaker": "つりびと"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route13.lass1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route13.lass1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "かわいい ポケモン つれてる?",
+            "speaker": "ミニスカート"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-13-lass-1",
+            "onWin": "kanto.route13.lass1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "つよいのね。",
+            "speaker": "ミニスカート"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route13.lass1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route13.lass1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "つよいのね。",
+        "speaker": "ミニスカート"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route13.lass2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route13.lass2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "しょうぶ しましょ!",
+            "speaker": "ミニスカート"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-13-lass-2",
+            "onWin": "kanto.route13.lass2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "まいったわ…",
+            "speaker": "ミニスカート"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route13.lass2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route13.lass2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "まいったわ…",
+        "speaker": "ミニスカート"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route13.lass3",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route13.lass3-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "かわいい ポケモン つれてる?",
+            "speaker": "ミニスカート"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-13-lass-3",
+            "onWin": "kanto.route13.lass3-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "つよいのね。",
+            "speaker": "ミニスカート"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route13.lass3-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route13.lass3-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "つよいのね。",
+        "speaker": "ミニスカート"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route14.ace1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route14.ace1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ほんきで いくぞ!",
+            "speaker": "エリートトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-14-ace-1",
+            "onWin": "kanto.route14.ace1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "まだまだ みたいだ…",
+            "speaker": "エリートトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route14.ace1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route14.ace1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "まだまだ みたいだ…",
+        "speaker": "エリートトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route14.ace2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route14.ace2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "うでを みせてもらう!",
+            "speaker": "エリートトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-14-ace-2",
+            "onWin": "kanto.route14.ace2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "たいしたものだ。",
+            "speaker": "エリートトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route14.ace2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route14.ace2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "たいしたものだ。",
+        "speaker": "エリートトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route14.ace3",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route14.ace3-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ほんきで いくぞ!",
+            "speaker": "エリートトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-14-ace-3",
+            "onWin": "kanto.route14.ace3-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "まだまだ みたいだ…",
+            "speaker": "エリートトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route14.ace3-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route14.ace3-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "まだまだ みたいだ…",
+        "speaker": "エリートトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route15.ace1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route15.ace1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ほんきで いくぞ!",
+            "speaker": "エリートトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-15-ace-1",
+            "onWin": "kanto.route15.ace1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "まだまだ みたいだ…",
+            "speaker": "エリートトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route15.ace1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route15.ace1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "まだまだ みたいだ…",
+        "speaker": "エリートトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route15.ace2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route15.ace2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "うでを みせてもらう!",
+            "speaker": "エリートトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-15-ace-2",
+            "onWin": "kanto.route15.ace2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "たいしたものだ。",
+            "speaker": "エリートトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route15.ace2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route15.ace2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "たいしたものだ。",
+        "speaker": "エリートトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route15.ace3",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route15.ace3-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ほんきで いくぞ!",
+            "speaker": "エリートトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-15-ace-3",
+            "onWin": "kanto.route15.ace3-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "まだまだ みたいだ…",
+            "speaker": "エリートトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route15.ace3-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route15.ace3-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "まだまだ みたいだ…",
+        "speaker": "エリートトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route16.biker1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route16.biker1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "どけどけーっ!",
+            "speaker": "ぼうそうぞく"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-16-biker-1",
+            "onWin": "kanto.route16.biker1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ちっ…",
+            "speaker": "ぼうそうぞく"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route16.biker1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route16.biker1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "ちっ…",
+        "speaker": "ぼうそうぞく"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route16.biker2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route16.biker2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "この みちは おれたちの ものだ!",
+            "speaker": "ぼうそうぞく"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-16-biker-2",
+            "onWin": "kanto.route16.biker2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "やるじゃねえか。",
+            "speaker": "ぼうそうぞく"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route16.biker2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route16.biker2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "やるじゃねえか。",
+        "speaker": "ぼうそうぞく"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route17.biker1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route17.biker1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "どけどけーっ!",
+            "speaker": "ぼうそうぞく"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-17-biker-1",
+            "onWin": "kanto.route17.biker1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ちっ…",
+            "speaker": "ぼうそうぞく"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route17.biker1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route17.biker1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "ちっ…",
+        "speaker": "ぼうそうぞく"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route17.biker2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route17.biker2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "この みちは おれたちの ものだ!",
+            "speaker": "ぼうそうぞく"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-17-biker-2",
+            "onWin": "kanto.route17.biker2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "やるじゃねえか。",
+            "speaker": "ぼうそうぞく"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route17.biker2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route17.biker2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "やるじゃねえか。",
+        "speaker": "ぼうそうぞく"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route17.biker3",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route17.biker3-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "どけどけーっ!",
+            "speaker": "ぼうそうぞく"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-17-biker-3",
+            "onWin": "kanto.route17.biker3-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ちっ…",
+            "speaker": "ぼうそうぞく"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route17.biker3-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route17.biker3-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "ちっ…",
+        "speaker": "ぼうそうぞく"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route18.biker1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route18.biker1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "どけどけーっ!",
+            "speaker": "ぼうそうぞく"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-18-biker-1",
+            "onWin": "kanto.route18.biker1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "ちっ…",
+            "speaker": "ぼうそうぞく"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route18.biker1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route18.biker1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "ちっ…",
+        "speaker": "ぼうそうぞく"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route18.biker2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route18.biker2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "この みちは おれたちの ものだ!",
+            "speaker": "ぼうそうぞく"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-18-biker-2",
+            "onWin": "kanto.route18.biker2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "やるじゃねえか。",
+            "speaker": "ぼうそうぞく"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route18.biker2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route18.biker2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "やるじゃねえか。",
+        "speaker": "ぼうそうぞく"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route24.bug1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route24.bug1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "むしポケモンは かっこいい!",
+            "speaker": "むしとりしょうねん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-24-bug-1",
+            "onWin": "kanto.route24.bug1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "むしは よわくないんだ…",
+            "speaker": "むしとりしょうねん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route24.bug1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route24.bug1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "むしは よわくないんだ…",
+        "speaker": "むしとりしょうねん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route24.bug2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route24.bug2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "つかまえた むしを みせてやる!",
+            "speaker": "むしとりしょうねん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-24-bug-2",
+            "onWin": "kanto.route24.bug2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "もっと つかまえてくる!",
+            "speaker": "むしとりしょうねん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route24.bug2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route24.bug2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "もっと つかまえてくる!",
+        "speaker": "むしとりしょうねん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route25.lass1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route25.lass1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "かわいい ポケモン つれてる?",
+            "speaker": "ミニスカート"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-25-lass-1",
+            "onWin": "kanto.route25.lass1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "つよいのね。",
+            "speaker": "ミニスカート"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route25.lass1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route25.lass1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "つよいのね。",
+        "speaker": "ミニスカート"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route25.lass2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route25.lass2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "しょうぶ しましょ!",
+            "speaker": "ミニスカート"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-25-lass-2",
+            "onWin": "kanto.route25.lass2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "まいったわ…",
+            "speaker": "ミニスカート"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route25.lass2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route25.lass2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "まいったわ…",
+        "speaker": "ミニスカート"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route25.lass3",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route25.lass3-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "かわいい ポケモン つれてる?",
+            "speaker": "ミニスカート"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-25-lass-3",
+            "onWin": "kanto.route25.lass3-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "つよいのね。",
+            "speaker": "ミニスカート"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route25.lass3-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route25.lass3-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "つよいのね。",
+        "speaker": "ミニスカート"
+      }
+    ]
+  },
+  {
+    "id": "kanto.mtmoon.hiker1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.mtmoon.hiker1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "やまを なめるなよ!",
+            "speaker": "やまおとこ"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-mt-moon-hiker-1",
+            "onWin": "kanto.mtmoon.hiker1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "やまは きびしいな…",
+            "speaker": "やまおとこ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.mtmoon.hiker1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.mtmoon.hiker1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "やまは きびしいな…",
+        "speaker": "やまおとこ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.mtmoon.hiker2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.mtmoon.hiker2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "いわの ポケモンは かたいぞ!",
+            "speaker": "やまおとこ"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-mt-moon-hiker-2",
+            "onWin": "kanto.mtmoon.hiker2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "みごとだ!",
+            "speaker": "やまおとこ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.mtmoon.hiker2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.mtmoon.hiker2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "みごとだ!",
+        "speaker": "やまおとこ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocktunnel1f.hiker1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.rocktunnel1f.hiker1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "やまを なめるなよ!",
+            "speaker": "やまおとこ"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-rock-tunnel-1f-hiker-1",
+            "onWin": "kanto.rocktunnel1f.hiker1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "やまは きびしいな…",
+            "speaker": "やまおとこ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocktunnel1f.hiker1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.rocktunnel1f.hiker1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "やまは きびしいな…",
+        "speaker": "やまおとこ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocktunnel1f.hiker2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.rocktunnel1f.hiker2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "いわの ポケモンは かたいぞ!",
+            "speaker": "やまおとこ"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-rock-tunnel-1f-hiker-2",
+            "onWin": "kanto.rocktunnel1f.hiker2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "みごとだ!",
+            "speaker": "やまおとこ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocktunnel1f.hiker2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.rocktunnel1f.hiker2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "みごとだ!",
+        "speaker": "やまおとこ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocktunnel1f.hiker3",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.rocktunnel1f.hiker3-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "やまを なめるなよ!",
+            "speaker": "やまおとこ"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-rock-tunnel-1f-hiker-3",
+            "onWin": "kanto.rocktunnel1f.hiker3-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "やまは きびしいな…",
+            "speaker": "やまおとこ"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocktunnel1f.hiker3-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.rocktunnel1f.hiker3-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "やまは きびしいな…",
+        "speaker": "やまおとこ"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route19.swimmer1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route19.swimmer1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "およぎには じしんが あるんだ!",
+            "speaker": "かいパンやろう"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-19-swimmer-1",
+            "onWin": "kanto.route19.swimmer1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "うみは ひろいなあ…",
+            "speaker": "かいパンやろう"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route19.swimmer1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route19.swimmer1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "うみは ひろいなあ…",
+        "speaker": "かいパンやろう"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route19.swimmer2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route19.swimmer2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "うみの ポケモンを みせてやる!",
+            "speaker": "かいパンやろう"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-19-swimmer-2",
+            "onWin": "kanto.route19.swimmer2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "つよいな きみは!",
+            "speaker": "かいパンやろう"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route19.swimmer2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route19.swimmer2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "つよいな きみは!",
+        "speaker": "かいパンやろう"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route19.swimmer3",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route19.swimmer3-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "およぎには じしんが あるんだ!",
+            "speaker": "かいパンやろう"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-19-swimmer-3",
+            "onWin": "kanto.route19.swimmer3-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "うみは ひろいなあ…",
+            "speaker": "かいパンやろう"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route19.swimmer3-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route19.swimmer3-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "うみは ひろいなあ…",
+        "speaker": "かいパンやろう"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route20.swimmer1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route20.swimmer1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "およぎには じしんが あるんだ!",
+            "speaker": "かいパンやろう"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-20-swimmer-1",
+            "onWin": "kanto.route20.swimmer1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "うみは ひろいなあ…",
+            "speaker": "かいパンやろう"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route20.swimmer1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route20.swimmer1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "うみは ひろいなあ…",
+        "speaker": "かいパンやろう"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route20.swimmer2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route20.swimmer2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "うみの ポケモンを みせてやる!",
+            "speaker": "かいパンやろう"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-20-swimmer-2",
+            "onWin": "kanto.route20.swimmer2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "つよいな きみは!",
+            "speaker": "かいパンやろう"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route20.swimmer2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route20.swimmer2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "つよいな きみは!",
+        "speaker": "かいパンやろう"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route21.swimmer1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route21.swimmer1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "およぎには じしんが あるんだ!",
+            "speaker": "かいパンやろう"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-21-swimmer-1",
+            "onWin": "kanto.route21.swimmer1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "うみは ひろいなあ…",
+            "speaker": "かいパンやろう"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route21.swimmer1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route21.swimmer1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "うみは ひろいなあ…",
+        "speaker": "かいパンやろう"
+      }
+    ]
+  },
+  {
+    "id": "kanto.route21.swimmer2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.route21.swimmer2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "うみの ポケモンを みせてやる!",
+            "speaker": "かいパンやろう"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-route-21-swimmer-2",
+            "onWin": "kanto.route21.swimmer2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "つよいな きみは!",
+            "speaker": "かいパンやろう"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.route21.swimmer2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route21.swimmer2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "つよいな きみは!",
+        "speaker": "かいパンやろう"
+      }
+    ]
+  },
+  {
+    "id": "kanto.pewtergym.gymjr1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.pewtergym.gymjr1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "リーダーの まえに ぼくが あいてだ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-pewter-gym-gymjr-1",
+            "onWin": "kanto.pewtergym.gymjr1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "リーダーは もっと つよいぞ。",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.pewtergym.gymjr1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.pewtergym.gymjr1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "リーダーは もっと つよいぞ。",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.pewtergym.gymjr2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.pewtergym.gymjr2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ジムの トレーナーを なめるなよ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-pewter-gym-gymjr-2",
+            "onWin": "kanto.pewtergym.gymjr2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "おくへ どうぞ…",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.pewtergym.gymjr2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.pewtergym.gymjr2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "おくへ どうぞ…",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.ceruleangym.gymjr1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.ceruleangym.gymjr1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "リーダーの まえに ぼくが あいてだ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-cerulean-gym-gymjr-1",
+            "onWin": "kanto.ceruleangym.gymjr1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "リーダーは もっと つよいぞ。",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.ceruleangym.gymjr1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ceruleangym.gymjr1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "リーダーは もっと つよいぞ。",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.ceruleangym.gymjr2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.ceruleangym.gymjr2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ジムの トレーナーを なめるなよ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-cerulean-gym-gymjr-2",
+            "onWin": "kanto.ceruleangym.gymjr2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "おくへ どうぞ…",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.ceruleangym.gymjr2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ceruleangym.gymjr2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "おくへ どうぞ…",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.vermiliongym.gymjr1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.vermiliongym.gymjr1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "リーダーの まえに ぼくが あいてだ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-vermilion-gym-gymjr-1",
+            "onWin": "kanto.vermiliongym.gymjr1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "リーダーは もっと つよいぞ。",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.vermiliongym.gymjr1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.vermiliongym.gymjr1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "リーダーは もっと つよいぞ。",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.vermiliongym.gymjr2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.vermiliongym.gymjr2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ジムの トレーナーを なめるなよ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-vermilion-gym-gymjr-2",
+            "onWin": "kanto.vermiliongym.gymjr2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "おくへ どうぞ…",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.vermiliongym.gymjr2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.vermiliongym.gymjr2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "おくへ どうぞ…",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.celadongym.gymjr1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.celadongym.gymjr1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "リーダーの まえに ぼくが あいてだ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-celadon-gym-gymjr-1",
+            "onWin": "kanto.celadongym.gymjr1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "リーダーは もっと つよいぞ。",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.celadongym.gymjr1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.celadongym.gymjr1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "リーダーは もっと つよいぞ。",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.celadongym.gymjr2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.celadongym.gymjr2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ジムの トレーナーを なめるなよ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-celadon-gym-gymjr-2",
+            "onWin": "kanto.celadongym.gymjr2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "おくへ どうぞ…",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.celadongym.gymjr2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.celadongym.gymjr2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "おくへ どうぞ…",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.celadongym.gymjr3",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.celadongym.gymjr3-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "リーダーの まえに ぼくが あいてだ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-celadon-gym-gymjr-3",
+            "onWin": "kanto.celadongym.gymjr3-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "リーダーは もっと つよいぞ。",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.celadongym.gymjr3-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.celadongym.gymjr3-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "リーダーは もっと つよいぞ。",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.fuchsiagym.gymjr1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.fuchsiagym.gymjr1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "リーダーの まえに ぼくが あいてだ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-fuchsia-gym-gymjr-1",
+            "onWin": "kanto.fuchsiagym.gymjr1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "リーダーは もっと つよいぞ。",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.fuchsiagym.gymjr1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.fuchsiagym.gymjr1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "リーダーは もっと つよいぞ。",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.fuchsiagym.gymjr2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.fuchsiagym.gymjr2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ジムの トレーナーを なめるなよ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-fuchsia-gym-gymjr-2",
+            "onWin": "kanto.fuchsiagym.gymjr2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "おくへ どうぞ…",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.fuchsiagym.gymjr2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.fuchsiagym.gymjr2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "おくへ どうぞ…",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.fuchsiagym.gymjr3",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.fuchsiagym.gymjr3-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "リーダーの まえに ぼくが あいてだ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-fuchsia-gym-gymjr-3",
+            "onWin": "kanto.fuchsiagym.gymjr3-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "リーダーは もっと つよいぞ。",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.fuchsiagym.gymjr3-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.fuchsiagym.gymjr3-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "リーダーは もっと つよいぞ。",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.saffrongym.gymjr1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.saffrongym.gymjr1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "リーダーの まえに ぼくが あいてだ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-saffron-gym-gymjr-1",
+            "onWin": "kanto.saffrongym.gymjr1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "リーダーは もっと つよいぞ。",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.saffrongym.gymjr1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.saffrongym.gymjr1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "リーダーは もっと つよいぞ。",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.cinnabargym.gymjr1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.cinnabargym.gymjr1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "リーダーの まえに ぼくが あいてだ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-cinnabar-gym-gymjr-1",
+            "onWin": "kanto.cinnabargym.gymjr1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "リーダーは もっと つよいぞ。",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.cinnabargym.gymjr1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.cinnabargym.gymjr1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "リーダーは もっと つよいぞ。",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridiangym.gymjr1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.viridiangym.gymjr1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "リーダーの まえに ぼくが あいてだ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-viridian-gym-gymjr-1",
+            "onWin": "kanto.viridiangym.gymjr1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "リーダーは もっと つよいぞ。",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridiangym.gymjr1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.viridiangym.gymjr1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "リーダーは もっと つよいぞ。",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridiangym.gymjr2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.viridiangym.gymjr2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ジムの トレーナーを なめるなよ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-viridian-gym-gymjr-2",
+            "onWin": "kanto.viridiangym.gymjr2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "おくへ どうぞ…",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridiangym.gymjr2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.viridiangym.gymjr2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "おくへ どうぞ…",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridiangym.gymjr3",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.viridiangym.gymjr3-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "リーダーの まえに ぼくが あいてだ!",
+            "speaker": "ジムトレーナー"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-viridian-gym-gymjr-3",
+            "onWin": "kanto.viridiangym.gymjr3-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "リーダーは もっと つよいぞ。",
+            "speaker": "ジムトレーナー"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridiangym.gymjr3-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.viridiangym.gymjr3-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "リーダーは もっと つよいぞ。",
+        "speaker": "ジムトレーナー"
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanne1f.sailor1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.ssanne1f.sailor1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ふねの うえでも しょうぶは しょうぶ!",
+            "speaker": "せんいん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-ss-anne-1f-sailor-1",
+            "onWin": "kanto.ssanne1f.sailor1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "まいった、つよいな!",
+            "speaker": "せんいん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanne1f.sailor1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ssanne1f.sailor1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "まいった、つよいな!",
+        "speaker": "せんいん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanne1f.sailor2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.ssanne1f.sailor2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "うでっぷしには じしんが あるぜ!",
+            "speaker": "せんいん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-ss-anne-1f-sailor-2",
+            "onWin": "kanto.ssanne1f.sailor2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "うでを みがきなおすぜ。",
+            "speaker": "せんいん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanne1f.sailor2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ssanne1f.sailor2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "うでを みがきなおすぜ。",
+        "speaker": "せんいん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanne2f.sailor1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.ssanne2f.sailor1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ふねの うえでも しょうぶは しょうぶ!",
+            "speaker": "せんいん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-ss-anne-2f-sailor-1",
+            "onWin": "kanto.ssanne2f.sailor1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "まいった、つよいな!",
+            "speaker": "せんいん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanne2f.sailor1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ssanne2f.sailor1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "まいった、つよいな!",
+        "speaker": "せんいん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanne2f.sailor2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.ssanne2f.sailor2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "うでっぷしには じしんが あるぜ!",
+            "speaker": "せんいん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-ss-anne-2f-sailor-2",
+            "onWin": "kanto.ssanne2f.sailor2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "うでを みがきなおすぜ。",
+            "speaker": "せんいん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanne2f.sailor2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ssanne2f.sailor2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "うでを みがきなおすぜ。",
+        "speaker": "せんいん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanne2f.gentleman1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.ssanne2f.gentleman1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ふむ、なかなかの ポケモンだね。",
+            "speaker": "ジェントルマン"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-ss-anne-2f-gentleman-1",
+            "onWin": "kanto.ssanne2f.gentleman1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "みごとだ。",
+            "speaker": "ジェントルマン"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanne2f.gentleman1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ssanne2f.gentleman1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "みごとだ。",
+        "speaker": "ジェントルマン"
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanneb1f.sailor1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.ssanneb1f.sailor1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ふねの うえでも しょうぶは しょうぶ!",
+            "speaker": "せんいん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-ss-anne-b1f-sailor-1",
+            "onWin": "kanto.ssanneb1f.sailor1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "まいった、つよいな!",
+            "speaker": "せんいん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanneb1f.sailor1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ssanneb1f.sailor1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "まいった、つよいな!",
+        "speaker": "せんいん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanneb1f.sailor2",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.ssanneb1f.sailor2-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "うでっぷしには じしんが あるぜ!",
+            "speaker": "せんいん"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-ss-anne-b1f-sailor-2",
+            "onWin": "kanto.ssanneb1f.sailor2-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "うでを みがきなおすぜ。",
+            "speaker": "せんいん"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanneb1f.sailor2-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ssanneb1f.sailor2-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "うでを みがきなおすぜ。",
+        "speaker": "せんいん"
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssannedeck.gentleman1",
+    "commands": [
+      {
+        "kind": "if",
+        "cond": {
+          "kind": "flag",
+          "flag": "kanto.ssannedeck.gentleman1-beaten",
+          "value": false
+        },
+        "then": [
+          {
+            "kind": "message",
+            "text": "ふむ、なかなかの ポケモンだね。",
+            "speaker": "ジェントルマン"
+          },
+          {
+            "kind": "battle",
+            "trainer": "kanto-ss-anne-deck-gentleman-1",
+            "onWin": "kanto.ssannedeck.gentleman1-win"
+          }
+        ],
+        "else": [
+          {
+            "kind": "message",
+            "text": "みごとだ。",
+            "speaker": "ジェントルマン"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssannedeck.gentleman1-win",
+    "commands": [
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ssannedeck.gentleman1-beaten",
+        "value": true
+      },
+      {
+        "kind": "message",
+        "text": "みごとだ。",
+        "speaker": "ジェントルマン"
+      }
+    ]
+  }
+]

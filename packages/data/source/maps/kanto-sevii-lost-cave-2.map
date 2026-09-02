@@ -1,0 +1,29 @@
+# ロストケイブ の奥。**まちがえた出口は入口へ戻す** ―― 迷路の手ざわりはこれで足りる。
+id: kanto-sevii-lost-cave-2
+name: ロストケイブ おく
+region: kanto
+encounters: kanto-sevii-lost-cave-2-cave
+bgm: pokemon-tower
+
+legend:
+. cave
+C !cave
+D normal
+
+grid:
+CCCDCCCCCDCCC
+C...........C
+C.CCCCCCCCC.C
+C.C.......C.C
+C.C.......C.C
+C.CCCC.CCCC.C
+C...........C
+C.....D.....C
+CCCCCCCCCCCCC
+
+warps:
+6,7 step kanto-sevii-lost-cave 1,2 down
+3,0 step kanto-sevii-lost-cave 6,6 down
+9,0 step kanto-sevii-lost-cave-3 6,6 up
+
+objects:

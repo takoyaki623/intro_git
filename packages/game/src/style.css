@@ -1,0 +1,1048 @@
+/*
+ * 書体（v0.11.5）。
+ *
+ * Google Fonts は Artifact 版で使える**唯一の外部ホスト**なので、
+ * ここだけは外部参照にしてよい（他は全部埋め込む・game-plan.md §10）。
+ * 読み込めなかったときのために、**必ず実在する和文フォント**を後ろに積む
+ * ―― 抜けると中華フォントに落ちて、字面が別物になる。
+ *
+ * DotGothic16 は「ゲームの声」にだけ使う（見出し・会話・ログ・ポケモンの名前）。
+ * 操作系まで全部ドット字にすると、小さい字が読めなくなる。
+ */
+@import url("https://fonts.googleapis.com/css2?family=DotGothic16&display=swap");
+
+:root {
+  --game-font: "DotGothic16", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", sans-serif;
+  --bg: #f4f6f9;
+  --panel: #ffffff;
+  --ink: #1c2230;
+  --muted: #6b7684;
+  --line: #dfe4ec;
+  --accent: #3d6bff;
+  --logbg: #ffffff;
+  --shadow: 0 1px 2px rgba(20, 30, 50, 0.06), 0 4px 14px rgba(20, 30, 50, 0.06);
+  /*
+   * 画面の中の窓（v1.3-a）。**テーマで変えない。**
+   * 画面の中は「ゲーム」で、原作の窓は暗い設定でも白いまま ――
+   * ここを OS のテーマに従わせると、原作と違う画面が既定になる。
+   */
+  --win-bg: #f8f8f8;
+  --win-ink: #202020;
+  --win-line: #6890c8;
+  --win-edge: #f8f8f8;
+  --win-shadow: #a8b8d0;
+}
+/*
+ * テーマは3状態ある: 明示的に light / 明示的に dark / 未指定(OS依存)。
+ * 未指定のときだけ prefers-color-scheme が効くようガードし、
+ * 明示指定は両方向で勝つようにする。
+ */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12151c;
+    --panel: #1a1f29;
+    --ink: #e8ecf3;
+    --muted: #9aa5b5;
+    --line: #2a3140;
+    --accent: #6b8fff;
+    --logbg: #151922;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 14px rgba(0, 0, 0, 0.3);
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12151c;
+  --panel: #1a1f29;
+  --ink: #e8ecf3;
+  --muted: #9aa5b5;
+  --line: #2a3140;
+  --accent: #6b8fff;
+  --logbg: #151922;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Hiragino Sans", "Noto Sans JP", sans-serif;
+  line-height: 1.6;
+}
+
+#app { max-width: 760px; margin: 0 auto; padding: 16px; }
+
+header {
+  display: flex; flex-wrap: wrap; gap: 12px;
+  align-items: center; justify-content: space-between;
+  margin-bottom: 14px;
+}
+h1 { font-size: 17px; margin: 0; letter-spacing: .02em; }
+.ver { color: var(--muted); font-weight: 500; font-size: 13px; }
+.tools { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.tools label { font-size: 12px; color: var(--muted); }
+.tools input {
+  width: 78px; padding: 4px 6px; font: inherit; font-size: 13px;
+  border: 1px solid var(--line); border-radius: 6px;
+  background: var(--panel); color: var(--ink);
+}
+
+button {
+  font: inherit; cursor: pointer; color: var(--ink);
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: 8px; padding: 6px 10px; font-size: 13px;
+  transition: transform .06s ease, border-color .15s ease;
+  /* スマホ: 長押しの選択とダブルタップ拡大を抑える */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+}
+button:hover { border-color: var(--accent); }
+button:active { transform: translateY(1px); }
+
+.speed { display: flex; gap: 4px; }
+.speed button { padding: 5px 9px; font-size: 12px; }
+.speed button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+/* ── 場 ── */
+/*
+ * バトルの画面（v1.3-c で GBA の1画面の中へ）。
+ *
+ * 原作の並びは **相手が右上・自分が左下**、HP箱はその反対側の隅。
+ * いままでは上下2段のカードで、どちらも同じ大きさ・同じ向きだった ――
+ * 「向かい合っている」ように見えなかったのはそのため。
+ *
+ * 技のボタン（`#controls`）は**画面の外に残す** ―― 十字キーと同じで、
+ * 原作の物理ボタンの代わり（v1.3-a の線）。
+ */
+#field {
+  position: absolute;
+  inset: 0;
+  /* 背景。手元に `battle/bg` があればそちらに差し替わる（v1.3-d） */
+  background:
+    var(--battle-bg, none) center / cover no-repeat,
+    linear-gradient(#a8d8f0 0%, #a8d8f0 58%, #d8c890 58%, #c8b878 100%);
+  image-rendering: pixelated;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* 姿と HP箱を、画面の中の決まった場所に置く */
+.mon { position: absolute; display: block; }
+.mon.foe { left: 6px; top: 5px; text-align: left; }
+.mon.ally { right: 6px; top: 68px; text-align: left; }
+.mon .figure { position: absolute; }
+/* 相手は右上、自分は左下（原作の並び） */
+.mon.foe .figure { left: 142px; top: 2px; width: 56px; height: 56px; }
+/* 自分の姿は**メッセージ窓の上**に収める（窓は下から 50px を占める） */
+.mon.ally .figure { right: 140px; top: -18px; width: 60px; height: 60px; }
+
+/* アセットが1枚も無い状態の代替表現（設計 game-plan.md §10） */
+.figure {
+  width: 78px; height: 78px; flex: none;
+  display: grid; place-items: center;
+}
+/* 姿は art/sprites.ts が SVG で描く（v0.12.5）。
+   `--c` はタイプ色で、演出（点滅・色被せ）だけが使う ―― 体そのものは体色で描く */
+.figure svg, .figure img { width: 100%; height: 100%; display: block; }
+/* 一覧の小さい姿。名前の左に置く */
+.mon-icon { width: 30px; height: 30px; flex: none; display: inline-block; vertical-align: middle; }
+.mon-icon svg, .mon-icon img { width: 100%; height: 100%; display: block; }
+.figure img.flip { transform: scaleX(-1); }
+.mon.foe .figure { width: 66px; height: 66px; }
+
+/*
+ * HP箱（v1.3-c）。原作は**枠のある箱**が隅にあり、中に名前・Lv・HPバーが入る。
+ * 角丸のピルをやめて箱にする ―― 丸いバーは今の Web の作法で、原作の形ではない。
+ */
+.mon .panel {
+  width: 104px;
+  border: 2px solid var(--win-line);
+  outline: 1px solid var(--win-edge);
+  border-radius: 3px;
+  background: var(--win-bg);
+  color: var(--win-ink);
+  padding: 2px 4px;
+  font-size: 9px;
+  line-height: 1.3;
+}
+.mon.foe .panel { border-image: var(--ui-hpbox-foe, none) 6 fill / 6px; }
+.mon.ally .panel { border-image: var(--ui-hpbox-own, none) 6 fill / 6px; }
+.mon .row { gap: 4px; }
+.mon .row.small { font-size: 8px; color: #6a7280; margin-top: 1px; }
+.mon .lv { font-size: 8px; color: #6a7280; }
+.mon .mon-name { font-size: 9.5px; }
+/* 画面が狭いので、タイプ・ランク・持ち物は箱に入れない（原作にも無い） */
+.mon .types, .mon .stages, .mon .gears { display: none; }
+.mon .hpbar { height: 4px; border-radius: 2px; margin: 1px 0; }
+.mon .fill { border-radius: 2px; }
+.mon .status { font-size: 7px; padding: 0 3px; }
+.mon .balls { gap: 2px; }
+.mon .ball { width: 5px; height: 5px; }
+.row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.row.small { font-size: 12px; color: var(--muted); margin-top: 3px; }
+.lv { font-size: 12px; color: var(--muted); }
+
+.types { display: flex; gap: 4px; margin: 3px 0 5px; }
+.type {
+  font-size: 10px; color: #fff; padding: 1px 7px;
+  border-radius: 999px; letter-spacing: .04em;
+}
+
+.status {
+  font-size: 10px; padding: 1px 7px; border-radius: 4px;
+  color: #fff; background: var(--muted); letter-spacing: .04em;
+}
+.status.poison, .status.toxic { background: #a95cc0; }
+.status.paralysis { background: #d0a92b; }
+.status.burn { background: #e2603c; }
+.status.sleep { background: #7a8391; }
+.status.freeze { background: #4bb6cf; }
+
+.hpbar {
+  height: 8px; background: var(--line);
+  border-radius: 999px; overflow: hidden;
+}
+.fill { height: 100%; border-radius: 999px; }
+.fill.high { background: #3fbf6a; }
+.fill.mid { background: #e8bb3a; }
+.fill.low { background: #e0553f; }
+
+.balls { display: inline-flex; gap: 3px; }
+.ball {
+  width: 8px; height: 8px; border-radius: 50%;
+  border: 1px solid var(--muted); display: inline-block;
+}
+.ball.alive { background: var(--accent); border-color: var(--accent); }
+
+.stages { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+.stage { font-size: 10px; padding: 0 5px; border-radius: 4px; border: 1px solid var(--line); }
+.stage.up { color: #2f9e5b; border-color: #2f9e5b55; }
+.stage.down { color: #d0553f; border-color: #d0553f55; }
+
+/* ──────────────────────────────────────────
+ * バトルの演出（v0.11.5）
+ *
+ * v0.11 まで #field は毎イベント作り直されていたので、
+ * ここに何を書いても再生される前に要素ごと消えていた。
+ * 作り直しをやめたのが先で、この節はその後にしか意味を持たない。
+ * ────────────────────────────────────────── */
+
+/* `position` は上の v1.3-c の規則が持つ（ここで `relative` に戻すと画面から外れる） */
+#field { overflow: hidden; }
+
+/* 技のタイプで場を1瞬だけ染める。色は TYPE_COLOR がそのまま入る */
+#field::after {
+  content: ""; position: absolute; inset: 0;
+  background: var(--tint, transparent);
+  opacity: 0; pointer-events: none;
+}
+#field.tinted::after { animation: tint .3s ease-out; }
+@keyframes tint {
+  0% { opacity: 0; }
+  35% { opacity: .16; }
+  100% { opacity: 0; }
+}
+
+.figure { transition: transform .18s ease, opacity .3s ease; }
+
+/* 技を出した側が前に出る。自分は上、相手は下（画面の並びに合わせる） */
+.figure.lunge-up { animation: lunge-up .38s ease; }
+.figure.lunge-down { animation: lunge-down .38s ease; }
+@keyframes lunge-up {
+  0%, 100% { transform: none; }
+  45% { transform: translateY(-12px) scale(1.04); }
+}
+@keyframes lunge-down {
+  0%, 100% { transform: none; }
+  45% { transform: translateY(12px) scale(1.04); }
+}
+
+/* 被弾。ばつぐん・急所は強く、いまひとつは弱く */
+.figure.hit { animation: shake .34s ease; }
+.figure.hit-weak { animation: shake-weak .34s ease; }
+.figure.hit-strong { animation: shake-strong .46s ease; }
+@keyframes shake {
+  0%, 100% { transform: none; }
+  20% { transform: translateX(-6px); filter: brightness(1.8); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-3px); filter: brightness(1.4); }
+}
+@keyframes shake-weak {
+  0%, 100% { transform: none; }
+  40% { transform: translateX(-3px); filter: brightness(1.2); }
+}
+@keyframes shake-strong {
+  0%, 100% { transform: none; }
+  12% { transform: translateX(-10px) scale(1.06); filter: brightness(2.4); }
+  30% { transform: translateX(9px) scale(1.04); }
+  50% { transform: translateX(-7px); filter: brightness(1.9); }
+  70% { transform: translateX(5px); }
+  85% { transform: translateX(-3px); filter: brightness(1.3); }
+}
+
+/* 毒・やけど・反動。技の被弾より弱く、区別がつく程度に */
+.figure.tick { animation: tick .3s ease; }
+@keyframes tick {
+  0%, 100% { transform: none; }
+  50% { transform: translateY(2px); filter: brightness(.72) saturate(1.4); }
+}
+
+/* 回復 */
+.figure.healed { animation: healed .52s ease; }
+@keyframes healed {
+  0%, 100% { filter: none; }
+  40% { filter: brightness(1.5) saturate(1.3); }
+}
+
+/* ひんし。**外さない** ―― 倒れたものは次の交代まで倒れたまま */
+.figure.fainted { transform: translateY(20px) scale(.8); opacity: 0; }
+
+/* 場に出る */
+.figure.entering { animation: entering .42s ease; }
+@keyframes entering {
+  0% { transform: translateY(14px) scale(.7); opacity: 0; }
+  100% { transform: none; opacity: 1; }
+}
+
+/* HPバーは幅の補間だけで十分に「減っていく」ように見える。
+   低くなるほど速度を上げる（v0.3 から transition はあったが、
+   毎回作り直していたので一度も動いていなかった） */
+.fill { transition: width .45s cubic-bezier(.25, .8, .35, 1), background .3s ease; }
+.fill.low { animation: pulse-low 1s ease-in-out infinite; }
+@keyframes pulse-low {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .62; }
+}
+
+/* 閲覧環境の設定が上。こちらが上書きしない */
+@media (prefers-reduced-motion: reduce) {
+  .figure, .figure.hit, .figure.hit-weak, .figure.hit-strong,
+  .figure.lunge-up, .figure.lunge-down, .figure.tick,
+  .figure.healed, .figure.entering, .fill.low, #field.tinted::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .fill { transition: none !important; }
+}
+
+/* ── ログ ── */
+/*
+ * バトルのメッセージ窓（v1.3-c で画面の中の下段へ）。
+ *
+ * 原作は「いま起きたこと」1〜2行だけを出す。こちらは**履歴を残す** ――
+ * 演出を飛ばす速度で遊ぶので、流れた文を後から読めないと何が起きたか分からない。
+ * 窓の形は原作、中身はログという折衷にしてある。
+ */
+#log {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+  height: 46px;
+  overflow-y: auto;
+  border: 2px solid var(--win-line);
+  /* バトルの窓だけ別の素材にできる（無ければ `ui/frame` に落ちる） */
+  border-image: var(--ui-frame-battle, none) 8 fill / 8px;
+  outline: 1px solid var(--win-edge);
+  outline-offset: 1px;
+  border-radius: 4px;
+  background: var(--win-bg);
+  color: var(--win-ink);
+  padding: 3px 6px;
+  margin: 0;
+  box-shadow: none;
+}
+.line { padding: 1px 0; }
+.line:last-child { color: var(--ink); font-weight: 600; }
+
+#prompt { min-height: 20px; margin: 10px 2px 6px; font-size: 13px; color: var(--muted); }
+
+/* ── 操作 ── */
+#controls { display: grid; gap: 8px; }
+.moves { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+
+/* スマホ: 1カラムにし、ログを縮めて操作ボタンを画面内に収める */
+@media (max-width: 520px) {
+  #app { padding: 12px; }
+  .moves { grid-template-columns: 1fr; }
+  /* #log の高さは画面の中で決まる（v1.3-c）ので、ここでは触らない */
+  .switches { display: grid; grid-template-columns: 1fr; }
+  header { gap: 8px; }
+}
+
+.move {
+  display: grid; gap: 2px; text-align: left; padding: 9px 12px;
+  border-left: 4px solid var(--c);
+}
+.mname { font-weight: 600; }
+.meta { font-size: 11px; color: var(--muted); }
+
+.switches { display: flex; gap: 8px; flex-wrap: wrap; }
+.switches.forced { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+.switch { text-align: left; }
+
+.again { justify-self: start; background: var(--accent); border-color: var(--accent); color: #fff; }
+
+footer { margin-top: 16px; font-size: 11px; color: var(--muted); text-align: center; }
+
+/* ──────────────────────────────────────────
+ * 「ゲームの声」だけドット字にする（v0.11.5）
+ *
+ * 全部に掛けると小さい字が読めなくなる。掛けるのは
+ * 見出し・会話・ログ・ポケモンの名前 ―― 世界の側の文字だけ。
+ * 操作系（ボタン・表・設定）は素の書体のままにする。
+ * ────────────────────────────────────────── */
+h1, #menu h2, #menu h3,
+#log, #prompt,
+#field-text,
+.mon-name, .lv, .type, .status, .stage,
+.headline, .result th, .record th {
+  font-family: var(--game-font);
+}
+h1 { letter-spacing: .06em; }
+#log { letter-spacing: .01em; }
+.mon-name { letter-spacing: .04em; }
+
+/* ドット字は字面が小さいので、少しだけ大きくする */
+#field-text { font-size: 10px; }
+/* 画面の中の尺（240×160）に合わせる（v1.3-c） */
+#log { font-size: 9.5px; line-height: 1.35; }
+#log .line:last-child { color: var(--win-ink); }
+
+/* ── v0.5: モード切り替え・メニュー・施設 ── */
+.hidden { display: none !important; }
+.dim { color: var(--muted); }
+
+/* #modes（モード切替タブ）の指定はここにあったが、v0.10 で <nav> ごと消えた。
+   使われない CSS を残すと「まだあるもの」に見えるので、v0.11.5 で落とした。 */
+
+#menu h2 { font-size: 15px; margin: 0 0 6px; }
+.lead { font-size: 12px; color: var(--muted); margin: 0 0 10px; }
+
+#run {
+  display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12px;
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: 10px; padding: 8px 12px; margin-bottom: 10px;
+  box-shadow: var(--shadow);
+}
+
+.facilities, .rentals { display: grid; gap: 8px; }
+.rentals { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.facility, .rental {
+  display: grid; gap: 3px; text-align: left; padding: 10px 12px; width: 100%;
+}
+.rental.on { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.gearline { opacity: .85; }
+
+.problems { min-height: 18px; margin: 8px 2px; font-size: 12px; color: #d0553f; }
+.menu-actions { display: flex; gap: 8px; margin-top: 4px; }
+.menu-actions button { background: var(--accent); border-color: var(--accent); color: #fff; }
+.menu-actions button:disabled { opacity: .45; cursor: not-allowed; }
+.menu-actions .ghost { background: var(--panel); border-color: var(--line); color: var(--ink); }
+
+.gears { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+.mon.foe .gears { justify-content: flex-end; }
+.gear {
+  font-size: 10px; padding: 0 6px; border-radius: 4px;
+  border: 1px solid var(--line); color: var(--muted);
+}
+
+.result { font-size: 13px; border-collapse: collapse; margin: 4px 0 10px; }
+.result th, .result td { padding: 3px 14px 3px 0; text-align: left; font-weight: 500; }
+.result th { color: var(--muted); font-size: 12px; }
+
+/* ── v0.6: トーナメント ── */
+.cups { display: grid; gap: 8px; }
+.cup {
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: 10px; padding: 10px 12px; display: grid; gap: 3px;
+}
+.entrants { opacity: .8; }
+.tiers { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+.tier-pick { padding: 4px 12px; font-size: 12px; }
+.tier-pick.done { border-color: var(--accent); color: var(--accent); }
+.tier-locked {
+  font-size: 12px; color: var(--muted); padding: 4px 12px;
+  border: 1px dashed var(--line); border-radius: 8px;
+}
+
+#run .tier {
+  font-size: 11px; padding: 0 7px; border-radius: 999px;
+  background: var(--accent); color: #fff;
+}
+#run .bracket { display: inline-flex; gap: 5px; align-items: center; flex-wrap: wrap; }
+.step { color: var(--muted); }
+.step.done { text-decoration: line-through; opacity: .55; }
+.step.now { color: var(--ink); font-weight: 650; }
+.arrow { color: var(--line); }
+
+#menu h3 {
+  font-size: 12px; color: var(--muted); margin: 16px 0 6px;
+  letter-spacing: .06em;
+}
+.nameds { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; }
+.named {
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: 10px; padding: 9px 12px; display: grid; gap: 2px;
+}
+
+/* ─────────────────────────────────────────────
+   v0.7 マップ探索
+
+   絵が1枚も無い前提で成立させる（game-plan.md §10）。
+   タイルの色は canvas 側で地形から決めているので、ここでは枠だけ整える。
+   ───────────────────────────────────────────── */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.field-head {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* ─────────────────────────────────────────────
+   v1.3-a GBA の1画面（240×160）
+
+   **画面を1つ置いて、中身は全部その中に入れる。**
+   原作は 240×160 の1枚で、会話もメニューもバトルもその中にある ――
+   いままでは地図の canvas の「下に」会話窓と十字キーが縦に並んでいて、
+   そこが原作といちばん違って見える所だった。
+
+   **canvas に全部描き直すことはしない。**
+   `playthrough`（321件）と `shots`（74か所）はどちらも DOM のセレクタで
+   動いていて、canvas へ移すと**壊れていないことを確かめる道具が2本とも死ぬ。**
+   器だけ作り、中の要素は今のまま絶対配置して、まとめて拡大する。
+   ───────────────────────────────────────────── */
+
+/*
+ * 拡大率。**整数倍が入るなら整数倍**（ドットが濁らない）、
+ * 入らない幅（スマホ）では幅に合わせる ―― 遊べることを優先する。
+ */
+.screen-box {
+  /* **倍率は JS が入れる**（`fitScreen`）。CSS では長さ ÷ 長さで倍率を作れない */
+  --px: 1;
+  width: calc(240px * var(--px));
+  height: calc(160px * var(--px));
+  /* 画面そのものは拡大されるが、**場所取りはここが持つ** ――
+     transform は周りの並びを動かさないので、箱が無いと下の要素が重なる */
+  flex: none;
+}
+
+/*
+ * 画面は**2つある**（探索とバトル）。**id ではなく class で書く。**
+ * v1.3-c で battle 側にも `id="screen"` を付けてしまい、
+ * 同じ id が2つになった ―― HTML として不正なだけでなく、
+ * `shots.mjs` の `locator("#screen")` が「2つ見つかった」で落ちる。
+ */
+.screen {
+  /* **中身は 240×160 の座標で書く。** 拡大はこの1行がまとめてやる */
+  width: 240px;
+  height: 160px;
+  transform: scale(var(--px));
+  transform-origin: top left;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid #202020;
+  background: #000;
+  font-family: var(--game-font);
+  -webkit-font-smoothing: none;
+  /* 画面の中の文字は小さいので、行間を詰めておく */
+  line-height: 1.4;
+}
+
+#field-canvas {
+  image-rendering: pixelated;
+  position: absolute;
+  inset: 0;
+  width: 240px;
+  height: 160px;
+  background: #111;
+}
+
+/*
+ * 会話窓（v1.3-a）。**画面の中の下段に置く。**
+ *
+ * 原作の窓は「白地・角の丸い青い二重枠」。`ui/frame` の素材があれば
+ * そちらに差し替わる（v1.3-d）ので、ここは無いときの絵になる。
+ */
+#field-text {
+  position: absolute;
+  left: 4px;
+  bottom: 4px;
+  width: 232px;
+  /*
+   * **原作の窓は画面の下 1/4 ほど。** 文字が多いときだけ伸びるが、
+   * 伸びっぱなしにすると地図が隠れるので上限を置く（超えたら中で送る）。
+   */
+  min-height: 40px;
+  max-height: 66px;
+  overflow-y: auto;
+  padding: 4px 6px;
+  border: 2px solid var(--win-line);
+  /* 手元に `ui/frame` があれば枠がそちらに差し替わる（v1.3-d）。
+     無いときは `none` になり、上の CSS の枠がそのまま出る */
+  border-image: var(--ui-frame, none) 8 fill / 8px;
+  outline: 1px solid var(--win-edge);
+  outline-offset: 1px;
+  border-radius: 4px;
+  background: var(--win-bg);
+  color: var(--win-ink);
+  font-size: 10px;
+  line-height: 1.35;
+  cursor: pointer;
+  /* 会話送りはタップで行うので、ボタンと同じ抑制をかける */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+#field-text.hidden { display: none; }
+#field-text .speaker { font-weight: 700; margin-bottom: 1px; }
+#field-text .next { position: absolute; right: 5px; bottom: 2px; opacity: .8; font-size: 9px; }
+
+/* 選択肢は原作と同じく**窓の中に縦に並べる**（横並びだと 232px に入らない） */
+#field-text .choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-top: 4px;
+}
+
+#field-text .choices button {
+  padding: 1px 6px;
+  min-height: 0;
+  font-size: 11px;
+  font-family: inherit;
+  border: 1px solid var(--win-line);
+  border-radius: 3px;
+  background: var(--win-bg);
+  color: var(--win-ink);
+  cursor: pointer;
+}
+
+/* 十字と「けってい」を分ける。
+   十字の真ん中に決定を置くと、歩いているつもりで話しかけてしまう */
+.field-pad {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  /* 押しっぱなしで歩くので、指のドラッグでページが動かないようにする */
+  touch-action: none;
+}
+
+.pad-cross {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 6px;
+  justify-items: center;
+}
+.pad-cross button:nth-child(1) { grid-column: 2; grid-row: 1; }
+.pad-cross button:nth-child(2) { grid-column: 1; grid-row: 2; }
+.pad-cross button:nth-child(3) { grid-column: 3; grid-row: 2; }
+.pad-cross button:nth-child(4) { grid-column: 2; grid-row: 3; }
+
+.pad-ok { min-height: 72px !important; }
+
+.field-pad button {
+  /* 指で押せる大きさ。スマホが主な遊び場になる */
+  min-width: 72px;
+  min-height: 56px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+  touch-action: none;
+}
+
+/* 押している間ずっと分かるようにする（1回ごとの点滅では読み取れない） */
+.field-pad button:active {
+  transform: none;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.field-pad .pad-ok { font-size: 15px; }
+
+.field-help { font-size: 12px; }
+
+/* 野生戦でだけ出る「にげる」 */
+#controls .run {
+  margin-top: 8px;
+  padding: 8px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* ─────────────────────────────────────────────
+   v0.8 手持ち・ボックス・図鑑
+   ───────────────────────────────────────────── */
+
+.pad-side { display: flex; flex-direction: column; gap: 6px; }
+.pad-menu {
+  min-height: 34px;
+  font-size: 13px;
+  padding: 4px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/*
+ * てもち・どうぐ・ずかん の窓（v1.3-b で画面の中へ）。
+ *
+ * **操作するものは画面の外、見せるものは画面の中。**
+ * 十字キーと「てもち／どうぐ／ずかん」のボタンは、原作の物理ボタンの代わりなので
+ * 画面の外に残す（v1.3-a の判断）。開いた中身は原作では画面の中の窓なので、
+ * こちらは中へ入れる。
+ *
+ * 240×160 に全部は載らないので、**原作と同じく中で送る**（`overflow-y`）。
+ */
+#field-panel {
+  position: absolute;
+  inset: 4px;
+  /* **送るのはこの箱そのもの。** 中に「本文の箱」を作ると、
+     中身を書く5か所ぜんぶがその形を知っていなければならなくなる ――
+     題が動かないのは `position: sticky` だけで足りる */
+  overflow-y: auto;
+  border: 2px solid var(--win-line);
+  border-image: var(--ui-frame, none) 8 fill / 8px;
+  outline: 1px solid var(--win-edge);
+  outline-offset: 1px;
+  border-radius: 4px;
+  background: var(--win-bg);
+  color: var(--win-ink);
+  padding: 0 5px 5px;
+  font-size: 10px;
+  line-height: 1.35;
+}
+#field-panel.hidden { display: none; }
+
+/*
+ * 窓の題は**帯にする**（v1.4-a）。
+ *
+ * それまでは本文と同じ地に大きな字を置き、下に青い罫を1本引いていた ――
+ * Web の見出しの作法で、原作の窓には無い。原作は題が枠の一部として帯になっていて、
+ * **どこまでが1つの窓か**が帯で分かる。
+ *
+ * `position: sticky` にしてあるのは、送っている間に題が消えると
+ * 「何の一覧を見ているか」が分からなくなるため ―― 原作は送っても題が残る。
+ */
+#field-panel > .panel-head:first-child {
+  position: sticky;
+  /* 上下左右の余白は本文だけに要る。題は端まで伸ばしたいので、
+     箱の padding ではなく**要素ごと**に持たせている */
+  top: -1px;
+  z-index: 2;
+  margin: 0 -5px 3px;
+  width: calc(100% + 10px);
+  padding: 2px 5px;
+  border-bottom: 0;
+  background: var(--win-line);
+  color: #fff;
+  font-size: 10px;
+  gap: 6px;
+  /* **折り返させない。** 題が2行になると帯が窓の1/3を食う（ずかんで実際そうなった） */
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  overflow: hidden;
+}
+#field-panel > .panel-head:first-child .dim {
+  color: #dce6f5;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#field-panel > .panel-head:first-child strong { font-size: 10px; font-weight: 400; }
+#field-panel > .panel-head:first-child button {
+  border-color: #fff;
+  background: transparent;
+  color: #fff;
+  box-shadow: none;
+}
+
+/** 中の小見出し（「ちほうボックス」など）。帯にはしない ―― 窓は1つだから。 */
+#field-panel .panel-head {
+  padding: 3px 0 2px;
+  margin: 2px 0 3px;
+  border-bottom: 1px solid var(--win-shadow);
+  font-size: 10px;
+  gap: 6px;
+}
+#field-panel .panel-head strong { font-size: 10px; }
+
+/*
+ * 押す所は**角の無い箱**（v1.4-a）。
+ *
+ * 角丸・青枠・高さ32px は今の Web の作法で、原作の窓の中には1つも無い。
+ * 影を右下に1px 落として、押すとその1px ぶん沈む ―― GBA の窓の押し心地。
+ */
+#field-panel button {
+  font-family: inherit;
+  font-size: 10px;
+  min-height: 0;
+  padding: 0 5px;
+  border: 1px solid var(--win-ink);
+  border-radius: 0;
+  background: var(--win-bg);
+  color: var(--win-ink);
+  box-shadow: 1px 1px 0 var(--win-shadow);
+  transition: none;
+}
+/* 外の UI の :hover（青枠）が効いてしまうので、窓の中だけ打ち消す */
+#field-panel button:not(:disabled):hover { border-color: var(--win-ink); }
+#field-panel button:not(:disabled):active {
+  background: var(--win-ink);
+  color: var(--win-bg);
+  box-shadow: none;
+  transform: translate(1px, 1px);
+}
+#field-panel .row-actions { gap: 3px; }
+#field-panel .row-actions button { min-height: 0; padding: 0 5px; font-size: 10px; }
+
+/** 一覧の行。**罫で区切らない** ―― 10px の字に罫を挟むと、字より罫が目立つ */
+#field-panel .mon-list li, #field-panel .dex-list li {
+  padding: 1px 0;
+  gap: 4px;
+  border-bottom: 0;
+}
+#field-panel .meta, #field-panel .dim { font-size: 9px; color: #6a7280; }
+#field-panel .mon-icon { width: 16px; height: 16px; }
+#field-panel p { margin: 2px 0; }
+
+/**
+ * まだ下に続いている印（v1.4-a）。**会話窓の ▼ と同じ意味**にしてある。
+ *
+ * 送れることが分からないと、切れた行が「壊れている」ように見える ――
+ * 実際そう見えていた。出す/出さないは JS が測って `data-more` に書く。
+ */
+#field-panel[data-more="1"]::after {
+  content: "▼";
+  position: absolute;
+  right: 3px;
+  bottom: 1px;
+  color: var(--win-line);
+  font-size: 9px;
+  animation: next-bounce 1s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  #field-panel[data-more="1"]::after { animation: none !important; }
+}
+/*
+ * 画面の中の**丸いものを平らにする**（v1.4-a）。
+ *
+ * タイプ・状態異常のピル（`border-radius: 999px`）と丸い HPバーは、
+ * v0.11 で Web の作法として入れたもの。240×160 の中に置くと、
+ * **そこだけ別のアプリの部品**に見える ―― 原作にある似たものは全部四角い。
+ * 外の UI（設定画面など）はそのままでよいので、`.screen` の中だけに掛ける。
+ */
+.screen .type, .screen .status, .screen .stage, .screen .gear {
+  border-radius: 2px;
+  letter-spacing: 0;
+}
+.screen .hpbar, .screen .hpbar .fill { border-radius: 0; }
+.screen .ball { border-radius: 2px; }
+
+/*
+ * **原作のカーソル（▶）は入れない。**
+ *
+ * あれは「いまどの行を選んでいるか」を表すもので、
+ * この画面は押して選ぶ（選択位置という状態が無い）。
+ * ホバーでだけ出す形も考えたが、主な遊び場はスマホで、
+ * **そこでは一度も出ない飾り**になる。
+ */
+
+.panel-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 4px 0 8px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 8px;
+}
+.panel-head .ghost { margin-left: auto; }
+
+.mon-list, .dex-list { list-style: none; margin: 0; padding: 0; }
+.mon-list li, .dex-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 7px 2px;
+  border-bottom: 1px solid var(--line);
+}
+.mon-list li:last-child, .dex-list li:last-child { border-bottom: 0; }
+.mon-list .meta, .dex-list .meta { font-size: 12px; color: var(--muted); }
+.mon-list .st { color: var(--warn); }
+.row-actions { margin-left: auto; display: flex; gap: 6px; }
+.row-actions button { font-size: 12px; padding: 5px 10px; min-height: 32px; }
+.row-actions .danger { color: #b5432f; }
+
+.dex-list .no {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  color: var(--muted);
+  min-width: 30px;
+}
+/* まだ捕まえていない種は、姿だけ分かる程度に落とす（capture.md §6） */
+.dex-list li.seen strong { opacity: .55; }
+.dex-list li.seen .type { opacity: .4; }
+
+#controls .balls, #controls .items { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+#controls .ball, #controls .item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+/* どうぐは「投げる」ではなく「自分に使う」ので、ボールと色を分ける */
+#controls .item { border-color: var(--accent); }
+
+/* セーブ画面のバックアップ欄。**指で選んでコピーできる大きさが要る** */
+#save-text {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 12px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--ink);
+  resize: vertical;
+}
+select {
+  font: inherit;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--ink);
+  min-height: 36px;
+}
+/* BP が足りない交換品。押せないことを色と枠の両方で示す */
+.facility[disabled] { opacity: .45; cursor: default; }
+/* セーブ画面の表。**スマホでは th を上に積む**（横並びだと値が潰れる） */
+.record { width: 100%; border-collapse: collapse; margin: 6px 0 14px; font-size: 13px; }
+.record th, .record td {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+.record th { width: 38%; color: var(--muted); font-weight: 600; }
+.record hr { border: 0; border-top: 1px solid var(--line); margin: 6px 0; }
+.save-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/*
+ * 画面の出口。**タブを消した以上、逃げ道はこれだけ**なので、
+ * どの画面でも同じ位置に、同じ見た目で出す。
+ */
+.back {
+  display: inline-block;
+  margin-bottom: 10px;
+  font-size: 13px;
+  padding: 7px 12px;
+}
+.back.hidden { display: none; }
+#menu .danger { color: #b5432f; }
+
+@media (max-width: 520px) {
+  .record th, .record td { display: block; width: auto; }
+  .record th { border-bottom: 0; padding-bottom: 0; }
+}
+
+.note-box {
+  border-left: 3px solid var(--accent);
+  background: var(--panel);
+  padding: 10px 14px;
+  border-radius: 0 8px 8px 0;
+  margin: 14px 0;
+}
+.note-box p { margin: 4px 0; }
+.rentals .st { color: var(--warn); }
+
+
+/* ──────────────────────────────────────────
+ * UI 全体の手ざわり（v0.11.5）
+ * ────────────────────────────────────────── */
+
+/* 押した感じ。**押したのに何も起きない**時間が一番不安になる */
+button {
+  transition: transform .08s ease, background .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+button:not(:disabled):active { transform: translateY(1px); }
+button:not(:disabled):hover { border-color: var(--accent); }
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+button:disabled { opacity: .45; cursor: default; }
+
+/* 技ボタンはタイプ色の帯を持っている。押せることを面でも見せる */
+.move:not(:disabled):hover { background: color-mix(in srgb, var(--c) 10%, var(--panel)); }
+
+/* 画面が入れ替わったことを一度だけ示す。
+   **`#menu` には掛けない** ―― 施設の画面は1操作ごとに innerHTML を
+   書き直すので、掛けると BP を1つ買うたびに画面全体が動く。
+   掛けるのは「別の場所へ移った」ときだけ。 */
+#battle:not(.hidden), #run .field {
+  animation: screen-in .22s ease;
+}
+@keyframes screen-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* 会話枠。原作の「▼」は、押せることの合図なので目立たせる */
+#field-text {
+  box-shadow: inset 0 0 0 2px #fbf8ee, inset 0 0 0 3px #c9bfa4, 0 3px 0 rgba(0,0,0,.25);
+}
+#field-text .next { animation: next-bounce 1s ease-in-out infinite; }
+@keyframes next-bounce {
+  0%, 100% { transform: translateY(0); opacity: .5; }
+  50% { transform: translateY(3px); opacity: .95; }
+}
+
+/* ログの最新行。読む場所が分かるように、左に細い線を足す */
+.line:last-child {
+  border-left: 3px solid var(--accent);
+  padding-left: 7px;
+  margin-left: -10px;
+}
+
+/* 表の見出しと余白。設定画面が「文書」に見えるように */
+.record th, .result th { text-align: left; color: var(--muted); font-weight: 500; }
+.record td, .result td { padding: 3px 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  button, #battle:not(.hidden), #run .field, #field-text .next {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+
+/* 見つかったときの「！」（v0.12）。押さなくても消える */
+#field-text .flash {
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: .1em;
+}

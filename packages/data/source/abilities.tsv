@@ -1,0 +1,78 @@
+# 特性。effect の記法は tools/import.ts の parseHeldEffect を参照。
+# inert は「バトル中は何もしない」ことを理由つきで宣言する。
+# 未実装の機構を黙って無効にしないための枠で、機構が入った時点でここから外す。
+id	name	effect
+overgrow	しんりょく	pinchBoost:grass:1.5
+blaze	もうか	pinchBoost:fire:1.5
+torrent	げきりゅう	pinchBoost:water:1.5
+swarm	むしのしらせ	pinchBoost:bug:1.5
+rock-head	いしあたま	noRecoil
+poison-point	どくのトゲ	contactStatus:poison:0.3
+static	せいでんき	contactStatus:paralysis:0.3
+flame-body	ほのおのからだ	contactStatus:burn:0.3
+effect-spore	ほうし	contactStatus:poison/paralysis/sleep:0.3
+keen-eye	するどいめ	statDropImmunity:accuracy
+hyper-cutter	かいりきバサミ	statDropImmunity:atk
+clear-body	クリアボディ	statDropImmunity:all
+intimidate	いかく	switchInStatChange:foe:atk:-1
+water-absorb	ちょすい	typeAbsorb:water:heal:1/4
+volt-absorb	ちくでん	typeAbsorb:electric:heal:1/4
+flash-fire	もらいび	typeAbsorb:fire:boostMoveType:1.5
+levitate	ふゆう	typeAbsorb:ground:none
+lightning-rod	ひらいしん	typeAbsorb:electric:stat:spa:1
+synchronize	シンクロ	synchronize
+shed-skin	だっぴ	endOfTurnCure:1/3
+natural-cure	しぜんかいふく	switchOutCure
+pressure	プレッシャー	pressure
+guts	こんじょう	statusAtkBoost:1.5
+limber	じゅうなん	statusImmunity:paralysis
+immunity	めんえき	statusImmunity:poison/toxic
+insomnia	ふみん	statusImmunity:sleep
+vital-spirit	やるき	statusImmunity:sleep
+own-tempo	マイペース	confusionImmunity
+inner-focus	せいしんりょく	noFlinch
+shield-dust	りんぷん	noSecondary
+thick-fat	あついしぼう	typeResist:fire/ice:0.5
+shell-armor	シェルアーマー	noCrit
+magnet-pull	じりょく	trapType:steel
+compound-eyes	ふくがん	accuracyMultiplier:1.3
+stench	あくしゅう	addFlinch:0.1
+trace	トレース	trace
+early-bird	はやおき	earlyBird
+chlorophyll	ようりょくそ	inert:天候（にほんばれ）が未実装（v1.2）
+swift-swim	すいすい	inert:天候（あまごい）が未実装（v1.2）
+sand-veil	すながくれ	inert:天候（すなあらし）が未実装（v1.2）
+run-away	にげあし	inert:野生戦からの逃走が未実装（v0.7）
+pickup	ものひろい	inert:戦闘後の道具取得が未実装（v0.8）
+illuminate	はっこう	inert:野生の遭遇率に関わるため戦闘外（v0.7）
+cute-charm	メロメロボディ	inert:メロメロが未実装
+oblivious	どんかん	inert:メロメロ・ちょうはつが未実装
+soundproof	ぼうおん	inert:音技のフラグが未実装
+damp	しめりけ	inert:じばく・だいばくはつが未実装
+cursed-body	のろわれボディ	inert:かなしばりが未実装
+sturdy	がんじょう	inert:未実装（v0.11 で追加）
+sand-stream	すなおこし	inert:未実装（v0.11 で追加）
+sniper	スナイパー	inert:未実装（v0.11 で追加）
+technician	テクニシャン	inert:未実装（v0.11 で追加）
+serene-grace	てんのめぐみ	inert:未実装（v0.11 で追加）
+marvel-scale	ふしぎなうろこ	inert:未実装（v0.11 で追加）
+competitive	かちき	inert:未実装（v0.11 で追加）
+frisk	おみとおし	inert:未実装（v0.11 で追加）
+solid-rock	ハードロック	inert:未実装（v0.11 で追加）
+leaf-guard	リーフガード	inert:未実装（v0.11 で追加）
+anticipation	きけんよち	inert:未実装（v0.11 で追加）
+dry-skin	かんそうはだ	inert:未実装（v0.11 で追加）
+motor-drive	でんきエンジン	inert:未実装（v0.11 で追加）
+snow-warning	ゆきふらし	inert:未実装（v0.11 で追加）
+snow-cloak	ゆきがくれ	inert:未実装（v0.11 で追加）
+battle-armor	カブトアーマー	inert:未実装（v0.11 で追加）
+hustle	はりきり	inert:未実装（v0.11 で追加）
+sand-rush	すなかき	inert:未実装（v0.11 で追加）
+sand-force	すなのちから	inert:未実装（v0.11 で追加）
+sheer-force	ちからずく	inert:未実装（v0.11 で追加）
+magma-armor	マグマのよろい	statusImmunity:freeze
+huge-power	ちからもち	statMultiplier:atk:2
+suction-cups	きゅうばん	inert:交代を強制する技がまだ無い（v1.1-k）
+speed-boost	かそく	inert:ターン終わりの能力変化がまだ無い（v1.1-k）
+super-luck	きょううん	critStage:1
+shadow-tag	かげふみ	inert:交代を縛る仕組みがまだ無い（v1.1-k）

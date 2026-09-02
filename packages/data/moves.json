@@ -1,0 +1,4535 @@
+[
+  {
+    "id": "tackle",
+    "name": "たいあたり",
+    "type": "normal",
+    "category": "physical",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 35,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "scratch",
+    "name": "ひっかく",
+    "type": "normal",
+    "category": "physical",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 35,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "pound",
+    "name": "はたく",
+    "type": "normal",
+    "category": "physical",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 35,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "quick-attack",
+    "name": "でんこうせっか",
+    "type": "normal",
+    "category": "physical",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 30,
+    "priority": 1,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "fury-attack",
+    "name": "みだれづき",
+    "type": "normal",
+    "category": "physical",
+    "power": 15,
+    "accuracy": 85,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "multiHit",
+      "min": 2,
+      "max": 5
+    }
+  },
+  {
+    "id": "headbutt",
+    "name": "ずつき",
+    "type": "normal",
+    "category": "physical",
+    "power": 70,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "flinch",
+      "chance": 0.3
+    }
+  },
+  {
+    "id": "body-slam",
+    "name": "のしかかり",
+    "type": "normal",
+    "category": "physical",
+    "power": 85,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "status",
+      "status": "paralysis",
+      "chance": 0.3
+    }
+  },
+  {
+    "id": "take-down",
+    "name": "とっしん",
+    "type": "normal",
+    "category": "physical",
+    "power": 90,
+    "accuracy": 85,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "recoil",
+      "ratio": 0.25
+    }
+  },
+  {
+    "id": "double-edge",
+    "name": "すてみタックル",
+    "type": "normal",
+    "category": "physical",
+    "power": 120,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "recoil",
+      "ratio": 0.33
+    }
+  },
+  {
+    "id": "swift",
+    "name": "スピードスター",
+    "type": "normal",
+    "category": "special",
+    "power": 60,
+    "accuracy": null,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe"
+  },
+  {
+    "id": "growl",
+    "name": "なきごえ",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": 100,
+    "pp": 40,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "atk"
+      ],
+      "stages": -1,
+      "chance": 1
+    }
+  },
+  {
+    "id": "tail-whip",
+    "name": "しっぽをふる",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": 100,
+    "pp": 30,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "def"
+      ],
+      "stages": -1,
+      "chance": 1
+    }
+  },
+  {
+    "id": "harden",
+    "name": "かたくなる",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 30,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "statChange",
+      "target": "self",
+      "stats": [
+        "def"
+      ],
+      "stages": 1,
+      "chance": 1
+    }
+  },
+  {
+    "id": "swords-dance",
+    "name": "つるぎのまい",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 20,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "statChange",
+      "target": "self",
+      "stats": [
+        "atk"
+      ],
+      "stages": 2,
+      "chance": 1
+    }
+  },
+  {
+    "id": "double-team",
+    "name": "かげぶんしん",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 15,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "statChange",
+      "target": "self",
+      "stats": [
+        "evasion"
+      ],
+      "stages": 1,
+      "chance": 1
+    }
+  },
+  {
+    "id": "recover",
+    "name": "じこさいせい",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 5,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "heal",
+      "ratio": 0.5
+    }
+  },
+  {
+    "id": "supersonic",
+    "name": "ちょうおんぱ",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": 55,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "confuse",
+      "chance": 1
+    }
+  },
+  {
+    "id": "sing",
+    "name": "うたう",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": 55,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "sleep",
+      "chance": 1
+    }
+  },
+  {
+    "id": "ember",
+    "name": "ひのこ",
+    "type": "fire",
+    "category": "special",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 25,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "burn",
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "fire-punch",
+    "name": "ほのおのパンチ",
+    "type": "fire",
+    "category": "physical",
+    "power": 75,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "status",
+      "status": "burn",
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "flamethrower",
+    "name": "かえんほうしゃ",
+    "type": "fire",
+    "category": "special",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "burn",
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "fire-blast",
+    "name": "だいもんじ",
+    "type": "fire",
+    "category": "special",
+    "power": 110,
+    "accuracy": 85,
+    "pp": 5,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "burn",
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "will-o-wisp",
+    "name": "おにび",
+    "type": "fire",
+    "category": "status",
+    "power": null,
+    "accuracy": 85,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "burn",
+      "chance": 1
+    }
+  },
+  {
+    "id": "water-gun",
+    "name": "みずでっぽう",
+    "type": "water",
+    "category": "special",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 25,
+    "priority": 0,
+    "target": "foe"
+  },
+  {
+    "id": "bubble",
+    "name": "あわ",
+    "type": "water",
+    "category": "special",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 30,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "spe"
+      ],
+      "stages": -1,
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "bubble-beam",
+    "name": "バブルこうせん",
+    "type": "water",
+    "category": "special",
+    "power": 65,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "spe"
+      ],
+      "stages": -1,
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "surf",
+    "name": "なみのり",
+    "type": "water",
+    "category": "special",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe"
+  },
+  {
+    "id": "hydro-pump",
+    "name": "ハイドロポンプ",
+    "type": "water",
+    "category": "special",
+    "power": 110,
+    "accuracy": 80,
+    "pp": 5,
+    "priority": 0,
+    "target": "foe"
+  },
+  {
+    "id": "waterfall",
+    "name": "たきのぼり",
+    "type": "water",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "flinch",
+      "chance": 0.2
+    }
+  },
+  {
+    "id": "thunder-shock",
+    "name": "でんきショック",
+    "type": "electric",
+    "category": "special",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 30,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "paralysis",
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "spark",
+    "name": "スパーク",
+    "type": "electric",
+    "category": "physical",
+    "power": 65,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "status",
+      "status": "paralysis",
+      "chance": 0.3
+    }
+  },
+  {
+    "id": "thunderbolt",
+    "name": "10まんボルト",
+    "type": "electric",
+    "category": "special",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "paralysis",
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "thunder",
+    "name": "かみなり",
+    "type": "electric",
+    "category": "special",
+    "power": 110,
+    "accuracy": 70,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "paralysis",
+      "chance": 0.3
+    }
+  },
+  {
+    "id": "thunder-wave",
+    "name": "でんじは",
+    "type": "electric",
+    "category": "status",
+    "power": null,
+    "accuracy": 90,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "paralysis",
+      "chance": 1
+    }
+  },
+  {
+    "id": "absorb",
+    "name": "すいとる",
+    "type": "grass",
+    "category": "special",
+    "power": 20,
+    "accuracy": 100,
+    "pp": 25,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "drain",
+      "ratio": 0.5
+    }
+  },
+  {
+    "id": "vine-whip",
+    "name": "つるのムチ",
+    "type": "grass",
+    "category": "physical",
+    "power": 45,
+    "accuracy": 100,
+    "pp": 25,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "mega-drain",
+    "name": "メガドレイン",
+    "type": "grass",
+    "category": "special",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "drain",
+      "ratio": 0.5
+    }
+  },
+  {
+    "id": "razor-leaf",
+    "name": "はっぱカッター",
+    "type": "grass",
+    "category": "physical",
+    "power": 55,
+    "accuracy": 95,
+    "pp": 25,
+    "priority": 0,
+    "target": "foe",
+    "critStage": 1
+  },
+  {
+    "id": "giga-drain",
+    "name": "ギガドレイン",
+    "type": "grass",
+    "category": "special",
+    "power": 75,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "drain",
+      "ratio": 0.5
+    }
+  },
+  {
+    "id": "petal-blizzard",
+    "name": "はなふぶき",
+    "type": "grass",
+    "category": "physical",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "sleep-powder",
+    "name": "ねむりごな",
+    "type": "grass",
+    "category": "status",
+    "power": null,
+    "accuracy": 75,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "sleep",
+      "chance": 1
+    }
+  },
+  {
+    "id": "stun-spore",
+    "name": "しびれごな",
+    "type": "grass",
+    "category": "status",
+    "power": null,
+    "accuracy": 75,
+    "pp": 30,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "paralysis",
+      "chance": 1
+    }
+  },
+  {
+    "id": "poison-powder",
+    "name": "どくのこな",
+    "type": "grass",
+    "category": "status",
+    "power": null,
+    "accuracy": 75,
+    "pp": 35,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "poison",
+      "chance": 1
+    }
+  },
+  {
+    "id": "powder-snow",
+    "name": "こなゆき",
+    "type": "ice",
+    "category": "special",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 25,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "freeze",
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "aurora-beam",
+    "name": "オーロラビーム",
+    "type": "ice",
+    "category": "special",
+    "power": 65,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "atk"
+      ],
+      "stages": -1,
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "ice-punch",
+    "name": "れいとうパンチ",
+    "type": "ice",
+    "category": "physical",
+    "power": 75,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "status",
+      "status": "freeze",
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "ice-beam",
+    "name": "れいとうビーム",
+    "type": "ice",
+    "category": "special",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "freeze",
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "blizzard",
+    "name": "ふぶき",
+    "type": "ice",
+    "category": "special",
+    "power": 110,
+    "accuracy": 70,
+    "pp": 5,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "freeze",
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "karate-chop",
+    "name": "からてチョップ",
+    "type": "fighting",
+    "category": "physical",
+    "power": 50,
+    "accuracy": 100,
+    "pp": 25,
+    "priority": 0,
+    "target": "foe",
+    "critStage": 1,
+    "contact": true
+  },
+  {
+    "id": "double-kick",
+    "name": "にどげり",
+    "type": "fighting",
+    "category": "physical",
+    "power": 30,
+    "accuracy": 100,
+    "pp": 30,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "multiHit",
+      "min": 2,
+      "max": 2
+    }
+  },
+  {
+    "id": "brick-break",
+    "name": "かわらわり",
+    "type": "fighting",
+    "category": "physical",
+    "power": 75,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "submission",
+    "name": "じごくぐるま",
+    "type": "fighting",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 80,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "recoil",
+      "ratio": 0.25
+    }
+  },
+  {
+    "id": "poison-sting",
+    "name": "どくばり",
+    "type": "poison",
+    "category": "physical",
+    "power": 15,
+    "accuracy": 100,
+    "pp": 35,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "status",
+      "status": "poison",
+      "chance": 0.3
+    }
+  },
+  {
+    "id": "acid",
+    "name": "ようかいえき",
+    "type": "poison",
+    "category": "special",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 30,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "spd"
+      ],
+      "stages": -1,
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "sludge",
+    "name": "ヘドロこうげき",
+    "type": "poison",
+    "category": "special",
+    "power": 65,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "poison",
+      "chance": 0.3
+    }
+  },
+  {
+    "id": "poison-jab",
+    "name": "どくづき",
+    "type": "poison",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "status",
+      "status": "poison",
+      "chance": 0.3
+    }
+  },
+  {
+    "id": "sludge-bomb",
+    "name": "ヘドロばくだん",
+    "type": "poison",
+    "category": "special",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "poison",
+      "chance": 0.3
+    }
+  },
+  {
+    "id": "toxic",
+    "name": "どくどく",
+    "type": "poison",
+    "category": "status",
+    "power": null,
+    "accuracy": 90,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "toxic",
+      "chance": 1
+    }
+  },
+  {
+    "id": "mud-slap",
+    "name": "どろかけ",
+    "type": "ground",
+    "category": "special",
+    "power": 20,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "accuracy"
+      ],
+      "stages": -1,
+      "chance": 1
+    }
+  },
+  {
+    "id": "bulldoze",
+    "name": "じならし",
+    "type": "ground",
+    "category": "physical",
+    "power": 60,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "spe"
+      ],
+      "stages": -1,
+      "chance": 1
+    }
+  },
+  {
+    "id": "earthquake",
+    "name": "じしん",
+    "type": "ground",
+    "category": "physical",
+    "power": 100,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe"
+  },
+  {
+    "id": "sand-attack",
+    "name": "すなかけ",
+    "type": "ground",
+    "category": "status",
+    "power": null,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "accuracy"
+      ],
+      "stages": -1,
+      "chance": 1
+    }
+  },
+  {
+    "id": "gust",
+    "name": "かぜおこし",
+    "type": "flying",
+    "category": "special",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 35,
+    "priority": 0,
+    "target": "foe"
+  },
+  {
+    "id": "peck",
+    "name": "つつく",
+    "type": "flying",
+    "category": "physical",
+    "power": 35,
+    "accuracy": 100,
+    "pp": 35,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "wing-attack",
+    "name": "つばさでうつ",
+    "type": "flying",
+    "category": "physical",
+    "power": 60,
+    "accuracy": 100,
+    "pp": 35,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "aerial-ace",
+    "name": "つばめがえし",
+    "type": "flying",
+    "category": "physical",
+    "power": 60,
+    "accuracy": null,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "drill-peck",
+    "name": "ドリルくちばし",
+    "type": "flying",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "brave-bird",
+    "name": "ブレイブバード",
+    "type": "flying",
+    "category": "physical",
+    "power": 120,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "recoil",
+      "ratio": 0.33
+    }
+  },
+  {
+    "id": "confusion",
+    "name": "ねんりき",
+    "type": "psychic",
+    "category": "special",
+    "power": 50,
+    "accuracy": 100,
+    "pp": 25,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "confuse",
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "psybeam",
+    "name": "サイケこうせん",
+    "type": "psychic",
+    "category": "special",
+    "power": 65,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "confuse",
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "psychic",
+    "name": "サイコキネシス",
+    "type": "psychic",
+    "category": "special",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "spd"
+      ],
+      "stages": -1,
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "agility",
+    "name": "こうそくいどう",
+    "type": "psychic",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 30,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "statChange",
+      "target": "self",
+      "stats": [
+        "spe"
+      ],
+      "stages": 2,
+      "chance": 1
+    }
+  },
+  {
+    "id": "calm-mind",
+    "name": "めいそう",
+    "type": "psychic",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 20,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "statChange",
+      "target": "self",
+      "stats": [
+        "spa"
+      ],
+      "stages": 1,
+      "chance": 1
+    }
+  },
+  {
+    "id": "hypnosis",
+    "name": "さいみんじゅつ",
+    "type": "psychic",
+    "category": "status",
+    "power": null,
+    "accuracy": 60,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "sleep",
+      "chance": 1
+    }
+  },
+  {
+    "id": "bug-bite",
+    "name": "むしくい",
+    "type": "bug",
+    "category": "physical",
+    "power": 60,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "silver-wind",
+    "name": "ぎんいろのかぜ",
+    "type": "bug",
+    "category": "special",
+    "power": 60,
+    "accuracy": 100,
+    "pp": 5,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "self",
+      "stats": [
+        "atk"
+      ],
+      "stages": 1,
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "x-scissor",
+    "name": "シザークロス",
+    "type": "bug",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "bug-buzz",
+    "name": "むしのさざめき",
+    "type": "bug",
+    "category": "special",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "spd"
+      ],
+      "stages": -1,
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "string-shot",
+    "name": "いとをはく",
+    "type": "bug",
+    "category": "status",
+    "power": null,
+    "accuracy": 95,
+    "pp": 40,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "spe"
+      ],
+      "stages": -2,
+      "chance": 1
+    }
+  },
+  {
+    "id": "rock-throw",
+    "name": "いわおとし",
+    "type": "rock",
+    "category": "physical",
+    "power": 50,
+    "accuracy": 90,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe"
+  },
+  {
+    "id": "rock-tomb",
+    "name": "がんせきふうじ",
+    "type": "rock",
+    "category": "physical",
+    "power": 60,
+    "accuracy": 95,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "spe"
+      ],
+      "stages": -1,
+      "chance": 1
+    }
+  },
+  {
+    "id": "rock-slide",
+    "name": "いわなだれ",
+    "type": "rock",
+    "category": "physical",
+    "power": 75,
+    "accuracy": 90,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "flinch",
+      "chance": 0.3
+    }
+  },
+  {
+    "id": "stone-edge",
+    "name": "ストーンエッジ",
+    "type": "rock",
+    "category": "physical",
+    "power": 100,
+    "accuracy": 80,
+    "pp": 5,
+    "priority": 0,
+    "target": "foe",
+    "critStage": 1
+  },
+  {
+    "id": "lick",
+    "name": "したでなめる",
+    "type": "ghost",
+    "category": "physical",
+    "power": 30,
+    "accuracy": 100,
+    "pp": 30,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "status",
+      "status": "paralysis",
+      "chance": 0.3
+    }
+  },
+  {
+    "id": "shadow-ball",
+    "name": "シャドーボール",
+    "type": "ghost",
+    "category": "special",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "spd"
+      ],
+      "stages": -1,
+      "chance": 0.2
+    }
+  },
+  {
+    "id": "confuse-ray",
+    "name": "あやしいひかり",
+    "type": "ghost",
+    "category": "status",
+    "power": null,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "confuse",
+      "chance": 1
+    }
+  },
+  {
+    "id": "dragon-breath",
+    "name": "りゅうのいぶき",
+    "type": "dragon",
+    "category": "special",
+    "power": 60,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "paralysis",
+      "chance": 0.3
+    }
+  },
+  {
+    "id": "dragon-claw",
+    "name": "ドラゴンクロー",
+    "type": "dragon",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "bite",
+    "name": "かみつく",
+    "type": "dark",
+    "category": "physical",
+    "power": 60,
+    "accuracy": 100,
+    "pp": 25,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "flinch",
+      "chance": 0.3
+    }
+  },
+  {
+    "id": "crunch",
+    "name": "かみくだく",
+    "type": "dark",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "def"
+      ],
+      "stages": -1,
+      "chance": 0.2
+    }
+  },
+  {
+    "id": "dark-pulse",
+    "name": "あくのはどう",
+    "type": "dark",
+    "category": "special",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "flinch",
+      "chance": 0.2
+    }
+  },
+  {
+    "id": "metal-claw",
+    "name": "メタルクロー",
+    "type": "steel",
+    "category": "physical",
+    "power": 50,
+    "accuracy": 95,
+    "pp": 35,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "statChange",
+      "target": "self",
+      "stats": [
+        "atk"
+      ],
+      "stages": 1,
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "iron-head",
+    "name": "アイアンヘッド",
+    "type": "steel",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "flinch",
+      "chance": 0.3
+    }
+  },
+  {
+    "id": "flash-cannon",
+    "name": "ラスターカノン",
+    "type": "steel",
+    "category": "special",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "spd"
+      ],
+      "stages": -1,
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "iron-defense",
+    "name": "てっぺき",
+    "type": "steel",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 15,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "statChange",
+      "target": "self",
+      "stats": [
+        "def"
+      ],
+      "stages": 2,
+      "chance": 1
+    }
+  },
+  {
+    "id": "fairy-wind",
+    "name": "ようせいのかぜ",
+    "type": "fairy",
+    "category": "special",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 30,
+    "priority": 0,
+    "target": "foe"
+  },
+  {
+    "id": "draining-kiss",
+    "name": "ドレインキッス",
+    "type": "fairy",
+    "category": "special",
+    "power": 50,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "drain",
+      "ratio": 0.75
+    }
+  },
+  {
+    "id": "dazzling-gleam",
+    "name": "マジカルシャイン",
+    "type": "fairy",
+    "category": "special",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe"
+  },
+  {
+    "id": "play-rough",
+    "name": "じゃれつく",
+    "type": "fairy",
+    "category": "physical",
+    "power": 90,
+    "accuracy": 90,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "atk"
+      ],
+      "stages": -1,
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "charm",
+    "name": "あまえる",
+    "type": "fairy",
+    "category": "status",
+    "power": null,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "atk"
+      ],
+      "stages": -2,
+      "chance": 1
+    }
+  },
+  {
+    "id": "mega-kick",
+    "name": "メガトンキック",
+    "type": "normal",
+    "category": "physical",
+    "power": 120,
+    "accuracy": 75,
+    "pp": 5,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "cross-chop",
+    "name": "クロスチョップ",
+    "type": "fighting",
+    "category": "physical",
+    "power": 100,
+    "accuracy": 80,
+    "pp": 5,
+    "priority": 0,
+    "target": "foe",
+    "critStage": 1,
+    "contact": true
+  },
+  {
+    "id": "dragon-pulse",
+    "name": "りゅうのはどう",
+    "type": "dragon",
+    "category": "special",
+    "power": 85,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe"
+  },
+  {
+    "id": "shadow-punch",
+    "name": "シャドーパンチ",
+    "type": "ghost",
+    "category": "physical",
+    "power": 60,
+    "accuracy": null,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "magnitude",
+    "name": "マグニチュード",
+    "type": "ground",
+    "category": "physical",
+    "power": 70,
+    "accuracy": 100,
+    "pp": 30,
+    "priority": 0,
+    "target": "foe"
+  },
+  {
+    "id": "leer",
+    "name": "にらみつける",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": 100,
+    "pp": 30,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "def"
+      ],
+      "stages": -1,
+      "chance": 1
+    }
+  },
+  {
+    "id": "screech",
+    "name": "いやなおと",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": 85,
+    "pp": 40,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "def"
+      ],
+      "stages": -2,
+      "chance": 1
+    }
+  },
+  {
+    "id": "water-pulse",
+    "name": "みずのはどう",
+    "type": "water",
+    "category": "special",
+    "power": 60,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "confuse",
+      "chance": 0.2
+    }
+  },
+  {
+    "id": "scary-face",
+    "name": "こわいかお",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "spe"
+      ],
+      "stages": -2,
+      "chance": 1
+    }
+  },
+  {
+    "id": "slash",
+    "name": "きりさく",
+    "type": "normal",
+    "category": "physical",
+    "power": 70,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "critStage": 1,
+    "contact": true
+  },
+  {
+    "id": "assurance",
+    "name": "ダメおし",
+    "type": "dark",
+    "category": "physical",
+    "power": 60,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "air-slash",
+    "name": "エアスラッシュ",
+    "type": "flying",
+    "category": "special",
+    "power": 75,
+    "accuracy": 95,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "flinch",
+      "chance": 0.3
+    }
+  },
+  {
+    "id": "aqua-tail",
+    "name": "アクアテール",
+    "type": "water",
+    "category": "physical",
+    "power": 90,
+    "accuracy": 90,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "earth-power",
+    "name": "だいちのちから",
+    "type": "ground",
+    "category": "special",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "spd"
+      ],
+      "stages": -1,
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "fury-swipes",
+    "name": "みだれひっかき",
+    "type": "normal",
+    "category": "physical",
+    "power": 18,
+    "accuracy": 80,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "multiHit",
+      "min": 2,
+      "max": 5
+    }
+  },
+  {
+    "id": "mud-shot",
+    "name": "マッドショット",
+    "type": "ground",
+    "category": "special",
+    "power": 55,
+    "accuracy": 95,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "spe"
+      ],
+      "stages": -1,
+      "chance": 1
+    }
+  },
+  {
+    "id": "brine",
+    "name": "しおみず",
+    "type": "water",
+    "category": "special",
+    "power": 65,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe"
+  },
+  {
+    "id": "covet",
+    "name": "ほしがる",
+    "type": "normal",
+    "category": "physical",
+    "power": 60,
+    "accuracy": 100,
+    "pp": 25,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "steal"
+    }
+  },
+  {
+    "id": "discharge",
+    "name": "ほうでん",
+    "type": "electric",
+    "category": "special",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "paralysis",
+      "chance": 0.3
+    }
+  },
+  {
+    "id": "slam",
+    "name": "たたきつける",
+    "type": "normal",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 75,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "stomp",
+    "name": "ふみつけ",
+    "type": "normal",
+    "category": "physical",
+    "power": 65,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "flinch",
+      "chance": 0.3
+    }
+  },
+  {
+    "id": "sweet-scent",
+    "name": "あまいかおり",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "evasion"
+      ],
+      "stages": -2,
+      "chance": 1
+    }
+  },
+  {
+    "id": "twister",
+    "name": "たつまき",
+    "type": "dragon",
+    "category": "special",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "flinch",
+      "chance": 0.2
+    }
+  },
+  {
+    "id": "zen-headbutt",
+    "name": "しねんのずつき",
+    "type": "psychic",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 90,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "flinch",
+      "chance": 0.2
+    }
+  },
+  {
+    "id": "flare-blitz",
+    "name": "フレアドライブ",
+    "type": "fire",
+    "category": "physical",
+    "power": 120,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "recoil",
+      "ratio": 0.33
+    }
+  },
+  {
+    "id": "horn-attack",
+    "name": "つのでつく",
+    "type": "normal",
+    "category": "physical",
+    "power": 65,
+    "accuracy": 100,
+    "pp": 25,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "knock-off",
+    "name": "はたきおとす",
+    "type": "dark",
+    "category": "physical",
+    "power": 65,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "nasty-plot",
+    "name": "わるだくみ",
+    "type": "dark",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 20,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "statChange",
+      "target": "self",
+      "stats": [
+        "spa"
+      ],
+      "stages": 2,
+      "chance": 1
+    }
+  },
+  {
+    "id": "power-whip",
+    "name": "パワーウィップ",
+    "type": "grass",
+    "category": "physical",
+    "power": 120,
+    "accuracy": 85,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "smokescreen",
+    "name": "えんまく",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "accuracy"
+      ],
+      "stages": -1,
+      "chance": 1
+    }
+  },
+  {
+    "id": "sweet-kiss",
+    "name": "てんしのキッス",
+    "type": "fairy",
+    "category": "status",
+    "power": null,
+    "accuracy": 75,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "confuse",
+      "chance": 1
+    }
+  },
+  {
+    "id": "withdraw",
+    "name": "からにこもる",
+    "type": "water",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 40,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "statChange",
+      "target": "self",
+      "stats": [
+        "def"
+      ],
+      "stages": 1,
+      "chance": 1
+    }
+  },
+  {
+    "id": "amnesia",
+    "name": "ドわすれ",
+    "type": "psychic",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 20,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "statChange",
+      "target": "self",
+      "stats": [
+        "spd"
+      ],
+      "stages": 2,
+      "chance": 1
+    }
+  },
+  {
+    "id": "feint",
+    "name": "フェイント",
+    "type": "normal",
+    "category": "physical",
+    "power": 30,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 2,
+    "target": "foe"
+  },
+  {
+    "id": "hurricane",
+    "name": "ぼうふう",
+    "type": "flying",
+    "category": "special",
+    "power": 110,
+    "accuracy": 70,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "confuse",
+      "chance": 0.3
+    }
+  },
+  {
+    "id": "inferno",
+    "name": "れんごく",
+    "type": "fire",
+    "category": "special",
+    "power": 100,
+    "accuracy": 50,
+    "pp": 5,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "burn",
+      "chance": 1
+    }
+  },
+  {
+    "id": "rapid-spin",
+    "name": "こうそくスピン",
+    "type": "normal",
+    "category": "physical",
+    "power": 50,
+    "accuracy": 100,
+    "pp": 40,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "statChange",
+      "target": "self",
+      "stats": [
+        "spe"
+      ],
+      "stages": 1,
+      "chance": 1
+    }
+  },
+  {
+    "id": "rock-blast",
+    "name": "ロックブラスト",
+    "type": "rock",
+    "category": "physical",
+    "power": 25,
+    "accuracy": 90,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "multiHit",
+      "min": 2,
+      "max": 5
+    }
+  },
+  {
+    "id": "double-hit",
+    "name": "ダブルアタック",
+    "type": "normal",
+    "category": "physical",
+    "power": 35,
+    "accuracy": 90,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "multiHit",
+      "min": 2,
+      "max": 2
+    }
+  },
+  {
+    "id": "ice-shard",
+    "name": "こおりのつぶて",
+    "type": "ice",
+    "category": "physical",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 30,
+    "priority": 1,
+    "target": "foe"
+  },
+  {
+    "id": "leech-life",
+    "name": "きゅうけつ",
+    "type": "bug",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "drain",
+      "ratio": 0.5
+    }
+  },
+  {
+    "id": "life-dew",
+    "name": "いのちのしずく",
+    "type": "water",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 10,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "heal",
+      "ratio": 0.25
+    }
+  },
+  {
+    "id": "megahorn",
+    "name": "メガホーン",
+    "type": "bug",
+    "category": "physical",
+    "power": 120,
+    "accuracy": 85,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "poison-gas",
+    "name": "どくガス",
+    "type": "poison",
+    "category": "status",
+    "power": null,
+    "accuracy": 90,
+    "pp": 40,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "poison",
+      "chance": 1
+    }
+  },
+  {
+    "id": "acid-armor",
+    "name": "とける",
+    "type": "poison",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 20,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "statChange",
+      "target": "self",
+      "stats": [
+        "def"
+      ],
+      "stages": 2,
+      "chance": 1
+    }
+  },
+  {
+    "id": "aqua-jet",
+    "name": "アクアジェット",
+    "type": "water",
+    "category": "physical",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 1,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "disarming-voice",
+    "name": "チャームボイス",
+    "type": "fairy",
+    "category": "special",
+    "power": 40,
+    "accuracy": null,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe"
+  },
+  {
+    "id": "flame-wheel",
+    "name": "かえんぐるま",
+    "type": "fire",
+    "category": "physical",
+    "power": 60,
+    "accuracy": 100,
+    "pp": 25,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "status",
+      "status": "burn",
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "hex",
+    "name": "たたりめ",
+    "type": "ghost",
+    "category": "special",
+    "power": 65,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe"
+  },
+  {
+    "id": "moonblast",
+    "name": "ムーンフォース",
+    "type": "fairy",
+    "category": "special",
+    "power": 95,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "spa"
+      ],
+      "stages": -1,
+      "chance": 0.3
+    }
+  },
+  {
+    "id": "psyshock",
+    "name": "サイコショック",
+    "type": "psychic",
+    "category": "special",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe"
+  },
+  {
+    "id": "astonish",
+    "name": "おどろかす",
+    "type": "ghost",
+    "category": "physical",
+    "power": 30,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "flinch",
+      "chance": 0.3
+    }
+  },
+  {
+    "id": "baby-doll-eyes",
+    "name": "つぶらなひとみ",
+    "type": "fairy",
+    "category": "status",
+    "power": null,
+    "accuracy": 100,
+    "pp": 30,
+    "priority": 1,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "atk"
+      ],
+      "stages": -1,
+      "chance": 1
+    }
+  },
+  {
+    "id": "dynamic-punch",
+    "name": "ばくれつパンチ",
+    "type": "fighting",
+    "category": "physical",
+    "power": 100,
+    "accuracy": 50,
+    "pp": 5,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "confuse",
+      "chance": 1
+    }
+  },
+  {
+    "id": "extrasensory",
+    "name": "じんつうりき",
+    "type": "psychic",
+    "category": "special",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "flinch",
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "false-swipe",
+    "name": "みねうち",
+    "type": "normal",
+    "category": "physical",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 40,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "gunk-shot",
+    "name": "ダストシュート",
+    "type": "poison",
+    "category": "physical",
+    "power": 120,
+    "accuracy": 80,
+    "pp": 5,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "poison",
+      "chance": 0.3
+    }
+  },
+  {
+    "id": "low-sweep",
+    "name": "ローキック",
+    "type": "fighting",
+    "category": "physical",
+    "power": 65,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "spe"
+      ],
+      "stages": -1,
+      "chance": 1
+    }
+  },
+  {
+    "id": "metal-sound",
+    "name": "きんぞくおん",
+    "type": "steel",
+    "category": "status",
+    "power": null,
+    "accuracy": 85,
+    "pp": 40,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "spd"
+      ],
+      "stages": -2,
+      "chance": 1
+    }
+  },
+  {
+    "id": "payback",
+    "name": "しっぺがえし",
+    "type": "dark",
+    "category": "physical",
+    "power": 50,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "pluck",
+    "name": "ついばむ",
+    "type": "flying",
+    "category": "physical",
+    "power": 60,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "poison-fang",
+    "name": "どくどくのキバ",
+    "type": "poison",
+    "category": "physical",
+    "power": 50,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "status",
+      "status": "toxic",
+      "chance": 0.5
+    }
+  },
+  {
+    "id": "razor-shell",
+    "name": "シェルブレード",
+    "type": "water",
+    "category": "physical",
+    "power": 75,
+    "accuracy": 95,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "def"
+      ],
+      "stages": -1,
+      "chance": 0.5
+    }
+  },
+  {
+    "id": "retaliate",
+    "name": "かたきうち",
+    "type": "normal",
+    "category": "physical",
+    "power": 70,
+    "accuracy": 100,
+    "pp": 5,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "rock-polish",
+    "name": "ロックカット",
+    "type": "rock",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 20,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "statChange",
+      "target": "self",
+      "stats": [
+        "spe"
+      ],
+      "stages": 2,
+      "chance": 1
+    }
+  },
+  {
+    "id": "seed-bomb",
+    "name": "タネばくだん",
+    "type": "grass",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe"
+  },
+  {
+    "id": "sludge-wave",
+    "name": "ヘドロウェーブ",
+    "type": "poison",
+    "category": "special",
+    "power": 95,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "poison",
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "smog",
+    "name": "スモッグ",
+    "type": "poison",
+    "category": "special",
+    "power": 30,
+    "accuracy": 70,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "poison",
+      "chance": 0.4
+    }
+  },
+  {
+    "id": "stomping-tantrum",
+    "name": "じだんだ",
+    "type": "ground",
+    "category": "physical",
+    "power": 75,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "strength",
+    "name": "かいりき",
+    "type": "normal",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "thunder-punch",
+    "name": "かみなりパンチ",
+    "type": "electric",
+    "category": "physical",
+    "power": 75,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "status",
+      "status": "paralysis",
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "tri-attack",
+    "name": "トライアタック",
+    "type": "normal",
+    "category": "special",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe"
+  },
+  {
+    "id": "vital-throw",
+    "name": "あてみなげ",
+    "type": "fighting",
+    "category": "physical",
+    "power": 70,
+    "accuracy": null,
+    "pp": 10,
+    "priority": -1,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "zap-cannon",
+    "name": "でんじほう",
+    "type": "electric",
+    "category": "special",
+    "power": 120,
+    "accuracy": 50,
+    "pp": 5,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "paralysis",
+      "chance": 1
+    }
+  },
+  {
+    "id": "air-cutter",
+    "name": "エアカッター",
+    "type": "flying",
+    "category": "special",
+    "power": 60,
+    "accuracy": 95,
+    "pp": 25,
+    "priority": 0,
+    "target": "foe",
+    "critStage": 1
+  },
+  {
+    "id": "clear-smog",
+    "name": "クリアスモッグ",
+    "type": "poison",
+    "category": "special",
+    "power": 50,
+    "accuracy": null,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe"
+  },
+  {
+    "id": "dragon-rush",
+    "name": "ドラゴンダイブ",
+    "type": "dragon",
+    "category": "physical",
+    "power": 100,
+    "accuracy": 75,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "flinch",
+      "chance": 0.2
+    }
+  },
+  {
+    "id": "drill-run",
+    "name": "ドリルライナー",
+    "type": "ground",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 95,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "critStage": 1,
+    "contact": true
+  },
+  {
+    "id": "dual-chop",
+    "name": "ダブルチョップ",
+    "type": "dragon",
+    "category": "physical",
+    "power": 40,
+    "accuracy": 90,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "multiHit",
+      "min": 2,
+      "max": 2
+    }
+  },
+  {
+    "id": "feather-dance",
+    "name": "フェザーダンス",
+    "type": "flying",
+    "category": "status",
+    "power": null,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "atk"
+      ],
+      "stages": -2,
+      "chance": 1
+    }
+  },
+  {
+    "id": "hammer-arm",
+    "name": "アームハンマー",
+    "type": "fighting",
+    "category": "physical",
+    "power": 100,
+    "accuracy": 90,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "statChange",
+      "target": "self",
+      "stats": [
+        "spe"
+      ],
+      "stages": -1,
+      "chance": 1
+    }
+  },
+  {
+    "id": "heat-wave",
+    "name": "ねっぷう",
+    "type": "fire",
+    "category": "special",
+    "power": 95,
+    "accuracy": 90,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "burn",
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "incinerate",
+    "name": "やきつくす",
+    "type": "fire",
+    "category": "special",
+    "power": 60,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe"
+  },
+  {
+    "id": "iron-tail",
+    "name": "アイアンテール",
+    "type": "steel",
+    "category": "physical",
+    "power": 100,
+    "accuracy": 75,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "def"
+      ],
+      "stages": -1,
+      "chance": 0.3
+    }
+  },
+  {
+    "id": "power-gem",
+    "name": "パワージェム",
+    "type": "rock",
+    "category": "special",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe"
+  },
+  {
+    "id": "psycho-cut",
+    "name": "サイコカッター",
+    "type": "psychic",
+    "category": "physical",
+    "power": 70,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "critStage": 1
+  },
+  {
+    "id": "revenge",
+    "name": "リベンジ",
+    "type": "fighting",
+    "category": "physical",
+    "power": 60,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": -4,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "venoshock",
+    "name": "ベノムショック",
+    "type": "poison",
+    "category": "special",
+    "power": 65,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe"
+  },
+  {
+    "id": "wave-crash",
+    "name": "ウェーブタックル",
+    "type": "water",
+    "category": "physical",
+    "power": 120,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "recoil",
+      "ratio": 0.33
+    }
+  },
+  {
+    "id": "acid-spray",
+    "name": "アシッドボム",
+    "type": "poison",
+    "category": "special",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "spd"
+      ],
+      "stages": -2,
+      "chance": 1
+    }
+  },
+  {
+    "id": "aura-sphere",
+    "name": "はどうだん",
+    "type": "fighting",
+    "category": "special",
+    "power": 80,
+    "accuracy": null,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe"
+  },
+  {
+    "id": "bone-rush",
+    "name": "ボーンラッシュ",
+    "type": "ground",
+    "category": "physical",
+    "power": 25,
+    "accuracy": 90,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "multiHit",
+      "min": 2,
+      "max": 5
+    }
+  },
+  {
+    "id": "bonemerang",
+    "name": "ホネブーメラン",
+    "type": "ground",
+    "category": "physical",
+    "power": 50,
+    "accuracy": 90,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "multiHit",
+      "min": 2,
+      "max": 2
+    }
+  },
+  {
+    "id": "bullet-seed",
+    "name": "タネマシンガン",
+    "type": "grass",
+    "category": "physical",
+    "power": 25,
+    "accuracy": 100,
+    "pp": 30,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "multiHit",
+      "min": 2,
+      "max": 5
+    }
+  },
+  {
+    "id": "charge-beam",
+    "name": "チャージビーム",
+    "type": "electric",
+    "category": "special",
+    "power": 50,
+    "accuracy": 90,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "self",
+      "stats": [
+        "spa"
+      ],
+      "stages": 1,
+      "chance": 0.7
+    }
+  },
+  {
+    "id": "crabhammer",
+    "name": "クラブハンマー",
+    "type": "water",
+    "category": "physical",
+    "power": 100,
+    "accuracy": 90,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "critStage": 1,
+    "contact": true
+  },
+  {
+    "id": "eerie-impulse",
+    "name": "あやしいでんぱ",
+    "type": "electric",
+    "category": "status",
+    "power": null,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "spa"
+      ],
+      "stages": -2,
+      "chance": 1
+    }
+  },
+  {
+    "id": "extreme-speed",
+    "name": "しんそく",
+    "type": "normal",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 5,
+    "priority": 2,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "flame-charge",
+    "name": "ニトロチャージ",
+    "type": "fire",
+    "category": "physical",
+    "power": 50,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "statChange",
+      "target": "self",
+      "stats": [
+        "spe"
+      ],
+      "stages": 1,
+      "chance": 1
+    }
+  },
+  {
+    "id": "glare",
+    "name": "へびにらみ",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": 100,
+    "pp": 30,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "paralysis",
+      "chance": 1
+    }
+  },
+  {
+    "id": "howl",
+    "name": "とおぼえ",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 40,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "statChange",
+      "target": "self",
+      "stats": [
+        "atk"
+      ],
+      "stages": 1,
+      "chance": 1
+    }
+  },
+  {
+    "id": "hyper-fang",
+    "name": "ひっさつまえば",
+    "type": "normal",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 90,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "flinch",
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "hyper-voice",
+    "name": "ハイパーボイス",
+    "type": "normal",
+    "category": "special",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe"
+  },
+  {
+    "id": "icy-wind",
+    "name": "こごえるかぜ",
+    "type": "ice",
+    "category": "special",
+    "power": 55,
+    "accuracy": 95,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "spe"
+      ],
+      "stages": -1,
+      "chance": 1
+    }
+  },
+  {
+    "id": "kinesis",
+    "name": "ヨガのポーズ",
+    "type": "psychic",
+    "category": "status",
+    "power": null,
+    "accuracy": 80,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "accuracy"
+      ],
+      "stages": -1,
+      "chance": 1
+    }
+  },
+  {
+    "id": "lava-plume",
+    "name": "ふんえん",
+    "type": "fire",
+    "category": "special",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "burn",
+      "chance": 0.3
+    }
+  },
+  {
+    "id": "leaf-blade",
+    "name": "リーフブレード",
+    "type": "grass",
+    "category": "physical",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "critStage": 1,
+    "contact": true
+  },
+  {
+    "id": "leaf-storm",
+    "name": "リーフストーム",
+    "type": "grass",
+    "category": "special",
+    "power": 130,
+    "accuracy": 90,
+    "pp": 5,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "self",
+      "stats": [
+        "spa"
+      ],
+      "stages": -2,
+      "chance": 1
+    }
+  },
+  {
+    "id": "liquidation",
+    "name": "アクアブレイク",
+    "type": "water",
+    "category": "physical",
+    "power": 85,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "def"
+      ],
+      "stages": -1,
+      "chance": 0.2
+    }
+  },
+  {
+    "id": "meteor-mash",
+    "name": "コメットパンチ",
+    "type": "steel",
+    "category": "physical",
+    "power": 90,
+    "accuracy": 90,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "statChange",
+      "target": "self",
+      "stats": [
+        "atk"
+      ],
+      "stages": 1,
+      "chance": 0.2
+    }
+  },
+  {
+    "id": "night-slash",
+    "name": "つじぎり",
+    "type": "dark",
+    "category": "physical",
+    "power": 70,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "critStage": 1,
+    "contact": true
+  },
+  {
+    "id": "nuzzle",
+    "name": "ほっぺすりすり",
+    "type": "electric",
+    "category": "physical",
+    "power": 20,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "status",
+      "status": "paralysis",
+      "chance": 1
+    }
+  },
+  {
+    "id": "pay-day",
+    "name": "ネコにこばん",
+    "type": "normal",
+    "category": "physical",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe"
+  },
+  {
+    "id": "pin-missile",
+    "name": "ミサイルばり",
+    "type": "bug",
+    "category": "physical",
+    "power": 25,
+    "accuracy": 95,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "multiHit",
+      "min": 2,
+      "max": 5
+    }
+  },
+  {
+    "id": "play-nice",
+    "name": "なかよくする",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "atk"
+      ],
+      "stages": -1,
+      "chance": 1
+    }
+  },
+  {
+    "id": "round",
+    "name": "りんしょう",
+    "type": "normal",
+    "category": "special",
+    "power": 60,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe"
+  },
+  {
+    "id": "slack-off",
+    "name": "なまける",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 5,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "heal",
+      "ratio": 0.5
+    }
+  },
+  {
+    "id": "spore",
+    "name": "キノコのほうし",
+    "type": "grass",
+    "category": "status",
+    "power": null,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "sleep",
+      "chance": 1
+    }
+  },
+  {
+    "id": "stored-power",
+    "name": "アシストパワー",
+    "type": "psychic",
+    "category": "special",
+    "power": 20,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe"
+  },
+  {
+    "id": "blaze-kick",
+    "name": "ブレイズキック",
+    "type": "fire",
+    "category": "physical",
+    "power": 85,
+    "accuracy": 90,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "critStage": 1,
+    "contact": true,
+    "effect": {
+      "kind": "status",
+      "status": "burn",
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "bullet-punch",
+    "name": "バレットパンチ",
+    "type": "steel",
+    "category": "physical",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 30,
+    "priority": 1,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "cross-poison",
+    "name": "クロスポイズン",
+    "type": "poison",
+    "category": "physical",
+    "power": 70,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "critStage": 1,
+    "contact": true,
+    "effect": {
+      "kind": "status",
+      "status": "poison",
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "cut",
+    "name": "いあいぎり",
+    "type": "normal",
+    "category": "physical",
+    "power": 50,
+    "accuracy": 95,
+    "pp": 30,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "drain-punch",
+    "name": "ドレインパンチ",
+    "type": "fighting",
+    "category": "physical",
+    "power": 75,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "drain",
+      "ratio": 0.5
+    }
+  },
+  {
+    "id": "fake-tears",
+    "name": "なみだめ",
+    "type": "dark",
+    "category": "status",
+    "power": null,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "spd"
+      ],
+      "stages": -2,
+      "chance": 1
+    }
+  },
+  {
+    "id": "fell-stinger",
+    "name": "とどめばり",
+    "type": "bug",
+    "category": "physical",
+    "power": 50,
+    "accuracy": 100,
+    "pp": 25,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "freeze-dry",
+    "name": "フリーズドライ",
+    "type": "ice",
+    "category": "special",
+    "power": 70,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "freeze",
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "high-horsepower",
+    "name": "10まんばりき",
+    "type": "ground",
+    "category": "physical",
+    "power": 95,
+    "accuracy": 95,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "icicle-crash",
+    "name": "つららおとし",
+    "type": "ice",
+    "category": "physical",
+    "power": 85,
+    "accuracy": 90,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "flinch",
+      "chance": 0.3
+    }
+  },
+  {
+    "id": "icicle-spear",
+    "name": "つららばり",
+    "type": "ice",
+    "category": "physical",
+    "power": 25,
+    "accuracy": 100,
+    "pp": 30,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "multiHit",
+      "min": 2,
+      "max": 5
+    }
+  },
+  {
+    "id": "lovely-kiss",
+    "name": "あくまのキッス",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": 75,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "status",
+      "status": "sleep",
+      "chance": 1
+    }
+  },
+  {
+    "id": "mach-punch",
+    "name": "マッハパンチ",
+    "type": "fighting",
+    "category": "physical",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 30,
+    "priority": 1,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "mega-punch",
+    "name": "メガトンパンチ",
+    "type": "normal",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 85,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "muddy-water",
+    "name": "だくりゅう",
+    "type": "water",
+    "category": "special",
+    "power": 90,
+    "accuracy": 85,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "accuracy"
+      ],
+      "stages": -1,
+      "chance": 0.3
+    }
+  },
+  {
+    "id": "overheat",
+    "name": "オーバーヒート",
+    "type": "fire",
+    "category": "special",
+    "power": 130,
+    "accuracy": 90,
+    "pp": 5,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "self",
+      "stats": [
+        "spa"
+      ],
+      "stages": -2,
+      "chance": 1
+    }
+  },
+  {
+    "id": "psystrike",
+    "name": "サイコブレイク",
+    "type": "psychic",
+    "category": "special",
+    "power": 100,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe"
+  },
+  {
+    "id": "rage-fist",
+    "name": "ふんどのこぶし",
+    "type": "ghost",
+    "category": "physical",
+    "power": 50,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "raging-bull",
+    "name": "レイジングブル",
+    "type": "normal",
+    "category": "physical",
+    "power": 90,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "shock-wave",
+    "name": "でんげきは",
+    "type": "electric",
+    "category": "special",
+    "power": 60,
+    "accuracy": null,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe"
+  },
+  {
+    "id": "smart-strike",
+    "name": "スマートホーン",
+    "type": "steel",
+    "category": "physical",
+    "power": 70,
+    "accuracy": null,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "soft-boiled",
+    "name": "タマゴうみ",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 5,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "heal",
+      "ratio": 0.5
+    }
+  },
+  {
+    "id": "storm-throw",
+    "name": "やまあらし",
+    "type": "fighting",
+    "category": "physical",
+    "power": 60,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "teeter-dance",
+    "name": "フラフラダンス",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "confuse",
+      "chance": 1
+    }
+  },
+  {
+    "id": "twineedle",
+    "name": "ダブルニードル",
+    "type": "bug",
+    "category": "physical",
+    "power": 25,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "multiHit",
+      "min": 2,
+      "max": 2
+    }
+  },
+  {
+    "id": "vacuum-wave",
+    "name": "しんくうは",
+    "type": "fighting",
+    "category": "special",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 30,
+    "priority": 1,
+    "target": "foe"
+  },
+  {
+    "id": "vise-grip",
+    "name": "はさむ",
+    "type": "normal",
+    "category": "physical",
+    "power": 55,
+    "accuracy": 100,
+    "pp": 30,
+    "priority": 0,
+    "target": "foe",
+    "contact": true
+  },
+  {
+    "id": "wood-hammer",
+    "name": "ウッドハンマー",
+    "type": "grass",
+    "category": "physical",
+    "power": 120,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "recoil",
+      "ratio": 0.33
+    }
+  },
+  {
+    "id": "splash",
+    "name": "はねる",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 40,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "nothing"
+    }
+  },
+  {
+    "id": "transform",
+    "name": "へんしん",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "transform"
+    }
+  },
+  {
+    "id": "teleport",
+    "name": "テレポート",
+    "type": "psychic",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 20,
+    "priority": -6,
+    "target": "self",
+    "effect": {
+      "kind": "fleeWild"
+    }
+  },
+  {
+    "id": "present",
+    "name": "プレゼント",
+    "type": "ice",
+    "category": "physical",
+    "power": null,
+    "accuracy": 90,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "critStage": 1,
+    "contact": true,
+    "effect": {
+      "kind": "present"
+    }
+  },
+  {
+    "id": "flash",
+    "name": "フラッシュ",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "accuracy"
+      ],
+      "stages": -1,
+      "chance": 1
+    }
+  },
+  {
+    "id": "rock-smash",
+    "name": "いわくだき",
+    "type": "fighting",
+    "category": "physical",
+    "power": 40,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "statChange",
+      "target": "foe",
+      "stats": [
+        "def"
+      ],
+      "stages": -1,
+      "chance": 0.5
+    }
+  },
+  {
+    "id": "sunny-day",
+    "name": "にほんばれ",
+    "type": "fire",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 5,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "weather",
+      "weather": "sun",
+      "turns": 5
+    }
+  },
+  {
+    "id": "rain-dance",
+    "name": "あまごい",
+    "type": "water",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 5,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "weather",
+      "weather": "rain",
+      "turns": 5
+    }
+  },
+  {
+    "id": "sandstorm",
+    "name": "すなあらし",
+    "type": "rock",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 10,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "weather",
+      "weather": "sandstorm",
+      "turns": 5
+    }
+  },
+  {
+    "id": "hail",
+    "name": "あられ",
+    "type": "ice",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 10,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "weather",
+      "weather": "hail",
+      "turns": 5
+    }
+  },
+  {
+    "id": "reflect",
+    "name": "リフレクター",
+    "type": "psychic",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 20,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "screen",
+      "screen": "reflect",
+      "turns": 5
+    }
+  },
+  {
+    "id": "light-screen",
+    "name": "ひかりのかべ",
+    "type": "psychic",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 30,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "screen",
+      "screen": "lightScreen",
+      "turns": 5
+    }
+  },
+  {
+    "id": "safeguard",
+    "name": "しんぴのまもり",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 25,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "screen",
+      "screen": "safeguard",
+      "turns": 5
+    }
+  },
+  {
+    "id": "fly",
+    "name": "そらをとぶ",
+    "type": "flying",
+    "category": "physical",
+    "power": 90,
+    "accuracy": 95,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "charge",
+      "hidden": true
+    }
+  },
+  {
+    "id": "dig",
+    "name": "あなをほる",
+    "type": "ground",
+    "category": "physical",
+    "power": 80,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "charge",
+      "hidden": true
+    }
+  },
+  {
+    "id": "solar-beam",
+    "name": "ソーラービーム",
+    "type": "grass",
+    "category": "special",
+    "power": 120,
+    "accuracy": 100,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "charge",
+      "sunSkips": true
+    }
+  },
+  {
+    "id": "hyper-beam",
+    "name": "はかいこうせん",
+    "type": "normal",
+    "category": "special",
+    "power": 150,
+    "accuracy": 90,
+    "pp": 5,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "recharge"
+    }
+  },
+  {
+    "id": "taunt",
+    "name": "ちょうはつ",
+    "type": "dark",
+    "category": "status",
+    "power": null,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "taunt",
+      "turns": 3
+    }
+  },
+  {
+    "id": "torment",
+    "name": "いちゃもん",
+    "type": "dark",
+    "category": "status",
+    "power": null,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "torment"
+    }
+  },
+  {
+    "id": "attract",
+    "name": "メロメロ",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "attract"
+    }
+  },
+  {
+    "id": "protect",
+    "name": "まもる",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 10,
+    "priority": 4,
+    "target": "self",
+    "effect": {
+      "kind": "protect"
+    }
+  },
+  {
+    "id": "return",
+    "name": "おんがえし",
+    "type": "normal",
+    "category": "physical",
+    "power": null,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "variablePower",
+      "from": "friendship"
+    }
+  },
+  {
+    "id": "frustration",
+    "name": "やつあたり",
+    "type": "normal",
+    "category": "physical",
+    "power": null,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "variablePower",
+      "from": "frustration"
+    }
+  },
+  {
+    "id": "facade",
+    "name": "からげんき",
+    "type": "normal",
+    "category": "physical",
+    "power": null,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "variablePower",
+      "from": "statusDouble",
+      "base": 70
+    }
+  },
+  {
+    "id": "rest",
+    "name": "ねむる",
+    "type": "psychic",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 10,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "rest"
+    }
+  },
+  {
+    "id": "steel-wing",
+    "name": "はがねのつばさ",
+    "type": "steel",
+    "category": "physical",
+    "power": 70,
+    "accuracy": 90,
+    "pp": 25,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "statChange",
+      "target": "self",
+      "stats": [
+        "def"
+      ],
+      "stages": 1,
+      "chance": 0.1
+    }
+  },
+  {
+    "id": "secret-power",
+    "name": "ひみつのちから",
+    "type": "normal",
+    "category": "physical",
+    "power": 70,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "status",
+      "status": "paralysis",
+      "chance": 0.3
+    }
+  },
+  {
+    "id": "bulk-up",
+    "name": "ビルドアップ",
+    "type": "fighting",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 20,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "statChange",
+      "target": "self",
+      "stats": [
+        "atk",
+        "def"
+      ],
+      "stages": 1,
+      "chance": 1
+    }
+  },
+  {
+    "id": "thief",
+    "name": "どろぼう",
+    "type": "dark",
+    "category": "physical",
+    "power": 60,
+    "accuracy": 100,
+    "pp": 25,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "steal"
+    }
+  },
+  {
+    "id": "skill-swap",
+    "name": "スキルスワップ",
+    "type": "psychic",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "swapAbility"
+    }
+  },
+  {
+    "id": "roar",
+    "name": "ほえる",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 20,
+    "priority": -6,
+    "target": "foe",
+    "effect": {
+      "kind": "forceSwitch"
+    }
+  },
+  {
+    "id": "snatch",
+    "name": "よこどり",
+    "type": "dark",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 10,
+    "priority": 4,
+    "target": "self",
+    "effect": {
+      "kind": "snatch"
+    }
+  },
+  {
+    "id": "focus-punch",
+    "name": "きあいパンチ",
+    "type": "fighting",
+    "category": "physical",
+    "power": 150,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": -3,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "focus"
+    }
+  },
+  {
+    "id": "frenzy-plant",
+    "name": "ハードプラント",
+    "type": "grass",
+    "category": "special",
+    "power": 150,
+    "accuracy": 90,
+    "pp": 5,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "recharge"
+    }
+  },
+  {
+    "id": "blast-burn",
+    "name": "ブラストバーン",
+    "type": "fire",
+    "category": "special",
+    "power": 150,
+    "accuracy": 90,
+    "pp": 5,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "recharge"
+    }
+  },
+  {
+    "id": "hydro-cannon",
+    "name": "ハイドロカノン",
+    "type": "water",
+    "category": "special",
+    "power": 150,
+    "accuracy": 90,
+    "pp": 5,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "recharge"
+    }
+  },
+  {
+    "id": "seismic-toss",
+    "name": "ちきゅうなげ",
+    "type": "fighting",
+    "category": "physical",
+    "power": null,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": 0,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "fixedDamage",
+      "from": "level"
+    }
+  },
+  {
+    "id": "night-shade",
+    "name": "ナイトヘッド",
+    "type": "ghost",
+    "category": "special",
+    "power": null,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "fixedDamage",
+      "from": "level"
+    }
+  },
+  {
+    "id": "explosion",
+    "name": "だいばくはつ",
+    "type": "normal",
+    "category": "physical",
+    "power": 250,
+    "accuracy": 100,
+    "pp": 5,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "selfDestruct"
+    }
+  },
+  {
+    "id": "self-destruct",
+    "name": "じばく",
+    "type": "normal",
+    "category": "physical",
+    "power": 200,
+    "accuracy": 100,
+    "pp": 5,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "selfDestruct"
+    }
+  },
+  {
+    "id": "dream-eater",
+    "name": "ゆめくい",
+    "type": "psychic",
+    "category": "special",
+    "power": 100,
+    "accuracy": 100,
+    "pp": 15,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "drainAsleep",
+      "ratio": 0.5
+    }
+  },
+  {
+    "id": "mimic",
+    "name": "ものまね",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 10,
+    "priority": 0,
+    "target": "foe",
+    "effect": {
+      "kind": "mimic"
+    }
+  },
+  {
+    "id": "counter",
+    "name": "カウンター",
+    "type": "fighting",
+    "category": "physical",
+    "power": null,
+    "accuracy": 100,
+    "pp": 20,
+    "priority": -5,
+    "target": "foe",
+    "contact": true,
+    "effect": {
+      "kind": "counter"
+    }
+  },
+  {
+    "id": "substitute",
+    "name": "みがわり",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 10,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "substitute"
+    }
+  },
+  {
+    "id": "metronome",
+    "name": "ゆびをふる",
+    "type": "normal",
+    "category": "status",
+    "power": null,
+    "accuracy": null,
+    "pp": 10,
+    "priority": 0,
+    "target": "self",
+    "effect": {
+      "kind": "metronome"
+    }
+  }
+]

@@ -1,0 +1,33 @@
+# ななしのけいこく（7のしま）。**エアームド と ヨーギラス はここだけ。**
+# 岩の多い谷なので いわくだき の野生も出る。
+id: kanto-sevii-sevault-canyon
+name: ななしの けいこく
+region: kanto
+encounters: kanto-sevii-sevault-canyon-grass kanto-sevii-sevault-canyon-rock-smash
+bgm: mt-moon
+
+legend:
+. normal
+g grass
+T !normal
+
+grid:
+TTTTTTTTTTTTT
+T...........T
+T..ggg...gggT
+T..ggg...gggT
+T...........T
+T....TTT....T
+T...........T
+T..ggg...gggT
+T..ggg...gggT
+T...........T
+TTTTTT.TTTTTT
+
+warps:
+6,10 step kanto-sevii-canyon-entrance 6,1 down
+
+objects:
+canyon-rock-1 8,4 obstacle:rockSmash
+canyon-rock-2 3,6 obstacle:rockSmash
+canyon-item 10,1 item:max-revive kanto.sevii.canyon-item if:kanto.sevii.canyon-item-taken=false

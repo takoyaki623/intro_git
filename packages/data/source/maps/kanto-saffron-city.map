@@ -1,0 +1,61 @@
+# ヤマブキシティ。カントーの中央で、**4方向に門がある**（v1.1-d で原作に戻した）。
+# v1.0 まで出入口は西と東の2つだけで、5番と6番道路が町を迂回して直結していた
+# ―― 原作では迂回するのは ちかつうろ のほうで、あれは任意の近道。
+#
+# シルフカンパニーは**ドアを置いていない。** 中に入れるようになるのは
+# ロケット団の筋を作る v1.1-g で、**機構が無いまま形だけ作らない**（world.md §9.7）。
+id: kanto-saffron-city
+name: ヤマブキシティ
+region: kanto
+fly: 11,1 kanto.fly.saffron
+onEnter: kanto.saffron.arrive
+bgm: saffron-city
+
+legend:
+. normal
+K !normal
+T !normal
+G !normal
+P !normal
+F !normal
+S !normal
+H !normal
+D normal
+
+grid:
+TTTTTTTTTTT.TTTTTTTTTTTT
+T......................T
+T..GGGG.......SSSSSS...T
+T..GGDG.......SSSSSS...T
+T.............SSSDSS...T
+T......................T
+........................
+T......................T
+T..PPPP........HHHH....T
+T..PPDP........HHDH....T
+T......................T
+T..FFFF........KKKK....T
+T..FFDF........KKDK....T
+T......................T
+T......................T
+T......................T
+T......................T
+TTTTTTTTTTT.TTTTTTTTTTTT
+
+warps:
+11,0 step kanto-saffron-gate-north 3,3 up
+11,17 step kanto-saffron-gate-south 3,1 down
+0,6 step kanto-saffron-gate-west 5,2 left
+23,6 step kanto-saffron-gate-east 1,2 right
+5,3 step kanto-saffron-gym 6,11 up
+5,9 step kanto-saffron-pokecenter 4,5 up
+5,12 step kanto-saffron-mart 4,5 up
+17,9 step kanto-saffron-house 3,4 up
+17,12 step kanto-saffron-dojo 4,5 up
+17,4 step kanto-silph-1f 4,5 up
+
+objects:
+saffron-sign-gym 3,4 sign kanto.saffron.sign-gym
+saffron-guard 5,4 npc:guard:static kanto.saffron.guard if:kanto.saffron.gym-open=false
+saffron-boy 9,7 npc:youngster:static kanto.saffron.boy
+saffron-silph-guard 16,5 npc:guard:static kanto.saffron.silph-guard

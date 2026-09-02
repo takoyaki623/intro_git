@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 4,
+  "global": {
+    "bp": 120,
+    "dex": {
+      "charmander": "caught",
+      "pidgey": "caught",
+      "rattata": "seen"
+    },
+    "bag": {
+      "poke-ball": 7
+    },
+    "endgame": {
+      "facilityRecords": {
+        "battle-tower": {
+          "bestStreak": 20,
+          "totalWins": 55,
+          "earnedBp": 90
+        }
+      },
+      "tournamentRecords": {
+        "kanto-gym-cup": {
+          "clearedTiers": [
+            "original"
+          ]
+        }
+      }
+    },
+    "boxUids": [
+      "eeee5555ffff6666"
+    ],
+    "currentRegion": "kanto"
+  },
+  "pokemon": {
+    "aaaa1111bbbb2222": {
+      "uid": "aaaa1111bbbb2222",
+      "species": "charmander",
+      "exp": 135,
+      "ivs": {
+        "hp": 20,
+        "atk": 31,
+        "def": 5,
+        "spa": 12,
+        "spd": 30,
+        "spe": 18
+      },
+      "evs": {
+        "hp": 0,
+        "atk": 4,
+        "def": 0,
+        "spa": 0,
+        "spd": 0,
+        "spe": 2
+      },
+      "nature": "adamant",
+      "ability": "blaze",
+      "moves": [
+        {
+          "id": "scratch",
+          "pp": 30
+        },
+        {
+          "id": "growl",
+          "pp": 40
+        },
+        {
+          "id": "ember",
+          "pp": 22
+        }
+      ],
+      "currentHp": 14,
+      "status": null,
+      "statusCounter": 0,
+      "item": null,
+      "friendship": 78,
+      "shiny": false,
+      "gender": "male",
+      "met": {
+        "region": "kanto",
+        "level": 5
+      }
+    },
+    "cccc3333dddd4444": {
+      "uid": "cccc3333dddd4444",
+      "species": "pidgey",
+      "exp": 135,
+      "ivs": {
+        "hp": 20,
+        "atk": 31,
+        "def": 5,
+        "spa": 12,
+        "spd": 30,
+        "spe": 18
+      },
+      "evs": {
+        "hp": 0,
+        "atk": 4,
+        "def": 0,
+        "spa": 0,
+        "spd": 0,
+        "spe": 2
+      },
+      "nature": "adamant",
+      "ability": "keen-eye",
+      "moves": [
+        {
+          "id": "tackle",
+          "pp": 35
+        }
+      ],
+      "currentHp": 15,
+      "status": null,
+      "statusCounter": 0,
+      "item": null,
+      "friendship": 78,
+      "shiny": false,
+      "gender": "male",
+      "met": {
+        "region": "kanto",
+        "level": 5
+      }
+    },
+    "eeee5555ffff6666": {
+      "uid": "eeee5555ffff6666",
+      "species": "eevee",
+      "exp": 135,
+      "ivs": {
+        "hp": 20,
+        "atk": 31,
+        "def": 5,
+        "spa": 12,
+        "spd": 30,
+        "spe": 18
+      },
+      "evs": {
+        "hp": 0,
+        "atk": 4,
+        "def": 0,
+        "spa": 0,
+        "spd": 0,
+        "spe": 2
+      },
+      "nature": "adamant",
+      "ability": "run-away",
+      "moves": [
+        {
+          "id": "tackle",
+          "pp": 35
+        },
+        {
+          "id": "tail-whip",
+          "pp": 30
+        }
+      ],
+      "currentHp": 21,
+      "status": null,
+      "statusCounter": 0,
+      "item": null,
+      "friendship": 78,
+      "shiny": false,
+      "gender": "male",
+      "met": {
+        "region": "kanto",
+        "level": 5
+      },
+      "nickname": "イーブイ"
+    }
+  },
+  "regions": {
+    "kanto": {
+      "flags": {
+        "kanto.pallet.got-starter": true
+      },
+      "money": 3000,
+      "badges": 0,
+      "partyUids": [
+        "aaaa1111bbbb2222"
+      ],
+      "boxUids": [
+        "cccc3333dddd4444"
+      ],
+      "position": {
+        "map": "kanto-route-1",
+        "x": 5,
+        "y": 12,
+        "facing": "left"
+      },
+      "respawn": {
+        "map": "kanto-players-house-1f",
+        "x": 3,
+        "y": 5,
+        "facing": "down"
+      }
+    }
+  },
+  "settings": {
+    "battleSpeed": "normal",
+    "lossPenalty": "none",
+    "artSource": "drawn"
+  }
+}

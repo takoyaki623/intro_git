@@ -1,0 +1,33 @@
+# むじんはつでんしょ。10番道路の北のはずれ。**サンダー が奥に居る。**
+id: kanto-power-plant
+name: むじんはつでんしょ
+region: kanto
+encounters: kanto-power-plant-cave
+bgm: cave
+
+legend:
+. normal
+R !normal
+: cave
+
+grid:
+RRRRRRRRRRRRR
+R:::::::::::R
+R:RRR:RRR:R:R
+R:::::::::::R
+R:R:R:R:R:R:R
+R:::::::::::R
+R:RRR:RRR:R:R
+R:::::::::::R
+R:::::::::::R
+R:::::::::::R
+RRRRRR.RRRRRR
+
+warps:
+6,10 step kanto-route-10 11,1 down
+
+objects:
+power-plant-zapdos 6,3 npc:zapdos:static kanto.power.zapdos if:kanto.power.zapdos-caught=false
+power-plant-item 11,1 item:max-elixir kanto.power.item if:kanto.power.item-taken=false
+power-plant-sign 1,9 sign kanto.power.sign
+powerplant-tm25-1 11,9 item:tm25 kanto.powerplant.tm251 if:kanto.powerplant.tm251-taken=false

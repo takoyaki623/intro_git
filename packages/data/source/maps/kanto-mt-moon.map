@@ -1,0 +1,39 @@
+# おつきみやま 1階。ニビとハナダのあいだ。**地下2階まである**（v1.1-e）。
+# v1.0 まで1枚だけで、しかもチャンピオンロードと同じ迷路を使い回していた。
+id: kanto-mt-moon
+name: おつきみやま
+region: kanto
+encounters: kanto-mt-moon-cave
+bgm: cave
+
+legend:
+. normal
+R !normal
+: cave
+
+grid:
+RRRR:RRRRRRRR
+RRRR:RRRRRRRR
+RR::::::RRRRR
+RR:RRRR:RRRRR
+RR:RRRR::::RR
+RR:RR::::R:RR
+RR::::RRRR:RR
+RRRR:RRRRR:RR
+RRRR::::::::R
+RRRRRRRRRR:RR
+RRRRRRRRRR:RR
+RRRRRRRRRR:RR
+RRRRRRRRRR:RR
+
+warps:
+4,0 step kanto-route-3 14,9 up
+10,12 step kanto-route-4 6,1 down
+10,4 step kanto-mt-moon-b1f 2,3 down
+
+objects:
+moon-rock 5,6 obstacle:rockSmash
+moon-hiker 3,2 trainer:kanto-moon-hiker:2:down kanto.moon.hiker if:kanto.moon.hiker-beaten=false
+moon-rocket 6,8 trainer:kanto-moon-rocket:2:left kanto.moon.rocket if:kanto.moon.rocket-beaten=false
+mtmoon-hiker-1 11,8 trainer:kanto-mt-moon-hiker-1:2:left kanto.mtmoon.hiker1 if:kanto.mtmoon.hiker1-beaten=false
+mtmoon-hiker-2 5,5 trainer:kanto-mt-moon-hiker-2:2:right kanto.mtmoon.hiker2 if:kanto.mtmoon.hiker2-beaten=false

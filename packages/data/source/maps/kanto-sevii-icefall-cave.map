@@ -1,0 +1,34 @@
+# こおりのぬけみち の入口。ここはまだ普通の洞窟。
+id: kanto-sevii-icefall-cave
+name: こおりのぬけみち
+region: kanto
+encounters: kanto-sevii-icefall-cave-cave kanto-sevii-icefall-cave-surf kanto-sevii-icefall-cave-fishing-old kanto-sevii-icefall-cave-fishing-good kanto-sevii-icefall-cave-fishing-super
+bgm: mt-moon
+
+legend:
+. cave
+C !cave
+~ !water
+D normal
+
+grid:
+CCCCCCCCCCCCC
+CCD.........C
+C...........C
+C..~~~~~....C
+C..~~~~~....C
+C..~~~~~....C
+C...........C
+C.....CCC...C
+C...........C
+C...........C
+C...........C
+CCCCCCDCCCCCC
+
+warps:
+2,1 step kanto-sevii-icefall-1f 6,7 up
+6,11 step kanto-sevii-four-island 5,1 down
+
+objects:
+icefall-item 10,9 item:full-restore kanto.sevii.icefall-item if:kanto.sevii.icefall-item-taken=false
+seviiicefallcave-tm23-1 11,10 item:tm23 kanto.seviiicefallcave.tm231 if:kanto.seviiicefallcave.tm231-taken=false

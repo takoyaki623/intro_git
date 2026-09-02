@@ -1,0 +1,29 @@
+# ルビーのどうくつ 地下3階。**ルビー はここ。マグカルゴ もここだけ。**
+id: kanto-sevii-ruby-path-b3f
+name: ルビーのどうくつ B3F
+region: kanto
+encounters: kanto-sevii-ruby-path-b3f-cave kanto-sevii-ruby-path-b3f-rock-smash
+bgm: mt-moon
+
+legend:
+. cave
+C !cave
+D normal
+
+grid:
+CCCCCCCCCCC
+CD........C
+C.CC.CCCC.C
+C.......C.C
+CCCCCCC.C.C
+C.......C.C
+C.CCCCCCC.C
+C.........C
+CCCCCCCCCCC
+
+warps:
+1,1 step kanto-sevii-ruby-path-b2f 9,6 down
+
+objects:
+ruby-stone 4,5 item:ruby kanto.sevii.ruby if:kanto.sevii.ruby-taken=false
+ruby-b3f-rock 4,2 obstacle:rockSmash

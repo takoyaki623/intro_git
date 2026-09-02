@@ -1,0 +1,32 @@
+# オーキド研究所。最初のポケモンとライバル戦。
+id: kanto-oak-lab
+name: オーキドけんきゅうじょ
+region: kanto
+bgm: oak-lab
+
+legend:
+. normal
+W !normal
+M !normal
+B !normal
+t !normal
+D normal
+
+grid:
+WWWWWWWWWW
+W........W
+W.MMM..BBW
+W........W
+W..tttt..W
+W........W
+W........W
+WWWWDWWWWW
+
+warps:
+4,7 step kanto-pallet-town 4,10 down
+
+objects:
+lab-oak 4,3 npc:oak:static kanto.pallet.oak-lab
+lab-rival 7,3 npc:rival:static kanto.pallet.rival if:kanto.pallet.rival-battled=false
+lab-aide 8,5 npc:aide:static kanto.pallet.aide
+lab-bookshelf 8,1 sign kanto.pallet.bookshelf

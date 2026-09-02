@@ -1,0 +1,158 @@
+# ネームドのパーティ。1行 = 1体。
+#
+# original（原作）… 原作のレベル・構成。持ち物なし・努力値なし・既定特性。
+#                    トーナメントではルールセットが Lv50 に同期する。
+# serious（本気）  … Lv50・4体・持ち物あり・努力値あり。エンドゲームの入口。
+# ultimate（極）   … v1.1（AI smart と同時）。まだ書かない。
+#
+# 並びは原作準拠で「弱い順・エースが最後」。3対3のカップでは
+# signature を必ず残したうえでレベルの高い順に3体が選ばれる（selectParty）。
+character	tier	species	level	moves	item	ability	nature	evs
+# ── タケシ ──
+# ── タケシ ──
+brock	original	geodude	12	tackle/rock-throw/harden	-	-	-	-
+brock	original	onix	14	rock-throw/bulldoze/harden/bite	-	-	-	-
+brock	serious	steelix	50	earthquake/iron-head/stone-edge/iron-defense	rocky-helmet	sturdy	impish	hp:252,def:252
+brock	serious	rhyperior	50	earthquake/stone-edge/megahorn/brick-break	assault-vest	solid-rock	adamant	atk:252,hp:252
+brock	serious	tyranitar	50	crunch/stone-edge/earthquake/iron-head	hard-stone	sand-stream	adamant	atk:252,hp:252
+brock	serious	golem	50	earthquake/stone-edge/brick-break/double-edge	expert-belt	rock-head	adamant	atk:252,hp:252
+# ── カスミ ──
+misty	original	staryu	18	water-gun/harden/swift	-	-	-	-
+misty	original	starmie	21	water-gun/bubble-beam/swift/recover	-	-	-	-
+misty	serious	starmie	50	hydro-pump/psychic/ice-beam/recover	life-orb	illuminate	timid	spa:252,spe:252
+misty	serious	kingdra	50	hydro-pump/dragon-pulse/ice-beam/agility	choice-specs	sniper	modest	spa:252,spe:252
+misty	serious	gyarados	50	waterfall/crunch/iron-head/double-edge	choice-band	intimidate	adamant	atk:252,spe:252
+misty	serious	milotic	50	surf/ice-beam/dragon-pulse/recover	leftovers	marvel-scale	bold	hp:252,spd:252
+# ── マチス ──
+lt-surge	original	voltorb	21	tackle/thunder-shock/supersonic	-	-	-	-
+lt-surge	original	pikachu	18	thunder-shock/quick-attack/tail-whip	-	-	-	-
+lt-surge	original	raichu	24	thunderbolt/quick-attack/thunder-wave/body-slam	-	-	-	-
+lt-surge	serious	raichu	50	thunderbolt/thunder-wave/nuzzle/dazzling-gleam	magnet	static	timid	spa:252,spe:252
+lt-surge	serious	electivire	50	thunder-punch/ice-punch/brick-break/thunder-wave	life-orb	motor-drive	adamant	atk:252,spe:252
+lt-surge	serious	manectric	50	thunderbolt/flamethrower/thunder-wave/charge-beam	expert-belt	lightning-rod	timid	spa:252,spe:252
+lt-surge	serious	magneton	50	thunderbolt/flash-cannon/thunder-wave/discharge	leftovers	magnet-pull	modest	spa:252,hp:252
+# ── エリカ ──
+erika	original	tangela	24	absorb/vine-whip/stun-spore/sleep-powder	-	-	-	-
+erika	original	weepinbell	24	vine-whip/acid/sleep-powder	-	-	-	-
+erika	original	vileplume	29	mega-drain/sleep-powder/acid/petal-blizzard	-	-	-	-
+erika	serious	vileplume	50	giga-drain/sludge-bomb/sleep-powder/toxic	leftovers	chlorophyll	bold	hp:252,spd:252
+erika	serious	roserade	50	giga-drain/sludge-bomb/calm-mind/sleep-powder	miracle-seed	natural-cure	modest	spa:252,spe:252
+erika	serious	bellossom	50	petal-blizzard/giga-drain/stun-spore/toxic	sitrus-berry	chlorophyll	calm	hp:252,spd:252
+erika	serious	tangrowth	50	power-whip/giga-drain/knock-off/sleep-powder	rocky-helmet	leaf-guard	relaxed	hp:252,def:252
+# ── キョウ ──
+koga	original	koffing	37	sludge/toxic/tackle/sand-attack	-	-	-	-
+koga	original	muk	39	sludge/poison-sting/toxic/body-slam	-	-	-	-
+koga	original	weezing	43	sludge/toxic/tackle/will-o-wisp	-	-	-	-
+koga	serious	weezing	50	sludge-bomb/will-o-wisp/toxic/clear-smog	leftovers	levitate	bold	hp:252,def:252
+koga	serious	toxicroak	50	poison-jab/drain-punch/x-scissor/swords-dance	life-orb	dry-skin	adamant	atk:252,spe:252
+koga	serious	scolipede	50	megahorn/poison-jab/rock-slide/swords-dance	focus-sash	swarm	jolly	atk:252,spe:252
+koga	serious	muk	50	gunk-shot/brick-break/shadow-punch/toxic	poison-barb	stench	adamant	atk:252,hp:252
+# ── ナツメ ──
+sabrina	original	kadabra	38	confusion/psybeam/recover/double-team	-	-	-	-
+sabrina	original	mr-mime	37	confusion/double-team/psybeam/dazzling-gleam	-	-	-	-
+sabrina	original	venomoth	38	psybeam/sleep-powder/bug-bite/supersonic	-	-	-	-
+sabrina	original	alakazam	43	psychic/recover/psybeam/dazzling-gleam	-	-	-	-
+sabrina	serious	alakazam	50	psychic/psycho-cut/calm-mind/recover	life-orb	synchronize	timid	spa:252,spe:252
+sabrina	serious	espeon	50	psychic/calm-mind/dazzling-gleam/stored-power	twisted-spoon	synchronize	timid	spa:252,spe:252
+sabrina	serious	gardevoir	50	psychic/moonblast/calm-mind/hypnosis	leftovers	trace	modest	spa:252,hp:252
+sabrina	serious	slowking	50	psychic/surf/calm-mind/slack-off	sitrus-berry	own-tempo	bold	hp:252,def:252
+# ── カツラ ──
+blaine	original	growlithe	42	ember/bite/take-down/agility	-	-	-	-
+blaine	original	ponyta	40	ember/headbutt/growl/agility	-	-	-	-
+blaine	original	rapidash	42	fire-blast/headbutt/take-down/agility	-	-	-	-
+blaine	original	arcanine	47	fire-blast/take-down/bite/agility	-	-	-	-
+blaine	serious	arcanine	50	flare-blitz/extreme-speed/crunch/brick-break	choice-band	intimidate	adamant	atk:252,spe:252
+blaine	serious	magmortar	50	fire-blast/thunderbolt/psychic/heat-wave	choice-specs	flame-body	modest	spa:252,spe:252
+blaine	serious	houndoom	50	flamethrower/dark-pulse/nasty-plot/will-o-wisp	life-orb	flash-fire	timid	spa:252,spe:252
+blaine	serious	chandelure	50	fire-blast/shadow-ball/hex/will-o-wisp	charcoal	flash-fire	modest	spa:252,spe:252
+# ── サカキ ──
+giovanni	original	rhyhorn	45	rock-throw/bulldoze/take-down/headbutt	-	-	-	-
+giovanni	original	dugtrio	42	earthquake/sand-attack/body-slam/mud-slap	-	-	-	-
+giovanni	original	nidoqueen	44	earthquake/body-slam/poison-sting/double-kick	-	-	-	-
+giovanni	original	nidoking	45	earthquake/poison-jab/double-kick/thunderbolt	-	-	-	-
+giovanni	original	rhydon	50	earthquake/rock-slide/take-down/headbutt	-	-	-	-
+giovanni	serious	rhyperior	50	earthquake/stone-edge/megahorn/iron-head	assault-vest	solid-rock	adamant	atk:252,hp:252
+giovanni	serious	garchomp	50	earthquake/dragon-claw/stone-edge/swords-dance	life-orb	sand-veil	jolly	atk:252,spe:252
+giovanni	serious	excadrill	50	earthquake/iron-head/rock-slide/swords-dance	soft-sand	sand-force	adamant	atk:252,spe:252
+giovanni	serious	nidoking	50	earth-power/sludge-bomb/ice-beam/thunderbolt	expert-belt	poison-point	modest	spa:252,spe:252
+# ── カンナ ──
+lorelei	original	dewgong	54	aurora-beam/surf/body-slam/blizzard	-	-	-	-
+lorelei	original	cloyster	53	aurora-beam/surf/harden/blizzard	-	-	-	-
+lorelei	original	slowbro	54	psychic/surf/calm-mind/body-slam	-	-	-	-
+lorelei	original	jynx	56	blizzard/psychic/hypnosis/body-slam	-	-	-	-
+lorelei	original	lapras	56	blizzard/surf/body-slam/confuse-ray	-	-	-	-
+lorelei	serious	lapras	50	surf/ice-beam/toxic/body-slam	leftovers	water-absorb	bold	hp:252,def:252
+lorelei	serious	abomasnow	50	blizzard/giga-drain/ice-shard/toxic	never-melt-ice	snow-warning	modest	spa:252,hp:252
+lorelei	serious	mamoswine	50	icicle-crash/earthquake/ice-shard/stone-edge	choice-band	snow-cloak	adamant	atk:252,hp:252
+lorelei	serious	glaceon	50	blizzard/freeze-dry/icy-wind/hyper-voice	sitrus-berry	snow-cloak	modest	spa:252,spd:252
+# ── シバ ──
+bruno	original	onix	51	rock-throw/bulldoze/harden/bite	-	-	-	-
+bruno	original	hitmonchan	53	fire-punch/ice-punch/karate-chop/agility	-	-	-	-
+bruno	original	hitmonlee	53	double-kick/mega-kick/karate-chop/swords-dance	-	-	-	-
+bruno	original	machamp	56	karate-chop/submission/body-slam/swords-dance	-	-	-	-
+bruno	serious	machamp	50	cross-chop/stone-edge/earthquake/mach-punch	choice-band	guts	adamant	atk:252,hp:252
+bruno	serious	conkeldurr	50	drain-punch/mach-punch/stone-edge/hammer-arm	flame-orb	guts	adamant	atk:252,hp:252
+bruno	serious	hariyama	50	cross-chop/earthquake/rock-slide/bullet-punch	assault-vest	thick-fat	adamant	atk:252,hp:252
+bruno	serious	hitmontop	50	mach-punch/rapid-spin/stone-edge/aerial-ace	black-belt	technician	adamant	atk:252,spe:252
+# ── キクコ ──
+agatha	original	gengar	56	shadow-ball/hypnosis/confuse-ray/sludge	-	-	-	-
+agatha	original	golbat	56	wing-attack/bite/supersonic/confuse-ray	-	-	-	-
+agatha	original	haunter	55	shadow-ball/hypnosis/lick/toxic	-	-	-	-
+agatha	original	arbok	58	poison-jab/bite/acid/toxic	-	-	-	-
+agatha	original	gengar	60	shadow-ball/hypnosis/sludge/toxic	-	-	-	-
+agatha	serious	gengar	50	shadow-ball/sludge-bomb/hypnosis/hex	life-orb	cursed-body	timid	spa:252,spe:252
+agatha	serious	mismagius	50	shadow-ball/dazzling-gleam/nasty-plot/confuse-ray	spell-tag	levitate	timid	spa:252,spe:252
+agatha	serious	dusknoir	50	shadow-punch/earthquake/will-o-wisp/toxic	leftovers	pressure	impish	hp:252,def:252
+agatha	serious	banette	50	shadow-ball/hex/will-o-wisp/knock-off	expert-belt	frisk	quiet	spa:252,hp:252
+# ── ワタル ──
+lance	original	gyarados	58	waterfall/bite/body-slam/dragon-breath	-	-	-	-
+lance	original	dragonair	56	dragon-breath/thunder-wave/agility/body-slam	-	-	-	-
+lance	original	dragonair	56	dragon-breath/thunder-wave/surf/body-slam	-	-	-	-
+lance	original	aerodactyl	60	wing-attack/rock-slide/bite/take-down	-	-	-	-
+lance	original	dragonite	62	dragon-claw/blizzard/thunder/wing-attack	-	-	-	-
+lance	serious	dragonite	50	dragon-claw/earthquake/extreme-speed/swords-dance	life-orb	inner-focus	adamant	atk:252,spe:252
+lance	serious	salamence	50	dragon-claw/brave-bird/earthquake/crunch	choice-band	intimidate	jolly	atk:252,spe:252
+lance	serious	garchomp	50	earthquake/dragon-claw/stone-edge/swords-dance	dragon-fang	sand-veil	jolly	atk:252,spe:252
+lance	serious	kingdra	50	hydro-pump/dragon-pulse/ice-beam/agility	leftovers	swift-swim	modest	spa:252,hp:252
+# ── グリーン ──
+blue	original	pidgeot	61	wing-attack/quick-attack/sand-attack/swift	-	-	-	-
+blue	original	alakazam	59	psychic/recover/psybeam/dazzling-gleam	-	-	-	-
+blue	original	rhydon	61	earthquake/rock-slide/take-down/fury-attack	-	-	-	-
+blue	original	exeggutor	59	psychic/mega-drain/sleep-powder/headbutt	-	-	-	-
+blue	original	arcanine	61	fire-blast/take-down/bite/agility	-	-	-	-
+blue	original	charizard	65	fire-blast/wing-attack/body-slam/dragon-claw	-	-	-	-
+blue	serious	pidgeot	50	brave-bird/aerial-ace/double-edge/agility	choice-band	keen-eye	jolly	atk:252,spe:252
+blue	serious	scizor	50	bullet-punch/x-scissor/swords-dance/iron-head	life-orb	technician	adamant	atk:252,hp:252
+blue	serious	metagross	50	meteor-mash/zen-headbutt/earthquake/bullet-punch	expert-belt	clear-body	adamant	atk:252,hp:252
+blue	serious	tyranitar	50	crunch/stone-edge/earthquake/iron-head	leftovers	sand-stream	adamant	atk:252,spd:252
+
+# ═══ v0.11 で増えた5人 ═══
+#
+# 原作ティアはまだ書かない。**この5人は本編に出てこない**ので、
+# 「地方攻略中に戦う姿」が存在しない（§6 の原作ティアの定義）。
+# 無理に原作ティアを捏造するより、本気ティアだけで始める。
+# ── レッド ──
+red	serious	pikachu	50	thunderbolt/nuzzle/quick-attack/iron-tail	life-orb	static	timid	spa:252,spe:252
+red	serious	charizard	50	fire-blast/air-slash/dragon-pulse/brick-break	charcoal	blaze	timid	spa:252,spe:252
+red	serious	blastoise	50	hydro-pump/ice-beam/dark-pulse/aura-sphere	leftovers	torrent	modest	spa:252,hp:252
+red	serious	venusaur	50	giga-drain/sludge-bomb/sleep-powder/toxic	miracle-seed	overgrow	bold	hp:252,spd:252
+# ── ナナミ ──
+daisy	serious	clefable	50	moonblast/soft-boiled/toxic/charm	leftovers	cute-charm	bold	hp:252,def:252
+daisy	serious	blissey	50	soft-boiled/toxic/dazzling-gleam/charm	sitrus-berry	natural-cure	calm	hp:252,spd:252
+daisy	serious	sylveon	50	moonblast/draining-kiss/charm/hyper-voice	fairy-feather	cute-charm	modest	spa:252,spd:252
+daisy	serious	togekiss	50	dazzling-gleam/air-slash/charm/toxic	rocky-helmet	serene-grace	bold	hp:252,def:252
+# ── オーキド ──
+oak	serious	tauros	50	body-slam/earthquake/stone-edge/megahorn	choice-band	intimidate	jolly	atk:252,spe:252
+oak	serious	snorlax	50	body-slam/earthquake/crunch/toxic	leftovers	immunity	adamant	atk:252,hp:252
+oak	serious	exeggutor	50	psychic/giga-drain/sleep-powder/leaf-storm	miracle-seed	chlorophyll	modest	spa:252,hp:252
+oak	serious	aerodactyl	50	stone-edge/aerial-ace/earthquake/iron-head	focus-sash	rock-head	jolly	atk:252,spe:252
+# ── マサキ ──
+bill	serious	vaporeon	50	surf/ice-beam/toxic/recover	leftovers	water-absorb	bold	hp:252,def:252
+bill	serious	jolteon	50	thunderbolt/shadow-ball/thunder-wave/charge-beam	magnet	volt-absorb	timid	spa:252,spe:252
+bill	serious	umbreon	50	crunch/toxic/confuse-ray/payback	rocky-helmet	synchronize	calm	hp:252,spd:252
+bill	serious	leafeon	50	leaf-blade/x-scissor/swords-dance/double-edge	miracle-seed	leaf-guard	adamant	atk:252,spe:252
+# ── サカキ（ロケット団） ──
+rocket-boss	serious	persian	50	night-slash/body-slam/slash/screech	silk-scarf	limber	jolly	atk:252,spe:252
+rocket-boss	serious	houndoom	50	dark-pulse/flamethrower/nasty-plot/will-o-wisp	black-glasses	flash-fire	timid	spa:252,spe:252
+rocket-boss	serious	drapion	50	crunch/poison-jab/x-scissor/swords-dance	life-orb	battle-armor	jolly	atk:252,spe:252
+rocket-boss	serious	crobat	50	cross-poison/aerial-ace/bite/toxic	leftovers	inner-focus	jolly	atk:252,spe:252

@@ -1,0 +1,28 @@
+# グレンじまのポケモンセンター。
+id: kanto-cinnabar-pokecenter
+name: ポケモンセンター
+region: kanto
+bgm: pokecenter
+
+legend:
+. normal
+W !normal
+S !normal
+C !normal
+D normal
+
+grid:
+WWWWWWWWW
+WSSSSS..W
+W.......W
+W.....CCW
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,6 step kanto-cinnabar-island 10,9 down
+
+objects:
+cinnabar-nurse 4,2 npc:nurse:static kanto.cinnabar.nurse
+cinnabar-center-pc 7,4 npc:machine:static kanto.cinnabar.center-pc

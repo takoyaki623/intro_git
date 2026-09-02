@@ -1,0 +1,342 @@
+/**
+ * packages/data — マスタデータと GameData の実装。
+ *
+ * core はこのパッケージを型としてしか知らない。実体を渡すのは呼び出し側。
+ * 設計: docs/design/data-schema.md
+ */
+
+/**
+ * 生成した ID 型を使う口（v0.9.5）。**手書きリテラルの検査にだけ使う。**
+ * JSON に書いた ID の持ち主は型ではなく `tools/validate.ts`（data-schema.md §3）。
+ */
+export * from "./ids.js";
+
+import {
+  assertCompleteTypeChart,
+  MissingDataError,
+  TYPES,
+  type Ability,
+  type Ball,
+  type BattleSet,
+  type EncounterTable,
+  type ExpType,
+  type EventScript,
+  type FlagId,
+  type MapData,
+  type FieldAbility,
+  type FieldRule,
+  type RegionDefinition,
+  type Shop,
+  type Trainer,
+  type Facility,
+  type GameData,
+  type NamedCharacter,
+  type Tournament,
+  type Item,
+  type Move,
+  type NatureModifier,
+  type Species,
+  type Type,
+  type TypeChart,
+} from "@pkmn/core";
+
+import abilitiesJson from "../abilities.json" with { type: "json" };
+import ballsJson from "../balls.json" with { type: "json" };
+import battleSetsJson from "../battle-sets.json" with { type: "json" };
+import expTablesJson from "../exp-tables.json" with { type: "json" };
+import encountersJson from "../encounters.json" with { type: "json" };
+import eventsJson from "../events.json" with { type: "json" };
+import trainerEventsJson from "../events-trainers.json" with { type: "json" };
+import itemEventsJson from "../events-items.json" with { type: "json" };
+import flagsJson from "../flags.json" with { type: "json" };
+import shopsJson from "../shops.json" with { type: "json" };
+import fieldRulesJson from "../field-rules.json" with { type: "json" };
+import regionsJson from "../regions.json" with { type: "json" };
+import mapsJson from "../maps.json" with { type: "json" };
+import fieldAbilitiesJson from "../field-abilities.json" with { type: "json" };
+import artJson from "../art.json" with { type: "json" };
+import trainersJson from "../trainers.json" with { type: "json" };
+import facilitiesJson from "../facilities.json" with { type: "json" };
+import itemsJson from "../items.json" with { type: "json" };
+import namedJson from "../named.json" with { type: "json" };
+import movesJson from "../moves.json" with { type: "json" };
+import naturesJson from "../natures.json" with { type: "json" };
+import speciesJson from "../species.json" with { type: "json" };
+import tournamentsJson from "../tournaments.json" with { type: "json" };
+import typeChartJson from "../type-chart.json" with { type: "json" };
+
+/**
+ * 相性表は「1倍を省略した疎な形」で持ち、ここで 18×18 に展開する。
+ * 324 セルを手書きすると必ず書き間違えるため、例外だけを書く。
+ * 展開後に完全性を検証するので、設計の検証項目 #2 は満たされる。
+ */
+function expandTypeChart(sparse: Record<string, Record<string, number>>): TypeChart {
+  const chart = {} as TypeChart;
+  for (const atk of TYPES) {
+    const row = {} as Record<Type, number>;
+    const overrides = sparse[atk] ?? {};
+    for (const def of TYPES) {
+      row[def] = overrides[def] ?? 1;
+    }
+    chart[atk] = row;
+  }
+  assertCompleteTypeChart(chart);
+  return chart;
+}
+
+function indexById<T extends { id: string }>(items: readonly T[]): ReadonlyMap<string, T> {
+  const map = new Map<string, T>();
+  for (const item of items) {
+    if (map.has(item.id)) throw new Error(`duplicate id: "${item.id}"`);
+    map.set(item.id, item);
+  }
+  return map;
+}
+
+const speciesById = indexById(speciesJson as unknown as Species[]);
+const movesById = indexById(movesJson as unknown as Move[]);
+const naturesById = indexById(naturesJson as unknown as NatureModifier[]);
+const abilitiesById = indexById(abilitiesJson as unknown as Ability[]);
+const itemsById = indexById(itemsJson as unknown as Item[]);
+const typeChart = expandTypeChart(
+  typeChartJson as unknown as Record<string, Record<string, number>>,
+);
+
+const ballsById = indexById(ballsJson as unknown as Ball[]);
+const expTables = expTablesJson as unknown as Record<string, readonly number[]>;
+
+/** 成長曲線。テーブルなので参照するだけ（progression.md §7）。 */
+function expTable(type: ExpType): readonly number[] {
+  const table = expTables[type];
+  if (table === undefined) throw new MissingDataError("exp-table", type);
+  return table;
+}
+
+/**
+ * 完全なマスタデータ。
+ * テストでは代わりに部分的な GameData を渡せる（createGameData を参照）。
+ */
+export const gameData: GameData = {
+  species: (id) => {
+    const s = speciesById.get(id);
+    if (s === undefined) throw new MissingDataError("species", id);
+    return s;
+  },
+  move: (id) => {
+    const m = movesById.get(id);
+    if (m === undefined) throw new MissingDataError("move", id);
+    return m;
+  },
+  moveIds: () => [...movesById.keys()],
+  nature: (id) => {
+    const n = naturesById.get(id);
+    if (n === undefined) throw new MissingDataError("nature", id);
+    return n;
+  },
+  ability: (id) => {
+    const a = abilitiesById.get(id);
+    if (a === undefined) throw new MissingDataError("ability", id);
+    return a;
+  },
+  item: (id) => {
+    const i = itemsById.get(id);
+    if (i === undefined) throw new MissingDataError("item", id);
+    return i;
+  },
+  ball: (id) => {
+    const b = ballsById.get(id);
+    if (b === undefined) throw new MissingDataError("ball", id);
+    return b;
+  },
+  expTable,
+  typeChart,
+};
+
+/**
+ * 任意の部分集合から GameData を作る。
+ * v0.1 の眼目である「core にデータを注入できること」を、テストで示すための入口。
+ */
+export function createGameData(options: {
+  species?: readonly Species[];
+  moves?: readonly Move[];
+  natures?: readonly NatureModifier[];
+  abilities?: readonly Ability[];
+  items?: readonly Item[];
+  typeChart?: TypeChart;
+}): GameData {
+  const sp = indexById(options.species ?? (speciesJson as unknown as Species[]));
+  const mv = indexById(options.moves ?? (movesJson as unknown as Move[]));
+  const na = indexById(options.natures ?? (naturesJson as unknown as NatureModifier[]));
+  const ab = indexById(options.abilities ?? (abilitiesJson as unknown as Ability[]));
+  const it = indexById(options.items ?? (itemsJson as unknown as Item[]));
+  const tc = options.typeChart ?? typeChart;
+
+  return {
+    species: (id) => {
+      const s = sp.get(id);
+      if (s === undefined) throw new MissingDataError("species", id);
+      return s;
+    },
+    move: (id) => {
+      const m = mv.get(id);
+      if (m === undefined) throw new MissingDataError("move", id);
+      return m;
+    },
+    // 部分的な GameData でも答えられる（渡された技だけを返す）
+    moveIds: () => [...mv.keys()],
+    nature: (id) => {
+      const n = na.get(id);
+      if (n === undefined) throw new MissingDataError("nature", id);
+      return n;
+    },
+    ability: (id) => {
+      const a = ab.get(id);
+      if (a === undefined) throw new MissingDataError("ability", id);
+      return a;
+    },
+    item: (id) => {
+      const i = it.get(id);
+      if (i === undefined) throw new MissingDataError("item", id);
+      return i;
+    },
+    ball: (id) => {
+      const b = ballsById.get(id);
+      if (b === undefined) throw new MissingDataError("ball", id);
+      return b;
+    },
+    expTable,
+    typeChart: tc,
+  };
+}
+
+export const allSpecies = speciesJson as unknown as readonly Species[];
+export const allNatures = naturesJson as unknown as readonly NatureModifier[];
+export const allBalls = ballsJson as unknown as readonly Ball[];
+export const allMoves = movesJson as unknown as readonly Move[];
+export const allAbilities = abilitiesJson as unknown as readonly Ability[];
+export const allItems = itemsJson as unknown as readonly Item[];
+export const allBattleSets = battleSetsJson as unknown as readonly BattleSet[];
+export const allFacilities = facilitiesJson as unknown as readonly Facility[];
+
+export function facilityById(id: string): Facility {
+  const f = allFacilities.find((x) => x.id === id);
+  if (f === undefined) throw new MissingDataError("facility", id);
+  return f;
+}
+
+export const allNamed = namedJson as unknown as readonly NamedCharacter[];
+export const allTournaments = tournamentsJson as unknown as readonly Tournament[];
+
+export function namedById(id: string): NamedCharacter {
+  const c = allNamed.find((x) => x.id === id);
+  if (c === undefined) throw new MissingDataError("named", id);
+  return c;
+}
+
+export function tournamentById(id: string): Tournament {
+  const t = allTournaments.find((x) => x.id === id);
+  if (t === undefined) throw new MissingDataError("tournament", id);
+  return t;
+}
+
+// ─────────────────────────────────────────────
+// 世界（v0.7）
+//
+// マップ・イベント・トレーナーも「core は型としてしか知らない」を守る。
+// core 側の関数は必ず引数で受け取り、ここを import しない。
+// ─────────────────────────────────────────────
+
+export const allMaps = mapsJson as unknown as readonly MapData[];
+/**
+ * イベント。**手で書いたぶんと、機械が組み立てたぶんの2枚**（v1.1-i）。
+ *
+ * 道中のトレーナー戦は「話しかける → 勝つまで戦う → 勝ったら消える」で全員同じなので、
+ * `trainers.tsv` の台詞2列から `events-trainers.json` を作っている ――
+ * **同じ形の JSON を人が書き写す場所を無くす**ため。
+ * 2枚に分けてあるのは、混ぜると次の生成でどちらが原本か分からなくなるから。
+ */
+export const allEvents = [
+  ...(eventsJson as unknown as readonly EventScript[]),
+  ...(trainerEventsJson as unknown as readonly EventScript[]),
+  ...(itemEventsJson as unknown as readonly EventScript[]),
+];
+export const allEncounterTables = encountersJson as unknown as readonly EncounterTable[];
+export const allTrainers = trainersJson as unknown as readonly Trainer[];
+/** 宣言済みフラグ。ここに無いフラグを使うと検証エラーになる（world.md §6）。 */
+export const allFlags = flagsJson as unknown as readonly FlagId[];
+export const allShops = shopsJson as unknown as readonly Shop[];
+/**
+ * 場所ごとの規則（v1.1-h）。**サファリゾーンのために作った1件目。**
+ * マップは `rules:` で id を指すだけなので、2つ目のサファリは JSON 1件で増える。
+ */
+export const allFieldRules = fieldRulesJson as unknown as readonly FieldRule[];
+/** 地方の定義（v0.10）。`available: false` は未実装の印であってロックではない。 */
+export const allRegions = regionsJson as unknown as readonly RegionDefinition[];
+/**
+ * フィールド技（v0.12-d）。秘伝技は廃止したので、これはポケモンではなく
+ * **プレイヤーの能力**の一覧（world.md §7）。
+ */
+export const allFieldAbilities = fieldAbilitiesJson as unknown as readonly FieldAbility[];
+
+/**
+ * 姿のレシピ（v0.12.5）。
+ *
+ * **絵ではなく分類**（体型・体色・飾り）なので、公開リポジトリに置ける
+ * （game-plan.md §10）。描き方を持つのは `packages/game/src/art/sprites.ts`。
+ */
+export type ArtRecipe = {
+  species: string;
+  shape: string;
+  color: string;
+  size: string;
+  parts: readonly string[];
+  /** 差し色・耳・しっぽ・模様（v1.5）。**種を見分ける4つ。** */
+  accent: string;
+  ears: string;
+  tail: string;
+  mark: string;
+};
+
+export const allArt = artJson as unknown as readonly ArtRecipe[];
+
+const artIndex = new Map(allArt.map((a) => [a.species, a]));
+
+/** レシピが無い種は、まるい既定の姿にする（絵が消えるより形が出るほうがよい）。 */
+export function artFor(id: string): ArtRecipe {
+  return (
+    artIndex.get(id) ?? {
+      species: id, shape: "blob", color: "gray", size: "medium", parts: [],
+      accent: "", ears: "none", tail: "none", mark: "none",
+    }
+  );
+}
+
+export function regionById(id: string): RegionDefinition {
+  const r = allRegions.find((x) => x.id === id);
+  if (r === undefined) throw new MissingDataError("region", id);
+  return r;
+}
+
+export function shopById(id: string): Shop {
+  const s = allShops.find((x) => x.id === id);
+  if (s === undefined) throw new MissingDataError("shop", id);
+  return s;
+}
+
+export function mapById(id: string): MapData {
+  const m = allMaps.find((x) => x.id === id);
+  if (m === undefined) throw new MissingDataError("map", id);
+  return m;
+}
+
+export function eventById(id: string): EventScript {
+  const e = allEvents.find((x) => x.id === id);
+  if (e === undefined) throw new MissingDataError("event", id);
+  return e;
+}
+
+export function trainerById(id: string): Trainer {
+  const t = allTrainers.find((x) => x.id === id);
+  if (t === undefined) throw new MissingDataError("trainer", id);
+  return t;
+}

@@ -1,0 +1,38 @@
+# こおりのぬけみち 1階。**氷の床**（v1.1-k）。
+#
+# 乗ったら止まれない ―― 進めるだけ滑り、入れないマスに当たって初めて止まる。
+# 北の階段（9,0）へ行くには:
+#   1. 東の端（11）を上がって (11,2) で止まる
+#   2. 左へ滑ると (8,2) の岩に当たって (9,2) で止まる
+#   3. そこから1歩上がる
+# **氷の上のマスは「通る場所」であって「立てる場所」ではない** ――
+# 到達性の検査（#55）がそれを知っている必要がある。
+id: kanto-sevii-icefall-1f
+name: こおりのぬけみち 1F
+region: kanto
+encounters: kanto-sevii-icefall-1f-cave
+bgm: mt-moon
+
+legend:
+. cave
+C !cave
+i ice
+D normal
+
+grid:
+CCCCCCCCCDCCC
+CCCCCCCCC.CCC
+CiiiiiiiCiiiC
+CiiiCiiiCiCiC
+CiiiiiiiCiCiC
+CiiiiiiiiiCiC
+CiiiiiiiiiiiC
+C...........C
+C.....D.....C
+CCCCCCCCCCCCC
+
+warps:
+9,0 step kanto-sevii-icefall-b1f 9,1 down
+6,8 step kanto-sevii-icefall-cave 2,2 down
+
+objects:

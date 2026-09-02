@@ -1,0 +1,37 @@
+# 16番道路。タマムシから南へ。この先は サイクリングロード（17番）。
+id: kanto-route-16
+name: 16ばんどうろ
+region: kanto
+encounters: kanto-route-16-grass
+bgm: route-16
+
+legend:
+. normal
+, grass
+T !normal
+= ledge
+
+grid:
+TTTTTTTTTTTTT
+T...........T
+T..,,,......T
+T..,,,......T
+............T
+T.....===...T
+T...........T
+T.......,,,.T
+T...........T
+TTTTTT.TTTTTT
+
+warps:
+0,4 step kanto-celadon-city 12,10 left
+6,9 step kanto-route-17 5,1 down
+
+objects:
+route16-sign 3,6 sign kanto.route16.sign
+route16-biker 8,3 trainer:kanto-route16-biker:3:left kanto.route16.biker if:kanto.route16.biker-beaten=false
+route16-snorlax 6,8 npc:snorlax:static kanto.route16.snorlax if:kanto.route16.snorlax-woken=false
+route16-hidden 2,6 item:full-heal:hidden kanto.route16.hidden if:kanto.route16.hidden-taken=false
+route16-biker-1 1,1 trainer:kanto-route-16-biker-1:2:down kanto.route16.biker1 if:kanto.route16.biker1-beaten=false
+route16-biker-2 11,8 trainer:kanto-route-16-biker-2:2:left kanto.route16.biker2 if:kanto.route16.biker2-beaten=false
+route16-tm47-1 10,8 item:tm47 kanto.route16.tm471 if:kanto.route16.tm471-taken=false

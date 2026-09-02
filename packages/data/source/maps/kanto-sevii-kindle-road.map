@@ -1,0 +1,39 @@
+# ほのおのみち。1のしま から ともしびやま へ登る道（v1.1-j）。
+# **ポニータ と ギャロップ はここに居る** ―― 赤緑ではポケモンやしきとサファリだったが、
+# FRLG でナナシマへ移った。v1.1 の完了条件「カントー151種すべてに入手経路がある」の
+# 残り3種のうち2種がこの1枚で開く。
+id: kanto-sevii-kindle-road
+name: ほのおのみち
+region: kanto
+encounters: kanto-sevii-kindle-road-grass kanto-sevii-kindle-road-rock-smash kanto-sevii-kindle-road-surf kanto-sevii-kindle-road-fishing-old kanto-sevii-kindle-road-fishing-good kanto-sevii-kindle-road-fishing-super
+bgm: route-3
+
+legend:
+. normal
+g grass
+~ !water
+T !normal
+
+grid:
+TTTTTT.TTTTTT
+T...........T
+T..ggg......T
+T..ggg......T
+T...........T
+T.....ggg...T
+T.....ggg..~T
+T..........~T
+T..ggg.....~T
+T..ggg.....~T
+T..........~T
+T...........T
+TTTTTT.TTTTTT
+
+warps:
+6,0 step kanto-sevii-mt-ember 6,11 up
+6,12 step kanto-sevii-one-island 5,1 down
+
+objects:
+kindle-rock-1 8,2 obstacle:rockSmash
+kindle-rock-2 2,6 obstacle:rockSmash
+kindle-item 10,4 item:ether kanto.sevii.kindle-item if:kanto.sevii.kindle-item-taken=false

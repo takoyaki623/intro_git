@@ -1,0 +1,3077 @@
+[
+  {
+    "species": "bulbasaur",
+    "shape": "quadruped",
+    "color": "green",
+    "size": "small",
+    "parts": [
+      "plant",
+      "drip"
+    ],
+    "accent": "teal",
+    "ears": "pointed",
+    "tail": "none",
+    "mark": "spots"
+  },
+  {
+    "species": "ivysaur",
+    "shape": "quadruped",
+    "color": "green",
+    "size": "medium",
+    "parts": [
+      "plant",
+      "drip"
+    ],
+    "accent": "teal",
+    "ears": "pointed",
+    "tail": "none",
+    "mark": "spots"
+  },
+  {
+    "species": "venusaur",
+    "shape": "quadruped",
+    "color": "green",
+    "size": "large",
+    "parts": [
+      "plant",
+      "drip"
+    ],
+    "accent": "teal",
+    "ears": "pointed",
+    "tail": "none",
+    "mark": "spots"
+  },
+  {
+    "species": "charmander",
+    "shape": "upright",
+    "color": "red",
+    "size": "small",
+    "parts": [
+      "flame"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "flame",
+    "mark": "belly"
+  },
+  {
+    "species": "charmeleon",
+    "shape": "upright",
+    "color": "red",
+    "size": "medium",
+    "parts": [
+      "flame",
+      "horn"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "flame",
+    "mark": "none"
+  },
+  {
+    "species": "charizard",
+    "shape": "upright",
+    "color": "red",
+    "size": "large",
+    "parts": [
+      "flame",
+      "wing"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "flame",
+    "mark": "belly"
+  },
+  {
+    "species": "squirtle",
+    "shape": "upright",
+    "color": "blue",
+    "size": "tiny",
+    "parts": [
+      "fin"
+    ],
+    "accent": "cream",
+    "ears": "round",
+    "tail": "curl",
+    "mark": "belly"
+  },
+  {
+    "species": "wartortle",
+    "shape": "upright",
+    "color": "blue",
+    "size": "small",
+    "parts": [
+      "fin"
+    ],
+    "accent": "cream",
+    "ears": "round",
+    "tail": "bushy",
+    "mark": "belly"
+  },
+  {
+    "species": "blastoise",
+    "shape": "upright",
+    "color": "blue",
+    "size": "large",
+    "parts": [
+      "fin",
+      "plate"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "thin",
+    "mark": "belly"
+  },
+  {
+    "species": "caterpie",
+    "shape": "armor",
+    "color": "green",
+    "size": "tiny",
+    "parts": [
+      "antenna"
+    ],
+    "accent": "yellow",
+    "ears": "none",
+    "tail": "none",
+    "mark": "band"
+  },
+  {
+    "species": "metapod",
+    "shape": "squiggle",
+    "color": "green",
+    "size": "small",
+    "parts": [
+      "antenna"
+    ],
+    "accent": "green",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "butterfree",
+    "shape": "bug-wings",
+    "color": "white",
+    "size": "medium",
+    "parts": [
+      "antenna",
+      "wing"
+    ],
+    "accent": "purple",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "weedle",
+    "shape": "armor",
+    "color": "brown",
+    "size": "tiny",
+    "parts": [
+      "antenna",
+      "drip",
+      "horn"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "spike",
+    "mark": "none"
+  },
+  {
+    "species": "kakuna",
+    "shape": "squiggle",
+    "color": "yellow",
+    "size": "small",
+    "parts": [
+      "antenna",
+      "drip"
+    ],
+    "accent": "brown",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "beedrill",
+    "shape": "bug-wings",
+    "color": "yellow",
+    "size": "small",
+    "parts": [
+      "antenna",
+      "drip"
+    ],
+    "accent": "black",
+    "ears": "none",
+    "tail": "spike",
+    "mark": "stripes"
+  },
+  {
+    "species": "pidgey",
+    "shape": "wings",
+    "color": "brown",
+    "size": "tiny",
+    "parts": [
+      "wing"
+    ],
+    "accent": "cream",
+    "ears": "tuft",
+    "tail": "fan",
+    "mark": "none"
+  },
+  {
+    "species": "pidgeotto",
+    "shape": "wings",
+    "color": "brown",
+    "size": "medium",
+    "parts": [
+      "wing"
+    ],
+    "accent": "red",
+    "ears": "tuft",
+    "tail": "fan",
+    "mark": "none"
+  },
+  {
+    "species": "pidgeot",
+    "shape": "wings",
+    "color": "brown",
+    "size": "large",
+    "parts": [
+      "wing"
+    ],
+    "accent": "red",
+    "ears": "tuft",
+    "tail": "fan",
+    "mark": "stripes"
+  },
+  {
+    "species": "rattata",
+    "shape": "quadruped",
+    "color": "purple",
+    "size": "tiny",
+    "parts": [],
+    "accent": "cream",
+    "ears": "round",
+    "tail": "thin",
+    "mark": "belly"
+  },
+  {
+    "species": "raticate",
+    "shape": "quadruped",
+    "color": "brown",
+    "size": "small",
+    "parts": [],
+    "accent": "cream",
+    "ears": "pointed",
+    "tail": "thin",
+    "mark": "belly"
+  },
+  {
+    "species": "spearow",
+    "shape": "wings",
+    "color": "brown",
+    "size": "tiny",
+    "parts": [
+      "wing"
+    ],
+    "accent": "tan",
+    "ears": "tuft",
+    "tail": "fan",
+    "mark": "mask"
+  },
+  {
+    "species": "fearow",
+    "shape": "wings",
+    "color": "brown",
+    "size": "large",
+    "parts": [
+      "wing"
+    ],
+    "accent": "tan",
+    "ears": "tuft",
+    "tail": "fan",
+    "mark": "none"
+  },
+  {
+    "species": "ekans",
+    "shape": "squiggle",
+    "color": "purple",
+    "size": "large",
+    "parts": [
+      "drip"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "none",
+    "mark": "band"
+  },
+  {
+    "species": "arbok",
+    "shape": "squiggle",
+    "color": "purple",
+    "size": "large",
+    "parts": [
+      "drip"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "spike",
+    "mark": "mask"
+  },
+  {
+    "species": "pikachu",
+    "shape": "upright",
+    "color": "yellow",
+    "size": "small",
+    "parts": [
+      "spark"
+    ],
+    "accent": "red",
+    "ears": "long",
+    "tail": "bolt",
+    "mark": "cheeks"
+  },
+  {
+    "species": "raichu",
+    "shape": "upright",
+    "color": "yellow",
+    "size": "medium",
+    "parts": [
+      "spark"
+    ],
+    "accent": "orange",
+    "ears": "long",
+    "tail": "bolt",
+    "mark": "cheeks"
+  },
+  {
+    "species": "sandshrew",
+    "shape": "upright",
+    "color": "yellow",
+    "size": "small",
+    "parts": [
+      "spike"
+    ],
+    "accent": "cream",
+    "ears": "round",
+    "tail": "curl",
+    "mark": "belly"
+  },
+  {
+    "species": "sandslash",
+    "shape": "upright",
+    "color": "yellow",
+    "size": "medium",
+    "parts": [
+      "spike"
+    ],
+    "accent": "cream",
+    "ears": "round",
+    "tail": "spike",
+    "mark": "spots"
+  },
+  {
+    "species": "nidoran-f",
+    "shape": "quadruped",
+    "color": "blue",
+    "size": "tiny",
+    "parts": [
+      "drip"
+    ],
+    "accent": "cream",
+    "ears": "long",
+    "tail": "thin",
+    "mark": "none"
+  },
+  {
+    "species": "nidorina",
+    "shape": "quadruped",
+    "color": "blue",
+    "size": "small",
+    "parts": [
+      "drip"
+    ],
+    "accent": "cream",
+    "ears": "long",
+    "tail": "thin",
+    "mark": "none"
+  },
+  {
+    "species": "nidoqueen",
+    "shape": "upright",
+    "color": "blue",
+    "size": "large",
+    "parts": [
+      "drip",
+      "spike",
+      "plate"
+    ],
+    "accent": "cream",
+    "ears": "pointed",
+    "tail": "spike",
+    "mark": "belly"
+  },
+  {
+    "species": "nidoran-m",
+    "shape": "quadruped",
+    "color": "purple",
+    "size": "tiny",
+    "parts": [
+      "drip"
+    ],
+    "accent": "cream",
+    "ears": "long",
+    "tail": "thin",
+    "mark": "spots"
+  },
+  {
+    "species": "nidorino",
+    "shape": "quadruped",
+    "color": "purple",
+    "size": "small",
+    "parts": [
+      "drip"
+    ],
+    "accent": "cream",
+    "ears": "pointed",
+    "tail": "spike",
+    "mark": "spots"
+  },
+  {
+    "species": "nidoking",
+    "shape": "upright",
+    "color": "purple",
+    "size": "large",
+    "parts": [
+      "drip",
+      "spike",
+      "plate"
+    ],
+    "accent": "cream",
+    "ears": "pointed",
+    "tail": "spike",
+    "mark": "stripes"
+  },
+  {
+    "species": "clefairy",
+    "shape": "upright",
+    "color": "pink",
+    "size": "small",
+    "parts": [
+      "sparkle"
+    ],
+    "accent": "pink",
+    "ears": "pointed",
+    "tail": "curl",
+    "mark": "none"
+  },
+  {
+    "species": "clefable",
+    "shape": "upright",
+    "color": "pink",
+    "size": "medium",
+    "parts": [
+      "sparkle"
+    ],
+    "accent": "cream",
+    "ears": "long",
+    "tail": "curl",
+    "mark": "none"
+  },
+  {
+    "species": "vulpix",
+    "shape": "quadruped",
+    "color": "brown",
+    "size": "small",
+    "parts": [
+      "flame"
+    ],
+    "accent": "cream",
+    "ears": "pointed",
+    "tail": "bushy",
+    "mark": "none"
+  },
+  {
+    "species": "ninetales",
+    "shape": "quadruped",
+    "color": "yellow",
+    "size": "large",
+    "parts": [
+      "flame",
+      "sparkle"
+    ],
+    "accent": "cream",
+    "ears": "pointed",
+    "tail": "bushy",
+    "mark": "none"
+  },
+  {
+    "species": "jigglypuff",
+    "shape": "humanoid",
+    "color": "pink",
+    "size": "tiny",
+    "parts": [
+      "sparkle"
+    ],
+    "accent": "cream",
+    "ears": "round",
+    "tail": "curl",
+    "mark": "none"
+  },
+  {
+    "species": "wigglytuff",
+    "shape": "humanoid",
+    "color": "pink",
+    "size": "medium",
+    "parts": [
+      "sparkle"
+    ],
+    "accent": "cream",
+    "ears": "long",
+    "tail": "curl",
+    "mark": "none"
+  },
+  {
+    "species": "zubat",
+    "shape": "wings",
+    "color": "purple",
+    "size": "small",
+    "parts": [
+      "drip",
+      "wing"
+    ],
+    "accent": "purple",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "golbat",
+    "shape": "wings",
+    "color": "purple",
+    "size": "large",
+    "parts": [
+      "drip",
+      "wing"
+    ],
+    "accent": "purple",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "oddish",
+    "shape": "legs",
+    "color": "blue",
+    "size": "tiny",
+    "parts": [
+      "plant",
+      "drip"
+    ],
+    "accent": "navy",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "gloom",
+    "shape": "humanoid",
+    "color": "blue",
+    "size": "small",
+    "parts": [
+      "plant",
+      "drip"
+    ],
+    "accent": "brown",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "vileplume",
+    "shape": "humanoid",
+    "color": "red",
+    "size": "medium",
+    "parts": [
+      "plant",
+      "drip"
+    ],
+    "accent": "red",
+    "ears": "none",
+    "tail": "none",
+    "mark": "spots"
+  },
+  {
+    "species": "paras",
+    "shape": "armor",
+    "color": "red",
+    "size": "tiny",
+    "parts": [
+      "antenna",
+      "plant"
+    ],
+    "accent": "orange",
+    "ears": "none",
+    "tail": "none",
+    "mark": "spots"
+  },
+  {
+    "species": "parasect",
+    "shape": "armor",
+    "color": "red",
+    "size": "medium",
+    "parts": [
+      "antenna",
+      "plant"
+    ],
+    "accent": "red",
+    "ears": "none",
+    "tail": "none",
+    "mark": "spots"
+  },
+  {
+    "species": "venonat",
+    "shape": "humanoid",
+    "color": "purple",
+    "size": "small",
+    "parts": [
+      "antenna",
+      "drip"
+    ],
+    "accent": "purple",
+    "ears": "round",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "venomoth",
+    "shape": "bug-wings",
+    "color": "purple",
+    "size": "medium",
+    "parts": [
+      "antenna",
+      "drip"
+    ],
+    "accent": "purple",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "diglett",
+    "shape": "blob",
+    "color": "brown",
+    "size": "tiny",
+    "parts": [
+      "spike"
+    ],
+    "accent": "pink",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "dugtrio",
+    "shape": "heads",
+    "color": "brown",
+    "size": "medium",
+    "parts": [
+      "spike"
+    ],
+    "accent": "pink",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "meowth",
+    "shape": "quadruped",
+    "color": "yellow",
+    "size": "tiny",
+    "parts": [
+      "sparkle"
+    ],
+    "accent": "cream",
+    "ears": "pointed",
+    "tail": "curl",
+    "mark": "none"
+  },
+  {
+    "species": "persian",
+    "shape": "quadruped",
+    "color": "yellow",
+    "size": "medium",
+    "parts": [
+      "sparkle"
+    ],
+    "accent": "cream",
+    "ears": "pointed",
+    "tail": "thin",
+    "mark": "none"
+  },
+  {
+    "species": "psyduck",
+    "shape": "upright",
+    "color": "yellow",
+    "size": "small",
+    "parts": [
+      "fin"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "golduck",
+    "shape": "upright",
+    "color": "blue",
+    "size": "medium",
+    "parts": [
+      "fin"
+    ],
+    "accent": "cream",
+    "ears": "fin",
+    "tail": "thin",
+    "mark": "none"
+  },
+  {
+    "species": "mankey",
+    "shape": "upright",
+    "color": "brown",
+    "size": "tiny",
+    "parts": [
+      "band"
+    ],
+    "accent": "cream",
+    "ears": "round",
+    "tail": "thin",
+    "mark": "none"
+  },
+  {
+    "species": "primeape",
+    "shape": "upright",
+    "color": "brown",
+    "size": "medium",
+    "parts": [
+      "band"
+    ],
+    "accent": "cream",
+    "ears": "round",
+    "tail": "thin",
+    "mark": "band"
+  },
+  {
+    "species": "growlithe",
+    "shape": "quadruped",
+    "color": "brown",
+    "size": "small",
+    "parts": [
+      "flame"
+    ],
+    "accent": "cream",
+    "ears": "pointed",
+    "tail": "bushy",
+    "mark": "stripes"
+  },
+  {
+    "species": "arcanine",
+    "shape": "quadruped",
+    "color": "brown",
+    "size": "large",
+    "parts": [
+      "flame"
+    ],
+    "accent": "cream",
+    "ears": "pointed",
+    "tail": "bushy",
+    "mark": "stripes"
+  },
+  {
+    "species": "poliwag",
+    "shape": "legs",
+    "color": "blue",
+    "size": "small",
+    "parts": [
+      "fin"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "thin",
+    "mark": "swirl"
+  },
+  {
+    "species": "poliwhirl",
+    "shape": "humanoid",
+    "color": "blue",
+    "size": "small",
+    "parts": [
+      "fin"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "none",
+    "mark": "swirl"
+  },
+  {
+    "species": "poliwrath",
+    "shape": "humanoid",
+    "color": "blue",
+    "size": "medium",
+    "parts": [
+      "fin",
+      "band"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "none",
+    "mark": "swirl"
+  },
+  {
+    "species": "abra",
+    "shape": "upright",
+    "color": "brown",
+    "size": "small",
+    "parts": [
+      "aura"
+    ],
+    "accent": "cream",
+    "ears": "pointed",
+    "tail": "thin",
+    "mark": "none"
+  },
+  {
+    "species": "kadabra",
+    "shape": "upright",
+    "color": "brown",
+    "size": "medium",
+    "parts": [
+      "aura"
+    ],
+    "accent": "cream",
+    "ears": "pointed",
+    "tail": "thin",
+    "mark": "stripes"
+  },
+  {
+    "species": "alakazam",
+    "shape": "humanoid",
+    "color": "brown",
+    "size": "large",
+    "parts": [
+      "aura",
+      "horn"
+    ],
+    "accent": "cream",
+    "ears": "pointed",
+    "tail": "thin",
+    "mark": "none"
+  },
+  {
+    "species": "machop",
+    "shape": "upright",
+    "color": "gray",
+    "size": "small",
+    "parts": [
+      "band"
+    ],
+    "accent": "gray",
+    "ears": "pointed",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "machoke",
+    "shape": "humanoid",
+    "color": "gray",
+    "size": "medium",
+    "parts": [
+      "band"
+    ],
+    "accent": "gray",
+    "ears": "pointed",
+    "tail": "none",
+    "mark": "band"
+  },
+  {
+    "species": "machamp",
+    "shape": "humanoid",
+    "color": "gray",
+    "size": "large",
+    "parts": [
+      "band",
+      "plate"
+    ],
+    "accent": "gray",
+    "ears": "pointed",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "bellsprout",
+    "shape": "humanoid",
+    "color": "green",
+    "size": "small",
+    "parts": [
+      "plant",
+      "drip"
+    ],
+    "accent": "green",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "weepinbell",
+    "shape": "blob",
+    "color": "green",
+    "size": "small",
+    "parts": [
+      "plant",
+      "drip"
+    ],
+    "accent": "green",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "victreebel",
+    "shape": "blob",
+    "color": "green",
+    "size": "large",
+    "parts": [
+      "plant",
+      "drip"
+    ],
+    "accent": "yellow",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "tentacool",
+    "shape": "tentacles",
+    "color": "blue",
+    "size": "small",
+    "parts": [
+      "fin",
+      "drip"
+    ],
+    "accent": "red",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "tentacruel",
+    "shape": "tentacles",
+    "color": "blue",
+    "size": "large",
+    "parts": [
+      "fin",
+      "drip"
+    ],
+    "accent": "red",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "geodude",
+    "shape": "arms",
+    "color": "brown",
+    "size": "tiny",
+    "parts": [
+      "spike"
+    ],
+    "accent": "gray",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "graveler",
+    "shape": "humanoid",
+    "color": "brown",
+    "size": "medium",
+    "parts": [
+      "spike"
+    ],
+    "accent": "gray",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "golem",
+    "shape": "humanoid",
+    "color": "brown",
+    "size": "large",
+    "parts": [
+      "spike"
+    ],
+    "accent": "green",
+    "ears": "none",
+    "tail": "none",
+    "mark": "band"
+  },
+  {
+    "species": "ponyta",
+    "shape": "quadruped",
+    "color": "yellow",
+    "size": "small",
+    "parts": [
+      "flame"
+    ],
+    "accent": "cream",
+    "ears": "pointed",
+    "tail": "flame",
+    "mark": "none"
+  },
+  {
+    "species": "rapidash",
+    "shape": "quadruped",
+    "color": "yellow",
+    "size": "large",
+    "parts": [
+      "flame",
+      "horn"
+    ],
+    "accent": "cream",
+    "ears": "pointed",
+    "tail": "flame",
+    "mark": "none"
+  },
+  {
+    "species": "slowpoke",
+    "shape": "quadruped",
+    "color": "pink",
+    "size": "medium",
+    "parts": [
+      "fin",
+      "aura"
+    ],
+    "accent": "cream",
+    "ears": "round",
+    "tail": "curl",
+    "mark": "none"
+  },
+  {
+    "species": "slowbro",
+    "shape": "upright",
+    "color": "pink",
+    "size": "medium",
+    "parts": [
+      "fin",
+      "aura"
+    ],
+    "accent": "cream",
+    "ears": "round",
+    "tail": "curl",
+    "mark": "belly"
+  },
+  {
+    "species": "magnemite",
+    "shape": "arms",
+    "color": "gray",
+    "size": "tiny",
+    "parts": [
+      "spark",
+      "plate"
+    ],
+    "accent": "gray",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "magneton",
+    "shape": "heads",
+    "color": "gray",
+    "size": "medium",
+    "parts": [
+      "spark",
+      "plate"
+    ],
+    "accent": "gray",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "farfetchd",
+    "shape": "wings",
+    "color": "brown",
+    "size": "small",
+    "parts": [
+      "wing",
+      "plant"
+    ],
+    "accent": "cream",
+    "ears": "tuft",
+    "tail": "fan",
+    "mark": "none"
+  },
+  {
+    "species": "doduo",
+    "shape": "legs",
+    "color": "brown",
+    "size": "medium",
+    "parts": [
+      "wing"
+    ],
+    "accent": "cream",
+    "ears": "tuft",
+    "tail": "fan",
+    "mark": "none"
+  },
+  {
+    "species": "dodrio",
+    "shape": "legs",
+    "color": "brown",
+    "size": "large",
+    "parts": [
+      "wing"
+    ],
+    "accent": "cream",
+    "ears": "tuft",
+    "tail": "fan",
+    "mark": "none"
+  },
+  {
+    "species": "seel",
+    "shape": "fish",
+    "color": "white",
+    "size": "medium",
+    "parts": [
+      "fin",
+      "horn"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "fin",
+    "mark": "none"
+  },
+  {
+    "species": "dewgong",
+    "shape": "fish",
+    "color": "white",
+    "size": "large",
+    "parts": [
+      "fin",
+      "crystal",
+      "horn"
+    ],
+    "accent": "cream",
+    "ears": "fin",
+    "tail": "fin",
+    "mark": "none"
+  },
+  {
+    "species": "grimer",
+    "shape": "arms",
+    "color": "purple",
+    "size": "small",
+    "parts": [
+      "drip"
+    ],
+    "accent": "purple",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "muk",
+    "shape": "arms",
+    "color": "purple",
+    "size": "medium",
+    "parts": [
+      "drip"
+    ],
+    "accent": "purple",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "shellder",
+    "shape": "ball",
+    "color": "purple",
+    "size": "tiny",
+    "parts": [
+      "fin"
+    ],
+    "accent": "purple",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "cloyster",
+    "shape": "ball",
+    "color": "purple",
+    "size": "medium",
+    "parts": [
+      "fin",
+      "crystal",
+      "spike"
+    ],
+    "accent": "purple",
+    "ears": "none",
+    "tail": "spike",
+    "mark": "none"
+  },
+  {
+    "species": "gastly",
+    "shape": "ball",
+    "color": "purple",
+    "size": "medium",
+    "parts": [
+      "aura",
+      "drip"
+    ],
+    "accent": "purple",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "haunter",
+    "shape": "arms",
+    "color": "purple",
+    "size": "medium",
+    "parts": [
+      "aura",
+      "drip"
+    ],
+    "accent": "purple",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "gengar",
+    "shape": "upright",
+    "color": "purple",
+    "size": "medium",
+    "parts": [
+      "aura",
+      "drip"
+    ],
+    "accent": "purple",
+    "ears": "pointed",
+    "tail": "spike",
+    "mark": "none"
+  },
+  {
+    "species": "onix",
+    "shape": "squiggle",
+    "color": "gray",
+    "size": "large",
+    "parts": [
+      "spike",
+      "horn"
+    ],
+    "accent": "gray",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "drowzee",
+    "shape": "humanoid",
+    "color": "yellow",
+    "size": "small",
+    "parts": [
+      "aura"
+    ],
+    "accent": "cream",
+    "ears": "pointed",
+    "tail": "none",
+    "mark": "band"
+  },
+  {
+    "species": "hypno",
+    "shape": "humanoid",
+    "color": "yellow",
+    "size": "medium",
+    "parts": [
+      "aura"
+    ],
+    "accent": "cream",
+    "ears": "pointed",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "krabby",
+    "shape": "armor",
+    "color": "red",
+    "size": "tiny",
+    "parts": [
+      "fin"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "kingler",
+    "shape": "armor",
+    "color": "red",
+    "size": "medium",
+    "parts": [
+      "fin"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "voltorb",
+    "shape": "ball",
+    "color": "red",
+    "size": "tiny",
+    "parts": [
+      "spark"
+    ],
+    "accent": "white",
+    "ears": "none",
+    "tail": "none",
+    "mark": "band"
+  },
+  {
+    "species": "electrode",
+    "shape": "ball",
+    "color": "red",
+    "size": "medium",
+    "parts": [
+      "spark"
+    ],
+    "accent": "white",
+    "ears": "none",
+    "tail": "none",
+    "mark": "band"
+  },
+  {
+    "species": "exeggcute",
+    "shape": "heads",
+    "color": "pink",
+    "size": "tiny",
+    "parts": [
+      "plant",
+      "aura"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "exeggutor",
+    "shape": "legs",
+    "color": "yellow",
+    "size": "large",
+    "parts": [
+      "plant",
+      "aura"
+    ],
+    "accent": "green",
+    "ears": "tuft",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "cubone",
+    "shape": "upright",
+    "color": "brown",
+    "size": "tiny",
+    "parts": [
+      "spike"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "thin",
+    "mark": "mask"
+  },
+  {
+    "species": "marowak",
+    "shape": "upright",
+    "color": "brown",
+    "size": "small",
+    "parts": [
+      "spike"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "thin",
+    "mark": "mask"
+  },
+  {
+    "species": "hitmonlee",
+    "shape": "humanoid",
+    "color": "brown",
+    "size": "medium",
+    "parts": [
+      "band"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "hitmonchan",
+    "shape": "humanoid",
+    "color": "brown",
+    "size": "medium",
+    "parts": [
+      "band"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "none",
+    "mark": "band"
+  },
+  {
+    "species": "lickitung",
+    "shape": "upright",
+    "color": "pink",
+    "size": "medium",
+    "parts": [],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "thin",
+    "mark": "none"
+  },
+  {
+    "species": "koffing",
+    "shape": "ball",
+    "color": "purple",
+    "size": "small",
+    "parts": [
+      "drip"
+    ],
+    "accent": "gray",
+    "ears": "none",
+    "tail": "none",
+    "mark": "spots"
+  },
+  {
+    "species": "weezing",
+    "shape": "heads",
+    "color": "purple",
+    "size": "medium",
+    "parts": [
+      "drip"
+    ],
+    "accent": "gray",
+    "ears": "none",
+    "tail": "none",
+    "mark": "spots"
+  },
+  {
+    "species": "rhyhorn",
+    "shape": "quadruped",
+    "color": "gray",
+    "size": "small",
+    "parts": [
+      "spike"
+    ],
+    "accent": "gray",
+    "ears": "none",
+    "tail": "thin",
+    "mark": "band"
+  },
+  {
+    "species": "rhydon",
+    "shape": "upright",
+    "color": "gray",
+    "size": "large",
+    "parts": [
+      "spike",
+      "horn",
+      "plate"
+    ],
+    "accent": "gray",
+    "ears": "none",
+    "tail": "thin",
+    "mark": "band"
+  },
+  {
+    "species": "chansey",
+    "shape": "upright",
+    "color": "pink",
+    "size": "medium",
+    "parts": [],
+    "accent": "white",
+    "ears": "none",
+    "tail": "none",
+    "mark": "belly"
+  },
+  {
+    "species": "tangela",
+    "shape": "legs",
+    "color": "blue",
+    "size": "small",
+    "parts": [
+      "plant"
+    ],
+    "accent": "navy",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "kangaskhan",
+    "shape": "upright",
+    "color": "brown",
+    "size": "large",
+    "parts": [],
+    "accent": "cream",
+    "ears": "pointed",
+    "tail": "thin",
+    "mark": "belly"
+  },
+  {
+    "species": "horsea",
+    "shape": "blob",
+    "color": "blue",
+    "size": "tiny",
+    "parts": [
+      "fin"
+    ],
+    "accent": "cream",
+    "ears": "fin",
+    "tail": "curl",
+    "mark": "none"
+  },
+  {
+    "species": "seadra",
+    "shape": "blob",
+    "color": "blue",
+    "size": "small",
+    "parts": [
+      "fin",
+      "spike"
+    ],
+    "accent": "cream",
+    "ears": "fin",
+    "tail": "curl",
+    "mark": "none"
+  },
+  {
+    "species": "goldeen",
+    "shape": "fish",
+    "color": "red",
+    "size": "small",
+    "parts": [
+      "fin",
+      "horn"
+    ],
+    "accent": "white",
+    "ears": "fin",
+    "tail": "fan",
+    "mark": "none"
+  },
+  {
+    "species": "seaking",
+    "shape": "fish",
+    "color": "red",
+    "size": "medium",
+    "parts": [
+      "fin",
+      "horn"
+    ],
+    "accent": "white",
+    "ears": "fin",
+    "tail": "fan",
+    "mark": "stripes"
+  },
+  {
+    "species": "staryu",
+    "shape": "blob",
+    "color": "brown",
+    "size": "small",
+    "parts": [
+      "fin"
+    ],
+    "accent": "red",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "starmie",
+    "shape": "blob",
+    "color": "purple",
+    "size": "medium",
+    "parts": [
+      "fin",
+      "aura",
+      "sparkle"
+    ],
+    "accent": "red",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "mr-mime",
+    "shape": "humanoid",
+    "color": "pink",
+    "size": "medium",
+    "parts": [
+      "aura",
+      "sparkle"
+    ],
+    "accent": "red",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "scyther",
+    "shape": "bug-wings",
+    "color": "green",
+    "size": "medium",
+    "parts": [
+      "antenna",
+      "wing"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "jynx",
+    "shape": "humanoid",
+    "color": "red",
+    "size": "medium",
+    "parts": [
+      "crystal",
+      "aura"
+    ],
+    "accent": "red",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "electabuzz",
+    "shape": "upright",
+    "color": "yellow",
+    "size": "medium",
+    "parts": [
+      "spark"
+    ],
+    "accent": "black",
+    "ears": "pointed",
+    "tail": "bolt",
+    "mark": "stripes"
+  },
+  {
+    "species": "magmar",
+    "shape": "upright",
+    "color": "red",
+    "size": "medium",
+    "parts": [
+      "flame"
+    ],
+    "accent": "red",
+    "ears": "tuft",
+    "tail": "flame",
+    "mark": "none"
+  },
+  {
+    "species": "pinsir",
+    "shape": "humanoid",
+    "color": "brown",
+    "size": "medium",
+    "parts": [
+      "antenna",
+      "horn"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "tauros",
+    "shape": "quadruped",
+    "color": "brown",
+    "size": "medium",
+    "parts": [
+      "horn"
+    ],
+    "accent": "cream",
+    "ears": "pointed",
+    "tail": "bushy",
+    "mark": "spots"
+  },
+  {
+    "species": "magikarp",
+    "shape": "fish",
+    "color": "red",
+    "size": "small",
+    "parts": [
+      "fin"
+    ],
+    "accent": "white",
+    "ears": "fin",
+    "tail": "fan",
+    "mark": "none"
+  },
+  {
+    "species": "gyarados",
+    "shape": "squiggle",
+    "color": "blue",
+    "size": "large",
+    "parts": [
+      "fin",
+      "wing",
+      "spike"
+    ],
+    "accent": "cream",
+    "ears": "fin",
+    "tail": "fan",
+    "mark": "none"
+  },
+  {
+    "species": "lapras",
+    "shape": "quadruped",
+    "color": "blue",
+    "size": "large",
+    "parts": [
+      "fin",
+      "crystal",
+      "plate"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "none",
+    "mark": "belly"
+  },
+  {
+    "species": "ditto",
+    "shape": "ball",
+    "color": "purple",
+    "size": "tiny",
+    "parts": [],
+    "accent": "purple",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "eevee",
+    "shape": "quadruped",
+    "color": "brown",
+    "size": "tiny",
+    "parts": [],
+    "accent": "cream",
+    "ears": "pointed",
+    "tail": "bushy",
+    "mark": "none"
+  },
+  {
+    "species": "vaporeon",
+    "shape": "quadruped",
+    "color": "blue",
+    "size": "small",
+    "parts": [
+      "fin"
+    ],
+    "accent": "cream",
+    "ears": "fin",
+    "tail": "fin",
+    "mark": "none"
+  },
+  {
+    "species": "jolteon",
+    "shape": "quadruped",
+    "color": "yellow",
+    "size": "small",
+    "parts": [
+      "spark",
+      "spike"
+    ],
+    "accent": "cream",
+    "ears": "pointed",
+    "tail": "spike",
+    "mark": "none"
+  },
+  {
+    "species": "flareon",
+    "shape": "quadruped",
+    "color": "red",
+    "size": "small",
+    "parts": [
+      "flame"
+    ],
+    "accent": "cream",
+    "ears": "pointed",
+    "tail": "bushy",
+    "mark": "none"
+  },
+  {
+    "species": "porygon",
+    "shape": "legs",
+    "color": "pink",
+    "size": "small",
+    "parts": [],
+    "accent": "blue",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "omanyte",
+    "shape": "tentacles",
+    "color": "blue",
+    "size": "tiny",
+    "parts": [
+      "spike",
+      "fin"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "none",
+    "mark": "swirl"
+  },
+  {
+    "species": "omastar",
+    "shape": "tentacles",
+    "color": "blue",
+    "size": "small",
+    "parts": [
+      "spike",
+      "fin"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "spike",
+    "mark": "swirl"
+  },
+  {
+    "species": "kabuto",
+    "shape": "armor",
+    "color": "brown",
+    "size": "tiny",
+    "parts": [
+      "spike",
+      "fin"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "kabutops",
+    "shape": "upright",
+    "color": "brown",
+    "size": "medium",
+    "parts": [
+      "spike",
+      "fin"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "aerodactyl",
+    "shape": "wings",
+    "color": "purple",
+    "size": "large",
+    "parts": [
+      "spike",
+      "wing"
+    ],
+    "accent": "gray",
+    "ears": "tuft",
+    "tail": "spike",
+    "mark": "none"
+  },
+  {
+    "species": "snorlax",
+    "shape": "humanoid",
+    "color": "black",
+    "size": "large",
+    "parts": [],
+    "accent": "cream",
+    "ears": "round",
+    "tail": "none",
+    "mark": "belly"
+  },
+  {
+    "species": "articuno",
+    "shape": "wings",
+    "color": "blue",
+    "size": "medium",
+    "parts": [
+      "crystal",
+      "wing"
+    ],
+    "accent": "teal",
+    "ears": "tuft",
+    "tail": "fan",
+    "mark": "none"
+  },
+  {
+    "species": "zapdos",
+    "shape": "wings",
+    "color": "yellow",
+    "size": "medium",
+    "parts": [
+      "spark",
+      "wing"
+    ],
+    "accent": "black",
+    "ears": "tuft",
+    "tail": "spike",
+    "mark": "none"
+  },
+  {
+    "species": "moltres",
+    "shape": "wings",
+    "color": "yellow",
+    "size": "large",
+    "parts": [
+      "flame",
+      "wing"
+    ],
+    "accent": "orange",
+    "ears": "tuft",
+    "tail": "flame",
+    "mark": "none"
+  },
+  {
+    "species": "dratini",
+    "shape": "squiggle",
+    "color": "blue",
+    "size": "large",
+    "parts": [
+      "horn",
+      "fin"
+    ],
+    "accent": "white",
+    "ears": "fin",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "dragonair",
+    "shape": "squiggle",
+    "color": "blue",
+    "size": "large",
+    "parts": [
+      "horn",
+      "fin",
+      "crystal"
+    ],
+    "accent": "white",
+    "ears": "fin",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "dragonite",
+    "shape": "upright",
+    "color": "brown",
+    "size": "large",
+    "parts": [
+      "horn",
+      "wing"
+    ],
+    "accent": "cream",
+    "ears": "pointed",
+    "tail": "thin",
+    "mark": "belly"
+  },
+  {
+    "species": "mewtwo",
+    "shape": "upright",
+    "color": "purple",
+    "size": "large",
+    "parts": [
+      "aura"
+    ],
+    "accent": "purple",
+    "ears": "pointed",
+    "tail": "thin",
+    "mark": "none"
+  },
+  {
+    "species": "mew",
+    "shape": "upright",
+    "color": "pink",
+    "size": "tiny",
+    "parts": [
+      "aura"
+    ],
+    "accent": "pink",
+    "ears": "pointed",
+    "tail": "thin",
+    "mark": "none"
+  },
+  {
+    "species": "steelix",
+    "shape": "squiggle",
+    "color": "gray",
+    "size": "large",
+    "parts": [
+      "plate",
+      "spike"
+    ],
+    "accent": "gray",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "tyranitar",
+    "shape": "upright",
+    "color": "green",
+    "size": "large",
+    "parts": [
+      "spike",
+      "aura",
+      "plate"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "spike",
+    "mark": "belly"
+  },
+  {
+    "species": "kingdra",
+    "shape": "blob",
+    "color": "blue",
+    "size": "large",
+    "parts": [
+      "fin",
+      "horn"
+    ],
+    "accent": "cream",
+    "ears": "fin",
+    "tail": "curl",
+    "mark": "none"
+  },
+  {
+    "species": "bellossom",
+    "shape": "humanoid",
+    "color": "green",
+    "size": "tiny",
+    "parts": [
+      "plant"
+    ],
+    "accent": "green",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "espeon",
+    "shape": "quadruped",
+    "color": "purple",
+    "size": "small",
+    "parts": [
+      "aura"
+    ],
+    "accent": "cream",
+    "ears": "pointed",
+    "tail": "spike",
+    "mark": "none"
+  },
+  {
+    "species": "umbreon",
+    "shape": "quadruped",
+    "color": "black",
+    "size": "small",
+    "parts": [
+      "aura"
+    ],
+    "accent": "yellow",
+    "ears": "pointed",
+    "tail": "thin",
+    "mark": "band"
+  },
+  {
+    "species": "slowking",
+    "shape": "upright",
+    "color": "pink",
+    "size": "large",
+    "parts": [
+      "fin",
+      "aura"
+    ],
+    "accent": "cream",
+    "ears": "round",
+    "tail": "curl",
+    "mark": "none"
+  },
+  {
+    "species": "houndoom",
+    "shape": "quadruped",
+    "color": "black",
+    "size": "medium",
+    "parts": [
+      "aura",
+      "flame",
+      "horn"
+    ],
+    "accent": "orange",
+    "ears": "pointed",
+    "tail": "spike",
+    "mark": "band"
+  },
+  {
+    "species": "hitmontop",
+    "shape": "upright",
+    "color": "brown",
+    "size": "medium",
+    "parts": [
+      "band"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "spike",
+    "mark": "none"
+  },
+  {
+    "species": "scizor",
+    "shape": "bug-wings",
+    "color": "red",
+    "size": "large",
+    "parts": [
+      "antenna",
+      "plate",
+      "wing"
+    ],
+    "accent": "gray",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "blissey",
+    "shape": "humanoid",
+    "color": "pink",
+    "size": "medium",
+    "parts": [],
+    "accent": "white",
+    "ears": "none",
+    "tail": "none",
+    "mark": "belly"
+  },
+  {
+    "species": "crobat",
+    "shape": "bug-wings",
+    "color": "purple",
+    "size": "large",
+    "parts": [
+      "drip",
+      "wing"
+    ],
+    "accent": "purple",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "milotic",
+    "shape": "squiggle",
+    "color": "pink",
+    "size": "large",
+    "parts": [
+      "fin"
+    ],
+    "accent": "pink",
+    "ears": "fin",
+    "tail": "fan",
+    "mark": "none"
+  },
+  {
+    "species": "manectric",
+    "shape": "quadruped",
+    "color": "yellow",
+    "size": "medium",
+    "parts": [
+      "spark"
+    ],
+    "accent": "yellow",
+    "ears": "pointed",
+    "tail": "spike",
+    "mark": "none"
+  },
+  {
+    "species": "gardevoir",
+    "shape": "humanoid",
+    "color": "white",
+    "size": "medium",
+    "parts": [
+      "aura",
+      "sparkle"
+    ],
+    "accent": "white",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "hariyama",
+    "shape": "humanoid",
+    "color": "brown",
+    "size": "large",
+    "parts": [
+      "band"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "none",
+    "mark": "band"
+  },
+  {
+    "species": "banette",
+    "shape": "upright",
+    "color": "black",
+    "size": "medium",
+    "parts": [
+      "aura"
+    ],
+    "accent": "purple",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "salamence",
+    "shape": "quadruped",
+    "color": "blue",
+    "size": "medium",
+    "parts": [
+      "horn",
+      "wing"
+    ],
+    "accent": "red",
+    "ears": "pointed",
+    "tail": "spike",
+    "mark": "none"
+  },
+  {
+    "species": "metagross",
+    "shape": "heads",
+    "color": "blue",
+    "size": "medium",
+    "parts": [
+      "plate",
+      "aura"
+    ],
+    "accent": "teal",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "rhyperior",
+    "shape": "upright",
+    "color": "gray",
+    "size": "large",
+    "parts": [
+      "spike",
+      "horn",
+      "plate"
+    ],
+    "accent": "orange",
+    "ears": "none",
+    "tail": "spike",
+    "mark": "band"
+  },
+  {
+    "species": "roserade",
+    "shape": "humanoid",
+    "color": "green",
+    "size": "small",
+    "parts": [
+      "plant",
+      "drip"
+    ],
+    "accent": "white",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "tangrowth",
+    "shape": "humanoid",
+    "color": "blue",
+    "size": "large",
+    "parts": [
+      "plant"
+    ],
+    "accent": "navy",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "toxicroak",
+    "shape": "humanoid",
+    "color": "blue",
+    "size": "medium",
+    "parts": [
+      "drip",
+      "band"
+    ],
+    "accent": "red",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "magmortar",
+    "shape": "upright",
+    "color": "red",
+    "size": "large",
+    "parts": [
+      "flame"
+    ],
+    "accent": "yellow",
+    "ears": "tuft",
+    "tail": "flame",
+    "mark": "none"
+  },
+  {
+    "species": "electivire",
+    "shape": "upright",
+    "color": "yellow",
+    "size": "large",
+    "parts": [
+      "spark"
+    ],
+    "accent": "black",
+    "ears": "pointed",
+    "tail": "bolt",
+    "mark": "band"
+  },
+  {
+    "species": "garchomp",
+    "shape": "upright",
+    "color": "blue",
+    "size": "large",
+    "parts": [
+      "horn",
+      "spike",
+      "fin"
+    ],
+    "accent": "red",
+    "ears": "fin",
+    "tail": "fan",
+    "mark": "none"
+  },
+  {
+    "species": "abomasnow",
+    "shape": "upright",
+    "color": "white",
+    "size": "large",
+    "parts": [
+      "plant",
+      "crystal"
+    ],
+    "accent": "white",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "mamoswine",
+    "shape": "quadruped",
+    "color": "brown",
+    "size": "large",
+    "parts": [
+      "crystal",
+      "spike",
+      "horn"
+    ],
+    "accent": "brown",
+    "ears": "round",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "glaceon",
+    "shape": "quadruped",
+    "color": "blue",
+    "size": "small",
+    "parts": [
+      "crystal"
+    ],
+    "accent": "blue",
+    "ears": "pointed",
+    "tail": "spike",
+    "mark": "none"
+  },
+  {
+    "species": "leafeon",
+    "shape": "quadruped",
+    "color": "green",
+    "size": "small",
+    "parts": [
+      "plant"
+    ],
+    "accent": "brown",
+    "ears": "pointed",
+    "tail": "spike",
+    "mark": "none"
+  },
+  {
+    "species": "mismagius",
+    "shape": "ball",
+    "color": "purple",
+    "size": "small",
+    "parts": [
+      "aura"
+    ],
+    "accent": "purple",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "dusknoir",
+    "shape": "arms",
+    "color": "black",
+    "size": "large",
+    "parts": [
+      "aura"
+    ],
+    "accent": "yellow",
+    "ears": "none",
+    "tail": "none",
+    "mark": "band"
+  },
+  {
+    "species": "drapion",
+    "shape": "armor",
+    "color": "purple",
+    "size": "medium",
+    "parts": [
+      "drip",
+      "aura"
+    ],
+    "accent": "purple",
+    "ears": "none",
+    "tail": "spike",
+    "mark": "none"
+  },
+  {
+    "species": "togekiss",
+    "shape": "wings",
+    "color": "white",
+    "size": "medium",
+    "parts": [
+      "sparkle",
+      "wing"
+    ],
+    "accent": "red",
+    "ears": "none",
+    "tail": "fan",
+    "mark": "spots"
+  },
+  {
+    "species": "scolipede",
+    "shape": "armor",
+    "color": "red",
+    "size": "large",
+    "parts": [
+      "antenna",
+      "drip",
+      "horn"
+    ],
+    "accent": "red",
+    "ears": "none",
+    "tail": "spike",
+    "mark": "stripes"
+  },
+  {
+    "species": "chandelure",
+    "shape": "arms",
+    "color": "black",
+    "size": "small",
+    "parts": [
+      "aura",
+      "flame"
+    ],
+    "accent": "yellow",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "excadrill",
+    "shape": "humanoid",
+    "color": "gray",
+    "size": "small",
+    "parts": [
+      "spike",
+      "plate"
+    ],
+    "accent": "red",
+    "ears": "none",
+    "tail": "spike",
+    "mark": "none"
+  },
+  {
+    "species": "conkeldurr",
+    "shape": "humanoid",
+    "color": "brown",
+    "size": "medium",
+    "parts": [
+      "band",
+      "plate"
+    ],
+    "accent": "brown",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "sylveon",
+    "shape": "quadruped",
+    "color": "pink",
+    "size": "small",
+    "parts": [
+      "sparkle"
+    ],
+    "accent": "pink",
+    "ears": "long",
+    "tail": "fan",
+    "mark": "none"
+  },
+  {
+    "species": "slugma",
+    "shape": "squiggle",
+    "color": "red",
+    "size": "small",
+    "parts": [
+      "flame"
+    ],
+    "accent": "orange",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "magcargo",
+    "shape": "squiggle",
+    "color": "red",
+    "size": "small",
+    "parts": [
+      "flame",
+      "spike"
+    ],
+    "accent": "gray",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "dunsparce",
+    "shape": "squiggle",
+    "color": "yellow",
+    "size": "medium",
+    "parts": [
+      "wing"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "spike",
+    "mark": "stripes"
+  },
+  {
+    "species": "sneasel",
+    "shape": "upright",
+    "color": "black",
+    "size": "small",
+    "parts": [
+      "aura",
+      "crystal"
+    ],
+    "accent": "red",
+    "ears": "pointed",
+    "tail": "thin",
+    "mark": "none"
+  },
+  {
+    "species": "swinub",
+    "shape": "quadruped",
+    "color": "brown",
+    "size": "tiny",
+    "parts": [
+      "crystal",
+      "spike"
+    ],
+    "accent": "cream",
+    "ears": "round",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "delibird",
+    "shape": "wings",
+    "color": "red",
+    "size": "small",
+    "parts": [
+      "crystal",
+      "wing"
+    ],
+    "accent": "white",
+    "ears": "tuft",
+    "tail": "fan",
+    "mark": "belly"
+  },
+  {
+    "species": "marill",
+    "shape": "upright",
+    "color": "blue",
+    "size": "tiny",
+    "parts": [
+      "fin",
+      "sparkle"
+    ],
+    "accent": "white",
+    "ears": "round",
+    "tail": "ball",
+    "mark": "belly"
+  },
+  {
+    "species": "wooper",
+    "shape": "legs",
+    "color": "blue",
+    "size": "tiny",
+    "parts": [
+      "fin",
+      "spike"
+    ],
+    "accent": "pink",
+    "ears": "fin",
+    "tail": "thin",
+    "mark": "none"
+  },
+  {
+    "species": "hoppip",
+    "shape": "upright",
+    "color": "pink",
+    "size": "tiny",
+    "parts": [
+      "plant",
+      "wing"
+    ],
+    "accent": "green",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "qwilfish",
+    "shape": "fish",
+    "color": "gray",
+    "size": "tiny",
+    "parts": [
+      "fin",
+      "drip",
+      "spike"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "fan",
+    "mark": "spots"
+  },
+  {
+    "species": "remoraid",
+    "shape": "fish",
+    "color": "gray",
+    "size": "small",
+    "parts": [
+      "fin"
+    ],
+    "accent": "cream",
+    "ears": "fin",
+    "tail": "fan",
+    "mark": "none"
+  },
+  {
+    "species": "togepi",
+    "shape": "humanoid",
+    "color": "white",
+    "size": "tiny",
+    "parts": [
+      "sparkle"
+    ],
+    "accent": "red",
+    "ears": "none",
+    "tail": "none",
+    "mark": "spots"
+  },
+  {
+    "species": "piloswine",
+    "shape": "quadruped",
+    "color": "brown",
+    "size": "medium",
+    "parts": [
+      "crystal",
+      "spike",
+      "horn"
+    ],
+    "accent": "cream",
+    "ears": "round",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "azumarill",
+    "shape": "upright",
+    "color": "blue",
+    "size": "small",
+    "parts": [
+      "fin",
+      "sparkle"
+    ],
+    "accent": "white",
+    "ears": "round",
+    "tail": "ball",
+    "mark": "spots"
+  },
+  {
+    "species": "quagsire",
+    "shape": "upright",
+    "color": "blue",
+    "size": "medium",
+    "parts": [
+      "fin",
+      "spike"
+    ],
+    "accent": "cream",
+    "ears": "fin",
+    "tail": "thin",
+    "mark": "none"
+  },
+  {
+    "species": "skiploom",
+    "shape": "upright",
+    "color": "green",
+    "size": "small",
+    "parts": [
+      "plant",
+      "wing"
+    ],
+    "accent": "green",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "jumpluff",
+    "shape": "upright",
+    "color": "blue",
+    "size": "small",
+    "parts": [
+      "plant",
+      "wing"
+    ],
+    "accent": "white",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "octillery",
+    "shape": "tentacles",
+    "color": "red",
+    "size": "small",
+    "parts": [
+      "fin"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "togetic",
+    "shape": "humanoid",
+    "color": "white",
+    "size": "small",
+    "parts": [
+      "sparkle",
+      "wing"
+    ],
+    "accent": "red",
+    "ears": "none",
+    "tail": "none",
+    "mark": "spots"
+  },
+  {
+    "species": "sentret",
+    "shape": "quadruped",
+    "color": "brown",
+    "size": "small",
+    "parts": [],
+    "accent": "cream",
+    "ears": "round",
+    "tail": "bushy",
+    "mark": "stripes"
+  },
+  {
+    "species": "furret",
+    "shape": "quadruped",
+    "color": "brown",
+    "size": "medium",
+    "parts": [],
+    "accent": "cream",
+    "ears": "round",
+    "tail": "bushy",
+    "mark": "stripes"
+  },
+  {
+    "species": "ledyba",
+    "shape": "wings",
+    "color": "red",
+    "size": "small",
+    "parts": [
+      "antenna",
+      "wing"
+    ],
+    "accent": "black",
+    "ears": "none",
+    "tail": "none",
+    "mark": "spots"
+  },
+  {
+    "species": "ledian",
+    "shape": "wings",
+    "color": "red",
+    "size": "medium",
+    "parts": [
+      "antenna",
+      "wing"
+    ],
+    "accent": "black",
+    "ears": "none",
+    "tail": "none",
+    "mark": "spots"
+  },
+  {
+    "species": "spinarak",
+    "shape": "armor",
+    "color": "green",
+    "size": "tiny",
+    "parts": [
+      "antenna",
+      "drip"
+    ],
+    "accent": "green",
+    "ears": "none",
+    "tail": "none",
+    "mark": "mask"
+  },
+  {
+    "species": "ariados",
+    "shape": "armor",
+    "color": "red",
+    "size": "medium",
+    "parts": [
+      "antenna",
+      "drip"
+    ],
+    "accent": "yellow",
+    "ears": "none",
+    "tail": "none",
+    "mark": "stripes"
+  },
+  {
+    "species": "natu",
+    "shape": "wings",
+    "color": "green",
+    "size": "tiny",
+    "parts": [
+      "aura",
+      "wing"
+    ],
+    "accent": "red",
+    "ears": "tuft",
+    "tail": "fan",
+    "mark": "band"
+  },
+  {
+    "species": "xatu",
+    "shape": "wings",
+    "color": "green",
+    "size": "medium",
+    "parts": [
+      "aura",
+      "wing"
+    ],
+    "accent": "red",
+    "ears": "tuft",
+    "tail": "fan",
+    "mark": "band"
+  },
+  {
+    "species": "yanma",
+    "shape": "bug-wings",
+    "color": "red",
+    "size": "medium",
+    "parts": [
+      "antenna",
+      "wing"
+    ],
+    "accent": "red",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "murkrow",
+    "shape": "wings",
+    "color": "black",
+    "size": "tiny",
+    "parts": [
+      "aura",
+      "wing"
+    ],
+    "accent": "red",
+    "ears": "tuft",
+    "tail": "fan",
+    "mark": "none"
+  },
+  {
+    "species": "misdreavus",
+    "shape": "ball",
+    "color": "gray",
+    "size": "small",
+    "parts": [
+      "aura"
+    ],
+    "accent": "red",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "wobbuffet",
+    "shape": "blob",
+    "color": "blue",
+    "size": "medium",
+    "parts": [
+      "aura"
+    ],
+    "accent": "black",
+    "ears": "none",
+    "tail": "thin",
+    "mark": "none"
+  },
+  {
+    "species": "heracross",
+    "shape": "humanoid",
+    "color": "blue",
+    "size": "medium",
+    "parts": [
+      "antenna",
+      "band",
+      "horn"
+    ],
+    "accent": "cream",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  },
+  {
+    "species": "mantine",
+    "shape": "wings",
+    "color": "purple",
+    "size": "large",
+    "parts": [
+      "fin",
+      "wing"
+    ],
+    "accent": "cream",
+    "ears": "fin",
+    "tail": "thin",
+    "mark": "spots"
+  },
+  {
+    "species": "skarmory",
+    "shape": "wings",
+    "color": "gray",
+    "size": "medium",
+    "parts": [
+      "plate",
+      "wing"
+    ],
+    "accent": "red",
+    "ears": "tuft",
+    "tail": "spike",
+    "mark": "none"
+  },
+  {
+    "species": "phanpy",
+    "shape": "quadruped",
+    "color": "blue",
+    "size": "tiny",
+    "parts": [
+      "spike"
+    ],
+    "accent": "cream",
+    "ears": "round",
+    "tail": "thin",
+    "mark": "none"
+  },
+  {
+    "species": "donphan",
+    "shape": "quadruped",
+    "color": "gray",
+    "size": "medium",
+    "parts": [
+      "spike"
+    ],
+    "accent": "gray",
+    "ears": "round",
+    "tail": "thin",
+    "mark": "band"
+  },
+  {
+    "species": "larvitar",
+    "shape": "upright",
+    "color": "green",
+    "size": "small",
+    "parts": [
+      "spike"
+    ],
+    "accent": "green",
+    "ears": "none",
+    "tail": "spike",
+    "mark": "none"
+  },
+  {
+    "species": "pupitar",
+    "shape": "squiggle",
+    "color": "gray",
+    "size": "medium",
+    "parts": [
+      "spike"
+    ],
+    "accent": "gray",
+    "ears": "none",
+    "tail": "none",
+    "mark": "none"
+  }
+]

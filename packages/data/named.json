@@ -1,0 +1,2231 @@
+[
+  {
+    "id": "brock",
+    "name": "タケシ",
+    "role": "gymLeader",
+    "region": "kanto",
+    "concept": {
+      "theme": "岩の壁で受け止め、崩れないまま削り切る",
+      "type": "rock",
+      "tactic": "stall"
+    },
+    "signature": "onix",
+    "tiers": {
+      "original": [
+        {
+          "species": "geodude",
+          "level": 12,
+          "moves": [
+            "tackle",
+            "rock-throw",
+            "harden"
+          ]
+        },
+        {
+          "species": "onix",
+          "level": 14,
+          "moves": [
+            "rock-throw",
+            "bulldoze",
+            "harden",
+            "bite"
+          ]
+        }
+      ],
+      "serious": [
+        {
+          "species": "steelix",
+          "level": 50,
+          "moves": [
+            "earthquake",
+            "iron-head",
+            "stone-edge",
+            "iron-defense"
+          ],
+          "item": "rocky-helmet",
+          "ability": "sturdy",
+          "nature": "impish",
+          "evs": {
+            "hp": 252,
+            "def": 252
+          }
+        },
+        {
+          "species": "rhyperior",
+          "level": 50,
+          "moves": [
+            "earthquake",
+            "stone-edge",
+            "megahorn",
+            "brick-break"
+          ],
+          "item": "assault-vest",
+          "ability": "solid-rock",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "hp": 252
+          }
+        },
+        {
+          "species": "tyranitar",
+          "level": 50,
+          "moves": [
+            "crunch",
+            "stone-edge",
+            "earthquake",
+            "iron-head"
+          ],
+          "item": "hard-stone",
+          "ability": "sand-stream",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "hp": 252
+          }
+        },
+        {
+          "species": "golem",
+          "level": 50,
+          "moves": [
+            "earthquake",
+            "stone-edge",
+            "brick-break",
+            "double-edge"
+          ],
+          "item": "expert-belt",
+          "ability": "rock-head",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "hp": 252
+          }
+        }
+      ]
+    },
+    "dialogue": {
+      "original": {
+        "before": "タケシ 「岩の壁で受け止め、崩れないまま削り切る」",
+        "win": "タケシ 「まだ こんなものでは ないぞ」",
+        "lose": "タケシ 「いい しょうぶ だった」"
+      },
+      "serious": {
+        "before": "タケシ 「岩の壁で受け止め、崩れないまま削り切る」",
+        "win": "タケシ 「まだ こんなものでは ないぞ」",
+        "lose": "タケシ 「いい しょうぶ だった」"
+      }
+    }
+  },
+  {
+    "id": "misty",
+    "name": "カスミ",
+    "role": "gymLeader",
+    "region": "kanto",
+    "concept": {
+      "theme": "素早さと特殊火力で、相手より先に押し切る",
+      "type": "water",
+      "tactic": "hyperOffense"
+    },
+    "signature": "starmie",
+    "tiers": {
+      "original": [
+        {
+          "species": "staryu",
+          "level": 18,
+          "moves": [
+            "water-gun",
+            "harden",
+            "swift"
+          ]
+        },
+        {
+          "species": "starmie",
+          "level": 21,
+          "moves": [
+            "water-gun",
+            "bubble-beam",
+            "swift",
+            "recover"
+          ]
+        }
+      ],
+      "serious": [
+        {
+          "species": "starmie",
+          "level": 50,
+          "moves": [
+            "hydro-pump",
+            "psychic",
+            "ice-beam",
+            "recover"
+          ],
+          "item": "life-orb",
+          "ability": "illuminate",
+          "nature": "timid",
+          "evs": {
+            "spa": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "kingdra",
+          "level": 50,
+          "moves": [
+            "hydro-pump",
+            "dragon-pulse",
+            "ice-beam",
+            "agility"
+          ],
+          "item": "choice-specs",
+          "ability": "sniper",
+          "nature": "modest",
+          "evs": {
+            "spa": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "gyarados",
+          "level": 50,
+          "moves": [
+            "waterfall",
+            "crunch",
+            "iron-head",
+            "double-edge"
+          ],
+          "item": "choice-band",
+          "ability": "intimidate",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "milotic",
+          "level": 50,
+          "moves": [
+            "surf",
+            "ice-beam",
+            "dragon-pulse",
+            "recover"
+          ],
+          "item": "leftovers",
+          "ability": "marvel-scale",
+          "nature": "bold",
+          "evs": {
+            "hp": 252,
+            "spd": 252
+          }
+        }
+      ]
+    },
+    "dialogue": {
+      "original": {
+        "before": "カスミ 「素早さと特殊火力で、相手より先に押し切る」",
+        "win": "カスミ 「まだ こんなものでは ないぞ」",
+        "lose": "カスミ 「いい しょうぶ だった」"
+      },
+      "serious": {
+        "before": "カスミ 「素早さと特殊火力で、相手より先に押し切る」",
+        "win": "カスミ 「まだ こんなものでは ないぞ」",
+        "lose": "カスミ 「いい しょうぶ だった」"
+      }
+    }
+  },
+  {
+    "id": "lt-surge",
+    "name": "マチス",
+    "role": "gymLeader",
+    "region": "kanto",
+    "concept": {
+      "theme": "まひで止めて、先手を取り続ける",
+      "type": "electric",
+      "tactic": "status"
+    },
+    "signature": "raichu",
+    "tiers": {
+      "original": [
+        {
+          "species": "voltorb",
+          "level": 21,
+          "moves": [
+            "tackle",
+            "thunder-shock",
+            "supersonic"
+          ]
+        },
+        {
+          "species": "pikachu",
+          "level": 18,
+          "moves": [
+            "thunder-shock",
+            "quick-attack",
+            "tail-whip"
+          ]
+        },
+        {
+          "species": "raichu",
+          "level": 24,
+          "moves": [
+            "thunderbolt",
+            "quick-attack",
+            "thunder-wave",
+            "body-slam"
+          ]
+        }
+      ],
+      "serious": [
+        {
+          "species": "raichu",
+          "level": 50,
+          "moves": [
+            "thunderbolt",
+            "thunder-wave",
+            "nuzzle",
+            "dazzling-gleam"
+          ],
+          "item": "magnet",
+          "ability": "static",
+          "nature": "timid",
+          "evs": {
+            "spa": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "electivire",
+          "level": 50,
+          "moves": [
+            "thunder-punch",
+            "ice-punch",
+            "brick-break",
+            "thunder-wave"
+          ],
+          "item": "life-orb",
+          "ability": "motor-drive",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "manectric",
+          "level": 50,
+          "moves": [
+            "thunderbolt",
+            "flamethrower",
+            "thunder-wave",
+            "charge-beam"
+          ],
+          "item": "expert-belt",
+          "ability": "lightning-rod",
+          "nature": "timid",
+          "evs": {
+            "spa": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "magneton",
+          "level": 50,
+          "moves": [
+            "thunderbolt",
+            "flash-cannon",
+            "thunder-wave",
+            "discharge"
+          ],
+          "item": "leftovers",
+          "ability": "magnet-pull",
+          "nature": "modest",
+          "evs": {
+            "spa": 252,
+            "hp": 252
+          }
+        }
+      ]
+    },
+    "dialogue": {
+      "original": {
+        "before": "マチス 「まひで止めて、先手を取り続ける」",
+        "win": "マチス 「まだ こんなものでは ないぞ」",
+        "lose": "マチス 「いい しょうぶ だった」"
+      },
+      "serious": {
+        "before": "マチス 「まひで止めて、先手を取り続ける」",
+        "win": "マチス 「まだ こんなものでは ないぞ」",
+        "lose": "マチス 「いい しょうぶ だった」"
+      }
+    }
+  },
+  {
+    "id": "erika",
+    "name": "エリカ",
+    "role": "gymLeader",
+    "region": "kanto",
+    "concept": {
+      "theme": "粉で眠らせ、毒と回復で時間を味方にする",
+      "type": "grass",
+      "tactic": "poison"
+    },
+    "signature": "vileplume",
+    "tiers": {
+      "original": [
+        {
+          "species": "tangela",
+          "level": 24,
+          "moves": [
+            "absorb",
+            "vine-whip",
+            "stun-spore",
+            "sleep-powder"
+          ]
+        },
+        {
+          "species": "weepinbell",
+          "level": 24,
+          "moves": [
+            "vine-whip",
+            "acid",
+            "sleep-powder"
+          ]
+        },
+        {
+          "species": "vileplume",
+          "level": 29,
+          "moves": [
+            "mega-drain",
+            "sleep-powder",
+            "acid",
+            "petal-blizzard"
+          ]
+        }
+      ],
+      "serious": [
+        {
+          "species": "vileplume",
+          "level": 50,
+          "moves": [
+            "giga-drain",
+            "sludge-bomb",
+            "sleep-powder",
+            "toxic"
+          ],
+          "item": "leftovers",
+          "ability": "chlorophyll",
+          "nature": "bold",
+          "evs": {
+            "hp": 252,
+            "spd": 252
+          }
+        },
+        {
+          "species": "roserade",
+          "level": 50,
+          "moves": [
+            "giga-drain",
+            "sludge-bomb",
+            "calm-mind",
+            "sleep-powder"
+          ],
+          "item": "miracle-seed",
+          "ability": "natural-cure",
+          "nature": "modest",
+          "evs": {
+            "spa": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "bellossom",
+          "level": 50,
+          "moves": [
+            "petal-blizzard",
+            "giga-drain",
+            "stun-spore",
+            "toxic"
+          ],
+          "item": "sitrus-berry",
+          "ability": "chlorophyll",
+          "nature": "calm",
+          "evs": {
+            "hp": 252,
+            "spd": 252
+          }
+        },
+        {
+          "species": "tangrowth",
+          "level": 50,
+          "moves": [
+            "power-whip",
+            "giga-drain",
+            "knock-off",
+            "sleep-powder"
+          ],
+          "item": "rocky-helmet",
+          "ability": "leaf-guard",
+          "nature": "relaxed",
+          "evs": {
+            "hp": 252,
+            "def": 252
+          }
+        }
+      ]
+    },
+    "dialogue": {
+      "original": {
+        "before": "エリカ 「粉で眠らせ、毒と回復で時間を味方にする」",
+        "win": "エリカ 「まだ こんなものでは ないぞ」",
+        "lose": "エリカ 「いい しょうぶ だった」"
+      },
+      "serious": {
+        "before": "エリカ 「粉で眠らせ、毒と回復で時間を味方にする」",
+        "win": "エリカ 「まだ こんなものでは ないぞ」",
+        "lose": "エリカ 「いい しょうぶ だった」"
+      }
+    }
+  },
+  {
+    "id": "koga",
+    "name": "キョウ",
+    "role": "gymLeader",
+    "region": "kanto",
+    "concept": {
+      "theme": "毒を入れてしまえば、あとは耐えるだけでいい",
+      "type": "poison",
+      "tactic": "poison"
+    },
+    "signature": "weezing",
+    "tiers": {
+      "original": [
+        {
+          "species": "koffing",
+          "level": 37,
+          "moves": [
+            "sludge",
+            "toxic",
+            "tackle",
+            "sand-attack"
+          ]
+        },
+        {
+          "species": "muk",
+          "level": 39,
+          "moves": [
+            "sludge",
+            "poison-sting",
+            "toxic",
+            "body-slam"
+          ]
+        },
+        {
+          "species": "weezing",
+          "level": 43,
+          "moves": [
+            "sludge",
+            "toxic",
+            "tackle",
+            "will-o-wisp"
+          ]
+        }
+      ],
+      "serious": [
+        {
+          "species": "weezing",
+          "level": 50,
+          "moves": [
+            "sludge-bomb",
+            "will-o-wisp",
+            "toxic",
+            "clear-smog"
+          ],
+          "item": "leftovers",
+          "ability": "levitate",
+          "nature": "bold",
+          "evs": {
+            "hp": 252,
+            "def": 252
+          }
+        },
+        {
+          "species": "toxicroak",
+          "level": 50,
+          "moves": [
+            "poison-jab",
+            "drain-punch",
+            "x-scissor",
+            "swords-dance"
+          ],
+          "item": "life-orb",
+          "ability": "dry-skin",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "scolipede",
+          "level": 50,
+          "moves": [
+            "megahorn",
+            "poison-jab",
+            "rock-slide",
+            "swords-dance"
+          ],
+          "item": "focus-sash",
+          "ability": "swarm",
+          "nature": "jolly",
+          "evs": {
+            "atk": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "muk",
+          "level": 50,
+          "moves": [
+            "gunk-shot",
+            "brick-break",
+            "shadow-punch",
+            "toxic"
+          ],
+          "item": "poison-barb",
+          "ability": "stench",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "hp": 252
+          }
+        }
+      ]
+    },
+    "dialogue": {
+      "original": {
+        "before": "キョウ 「毒を入れてしまえば、あとは耐えるだけでいい」",
+        "win": "キョウ 「まだ こんなものでは ないぞ」",
+        "lose": "キョウ 「いい しょうぶ だった」"
+      },
+      "serious": {
+        "before": "キョウ 「毒を入れてしまえば、あとは耐えるだけでいい」",
+        "win": "キョウ 「まだ こんなものでは ないぞ」",
+        "lose": "キョウ 「いい しょうぶ だった」"
+      }
+    }
+  },
+  {
+    "id": "sabrina",
+    "name": "ナツメ",
+    "role": "gymLeader",
+    "region": "kanto",
+    "concept": {
+      "theme": "めいそうを積み、受けながら火力を上げていく",
+      "type": "psychic",
+      "tactic": "setup"
+    },
+    "signature": "alakazam",
+    "tiers": {
+      "original": [
+        {
+          "species": "kadabra",
+          "level": 38,
+          "moves": [
+            "confusion",
+            "psybeam",
+            "recover",
+            "double-team"
+          ]
+        },
+        {
+          "species": "mr-mime",
+          "level": 37,
+          "moves": [
+            "confusion",
+            "double-team",
+            "psybeam",
+            "dazzling-gleam"
+          ]
+        },
+        {
+          "species": "venomoth",
+          "level": 38,
+          "moves": [
+            "psybeam",
+            "sleep-powder",
+            "bug-bite",
+            "supersonic"
+          ]
+        },
+        {
+          "species": "alakazam",
+          "level": 43,
+          "moves": [
+            "psychic",
+            "recover",
+            "psybeam",
+            "dazzling-gleam"
+          ]
+        }
+      ],
+      "serious": [
+        {
+          "species": "alakazam",
+          "level": 50,
+          "moves": [
+            "psychic",
+            "psycho-cut",
+            "calm-mind",
+            "recover"
+          ],
+          "item": "life-orb",
+          "ability": "synchronize",
+          "nature": "timid",
+          "evs": {
+            "spa": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "espeon",
+          "level": 50,
+          "moves": [
+            "psychic",
+            "calm-mind",
+            "dazzling-gleam",
+            "stored-power"
+          ],
+          "item": "twisted-spoon",
+          "ability": "synchronize",
+          "nature": "timid",
+          "evs": {
+            "spa": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "gardevoir",
+          "level": 50,
+          "moves": [
+            "psychic",
+            "moonblast",
+            "calm-mind",
+            "hypnosis"
+          ],
+          "item": "leftovers",
+          "ability": "trace",
+          "nature": "modest",
+          "evs": {
+            "spa": 252,
+            "hp": 252
+          }
+        },
+        {
+          "species": "slowking",
+          "level": 50,
+          "moves": [
+            "psychic",
+            "surf",
+            "calm-mind",
+            "slack-off"
+          ],
+          "item": "sitrus-berry",
+          "ability": "own-tempo",
+          "nature": "bold",
+          "evs": {
+            "hp": 252,
+            "def": 252
+          }
+        }
+      ]
+    },
+    "dialogue": {
+      "original": {
+        "before": "ナツメ 「めいそうを積み、受けながら火力を上げていく」",
+        "win": "ナツメ 「まだ こんなものでは ないぞ」",
+        "lose": "ナツメ 「いい しょうぶ だった」"
+      },
+      "serious": {
+        "before": "ナツメ 「めいそうを積み、受けながら火力を上げていく」",
+        "win": "ナツメ 「まだ こんなものでは ないぞ」",
+        "lose": "ナツメ 「いい しょうぶ だった」"
+      }
+    }
+  },
+  {
+    "id": "blaine",
+    "name": "カツラ",
+    "role": "gymLeader",
+    "region": "kanto",
+    "concept": {
+      "theme": "一撃の重さで、考える時間を与えない",
+      "type": "fire",
+      "tactic": "hyperOffense"
+    },
+    "signature": "arcanine",
+    "tiers": {
+      "original": [
+        {
+          "species": "growlithe",
+          "level": 42,
+          "moves": [
+            "ember",
+            "bite",
+            "take-down",
+            "agility"
+          ]
+        },
+        {
+          "species": "ponyta",
+          "level": 40,
+          "moves": [
+            "ember",
+            "headbutt",
+            "growl",
+            "agility"
+          ]
+        },
+        {
+          "species": "rapidash",
+          "level": 42,
+          "moves": [
+            "fire-blast",
+            "headbutt",
+            "take-down",
+            "agility"
+          ]
+        },
+        {
+          "species": "arcanine",
+          "level": 47,
+          "moves": [
+            "fire-blast",
+            "take-down",
+            "bite",
+            "agility"
+          ]
+        }
+      ],
+      "serious": [
+        {
+          "species": "arcanine",
+          "level": 50,
+          "moves": [
+            "flare-blitz",
+            "extreme-speed",
+            "crunch",
+            "brick-break"
+          ],
+          "item": "choice-band",
+          "ability": "intimidate",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "magmortar",
+          "level": 50,
+          "moves": [
+            "fire-blast",
+            "thunderbolt",
+            "psychic",
+            "heat-wave"
+          ],
+          "item": "choice-specs",
+          "ability": "flame-body",
+          "nature": "modest",
+          "evs": {
+            "spa": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "houndoom",
+          "level": 50,
+          "moves": [
+            "flamethrower",
+            "dark-pulse",
+            "nasty-plot",
+            "will-o-wisp"
+          ],
+          "item": "life-orb",
+          "ability": "flash-fire",
+          "nature": "timid",
+          "evs": {
+            "spa": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "chandelure",
+          "level": 50,
+          "moves": [
+            "fire-blast",
+            "shadow-ball",
+            "hex",
+            "will-o-wisp"
+          ],
+          "item": "charcoal",
+          "ability": "flash-fire",
+          "nature": "modest",
+          "evs": {
+            "spa": 252,
+            "spe": 252
+          }
+        }
+      ]
+    },
+    "dialogue": {
+      "original": {
+        "before": "カツラ 「一撃の重さで、考える時間を与えない」",
+        "win": "カツラ 「まだ こんなものでは ないぞ」",
+        "lose": "カツラ 「いい しょうぶ だった」"
+      },
+      "serious": {
+        "before": "カツラ 「一撃の重さで、考える時間を与えない」",
+        "win": "カツラ 「まだ こんなものでは ないぞ」",
+        "lose": "カツラ 「いい しょうぶ だった」"
+      }
+    }
+  },
+  {
+    "id": "giovanni",
+    "name": "サカキ",
+    "role": "gymLeader",
+    "region": "kanto",
+    "concept": {
+      "theme": "じめんの重さで、正面から潰す",
+      "type": "ground",
+      "tactic": "bulky"
+    },
+    "signature": "rhydon",
+    "tiers": {
+      "original": [
+        {
+          "species": "rhyhorn",
+          "level": 45,
+          "moves": [
+            "rock-throw",
+            "bulldoze",
+            "take-down",
+            "headbutt"
+          ]
+        },
+        {
+          "species": "dugtrio",
+          "level": 42,
+          "moves": [
+            "earthquake",
+            "sand-attack",
+            "body-slam",
+            "mud-slap"
+          ]
+        },
+        {
+          "species": "nidoqueen",
+          "level": 44,
+          "moves": [
+            "earthquake",
+            "body-slam",
+            "poison-sting",
+            "double-kick"
+          ]
+        },
+        {
+          "species": "nidoking",
+          "level": 45,
+          "moves": [
+            "earthquake",
+            "poison-jab",
+            "double-kick",
+            "thunderbolt"
+          ]
+        },
+        {
+          "species": "rhydon",
+          "level": 50,
+          "moves": [
+            "earthquake",
+            "rock-slide",
+            "take-down",
+            "headbutt"
+          ]
+        }
+      ],
+      "serious": [
+        {
+          "species": "rhyperior",
+          "level": 50,
+          "moves": [
+            "earthquake",
+            "stone-edge",
+            "megahorn",
+            "iron-head"
+          ],
+          "item": "assault-vest",
+          "ability": "solid-rock",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "hp": 252
+          }
+        },
+        {
+          "species": "garchomp",
+          "level": 50,
+          "moves": [
+            "earthquake",
+            "dragon-claw",
+            "stone-edge",
+            "swords-dance"
+          ],
+          "item": "life-orb",
+          "ability": "sand-veil",
+          "nature": "jolly",
+          "evs": {
+            "atk": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "excadrill",
+          "level": 50,
+          "moves": [
+            "earthquake",
+            "iron-head",
+            "rock-slide",
+            "swords-dance"
+          ],
+          "item": "soft-sand",
+          "ability": "sand-force",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "nidoking",
+          "level": 50,
+          "moves": [
+            "earth-power",
+            "sludge-bomb",
+            "ice-beam",
+            "thunderbolt"
+          ],
+          "item": "expert-belt",
+          "ability": "poison-point",
+          "nature": "modest",
+          "evs": {
+            "spa": 252,
+            "spe": 252
+          }
+        }
+      ]
+    },
+    "dialogue": {
+      "original": {
+        "before": "サカキ 「じめんの重さで、正面から潰す」",
+        "win": "サカキ 「まだ こんなものでは ないぞ」",
+        "lose": "サカキ 「いい しょうぶ だった」"
+      },
+      "serious": {
+        "before": "サカキ 「じめんの重さで、正面から潰す」",
+        "win": "サカキ 「まだ こんなものでは ないぞ」",
+        "lose": "サカキ 「いい しょうぶ だった」"
+      }
+    }
+  },
+  {
+    "id": "lorelei",
+    "name": "カンナ",
+    "role": "elite4",
+    "region": "kanto",
+    "concept": {
+      "theme": "凍らせ、鈍らせ、こちらのペースだけで進める",
+      "type": "ice",
+      "tactic": "stall"
+    },
+    "signature": "lapras",
+    "tiers": {
+      "original": [
+        {
+          "species": "dewgong",
+          "level": 54,
+          "moves": [
+            "aurora-beam",
+            "surf",
+            "body-slam",
+            "blizzard"
+          ]
+        },
+        {
+          "species": "cloyster",
+          "level": 53,
+          "moves": [
+            "aurora-beam",
+            "surf",
+            "harden",
+            "blizzard"
+          ]
+        },
+        {
+          "species": "slowbro",
+          "level": 54,
+          "moves": [
+            "psychic",
+            "surf",
+            "calm-mind",
+            "body-slam"
+          ]
+        },
+        {
+          "species": "jynx",
+          "level": 56,
+          "moves": [
+            "blizzard",
+            "psychic",
+            "hypnosis",
+            "body-slam"
+          ]
+        },
+        {
+          "species": "lapras",
+          "level": 56,
+          "moves": [
+            "blizzard",
+            "surf",
+            "body-slam",
+            "confuse-ray"
+          ]
+        }
+      ],
+      "serious": [
+        {
+          "species": "lapras",
+          "level": 50,
+          "moves": [
+            "surf",
+            "ice-beam",
+            "toxic",
+            "body-slam"
+          ],
+          "item": "leftovers",
+          "ability": "water-absorb",
+          "nature": "bold",
+          "evs": {
+            "hp": 252,
+            "def": 252
+          }
+        },
+        {
+          "species": "abomasnow",
+          "level": 50,
+          "moves": [
+            "blizzard",
+            "giga-drain",
+            "ice-shard",
+            "toxic"
+          ],
+          "item": "never-melt-ice",
+          "ability": "snow-warning",
+          "nature": "modest",
+          "evs": {
+            "spa": 252,
+            "hp": 252
+          }
+        },
+        {
+          "species": "mamoswine",
+          "level": 50,
+          "moves": [
+            "icicle-crash",
+            "earthquake",
+            "ice-shard",
+            "stone-edge"
+          ],
+          "item": "choice-band",
+          "ability": "snow-cloak",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "hp": 252
+          }
+        },
+        {
+          "species": "glaceon",
+          "level": 50,
+          "moves": [
+            "blizzard",
+            "freeze-dry",
+            "icy-wind",
+            "hyper-voice"
+          ],
+          "item": "sitrus-berry",
+          "ability": "snow-cloak",
+          "nature": "modest",
+          "evs": {
+            "spa": 252,
+            "spd": 252
+          }
+        }
+      ]
+    },
+    "dialogue": {
+      "original": {
+        "before": "カンナ 「凍らせ、鈍らせ、こちらのペースだけで進める」",
+        "win": "カンナ 「まだ こんなものでは ないぞ」",
+        "lose": "カンナ 「いい しょうぶ だった」"
+      },
+      "serious": {
+        "before": "カンナ 「凍らせ、鈍らせ、こちらのペースだけで進める」",
+        "win": "カンナ 「まだ こんなものでは ないぞ」",
+        "lose": "カンナ 「いい しょうぶ だった」"
+      }
+    }
+  },
+  {
+    "id": "bruno",
+    "name": "シバ",
+    "role": "elite4",
+    "region": "kanto",
+    "concept": {
+      "theme": "受けの薄さを承知の上で、殴り勝つ",
+      "type": "fighting",
+      "tactic": "bulky"
+    },
+    "signature": "machamp",
+    "tiers": {
+      "original": [
+        {
+          "species": "onix",
+          "level": 51,
+          "moves": [
+            "rock-throw",
+            "bulldoze",
+            "harden",
+            "bite"
+          ]
+        },
+        {
+          "species": "hitmonchan",
+          "level": 53,
+          "moves": [
+            "fire-punch",
+            "ice-punch",
+            "karate-chop",
+            "agility"
+          ]
+        },
+        {
+          "species": "hitmonlee",
+          "level": 53,
+          "moves": [
+            "double-kick",
+            "mega-kick",
+            "karate-chop",
+            "swords-dance"
+          ]
+        },
+        {
+          "species": "machamp",
+          "level": 56,
+          "moves": [
+            "karate-chop",
+            "submission",
+            "body-slam",
+            "swords-dance"
+          ]
+        }
+      ],
+      "serious": [
+        {
+          "species": "machamp",
+          "level": 50,
+          "moves": [
+            "cross-chop",
+            "stone-edge",
+            "earthquake",
+            "mach-punch"
+          ],
+          "item": "choice-band",
+          "ability": "guts",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "hp": 252
+          }
+        },
+        {
+          "species": "conkeldurr",
+          "level": 50,
+          "moves": [
+            "drain-punch",
+            "mach-punch",
+            "stone-edge",
+            "hammer-arm"
+          ],
+          "item": "flame-orb",
+          "ability": "guts",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "hp": 252
+          }
+        },
+        {
+          "species": "hariyama",
+          "level": 50,
+          "moves": [
+            "cross-chop",
+            "earthquake",
+            "rock-slide",
+            "bullet-punch"
+          ],
+          "item": "assault-vest",
+          "ability": "thick-fat",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "hp": 252
+          }
+        },
+        {
+          "species": "hitmontop",
+          "level": 50,
+          "moves": [
+            "mach-punch",
+            "rapid-spin",
+            "stone-edge",
+            "aerial-ace"
+          ],
+          "item": "black-belt",
+          "ability": "technician",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "spe": 252
+          }
+        }
+      ]
+    },
+    "dialogue": {
+      "original": {
+        "before": "シバ 「受けの薄さを承知の上で、殴り勝つ」",
+        "win": "シバ 「まだ こんなものでは ないぞ」",
+        "lose": "シバ 「いい しょうぶ だった」"
+      },
+      "serious": {
+        "before": "シバ 「受けの薄さを承知の上で、殴り勝つ」",
+        "win": "シバ 「まだ こんなものでは ないぞ」",
+        "lose": "シバ 「いい しょうぶ だった」"
+      }
+    }
+  },
+  {
+    "id": "agatha",
+    "name": "キクコ",
+    "role": "elite4",
+    "region": "kanto",
+    "concept": {
+      "theme": "眠らせて毒を入れ、触れられないまま削る",
+      "type": "ghost",
+      "tactic": "status"
+    },
+    "signature": "gengar",
+    "tiers": {
+      "original": [
+        {
+          "species": "gengar",
+          "level": 56,
+          "moves": [
+            "shadow-ball",
+            "hypnosis",
+            "confuse-ray",
+            "sludge"
+          ]
+        },
+        {
+          "species": "golbat",
+          "level": 56,
+          "moves": [
+            "wing-attack",
+            "bite",
+            "supersonic",
+            "confuse-ray"
+          ]
+        },
+        {
+          "species": "haunter",
+          "level": 55,
+          "moves": [
+            "shadow-ball",
+            "hypnosis",
+            "lick",
+            "toxic"
+          ]
+        },
+        {
+          "species": "arbok",
+          "level": 58,
+          "moves": [
+            "poison-jab",
+            "bite",
+            "acid",
+            "toxic"
+          ]
+        },
+        {
+          "species": "gengar",
+          "level": 60,
+          "moves": [
+            "shadow-ball",
+            "hypnosis",
+            "sludge",
+            "toxic"
+          ]
+        }
+      ],
+      "serious": [
+        {
+          "species": "gengar",
+          "level": 50,
+          "moves": [
+            "shadow-ball",
+            "sludge-bomb",
+            "hypnosis",
+            "hex"
+          ],
+          "item": "life-orb",
+          "ability": "cursed-body",
+          "nature": "timid",
+          "evs": {
+            "spa": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "mismagius",
+          "level": 50,
+          "moves": [
+            "shadow-ball",
+            "dazzling-gleam",
+            "nasty-plot",
+            "confuse-ray"
+          ],
+          "item": "spell-tag",
+          "ability": "levitate",
+          "nature": "timid",
+          "evs": {
+            "spa": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "dusknoir",
+          "level": 50,
+          "moves": [
+            "shadow-punch",
+            "earthquake",
+            "will-o-wisp",
+            "toxic"
+          ],
+          "item": "leftovers",
+          "ability": "pressure",
+          "nature": "impish",
+          "evs": {
+            "hp": 252,
+            "def": 252
+          }
+        },
+        {
+          "species": "banette",
+          "level": 50,
+          "moves": [
+            "shadow-ball",
+            "hex",
+            "will-o-wisp",
+            "knock-off"
+          ],
+          "item": "expert-belt",
+          "ability": "frisk",
+          "nature": "quiet",
+          "evs": {
+            "spa": 252,
+            "hp": 252
+          }
+        }
+      ]
+    },
+    "dialogue": {
+      "original": {
+        "before": "キクコ 「眠らせて毒を入れ、触れられないまま削る」",
+        "win": "キクコ 「まだ こんなものでは ないぞ」",
+        "lose": "キクコ 「いい しょうぶ だった」"
+      },
+      "serious": {
+        "before": "キクコ 「眠らせて毒を入れ、触れられないまま削る」",
+        "win": "キクコ 「まだ こんなものでは ないぞ」",
+        "lose": "キクコ 「いい しょうぶ だった」"
+      }
+    }
+  },
+  {
+    "id": "lance",
+    "name": "ワタル",
+    "role": "elite4",
+    "region": "kanto",
+    "concept": {
+      "theme": "ドラゴンの数値で、小細工ごと押し流す",
+      "type": "dragon",
+      "tactic": "setup"
+    },
+    "signature": "dragonite",
+    "tiers": {
+      "original": [
+        {
+          "species": "gyarados",
+          "level": 58,
+          "moves": [
+            "waterfall",
+            "bite",
+            "body-slam",
+            "dragon-breath"
+          ]
+        },
+        {
+          "species": "dragonair",
+          "level": 56,
+          "moves": [
+            "dragon-breath",
+            "thunder-wave",
+            "agility",
+            "body-slam"
+          ]
+        },
+        {
+          "species": "dragonair",
+          "level": 56,
+          "moves": [
+            "dragon-breath",
+            "thunder-wave",
+            "surf",
+            "body-slam"
+          ]
+        },
+        {
+          "species": "aerodactyl",
+          "level": 60,
+          "moves": [
+            "wing-attack",
+            "rock-slide",
+            "bite",
+            "take-down"
+          ]
+        },
+        {
+          "species": "dragonite",
+          "level": 62,
+          "moves": [
+            "dragon-claw",
+            "blizzard",
+            "thunder",
+            "wing-attack"
+          ]
+        }
+      ],
+      "serious": [
+        {
+          "species": "dragonite",
+          "level": 50,
+          "moves": [
+            "dragon-claw",
+            "earthquake",
+            "extreme-speed",
+            "swords-dance"
+          ],
+          "item": "life-orb",
+          "ability": "inner-focus",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "salamence",
+          "level": 50,
+          "moves": [
+            "dragon-claw",
+            "brave-bird",
+            "earthquake",
+            "crunch"
+          ],
+          "item": "choice-band",
+          "ability": "intimidate",
+          "nature": "jolly",
+          "evs": {
+            "atk": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "garchomp",
+          "level": 50,
+          "moves": [
+            "earthquake",
+            "dragon-claw",
+            "stone-edge",
+            "swords-dance"
+          ],
+          "item": "dragon-fang",
+          "ability": "sand-veil",
+          "nature": "jolly",
+          "evs": {
+            "atk": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "kingdra",
+          "level": 50,
+          "moves": [
+            "hydro-pump",
+            "dragon-pulse",
+            "ice-beam",
+            "agility"
+          ],
+          "item": "leftovers",
+          "ability": "swift-swim",
+          "nature": "modest",
+          "evs": {
+            "spa": 252,
+            "hp": 252
+          }
+        }
+      ]
+    },
+    "dialogue": {
+      "original": {
+        "before": "ワタル 「ドラゴンの数値で、小細工ごと押し流す」",
+        "win": "ワタル 「まだ こんなものでは ないぞ」",
+        "lose": "ワタル 「いい しょうぶ だった」"
+      },
+      "serious": {
+        "before": "ワタル 「ドラゴンの数値で、小細工ごと押し流す」",
+        "win": "ワタル 「まだ こんなものでは ないぞ」",
+        "lose": "ワタル 「いい しょうぶ だった」"
+      }
+    }
+  },
+  {
+    "id": "blue",
+    "name": "グリーン",
+    "role": "champion",
+    "region": "kanto",
+    "concept": {
+      "theme": "穴のない6体。専門を持たないから最も強い"
+    },
+    "signature": "pidgeot",
+    "tiers": {
+      "original": [
+        {
+          "species": "pidgeot",
+          "level": 61,
+          "moves": [
+            "wing-attack",
+            "quick-attack",
+            "sand-attack",
+            "swift"
+          ]
+        },
+        {
+          "species": "alakazam",
+          "level": 59,
+          "moves": [
+            "psychic",
+            "recover",
+            "psybeam",
+            "dazzling-gleam"
+          ]
+        },
+        {
+          "species": "rhydon",
+          "level": 61,
+          "moves": [
+            "earthquake",
+            "rock-slide",
+            "take-down",
+            "fury-attack"
+          ]
+        },
+        {
+          "species": "exeggutor",
+          "level": 59,
+          "moves": [
+            "psychic",
+            "mega-drain",
+            "sleep-powder",
+            "headbutt"
+          ]
+        },
+        {
+          "species": "arcanine",
+          "level": 61,
+          "moves": [
+            "fire-blast",
+            "take-down",
+            "bite",
+            "agility"
+          ]
+        },
+        {
+          "species": "charizard",
+          "level": 65,
+          "moves": [
+            "fire-blast",
+            "wing-attack",
+            "body-slam",
+            "dragon-claw"
+          ]
+        }
+      ],
+      "serious": [
+        {
+          "species": "pidgeot",
+          "level": 50,
+          "moves": [
+            "brave-bird",
+            "aerial-ace",
+            "double-edge",
+            "agility"
+          ],
+          "item": "choice-band",
+          "ability": "keen-eye",
+          "nature": "jolly",
+          "evs": {
+            "atk": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "scizor",
+          "level": 50,
+          "moves": [
+            "bullet-punch",
+            "x-scissor",
+            "swords-dance",
+            "iron-head"
+          ],
+          "item": "life-orb",
+          "ability": "technician",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "hp": 252
+          }
+        },
+        {
+          "species": "metagross",
+          "level": 50,
+          "moves": [
+            "meteor-mash",
+            "zen-headbutt",
+            "earthquake",
+            "bullet-punch"
+          ],
+          "item": "expert-belt",
+          "ability": "clear-body",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "hp": 252
+          }
+        },
+        {
+          "species": "tyranitar",
+          "level": 50,
+          "moves": [
+            "crunch",
+            "stone-edge",
+            "earthquake",
+            "iron-head"
+          ],
+          "item": "leftovers",
+          "ability": "sand-stream",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "spd": 252
+          }
+        }
+      ]
+    },
+    "dialogue": {
+      "original": {
+        "before": "グリーン 「穴のない6体。専門を持たないから最も強い」",
+        "win": "グリーン 「まだ こんなものでは ないぞ」",
+        "lose": "グリーン 「いい しょうぶ だった」"
+      },
+      "serious": {
+        "before": "グリーン 「穴のない6体。専門を持たないから最も強い」",
+        "win": "グリーン 「まだ こんなものでは ないぞ」",
+        "lose": "グリーン 「いい しょうぶ だった」"
+      }
+    }
+  },
+  {
+    "id": "red",
+    "name": "レッド",
+    "role": "champion",
+    "region": "kanto",
+    "concept": {
+      "theme": "無言。積み上げた時間が、そのまま強さになっている",
+      "tactic": "coverage"
+    },
+    "signature": "pikachu",
+    "tiers": {
+      "serious": [
+        {
+          "species": "pikachu",
+          "level": 50,
+          "moves": [
+            "thunderbolt",
+            "nuzzle",
+            "quick-attack",
+            "iron-tail"
+          ],
+          "item": "life-orb",
+          "ability": "static",
+          "nature": "timid",
+          "evs": {
+            "spa": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "charizard",
+          "level": 50,
+          "moves": [
+            "fire-blast",
+            "air-slash",
+            "dragon-pulse",
+            "brick-break"
+          ],
+          "item": "charcoal",
+          "ability": "blaze",
+          "nature": "timid",
+          "evs": {
+            "spa": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "blastoise",
+          "level": 50,
+          "moves": [
+            "hydro-pump",
+            "ice-beam",
+            "dark-pulse",
+            "aura-sphere"
+          ],
+          "item": "leftovers",
+          "ability": "torrent",
+          "nature": "modest",
+          "evs": {
+            "spa": 252,
+            "hp": 252
+          }
+        },
+        {
+          "species": "venusaur",
+          "level": 50,
+          "moves": [
+            "giga-drain",
+            "sludge-bomb",
+            "sleep-powder",
+            "toxic"
+          ],
+          "item": "miracle-seed",
+          "ability": "overgrow",
+          "nature": "bold",
+          "evs": {
+            "hp": 252,
+            "spd": 252
+          }
+        }
+      ]
+    },
+    "dialogue": {
+      "serious": {
+        "before": "レッド 「無言。積み上げた時間が、そのまま強さになっている」",
+        "win": "レッド 「まだ こんなものでは ないぞ」",
+        "lose": "レッド 「いい しょうぶ だった」"
+      }
+    }
+  },
+  {
+    "id": "daisy",
+    "name": "ナナミ",
+    "role": "other",
+    "region": "kanto",
+    "concept": {
+      "theme": "倒す気が無い相手ほど、倒しにくい",
+      "type": "fairy",
+      "tactic": "support"
+    },
+    "signature": "clefable",
+    "tiers": {
+      "serious": [
+        {
+          "species": "clefable",
+          "level": 50,
+          "moves": [
+            "moonblast",
+            "soft-boiled",
+            "toxic",
+            "charm"
+          ],
+          "item": "leftovers",
+          "ability": "cute-charm",
+          "nature": "bold",
+          "evs": {
+            "hp": 252,
+            "def": 252
+          }
+        },
+        {
+          "species": "blissey",
+          "level": 50,
+          "moves": [
+            "soft-boiled",
+            "toxic",
+            "dazzling-gleam",
+            "charm"
+          ],
+          "item": "sitrus-berry",
+          "ability": "natural-cure",
+          "nature": "calm",
+          "evs": {
+            "hp": 252,
+            "spd": 252
+          }
+        },
+        {
+          "species": "sylveon",
+          "level": 50,
+          "moves": [
+            "moonblast",
+            "draining-kiss",
+            "charm",
+            "hyper-voice"
+          ],
+          "item": "fairy-feather",
+          "ability": "cute-charm",
+          "nature": "modest",
+          "evs": {
+            "spa": 252,
+            "spd": 252
+          }
+        },
+        {
+          "species": "togekiss",
+          "level": 50,
+          "moves": [
+            "dazzling-gleam",
+            "air-slash",
+            "charm",
+            "toxic"
+          ],
+          "item": "rocky-helmet",
+          "ability": "serene-grace",
+          "nature": "bold",
+          "evs": {
+            "hp": 252,
+            "def": 252
+          }
+        }
+      ]
+    },
+    "dialogue": {
+      "serious": {
+        "before": "ナナミ 「倒す気が無い相手ほど、倒しにくい」",
+        "win": "ナナミ 「まだ こんなものでは ないぞ」",
+        "lose": "ナナミ 「いい しょうぶ だった」"
+      }
+    }
+  },
+  {
+    "id": "oak",
+    "name": "オーキド",
+    "role": "other",
+    "region": "kanto",
+    "concept": {
+      "theme": "図鑑を作った人間は、全部の答えを知っている",
+      "tactic": "balanced"
+    },
+    "signature": "tauros",
+    "tiers": {
+      "serious": [
+        {
+          "species": "tauros",
+          "level": 50,
+          "moves": [
+            "body-slam",
+            "earthquake",
+            "stone-edge",
+            "megahorn"
+          ],
+          "item": "choice-band",
+          "ability": "intimidate",
+          "nature": "jolly",
+          "evs": {
+            "atk": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "snorlax",
+          "level": 50,
+          "moves": [
+            "body-slam",
+            "earthquake",
+            "crunch",
+            "toxic"
+          ],
+          "item": "leftovers",
+          "ability": "immunity",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "hp": 252
+          }
+        },
+        {
+          "species": "exeggutor",
+          "level": 50,
+          "moves": [
+            "psychic",
+            "giga-drain",
+            "sleep-powder",
+            "leaf-storm"
+          ],
+          "item": "miracle-seed",
+          "ability": "chlorophyll",
+          "nature": "modest",
+          "evs": {
+            "spa": 252,
+            "hp": 252
+          }
+        },
+        {
+          "species": "aerodactyl",
+          "level": 50,
+          "moves": [
+            "stone-edge",
+            "aerial-ace",
+            "earthquake",
+            "iron-head"
+          ],
+          "item": "focus-sash",
+          "ability": "rock-head",
+          "nature": "jolly",
+          "evs": {
+            "atk": 252,
+            "spe": 252
+          }
+        }
+      ]
+    },
+    "dialogue": {
+      "serious": {
+        "before": "オーキド 「図鑑を作った人間は、全部の答えを知っている」",
+        "win": "オーキド 「まだ こんなものでは ないぞ」",
+        "lose": "オーキド 「いい しょうぶ だった」"
+      }
+    }
+  },
+  {
+    "id": "bill",
+    "name": "マサキ",
+    "role": "other",
+    "region": "kanto",
+    "concept": {
+      "theme": "保管庫の主。分岐のすべてを、ひととおり持っている",
+      "tactic": "typeShift"
+    },
+    "signature": "eevee",
+    "tiers": {
+      "serious": [
+        {
+          "species": "vaporeon",
+          "level": 50,
+          "moves": [
+            "surf",
+            "ice-beam",
+            "toxic",
+            "recover"
+          ],
+          "item": "leftovers",
+          "ability": "water-absorb",
+          "nature": "bold",
+          "evs": {
+            "hp": 252,
+            "def": 252
+          }
+        },
+        {
+          "species": "jolteon",
+          "level": 50,
+          "moves": [
+            "thunderbolt",
+            "shadow-ball",
+            "thunder-wave",
+            "charge-beam"
+          ],
+          "item": "magnet",
+          "ability": "volt-absorb",
+          "nature": "timid",
+          "evs": {
+            "spa": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "umbreon",
+          "level": 50,
+          "moves": [
+            "crunch",
+            "toxic",
+            "confuse-ray",
+            "payback"
+          ],
+          "item": "rocky-helmet",
+          "ability": "synchronize",
+          "nature": "calm",
+          "evs": {
+            "hp": 252,
+            "spd": 252
+          }
+        },
+        {
+          "species": "leafeon",
+          "level": 50,
+          "moves": [
+            "leaf-blade",
+            "x-scissor",
+            "swords-dance",
+            "double-edge"
+          ],
+          "item": "miracle-seed",
+          "ability": "leaf-guard",
+          "nature": "adamant",
+          "evs": {
+            "atk": 252,
+            "spe": 252
+          }
+        }
+      ]
+    },
+    "dialogue": {
+      "serious": {
+        "before": "マサキ 「保管庫の主。分岐のすべてを、ひととおり持っている」",
+        "win": "マサキ 「まだ こんなものでは ないぞ」",
+        "lose": "マサキ 「いい しょうぶ だった」"
+      }
+    }
+  },
+  {
+    "id": "rocket-boss",
+    "name": "サカキ（ロケット団）",
+    "role": "villain",
+    "region": "kanto",
+    "concept": {
+      "theme": "ジムリーダーの顔を捨てたときの、こちらが本当の構築だ",
+      "type": "dark",
+      "tactic": "attrition"
+    },
+    "signature": "persian",
+    "tiers": {
+      "serious": [
+        {
+          "species": "persian",
+          "level": 50,
+          "moves": [
+            "night-slash",
+            "body-slam",
+            "slash",
+            "screech"
+          ],
+          "item": "silk-scarf",
+          "ability": "limber",
+          "nature": "jolly",
+          "evs": {
+            "atk": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "houndoom",
+          "level": 50,
+          "moves": [
+            "dark-pulse",
+            "flamethrower",
+            "nasty-plot",
+            "will-o-wisp"
+          ],
+          "item": "black-glasses",
+          "ability": "flash-fire",
+          "nature": "timid",
+          "evs": {
+            "spa": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "drapion",
+          "level": 50,
+          "moves": [
+            "crunch",
+            "poison-jab",
+            "x-scissor",
+            "swords-dance"
+          ],
+          "item": "life-orb",
+          "ability": "battle-armor",
+          "nature": "jolly",
+          "evs": {
+            "atk": 252,
+            "spe": 252
+          }
+        },
+        {
+          "species": "crobat",
+          "level": 50,
+          "moves": [
+            "cross-poison",
+            "aerial-ace",
+            "bite",
+            "toxic"
+          ],
+          "item": "leftovers",
+          "ability": "inner-focus",
+          "nature": "jolly",
+          "evs": {
+            "atk": 252,
+            "spe": 252
+          }
+        }
+      ]
+    },
+    "dialogue": {
+      "serious": {
+        "before": "サカキ（ロケット団） 「ジムリーダーの顔を捨てたときの、こちらが本当の構築だ」",
+        "win": "サカキ（ロケット団） 「まだ こんなものでは ないぞ」",
+        "lose": "サカキ（ロケット団） 「いい しょうぶ だった」"
+      }
+    }
+  }
+]

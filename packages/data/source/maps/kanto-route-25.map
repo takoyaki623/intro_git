@@ -1,0 +1,37 @@
+# 25番道路。24番の北で東へ折れ、突きあたりが マサキ の家。
+id: kanto-route-25
+name: 25ばんどうろ
+region: kanto
+encounters: kanto-route-25-grass kanto-route-25-surf kanto-route-25-fishing-old kanto-route-25-fishing-good kanto-route-25-fishing-super
+bgm: route-1
+
+legend:
+. normal
+, grass
+T !normal
+H !normal
+D normal
+~ !water
+
+grid:
+TTTTTTTTTTTTT
+T...........T
+T..,,,..HHH.T
+T..,,,..HDH.T
+T...........T
+T....,,,....T
+T..~~,,,....T
+T..~~.......T
+TT.TTTTTTTTTT
+
+warps:
+2,8 step kanto-route-24 5,1 down
+9,3 step kanto-bill-house 3,4 up
+
+objects:
+route25-sign 5,7 sign kanto.route25.sign
+route25-hiker 6,1 trainer:kanto-route25-hiker:3:down kanto.route25.hiker if:kanto.route25.hiker-beaten=false
+route25-lass-1 1,1 trainer:kanto-route-25-lass-1:2:down kanto.route25.lass1 if:kanto.route25.lass1-beaten=false
+route25-lass-2 11,6 trainer:kanto-route-25-lass-2:2:left kanto.route25.lass2 if:kanto.route25.lass2-beaten=false
+route25-lass-3 8,1 trainer:kanto-route-25-lass-3:2:left kanto.route25.lass3 if:kanto.route25.lass3-beaten=false
+route25-ether-1 11,7 item:ether kanto.route25.ether1 if:kanto.route25.ether1-taken=false

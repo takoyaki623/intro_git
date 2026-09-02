@@ -1,0 +1,34 @@
+# カラテおうの どうじょう（v1.1-g-3）。
+#
+# **勝つと1匹もらえる ―― どちらか片方だけ。**
+# 図鑑の到達可能性はグラフで見るので、選択肢は2本とも「経路がある」に数える。
+# 遊ぶ側から見ると1回の選択だが、**世界としては2種に道がある。**
+id: kanto-saffron-dojo
+name: カラテどうじょう
+region: kanto
+bgm: gym
+
+legend:
+. normal
+W !normal
+D normal
+
+grid:
+WWWWWWWWW
+W.......W
+W.......W
+W.......W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,6 step kanto-saffron-city 17,13 down
+
+objects:
+dojo-student 2,4 trainer:kanto-dojo-student:3:right kanto.dojo.student if:kanto.dojo.student-beaten=false
+dojo-master 4,1 npc:blackbelt:static kanto.dojo.master
+dojo-prize-lee 3,2 npc:pokeball:static kanto.dojo.prize-lee if:kanto.dojo.won=true
+dojo-prize-chan 5,2 npc:pokeball:static kanto.dojo.prize-chan if:kanto.dojo.won=true
+dojo-tutor 6,4 npc:blackbelt:static kanto.tutor.mega-kick
+dojo-tutor2 2,2 npc:blackbelt:static kanto.tutor.seismic-toss

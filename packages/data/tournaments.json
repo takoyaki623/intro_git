@@ -1,0 +1,514 @@
+[
+  {
+    "id": "kanto-cup",
+    "name": "カントーカップ",
+    "description": "カントーのジムリーダー・四天王・チャンピオンから抽選。4人抜きで優勝。",
+    "ruleset": {
+      "teamSize": 3,
+      "battleSize": 3,
+      "teamSource": "rental",
+      "levelMode": {
+        "kind": "sync",
+        "level": 50
+      },
+      "duplicateSpecies": false,
+      "duplicateItems": false,
+      "battleFormat": "single",
+      "itemsAllowed": false,
+      "winCondition": {
+        "kind": "faint"
+      },
+      "moveSelection": "player",
+      "streakLength": 4,
+      "healBetweenBattles": true,
+      "carryOverDamage": false
+    },
+    "entrantPool": [
+      "brock",
+      "misty",
+      "lt-surge",
+      "erika",
+      "koga",
+      "sabrina",
+      "blaine",
+      "giovanni",
+      "lorelei",
+      "bruno",
+      "agatha",
+      "lance",
+      "blue"
+    ],
+    "rounds": 4,
+    "tierProgression": [
+      "original",
+      "serious"
+    ],
+    "bpByTier": {
+      "original": 15,
+      "serious": 40
+    },
+    "rentalGradeByTier": {
+      "original": 2,
+      "serious": 4
+    }
+  },
+  {
+    "id": "kanto-gym-leader-cup",
+    "name": "ジムリーダーカップ",
+    "description": "カントーのジムリーダー8人から抽選。3人抜き。トーナメントの入口。",
+    "ruleset": {
+      "teamSize": 3,
+      "battleSize": 3,
+      "teamSource": "rental",
+      "levelMode": {
+        "kind": "sync",
+        "level": 50
+      },
+      "duplicateSpecies": false,
+      "duplicateItems": false,
+      "battleFormat": "single",
+      "itemsAllowed": false,
+      "winCondition": {
+        "kind": "faint"
+      },
+      "moveSelection": "player",
+      "streakLength": 3,
+      "healBetweenBattles": true,
+      "carryOverDamage": false
+    },
+    "entrantPool": [
+      "brock",
+      "misty",
+      "lt-surge",
+      "erika",
+      "koga",
+      "sabrina",
+      "blaine",
+      "giovanni"
+    ],
+    "rounds": 3,
+    "tierProgression": [
+      "original",
+      "serious"
+    ],
+    "bpByTier": {
+      "original": 8,
+      "serious": 25
+    },
+    "rentalGradeByTier": {
+      "original": 2,
+      "serious": 4
+    }
+  },
+  {
+    "id": "kanto-elite-cup",
+    "name": "四天王カップ",
+    "description": "四天王とチャンピオンのみ。同じルールで、出場者プールだけが違う。",
+    "ruleset": {
+      "teamSize": 3,
+      "battleSize": 3,
+      "teamSource": "rental",
+      "levelMode": {
+        "kind": "sync",
+        "level": 50
+      },
+      "duplicateSpecies": false,
+      "duplicateItems": false,
+      "battleFormat": "single",
+      "itemsAllowed": false,
+      "winCondition": {
+        "kind": "faint"
+      },
+      "moveSelection": "player",
+      "streakLength": 3,
+      "healBetweenBattles": true,
+      "carryOverDamage": false
+    },
+    "entrantPool": [
+      "lorelei",
+      "bruno",
+      "agatha",
+      "lance",
+      "blue"
+    ],
+    "rounds": 3,
+    "tierProgression": [
+      "original",
+      "serious"
+    ],
+    "bpByTier": {
+      "original": 20,
+      "serious": 50
+    },
+    "rentalGradeByTier": {
+      "original": 2,
+      "serious": 4
+    }
+  },
+  {
+    "id": "kanto-fire-cup",
+    "name": "ほのおカップ",
+    "description": "ほのおタイプ だけで 3人ぬき。じぶんで そだてた ほのお で ちょうせんする。",
+    "ruleset": {
+      "teamSize": 3,
+      "battleSize": 3,
+      "teamSource": "own",
+      "levelMode": {
+        "kind": "sync",
+        "level": 50
+      },
+      "duplicateSpecies": false,
+      "duplicateItems": false,
+      "battleFormat": "single",
+      "itemsAllowed": false,
+      "winCondition": {
+        "kind": "faint"
+      },
+      "moveSelection": "player",
+      "streakLength": 3,
+      "healBetweenBattles": true,
+      "carryOverDamage": false,
+      "requiredType": "fire"
+    },
+    "entrantPool": [
+      "brock",
+      "misty",
+      "lt-surge",
+      "erika",
+      "koga",
+      "sabrina",
+      "blaine",
+      "giovanni",
+      "lorelei",
+      "bruno",
+      "agatha",
+      "lance",
+      "blue",
+      "red",
+      "daisy",
+      "oak",
+      "bill",
+      "rocket-boss"
+    ],
+    "rounds": 3,
+    "tierProgression": [
+      "serious"
+    ],
+    "bpByTier": {
+      "serious": 20
+    },
+    "rentalGradeByTier": {
+      "serious": 4
+    }
+  },
+  {
+    "id": "kanto-water-cup",
+    "name": "みずカップ",
+    "description": "みずタイプ だけで 3人ぬき。じぶんで そだてた みず で ちょうせんする。",
+    "ruleset": {
+      "teamSize": 3,
+      "battleSize": 3,
+      "teamSource": "own",
+      "levelMode": {
+        "kind": "sync",
+        "level": 50
+      },
+      "duplicateSpecies": false,
+      "duplicateItems": false,
+      "battleFormat": "single",
+      "itemsAllowed": false,
+      "winCondition": {
+        "kind": "faint"
+      },
+      "moveSelection": "player",
+      "streakLength": 3,
+      "healBetweenBattles": true,
+      "carryOverDamage": false,
+      "requiredType": "water"
+    },
+    "entrantPool": [
+      "brock",
+      "misty",
+      "lt-surge",
+      "erika",
+      "koga",
+      "sabrina",
+      "blaine",
+      "giovanni",
+      "lorelei",
+      "bruno",
+      "agatha",
+      "lance",
+      "blue",
+      "red",
+      "daisy",
+      "oak",
+      "bill",
+      "rocket-boss"
+    ],
+    "rounds": 3,
+    "tierProgression": [
+      "serious"
+    ],
+    "bpByTier": {
+      "serious": 20
+    },
+    "rentalGradeByTier": {
+      "serious": 4
+    }
+  },
+  {
+    "id": "kanto-electric-cup",
+    "name": "でんきカップ",
+    "description": "でんきタイプ だけで 3人ぬき。じぶんで そだてた でんき で ちょうせんする。",
+    "ruleset": {
+      "teamSize": 3,
+      "battleSize": 3,
+      "teamSource": "own",
+      "levelMode": {
+        "kind": "sync",
+        "level": 50
+      },
+      "duplicateSpecies": false,
+      "duplicateItems": false,
+      "battleFormat": "single",
+      "itemsAllowed": false,
+      "winCondition": {
+        "kind": "faint"
+      },
+      "moveSelection": "player",
+      "streakLength": 3,
+      "healBetweenBattles": true,
+      "carryOverDamage": false,
+      "requiredType": "electric"
+    },
+    "entrantPool": [
+      "brock",
+      "misty",
+      "lt-surge",
+      "erika",
+      "koga",
+      "sabrina",
+      "blaine",
+      "giovanni",
+      "lorelei",
+      "bruno",
+      "agatha",
+      "lance",
+      "blue",
+      "red",
+      "daisy",
+      "oak",
+      "bill",
+      "rocket-boss"
+    ],
+    "rounds": 3,
+    "tierProgression": [
+      "serious"
+    ],
+    "bpByTier": {
+      "serious": 20
+    },
+    "rentalGradeByTier": {
+      "serious": 4
+    }
+  },
+  {
+    "id": "kanto-grass-cup",
+    "name": "くさカップ",
+    "description": "くさタイプ だけで 3人ぬき。じぶんで そだてた くさ で ちょうせんする。",
+    "ruleset": {
+      "teamSize": 3,
+      "battleSize": 3,
+      "teamSource": "own",
+      "levelMode": {
+        "kind": "sync",
+        "level": 50
+      },
+      "duplicateSpecies": false,
+      "duplicateItems": false,
+      "battleFormat": "single",
+      "itemsAllowed": false,
+      "winCondition": {
+        "kind": "faint"
+      },
+      "moveSelection": "player",
+      "streakLength": 3,
+      "healBetweenBattles": true,
+      "carryOverDamage": false,
+      "requiredType": "grass"
+    },
+    "entrantPool": [
+      "brock",
+      "misty",
+      "lt-surge",
+      "erika",
+      "koga",
+      "sabrina",
+      "blaine",
+      "giovanni",
+      "lorelei",
+      "bruno",
+      "agatha",
+      "lance",
+      "blue",
+      "red",
+      "daisy",
+      "oak",
+      "bill",
+      "rocket-boss"
+    ],
+    "rounds": 3,
+    "tierProgression": [
+      "serious"
+    ],
+    "bpByTier": {
+      "serious": 20
+    },
+    "rentalGradeByTier": {
+      "serious": 4
+    }
+  },
+  {
+    "id": "kanto-dragon-cup",
+    "name": "ドラゴンカップ",
+    "description": "ドラゴンタイプ だけで 3人ぬき。じぶんで そだてた ドラゴン で ちょうせんする。",
+    "ruleset": {
+      "teamSize": 3,
+      "battleSize": 3,
+      "teamSource": "own",
+      "levelMode": {
+        "kind": "sync",
+        "level": 50
+      },
+      "duplicateSpecies": false,
+      "duplicateItems": false,
+      "battleFormat": "single",
+      "itemsAllowed": false,
+      "winCondition": {
+        "kind": "faint"
+      },
+      "moveSelection": "player",
+      "streakLength": 3,
+      "healBetweenBattles": true,
+      "carryOverDamage": false,
+      "requiredType": "dragon"
+    },
+    "entrantPool": [
+      "brock",
+      "misty",
+      "lt-surge",
+      "erika",
+      "koga",
+      "sabrina",
+      "blaine",
+      "giovanni",
+      "lorelei",
+      "bruno",
+      "agatha",
+      "lance",
+      "blue",
+      "red",
+      "daisy",
+      "oak",
+      "bill",
+      "rocket-boss"
+    ],
+    "rounds": 3,
+    "tierProgression": [
+      "serious"
+    ],
+    "bpByTier": {
+      "serious": 20
+    },
+    "rentalGradeByTier": {
+      "serious": 4
+    }
+  },
+  {
+    "id": "kanto-rocket-cup",
+    "name": "ロケットだんカップ",
+    "description": "ロケットだんの ボスと、そのやりくちに ちかい 4人。かちぬくと BP が おおい。",
+    "ruleset": {
+      "teamSize": 3,
+      "battleSize": 3,
+      "teamSource": "rental",
+      "levelMode": {
+        "kind": "sync",
+        "level": 50
+      },
+      "duplicateSpecies": false,
+      "duplicateItems": false,
+      "battleFormat": "single",
+      "itemsAllowed": false,
+      "winCondition": {
+        "kind": "faint"
+      },
+      "moveSelection": "player",
+      "streakLength": 4,
+      "healBetweenBattles": true,
+      "carryOverDamage": false
+    },
+    "entrantPool": [
+      "rocket-boss",
+      "koga",
+      "agatha",
+      "giovanni",
+      "blaine"
+    ],
+    "rounds": 4,
+    "tierProgression": [
+      "serious"
+    ],
+    "bpByTier": {
+      "serious": 35
+    },
+    "rentalGradeByTier": {
+      "serious": 4
+    }
+  },
+  {
+    "id": "kanto-champion-cup",
+    "name": "チャンピオンカップ",
+    "description": "グリーンと レッド、そして カントーの さいこうほう。4人ぬき。ここが いまの てっぺん。",
+    "ruleset": {
+      "teamSize": 3,
+      "battleSize": 3,
+      "teamSource": "rental",
+      "levelMode": {
+        "kind": "sync",
+        "level": 50
+      },
+      "duplicateSpecies": false,
+      "duplicateItems": false,
+      "battleFormat": "single",
+      "itemsAllowed": false,
+      "winCondition": {
+        "kind": "faint"
+      },
+      "moveSelection": "player",
+      "streakLength": 4,
+      "healBetweenBattles": true,
+      "carryOverDamage": false
+    },
+    "entrantPool": [
+      "blue",
+      "red",
+      "lance",
+      "agatha",
+      "bruno",
+      "lorelei",
+      "oak"
+    ],
+    "rounds": 4,
+    "tierProgression": [
+      "serious"
+    ],
+    "bpByTier": {
+      "serious": 45
+    },
+    "rentalGradeByTier": {
+      "serious": 4
+    }
+  }
+]

@@ -1,0 +1,33 @@
+# ハナダのどうくつ 2階（v1.2-b）。**カダブラ はここにしか出ない。**
+#
+# 間取りは原作を写していない（1階と同じ理由）。柱の林立する広間にした
+# ―― 1階の型紙をもう1枚刷らないため。
+id: kanto-cerulean-cave-2f
+name: ハナダのどうくつ
+region: kanto
+encounters: kanto-cerulean-cave-2f-cave
+bgm: cave
+
+legend:
+. normal
+R !normal
+: cave
+
+grid:
+RRRRRRRRRRRRR
+R:::::::::::R
+R:R:R:R:R:R:R
+R:::::::::::R
+R:R:R:R:R:R:R
+R:::::::::::R
+R:R:R:R:R:R:R
+R:::::::::::R
+RRRRRRRRRRRRR
+
+warps:
+1,1 step kanto-cerulean-cave 11,2 up
+11,1 step kanto-cerulean-cave-b1f 1,2 down
+
+objects:
+cerulean-cave-2f-item 6,3 item:full-restore kanto.cave.item-2 if:kanto.cave.item-2-taken=false
+ceruleancave2f-tm02-1 11,7 item:tm02 kanto.ceruleancave2f.tm021 if:kanto.ceruleancave2f.tm021-taken=false

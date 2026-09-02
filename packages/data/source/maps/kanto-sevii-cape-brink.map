@@ -1,0 +1,36 @@
+# 2のしまの みさき。海に突き出た草地（原作 Cape Brink）。
+# 日本語の正式名は原作の地図で確認すること ―― 分からないまま名乗らせない。
+id: kanto-sevii-cape-brink
+name: 2のしまの みさき
+region: kanto
+encounters: kanto-sevii-cape-brink-grass kanto-sevii-cape-brink-surf kanto-sevii-cape-brink-fishing-old kanto-sevii-cape-brink-fishing-good kanto-sevii-cape-brink-fishing-super
+bgm: route-12
+
+legend:
+. normal
+g grass
+~ !water
+T !normal
+
+grid:
+TTTTTTTTTTTTT
+T~~~~~~~~~~~T
+T~..ggg....~T
+T~.........~T
+T~..ggg....~T
+...........~T
+T~.........~T
+T~..ggg....~T
+T~.........~T
+T~~~~~~~~~~~T
+TTTTTTTTTTTTT
+
+warps:
+0,5 step kanto-sevii-two-island 11,5 left
+
+objects:
+cape-item 8,7 item:max-potion kanto.sevii.cape-item if:kanto.sevii.cape-item-taken=false
+cape-fisher 5,3 npc:fisher:static kanto.sevii.cape-fisher
+brink-tutor-grass 3,3 npc:oldman:static kanto.tutor.frenzy-plant
+brink-tutor-fire 5,6 npc:oldman:static kanto.tutor.blast-burn
+brink-tutor-water 7,3 npc:oldman:static kanto.tutor.hydro-cannon

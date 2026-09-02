@@ -1,0 +1,29 @@
+# ルビーのどうくつ 地下1階。**マグマッグ が出る**（FRLG の配置）。
+id: kanto-sevii-ruby-path-b1f
+name: ルビーのどうくつ B1F
+region: kanto
+encounters: kanto-sevii-ruby-path-b1f-cave kanto-sevii-ruby-path-b1f-rock-smash
+bgm: mt-moon
+
+legend:
+. cave
+C !cave
+D normal
+
+grid:
+CCCCCCCCCCC
+CD........C
+C.CC.CCCC.C
+C.CCCCCCC.C
+C.........C
+C.CCCCC.C.C
+C.CCCCC.C.C
+C.......CDC
+CCCCCCCCCCC
+
+warps:
+1,1 step kanto-sevii-ruby-path 9,2 down
+9,7 step kanto-sevii-ruby-path-b2f 1,2 down
+
+objects:
+ruby-b1f-rock 4,2 obstacle:rockSmash

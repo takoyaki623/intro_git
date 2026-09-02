@@ -1,0 +1,27 @@
+# 1のしまの民家。ナナシマの言い伝えを話す。
+id: kanto-sevii-one-house
+name: みんか
+region: kanto
+bgm: pokecenter
+
+legend:
+. normal
+W !normal
+B !normal
+M !normal
+D normal
+
+grid:
+WWWWWWWWW
+W.BB...MW
+W.......W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,5 step kanto-sevii-one-island 9,4 down
+
+objects:
+one-house-oldman 6,2 npc:oldman:static kanto.sevii.one-oldman
+one-tutor 5,4 npc:youngster:static kanto.tutor.metronome

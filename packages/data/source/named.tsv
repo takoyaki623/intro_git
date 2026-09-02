@@ -1,0 +1,36 @@
+# カントーのネームド（docs/design/named-characters.md）。
+#
+# theme はパーティより先に書く。一文で言語化できないキャラは、
+# 構築を組んでも「らしさ」が出ない。逆に theme が決まれば構築は自動的に決まる。
+#
+# tactic は戦術の重複検出用。同じ戦術が3人以上いると検証が警告する。
+# AI が tactic を読んで遂行するのは v1.1（ai.md §5）。今は台帳としてだけ働く。
+#
+# signature は全ティアで不動のエース。「同じキャラだ」と認識できる最低条件。
+id	name	role	region	type	theme	tactic	signature
+brock	タケシ	gymLeader	kanto	rock	岩の壁で受け止め、崩れないまま削り切る	stall	onix
+misty	カスミ	gymLeader	kanto	water	素早さと特殊火力で、相手より先に押し切る	hyperOffense	starmie
+lt-surge	マチス	gymLeader	kanto	electric	まひで止めて、先手を取り続ける	status	raichu
+erika	エリカ	gymLeader	kanto	grass	粉で眠らせ、毒と回復で時間を味方にする	poison	vileplume
+koga	キョウ	gymLeader	kanto	poison	毒を入れてしまえば、あとは耐えるだけでいい	poison	weezing
+sabrina	ナツメ	gymLeader	kanto	psychic	めいそうを積み、受けながら火力を上げていく	setup	alakazam
+blaine	カツラ	gymLeader	kanto	fire	一撃の重さで、考える時間を与えない	hyperOffense	arcanine
+giovanni	サカキ	gymLeader	kanto	ground	じめんの重さで、正面から潰す	bulky	rhydon
+lorelei	カンナ	elite4	kanto	ice	凍らせ、鈍らせ、こちらのペースだけで進める	stall	lapras
+bruno	シバ	elite4	kanto	fighting	受けの薄さを承知の上で、殴り勝つ	bulky	machamp
+agatha	キクコ	elite4	kanto	ghost	眠らせて毒を入れ、触れられないまま削る	status	gengar
+lance	ワタル	elite4	kanto	dragon	ドラゴンの数値で、小細工ごと押し流す	setup	dragonite
+blue	グリーン	champion	kanto	-	穴のない6体。専門を持たないから最も強い	-	pidgeot
+# ── v0.11 で増えた5人 ──
+#
+# ここまでの13人は「原作で戦う相手」だった。この5人は**エンドゲームにしか居ない。**
+# 拠点は地方の外にある場所なので、本編に出てこない相手が居てよい。
+#
+# ナナミの type が fairy なのにハピナスが居るのは、§3 の「⚠ 要検討」の範囲。
+# 準専門が構築の過半を占めたら「らしさ」を失うが、1/4 なら核はフェアリーのまま
+# ―― そして「戦わない人の手持ち」という theme の核はハピナスの方にある。
+red	レッド	champion	kanto	-	無言。積み上げた時間が、そのまま強さになっている	coverage	pikachu
+daisy	ナナミ	other	kanto	fairy	倒す気が無い相手ほど、倒しにくい	support	clefable
+oak	オーキド	other	kanto	-	図鑑を作った人間は、全部の答えを知っている	balanced	tauros
+bill	マサキ	other	kanto	-	保管庫の主。分岐のすべてを、ひととおり持っている	typeShift	eevee
+rocket-boss	サカキ（ロケット団）	villain	kanto	dark	ジムリーダーの顔を捨てたときの、こちらが本当の構築だ	attrition	persian

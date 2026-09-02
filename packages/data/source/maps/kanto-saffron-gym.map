@@ -1,0 +1,59 @@
+# ヤマブキジム。ジムリーダーは ナツメ（エスパー）。
+#
+# 原作の**テレポート床**（v1.1-g）。9つの小部屋は壁で完全に切れていて、
+# 床を踏む以外に行き来する道が無い。
+#
+# 仕掛けはコード0行 ―― `Warp.to.map` に**自分自身のマップID**を書けるという、
+# 型の上ではずっと許されていたが**前例が1件も無かった**書き方。
+# 正しい順は S → E → F → C → G。間違えると入口の部屋へ戻される。
+id: kanto-saffron-gym
+name: ヤマブキジム
+region: kanto
+bgm: gym
+
+legend:
+. normal
+W !normal
+D normal
+
+grid:
+WWWWWWWWWWWWW
+W...W...W...W
+W...W...W...W
+W...W...W...W
+WWWWWWWWWWWWW
+W...W...W...W
+W...W...W...W
+W...W...W...W
+WWWWWWWWWWWWW
+W...W...W...W
+W...W...W...W
+W...W...W...W
+WWWWWWDWWWWWW
+
+warps:
+6,12 step kanto-saffron-city 5,4 down
+5,9 step kanto-saffron-gym 6,7 down
+7,9 step kanto-saffron-gym 10,11 down
+5,5 step kanto-saffron-gym 10,7 down
+7,5 step kanto-saffron-gym 2,11 down
+9,5 step kanto-saffron-gym 10,3 down
+11,5 step kanto-saffron-gym 6,11 down
+9,1 step kanto-saffron-gym 6,3 down
+11,1 step kanto-saffron-gym 2,7 down
+9,9 step kanto-saffron-gym 6,11 down
+11,9 step kanto-saffron-gym 6,11 down
+1,9 step kanto-saffron-gym 2,7 down
+3,9 step kanto-saffron-gym 6,11 down
+1,5 step kanto-saffron-gym 2,3 down
+3,5 step kanto-saffron-gym 6,11 down
+1,1 step kanto-saffron-gym 6,11 down
+3,1 step kanto-saffron-gym 6,11 down
+5,1 step kanto-saffron-gym 6,11 down
+7,1 step kanto-saffron-gym 6,11 down
+
+objects:
+saffron-gym-jr 6,5 trainer:kanto-saffron-gym-jr:2:down kanto.saffron.gym-jr if:kanto.saffron.gym-jr-beaten=false
+saffron-sabrina 6,2 npc:leader:static kanto.saffron.sabrina
+saffron-gym-sign 6,10 sign kanto.saffron.gym-sign
+saffrongym-gymjr-1 2,1 trainer:kanto-saffron-gym-gymjr-1:2:down kanto.saffrongym.gymjr1 if:kanto.saffrongym.gymjr1-beaten=false

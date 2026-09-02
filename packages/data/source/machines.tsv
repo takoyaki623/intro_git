@@ -1,0 +1,59 @@
+id	number	move	skip	price
+hm01	101	cut		
+hm02	102	fly		
+hm03	103	surf		
+hm04	104	strength		
+hm05	105	flash		
+hm06	106	rock-smash		
+hm07	107	waterfall		
+hm08	108	dive	潜る水面が1マスも無い。使う場所が無い機構は入れない（v1.2-a）	
+tm01	1	focus-punch		
+tm02	2	dragon-claw		
+tm03	3	water-pulse		
+tm04	4	calm-mind		
+tm05	5	roar		1500
+tm06	6	toxic		3000
+tm07	7	hail		
+tm08	8	bulk-up		
+tm09	9	bullet-seed		2000
+tm10	10	hidden-power	めざめるパワーは個体ごとにタイプが変わる。値ではなく型が動くので入れない（v1.2-c）	
+tm11	11	sunny-day		
+tm12	12	taunt		
+tm13	13	ice-beam		4000
+tm14	14	blizzard		
+tm15	15	hyper-beam		
+tm16	16	light-screen		3000
+tm17	17	protect		3000
+tm18	18	rain-dance		
+tm19	19	giga-drain		3500
+tm20	20	safeguard		3000
+tm21	21	frustration		
+tm22	22	solar-beam		
+tm23	23	iron-tail		
+tm24	24	thunderbolt		4500
+tm25	25	thunder		
+tm26	26	earthquake		
+tm27	27	return		
+tm28	28	dig		
+tm29	29	psychic		
+tm30	30	shadow-ball		
+tm31	31	brick-break		
+tm32	32	double-team		3500
+tm33	33	reflect		3000
+tm34	34	shock-wave	互換表に持つ種がいない（マシンの版と互換表の版が違う）	
+tm35	35	flamethrower		
+tm36	36	sludge-bomb		
+tm37	37	sandstorm		
+tm38	38	fire-blast		
+tm39	39	rock-tomb		
+tm40	40	aerial-ace		
+tm41	41	torment		
+tm42	42	facade		
+tm43	43	secret-power		
+tm44	44	rest		3000
+tm45	45	attract		
+tm46	46	thief		
+tm47	47	steel-wing		
+tm48	48	skill-swap		
+tm49	49	snatch		
+tm50	50	overheat		

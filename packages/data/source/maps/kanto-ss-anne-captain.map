@@ -1,0 +1,29 @@
+# サンアンヌごう せんちょうしつ。**いあいぎり はここで教わる。**
+#
+# v1.1-g-2 では クチバの町に船長が立っていた（船が無かったので）。
+# 船ができたので**人はそこへ移る** ―― v1.1-i の
+# 「建物が無くなったら店員も居ない」の裏返し。
+id: kanto-ss-anne-captain
+name: せんちょうしつ
+region: kanto
+bgm: vermilion-city
+
+legend:
+. normal
+S !normal
+B !normal
+D normal
+
+grid:
+SSSSSSSSS
+S.......S
+S.BB..B.S
+S.......S
+S.......S
+SSSSDSSSS
+
+warps:
+4,5 step kanto-ss-anne-1f 10,4 up
+
+objects:
+ss-anne-captain 4,1 npc:sailor:static kanto.vermilion.captain

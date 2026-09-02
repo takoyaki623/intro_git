@@ -1,0 +1,224 @@
+[
+  {
+    "id": "rockSmash",
+    "name": "いわくだき",
+    "requires": {
+      "kind": "and",
+      "of": [
+        {
+          "kind": "flag",
+          "flag": "kanto.ability.rock-smash",
+          "value": true
+        },
+        {
+          "kind": "badges",
+          "op": ">=",
+          "count": 1
+        }
+      ]
+    },
+    "lockedText": "ひび割れた いわが みちを ふさいでいる。",
+    "useText": "{name} で いわを くだいた!",
+    "effect": {
+      "kind": "clear",
+      "then": {
+        "method": "rock-smash"
+      }
+    }
+  },
+  {
+    "id": "cut",
+    "name": "いあいぎり",
+    "requires": {
+      "kind": "and",
+      "of": [
+        {
+          "kind": "flag",
+          "flag": "kanto.ability.cut",
+          "value": true
+        },
+        {
+          "kind": "badges",
+          "op": ">=",
+          "count": 2
+        }
+      ]
+    },
+    "lockedText": "ほそい き が みちを ふさいでいる。",
+    "useText": "{name} で き を きりたおした!"
+  },
+  {
+    "id": "fly",
+    "name": "そらをとぶ",
+    "requires": {
+      "kind": "and",
+      "of": [
+        {
+          "kind": "flag",
+          "flag": "kanto.ability.fly",
+          "value": true
+        },
+        {
+          "kind": "badges",
+          "op": ">=",
+          "count": 3
+        }
+      ]
+    },
+    "lockedText": "そらへ とびあがれそうだ。",
+    "useText": "{name} で とびたった!",
+    "effect": {
+      "kind": "travel"
+    }
+  },
+  {
+    "id": "strength",
+    "name": "かいりき",
+    "requires": {
+      "kind": "and",
+      "of": [
+        {
+          "kind": "flag",
+          "flag": "kanto.ability.strength",
+          "value": true
+        },
+        {
+          "kind": "badges",
+          "op": ">=",
+          "count": 4
+        }
+      ]
+    },
+    "lockedText": "おおきな いわ だ。とても おせそうにない。",
+    "useText": "{name} で いわを おしのけた!"
+  },
+  {
+    "id": "surf",
+    "name": "なみのり",
+    "requires": {
+      "kind": "and",
+      "of": [
+        {
+          "kind": "flag",
+          "flag": "kanto.ability.surf",
+          "value": true
+        },
+        {
+          "kind": "badges",
+          "op": ">=",
+          "count": 5
+        }
+      ]
+    },
+    "lockedText": "みずうみ だ。むこうぎしまでは とても とおい。",
+    "useText": "{name} で みずのうえへ でた!",
+    "effect": {
+      "kind": "walk",
+      "terrain": "water"
+    }
+  },
+  {
+    "id": "waterfall",
+    "name": "たきのぼり",
+    "requires": {
+      "kind": "and",
+      "of": [
+        {
+          "kind": "flag",
+          "flag": "kanto.ability.waterfall",
+          "value": true
+        },
+        {
+          "kind": "badges",
+          "op": ">=",
+          "count": 8
+        }
+      ]
+    },
+    "lockedText": "たきが おちてくる。のぼれそうな みずの ながれだ。",
+    "useText": "{name} で たきを のぼった!",
+    "effect": {
+      "kind": "walk",
+      "terrain": "waterfall"
+    }
+  },
+  {
+    "id": "superRod",
+    "name": "スーパーロッド",
+    "requires": {
+      "kind": "hasItem",
+      "item": "super-rod"
+    },
+    "effect": {
+      "kind": "fish",
+      "method": "fishing-super"
+    },
+    "lockedText": "みずうみ だ。さおが あれば つれそうだ。",
+    "useText": "{name} を みずに たらした!"
+  },
+  {
+    "id": "goodRod",
+    "name": "いいつりざお",
+    "requires": {
+      "kind": "hasItem",
+      "item": "good-rod"
+    },
+    "effect": {
+      "kind": "fish",
+      "method": "fishing-good"
+    },
+    "lockedText": "みずうみ だ。さおが あれば つれそうだ。",
+    "useText": "{name} を みずに たらした!"
+  },
+  {
+    "id": "oldRod",
+    "name": "ボロのつりざお",
+    "requires": {
+      "kind": "hasItem",
+      "item": "old-rod"
+    },
+    "effect": {
+      "kind": "fish",
+      "method": "fishing-old"
+    },
+    "lockedText": "みずうみ だ。さおが あれば つれそうだ。",
+    "useText": "{name} を みずに たらした!"
+  },
+  {
+    "id": "itemfinder",
+    "name": "ダウジングマシン",
+    "requires": {
+      "kind": "hasItem",
+      "item": "itemfinder"
+    },
+    "effect": {
+      "kind": "reveal"
+    },
+    "lockedText": "なにか うまっている きがする。",
+    "useText": "{name}が はんのう した!"
+  },
+  {
+    "id": "flash",
+    "name": "フラッシュ",
+    "requires": {
+      "kind": "and",
+      "of": [
+        {
+          "kind": "flag",
+          "flag": "kanto.ability.flash",
+          "value": true
+        },
+        {
+          "kind": "badges",
+          "op": ">=",
+          "count": 1
+        }
+      ]
+    },
+    "lockedText": "まっくらで なにも みえない。",
+    "useText": "{name} で あたりが あかるくなった!",
+    "effect": {
+      "kind": "light"
+    }
+  }
+]

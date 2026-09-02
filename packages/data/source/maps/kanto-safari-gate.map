@@ -1,0 +1,31 @@
+# サファリゾーンのゲート。**ここが規則の出入口**（v1.1-h）。
+#
+# 入場料・サファリボール30個・追い出しは、どれも既にあるコマンドで書ける ――
+# `takeMoney` / `giveItem` / `choice` / `warp` / `onEnter`。
+# 新しく要ったのは `MapData.rules` の1欄だけ。
+id: kanto-safari-gate
+name: サファリゾーンゲート
+region: kanto
+onEnter: kanto.safari.gate-enter
+bgm: house
+
+legend:
+. normal
+W !normal
+S !normal
+D normal
+
+grid:
+WWWDWWW
+W.....W
+WS...SW
+W.....W
+W.....W
+WWWDWWW
+
+warps:
+3,0 step kanto-safari-middle 6,10 up
+3,5 step kanto-fuchsia-city 2,1 down
+
+objects:
+safari-clerk 3,2 npc:clerk:static kanto.safari.clerk

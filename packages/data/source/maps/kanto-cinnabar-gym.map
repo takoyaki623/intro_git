@@ -1,0 +1,42 @@
+# グレンジム。ジムリーダーは カツラ（ほのお）。
+#
+# 原作の**クイズ扉**（v1.1-g）。仕掛けはすべて既存の型でできている ――
+# `choice` で問い、`if` で正誤を分け、正解なら `setFlag`。
+# 扉そのものは「フラグが立つまで居る条件つきオブジェクト」で、
+# **v1.0 の四天王の扉と同じ形**（検証 #86 が「条件つきなら正しい」と認めている）。
+id: kanto-cinnabar-gym
+name: グレンジム
+region: kanto
+bgm: gym
+
+legend:
+. normal
+W !normal
+D normal
+
+grid:
+WWWWWWWWW
+W.......W
+WWWW.WWWW
+W.......W
+WWWW.WWWW
+W.......W
+W.......W
+WWWW.WWWW
+W.......W
+W.......W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,12 step kanto-cinnabar-island 5,4 down
+
+objects:
+cinnabar-quiz-1 4,7 sign kanto.cinnabar.quiz-1 if:kanto.cinnabar.quiz-1-open=false
+cinnabar-quiz-2 4,4 sign kanto.cinnabar.quiz-2 if:kanto.cinnabar.quiz-2-open=false
+cinnabar-quiz-3 4,2 sign kanto.cinnabar.quiz-3 if:kanto.cinnabar.quiz-3-open=false
+cinnabar-gym-jr 1,10 trainer:kanto-cinnabar-gym-jr:3:right kanto.cinnabar.gym-jr if:kanto.cinnabar.gym-jr-beaten=false
+cinnabar-blaine 7,1 npc:leader:static kanto.cinnabar.blaine
+cinnabar-gym-sign 7,11 sign kanto.cinnabar.gym-sign
+cinnabargym-gymjr-1 1,1 trainer:kanto-cinnabar-gym-gymjr-1:2:right kanto.cinnabargym.gymjr1 if:kanto.cinnabargym.gymjr1-beaten=false

@@ -1,0 +1,34 @@
+# みずのみち（6のしま）。北が いせきのたに、西が みどりの道。
+id: kanto-sevii-water-path
+name: みずのみち
+region: kanto
+encounters: kanto-sevii-water-path-grass kanto-sevii-water-path-surf kanto-sevii-water-path-fishing-old kanto-sevii-water-path-fishing-good kanto-sevii-water-path-fishing-super
+bgm: route-12
+
+legend:
+. normal
+g grass
+~ !water
+T !normal
+
+grid:
+TTTTTT.TTTTTT
+T...........T
+T..ggg......T
+T..ggg......T
+T...........T
+............T
+T...........T
+T~~~~~..~~~~T
+T~~~~~..~~~~T
+T.....gg....T
+T.....gg....T
+TTTTTT.TTTTTT
+
+warps:
+6,0 step kanto-sevii-ruin-valley 6,9 up
+0,5 step kanto-sevii-green-path 11,5 left
+6,11 step kanto-sevii-six-island 5,1 down
+
+objects:
+water-path-item 9,3 item:ultra-ball kanto.sevii.water-path-item if:kanto.sevii.water-path-item-taken=false

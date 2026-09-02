@@ -1,0 +1,30 @@
+# こおりのぬけみち 地下1階。ここも氷。奥は たきつぼ。
+id: kanto-sevii-icefall-b1f
+name: こおりのぬけみち B1F
+region: kanto
+encounters: kanto-sevii-icefall-b1f-cave
+bgm: mt-moon
+
+legend:
+. cave
+C !cave
+i ice
+D normal
+
+grid:
+CCCCCCCCCDCCC
+C...........C
+CiiiiiiiiiiiC
+CiiiCiiiiiiiC
+CiiiiiiiCiiiC
+CiiiiiiiiiiiC
+C...........C
+C....D......C
+CCCCCCCCCCCCC
+
+warps:
+9,0 step kanto-sevii-icefall-1f 9,1 down
+5,7 step kanto-sevii-icefall-waterfall 5,2 down
+
+objects:
+icefall-b1f-item 2,6 item:max-elixir kanto.sevii.icefall-b1f-item if:kanto.sevii.icefall-b1f-item-taken=false

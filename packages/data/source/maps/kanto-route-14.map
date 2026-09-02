@@ -1,0 +1,33 @@
+# 14番道路。13番から南へ。
+id: kanto-route-14
+name: 14ばんどうろ
+region: kanto
+encounters: kanto-route-14-grass
+bgm: route-14
+
+legend:
+. normal
+, grass
+T !normal
+
+grid:
+TTTTTTTTTTTTT
+............T
+T..,,,......T
+T..,,,......T
+T...........T
+T......,,,..T
+T......,,,..T
+T...........T
+TTTTT.TTTTTTT
+
+warps:
+11,1 step kanto-route-13 1,4 right
+5,8 step kanto-route-15 10,1 down
+
+objects:
+route14-sign 3,6 sign kanto.route14.sign
+route14-ace-1 2,1 trainer:kanto-route-14-ace-1:2:down kanto.route14.ace1 if:kanto.route14.ace1-beaten=false
+route14-ace-2 11,6 trainer:kanto-route-14-ace-2:2:left kanto.route14.ace2 if:kanto.route14.ace2-beaten=false
+route14-ace-3 4,7 trainer:kanto-route-14-ace-3:2:left kanto.route14.ace3 if:kanto.route14.ace3-beaten=false
+route14-super-potion-1 11,7 item:super-potion kanto.route14.super-potion1 if:kanto.route14.super-potion1-taken=false

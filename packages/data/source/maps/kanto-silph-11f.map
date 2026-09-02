@@ -1,0 +1,31 @@
+# シルフカンパニー 11階（v1.1-g-3）。**サカキ2回目。**
+#
+# 勝つと社長が マスターボール をくれて、ロケット団はカントーから引く。
+# サカキ3回目はトキワジム（既にある）―― **同じ相手と3回**戦うのが原作の形で、
+# 1回目より強い編成を持たせている。
+id: kanto-silph-11f
+name: シルフカンパニー しゃちょうしつ
+region: kanto
+bgm: silph
+
+legend:
+. normal
+W !normal
+D normal
+
+grid:
+WWWWWWWWW
+W.......W
+W.......W
+W.......W
+W.......W
+W.......W
+WWWWWWWWW
+
+warps:
+1,1 step kanto-silph-7f 7,4 down
+
+objects:
+silph-boss 4,3 npc:leader:static kanto.silph.giovanni
+silph-president 4,1 npc:oldman:static kanto.silph.president if:kanto.silph.giovanni-beaten=true
+silph11f-tm15-1 7,5 item:tm15 kanto.silph11f.tm151 if:kanto.silph11f.tm151-taken=false

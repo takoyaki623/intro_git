@@ -1,0 +1,39 @@
+# チャンピオンロード 1階。バッジ8つで入れる。
+# v1.0 まで、おつきみやまと**13行中12行が同じ迷路**だった（v1.1-e で作り直した）。
+id: kanto-victory-road
+name: チャンピオンロード
+region: kanto
+encounters: kanto-victory-road-cave
+bgm: victory-road
+
+legend:
+. normal
+R !normal
+: cave
+
+grid:
+RRRRRRRRRRRRR
+R:::::RRRRRRR
+R:RRRRRRRRRRR
+R:R:::::::::R
+R:R:RRRRRRR:R
+R:::RRRRRRR:R
+RRRRRRRRRRR:R
+RRR:::::::::R
+RRR:RRRRRRRRR
+RRR:RRRRRRRRR
+RRR:RRRRRRRRR
+RRR:RRRRRRRRR
+RRR:RRRRRRRRR
+
+warps:
+3,12 step kanto-route-23 5,1 down
+1,1 step kanto-victory-road-2f 2,6 up
+
+objects:
+victory-boulder 1,3 obstacle:strength
+victory-cooltrainer 8,7 trainer:kanto-victory-cooltrainer:3:left kanto.victory.cooltrainer if:kanto.victory.cooltrainer-beaten=false
+victory-1f-item 4,1 item:full-restore kanto.victory.item if:kanto.victory.item-taken=false
+
+
+victoryroad-full-heal-1 3,11 item:full-heal kanto.victoryroad.full-heal1 if:kanto.victoryroad.full-heal1-taken=false

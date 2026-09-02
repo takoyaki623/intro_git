@@ -1,0 +1,1757 @@
+[
+  {
+    "id": "kanto.celadon.hidden",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "elixir",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.celadon.hidden-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.cave.item-2",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "full-restore",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.cave.item-2-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.ceruleancave2f.tm021",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm02",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ceruleancave2f.tm021-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.cave.item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-revive",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.cave.item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.ceruleancaveb1f.tm481",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm48",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ceruleancaveb1f.tm481-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.cave.item-1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "hyper-potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.cave.item-1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.diglettcave.tm281",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm28",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.diglettcave.tm281-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.fuchsia.nugget",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-ether",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.fuchsia.nugget-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.moon.stone",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "moon-stone",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.moon.stone-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.mtmoonb1f.great-ball1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "great-ball",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.mtmoonb1f.great-ball1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.moon.b2f-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-ether",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.moon.b2f-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.mansion.item-2",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-revive",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.mansion.item-2-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.mansion.item-3",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "full-restore",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.mansion.item-3-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.pokemonmansion3f.tm351",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm35",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.pokemonmansion3f.tm351-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.mansion.secret-key",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "secret-key",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.mansion.secret-key-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.mansion.item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-elixir",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.mansion.item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.tower.2f-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "elixir",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.tower.2f-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.tower.4f-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "elixir",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.tower.4f-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.tower.6f-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "elixir",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.tower.6f-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.pokemontower6f.tm301",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm30",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.pokemontower6f.tm301-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.power.item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-elixir",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.power.item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.powerplant.tm251",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm25",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.powerplant.tm251-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocktunnel.item1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "elixir",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.rocktunnel.item1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocktunnel.item2",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-ether",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.rocktunnel.item2-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocktunnelb1f.revive1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "revive",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.rocktunnelb1f.revive1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocktunnelb1f.tm311",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm31",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.rocktunnelb1f.tm311-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocket.b1f-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "super-potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.rocket.b1f-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocketb1f.tm461",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm46",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.rocketb1f.tm461-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocket.b2f-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "full-heal",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.rocket.b2f-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocketb2f.tm121",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm12",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.rocketb2f.tm121-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocket.lift-key",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "lift-key",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.rocket.lift-key-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocket.b4f-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "hyper-potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.rocket.b4f-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.rocketb4f.tm361",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm36",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.rocketb4f.tm361-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route1.potion",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route1.potion-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route10.super-potion1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "super-potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route10.super-potion1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route11.hidden",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "super-potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route11.hidden-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route11.great-ball1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "great-ball",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route11.great-ball1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route12.super-potion1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "super-potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route12.super-potion1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route13.great-ball1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "great-ball",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route13.great-ball1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route13.tm451",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm45",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route13.tm451-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route14.super-potion1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "super-potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route14.super-potion1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route15.revive1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "revive",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route15.revive1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route15.tm421",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm42",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route15.tm421-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route16.hidden",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "full-heal",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route16.hidden-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route16.tm471",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm47",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route16.tm471-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route17.item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-ether",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route17.item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route17.tm401",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm40",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route17.tm401-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route18.great-ball1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "great-ball",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route18.great-ball1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route19.hyper-potion1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "hyper-potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route19.hyper-potion1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route2.potion",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route2.potion-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route21.tm181",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm18",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route21.tm181-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route23.tm371",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm37",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route23.tm371-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route24.great-ball1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "great-ball",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route24.great-ball1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route25.ether1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "ether",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route25.ether1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route3.super-potion",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "super-potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route3.super-potion-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route3.potion1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route3.potion1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route4.potion1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route4.potion1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route5.super-potion1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "super-potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route5.super-potion1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route6.antidote1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "antidote",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route6.antidote1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route7.great-ball1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "great-ball",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route7.great-ball1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route8.super-potion1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "super-potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route8.super-potion1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route9.super-potion1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "super-potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route9.super-potion1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.route9.max-potion1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.route9.max-potion1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.safari.east-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-elixir",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.safari.east-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.safari.north-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-revive",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.safari.north-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.safarinorth.tm431",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm43",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.safarinorth.tm431-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.safari.west-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-revive",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.safari.west-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.seafoam.item-b1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "hyper-potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.seafoam.item-b1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.seafoam.item-b2",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-elixir",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.seafoam.item-b2-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.seafoamb3f.tm141",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm14",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.seafoamb3f.tm141-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.seafoam.item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-revive",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.seafoam.item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.seafoamb4f.tm071",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm07",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.seafoamb4f.tm071-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.berry-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "revive",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.berry-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.berry-hidden",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-revive",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.berry-hidden-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.seviiberryforest.tm221",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm22",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.seviiberryforest.tm221-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.cape-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.cape-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.seviifourisland.tm271",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm27",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.seviifourisland.tm271-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.icefall-b1f-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-elixir",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.icefall-b1f-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.icefall-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "full-restore",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.icefall-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.seviiicefallcave.tm231",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm23",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.seviiicefallcave.tm231-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.kindle-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "ether",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.kindle-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.lost-cave-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-elixir",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.lost-cave-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.seviilostcave3.tm211",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm21",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.seviilostcave3.tm211-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.ember-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "hyper-potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.ember-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.seviimtemberinside.tm501",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm50",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.seviimtemberinside.tm501-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.ember-hidden",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-ether",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.ember-hidden-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.seviioneisland.tm111",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm11",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.seviioneisland.tm111-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.outcast-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "full-restore",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.outcast-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.seviioutcastisland.tm491",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm49",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.seviioutcastisland.tm491-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.bush-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "ether",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.bush-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.resort-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-revive",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.resort-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.sapphire",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "sapphire",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.sapphire-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.seviirocketwarehouse.tm411",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm41",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.seviirocketwarehouse.tm411-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.ruby",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "ruby",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.ruby-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.canyon-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-revive",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.canyon-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.treasure-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "ultra-ball",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.treasure-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.treasure-hidden",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "full-restore",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.treasure-hidden-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.sevii.water-path-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "ultra-ball",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.sevii.water-path-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.silph11f.tm151",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm15",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.silph11f.tm151-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.silph.3f-item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.silph.3f-item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.silph.card-key",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "card-key",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.silph.card-key-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.silph7f.tm291",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm29",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.silph7f.tm291-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanne.item-1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "great-ball",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ssanne.item-1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanne.item-2",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-ether",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ssanne.item-2-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanne.item-b1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "hyper-potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ssanne.item-b1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanneb1f.max-ether1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "max-ether",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ssanneb1f.max-ether1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssanneb1f.tm081",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm08",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ssanneb1f.tm081-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.ssannedeck.hyper-potion1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "hyper-potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.ssannedeck.hyper-potion1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.underground.item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "elixir",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.underground.item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.vermilion.island",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "hyper-potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.vermilion.island-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.vermilion.hidden",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "great-ball",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.vermilion.hidden-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.victoryroad2f.tm011",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "tm01",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.victoryroad2f.tm011-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.victory.item",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "full-restore",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.victory.item-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.victoryroad.full-heal1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "full-heal",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.victoryroad.full-heal1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.forest.antidote",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "antidote",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.forest.antidote-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridianforest.potion1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "potion",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.viridianforest.potion1-taken",
+        "value": true
+      }
+    ]
+  },
+  {
+    "id": "kanto.viridianforest.antidote1",
+    "commands": [
+      {
+        "kind": "giveItem",
+        "item": "antidote",
+        "count": 1
+      },
+      {
+        "kind": "setFlag",
+        "flag": "kanto.viridianforest.antidote1-taken",
+        "value": true
+      }
+    ]
+  }
+]

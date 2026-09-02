@@ -1,0 +1,29 @@
+# ルビーのどうくつ 地下2階。
+id: kanto-sevii-ruby-path-b2f
+name: ルビーのどうくつ B2F
+region: kanto
+encounters: kanto-sevii-ruby-path-b2f-cave kanto-sevii-ruby-path-b2f-rock-smash
+bgm: mt-moon
+
+legend:
+. cave
+C !cave
+D normal
+
+grid:
+CCCCCCCCCCC
+CD........C
+C.CC.CCCC.C
+C.CCCCCCC.C
+C.........C
+C.CCCCC.C.C
+C.CCCCC.C.C
+C.......CDC
+CCCCCCCCCCC
+
+warps:
+1,1 step kanto-sevii-ruby-path-b1f 9,6 down
+9,7 step kanto-sevii-ruby-path-b3f 1,2 down
+
+objects:
+ruby-b2f-rock 4,2 obstacle:rockSmash

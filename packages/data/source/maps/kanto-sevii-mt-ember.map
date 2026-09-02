@@ -1,0 +1,40 @@
+# ともしびやま。**ブーバー が居る唯一の場所**（FRLG の配置）。
+# 山頂へ続く1本道は ロケット団の残党2人が塞いでいて、
+# 倒すと ルビーのどうくつ が開く ―― 塞ぐのはこの道だけ（検証 #114）。
+id: kanto-sevii-mt-ember
+name: ともしびやま
+region: kanto
+encounters: kanto-sevii-mt-ember-grass kanto-sevii-mt-ember-rock-smash
+bgm: mt-moon
+
+legend:
+. normal
+g grass
+D normal
+T !normal
+
+grid:
+TTTTTTTTTTTTT
+TTTTTTDTTTTTT
+TTTTTT.TTTTTT
+TTTTTT.TTTTTT
+TTTTTT.TTTTTT
+T...........T
+T..ggg...D..T
+T..ggg......T
+T...........T
+T....ggg....T
+T....ggg....T
+T...........T
+TTTTTT.TTTTTT
+
+warps:
+6,1 step kanto-sevii-ruby-path 5,7 up
+9,6 step kanto-sevii-mt-ember-inside 5,5 up
+6,12 step kanto-sevii-kindle-road 6,1 down
+
+objects:
+ember-rocket-1 6,2 npc:rocket:static kanto.sevii.rocket-1 if:kanto.sevii.rocket-1-beaten=false
+ember-rocket-2 6,4 npc:rocket:static kanto.sevii.rocket-2 if:kanto.sevii.rocket-2-beaten=false
+ember-rock-1 2,11 obstacle:rockSmash
+ember-hidden 10,10 item:max-ether:hidden kanto.sevii.ember-hidden if:kanto.sevii.ember-hidden-taken=false

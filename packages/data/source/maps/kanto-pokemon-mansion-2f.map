@@ -1,0 +1,32 @@
+# ポケモンやしき 2階。
+# 原作の ひみつのカギ は道具にしていない ―― グレンジムはクイズ扉で開くので、
+# 鍵に開ける扉が無い。**使い道の無い道具を先に作らない。**
+id: kanto-pokemon-mansion-2f
+name: ポケモンやしき
+region: kanto
+encounters: kanto-pokemon-mansion-2f-cave
+bgm: cave
+
+legend:
+. normal
+W !normal
+: cave
+
+grid:
+WWWWWWWWWWWWW
+W:::::::::::W
+W:WWW:WWW:W:W
+W:::::::::::W
+W:W:W:W:W:W:W
+W:::::::::::W
+W:WWW:WWW:W:W
+W:::::::::::W
+WWWWWWWWWWWWW
+
+warps:
+1,1 step kanto-pokemon-mansion 11,2 up
+11,1 step kanto-pokemon-mansion-3f 1,2 down
+
+objects:
+mansion-item-2f 7,5 item:max-revive kanto.mansion.item-2 if:kanto.mansion.item-2-taken=false
+mansion-2f-diary 5,7 sign kanto.mansion.diary-2

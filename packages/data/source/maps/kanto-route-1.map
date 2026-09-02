@@ -1,0 +1,41 @@
+# 1番道路。草むらと段差。北はトキワシティ（v0.9 で繋がった）。
+id: kanto-route-1
+name: 1ばんどうろ
+region: kanto
+encounters: kanto-route-1-grass
+bgm: route-1
+
+legend:
+. normal
+, grass
+T !normal
+= ledge
+
+grid:
+TTTTT.TTTTTT
+T..........T
+T..,,,,....T
+T..,,,,....T
+T..,,,,....T
+T..........T
+T....====..T
+T..........T
+T....,,,,..T
+T....,,,,..T
+T..TT......T
+T..........T
+T..,,,.....T
+T..,,,.....T
+T...==.....T
+T..........T
+T..........T
+TTTTT.TTTTTT
+
+warps:
+5,17 step kanto-pallet-town 5,1 down
+5,0 step kanto-viridian-city 5,13 up
+
+objects:
+route1-sign-north 6,1 sign kanto.route1.sign-north
+route1-potion 9,3 item:potion kanto.route1.potion if:kanto.route1.potion-taken=false
+route1-boy 3,16 npc:boy:static kanto.route1.boy

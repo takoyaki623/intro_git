@@ -1,0 +1,36 @@
+# セキエイこうげん。ポケモンリーグの入口。
+id: kanto-indigo-plateau
+name: セキエイこうげん
+region: kanto
+fly: 6,4 kanto.fly.indigo
+onEnter: kanto.indigo.arrive
+bgm: indigo-plateau
+
+legend:
+. normal
+T !normal
+L !normal
+P !normal
+D normal
+
+grid:
+TTTTTTTTTTTTT
+T...LLLLL...T
+T...LLDLL...T
+T...........T
+T...........T
+T..PPPP.....T
+T..PPDP.....T
+T...........T
+T...........T
+T...........T
+TTTT.TTTTTTTT
+
+warps:
+6,2 step kanto-league-lorelei 4,8 up
+5,6 step kanto-indigo-pokecenter 4,5 up
+4,10 step kanto-victory-road-3f 5,5 down
+
+objects:
+indigo-sign 8,3 sign kanto.indigo.sign
+indigo-guide 3,4 npc:guard:static kanto.indigo.guide

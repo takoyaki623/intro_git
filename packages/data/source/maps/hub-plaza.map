@@ -1,0 +1,53 @@
+# 拠点の中央広場。**原作には無い、本作固有の場所。**
+#
+# 地方が9つ並列にあり、エンドゲームが地方の外にあるので、
+# それらを束ねる起点が構造上どうしても要る（ui-flow.md §3）。
+# v0.10 まで画面上部のタブだった役目を、歩ける場所に置き換える。
+id: hub-plaza
+name: きょてん
+region: hub
+bgm: hub
+
+legend:
+. normal
+X !normal
+G normal
+P !normal
+A !normal
+H !normal
+W !water
+
+grid:
+XXXXXXXXXXXXXXXXX
+X...............X
+X..PPPP...AAAA..X
+X..PPGP...AAGA..X
+X...............X
+X...............X
+X..............WX
+X...WW.........WX
+X...WW.........WX
+X..............WX
+X...............X
+X..HHHH.........X
+X..HHGH.........X
+X...............X
+X.......GG......X
+XXXXXXXXXXXXXXXXX
+
+warps:
+5,3 step hub-tower 4,6 up
+12,3 step hub-arena 4,6 up
+5,12 step hub-depot 4,6 up
+
+objects:
+plaza-sign 8,4 sign hub.plaza.sign
+plaza-tower-sign 4,4 sign hub.plaza.sign-tower
+plaza-arena-sign 11,4 sign hub.plaza.sign-arena
+plaza-depot-sign 4,13 sign hub.plaza.sign-depot
+plaza-gate-kanto 8,14 npc:gate:static hub.gate.kanto
+plaza-gate-johto 9,14 npc:gate:static hub.gate.johto
+plaza-hall 8,6 npc:machine:static hub.plaza.hall
+plaza-hall-sign 7,6 sign hub.plaza.sign-hall
+plaza-guide 11,10 npc:guide:static hub.plaza.guide
+plaza-sparring 14,11 npc:trainer:static hub.plaza.free-battle

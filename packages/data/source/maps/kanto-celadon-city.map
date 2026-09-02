@@ -1,0 +1,50 @@
+# タマムシシティ。ジム4（エリカ）。カントーでいちばん大きい町。
+id: kanto-celadon-city
+name: タマムシシティ
+region: kanto
+encounters: kanto-celadon-city-surf kanto-celadon-city-fishing-old kanto-celadon-city-fishing-good kanto-celadon-city-fishing-super
+fly: 6,1 kanto.fly.celadon
+onEnter: kanto.celadon.arrive
+bgm: celadon-city
+
+legend:
+. normal
+C !normal
+T !normal
+G !normal
+P !normal
+F !normal
+M !normal
+D normal
+
+grid:
+TTTTTTTTTTTTTT
+T............T
+T..MMMM......T
+T..MMDM......T
+T............T
+T..GGGGCCCC..T
+T..GGDGCCDC...
+T............T
+T.......PPPP.T
+T.......PPDP.T
+T.............
+T.......FFFF.T
+T.......FFDF.T
+T............T
+TTTTTTTTTTTTTT
+
+warps:
+5,3 step kanto-celadon-mansion 4,4 up
+9,6 step kanto-celadon-gamecorner 5,7 up
+5,6 step kanto-celadon-gym 4,8 up
+10,9 step kanto-celadon-pokecenter 4,5 up
+10,12 step kanto-celadon-mart 4,5 up
+12,6 step kanto-route-7 1,5 right
+13,10 step kanto-route-16 1,4 right
+
+objects:
+celadon-sign-gym 4,7 sign kanto.celadon.sign-gym
+celadon-woman 9,3 npc:lass:static kanto.celadon.woman
+celadon-fly-girl 3,10 npc:lass:static kanto.celadon.fly-girl
+celadon-hidden 2,2 item:elixir:hidden kanto.celadon.hidden if:kanto.celadon.hidden-taken=false

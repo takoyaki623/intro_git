@@ -1,0 +1,1282 @@
+[
+  {
+    "id": "g1-butterfree",
+    "species": "butterfree",
+    "moves": [
+      "confusion",
+      "sleep-powder",
+      "bug-buzz",
+      "gust"
+    ],
+    "item": "silver-powder",
+    "ability": "compound-eyes",
+    "nature": "modest",
+    "evs": {
+      "spa": 252,
+      "spe": 252
+    },
+    "grade": 1,
+    "tags": [
+      "status"
+    ]
+  },
+  {
+    "id": "g1-beedrill",
+    "species": "beedrill",
+    "moves": [
+      "poison-jab",
+      "x-scissor",
+      "swords-dance",
+      "aerial-ace"
+    ],
+    "item": "poison-barb",
+    "ability": "swarm",
+    "nature": "adamant",
+    "evs": {
+      "atk": 252,
+      "spe": 252
+    },
+    "grade": 1,
+    "tags": [
+      "setup"
+    ]
+  },
+  {
+    "id": "g1-raticate",
+    "species": "raticate",
+    "moves": [
+      "body-slam",
+      "crunch",
+      "quick-attack",
+      "swords-dance"
+    ],
+    "item": "silk-scarf",
+    "ability": "guts",
+    "nature": "jolly",
+    "evs": {
+      "atk": 252,
+      "spe": 252
+    },
+    "grade": 1,
+    "tags": []
+  },
+  {
+    "id": "g1-fearow",
+    "species": "fearow",
+    "moves": [
+      "drill-peck",
+      "body-slam",
+      "aerial-ace",
+      "agility"
+    ],
+    "item": "sharp-beak",
+    "ability": "keen-eye",
+    "nature": "jolly",
+    "evs": {
+      "atk": 252,
+      "spe": 252
+    },
+    "grade": 1,
+    "tags": []
+  },
+  {
+    "id": "g1-arbok",
+    "species": "arbok",
+    "moves": [
+      "poison-jab",
+      "crunch",
+      "earthquake",
+      "toxic"
+    ],
+    "item": "poison-barb",
+    "ability": "intimidate",
+    "nature": "adamant",
+    "evs": {
+      "atk": 252,
+      "hp": 252
+    },
+    "grade": 1,
+    "tags": []
+  },
+  {
+    "id": "g1-pikachu",
+    "species": "pikachu",
+    "moves": [
+      "thunderbolt",
+      "thunder-wave",
+      "quick-attack",
+      "iron-head"
+    ],
+    "item": "magnet",
+    "ability": "static",
+    "nature": "jolly",
+    "evs": {
+      "atk": 252,
+      "spe": 252
+    },
+    "grade": 1,
+    "tags": [
+      "status"
+    ]
+  },
+  {
+    "id": "g1-sandslash",
+    "species": "sandslash",
+    "moves": [
+      "earthquake",
+      "rock-slide",
+      "swords-dance",
+      "brick-break"
+    ],
+    "item": "soft-sand",
+    "ability": "sand-veil",
+    "nature": "adamant",
+    "evs": {
+      "atk": 252,
+      "hp": 252
+    },
+    "grade": 1,
+    "tags": [
+      "setup"
+    ]
+  },
+  {
+    "id": "g1-nidorina",
+    "species": "nidorina",
+    "moves": [
+      "body-slam",
+      "poison-sting",
+      "double-kick",
+      "charm"
+    ],
+    "item": "poison-barb",
+    "ability": "poison-point",
+    "nature": "impish",
+    "evs": {
+      "hp": 252,
+      "def": 252
+    },
+    "grade": 1,
+    "tags": []
+  },
+  {
+    "id": "g1-clefable",
+    "species": "clefable",
+    "moves": [
+      "dazzling-gleam",
+      "psychic",
+      "sing",
+      "recover"
+    ],
+    "item": "leftovers",
+    "ability": "cute-charm",
+    "nature": "calm",
+    "evs": {
+      "hp": 252,
+      "spd": 252
+    },
+    "grade": 1,
+    "tags": [
+      "stall"
+    ]
+  },
+  {
+    "id": "g1-ninetales",
+    "species": "ninetales",
+    "moves": [
+      "flamethrower",
+      "will-o-wisp",
+      "dark-pulse",
+      "confuse-ray"
+    ],
+    "item": "charcoal",
+    "ability": "flash-fire",
+    "nature": "timid",
+    "evs": {
+      "spa": 252,
+      "spe": 252
+    },
+    "grade": 1,
+    "tags": [
+      "status"
+    ]
+  },
+  {
+    "id": "g1-golbat",
+    "species": "golbat",
+    "moves": [
+      "wing-attack",
+      "bite",
+      "supersonic",
+      "toxic"
+    ],
+    "item": "sharp-beak",
+    "ability": "inner-focus",
+    "nature": "jolly",
+    "evs": {
+      "atk": 252,
+      "spe": 252
+    },
+    "grade": 1,
+    "tags": [
+      "status"
+    ]
+  },
+  {
+    "id": "g1-parasect",
+    "species": "parasect",
+    "moves": [
+      "x-scissor",
+      "giga-drain",
+      "sleep-powder",
+      "stun-spore"
+    ],
+    "item": "miracle-seed",
+    "ability": "effect-spore",
+    "nature": "adamant",
+    "evs": {
+      "atk": 252,
+      "hp": 252
+    },
+    "grade": 1,
+    "tags": [
+      "status"
+    ]
+  },
+  {
+    "id": "g1-venomoth",
+    "species": "venomoth",
+    "moves": [
+      "bug-buzz",
+      "sludge-bomb",
+      "sleep-powder",
+      "psybeam"
+    ],
+    "item": "silver-powder",
+    "ability": "shield-dust",
+    "nature": "modest",
+    "evs": {
+      "spa": 252,
+      "spe": 252
+    },
+    "grade": 1,
+    "tags": [
+      "status"
+    ]
+  },
+  {
+    "id": "g1-dugtrio",
+    "species": "dugtrio",
+    "moves": [
+      "earthquake",
+      "rock-slide",
+      "aerial-ace",
+      "magnitude"
+    ],
+    "item": "soft-sand",
+    "ability": "sand-veil",
+    "nature": "jolly",
+    "evs": {
+      "atk": 252,
+      "spe": 252
+    },
+    "grade": 1,
+    "tags": []
+  },
+  {
+    "id": "g1-farfetchd",
+    "species": "farfetchd",
+    "moves": [
+      "aerial-ace",
+      "brick-break",
+      "swords-dance",
+      "body-slam"
+    ],
+    "item": "scope-lens",
+    "ability": "keen-eye",
+    "nature": "adamant",
+    "evs": {
+      "atk": 252,
+      "spe": 252
+    },
+    "grade": 1,
+    "tags": [
+      "setup"
+    ]
+  },
+  {
+    "id": "g1-dewgong",
+    "species": "dewgong",
+    "moves": [
+      "surf",
+      "ice-beam",
+      "toxic",
+      "body-slam"
+    ],
+    "item": "never-melt-ice",
+    "ability": "thick-fat",
+    "nature": "calm",
+    "evs": {
+      "hp": 252,
+      "spd": 252
+    },
+    "grade": 1,
+    "tags": [
+      "stall"
+    ]
+  },
+  {
+    "id": "g2-persian",
+    "species": "persian",
+    "moves": [
+      "body-slam",
+      "crunch",
+      "quick-attack",
+      "swords-dance"
+    ],
+    "item": "silk-scarf",
+    "ability": "limber",
+    "nature": "jolly",
+    "evs": {
+      "atk": 252,
+      "spe": 252
+    },
+    "grade": 2,
+    "tags": []
+  },
+  {
+    "id": "g2-poliwrath",
+    "species": "poliwrath",
+    "moves": [
+      "waterfall",
+      "brick-break",
+      "ice-punch",
+      "bulldoze"
+    ],
+    "item": "mystic-water",
+    "ability": "water-absorb",
+    "nature": "adamant",
+    "evs": {
+      "atk": 252,
+      "hp": 252
+    },
+    "grade": 2,
+    "tags": []
+  },
+  {
+    "id": "g2-kadabra",
+    "species": "kadabra",
+    "moves": [
+      "psychic",
+      "dazzling-gleam",
+      "calm-mind",
+      "recover"
+    ],
+    "item": "twisted-spoon",
+    "ability": "synchronize",
+    "nature": "timid",
+    "evs": {
+      "spa": 252,
+      "spe": 252
+    },
+    "grade": 2,
+    "tags": [
+      "setup"
+    ]
+  },
+  {
+    "id": "g2-machoke",
+    "species": "machoke",
+    "moves": [
+      "cross-chop",
+      "rock-slide",
+      "bulldoze",
+      "bite"
+    ],
+    "item": "black-belt",
+    "ability": "guts",
+    "nature": "adamant",
+    "evs": {
+      "atk": 252,
+      "hp": 252
+    },
+    "grade": 2,
+    "tags": []
+  },
+  {
+    "id": "g2-victreebel",
+    "species": "victreebel",
+    "moves": [
+      "giga-drain",
+      "sludge-bomb",
+      "sleep-powder",
+      "swords-dance"
+    ],
+    "item": "miracle-seed",
+    "ability": "chlorophyll",
+    "nature": "modest",
+    "evs": {
+      "spa": 252,
+      "spe": 252
+    },
+    "grade": 2,
+    "tags": [
+      "status"
+    ]
+  },
+  {
+    "id": "g2-tentacruel",
+    "species": "tentacruel",
+    "moves": [
+      "surf",
+      "sludge-bomb",
+      "toxic",
+      "acid"
+    ],
+    "item": "mystic-water",
+    "ability": "clear-body",
+    "nature": "timid",
+    "evs": {
+      "spa": 252,
+      "spe": 252
+    },
+    "grade": 2,
+    "tags": [
+      "status"
+    ]
+  },
+  {
+    "id": "g2-golem",
+    "species": "golem",
+    "moves": [
+      "earthquake",
+      "stone-edge",
+      "brick-break",
+      "double-edge"
+    ],
+    "item": "hard-stone",
+    "ability": "rock-head",
+    "nature": "adamant",
+    "evs": {
+      "atk": 252,
+      "hp": 252
+    },
+    "grade": 2,
+    "tags": []
+  },
+  {
+    "id": "g2-rapidash",
+    "species": "rapidash",
+    "moves": [
+      "fire-blast",
+      "flamethrower",
+      "will-o-wisp",
+      "agility"
+    ],
+    "item": "charcoal",
+    "ability": "flash-fire",
+    "nature": "timid",
+    "evs": {
+      "spa": 252,
+      "spe": 252
+    },
+    "grade": 2,
+    "tags": [
+      "status"
+    ]
+  },
+  {
+    "id": "g2-slowbro",
+    "species": "slowbro",
+    "moves": [
+      "surf",
+      "psychic",
+      "calm-mind",
+      "recover"
+    ],
+    "item": "leftovers",
+    "ability": "oblivious",
+    "nature": "bold",
+    "evs": {
+      "hp": 252,
+      "def": 252
+    },
+    "grade": 2,
+    "tags": [
+      "stall"
+    ]
+  },
+  {
+    "id": "g2-magneton",
+    "species": "magneton",
+    "moves": [
+      "thunderbolt",
+      "flash-cannon",
+      "thunder-wave",
+      "iron-defense"
+    ],
+    "item": "magnet",
+    "ability": "magnet-pull",
+    "nature": "modest",
+    "evs": {
+      "spa": 252,
+      "hp": 252
+    },
+    "grade": 2,
+    "tags": [
+      "status"
+    ]
+  },
+  {
+    "id": "g2-dodrio",
+    "species": "dodrio",
+    "moves": [
+      "drill-peck",
+      "body-slam",
+      "quick-attack",
+      "agility"
+    ],
+    "item": "sharp-beak",
+    "ability": "run-away",
+    "nature": "jolly",
+    "evs": {
+      "atk": 252,
+      "spe": 252
+    },
+    "grade": 2,
+    "tags": []
+  },
+  {
+    "id": "g2-muk",
+    "species": "muk",
+    "moves": [
+      "sludge-bomb",
+      "poison-jab",
+      "brick-break",
+      "toxic"
+    ],
+    "item": "poison-barb",
+    "ability": "stench",
+    "nature": "adamant",
+    "evs": {
+      "atk": 252,
+      "hp": 252
+    },
+    "grade": 2,
+    "tags": [
+      "status"
+    ]
+  },
+  {
+    "id": "g2-cloyster",
+    "species": "cloyster",
+    "moves": [
+      "surf",
+      "ice-beam",
+      "iron-defense",
+      "harden"
+    ],
+    "item": "never-melt-ice",
+    "ability": "shell-armor",
+    "nature": "bold",
+    "evs": {
+      "hp": 252,
+      "def": 252
+    },
+    "grade": 2,
+    "tags": []
+  },
+  {
+    "id": "g2-hypno",
+    "species": "hypno",
+    "moves": [
+      "psychic",
+      "hypnosis",
+      "shadow-ball",
+      "calm-mind"
+    ],
+    "item": "twisted-spoon",
+    "ability": "insomnia",
+    "nature": "modest",
+    "evs": {
+      "spa": 252,
+      "hp": 252
+    },
+    "grade": 2,
+    "tags": [
+      "status"
+    ]
+  },
+  {
+    "id": "g2-primeape",
+    "species": "primeape",
+    "moves": [
+      "cross-chop",
+      "crunch",
+      "rock-slide",
+      "swords-dance"
+    ],
+    "item": "black-belt",
+    "ability": "vital-spirit",
+    "nature": "jolly",
+    "evs": {
+      "atk": 252,
+      "spe": 252
+    },
+    "grade": 2,
+    "tags": [
+      "setup"
+    ]
+  },
+  {
+    "id": "g2-electabuzz",
+    "species": "electabuzz",
+    "moves": [
+      "thunderbolt",
+      "psychic",
+      "thunder-wave",
+      "ice-punch"
+    ],
+    "item": "magnet",
+    "ability": "static",
+    "nature": "timid",
+    "evs": {
+      "spa": 252,
+      "spe": 252
+    },
+    "grade": 2,
+    "tags": [
+      "status"
+    ]
+  },
+  {
+    "id": "g3-gengar",
+    "species": "gengar",
+    "moves": [
+      "shadow-ball",
+      "sludge-bomb",
+      "dazzling-gleam",
+      "hypnosis"
+    ],
+    "item": "life-orb",
+    "ability": "cursed-body",
+    "nature": "timid",
+    "evs": {
+      "spa": 252,
+      "spe": 252
+    },
+    "grade": 3,
+    "tags": []
+  },
+  {
+    "id": "g3-onix",
+    "species": "onix",
+    "moves": [
+      "earthquake",
+      "stone-edge",
+      "iron-head",
+      "double-edge"
+    ],
+    "item": "rocky-helmet",
+    "ability": "rock-head",
+    "nature": "impish",
+    "evs": {
+      "hp": 252,
+      "def": 252
+    },
+    "grade": 3,
+    "tags": []
+  },
+  {
+    "id": "g3-kingler",
+    "species": "kingler",
+    "moves": [
+      "waterfall",
+      "x-scissor",
+      "brick-break",
+      "rock-slide"
+    ],
+    "item": "choice-band",
+    "ability": "hyper-cutter",
+    "nature": "adamant",
+    "evs": {
+      "atk": 252,
+      "spe": 252
+    },
+    "grade": 3,
+    "tags": []
+  },
+  {
+    "id": "g3-electrode",
+    "species": "electrode",
+    "moves": [
+      "thunderbolt",
+      "dark-pulse",
+      "thunder",
+      "swift"
+    ],
+    "item": "choice-specs",
+    "ability": "soundproof",
+    "nature": "timid",
+    "evs": {
+      "spa": 252,
+      "spe": 252
+    },
+    "grade": 3,
+    "tags": []
+  },
+  {
+    "id": "g3-exeggutor",
+    "species": "exeggutor",
+    "moves": [
+      "psychic",
+      "giga-drain",
+      "sleep-powder",
+      "dazzling-gleam"
+    ],
+    "item": "leftovers",
+    "ability": "chlorophyll",
+    "nature": "modest",
+    "evs": {
+      "spa": 252,
+      "hp": 252
+    },
+    "grade": 3,
+    "tags": [
+      "status"
+    ]
+  },
+  {
+    "id": "g3-marowak",
+    "species": "marowak",
+    "moves": [
+      "earthquake",
+      "rock-slide",
+      "double-edge",
+      "iron-head"
+    ],
+    "item": "choice-band",
+    "ability": "rock-head",
+    "nature": "adamant",
+    "evs": {
+      "atk": 252,
+      "spe": 252
+    },
+    "grade": 3,
+    "tags": []
+  },
+  {
+    "id": "g3-hitmonlee",
+    "species": "hitmonlee",
+    "moves": [
+      "cross-chop",
+      "mega-kick",
+      "rock-slide",
+      "double-kick"
+    ],
+    "item": "expert-belt",
+    "ability": "limber",
+    "nature": "jolly",
+    "evs": {
+      "atk": 252,
+      "spe": 252
+    },
+    "grade": 3,
+    "tags": []
+  },
+  {
+    "id": "g3-hitmonchan",
+    "species": "hitmonchan",
+    "moves": [
+      "cross-chop",
+      "fire-punch",
+      "ice-punch",
+      "quick-attack"
+    ],
+    "item": "expert-belt",
+    "ability": "keen-eye",
+    "nature": "adamant",
+    "evs": {
+      "atk": 252,
+      "spe": 252
+    },
+    "grade": 3,
+    "tags": []
+  },
+  {
+    "id": "g3-weezing",
+    "species": "weezing",
+    "moves": [
+      "sludge-bomb",
+      "will-o-wisp",
+      "flamethrower",
+      "toxic"
+    ],
+    "item": "rocky-helmet",
+    "ability": "levitate",
+    "nature": "bold",
+    "evs": {
+      "hp": 252,
+      "def": 252
+    },
+    "grade": 3,
+    "tags": [
+      "status"
+    ]
+  },
+  {
+    "id": "g3-rhydon",
+    "species": "rhydon",
+    "moves": [
+      "earthquake",
+      "stone-edge",
+      "brick-break",
+      "iron-head"
+    ],
+    "item": "hard-stone",
+    "ability": "lightning-rod",
+    "nature": "adamant",
+    "evs": {
+      "atk": 252,
+      "hp": 252
+    },
+    "grade": 3,
+    "tags": []
+  },
+  {
+    "id": "g3-chansey",
+    "species": "chansey",
+    "moves": [
+      "toxic",
+      "recover",
+      "dazzling-gleam",
+      "sing"
+    ],
+    "item": "leftovers",
+    "ability": "natural-cure",
+    "nature": "calm",
+    "evs": {
+      "hp": 252,
+      "spd": 252
+    },
+    "grade": 3,
+    "tags": [
+      "stall"
+    ]
+  },
+  {
+    "id": "g3-kangaskhan",
+    "species": "kangaskhan",
+    "moves": [
+      "body-slam",
+      "crunch",
+      "brick-break",
+      "earthquake"
+    ],
+    "item": "silk-scarf",
+    "ability": "early-bird",
+    "nature": "adamant",
+    "evs": {
+      "atk": 252,
+      "spe": 252
+    },
+    "grade": 3,
+    "tags": []
+  },
+  {
+    "id": "g3-starmie",
+    "species": "starmie",
+    "moves": [
+      "surf",
+      "psychic",
+      "dazzling-gleam",
+      "recover"
+    ],
+    "item": "life-orb",
+    "ability": "illuminate",
+    "nature": "timid",
+    "evs": {
+      "spa": 252,
+      "spe": 252
+    },
+    "grade": 3,
+    "tags": []
+  },
+  {
+    "id": "g3-magmar",
+    "species": "magmar",
+    "moves": [
+      "fire-blast",
+      "psychic",
+      "thunderbolt",
+      "will-o-wisp"
+    ],
+    "item": "charcoal",
+    "ability": "flame-body",
+    "nature": "modest",
+    "evs": {
+      "spa": 252,
+      "spe": 252
+    },
+    "grade": 3,
+    "tags": [
+      "status"
+    ]
+  },
+  {
+    "id": "g3-pinsir",
+    "species": "pinsir",
+    "moves": [
+      "x-scissor",
+      "brick-break",
+      "stone-edge",
+      "iron-head"
+    ],
+    "item": "choice-band",
+    "ability": "hyper-cutter",
+    "nature": "adamant",
+    "evs": {
+      "atk": 252,
+      "spe": 252
+    },
+    "grade": 3,
+    "tags": []
+  },
+  {
+    "id": "g3-kabutops",
+    "species": "kabutops",
+    "moves": [
+      "stone-edge",
+      "waterfall",
+      "x-scissor",
+      "swords-dance"
+    ],
+    "item": "hard-stone",
+    "ability": "swift-swim",
+    "nature": "adamant",
+    "evs": {
+      "atk": 252,
+      "spe": 252
+    },
+    "grade": 3,
+    "tags": [
+      "setup"
+    ]
+  },
+  {
+    "id": "g4-venusaur",
+    "species": "venusaur",
+    "moves": [
+      "giga-drain",
+      "sludge-bomb",
+      "sleep-powder",
+      "calm-mind"
+    ],
+    "item": "leftovers",
+    "ability": "overgrow",
+    "nature": "modest",
+    "evs": {
+      "spa": 252,
+      "hp": 252
+    },
+    "grade": 4,
+    "tags": [
+      "setup"
+    ]
+  },
+  {
+    "id": "g4-charizard",
+    "species": "charizard",
+    "moves": [
+      "fire-blast",
+      "dragon-pulse",
+      "aerial-ace",
+      "dragon-claw"
+    ],
+    "item": "life-orb",
+    "ability": "blaze",
+    "nature": "timid",
+    "evs": {
+      "spa": 252,
+      "spe": 252
+    },
+    "grade": 4,
+    "tags": []
+  },
+  {
+    "id": "g4-blastoise",
+    "species": "blastoise",
+    "moves": [
+      "hydro-pump",
+      "ice-beam",
+      "dark-pulse",
+      "toxic"
+    ],
+    "item": "leftovers",
+    "ability": "torrent",
+    "nature": "modest",
+    "evs": {
+      "spa": 252,
+      "hp": 252
+    },
+    "grade": 4,
+    "tags": [
+      "stall"
+    ]
+  },
+  {
+    "id": "g4-alakazam",
+    "species": "alakazam",
+    "moves": [
+      "psychic",
+      "dazzling-gleam",
+      "dark-pulse",
+      "calm-mind"
+    ],
+    "item": "life-orb",
+    "ability": "synchronize",
+    "nature": "timid",
+    "evs": {
+      "spa": 252,
+      "spe": 252
+    },
+    "grade": 4,
+    "tags": [
+      "setup"
+    ]
+  },
+  {
+    "id": "g4-machamp",
+    "species": "machamp",
+    "moves": [
+      "cross-chop",
+      "rock-slide",
+      "earthquake",
+      "ice-punch"
+    ],
+    "item": "flame-orb",
+    "ability": "guts",
+    "nature": "adamant",
+    "evs": {
+      "atk": 252,
+      "hp": 252
+    },
+    "grade": 4,
+    "tags": []
+  },
+  {
+    "id": "g4-arcanine",
+    "species": "arcanine",
+    "moves": [
+      "fire-blast",
+      "crunch",
+      "dragon-pulse",
+      "agility"
+    ],
+    "item": "expert-belt",
+    "ability": "intimidate",
+    "nature": "timid",
+    "evs": {
+      "spa": 252,
+      "spe": 252
+    },
+    "grade": 4,
+    "tags": []
+  },
+  {
+    "id": "g4-gyarados",
+    "species": "gyarados",
+    "moves": [
+      "waterfall",
+      "crunch",
+      "earthquake",
+      "double-edge"
+    ],
+    "item": "choice-band",
+    "ability": "intimidate",
+    "nature": "adamant",
+    "evs": {
+      "atk": 252,
+      "spe": 252
+    },
+    "grade": 4,
+    "tags": []
+  },
+  {
+    "id": "g4-lapras",
+    "species": "lapras",
+    "moves": [
+      "surf",
+      "ice-beam",
+      "psychic",
+      "body-slam"
+    ],
+    "item": "assault-vest",
+    "ability": "water-absorb",
+    "nature": "modest",
+    "evs": {
+      "hp": 252,
+      "spa": 252
+    },
+    "grade": 4,
+    "tags": [
+      "stall"
+    ]
+  },
+  {
+    "id": "g4-snorlax",
+    "species": "snorlax",
+    "moves": [
+      "body-slam",
+      "crunch",
+      "earthquake",
+      "toxic"
+    ],
+    "item": "leftovers",
+    "ability": "immunity",
+    "nature": "adamant",
+    "evs": {
+      "hp": 252,
+      "atk": 252
+    },
+    "grade": 4,
+    "tags": [
+      "stall"
+    ]
+  },
+  {
+    "id": "g4-dragonite",
+    "species": "dragonite",
+    "moves": [
+      "dragon-claw",
+      "earthquake",
+      "brave-bird",
+      "fire-punch"
+    ],
+    "item": "choice-band",
+    "ability": "inner-focus",
+    "nature": "adamant",
+    "evs": {
+      "atk": 252,
+      "spe": 252
+    },
+    "grade": 4,
+    "tags": []
+  },
+  {
+    "id": "g4-aerodactyl",
+    "species": "aerodactyl",
+    "moves": [
+      "stone-edge",
+      "aerial-ace",
+      "earthquake",
+      "double-edge"
+    ],
+    "item": "choice-scarf",
+    "ability": "rock-head",
+    "nature": "jolly",
+    "evs": {
+      "atk": 252,
+      "spe": 252
+    },
+    "grade": 4,
+    "tags": []
+  },
+  {
+    "id": "g4-jolteon",
+    "species": "jolteon",
+    "moves": [
+      "thunderbolt",
+      "dark-pulse",
+      "thunder",
+      "swift"
+    ],
+    "item": "choice-specs",
+    "ability": "volt-absorb",
+    "nature": "timid",
+    "evs": {
+      "spa": 252,
+      "spe": 252
+    },
+    "grade": 4,
+    "tags": []
+  },
+  {
+    "id": "g4-flareon",
+    "species": "flareon",
+    "moves": [
+      "fire-blast",
+      "body-slam",
+      "bite",
+      "double-edge"
+    ],
+    "item": "choice-band",
+    "ability": "flash-fire",
+    "nature": "adamant",
+    "evs": {
+      "atk": 252,
+      "spe": 252
+    },
+    "grade": 4,
+    "tags": []
+  },
+  {
+    "id": "g4-vaporeon",
+    "species": "vaporeon",
+    "moves": [
+      "surf",
+      "ice-beam",
+      "toxic",
+      "recover"
+    ],
+    "item": "leftovers",
+    "ability": "water-absorb",
+    "nature": "bold",
+    "evs": {
+      "hp": 252,
+      "def": 252
+    },
+    "grade": 4,
+    "tags": [
+      "stall"
+    ]
+  },
+  {
+    "id": "g4-tauros",
+    "species": "tauros",
+    "moves": [
+      "body-slam",
+      "earthquake",
+      "rock-slide",
+      "double-edge"
+    ],
+    "item": "choice-band",
+    "ability": "intimidate",
+    "nature": "jolly",
+    "evs": {
+      "atk": 252,
+      "spe": 252
+    },
+    "grade": 4,
+    "tags": []
+  },
+  {
+    "id": "g4-nidoking",
+    "species": "nidoking",
+    "moves": [
+      "earthquake",
+      "sludge-bomb",
+      "ice-punch",
+      "thunderbolt"
+    ],
+    "item": "life-orb",
+    "ability": "poison-point",
+    "nature": "adamant",
+    "evs": {
+      "atk": 252,
+      "spe": 252
+    },
+    "grade": 4,
+    "tags": []
+  }
+]

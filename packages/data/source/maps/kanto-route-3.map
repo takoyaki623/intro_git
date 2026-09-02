@@ -1,0 +1,40 @@
+# 3番道路。ニビシティの東。**トレーナーが並ぶ最初の道**で、
+# 視線を避けて歩けるかどうかがそのまま難度になる。
+id: kanto-route-3
+name: 3ばんどうろ
+region: kanto
+encounters: kanto-route-3-grass
+bgm: route-3
+
+legend:
+. normal
+, grass
+T !normal
+= ledge
+
+grid:
+TTTTTTTTTTTTTTTTT
+T...............T
+T..,,,....,,,...T
+T..,,,....,,,...T
+T...............T
+.....===........T
+T...............T
+T.........,,,,..T
+T.........,,,,..T
+T...............T
+TTTTTTTTTTTTTT.TT
+
+warps:
+0,5 step kanto-pewter-city 12,11 left
+14,10 step kanto-mt-moon 4,1 down
+
+objects:
+route3-sign 2,4 sign kanto.route3.sign
+route3-lass 4,6 trainer:kanto-route3-lass:3:right kanto.route3.lass if:kanto.route3.lass-beaten=false
+route3-youngster 11,4 trainer:kanto-route3-youngster:3:down kanto.route3.youngster if:kanto.route3.youngster-beaten=false
+route3-super-potion 13,2 item:super-potion kanto.route3.super-potion if:kanto.route3.super-potion-taken=false
+route3-lass-1 1,1 trainer:kanto-route-3-lass-1:2:down kanto.route3.lass1 if:kanto.route3.lass1-beaten=false
+route3-lass-2 15,8 trainer:kanto-route-3-lass-2:2:left kanto.route3.lass2 if:kanto.route3.lass2-beaten=false
+route3-youngster-1 4,9 trainer:kanto-route-3-youngster-1:2:left kanto.route3.youngster1 if:kanto.route3.youngster1-beaten=false
+route3-potion-1 15,9 item:potion kanto.route3.potion1 if:kanto.route3.potion1-taken=false

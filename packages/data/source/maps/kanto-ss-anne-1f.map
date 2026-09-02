@@ -1,0 +1,30 @@
+# サンアンヌごう 1階。四隅の扉が こうはん・2階・きかんしつ・せんちょうしつ へ。
+id: kanto-ss-anne-1f
+name: サンアンヌごう
+region: kanto
+bgm: vermilion-city
+
+legend:
+. normal
+S !normal
+D normal
+
+grid:
+SSSSSSSSSSSSS
+S.D.......D.S
+S...........S
+S.SSSSSSSSS.S
+S...........S
+S.D.......D.S
+SSSSSSSSSSSSS
+
+warps:
+2,1 step kanto-ss-anne-deck 5,4 down
+10,1 step kanto-ss-anne-2f 9,1 down
+2,5 step kanto-ss-anne-b1f 2,2 down
+10,5 step kanto-ss-anne-captain 4,4 up
+
+objects:
+ss-anne-1f-item 6,2 item:great-ball kanto.ssanne.item-1 if:kanto.ssanne.item-1-taken=false
+ssanne1f-sailor-1 1,1 trainer:kanto-ss-anne-1f-sailor-1:2:down kanto.ssanne1f.sailor1 if:kanto.ssanne1f.sailor1-beaten=false
+ssanne1f-sailor-2 11,5 trainer:kanto-ss-anne-1f-sailor-2:2:up kanto.ssanne1f.sailor2 if:kanto.ssanne1f.sailor2-beaten=false

@@ -1,0 +1,54 @@
+# ハナダシティ。ジム2（カスミ）。町の東に川が流れている。
+id: kanto-cerulean-city
+name: ハナダシティ
+region: kanto
+fly: 6,1 kanto.fly.cerulean
+onEnter: kanto.cerulean.arrive
+encounters: kanto-cerulean-city-surf kanto-cerulean-city-fishing-old kanto-cerulean-city-fishing-good kanto-cerulean-city-fishing-super
+bgm: cerulean-city
+
+legend:
+. normal
+T !normal
+G !normal
+P !normal
+F !normal
+H !normal
+D normal
+~ !water
+
+grid:
+T.TTTT.TTTTTTT
+T.............
+T..GGGG......T
+T..GGDG......T
+T............T
+T............T
+T.......PPPP.T
+T.......PPDP.T
+T............T
+T..HHH.......T
+T..HDH....~~~T
+T.........~~~T
+T.FFFF....~~~T
+T.FFDF....~~~T
+T............T
+TTTTT.T.TTTTTT
+
+warps:
+1,0 step kanto-route-4 10,7 down
+6,0 step kanto-route-24 5,10 down
+13,1 step kanto-route-9 1,1 right
+5,3 step kanto-cerulean-gym 4,8 up
+10,7 step kanto-cerulean-pokecenter 4,5 up
+4,13 step kanto-cerulean-mart 4,5 up
+4,10 step kanto-cerulean-house 3,4 up
+7,15 step kanto-route-5 5,1 down
+5,15 step kanto-cerulean-cave 6,7 up
+
+objects:
+cerulean-sign-gym 4,4 sign kanto.cerulean.sign-gym
+cerulean-girl 9,4 npc:lass:static kanto.cerulean.girl
+cerulean-fisher 9,11 npc:fisher:static kanto.cerulean.fisher
+cerulean-cave-guard 5,14 npc:guard:static kanto.cerulean.cave-guard if:kanto.league.champion-beaten=false
+cerulean-rival 8,4 npc:rival:static kanto.cerulean.rival if:kanto.cerulean.rival-beaten=false

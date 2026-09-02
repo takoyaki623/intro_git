@@ -1,0 +1,44 @@
+# 4のしま。ポケモンセンターと ふなつきば、北に こおりのぬけみち、西に みずのめいろ。
+# 原作の ポケモンだいすきクラブ（そだてや）は**入れていない** ―― 孵化を作らない決定
+# （progression.md §9）があるので、預ける場所だけ先に建てない。
+id: kanto-sevii-four-island
+name: 4のしま
+region: kanto
+encounters: kanto-sevii-four-island-surf kanto-sevii-four-island-fishing-old kanto-sevii-four-island-fishing-good kanto-sevii-four-island-fishing-super
+bgm: lavender-town
+
+legend:
+. normal
+T !normal
+P !normal
+H !normal
+D normal
+~ !water
+
+grid:
+TTTTT.TTTTTTT
+T...........T
+T..PPP..HHH.T
+T..PDP..HDH.T
+T...........T
+............T
+T...........T
+T...........T
+T....HDH....T
+T....HHH....T
+T~~~~~~~~~~~T
+TTTTTTTTTTTTT
+
+warps:
+5,0 step kanto-sevii-icefall-cave 6,10 up
+0,5 step kanto-sevii-water-labyrinth 11,5 left
+4,3 step kanto-sevii-four-pokecenter 4,5 up
+9,3 step kanto-sevii-four-house 4,4 up
+6,8 step kanto-sevii-four-ferry 4,5 up
+
+objects:
+four-island-sign 7,1 sign kanto.sevii.four-sign
+# **たきのぼりを教える人**（v1.2-a）。こおりのぬけみちの入口の手前 ――
+# フラッシュと同じで、使う場所の隣で教わる
+four-island-waterfall-man 6,1 npc:fisher:static kanto.sevii.waterfall-man
+seviifourisland-tm27-1 11,9 item:tm27 kanto.seviifourisland.tm271 if:kanto.seviifourisland.tm271-taken=false

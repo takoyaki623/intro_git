@@ -1,0 +1,62 @@
+# クチバシティ。ジム3（マチス）。港町なので南が海。
+# v1.1-j で ふなつきば（シーギャロップごう）を1棟足した ―― ナナシマへの入口。
+# v1.2-b で **サンアンヌごう** も同じ建物から出るようにし、
+# 町に立っていた船長は**船長室へ移した**（いあいぎり をくれる人）。
+id: kanto-vermilion-city
+name: クチバシティ
+region: kanto
+fly: 6,1 kanto.fly.vermilion
+onEnter: kanto.vermilion.arrive
+encounters: kanto-vermilion-city-surf kanto-vermilion-city-fishing-old kanto-vermilion-city-fishing-good kanto-vermilion-city-fishing-super
+bgm: vermilion-city
+
+legend:
+. normal
+H !normal
+B !normal
+T !normal
+G !normal
+P !normal
+F !normal
+D normal
+~ !water
+s sand
+
+grid:
+TTTTTTT.TTTTTT
+T.............
+T..PPPP.BBB..T
+T..PPDP.BDB..T
+T............T
+T.......FFFF.T
+T.......FFDF.T
+T............T
+T..GGGG..HHH.T
+T..GGDG..HDH.T
+T............T
+T~~~~~~~~~~~~T
+T~~~~~~~~s~~~T
+TTTTTTTTTTTTTT
+
+warps:
+7,0 step kanto-route-6 5,7 up
+5,3 step kanto-vermilion-pokecenter 4,5 up
+9,3 step kanto-vermilion-house 3,3 up
+10,6 step kanto-vermilion-mart 4,5 up
+5,9 step kanto-vermilion-gym 4,8 up
+13,1 step kanto-route-11 1,1 right
+10,9 step kanto-vermilion-ferry 4,5 up
+
+objects:
+vermilion-sign-gym 4,10 sign kanto.vermilion.sign-gym
+# **ふなつきばの扉の前を空ける**（v1.2-b）。
+# 扉(10,9)に立てるのは真下の(10,10)だけで、その左右に せんいん と つりびと が
+# 立っていた ―― **陸からは入れず、なみのり で岸伝いに来るしか無かった。**
+# v1.1-j の台本はナナシマ区間（殿堂入り後＝なみのり あり）でしか通らなかったので、
+# 誰も落ちなかった。サンアンヌごうを ジム3の前に置いた日に初めて火を噴いた。
+vermilion-sailor 2,10 npc:sailor:static kanto.vermilion.sailor
+vermilion-boy 9,1 npc:youngster:static kanto.vermilion.boy
+vermilion-tree 5,10 obstacle:cut
+vermilion-island 9,12 item:hyper-potion kanto.vermilion.island if:kanto.vermilion.island-taken=false
+vermilion-fisher 11,10 npc:fisher:static kanto.vermilion.fisher
+vermilion-hidden 2,7 item:great-ball:hidden kanto.vermilion.hidden if:kanto.vermilion.hidden-taken=false

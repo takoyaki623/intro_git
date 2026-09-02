@@ -1,0 +1,27 @@
+# クチバの家（v1.1-i）。**カモネギ の交換相手が居る。**
+#
+# 交換は `hasSpecies` で確かめ、`takePokemon` で引き取り、`givePokemon` で渡す。
+# **渡した個体は本当に居なくなる** ―― 片側だけ作ると、それは交換ではなく配布になる。
+id: kanto-vermilion-house
+name: クチバのいえ
+region: kanto
+bgm: town
+
+legend:
+. normal
+W !normal
+B !normal
+D normal
+
+grid:
+WWWWWWW
+WB....W
+W.....W
+W.....W
+WWWDWWW
+
+warps:
+3,4 step kanto-vermilion-city 9,4 down
+
+objects:
+vermilion-trader 4,1 npc:youngster:static kanto.vermilion.trade

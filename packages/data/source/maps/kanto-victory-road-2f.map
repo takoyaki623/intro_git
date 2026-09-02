@@ -1,0 +1,36 @@
+# チャンピオンロード 2階。**岩をスイッチに乗せてシャッターを開ける**（v1.1-f）。
+#
+# v1.1-e で作り直したときは、かいりき の岩を1つ置いただけだった。
+# しかし部屋が輪になっていて岩を通らずに階段へ行けたので、
+# **岩は関門ではなく飾り**だった（1階で踏んだのと同じ間違いを、2階に残していた）。
+# 今は通り道を1本にし、シャッターの前に立つ以外の道を消してある。
+id: kanto-victory-road-2f
+name: チャンピオンロード
+region: kanto
+encounters: kanto-victory-road-2f-cave
+bgm: victory-road
+
+legend:
+. normal
+R !normal
+: cave
+
+grid:
+RRRRRRRRRRRRR
+RRRRRRRRRRR:R
+RRRRRRRRRRR:R
+RRR::::::RR:R
+RRR::::::RR:R
+RRRRR:RRRRR:R
+R:::::::::::R
+RRRRRRRRRRRRR
+
+warps:
+1,6 step kanto-victory-road 1,2 down
+11,1 step kanto-victory-road-3f 2,1 up
+
+objects:
+victory-2f-shutter 11,4 sign kanto.victory.shutter-2f if:kanto.victory.switch-2f=false
+victory-2f-switch 7,3 switch kanto.victory.press-2f
+victory-2f-boulder 5,3 boulder:strength
+victoryroad2f-tm01-1 11,6 item:tm01 kanto.victoryroad2f.tm011 if:kanto.victoryroad2f.tm011-taken=false

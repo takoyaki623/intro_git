@@ -1,0 +1,37 @@
+# シルフカンパニー 1階（v1.1-g-3）。
+#
+# **11階ぶんは作らなかった。** 原作は11階あるが、2階から10階までは
+# 同じ「テレポート床で行き来する事務所」の繰り返しで、
+# **新しい機構が1つも増えない** ―― 増えるのは枚数だけ。
+# 1・3・5・7・11階の5枚にして、間はテレポート床で繋いだ。
+# 残りを足すのはいつでもデータだけでできる（`world.md` §9.16）。
+#
+# **入れるのはカードキーを取ってから**ではなく、受付を抜けた時点。
+# カードキーは 5階で拾い、7階の扉を開ける ―― 鍵の数を増やすほど
+# 「どれが要るのか」を遊ぶ側が持ち歩くことになる。
+id: kanto-silph-1f
+name: シルフカンパニー
+region: kanto
+bgm: silph
+
+legend:
+. normal
+W !normal
+D normal
+
+grid:
+WWWWWWWWW
+W.......W
+W.WWW.W.W
+W.......W
+W.WWW.W.W
+W.......W
+WWWWDWWWW
+
+warps:
+4,6 step kanto-saffron-city 17,5 down
+7,1 step kanto-silph-3f 2,1 up
+
+objects:
+silph-1f-clerk 1,1 npc:clerk:static kanto.silph.clerk
+silph-1f-sign 3,5 sign kanto.silph.sign

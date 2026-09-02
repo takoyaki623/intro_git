@@ -1,0 +1,37 @@
+# ふたごじま 地下3階（v1.2-b）。**岩を落として道を作る階。**
+#
+# 原作は水流を岩でせき止める。こちらは押せる岩をスイッチに乗せると
+# シャッターが開く形にした（チャンピオンロード2階・3階と同じ仕掛け）。
+id: kanto-seafoam-b3f
+name: ふたごじま
+region: kanto
+encounters: kanto-seafoam-b3f-cave kanto-seafoam-b3f-surf kanto-seafoam-b3f-fishing-old kanto-seafoam-b3f-fishing-good kanto-seafoam-b3f-fishing-super
+bgm: cave
+
+legend:
+. normal
+R !normal
+: cave
+~ !water
+
+grid:
+RRRRRRRRRRRRR
+R::::R::::::R
+R::::R::::::R
+R:~~~R:~~~~:R
+R:~~~R:~~~~:R
+R:::::::::::R
+R::::R::::::R
+RRRRRRRRRRRRR
+
+warps:
+1,1 step kanto-seafoam-b2f 11,2 up
+11,1 step kanto-seafoam-b4f 1,2 down
+
+objects:
+# **シャッターは1マス幅の切れ目に置く。** 開いた道が他にもあると、
+# 仕掛けが飾りになる（v1.1-e で かいりき の岩が迂回できたのと同じ形）
+seafoam-b3f-shutter 5,5 sign kanto.seafoam.shutter-b3 if:kanto.seafoam.switch-b3=false
+seafoam-b3f-switch 4,6 switch kanto.seafoam.press-b3
+seafoam-b3f-boulder 2,6 boulder:strength
+seafoamb3f-tm14-1 11,6 item:tm14 kanto.seafoamb3f.tm141 if:kanto.seafoamb3f.tm141-taken=false

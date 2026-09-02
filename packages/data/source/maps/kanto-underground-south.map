@@ -1,0 +1,25 @@
+# ちかつうろ 南の入口（6番道路）。
+id: kanto-underground-south
+name: ちかつうろ いりぐち
+region: kanto
+bgm: house
+
+legend:
+. normal
+W !normal
+S normal
+D normal
+
+grid:
+WWWWWWW
+W.....W
+W....SW
+W.....W
+WWWDWWW
+
+warps:
+3,4 step kanto-route-6 9,5 down
+5,2 step kanto-underground-path 2,9 up
+
+objects:
+underground-s-man 2,2 npc:lass:static kanto.underground.south-man

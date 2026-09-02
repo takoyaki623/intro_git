@@ -1,0 +1,42 @@
+# シオンタウン。**ポケモンタワー**がある町。ジムは無い。
+id: kanto-lavender-town
+name: シオンタウン
+region: kanto
+fly: 6,1 kanto.fly.lavender
+onEnter: kanto.lavender.arrive
+bgm: lavender-town
+
+legend:
+. normal
+T !normal
+P !normal
+V !normal
+H !normal
+D normal
+
+grid:
+TTTTT.TTTTTT
+...........T
+T..VVVV....T
+T..VVDV....T
+T..........T
+T..........T
+T..PPPP....T
+T..PPDP....T
+T..........T
+T..HHH.....T
+T..HDH.....T
+T..........T
+TTTTTTT.TTTT
+
+warps:
+5,0 step kanto-route-10 5,8 up
+5,3 step kanto-pokemon-tower 4,7 up
+5,7 step kanto-lavender-pokecenter 4,5 up
+4,10 step kanto-lavender-house 3,4 up
+0,1 step kanto-route-8 11,8 left
+7,12 step kanto-route-12 5,1 down
+
+objects:
+lavender-sign-tower 4,4 sign kanto.lavender.sign-tower
+lavender-girl 8,5 npc:lass:static kanto.lavender.girl

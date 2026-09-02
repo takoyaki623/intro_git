@@ -1,0 +1,33 @@
+# パターンブッシュ（6のしま）。**ヘラクロス・レディバ・イトマル はここだけ。**
+# 奥に へんげのどうくつ。
+id: kanto-sevii-pattern-bush
+name: パターンブッシュ
+region: kanto
+encounters: kanto-sevii-pattern-bush-grass
+bgm: viridian-forest
+
+legend:
+. normal
+g grass
+T !normal
+D normal
+
+grid:
+TTTTTTTTTTTTT
+T..ggg..ggg.T
+T..ggg..ggg.T
+T...........T
+TTTT.....TTTT
+............T
+TTTT.....TTTT
+T...........T
+T..ggg..ggg.T
+T..ggg..ggg.T
+TTTTTTDTTTTTT
+
+warps:
+0,5 step kanto-sevii-ruin-valley 11,5 left
+6,10 step kanto-sevii-altering-cave 4,5 up
+
+objects:
+bush-item 8,3 item:ether kanto.sevii.bush-item if:kanto.sevii.bush-item-taken=false

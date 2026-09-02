@@ -1,0 +1,31 @@
+# はぐれ島（6のしま）。海に浮かぶ小島 ―― 釣りの場所。
+id: kanto-sevii-outcast-island
+name: はぐれじま
+region: kanto
+encounters: kanto-sevii-outcast-island-surf kanto-sevii-outcast-island-fishing-old kanto-sevii-outcast-island-fishing-good kanto-sevii-outcast-island-fishing-super
+bgm: route-21
+
+legend:
+. normal
+~ !water
+s sand
+T !normal
+
+grid:
+TTTTTTTTTTTTT
+T~~~~~~~~~~~T
+T~~~sssss~~~T
+T~~ss...ss~~T
+T~~ss...ss~~T
+T~~ss...sss.s
+T~~ss...ss~~T
+T~~~sssss~~~T
+T~~~~~~~~~~~T
+TTTTTTTTTTTTT
+
+warps:
+12,5 step kanto-sevii-green-path 1,5 right
+
+objects:
+outcast-item 5,4 item:full-restore kanto.sevii.outcast-item if:kanto.sevii.outcast-item-taken=false
+seviioutcastisland-tm49-1 8,7 item:tm49 kanto.seviioutcastisland.tm491 if:kanto.seviioutcastisland.tm491-taken=false

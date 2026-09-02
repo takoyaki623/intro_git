@@ -1,0 +1,48 @@
+# セキチクシティ。ジム5（キョウ）。サファリゾーンは v1.x（捕獲の別機構が要る）。
+id: kanto-fuchsia-city
+name: セキチクシティ
+region: kanto
+encounters: kanto-fuchsia-city-surf kanto-fuchsia-city-fishing-old kanto-fuchsia-city-fishing-good kanto-fuchsia-city-fishing-super
+fly: 6,1 kanto.fly.fuchsia
+onEnter: kanto.fuchsia.arrive
+bgm: fuchsia-city
+
+legend:
+. normal
+T !normal
+G !normal
+P !normal
+F !normal
+D normal
+
+grid:
+TT.TTT.TTTTTT
+T...........T
+T..GGGG.....T
+T..GGDG.....T
+T.........TTT
+T...........T
+T.......PPPPT
+T.......PPDPT
+T...........T
+T.......FFFFT
+T.......FFDFT
+T...........T
+TTTTTT.TTTTTT
+
+warps:
+6,0 step kanto-route-18 6,7 up
+2,0 step kanto-safari-gate 3,4 down
+6,12 step kanto-route-19 5,1 down
+5,3 step kanto-fuchsia-gym 4,10 up
+10,7 step kanto-fuchsia-pokecenter 4,5 up
+10,10 step kanto-fuchsia-mart 4,5 up
+
+objects:
+fuchsia-sign-gym 4,4 sign kanto.fuchsia.sign-gym
+fuchsia-warden 9,4 npc:oldman:static kanto.fuchsia.warden
+fuchsia-strength-man 3,8 npc:oldman:static kanto.fuchsia.strength-man
+fuchsia-surf-teacher 3,5 npc:fisher:static kanto.fuchsia.surf-teacher
+fuchsia-boulder 10,5 obstacle:strength
+fuchsia-nugget 11,5 item:max-ether kanto.fuchsia.nugget if:kanto.fuchsia.nugget-taken=false
+fuchsia-fisher 2,11 npc:fisher:static kanto.fuchsia.fisher

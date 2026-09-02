@@ -1,0 +1,51 @@
+# 1のしま。ナナシマの玄関口（v1.1-j）。
+#
+# ポケモンネットワークセンター（紫の屋根）は セリオ の仕事場。
+# 原作の見返りは「他の版と通信交換できるようになる」ことだが、
+# **この世界に版の対はない**（fetch-encounters.ts の注記と同じ理由）ので、
+# 見返りは 4〜7のしま への航路 ―― そこは殿堂入り後（v1.1-k）。
+#
+# 地名の日本語は公式データに無い（veekun は地名の ja を持たない）。
+# **原作の地図を見て書くこと。記憶で書かない。**
+id: kanto-sevii-one-island
+name: 1のしま
+region: kanto
+encounters: kanto-sevii-one-island-surf kanto-sevii-one-island-fishing-old kanto-sevii-one-island-fishing-good kanto-sevii-one-island-fishing-super
+bgm: cinnabar-island
+
+legend:
+. normal
+T !normal
+P !normal
+H !normal
+A !normal
+D normal
+~ !water
+
+grid:
+TTTTT.TTTTTTT
+T...........T
+T..PPP..HHH.T
+T..PDP..HDH.T
+T...........T
+............T
+T...........T
+T.......AAA.T
+T.......ADA.T
+T....HDH....T
+T....HHH....T
+T~~~~~~~~~~~T
+TTTTTTTTTTTTT
+
+warps:
+5,0 step kanto-sevii-kindle-road 6,11 up
+0,5 step kanto-sevii-treasure-beach 11,5 left
+4,3 step kanto-sevii-one-pokecenter 4,5 up
+9,3 step kanto-sevii-one-house 4,4 up
+9,8 step kanto-sevii-network-center 4,5 up
+6,9 step kanto-sevii-one-ferry 4,5 up
+
+objects:
+one-island-sign 6,1 sign kanto.sevii.one-sign
+one-island-girl 2,7 npc:lass:static kanto.sevii.one-girl
+seviioneisland-tm11-1 11,10 item:tm11 kanto.seviioneisland.tm111 if:kanto.seviioneisland.tm111-taken=false

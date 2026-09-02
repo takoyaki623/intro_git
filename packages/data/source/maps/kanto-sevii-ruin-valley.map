@@ -1,0 +1,36 @@
+# いせきのたに（6のしま）。**ネイティ・ヤンヤンマ・ソーナンス はここ。**
+# 谷の奥に ドットのあな ―― サファイア はその中。
+id: kanto-sevii-ruin-valley
+name: いせきのたに
+region: kanto
+encounters: kanto-sevii-ruin-valley-grass kanto-sevii-ruin-valley-surf kanto-sevii-ruin-valley-fishing-old kanto-sevii-ruin-valley-fishing-good kanto-sevii-ruin-valley-fishing-super
+bgm: mt-moon
+
+legend:
+. normal
+g grass
+~ !water
+D normal
+T !normal
+S !normal
+
+grid:
+TTTTTTTTTTTTT
+T..SSS..SSS.T
+T..SDS..SSS.T
+T...........T
+T..ggg......T
+T..ggg.......
+T...........T
+T~~~~...ggg.T
+T~~~~...ggg.T
+T...........T
+TTTTTT.TTTTTT
+
+warps:
+4,2 step kanto-sevii-dotted-hole 4,5 up
+6,10 step kanto-sevii-water-path 6,1 down
+12,5 step kanto-sevii-pattern-bush 1,5 right
+
+objects:
+ruin-sign 7,3 sign kanto.sevii.ruin-sign

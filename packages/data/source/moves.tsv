@@ -1,0 +1,293 @@
+id	name	type	category	power	accuracy	pp	priority	crit	contact	effect	target
+tackle	たいあたり	normal	physical	40	100	35	0	0	1		foe
+scratch	ひっかく	normal	physical	40	100	35	0	0	1		foe
+pound	はたく	normal	physical	40	100	35	0	0	1		foe
+quick-attack	でんこうせっか	normal	physical	40	100	30	1	0	1		foe
+fury-attack	みだれづき	normal	physical	15	85	20	0	0	1	multiHit:2:5	foe
+headbutt	ずつき	normal	physical	70	100	15	0	0	1	flinch:0.3	foe
+body-slam	のしかかり	normal	physical	85	100	15	0	0	1	status:paralysis:0.3	foe
+take-down	とっしん	normal	physical	90	85	20	0	0	1	recoil:0.25	foe
+double-edge	すてみタックル	normal	physical	120	100	15	0	0	1	recoil:0.33	foe
+swift	スピードスター	normal	special	60	-	20	0	0	0		foe
+growl	なきごえ	normal	status	-	100	40	0	0	0	statChange:foe:atk:-1:1	foe
+tail-whip	しっぽをふる	normal	status	-	100	30	0	0	0	statChange:foe:def:-1:1	foe
+harden	かたくなる	normal	status	-	-	30	0	0	0	statChange:self:def:1:1	self
+swords-dance	つるぎのまい	normal	status	-	-	20	0	0	0	statChange:self:atk:2:1	self
+double-team	かげぶんしん	normal	status	-	-	15	0	0	0	statChange:self:evasion:1:1	self
+recover	じこさいせい	normal	status	-	-	5	0	0	0	heal:0.5	self
+supersonic	ちょうおんぱ	normal	status	-	55	20	0	0	0	confuse:1	foe
+sing	うたう	normal	status	-	55	15	0	0	0	status:sleep:1	foe
+ember	ひのこ	fire	special	40	100	25	0	0	0	status:burn:0.1	foe
+fire-punch	ほのおのパンチ	fire	physical	75	100	15	0	0	1	status:burn:0.1	foe
+flamethrower	かえんほうしゃ	fire	special	90	100	15	0	0	0	status:burn:0.1	foe
+fire-blast	だいもんじ	fire	special	110	85	5	0	0	0	status:burn:0.1	foe
+will-o-wisp	おにび	fire	status	-	85	15	0	0	0	status:burn:1	foe
+water-gun	みずでっぽう	water	special	40	100	25	0	0	0		foe
+bubble	あわ	water	special	40	100	30	0	0	0	statChange:foe:spe:-1:0.1	foe
+bubble-beam	バブルこうせん	water	special	65	100	20	0	0	0	statChange:foe:spe:-1:0.1	foe
+surf	なみのり	water	special	90	100	15	0	0	0		foe
+hydro-pump	ハイドロポンプ	water	special	110	80	5	0	0	0		foe
+waterfall	たきのぼり	water	physical	80	100	15	0	0	1	flinch:0.2	foe
+thunder-shock	でんきショック	electric	special	40	100	30	0	0	0	status:paralysis:0.1	foe
+spark	スパーク	electric	physical	65	100	20	0	0	1	status:paralysis:0.3	foe
+thunderbolt	10まんボルト	electric	special	90	100	15	0	0	0	status:paralysis:0.1	foe
+thunder	かみなり	electric	special	110	70	10	0	0	0	status:paralysis:0.3	foe
+thunder-wave	でんじは	electric	status	-	90	20	0	0	0	status:paralysis:1	foe
+absorb	すいとる	grass	special	20	100	25	0	0	0	drain:0.5	foe
+vine-whip	つるのムチ	grass	physical	45	100	25	0	0	1		foe
+mega-drain	メガドレイン	grass	special	40	100	15	0	0	0	drain:0.5	foe
+razor-leaf	はっぱカッター	grass	physical	55	95	25	0	1	0		foe
+giga-drain	ギガドレイン	grass	special	75	100	10	0	0	0	drain:0.5	foe
+petal-blizzard	はなふぶき	grass	physical	90	100	15	0	0	1		foe
+sleep-powder	ねむりごな	grass	status	-	75	15	0	0	0	status:sleep:1	foe
+stun-spore	しびれごな	grass	status	-	75	30	0	0	0	status:paralysis:1	foe
+poison-powder	どくのこな	grass	status	-	75	35	0	0	0	status:poison:1	foe
+powder-snow	こなゆき	ice	special	40	100	25	0	0	0	status:freeze:0.1	foe
+aurora-beam	オーロラビーム	ice	special	65	100	20	0	0	0	statChange:foe:atk:-1:0.1	foe
+ice-punch	れいとうパンチ	ice	physical	75	100	15	0	0	1	status:freeze:0.1	foe
+ice-beam	れいとうビーム	ice	special	90	100	10	0	0	0	status:freeze:0.1	foe
+blizzard	ふぶき	ice	special	110	70	5	0	0	0	status:freeze:0.1	foe
+karate-chop	からてチョップ	fighting	physical	50	100	25	0	1	1		foe
+double-kick	にどげり	fighting	physical	30	100	30	0	0	1	multiHit:2:2	foe
+brick-break	かわらわり	fighting	physical	75	100	15	0	0	1		foe
+submission	じごくぐるま	fighting	physical	80	80	20	0	0	1	recoil:0.25	foe
+poison-sting	どくばり	poison	physical	15	100	35	0	0	1	status:poison:0.3	foe
+acid	ようかいえき	poison	special	40	100	30	0	0	0	statChange:foe:spd:-1:0.1	foe
+sludge	ヘドロこうげき	poison	special	65	100	20	0	0	0	status:poison:0.3	foe
+poison-jab	どくづき	poison	physical	80	100	20	0	0	1	status:poison:0.3	foe
+sludge-bomb	ヘドロばくだん	poison	special	90	100	10	0	0	0	status:poison:0.3	foe
+toxic	どくどく	poison	status	-	90	10	0	0	0	status:toxic:1	foe
+mud-slap	どろかけ	ground	special	20	100	10	0	0	0	statChange:foe:accuracy:-1:1	foe
+bulldoze	じならし	ground	physical	60	100	20	0	0	0	statChange:foe:spe:-1:1	foe
+earthquake	じしん	ground	physical	100	100	10	0	0	0		foe
+sand-attack	すなかけ	ground	status	-	100	15	0	0	0	statChange:foe:accuracy:-1:1	foe
+gust	かぜおこし	flying	special	40	100	35	0	0	0		foe
+peck	つつく	flying	physical	35	100	35	0	0	1		foe
+wing-attack	つばさでうつ	flying	physical	60	100	35	0	0	1		foe
+aerial-ace	つばめがえし	flying	physical	60	-	20	0	0	1		foe
+drill-peck	ドリルくちばし	flying	physical	80	100	20	0	0	1		foe
+brave-bird	ブレイブバード	flying	physical	120	100	15	0	0	1	recoil:0.33	foe
+confusion	ねんりき	psychic	special	50	100	25	0	0	0	confuse:0.1	foe
+psybeam	サイケこうせん	psychic	special	65	100	20	0	0	0	confuse:0.1	foe
+psychic	サイコキネシス	psychic	special	90	100	10	0	0	0	statChange:foe:spd:-1:0.1	foe
+agility	こうそくいどう	psychic	status	-	-	30	0	0	0	statChange:self:spe:2:1	self
+calm-mind	めいそう	psychic	status	-	-	20	0	0	0	statChange:self:spa:1:1	self
+hypnosis	さいみんじゅつ	psychic	status	-	60	20	0	0	0	status:sleep:1	foe
+bug-bite	むしくい	bug	physical	60	100	20	0	0	1		foe
+silver-wind	ぎんいろのかぜ	bug	special	60	100	5	0	0	0	statChange:self:atk:1:0.1	foe
+x-scissor	シザークロス	bug	physical	80	100	15	0	0	1		foe
+bug-buzz	むしのさざめき	bug	special	90	100	10	0	0	0	statChange:foe:spd:-1:0.1	foe
+string-shot	いとをはく	bug	status	-	95	40	0	0	0	statChange:foe:spe:-2:1	foe
+rock-throw	いわおとし	rock	physical	50	90	15	0	0	0		foe
+rock-tomb	がんせきふうじ	rock	physical	60	95	15	0	0	0	statChange:foe:spe:-1:1	foe
+rock-slide	いわなだれ	rock	physical	75	90	10	0	0	0	flinch:0.3	foe
+stone-edge	ストーンエッジ	rock	physical	100	80	5	0	1	0		foe
+lick	したでなめる	ghost	physical	30	100	30	0	0	1	status:paralysis:0.3	foe
+shadow-ball	シャドーボール	ghost	special	80	100	15	0	0	0	statChange:foe:spd:-1:0.2	foe
+confuse-ray	あやしいひかり	ghost	status	-	100	10	0	0	0	confuse:1	foe
+dragon-breath	りゅうのいぶき	dragon	special	60	100	20	0	0	0	status:paralysis:0.3	foe
+dragon-claw	ドラゴンクロー	dragon	physical	80	100	15	0	0	1		foe
+bite	かみつく	dark	physical	60	100	25	0	0	1	flinch:0.3	foe
+crunch	かみくだく	dark	physical	80	100	15	0	0	1	statChange:foe:def:-1:0.2	foe
+dark-pulse	あくのはどう	dark	special	80	100	15	0	0	0	flinch:0.2	foe
+metal-claw	メタルクロー	steel	physical	50	95	35	0	0	1	statChange:self:atk:1:0.1	foe
+iron-head	アイアンヘッド	steel	physical	80	100	15	0	0	1	flinch:0.3	foe
+flash-cannon	ラスターカノン	steel	special	80	100	10	0	0	0	statChange:foe:spd:-1:0.1	foe
+iron-defense	てっぺき	steel	status	-	-	15	0	0	0	statChange:self:def:2:1	self
+fairy-wind	ようせいのかぜ	fairy	special	40	100	30	0	0	0		foe
+draining-kiss	ドレインキッス	fairy	special	50	100	10	0	0	1	drain:0.75	foe
+dazzling-gleam	マジカルシャイン	fairy	special	80	100	10	0	0	0		foe
+play-rough	じゃれつく	fairy	physical	90	90	10	0	0	1	statChange:foe:atk:-1:0.1	foe
+charm	あまえる	fairy	status	-	100	20	0	0	0	statChange:foe:atk:-2:1	foe
+mega-kick	メガトンキック	normal	physical	120	75	5	0	0	1		foe
+cross-chop	クロスチョップ	fighting	physical	100	80	5	0	1	1		foe
+dragon-pulse	りゅうのはどう	dragon	special	85	100	10	0	0	0		foe
+shadow-punch	シャドーパンチ	ghost	physical	60	-	20	0	0	1		foe
+magnitude	マグニチュード	ground	physical	70	100	30	0	0	0		foe
+leer	にらみつける	normal	status	-	100	30	0	0	0	statChange:foe:def:-1:1	foe
+screech	いやなおと	normal	status	-	85	40	0	0	0	statChange:foe:def:-2:1	foe
+water-pulse	みずのはどう	water	special	60	100	20	0	0	0	confuse:0.2	foe
+scary-face	こわいかお	normal	status	-	100	10	0	0	0	statChange:foe:spe:-2:1	foe
+slash	きりさく	normal	physical	70	100	20	0	1	1		foe
+assurance	ダメおし	dark	physical	60	100	10	0	0	1		foe
+air-slash	エアスラッシュ	flying	special	75	95	15	0	0	0	flinch:0.3	foe
+aqua-tail	アクアテール	water	physical	90	90	10	0	0	1		foe
+earth-power	だいちのちから	ground	special	90	100	10	0	0	0	statChange:foe:spd:-1:0.1	foe
+fury-swipes	みだれひっかき	normal	physical	18	80	15	0	0	1	multiHit:2:5	foe
+mud-shot	マッドショット	ground	special	55	95	15	0	0	0	statChange:foe:spe:-1:1	foe
+brine	しおみず	water	special	65	100	10	0	0	0		foe
+covet	ほしがる	normal	physical	60	100	25	0	0	1	steal	foe
+discharge	ほうでん	electric	special	80	100	15	0	0	0	status:paralysis:0.3	foe
+slam	たたきつける	normal	physical	80	75	20	0	0	1		foe
+stomp	ふみつけ	normal	physical	65	100	20	0	0	1	flinch:0.3	foe
+sweet-scent	あまいかおり	normal	status	-	100	20	0	0	0	statChange:foe:evasion:-2:1	foe
+twister	たつまき	dragon	special	40	100	20	0	0	0	flinch:0.2	foe
+zen-headbutt	しねんのずつき	psychic	physical	80	90	15	0	0	1	flinch:0.2	foe
+flare-blitz	フレアドライブ	fire	physical	120	100	15	0	0	1	recoil:0.33	foe
+horn-attack	つのでつく	normal	physical	65	100	25	0	0	1		foe
+knock-off	はたきおとす	dark	physical	65	100	20	0	0	1		foe
+nasty-plot	わるだくみ	dark	status	-	-	20	0	0	0	statChange:self:spa:2:1	self
+power-whip	パワーウィップ	grass	physical	120	85	10	0	0	1		foe
+smokescreen	えんまく	normal	status	-	100	20	0	0	0	statChange:foe:accuracy:-1:1	foe
+sweet-kiss	てんしのキッス	fairy	status	-	75	10	0	0	0	confuse:1	foe
+withdraw	からにこもる	water	status	-	-	40	0	0	0	statChange:self:def:1:1	self
+amnesia	ドわすれ	psychic	status	-	-	20	0	0	0	statChange:self:spd:2:1	self
+feint	フェイント	normal	physical	30	100	10	2	0	0		foe
+hurricane	ぼうふう	flying	special	110	70	10	0	0	0	confuse:0.3	foe
+inferno	れんごく	fire	special	100	50	5	0	0	0	status:burn:1	foe
+rapid-spin	こうそくスピン	normal	physical	50	100	40	0	0	1	statChange:self:spe:1:1	foe
+rock-blast	ロックブラスト	rock	physical	25	90	10	0	0	0	multiHit:2:5	foe
+double-hit	ダブルアタック	normal	physical	35	90	10	0	0	1	multiHit:2:2	foe
+ice-shard	こおりのつぶて	ice	physical	40	100	30	1	0	0		foe
+leech-life	きゅうけつ	bug	physical	80	100	10	0	0	1	drain:0.5	foe
+life-dew	いのちのしずく	water	status	-	-	10	0	0	0	heal:0.25	self
+megahorn	メガホーン	bug	physical	120	85	10	0	0	1		foe
+poison-gas	どくガス	poison	status	-	90	40	0	0	0	status:poison:1	foe
+acid-armor	とける	poison	status	-	-	20	0	0	0	statChange:self:def:2:1	self
+aqua-jet	アクアジェット	water	physical	40	100	20	1	0	1		foe
+disarming-voice	チャームボイス	fairy	special	40	-	15	0	0	0		foe
+flame-wheel	かえんぐるま	fire	physical	60	100	25	0	0	1	status:burn:0.1	foe
+hex	たたりめ	ghost	special	65	100	10	0	0	0		foe
+moonblast	ムーンフォース	fairy	special	95	100	15	0	0	0	statChange:foe:spa:-1:0.3	foe
+psyshock	サイコショック	psychic	special	80	100	10	0	0	0		foe
+astonish	おどろかす	ghost	physical	30	100	15	0	0	1	flinch:0.3	foe
+baby-doll-eyes	つぶらなひとみ	fairy	status	-	100	30	1	0	0	statChange:foe:atk:-1:1	foe
+dynamic-punch	ばくれつパンチ	fighting	physical	100	50	5	0	0	1	confuse:1	foe
+extrasensory	じんつうりき	psychic	special	80	100	20	0	0	0	flinch:0.1	foe
+false-swipe	みねうち	normal	physical	40	100	40	0	0	1		foe
+gunk-shot	ダストシュート	poison	physical	120	80	5	0	0	0	status:poison:0.3	foe
+low-sweep	ローキック	fighting	physical	65	100	20	0	0	1	statChange:foe:spe:-1:1	foe
+metal-sound	きんぞくおん	steel	status	-	85	40	0	0	0	statChange:foe:spd:-2:1	foe
+payback	しっぺがえし	dark	physical	50	100	10	0	0	1		foe
+pluck	ついばむ	flying	physical	60	100	20	0	0	1		foe
+poison-fang	どくどくのキバ	poison	physical	50	100	15	0	0	1	status:toxic:0.5	foe
+razor-shell	シェルブレード	water	physical	75	95	10	0	0	1	statChange:foe:def:-1:0.5	foe
+retaliate	かたきうち	normal	physical	70	100	5	0	0	1		foe
+rock-polish	ロックカット	rock	status	-	-	20	0	0	0	statChange:self:spe:2:1	self
+seed-bomb	タネばくだん	grass	physical	80	100	15	0	0	0		foe
+sludge-wave	ヘドロウェーブ	poison	special	95	100	10	0	0	0	status:poison:0.1	foe
+smog	スモッグ	poison	special	30	70	20	0	0	0	status:poison:0.4	foe
+stomping-tantrum	じだんだ	ground	physical	75	100	10	0	0	1		foe
+strength	かいりき	normal	physical	80	100	15	0	0	1		foe
+thunder-punch	かみなりパンチ	electric	physical	75	100	15	0	0	1	status:paralysis:0.1	foe
+tri-attack	トライアタック	normal	special	80	100	10	0	0	0		foe
+vital-throw	あてみなげ	fighting	physical	70	-	10	-1	0	1		foe
+zap-cannon	でんじほう	electric	special	120	50	5	0	0	0	status:paralysis:1	foe
+air-cutter	エアカッター	flying	special	60	95	25	0	1	0		foe
+clear-smog	クリアスモッグ	poison	special	50	-	15	0	0	0		foe
+dragon-rush	ドラゴンダイブ	dragon	physical	100	75	10	0	0	1	flinch:0.2	foe
+drill-run	ドリルライナー	ground	physical	80	95	10	0	1	1		foe
+dual-chop	ダブルチョップ	dragon	physical	40	90	15	0	0	1	multiHit:2:2	foe
+feather-dance	フェザーダンス	flying	status	-	100	15	0	0	0	statChange:foe:atk:-2:1	foe
+hammer-arm	アームハンマー	fighting	physical	100	90	10	0	0	1	statChange:self:spe:-1:1	foe
+heat-wave	ねっぷう	fire	special	95	90	10	0	0	0	status:burn:0.1	foe
+incinerate	やきつくす	fire	special	60	100	15	0	0	0		foe
+iron-tail	アイアンテール	steel	physical	100	75	15	0	0	1	statChange:foe:def:-1:0.3	foe
+power-gem	パワージェム	rock	special	80	100	20	0	0	0		foe
+psycho-cut	サイコカッター	psychic	physical	70	100	20	0	1	0		foe
+revenge	リベンジ	fighting	physical	60	100	10	-4	0	1		foe
+venoshock	ベノムショック	poison	special	65	100	10	0	0	0		foe
+wave-crash	ウェーブタックル	water	physical	120	100	10	0	0	1	recoil:0.33	foe
+acid-spray	アシッドボム	poison	special	40	100	20	0	0	0	statChange:foe:spd:-2:1	foe
+aura-sphere	はどうだん	fighting	special	80	-	20	0	0	0		foe
+bone-rush	ボーンラッシュ	ground	physical	25	90	10	0	0	0	multiHit:2:5	foe
+bonemerang	ホネブーメラン	ground	physical	50	90	10	0	0	0	multiHit:2:2	foe
+bullet-seed	タネマシンガン	grass	physical	25	100	30	0	0	0	multiHit:2:5	foe
+charge-beam	チャージビーム	electric	special	50	90	10	0	0	0	statChange:self:spa:1:0.7	foe
+crabhammer	クラブハンマー	water	physical	100	90	10	0	1	1		foe
+eerie-impulse	あやしいでんぱ	electric	status	-	100	15	0	0	0	statChange:foe:spa:-2:1	foe
+extreme-speed	しんそく	normal	physical	80	100	5	2	0	1		foe
+flame-charge	ニトロチャージ	fire	physical	50	100	20	0	0	1	statChange:self:spe:1:1	foe
+glare	へびにらみ	normal	status	-	100	30	0	0	0	status:paralysis:1	foe
+howl	とおぼえ	normal	status	-	-	40	0	0	0	statChange:self:atk:1:1	self
+hyper-fang	ひっさつまえば	normal	physical	80	90	15	0	0	1	flinch:0.1	foe
+hyper-voice	ハイパーボイス	normal	special	90	100	10	0	0	0		foe
+icy-wind	こごえるかぜ	ice	special	55	95	15	0	0	0	statChange:foe:spe:-1:1	foe
+kinesis	ヨガのポーズ	psychic	status	-	80	15	0	0	0	statChange:foe:accuracy:-1:1	foe
+lava-plume	ふんえん	fire	special	80	100	15	0	0	0	status:burn:0.3	foe
+leaf-blade	リーフブレード	grass	physical	90	100	15	0	1	1		foe
+leaf-storm	リーフストーム	grass	special	130	90	5	0	0	0	statChange:self:spa:-2:1	foe
+liquidation	アクアブレイク	water	physical	85	100	10	0	0	1	statChange:foe:def:-1:0.2	foe
+meteor-mash	コメットパンチ	steel	physical	90	90	10	0	0	1	statChange:self:atk:1:0.2	foe
+night-slash	つじぎり	dark	physical	70	100	15	0	1	1		foe
+nuzzle	ほっぺすりすり	electric	physical	20	100	20	0	0	1	status:paralysis:1	foe
+pay-day	ネコにこばん	normal	physical	40	100	20	0	0	0		foe
+pin-missile	ミサイルばり	bug	physical	25	95	20	0	0	0	multiHit:2:5	foe
+play-nice	なかよくする	normal	status	-	-	20	0	0	0	statChange:foe:atk:-1:1	foe
+round	りんしょう	normal	special	60	100	15	0	0	0		foe
+slack-off	なまける	normal	status	-	-	5	0	0	0	heal:0.5	self
+spore	キノコのほうし	grass	status	-	100	15	0	0	0	status:sleep:1	foe
+stored-power	アシストパワー	psychic	special	20	100	10	0	0	0		foe
+blaze-kick	ブレイズキック	fire	physical	85	90	10	0	1	1	status:burn:0.1	foe
+bullet-punch	バレットパンチ	steel	physical	40	100	30	1	0	1		foe
+cross-poison	クロスポイズン	poison	physical	70	100	20	0	1	1	status:poison:0.1	foe
+cut	いあいぎり	normal	physical	50	95	30	0	0	1		foe
+drain-punch	ドレインパンチ	fighting	physical	75	100	10	0	0	1	drain:0.5	foe
+fake-tears	なみだめ	dark	status	-	100	20	0	0	0	statChange:foe:spd:-2:1	foe
+fell-stinger	とどめばり	bug	physical	50	100	25	0	0	1		foe
+freeze-dry	フリーズドライ	ice	special	70	100	20	0	0	0	status:freeze:0.1	foe
+high-horsepower	10まんばりき	ground	physical	95	95	10	0	0	1		foe
+icicle-crash	つららおとし	ice	physical	85	90	10	0	0	0	flinch:0.3	foe
+icicle-spear	つららばり	ice	physical	25	100	30	0	0	0	multiHit:2:5	foe
+lovely-kiss	あくまのキッス	normal	status	-	75	10	0	0	0	status:sleep:1	foe
+mach-punch	マッハパンチ	fighting	physical	40	100	30	1	0	1		foe
+mega-punch	メガトンパンチ	normal	physical	80	85	20	0	0	1		foe
+muddy-water	だくりゅう	water	special	90	85	10	0	0	0	statChange:foe:accuracy:-1:0.3	foe
+overheat	オーバーヒート	fire	special	130	90	5	0	0	0	statChange:self:spa:-2:1	foe
+psystrike	サイコブレイク	psychic	special	100	100	10	0	0	0		foe
+rage-fist	ふんどのこぶし	ghost	physical	50	100	10	0	0	1		foe
+raging-bull	レイジングブル	normal	physical	90	100	10	0	0	1		foe
+shock-wave	でんげきは	electric	special	60	-	20	0	0	0		foe
+smart-strike	スマートホーン	steel	physical	70	-	10	0	0	1		foe
+soft-boiled	タマゴうみ	normal	status	-	-	5	0	0	0	heal:0.5	self
+storm-throw	やまあらし	fighting	physical	60	100	10	0	0	1		foe
+teeter-dance	フラフラダンス	normal	status	-	100	20	0	0	0	confuse:1	foe
+twineedle	ダブルニードル	bug	physical	25	100	20	0	0	0	multiHit:2:2	foe
+vacuum-wave	しんくうは	fighting	special	40	100	30	1	0	0		foe
+vise-grip	はさむ	normal	physical	55	100	30	0	0	1		foe
+wood-hammer	ウッドハンマー	grass	physical	120	100	15	0	0	1	recoil:0.33	foe
+splash	はねる	normal	status	-	-	40	0	0	0	nothing	self
+transform	へんしん	normal	status	-	-	10	0	0	0	transform	foe
+teleport	テレポート	psychic	status	-	-	20	-6	0	0	fleeWild	self
+present	プレゼント	ice	physical	-	90	15	0	1	1	present	foe
+flash	フラッシュ	normal	status	-	100	20	0	0	0	statChange:foe:accuracy:-1:1	foe
+rock-smash	いわくだき	fighting	physical	40	100	15	0	0	1	statChange:foe:def:-1:0.5	foe
+sunny-day	にほんばれ	fire	status	-	-	5	0	0	0	weather:sun:5	self
+rain-dance	あまごい	water	status	-	-	5	0	0	0	weather:rain:5	self
+sandstorm	すなあらし	rock	status	-	-	10	0	0	0	weather:sandstorm:5	self
+hail	あられ	ice	status	-	-	10	0	0	0	weather:hail:5	self
+reflect	リフレクター	psychic	status	-	-	20	0	0	0	screen:reflect:5	self
+light-screen	ひかりのかべ	psychic	status	-	-	30	0	0	0	screen:lightScreen:5	self
+safeguard	しんぴのまもり	normal	status	-	-	25	0	0	0	screen:safeguard:5	self
+fly	そらをとぶ	flying	physical	90	95	15	0	0	1	charge:hidden	foe
+dig	あなをほる	ground	physical	80	100	10	0	0	1	charge:hidden	foe
+solar-beam	ソーラービーム	grass	special	120	100	10	0	0	0	charge:sun	foe
+hyper-beam	はかいこうせん	normal	special	150	90	5	0	0	0	recharge	foe
+taunt	ちょうはつ	dark	status	-	100	20	0	0	0	taunt:3	foe
+torment	いちゃもん	dark	status	-	100	15	0	0	0	torment	foe
+attract	メロメロ	normal	status	-	100	15	0	0	0	attract	foe
+protect	まもる	normal	status	-	-	10	4	0	0	protect	self
+return	おんがえし	normal	physical	-	100	20	0	0	1	variablePower:friendship	foe
+frustration	やつあたり	normal	physical	-	100	20	0	0	1	variablePower:frustration	foe
+facade	からげんき	normal	physical	-	100	20	0	0	1	variablePower:statusDouble:70	foe
+rest	ねむる	psychic	status	-	-	10	0	0	0	rest	self
+steel-wing	はがねのつばさ	steel	physical	70	90	25	0	0	1	statChange:self:def:1:0.1	foe
+secret-power	ひみつのちから	normal	physical	70	100	20	0	0	1	status:paralysis:0.3	foe
+bulk-up	ビルドアップ	fighting	status	-	-	20	0	0	0	statChange:self:atk+def:1:1	self
+thief	どろぼう	dark	physical	60	100	25	0	0	1	steal	foe
+skill-swap	スキルスワップ	psychic	status	-	-	10	0	0	0	swapAbility	foe
+roar	ほえる	normal	status	-	-	20	-6	0	0	forceSwitch	foe
+snatch	よこどり	dark	status	-	-	10	4	0	0	snatch	self
+focus-punch	きあいパンチ	fighting	physical	150	100	20	-3	0	1	focus	foe
+frenzy-plant	ハードプラント	grass	special	150	90	5	0	0	0	recharge	foe
+blast-burn	ブラストバーン	fire	special	150	90	5	0	0	0	recharge	foe
+hydro-cannon	ハイドロカノン	water	special	150	90	5	0	0	0	recharge	foe
+seismic-toss	ちきゅうなげ	fighting	physical	-	100	20	0	0	1	fixedDamage:level	foe
+night-shade	ナイトヘッド	ghost	special	-	100	15	0	0	0	fixedDamage:level	foe
+explosion	だいばくはつ	normal	physical	250	100	5	0	0	0	selfDestruct	foe
+self-destruct	じばく	normal	physical	200	100	5	0	0	0	selfDestruct	foe
+dream-eater	ゆめくい	psychic	special	100	100	15	0	0	0	drainAsleep:0.5	foe
+mimic	ものまね	normal	status	-	-	10	0	0	0	mimic	foe
+counter	カウンター	fighting	physical	-	100	20	-5	0	1	counter	foe
+substitute	みがわり	normal	status	-	-	10	0	0	0	substitute	self
+metronome	ゆびをふる	normal	status	-	-	10	0	0	0	metronome	self

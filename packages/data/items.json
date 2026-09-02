@@ -1,0 +1,1462 @@
+[
+  {
+    "id": "leftovers",
+    "name": "たべのこし",
+    "category": "held",
+    "bpPrice": 24,
+    "held": {
+      "kind": "endOfTurnHeal",
+      "ratio": 0.0625
+    }
+  },
+  {
+    "id": "life-orb",
+    "name": "いのちのたま",
+    "category": "held",
+    "bpPrice": 24,
+    "held": {
+      "kind": "powerRecoil",
+      "ratio": 1.3,
+      "recoil": 0.1
+    }
+  },
+  {
+    "id": "choice-band",
+    "name": "こだわりハチマキ",
+    "category": "held",
+    "bpPrice": 24,
+    "held": {
+      "kind": "choice",
+      "stat": "atk",
+      "ratio": 1.5
+    }
+  },
+  {
+    "id": "choice-specs",
+    "name": "こだわりメガネ",
+    "category": "held",
+    "bpPrice": 24,
+    "held": {
+      "kind": "choice",
+      "stat": "spa",
+      "ratio": 1.5
+    }
+  },
+  {
+    "id": "choice-scarf",
+    "name": "こだわりスカーフ",
+    "category": "held",
+    "bpPrice": 24,
+    "held": {
+      "kind": "choice",
+      "stat": "spe",
+      "ratio": 1.5
+    }
+  },
+  {
+    "id": "expert-belt",
+    "name": "たつじんのおび",
+    "category": "held",
+    "bpPrice": 16,
+    "held": {
+      "kind": "superEffectiveBoost",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "focus-sash",
+    "name": "きあいのタスキ",
+    "category": "held",
+    "bpPrice": 16,
+    "held": {
+      "kind": "endure"
+    },
+    "consumable": true
+  },
+  {
+    "id": "scope-lens",
+    "name": "ピントレンズ",
+    "category": "held",
+    "bpPrice": 16,
+    "held": {
+      "kind": "critStage",
+      "stages": 1
+    }
+  },
+  {
+    "id": "assault-vest",
+    "name": "とつげきチョッキ",
+    "category": "held",
+    "bpPrice": 24,
+    "held": {
+      "kind": "statMultiplier",
+      "stat": "spd",
+      "ratio": 1.5,
+      "banStatusMoves": true
+    }
+  },
+  {
+    "id": "rocky-helmet",
+    "name": "ゴツゴツメット",
+    "category": "held",
+    "bpPrice": 16,
+    "held": {
+      "kind": "contactDamage",
+      "ratio": 0.16666666666666666
+    }
+  },
+  {
+    "id": "flame-orb",
+    "name": "かえんだま",
+    "category": "held",
+    "bpPrice": 16,
+    "held": {
+      "kind": "statusOnHolder",
+      "status": "burn"
+    }
+  },
+  {
+    "id": "toxic-orb",
+    "name": "どくどくだま",
+    "category": "held",
+    "bpPrice": 16,
+    "held": {
+      "kind": "statusOnHolder",
+      "status": "toxic"
+    }
+  },
+  {
+    "id": "sitrus-berry",
+    "name": "オボンのみ",
+    "category": "held",
+    "bpPrice": 8,
+    "held": {
+      "kind": "berryHeal",
+      "ratio": 0.25,
+      "threshold": 0.5
+    },
+    "consumable": true
+  },
+  {
+    "id": "lum-berry",
+    "name": "ラムのみ",
+    "category": "held",
+    "bpPrice": 8,
+    "held": {
+      "kind": "berryCure"
+    },
+    "consumable": true
+  },
+  {
+    "id": "silk-scarf",
+    "name": "シルクのスカーフ",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "normal",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "charcoal",
+    "name": "もくたん",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "fire",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "mystic-water",
+    "name": "しんぴのしずく",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "water",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "magnet",
+    "name": "じしゃく",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "electric",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "miracle-seed",
+    "name": "きせきのタネ",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "grass",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "never-melt-ice",
+    "name": "とけないこおり",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "ice",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "black-belt",
+    "name": "くろおび",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "fighting",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "poison-barb",
+    "name": "どくバリ",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "poison",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "soft-sand",
+    "name": "やわらかいすな",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "ground",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "sharp-beak",
+    "name": "するどいくちばし",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "flying",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "twisted-spoon",
+    "name": "まがったスプーン",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "psychic",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "silver-powder",
+    "name": "ぎんのこな",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "bug",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "hard-stone",
+    "name": "かたいいし",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "rock",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "spell-tag",
+    "name": "のろいのおふだ",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "ghost",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "dragon-fang",
+    "name": "りゅうのキバ",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "dragon",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "black-glasses",
+    "name": "くろいメガネ",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "dark",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "metal-coat",
+    "name": "メタルコート",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "steel",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "fairy-feather",
+    "name": "ようせいのハネ",
+    "category": "held",
+    "price": 1000,
+    "held": {
+      "kind": "typeBoost",
+      "moveType": "fairy",
+      "ratio": 1.2
+    }
+  },
+  {
+    "id": "poke-ball",
+    "name": "モンスターボール",
+    "category": "ball",
+    "price": 200,
+    "consumable": true
+  },
+  {
+    "id": "great-ball",
+    "name": "スーパーボール",
+    "category": "ball",
+    "price": 600,
+    "consumable": true
+  },
+  {
+    "id": "ultra-ball",
+    "name": "ハイパーボール",
+    "category": "ball",
+    "price": 800,
+    "consumable": true
+  },
+  {
+    "id": "master-ball",
+    "name": "マスターボール",
+    "category": "ball",
+    "bpPrice": 96,
+    "consumable": true
+  },
+  {
+    "id": "net-ball",
+    "name": "ネットボール",
+    "category": "ball",
+    "price": 1000,
+    "consumable": true
+  },
+  {
+    "id": "quick-ball",
+    "name": "クイックボール",
+    "category": "ball",
+    "price": 1000,
+    "consumable": true
+  },
+  {
+    "id": "timer-ball",
+    "name": "タイマーボール",
+    "category": "ball",
+    "price": 1000,
+    "consumable": true
+  },
+  {
+    "id": "dusk-ball",
+    "name": "ダークボール",
+    "category": "ball",
+    "price": 1000,
+    "consumable": true
+  },
+  {
+    "id": "repeat-ball",
+    "name": "リピートボール",
+    "category": "ball",
+    "price": 1000,
+    "consumable": true
+  },
+  {
+    "id": "potion",
+    "name": "キズぐすり",
+    "category": "recovery",
+    "price": 200,
+    "use": {
+      "kind": "heal",
+      "amount": 20
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "super-potion",
+    "name": "いいキズぐすり",
+    "category": "recovery",
+    "price": 700,
+    "use": {
+      "kind": "heal",
+      "amount": 60
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "hyper-potion",
+    "name": "すごいキズぐすり",
+    "category": "recovery",
+    "price": 1500,
+    "use": {
+      "kind": "heal",
+      "amount": 120
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "max-potion",
+    "name": "まんたんのくすり",
+    "category": "recovery",
+    "price": 2500,
+    "use": {
+      "kind": "healRatio",
+      "ratio": 1
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "full-restore",
+    "name": "かいふくのくすり",
+    "category": "recovery",
+    "price": 3000,
+    "use": {
+      "kind": "multi",
+      "of": [
+        {
+          "kind": "healRatio",
+          "ratio": 1
+        },
+        {
+          "kind": "cure",
+          "status": []
+        }
+      ]
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "antidote",
+    "name": "どくけし",
+    "category": "recovery",
+    "price": 100,
+    "use": {
+      "kind": "cure",
+      "status": [
+        "poison",
+        "toxic"
+      ]
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "paralyze-heal",
+    "name": "まひなおし",
+    "category": "recovery",
+    "price": 200,
+    "use": {
+      "kind": "cure",
+      "status": [
+        "paralysis"
+      ]
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "burn-heal",
+    "name": "やけどなおし",
+    "category": "recovery",
+    "price": 250,
+    "use": {
+      "kind": "cure",
+      "status": [
+        "burn"
+      ]
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "ice-heal",
+    "name": "こおりなおし",
+    "category": "recovery",
+    "price": 250,
+    "use": {
+      "kind": "cure",
+      "status": [
+        "freeze"
+      ]
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "awakening",
+    "name": "ねむけざまし",
+    "category": "recovery",
+    "price": 200,
+    "use": {
+      "kind": "cure",
+      "status": [
+        "sleep"
+      ]
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "full-heal",
+    "name": "なんでもなおし",
+    "category": "recovery",
+    "price": 400,
+    "use": {
+      "kind": "cure",
+      "status": []
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "revive",
+    "name": "げんきのかけら",
+    "category": "recovery",
+    "price": 2000,
+    "use": {
+      "kind": "revive",
+      "ratio": 0.5
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "max-revive",
+    "name": "げんきのかたまり",
+    "category": "recovery",
+    "bpPrice": 20,
+    "use": {
+      "kind": "revive",
+      "ratio": 1
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "ether",
+    "name": "ピーピーエイド",
+    "category": "recovery",
+    "price": 1200,
+    "use": {
+      "kind": "pp",
+      "amount": 10,
+      "all": false
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "max-ether",
+    "name": "ピーピーリカバー",
+    "category": "recovery",
+    "price": 2000,
+    "use": {
+      "kind": "pp",
+      "amount": 99,
+      "all": false
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "elixir",
+    "name": "ピーピーエイダー",
+    "category": "recovery",
+    "bpPrice": 12,
+    "use": {
+      "kind": "pp",
+      "amount": 10,
+      "all": true
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "max-elixir",
+    "name": "ピーピーマックス",
+    "category": "recovery",
+    "bpPrice": 24,
+    "use": {
+      "kind": "pp",
+      "amount": 99,
+      "all": true
+    },
+    "useScope": "both",
+    "consumable": true
+  },
+  {
+    "id": "fire-stone",
+    "name": "ほのおのいし",
+    "category": "evolution",
+    "price": 2100,
+    "use": {
+      "kind": "evolveByItem",
+      "via": "item"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "water-stone",
+    "name": "みずのいし",
+    "category": "evolution",
+    "price": 2100,
+    "use": {
+      "kind": "evolveByItem",
+      "via": "item"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "thunder-stone",
+    "name": "かみなりのいし",
+    "category": "evolution",
+    "price": 2100,
+    "use": {
+      "kind": "evolveByItem",
+      "via": "item"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "leaf-stone",
+    "name": "リーフのいし",
+    "category": "evolution",
+    "price": 2100,
+    "use": {
+      "kind": "evolveByItem",
+      "via": "item"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "moon-stone",
+    "name": "つきのいし",
+    "category": "evolution",
+    "price": 2100,
+    "use": {
+      "kind": "evolveByItem",
+      "via": "item"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "sun-stone",
+    "name": "たいようのいし",
+    "category": "evolution",
+    "price": 2100,
+    "use": {
+      "kind": "evolveByItem",
+      "via": "item"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "ice-stone",
+    "name": "こおりのいし",
+    "category": "evolution",
+    "price": 2100,
+    "use": {
+      "kind": "evolveByItem",
+      "via": "item"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "linking-cord",
+    "name": "つながりのヒモ",
+    "category": "evolution",
+    "price": 2100,
+    "use": {
+      "kind": "evolveByItem",
+      "via": "trade"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "electirizer",
+    "name": "エレキブースター",
+    "category": "evolution",
+    "price": 2100
+  },
+  {
+    "id": "magmarizer",
+    "name": "マグマブースター",
+    "category": "evolution",
+    "price": 2100
+  },
+  {
+    "id": "protector",
+    "name": "プロテクター",
+    "category": "evolution",
+    "price": 2100
+  },
+  {
+    "id": "dragon-scale",
+    "name": "りゅうのウロコ",
+    "category": "evolution",
+    "price": 2100
+  },
+  {
+    "id": "king-s-rock",
+    "name": "おうじゃのしるし",
+    "category": "evolution",
+    "price": 2100
+  },
+  {
+    "id": "bicycle",
+    "name": "じてんしゃ",
+    "category": "key",
+    "price": 5000
+  },
+  {
+    "id": "old-rod",
+    "name": "ボロのつりざお",
+    "category": "key"
+  },
+  {
+    "id": "good-rod",
+    "name": "いいつりざお",
+    "category": "key"
+  },
+  {
+    "id": "super-rod",
+    "name": "スーパーロッド",
+    "category": "key"
+  },
+  {
+    "id": "itemfinder",
+    "name": "ダウジングマシン",
+    "category": "key"
+  },
+  {
+    "id": "safari-ball",
+    "name": "サファリボール",
+    "category": "ball",
+    "consumable": true
+  },
+  {
+    "id": "dome-fossil",
+    "name": "ドームかせき",
+    "category": "key"
+  },
+  {
+    "id": "helix-fossil",
+    "name": "かいのかせき",
+    "category": "key"
+  },
+  {
+    "id": "old-amber",
+    "name": "ひみつのコハク",
+    "category": "key"
+  },
+  {
+    "id": "silph-scope",
+    "name": "シルフスコープ",
+    "category": "key"
+  },
+  {
+    "id": "poke-flute",
+    "name": "ポケモンのふえ",
+    "category": "key"
+  },
+  {
+    "id": "lift-key",
+    "name": "エレベーターのカギ",
+    "category": "key"
+  },
+  {
+    "id": "card-key",
+    "name": "カードキー",
+    "category": "key"
+  },
+  {
+    "id": "secret-key",
+    "name": "ひみつのカギ",
+    "category": "key"
+  },
+  {
+    "id": "ss-ticket",
+    "name": "ふねのチケット",
+    "category": "key"
+  },
+  {
+    "id": "ruby",
+    "name": "ルビー",
+    "category": "key"
+  },
+  {
+    "id": "sapphire",
+    "name": "サファイア",
+    "category": "key"
+  },
+  {
+    "id": "hm01",
+    "name": "ひでんマシン01 いあいぎり",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "cut"
+    },
+    "useScope": "field"
+  },
+  {
+    "id": "hm02",
+    "name": "ひでんマシン02 そらをとぶ",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "fly"
+    },
+    "useScope": "field"
+  },
+  {
+    "id": "hm03",
+    "name": "ひでんマシン03 なみのり",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "surf"
+    },
+    "useScope": "field"
+  },
+  {
+    "id": "hm04",
+    "name": "ひでんマシン04 かいりき",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "strength"
+    },
+    "useScope": "field"
+  },
+  {
+    "id": "hm05",
+    "name": "ひでんマシン05 フラッシュ",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "flash"
+    },
+    "useScope": "field"
+  },
+  {
+    "id": "hm06",
+    "name": "ひでんマシン06 いわくだき",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "rock-smash"
+    },
+    "useScope": "field"
+  },
+  {
+    "id": "hm07",
+    "name": "ひでんマシン07 たきのぼり",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "waterfall"
+    },
+    "useScope": "field"
+  },
+  {
+    "id": "tm01",
+    "name": "わざマシン01 きあいパンチ",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "focus-punch"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm02",
+    "name": "わざマシン02 ドラゴンクロー",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "dragon-claw"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm03",
+    "name": "わざマシン03 みずのはどう",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "water-pulse"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm04",
+    "name": "わざマシン04 めいそう",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "calm-mind"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm05",
+    "name": "わざマシン05 ほえる",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "roar"
+    },
+    "useScope": "field",
+    "consumable": true,
+    "price": 1500
+  },
+  {
+    "id": "tm06",
+    "name": "わざマシン06 どくどく",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "toxic"
+    },
+    "useScope": "field",
+    "consumable": true,
+    "price": 3000
+  },
+  {
+    "id": "tm07",
+    "name": "わざマシン07 あられ",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "hail"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm08",
+    "name": "わざマシン08 ビルドアップ",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "bulk-up"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm09",
+    "name": "わざマシン09 タネマシンガン",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "bullet-seed"
+    },
+    "useScope": "field",
+    "consumable": true,
+    "price": 2000
+  },
+  {
+    "id": "tm11",
+    "name": "わざマシン11 にほんばれ",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "sunny-day"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm12",
+    "name": "わざマシン12 ちょうはつ",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "taunt"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm13",
+    "name": "わざマシン13 れいとうビーム",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "ice-beam"
+    },
+    "useScope": "field",
+    "consumable": true,
+    "price": 4000
+  },
+  {
+    "id": "tm14",
+    "name": "わざマシン14 ふぶき",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "blizzard"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm15",
+    "name": "わざマシン15 はかいこうせん",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "hyper-beam"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm16",
+    "name": "わざマシン16 ひかりのかべ",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "light-screen"
+    },
+    "useScope": "field",
+    "consumable": true,
+    "price": 3000
+  },
+  {
+    "id": "tm17",
+    "name": "わざマシン17 まもる",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "protect"
+    },
+    "useScope": "field",
+    "consumable": true,
+    "price": 3000
+  },
+  {
+    "id": "tm18",
+    "name": "わざマシン18 あまごい",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "rain-dance"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm19",
+    "name": "わざマシン19 ギガドレイン",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "giga-drain"
+    },
+    "useScope": "field",
+    "consumable": true,
+    "price": 3500
+  },
+  {
+    "id": "tm20",
+    "name": "わざマシン20 しんぴのまもり",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "safeguard"
+    },
+    "useScope": "field",
+    "consumable": true,
+    "price": 3000
+  },
+  {
+    "id": "tm21",
+    "name": "わざマシン21 やつあたり",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "frustration"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm22",
+    "name": "わざマシン22 ソーラービーム",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "solar-beam"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm23",
+    "name": "わざマシン23 アイアンテール",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "iron-tail"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm24",
+    "name": "わざマシン24 10まんボルト",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "thunderbolt"
+    },
+    "useScope": "field",
+    "consumable": true,
+    "price": 4500
+  },
+  {
+    "id": "tm25",
+    "name": "わざマシン25 かみなり",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "thunder"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm26",
+    "name": "わざマシン26 じしん",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "earthquake"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm27",
+    "name": "わざマシン27 おんがえし",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "return"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm28",
+    "name": "わざマシン28 あなをほる",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "dig"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm29",
+    "name": "わざマシン29 サイコキネシス",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "psychic"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm30",
+    "name": "わざマシン30 シャドーボール",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "shadow-ball"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm31",
+    "name": "わざマシン31 かわらわり",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "brick-break"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm32",
+    "name": "わざマシン32 かげぶんしん",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "double-team"
+    },
+    "useScope": "field",
+    "consumable": true,
+    "price": 3500
+  },
+  {
+    "id": "tm33",
+    "name": "わざマシン33 リフレクター",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "reflect"
+    },
+    "useScope": "field",
+    "consumable": true,
+    "price": 3000
+  },
+  {
+    "id": "tm35",
+    "name": "わざマシン35 かえんほうしゃ",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "flamethrower"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm36",
+    "name": "わざマシン36 ヘドロばくだん",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "sludge-bomb"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm37",
+    "name": "わざマシン37 すなあらし",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "sandstorm"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm38",
+    "name": "わざマシン38 だいもんじ",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "fire-blast"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm39",
+    "name": "わざマシン39 がんせきふうじ",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "rock-tomb"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm40",
+    "name": "わざマシン40 つばめがえし",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "aerial-ace"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm41",
+    "name": "わざマシン41 いちゃもん",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "torment"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm42",
+    "name": "わざマシン42 からげんき",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "facade"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm43",
+    "name": "わざマシン43 ひみつのちから",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "secret-power"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm44",
+    "name": "わざマシン44 ねむる",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "rest"
+    },
+    "useScope": "field",
+    "consumable": true,
+    "price": 3000
+  },
+  {
+    "id": "tm45",
+    "name": "わざマシン45 メロメロ",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "attract"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm46",
+    "name": "わざマシン46 どろぼう",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "thief"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm47",
+    "name": "わざマシン47 はがねのつばさ",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "steel-wing"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm48",
+    "name": "わざマシン48 スキルスワップ",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "skill-swap"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm49",
+    "name": "わざマシン49 よこどり",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "snatch"
+    },
+    "useScope": "field",
+    "consumable": true
+  },
+  {
+    "id": "tm50",
+    "name": "わざマシン50 オーバーヒート",
+    "category": "tm",
+    "use": {
+      "kind": "teachMove",
+      "move": "overheat"
+    },
+    "useScope": "field",
+    "consumable": true
+  }
+]

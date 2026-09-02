@@ -1,0 +1,34 @@
+# ロケット団アジト 地下4階（v1.1-g-3）。**サカキ1回目。**
+#
+# 勝つと シルフスコープ が手に入り、**ポケモンタワーの2〜7階が意味を持つ**
+# ―― v0.12 でタワーの階を送ったとき「足りないのはシルフスコープの入手元だけ」
+# と書いた宿題が、ここで解ける。
+id: kanto-rocket-b4f
+name: ロケットだんアジト
+region: kanto
+bgm: rocket
+
+legend:
+. normal
+W !normal
+D normal
+
+grid:
+WWWWWWWWW
+W.......W
+W.W.W.W.W
+W.......W
+W.W.W.W.W
+W.......W
+W.W.W.W.W
+W.......W
+WWWWWWWWW
+
+warps:
+1,1 step kanto-rocket-b3f 6,7 up
+
+objects:
+rocket-b4f-grunt 5,1 trainer:kanto-rocket-b4f:2:left kanto.rocket.b4f-grunt if:kanto.rocket.b4f-beaten=false
+rocket-boss 4,5 npc:leader:static kanto.rocket.giovanni
+rocket-b4f-item 7,7 item:hyper-potion kanto.rocket.b4f-item if:kanto.rocket.b4f-item-taken=false
+rocketb4f-tm36-1 6,7 item:tm36 kanto.rocketb4f.tm361 if:kanto.rocketb4f.tm361-taken=false

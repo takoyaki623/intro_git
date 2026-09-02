@@ -1,0 +1,27 @@
+# ハナダシティの民家。
+id: kanto-cerulean-house
+name: ハナダシティの いえ
+region: kanto
+bgm: house
+
+legend:
+. normal
+W !normal
+B !normal
+D normal
+
+grid:
+WWWWWWW
+WB....W
+W.....W
+W.....W
+W.....W
+WWWDWWW
+
+warps:
+3,5 step kanto-cerulean-city 4,11 down
+
+objects:
+cerulean-house-man 4,2 npc:oldman:static kanto.cerulean.house-man
+cerulean-trader 1,3 npc:oldman:static kanto.cerulean.trade
+cerulean-tutor 5,4 npc:lass:static kanto.tutor.thunder-wave

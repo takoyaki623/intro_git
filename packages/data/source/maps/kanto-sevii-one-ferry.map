@@ -1,0 +1,33 @@
+# 1のしまの ふなつきば。西の階段が クチバ、東の階段が 2のしま（v1.1-j）。
+#
+# 港どうしを直接つなぐ **鎖**にしてある。原作は行き先を選ぶ形だが、
+# 選択肢の warp は地図の繋がりとして見えない ―― 検証も台本も warp しか辿れないので、
+# 「選べるが誰も検算できない道」より「歩いて辿れる道」を採る。
+id: kanto-sevii-one-ferry
+name: ふなつきば
+region: kanto
+bgm: pokecenter
+
+legend:
+. normal
+W !normal
+S !normal
+G normal
+D normal
+
+grid:
+WGWWWWWGW
+W.......W
+W..SSS..W
+W.......W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+1,0 step kanto-vermilion-ferry 7,1 down
+7,0 step kanto-sevii-two-ferry 1,1 down
+4,6 step kanto-sevii-one-island 6,8 up
+
+objects:
+one-ferry-sailor 4,3 npc:sailor:static kanto.sevii.one-sailor

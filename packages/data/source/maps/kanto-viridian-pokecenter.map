@@ -1,0 +1,30 @@
+# トキワシティ ポケモンセンター。ここが「まけたら戻ってくる場所」になる。
+id: kanto-viridian-pokecenter
+name: ポケモンセンター
+region: kanto
+bgm: pokemon-center
+
+legend:
+. normal
+W !normal
+S !normal
+C !normal
+D normal
+
+grid:
+WWWWWWWWW
+WSSSSSSSW
+W.......W
+W.......W
+W.....CCW
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,7 step kanto-viridian-city 5,4 down
+
+objects:
+center-nurse 4,2 npc:nurse:static kanto.viridian.nurse
+center-pc 2,4 sign kanto.viridian.pc
+center-chat 6,5 npc:girl:static kanto.viridian.center-chat

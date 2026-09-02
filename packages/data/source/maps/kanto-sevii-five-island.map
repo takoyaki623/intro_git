@@ -1,0 +1,38 @@
+# 5のしま。北に くさむらの道、西に ゴージャスリゾート。
+id: kanto-sevii-five-island
+name: 5のしま
+region: kanto
+encounters: kanto-sevii-five-island-surf kanto-sevii-five-island-fishing-old kanto-sevii-five-island-fishing-good kanto-sevii-five-island-fishing-super
+bgm: lavender-town
+
+legend:
+. normal
+T !normal
+P !normal
+H !normal
+D normal
+~ !water
+
+grid:
+TTTTT.TTTTTTT
+T...........T
+T..PPP..HHH.T
+T..PDP..HDH.T
+T...........T
+............T
+T...........T
+T...........T
+T....HDH....T
+T....HHH....T
+T~~~~~~~~~~~T
+TTTTTTTTTTTTT
+
+warps:
+5,0 step kanto-sevii-five-isle-meadow 6,10 up
+0,5 step kanto-sevii-resort-gorgeous 11,5 left
+4,3 step kanto-sevii-five-pokecenter 4,5 up
+9,3 step kanto-sevii-five-house 4,4 up
+6,8 step kanto-sevii-five-ferry 4,5 up
+
+objects:
+five-island-sign 7,1 sign kanto.sevii.five-sign

@@ -1,0 +1,28 @@
+# シオンタウンのポケモンセンター。中身はどこも同じ ―― 建物はデータで増える。
+id: kanto-lavender-pokecenter
+name: ポケモンセンター
+region: kanto
+bgm: pokecenter
+
+legend:
+. normal
+W !normal
+S !normal
+C !normal
+D normal
+
+grid:
+WWWWWWWWW
+WSSSSS..W
+W.......W
+W.....CCW
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,6 step kanto-lavender-town 5,8 down
+
+objects:
+lavender-nurse 4,2 npc:nurse:static kanto.lavender.nurse
+lavender-center-pc 7,4 npc:machine:static kanto.lavender.center-pc

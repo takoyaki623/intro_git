@@ -1,0 +1,27 @@
+# タマムシデパート 3F階。**わざマシンの階**。売る4本はこちらの判断で選んだ（原作の品目は未確認）。
+id: kanto-celadon-dept-3f
+name: タマムシデパート
+region: kanto
+bgm: mart
+
+legend:
+. normal
+W !normal
+S !normal
+D normal
+
+grid:
+WWWWWWWWW
+WD.....DW
+W.......W
+W.SSS...W
+W.......W
+W.......W
+WWWWWWWWW
+
+warps:
+1,1 step kanto-celadon-dept-2f 7,2 down
+7,1 step kanto-celadon-dept-4f 1,2 down
+
+objects:
+dept-3f-clerk 2,4 npc:clerk:static kanto.celadon.dept-tms

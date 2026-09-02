@@ -1,0 +1,41 @@
+# ポケモンタワー1階。**ジムではない**が、視線を持つ相手が居る。
+#
+# **上の階（2〜7階）は v1.1-g-3 で繋がった。**
+# v0.12 でここを送ったとき「足りないのはシルフスコープの入手元だけ」と書いた ――
+# その入手元（ロケット団アジト 地下4階のサカキ）が、この版でできた。
+#
+# 先に階だけ作っていたら、登れない7階が1年ぶん立っていた ――
+# ニビの博物館の扉（検証 #115）と同じ形になるところだった。
+# **1階に野生は出ない**（原作どおり）。表を持たないのが正しい ――
+# 空の表を作ると「出るはずなのに出ない」と区別がつかなくなる。
+id: kanto-pokemon-tower
+name: ポケモンタワー
+region: kanto
+bgm: pokemon-tower
+
+legend:
+. normal
+W !normal
+G !normal
+D normal
+
+grid:
+WWWWWWWWW
+W.......W
+W.GG.GG.W
+W.......W
+W.GG.GG.W
+W.......W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,8 step kanto-lavender-town 5,4 down
+7,6 step kanto-pokemon-tower-2f 2,6 up
+
+objects:
+tower-channeler 1,6 trainer:kanto-tower-channeler:3:right kanto.tower.channeler if:kanto.tower.channeler-beaten=false
+tower-sign 7,7 sign kanto.tower.sign
+tower-old 4,1 npc:oldman:static kanto.tower.old
+tower-rival 6,7 npc:rival:static kanto.lavender.rival if:kanto.lavender.rival-beaten=false

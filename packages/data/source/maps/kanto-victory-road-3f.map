@@ -1,0 +1,32 @@
+# チャンピオンロード 3階。2つめの岩とスイッチ。**コードは1行も増えていない。**
+# ファイヤー はここに置いた（赤緑の配置）―― FRLG では1のしま（カントーの外）で、
+# その島はまだ作っていない。**居場所が無い種を、居ないままにはしない。**
+# 抜けるとセキエイこうげん。
+id: kanto-victory-road-3f
+name: チャンピオンロード
+region: kanto
+encounters: kanto-victory-road-3f-cave
+bgm: victory-road
+
+legend:
+. normal
+R !normal
+: cave
+
+grid:
+RRRRRRRRRRRRR
+R:::::::::::R
+RRR:::::RRRRR
+RRR:::::RRRRR
+RRRRR:RRRRRRR
+RRRRR:RRRRRRR
+RRRRR:RRRRRRR
+
+warps:
+1,1 step kanto-victory-road-2f 11,2 down
+5,6 step kanto-indigo-plateau 4,9 down
+
+objects:
+victory-3f-shutter 5,4 sign kanto.victory.shutter-3f if:kanto.victory.switch-3f=false
+victory-3f-switch 6,3 switch kanto.victory.press-3f
+victory-3f-boulder 4,3 boulder:strength

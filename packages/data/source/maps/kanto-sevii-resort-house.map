@@ -1,0 +1,26 @@
+# ゴージャスリゾートの別荘。
+id: kanto-sevii-resort-house
+name: べっそう
+region: kanto
+bgm: pokecenter
+
+legend:
+. normal
+W !normal
+B !normal
+M !normal
+D normal
+
+grid:
+WWWWWWWWW
+W.BB...MW
+W.......W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,5 step kanto-sevii-resort-gorgeous 6,5 down
+
+objects:
+resort-lady 6,2 npc:lass:static kanto.sevii.resort-lady

@@ -1,0 +1,123 @@
+[
+  {
+    "id": "kanto-viridian-mart",
+    "name": "フレンドリィショップ",
+    "items": [
+      "poke-ball",
+      "potion",
+      "antidote",
+      "paralyze-heal",
+      "burn-heal",
+      "awakening"
+    ]
+  },
+  {
+    "id": "kanto-pewter-mart",
+    "name": "フレンドリィショップ",
+    "items": [
+      "poke-ball",
+      "great-ball",
+      "potion",
+      "super-potion",
+      "antidote",
+      "paralyze-heal",
+      "awakening"
+    ]
+  },
+  {
+    "id": "kanto-mart-1",
+    "name": "フレンドリィショップ",
+    "items": [
+      "poke-ball",
+      "potion",
+      "antidote",
+      "paralyze-heal",
+      "awakening"
+    ]
+  },
+  {
+    "id": "kanto-mart-2",
+    "name": "フレンドリィショップ",
+    "items": [
+      "poke-ball",
+      "great-ball",
+      "potion",
+      "super-potion",
+      "antidote",
+      "paralyze-heal",
+      "burn-heal",
+      "ice-heal",
+      "awakening"
+    ]
+  },
+  {
+    "id": "kanto-mart-3",
+    "name": "フレンドリィショップ",
+    "items": [
+      "great-ball",
+      "ultra-ball",
+      "super-potion",
+      "hyper-potion",
+      "full-heal",
+      "revive",
+      "antidote",
+      "paralyze-heal"
+    ]
+  },
+  {
+    "id": "kanto-celadon-stones",
+    "name": "しんかの どうぐ",
+    "items": [
+      "fire-stone",
+      "water-stone",
+      "thunder-stone",
+      "leaf-stone",
+      "moon-stone",
+      "sun-stone",
+      "ice-stone",
+      "linking-cord",
+      "electirizer",
+      "magmarizer",
+      "protector",
+      "dragon-scale",
+      "king-s-rock",
+      "bicycle"
+    ]
+  },
+  {
+    "id": "kanto-celadon-dept",
+    "items": [
+      "poke-ball",
+      "great-ball",
+      "ultra-ball",
+      "super-potion",
+      "hyper-potion",
+      "full-heal",
+      "revive",
+      "antidote",
+      "paralyze-heal",
+      "burn-heal",
+      "ice-heal",
+      "awakening"
+    ],
+    "name": "デパート 2かい"
+  },
+  {
+    "id": "kanto-celadon-tms",
+    "items": [
+      "tm05",
+      "tm06",
+      "tm09",
+      "tm13",
+      "tm16",
+      "tm17",
+      "tm19",
+      "tm20",
+      "tm24",
+      "tm32",
+      "tm33",
+      "tm44"
+    ],
+    "name": "デパート 3かい"
+  }
+]

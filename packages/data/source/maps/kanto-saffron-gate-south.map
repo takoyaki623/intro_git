@@ -1,0 +1,25 @@
+# ヤマブキシティ 南門
+# ヤマブキの南門。原作の けんもんじょ ―― 町と道路のあいだに必ず1棟ある。
+id: kanto-saffron-gate-south
+name: けんもんじょ
+region: kanto
+bgm: house
+
+legend:
+. normal
+W !normal
+D normal
+
+grid:
+WWWDWWW
+W.....W
+W.....W
+W.....W
+WWWDWWW
+
+warps:
+3,0 step kanto-saffron-city 11,16 up
+3,4 step kanto-route-6 5,1 down
+
+objects:
+saffron-gate-s-guard 5,2 npc:guard:static kanto.saffron.gate-south

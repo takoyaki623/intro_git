@@ -1,0 +1,33 @@
+# ロストケイブ（5のしま）。**ヤミカラス と ムウマ はここだけ。**
+#
+# 原作は同じ見た目の部屋が11室あり、正しい出口を選ばないと入口に戻される迷路。
+# **11枚は作っていない** ―― 出現表は11室とも同じ（実測）で、増えるのは枚数だけ。
+# 迷いの手ざわりは「戻される出口」1つで表せるので、3枚に畳んだ。
+id: kanto-sevii-lost-cave
+name: ロストケイブ
+region: kanto
+encounters: kanto-sevii-lost-cave-cave
+bgm: pokemon-tower
+
+legend:
+. cave
+C !cave
+D normal
+
+grid:
+CCCCCCCCCCCCC
+C...........C
+C.CCCCCCCCC.C
+C.C.......C.C
+C.C.......C.C
+C.CCCCC.CCC.C
+C...........C
+C.....D.....C
+CCCCCCCCCCCCC
+
+warps:
+6,7 step kanto-sevii-memorial-pillar 6,1 down
+1,1 step kanto-sevii-lost-cave-2 6,6 up
+11,1 step kanto-sevii-lost-cave-2 6,6 up
+
+objects:

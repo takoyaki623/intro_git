@@ -1,0 +1,37 @@
+# 9番道路。ハナダシティの東。**ここから東の腕が始まる**（v1.1-e）。
+# v1.0 まで、ハナダから東へは一歩も出られなかった。
+id: kanto-route-9
+name: 9ばんどうろ
+region: kanto
+encounters: kanto-route-9-grass
+bgm: route-9
+
+legend:
+. normal
+, grass
+T !normal
+= ledge
+
+grid:
+TTTTTTTTTTTTT
+.............
+T..,,,,.....T
+T..,,,,.....T
+T...........T
+T.....===...T
+T........,,,T
+T........,,,T
+T...........T
+TTTTTTTTTTTTT
+
+warps:
+0,1 step kanto-cerulean-city 12,1 left
+12,1 step kanto-rock-tunnel-1f 1,5 right
+
+objects:
+route9-sign 3,4 sign kanto.route9.sign
+route9-youngster-1 2,1 trainer:kanto-route-9-youngster-1:2:down kanto.route9.youngster1 if:kanto.route9.youngster1-beaten=false
+route9-youngster-2 11,7 trainer:kanto-route-9-youngster-2:2:left kanto.route9.youngster2 if:kanto.route9.youngster2-beaten=false
+route9-youngster-3 1,8 trainer:kanto-route-9-youngster-3:2:up kanto.route9.youngster3 if:kanto.route9.youngster3-beaten=false
+route9-super-potion-1 11,8 item:super-potion kanto.route9.super-potion1 if:kanto.route9.super-potion1-taken=false
+route9-max-potion-1 9,2 item:max-potion:hidden kanto.route9.max-potion1 if:kanto.route9.max-potion1-taken=false

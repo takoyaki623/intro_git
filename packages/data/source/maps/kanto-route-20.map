@@ -1,0 +1,35 @@
+# 20番水道。19番水道と グレンじま のあいだ。
+id: kanto-route-20
+name: 20ばんすいどう
+region: kanto
+encounters: kanto-route-20-surf kanto-route-20-fishing-old kanto-route-20-fishing-good kanto-route-20-fishing-super
+bgm: route-20
+
+legend:
+~ !water
+s sand
+T !normal
+
+grid:
+TTTTTsTTTTT
+T~~~~s~~~~T
+T~~~~~~~~~T
+T~~~~~~~~~T
+T~~~~~~~~~T
+T~~~~s~~~~T
+T~~~~s~~~~T
+T~~~~~~~~~T
+T~~~~~~~~~T
+T~~~~~~~~~T
+T~~~~s~~~~T
+TTTTTsTTTTT
+
+warps:
+5,0 step kanto-route-19 5,10 up
+5,5 step kanto-seafoam-1f 6,7 up
+5,11 step kanto-cinnabar-island 6,1 down
+
+objects:
+
+route20-swimmer-1 1,1 trainer:kanto-route-20-swimmer-1:2:down kanto.route20.swimmer1 if:kanto.route20.swimmer1-beaten=false
+route20-swimmer-2 9,10 trainer:kanto-route-20-swimmer-2:2:left kanto.route20.swimmer2 if:kanto.route20.swimmer2-beaten=false

@@ -1,0 +1,27 @@
+# クチバシティのフレンドリィショップ。バッジが増えるほど品揃えがよくなる。
+id: kanto-vermilion-mart
+name: フレンドリィショップ
+region: kanto
+bgm: mart
+
+legend:
+. normal
+W !normal
+S !normal
+D normal
+
+grid:
+WWWWWWWWW
+WSSS....W
+W.......W
+W.......W
+W.......W
+W.......W
+WWWWDWWWW
+
+warps:
+4,6 step kanto-vermilion-city 10,7 down
+
+objects:
+vermilion-clerk 2,2 npc:clerk:static kanto.vermilion.clerk
+vermilion-mart-sailor 6,3 npc:sailor:static kanto.vermilion.mart-sailor
