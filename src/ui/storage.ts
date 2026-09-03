@@ -6,6 +6,8 @@ import {
   withActive,
 } from '../domain/entities'
 import type { Status } from '../domain/status'
+import type { ItemKind } from '../domain/items'
+import { ITEM_KINDS } from '../domain/items'
 import type { BattleState } from '../domain/battle'
 import type { RunState } from '../domain/run'
 import type { RewardKind } from '../domain/rewards'
@@ -21,6 +23,7 @@ interface StoredPokemon {
   readonly level: number
   readonly currentHp: number
   readonly status: Status | null
+  readonly item: ItemKind | null
 }
 
 interface StoredTeam {
@@ -55,6 +58,7 @@ const storeTeam = (team: TeamState): StoredTeam => ({
     level: member.level,
     currentHp: member.currentHp,
     status: member.status,
+    item: member.item,
   })),
 })
 
@@ -66,7 +70,8 @@ function restorePokemon(stored: StoredPokemon): BattlePokemon | null {
   const base = createBattlePokemon(species, stored.level)
   const currentHp = Math.max(0, Math.min(base.stats.hp, stored.currentHp))
   if (!Number.isFinite(currentHp)) return null
-  return { ...base, currentHp, status: stored.status ?? null }
+  const item = ITEM_KINDS.includes(stored.item as ItemKind) ? stored.item : null
+  return { ...base, currentHp, status: stored.status ?? null, item }
 }
 
 function restoreTeam(stored: StoredTeam): TeamState | null {

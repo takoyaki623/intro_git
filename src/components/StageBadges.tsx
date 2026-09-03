@@ -12,7 +12,7 @@ export function StageBadges({ stages }: Props) {
   if (moved.length === 0) return null
 
   return (
-    <p className="stages">
+    <>
       {moved.map((stat) => {
         const steps = stages[stat]
         const arrow = steps > 0 ? '↑' : '↓'
@@ -24,6 +24,6 @@ export function StageBadges({ stages }: Props) {
           </span>
         )
       })}
-    </p>
+    </>
   )
 }

@@ -2,7 +2,7 @@ import type { BattlePokemon } from '../domain/entities'
 import type { DamageMark } from '../domain/events'
 import { StageBadges } from './StageBadges'
 import { TypeBadges } from './TypeBadges'
-import { STATUS_NAMES } from '../ui/messages'
+import { ABILITY_NAMES, ITEM_NAMES, STATUS_NAMES } from '../ui/messages'
 
 interface Props {
   pokemon: BattlePokemon
@@ -48,7 +48,19 @@ export function HealthBar({ pokemon, side, hit = null }: Props) {
           -{hit.amount}
         </span>
       ) : null}
-      <StageBadges stages={pokemon.stages} />
+      {/* Stages, ability and held item share one wrapping row: three separate
+          rows pushed the move buttons off the bottom of a small phone. */}
+      <p className="chips">
+        <StageBadges stages={pokemon.stages} />
+        {pokemon.species.ability ? (
+          <span className="trait">{ABILITY_NAMES[pokemon.species.ability]}</span>
+        ) : null}
+        {pokemon.item ? (
+          <span className="trait" data-held="true">
+            {ITEM_NAMES[pokemon.item]}
+          </span>
+        ) : null}
+      </p>
       <p className="hp" data-testid={`${side}-hp`}>
         {pokemon.currentHp} / {pokemon.stats.hp} HP
       </p>

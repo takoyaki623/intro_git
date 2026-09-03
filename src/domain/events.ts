@@ -1,6 +1,8 @@
 import type { Side } from './entities'
 import type { StatusKind } from './status'
 import type { StatKey } from './stages'
+import type { AbilityKind } from './abilities'
+import type { ItemKind } from './items'
 
 /**
  * What happened during a turn, recorded as data rather than prose.
@@ -62,6 +64,22 @@ export type BattleEvent =
       readonly delta: number
       /** What it got -- zero when the stat was already at its limit. */
       readonly applied: number
+    }
+  | {
+      readonly kind: 'ability'
+      readonly side: Side
+      readonly pokemon: string
+      readonly ability: AbilityKind
+      /** What it did: absorbed a move, held on, or announced itself. */
+      readonly outcome: 'immune' | 'heal' | 'endured' | 'announced'
+    }
+  | {
+      readonly kind: 'item'
+      readonly side: Side
+      readonly pokemon: string
+      readonly item: ItemKind
+      readonly outcome: 'healed' | 'endured'
+      readonly amount?: number
     }
   | {
       readonly kind: 'statusEnded'

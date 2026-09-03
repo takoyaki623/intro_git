@@ -34,7 +34,12 @@ describe('calculateDamage', () => {
       MOVES.thunderbolt,
       noCritMaxRoll,
     )
-    expect(intoGround).toEqual({ damage: 0, effectiveness: 0, critical: false })
+    expect(intoGround).toEqual({
+      damage: 0,
+      effectiveness: 0,
+      critical: false,
+      absorbed: null,
+    })
   })
 
   it('applies STAB', () => {

@@ -3,6 +3,8 @@ import type { BattleEvent } from '../domain/events'
 import type { PokemonType } from '../domain/types'
 import type { StatusKind } from '../domain/status'
 import type { StatKey } from '../domain/stages'
+import type { AbilityKind } from '../domain/abilities'
+import type { ItemKind } from '../domain/items'
 import type { RewardKind } from '../domain/rewards'
 import { REWARD_CONFIG } from '../domain/rewards'
 
@@ -66,11 +68,33 @@ const ENDED: Record<StatusKind, (pokemon: string) => string> = {
   freeze: (p) => `${p}の こおりが とけた！`,
 }
 
+export const ABILITY_NAMES: Record<AbilityKind, string> = {
+  intimidate: 'いかく',
+  levitate: 'ふゆう',
+  waterAbsorb: 'ちょすい',
+  sturdy: 'がんじょう',
+}
+
+export const ITEM_NAMES: Record<ItemKind, string> = {
+  leftovers: 'たべのこし',
+  focusSash: 'きあいのタスキ',
+  expertBelt: 'たつじんのおび',
+  sitrusBerry: 'オボンのみ',
+}
+
+export const ITEM_DETAILS: Record<ItemKind, string> = {
+  leftovers: 'ターンごとに すこし かいふく',
+  focusSash: 'まんたんから の いちげきを 1 で たえる',
+  expertBelt: 'こうかばつぐんの わざが つよくなる',
+  sitrusBerry: 'HP が はんぶんを われば かいふく',
+}
+
 export const REWARD_NAMES: Record<RewardKind, string> = {
   heal: 'ぜんかいふく',
   revive: 'そせい',
   levelUp: 'レベルアップ',
   recruit: 'なかまを ふやす',
+  item: 'もちものを もらう',
 }
 
 /** Read off REWARD_CONFIG, so retuning the numbers cannot leave the copy lying. */
@@ -79,6 +103,7 @@ export const REWARD_DETAILS: Record<RewardKind, string> = {
   revive: `ひんしの 1 ぴきが HP ${Math.round(REWARD_CONFIG.reviveFraction * 100)}% で ふっかつ`,
   levelUp: `てもち ぜんいんの レベルが +${REWARD_CONFIG.levelsGained}`,
   recruit: 'あたらしい なかまが 1 ぴき くわわる',
+  item: 'てもちの 1 ぴきが もちものを もつ',
 }
 
 export const STAT_NAMES: Record<StatKey, string> = {
@@ -167,6 +192,26 @@ export function formatEvent(event: BattleEvent): string | null {
           : `${event.pokemon}の ${stat}は もう さがらない！`
       }
       return `${event.pokemon}の ${stat}が ${stageWording(event.applied)}`
+    }
+    case 'ability': {
+      const name = ABILITY_NAMES[event.ability]
+      switch (event.outcome) {
+        case 'announced':
+          return `${event.pokemon}の ${name}！`
+        case 'immune':
+          return `${event.pokemon}の ${name}！ こうかが ない！`
+        case 'heal':
+          return `${event.pokemon}は ${name}で かいふくした！`
+        case 'endured':
+          return `${event.pokemon}は ${name}で もちこたえた！`
+      }
+      return null
+    }
+    case 'item': {
+      const name = ITEM_NAMES[event.item]
+      return event.outcome === 'endured'
+        ? `${event.pokemon}は ${name}で もちこたえた！`
+        : `${event.pokemon}は ${name}で かいふくした！`
     }
     case 'statusEnded':
       return ENDED[event.status](event.pokemon)

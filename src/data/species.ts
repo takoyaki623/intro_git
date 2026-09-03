@@ -91,6 +91,7 @@ export const SPECIES = {
     id: 'geodude',
     name: 'イシツブテ',
     types: ['rock', 'ground'],
+    ability: 'sturdy',
     baseStats: {
       hp: 40,
       attack: 80,
@@ -133,6 +134,7 @@ export const SPECIES = {
     id: 'gastly',
     name: 'ゴース',
     types: ['ghost', 'poison'],
+    ability: 'levitate',
     baseStats: {
       hp: 30,
       attack: 35,
@@ -147,6 +149,7 @@ export const SPECIES = {
     id: 'magnemite',
     name: 'コイル',
     types: ['electric', 'steel'],
+    ability: 'sturdy',
     baseStats: {
       hp: 25,
       attack: 35,
@@ -175,6 +178,7 @@ export const SPECIES = {
     id: 'scyther',
     name: 'ストライク',
     types: ['bug', 'flying'],
+    ability: 'intimidate',
     baseStats: {
       hp: 70,
       attack: 110,
@@ -189,6 +193,7 @@ export const SPECIES = {
     id: 'dewgong',
     name: 'ジュゴン',
     types: ['water', 'ice'],
+    ability: 'waterAbsorb',
     baseStats: {
       hp: 90,
       attack: 70,
@@ -217,6 +222,7 @@ export const SPECIES = {
     id: 'houndour',
     name: 'デルビル',
     types: ['dark', 'fire'],
+    ability: 'intimidate',
     baseStats: {
       hp: 45,
       attack: 60,
@@ -245,6 +251,7 @@ export const SPECIES = {
     id: 'tentacool',
     name: 'メノクラゲ',
     types: ['water', 'poison'],
+    ability: 'waterAbsorb',
     baseStats: {
       hp: 40,
       attack: 40,

@@ -1,6 +1,8 @@
 import type { PokemonType } from './types'
 import type { Status, StatusKind } from './status'
 import type { StatKey, StatStages } from './stages'
+import type { AbilityKind } from './abilities'
+import type { ItemKind } from './items'
 import { NO_STAGES, stagedStat } from './stages'
 import { PARALYSIS_SPEED_MULTIPLIER } from './status'
 
@@ -41,6 +43,8 @@ export interface Species {
   readonly id: string
   readonly name: string
   readonly types: readonly PokemonType[]
+  /** Not every species has one -- an ability is a trait, not a checkbox. */
+  readonly ability?: AbilityKind
   readonly baseStats: Stats
   readonly moves: readonly Move[]
 }
@@ -54,6 +58,8 @@ export interface BattlePokemon {
   readonly status: Status | null
   /** Cleared whenever the Pokemon leaves the field. */
   readonly stages: StatStages
+  /** Held item, if any. Some are spent when they fire. */
+  readonly item: ItemKind | null
 }
 
 /**
@@ -74,7 +80,15 @@ export function statsAtLevel(base: Stats, level: number): Stats {
 
 export function createBattlePokemon(species: Species, level: number): BattlePokemon {
   const stats = statsAtLevel(species.baseStats, level)
-  return { species, level, stats, currentHp: stats.hp, status: null, stages: NO_STAGES }
+  return {
+    species,
+    level,
+    stats,
+    currentHp: stats.hp,
+    status: null,
+    stages: NO_STAGES,
+    item: null,
+  }
 }
 
 /** A stat as the battle sees it, with its stage applied. */

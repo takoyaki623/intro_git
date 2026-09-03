@@ -1,6 +1,6 @@
 # Pokémon Battle
 
-ターン制のポケモン風バトルゲーム。交代・状態異常・能力変化ありの勝ち抜き式ローグライク。Vite + React + TypeScript。
+ターン制のポケモン風バトルゲーム。交代・状態異常・能力変化・特性・持ち物ありの勝ち抜き式ローグライク。Vite + React + TypeScript。
 
 もとは git の練習用リポジトリで、`first.txt` がその名残です。
 
@@ -41,6 +41,8 @@ src/
     battle.ts      ターン処理、行動順、勝敗判定
     status.ts      状態異常 5 種のルール
     stages.ts      能力変化の段階と倍率
+    abilities.ts   特性のルール
+    items.ts       持ち物のルール
     run.ts         連戦の進行、難易度、戦闘間の回復
     rewards.ts     勝利報酬の抽選と適用
     ai.ts          相手の行動選択（技のスコアリングと交代判断）

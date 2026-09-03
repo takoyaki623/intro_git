@@ -1,6 +1,8 @@
 import type { BattlePokemon, Move } from './entities'
 import { battleStat } from './entities'
 import { typeEffectiveness } from './types'
+import { absorbs } from './abilities'
+import { damageMultiplier } from './items'
 import { BURN_PHYSICAL_MULTIPLIER } from './status'
 
 /** Chance that a hit lands a critical, matching the games' base rate of 1/24. */
@@ -13,6 +15,11 @@ export interface DamageResult {
   readonly damage: number
   readonly effectiveness: number
   readonly critical: boolean
+  /**
+   * Set when the defender's ability answered the move rather than taking it:
+   * 'immune' shrugged it off, 'heal' turned it into health.
+   */
+  readonly absorbed: 'immune' | 'heal' | null
 }
 
 /**
@@ -33,13 +40,15 @@ export function calculateDamage(
   move: Move,
   random: Random = Math.random,
 ): DamageResult {
-  const effectiveness = typeEffectiveness(move.type, defender.species.types)
+  const absorbed = absorbs(defender.species.ability, move.type)
+  const effectiveness =
+    absorbed === null ? typeEffectiveness(move.type, defender.species.types) : 0
 
   const critical = random() < CRITICAL_CHANCE
   const spread = 0.85 + random() * 0.15
 
   if (effectiveness === 0) {
-    return { damage: 0, effectiveness, critical: false }
+    return { damage: 0, effectiveness, critical: false, absorbed }
   }
 
   const physical = move.category === 'physical'
@@ -62,9 +71,11 @@ export function calculateDamage(
   const crit = critical ? CRITICAL_MULTIPLIER : 1
 
   // A hit that connects always takes off at least 1 HP.
+  const held = damageMultiplier(attacker.item, effectiveness)
+
   const damage = Math.max(
     1,
-    Math.floor(base * stab * effectiveness * crit * burned * spread),
+    Math.floor(base * stab * effectiveness * crit * burned * held * spread),
   )
-  return { damage, effectiveness, critical }
+  return { damage, effectiveness, critical, absorbed: null }
 }

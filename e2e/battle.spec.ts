@@ -350,6 +350,46 @@ test('小さい画面でも ログと わざ がスクロールなしで見え�
   expect(seen.moves).toBe(1)
 })
 
+test('とくせい が カードに出て、はたらく', async ({ page }) => {
+  // イシツブテ has がんじょう and ゴース has ふゆう.
+  await page.evaluate((seed) => {
+    localStorage.setItem(
+      'pokemon-battle:run',
+      JSON.stringify({
+        ...seed,
+        opponent: {
+          activeIndex: 0,
+          members: [{ speciesId: 'gastly', level: 44, currentHp: 999, status: null }],
+        },
+      }),
+    )
+  }, SEED)
+  await page.reload()
+
+  await expect(page.getByTestId('opponent-card')).toContainText('ふゆう')
+
+  // あなをほる is a ground move, which ふゆう ignores outright.
+  await page.getByRole('button', { name: /あなをほる/ }).click()
+  await expect(page.getByTestId('battle-log')).toContainText('ふゆう')
+  await expect(page.getByTestId('opponent-hp')).toHaveText(/^(\d+) \/ \1 HP$/)
+})
+
+test('もちもの が ごほうび でもらえる', async ({ page }) => {
+  await page.evaluate((seed) => {
+    localStorage.setItem(
+      'pokemon-battle:run',
+      JSON.stringify({ ...seed, winner: 'player', offer: ['item'] }),
+    )
+  }, SEED)
+  await page.reload()
+
+  await page.getByRole('button', { name: /もちものを もらう/ }).click()
+  // Somebody in the party is now holding something.
+  await expect(page.getByTestId('player-card')).toContainText(
+    /たべのこし|きあいのタスキ|たつじんのおび|オボンのみ/,
+  )
+})
+
 test('戦闘中にコンソールエラーが出ない', async ({ page }) => {
   const errors: string[] = []
   page.on('console', (message) => {

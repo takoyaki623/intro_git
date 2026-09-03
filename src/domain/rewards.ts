@@ -2,8 +2,9 @@ import type { BattlePokemon } from './entities'
 import { createBattlePokemon, isFainted, statsAtLevel } from './entities'
 import type { Random } from './damage'
 import { SPECIES_LIST } from '../data/species'
+import { ITEM_KINDS } from './items'
 
-export type RewardKind = 'heal' | 'revive' | 'levelUp' | 'recruit'
+export type RewardKind = 'heal' | 'revive' | 'levelUp' | 'recruit' | 'item'
 
 export const REWARD_CONFIG = {
   /** How many are put in front of the player after a win. */
@@ -29,6 +30,8 @@ export function availableRewards(
   if (members.some((m) => !isFainted(m) && m.currentHp < m.stats.hp)) kinds.push('heal')
   if (members.some(isFainted)) kinds.push('revive')
   if (members.length < REWARD_CONFIG.maxPartySize) kinds.push('recruit')
+  // Only worth offering while somebody still has empty hands.
+  if (members.some((m) => !isFainted(m) && m.item === null)) kinds.push('item')
   return kinds
 }
 
@@ -92,6 +95,17 @@ export function applyReward(
 
     case 'levelUp':
       return members.map(levelled)
+
+    case 'item': {
+      // The first standing member with nothing held; a fainted one cannot use it.
+      const target = members.findIndex((m) => !isFainted(m) && m.item === null)
+      if (target === -1) return members
+      const [item] = sample(ITEM_KINDS, 1, random)
+      if (!item) return members
+      return members.map((member, index) =>
+        index === target ? { ...member, item } : member,
+      )
+    }
 
     case 'recruit': {
       if (members.length >= REWARD_CONFIG.maxPartySize) return members

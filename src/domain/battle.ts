@@ -11,6 +11,13 @@ import {
 import type { BattleEvent } from './events'
 import { createStatus, endOfTurnDamage, gateAction, isImmuneTo } from './status'
 import { NO_STAGES, changeStage, hasAnyStage } from './stages'
+import { ABSORB_FRACTION, INTIMIDATE_DELTA, enduresWith, intimidates } from './abilities'
+import {
+  LEFTOVERS_FRACTION,
+  berryHealing,
+  enduresWith as itemEndures,
+  healsEachTurn,
+} from './items'
 import { calculateDamage, type Random } from './damage'
 
 export type { Side }
@@ -36,13 +43,15 @@ export interface BattleState {
 const other = (side: Side): Side => (side === 'player' ? 'opponent' : 'player')
 
 export function createBattle(player: TeamState, opponent: TeamState): BattleState {
-  return {
+  const opening: BattleState = {
     player,
     opponent,
     events: [{ kind: 'encounter', pokemon: activePokemon(opponent).species.name }],
     winner: null,
     awaitingSwitch: null,
   }
+  // Both leads are entering the field, so both abilities get to speak.
+  return announceAbility(announceAbility(opening, 'opponent'), 'player')
 }
 
 function withActiveMember(
@@ -56,6 +65,50 @@ function withActiveMember(
 
 function damaged(pokemon: BattlePokemon, amount: number): BattlePokemon {
   return { ...pokemon, currentHp: Math.max(0, pokemon.currentHp - amount) }
+}
+
+function healed(pokemon: BattlePokemon, amount: number): BattlePokemon {
+  return {
+    ...pokemon,
+    currentHp: Math.min(pokemon.stats.hp, pokemon.currentHp + amount),
+  }
+}
+
+/**
+ * いかく: the foe's attack drops as this Pokemon comes out.
+ *
+ * Runs on every send-out, the opening lead included, so an ability that reads
+ * "on entering the field" actually does.
+ */
+function announceAbility(state: BattleState, side: Side): BattleState {
+  const pokemon = activePokemon(state[side])
+  const ability = pokemon.species.ability
+  if (!intimidates(ability) || !ability) return state
+
+  const foeSide = other(side)
+  const foe = activePokemon(state[foeSide])
+  if (isFainted(foe)) return state
+
+  const { stages, applied } = changeStage(foe.stages, 'attack', INTIMIDATE_DELTA)
+  const events: BattleEvent[] = [
+    ...state.events,
+    {
+      kind: 'ability',
+      side,
+      pokemon: pokemon.species.name,
+      ability,
+      outcome: 'announced',
+    },
+    {
+      kind: 'statStage',
+      side: foeSide,
+      pokemon: foe.species.name,
+      stat: 'attack',
+      delta: INTIMIDATE_DELTA,
+      applied,
+    },
+  ]
+  return { ...withActiveMember(state, foeSide, { ...foe, stages }), events }
 }
 
 /** Who acts first. Faster acts first; a speed tie is broken by the coin flip. */
@@ -95,7 +148,7 @@ function applySwitch(
     ? withMember(team, team.activeIndex, { ...outgoing, stages: NO_STAGES })
     : team
 
-  return { ...state, [side]: withActive(cleared, index), events }
+  return announceAbility({ ...state, [side]: withActive(cleared, index), events }, side)
 }
 
 /**
@@ -212,7 +265,43 @@ function attack(
   const defenderTeam = gated[defenderSide]
   const defender = activePokemon(defenderTeam)
   const result = calculateDamage(attacker, defender, move, random)
-  const hit = damaged(defender, result.damage)
+
+  // ふゆう and ちょすい answer the move rather than taking it.
+  if (result.absorbed) {
+    const ability = defender.species.ability
+    if (ability) {
+      events.push({
+        kind: 'ability',
+        side: defenderSide,
+        pokemon: defender.species.name,
+        ability,
+        outcome: result.absorbed,
+      })
+    }
+    if (result.absorbed === 'heal') {
+      const amount = Math.max(1, Math.floor(defender.stats.hp * ABSORB_FRACTION))
+      return {
+        ...withActiveMember(gated, defenderSide, healed(defender, amount)),
+        events,
+      }
+    }
+    return { ...gated, events }
+  }
+
+  const struckDown = damaged(defender, result.damage)
+  // がんじょう and きあいのタスキ: a blow from full health leaves 1 HP behind.
+  const fromFull = defender.currentHp === defender.stats.hp
+  const abilityEndures = fromFull && enduresWith(defender.species.ability)
+  const itemEndured = fromFull && !abilityEndures && itemEndures(defender.item)
+  const endured = isFainted(struckDown) && (abilityEndures || itemEndured)
+
+  const held = endured
+    ? { ...struckDown, currentHp: 1, item: itemEndured ? null : struckDown.item }
+    : struckDown
+
+  const berry = berryHealing(held.item, held.currentHp, held.stats.hp)
+  const hit = berry > 0 ? { ...healed(held, berry), item: null } : held
+
   const nextTeam = withMember(defenderTeam, defenderTeam.activeIndex, hit)
   const fainted = isFainted(hit)
 
@@ -228,6 +317,34 @@ function attack(
     pokemon: defender.species.name,
     amount: result.damage,
   })
+  if (abilityEndures && endured && defender.species.ability) {
+    events.push({
+      kind: 'ability',
+      side: defenderSide,
+      pokemon: defender.species.name,
+      ability: defender.species.ability,
+      outcome: 'endured',
+    })
+  }
+  if (itemEndured && endured && defender.item) {
+    events.push({
+      kind: 'item',
+      side: defenderSide,
+      pokemon: defender.species.name,
+      item: defender.item,
+      outcome: 'endured',
+    })
+  }
+  if (berry > 0 && held.item) {
+    events.push({
+      kind: 'item',
+      side: defenderSide,
+      pokemon: defender.species.name,
+      item: held.item,
+      outcome: 'healed',
+      amount: berry,
+    })
+  }
   if (fainted) {
     events.push({ kind: 'faint', side: defenderSide, pokemon: hit.species.name })
   }
@@ -249,25 +366,51 @@ function attack(
   )
 }
 
-/** Poison and burn bite once both sides have finished acting. */
+/** Held items and lingering conditions settle once both sides have acted. */
 function endOfTurn(state: BattleState, order: readonly Side[]): BattleState {
   return order.reduce<BattleState>((current, side) => {
     if (current.winner) return current
 
-    const team = current[side]
-    const pokemon = activePokemon(team)
-    const amount = endOfTurnDamage(pokemon.status, pokemon.stats.hp)
-    if (isFainted(pokemon) || amount === 0 || !pokemon.status) return current
+    const pokemon = activePokemon(current[side])
+    if (isFainted(pokemon)) return current
 
-    const hurt = damaged(pokemon, amount)
+    // たべのこし gives a little back before the conditions take theirs.
+    const restored =
+      healsEachTurn(pokemon.item) && pokemon.currentHp < pokemon.stats.hp
+        ? Math.max(1, Math.floor(pokemon.stats.hp * LEFTOVERS_FRACTION))
+        : 0
+    const fed = restored > 0 ? healed(pokemon, restored) : pokemon
+    const withFood: BattleState =
+      restored > 0 && pokemon.item
+        ? {
+            ...withActiveMember(current, side, fed),
+            events: [
+              ...current.events,
+              {
+                kind: 'item',
+                side,
+                pokemon: pokemon.species.name,
+                item: pokemon.item,
+                outcome: 'healed',
+                amount: restored,
+              },
+            ],
+          }
+        : current
+
+    const amount = endOfTurnDamage(fed.status, fed.stats.hp)
+    if (amount === 0 || !fed.status) return withFood
+
+    const hurt = damaged(fed, amount)
+    const team = withFood[side]
     const nextTeam = withMember(team, team.activeIndex, hurt)
     const events: BattleEvent[] = [
-      ...current.events,
+      ...withFood.events,
       {
         kind: 'statusDamage',
         side,
-        pokemon: pokemon.species.name,
-        status: pokemon.status.kind,
+        pokemon: fed.species.name,
+        status: fed.status.kind,
         amount,
       },
     ]
@@ -276,10 +419,10 @@ function endOfTurn(state: BattleState, order: readonly Side[]): BattleState {
     }
 
     return {
-      ...current,
+      ...withFood,
       [side]: nextTeam,
       events,
-      winner: isFainted(hurt) && isTeamDefeated(nextTeam) ? other(side) : current.winner,
+      winner: isFainted(hurt) && isTeamDefeated(nextTeam) ? other(side) : withFood.winner,
     }
   }, state)
 }
