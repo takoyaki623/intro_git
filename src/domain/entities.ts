@@ -64,3 +64,47 @@ export function createBattlePokemon(species: Species, level: number): BattlePoke
 export function isFainted(pokemon: BattlePokemon): boolean {
   return pokemon.currentHp <= 0
 }
+
+/** One side's party, and which member is currently out. */
+export interface TeamState {
+  readonly members: readonly BattlePokemon[]
+  readonly activeIndex: number
+}
+
+export function createTeam(members: readonly BattlePokemon[]): TeamState {
+  if (members.length === 0) throw new Error('a team needs at least one Pokemon')
+  return { members, activeIndex: 0 }
+}
+
+export function activePokemon(team: TeamState): BattlePokemon {
+  const active = team.members[team.activeIndex]
+  if (!active) throw new Error(`no Pokemon at index ${team.activeIndex}`)
+  return active
+}
+
+/** Members that could be sent out: still standing, and not already out. */
+export function switchableIndexes(team: TeamState): number[] {
+  return team.members.flatMap((member, index) =>
+    index !== team.activeIndex && !isFainted(member) ? [index] : [],
+  )
+}
+
+export function isTeamDefeated(team: TeamState): boolean {
+  return team.members.every(isFainted)
+}
+
+export function withActive(team: TeamState, index: number): TeamState {
+  if (!team.members[index]) throw new Error(`no Pokemon at index ${index}`)
+  return { ...team, activeIndex: index }
+}
+
+export function withMember(
+  team: TeamState,
+  index: number,
+  pokemon: BattlePokemon,
+): TeamState {
+  return {
+    ...team,
+    members: team.members.map((member, i) => (i === index ? pokemon : member)),
+  }
+}

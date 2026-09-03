@@ -22,14 +22,36 @@ test('わざを使うと相手が削れ、ログに残る', async ({ page }) => 
   await expect(page.getByTestId('opponent-hp')).not.toHaveText('104 / 104 HP')
 })
 
-test('決着まで戦えて、やりなおせる', async ({ page }) => {
-  const thunderbolt = page.getByRole('button', { name: /10まんボルト/ })
+test('こうたいは 1 ターンを消費する', async ({ page }) => {
+  await page
+    .getByRole('region', { name: 'こうたい' })
+    .getByRole('button', { name: /フシギダネ/ })
+    .click()
 
-  for (let i = 0; i < 15 && (await thunderbolt.count()) > 0; i++) {
-    await thunderbolt.click()
+  await expect(page.getByTestId('battle-log')).toContainText('ゆけっ！ フシギダネ！')
+  await expect(page.getByTestId('battle-log')).not.toContainText('ピカチュウの')
+  await expect(page.getByRole('button', { name: /はっぱカッター/ })).toBeVisible()
+})
+
+test('決着まで戦えて、やりなおせる', async ({ page }) => {
+  const replacement = page.getByRole('region', { name: /つぎに だす/ })
+  const moves = page.getByRole('region', { name: 'わざ' })
+
+  for (let i = 0; i < 60; i++) {
+    if (await replacement.count()) {
+      await replacement
+        .getByRole('button')
+        .and(page.locator(':not([disabled])'))
+        .first()
+        .click()
+      continue
+    }
+    if (!(await moves.count())) break
+    await moves.getByRole('button').first().click()
   }
 
   await expect(page.getByRole('status')).toContainText(/たおした|たおれてしまった/)
+  await expect(page.getByTestId('battle-log')).toContainText('くりだした')
 
   await page.getByRole('button', { name: 'もういちど たたかう' }).click()
   await expect(page.getByTestId('player-hp')).toHaveText('95 / 95 HP')

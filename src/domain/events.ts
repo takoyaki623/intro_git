@@ -30,3 +30,5 @@ export type BattleEvent =
       readonly target: string
     }
   | { readonly kind: 'faint'; readonly side: Side; readonly pokemon: string }
+  | { readonly kind: 'withdraw'; readonly side: Side; readonly pokemon: string }
+  | { readonly kind: 'sendOut'; readonly side: Side; readonly pokemon: string }

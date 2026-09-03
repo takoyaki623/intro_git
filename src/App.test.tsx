@@ -1,19 +1,51 @@
 import { describe, expect, it } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import type { UserEvent } from '@testing-library/user-event'
 import App from './App'
 
+const movePanel = () => screen.queryByRole('region', { name: 'わざ' })
+const switchPanel = () => screen.queryByRole('region', { name: 'こうたい' })
+const replacementPanel = () => screen.queryByRole('region', { name: /つぎに だす/ })
+
+const enabledButtons = (panel: HTMLElement) =>
+  within(panel)
+    .getAllByRole('button')
+    .filter((button) => !button.hasAttribute('disabled'))
+
+/** Play a turn however the battle currently allows, or report that it is over. */
+async function advance(user: UserEvent): Promise<boolean> {
+  const owed = replacementPanel()
+  if (owed) {
+    await user.click(enabledButtons(owed)[0]!)
+    return true
+  }
+  const moves = movePanel()
+  if (!moves) return false
+  await user.click(enabledButtons(moves)[0]!)
+  return true
+}
+
 describe('App', () => {
-  it('starts with both sides at full health', () => {
+  it('starts with both leaders out at full health', () => {
     render(<App />)
     expect(screen.getByTestId('player-hp')).toHaveTextContent('95 / 95 HP')
     expect(screen.getByTestId('opponent-hp')).toHaveTextContent('104 / 104 HP')
+    expect(screen.getByTestId('battle-log')).toHaveTextContent(
+      'やせいの ゼニガメが とびだしてきた！',
+    )
   })
 
-  it('shows the player the moves their Pokemon knows', () => {
+  it('shows how much of each party is left', () => {
     render(<App />)
-    const moves = screen.getByRole('region', { name: 'わざ' })
-    expect(moves).toBeInTheDocument()
+    expect(screen.getByTestId('player-team')).toHaveAccessibleName('てもち のこり 3')
+    expect(screen.getByTestId('opponent-team')).toHaveAccessibleName(
+      'あいての てもち のこり 3',
+    )
+  })
+
+  it('offers the active Pokemon its own moves', () => {
+    render(<App />)
     expect(screen.getByRole('button', { name: /10まんボルト/ })).toBeInTheDocument()
   })
 
@@ -22,25 +54,58 @@ describe('App', () => {
     render(<App />)
     await user.click(screen.getByRole('button', { name: /10まんボルト/ }))
 
-    const log = screen.getByTestId('battle-log')
-    expect(log).toHaveTextContent('ピカチュウの 10まんボルト！')
+    expect(screen.getByTestId('battle-log')).toHaveTextContent(
+      'ピカチュウの 10まんボルト！',
+    )
     expect(screen.getByTestId('opponent-hp')).not.toHaveTextContent('104 / 104 HP')
   })
 
-  it('offers a rematch once the battle is decided', async () => {
+  it('will not let the player switch to the Pokemon already out', () => {
+    render(<App />)
+    const panel = switchPanel()!
+    expect(within(panel).getByRole('button', { name: /ピカチュウ/ })).toBeDisabled()
+    expect(within(panel).getByRole('button', { name: /フシギダネ/ })).toBeEnabled()
+  })
+
+  it('swaps the active Pokemon, and the turn goes to the opponent', async () => {
+    const user = userEvent.setup()
+    render(<App />)
+    await user.click(within(switchPanel()!).getByRole('button', { name: /フシギダネ/ }))
+
+    expect(screen.getByTestId('battle-log')).toHaveTextContent('ゆけっ！ フシギダネ！')
+    expect(screen.getByRole('button', { name: /はっぱカッター/ })).toBeInTheDocument()
+    // Switching costs the turn, so ピカチュウ never attacked.
+    expect(screen.getByTestId('battle-log')).not.toHaveTextContent(
+      'ピカチュウの 10まんボルト！',
+    )
+  })
+
+  it('plays through to a result, with replacements sent out along the way', async () => {
     const user = userEvent.setup()
     render(<App />)
 
-    // 10まんボルト is 2x into ゼニガメ, so a handful of turns settles it.
-    for (let i = 0; i < 12; i++) {
-      const button = screen.queryByRole('button', { name: /10まんボルト/ })
-      if (!button) break
-      await user.click(button)
-    }
+    for (let i = 0; i < 60; i++) if (!(await advance(user))) break
 
+    expect(screen.getByRole('status')).toHaveTextContent(/たおした|たおれてしまった/)
     expect(
       screen.getByRole('button', { name: 'もういちど たたかう' }),
     ).toBeInTheDocument()
-    expect(screen.getByRole('status')).toHaveTextContent(/たおした|たおれてしまった/)
+    // A whole party has to fall, so a side ran out of replacements.
+    const log = screen.getByTestId('battle-log')
+    expect(log).toHaveTextContent('たおれた')
+    expect(log).toHaveTextContent('くりだした')
+  })
+
+  it('resets both parties on a rematch', async () => {
+    const user = userEvent.setup()
+    render(<App />)
+    for (let i = 0; i < 60; i++) if (!(await advance(user))) break
+
+    await user.click(screen.getByRole('button', { name: 'もういちど たたかう' }))
+    expect(screen.getByTestId('player-hp')).toHaveTextContent('95 / 95 HP')
+    expect(screen.getByTestId('player-team')).toHaveAccessibleName('てもち のこり 3')
+    expect(screen.getByTestId('opponent-team')).toHaveAccessibleName(
+      'あいての てもち のこり 3',
+    )
   })
 })

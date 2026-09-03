@@ -59,6 +59,48 @@ export const SPECIES = {
     },
     moves: [MOVES.razorLeaf, MOVES.vineWhip, MOVES.sludgeBomb, MOVES.tackle],
   },
+  eevee: {
+    id: 'eevee',
+    name: 'イーブイ',
+    types: ['normal'],
+    baseStats: {
+      hp: 55,
+      attack: 55,
+      defense: 50,
+      specialAttack: 45,
+      specialDefense: 65,
+      speed: 55,
+    },
+    moves: [MOVES.bite, MOVES.quickAttack, MOVES.tackle, MOVES.dig],
+  },
+  zubat: {
+    id: 'zubat',
+    name: 'ズバット',
+    types: ['poison', 'flying'],
+    baseStats: {
+      hp: 40,
+      attack: 45,
+      defense: 35,
+      specialAttack: 30,
+      specialDefense: 40,
+      speed: 55,
+    },
+    moves: [MOVES.wingAttack, MOVES.sludgeBomb, MOVES.bite, MOVES.tackle],
+  },
+  geodude: {
+    id: 'geodude',
+    name: 'イシツブテ',
+    types: ['rock', 'ground'],
+    baseStats: {
+      hp: 40,
+      attack: 80,
+      defense: 100,
+      specialAttack: 30,
+      specialDefense: 30,
+      speed: 20,
+    },
+    moves: [MOVES.rockThrow, MOVES.dig, MOVES.tackle, MOVES.scratch],
+  },
 } as const satisfies Record<string, Species>
 
 export const SPECIES_LIST: readonly Species[] = Object.values(SPECIES)

@@ -114,6 +114,22 @@ export const MOVES = {
     power: 55,
     accuracy: 0.95,
   },
+  wingAttack: {
+    id: 'wingAttack',
+    name: 'つばさでうつ',
+    type: 'flying',
+    category: 'physical',
+    power: 60,
+    accuracy: 1,
+  },
+  rockThrow: {
+    id: 'rockThrow',
+    name: 'いわおとし',
+    type: 'rock',
+    category: 'physical',
+    power: 50,
+    accuracy: 0.9,
+  },
   sludgeBomb: {
     id: 'sludgeBomb',
     name: 'ヘドロばくだん',

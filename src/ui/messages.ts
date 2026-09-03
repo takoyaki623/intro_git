@@ -46,6 +46,14 @@ export function formatEvent(event: BattleEvent): string | null {
       return null
     case 'faint':
       return `${event.pokemon}は たおれた！`
+    case 'withdraw':
+      return event.side === 'player'
+        ? `${event.pokemon} もどれ！`
+        : `あいては ${event.pokemon}を ひっこめた！`
+    case 'sendOut':
+      return event.side === 'player'
+        ? `ゆけっ！ ${event.pokemon}！`
+        : `あいては ${event.pokemon}を くりだした！`
     case 'damage':
       return null
   }
