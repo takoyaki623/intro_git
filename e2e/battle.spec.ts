@@ -324,6 +324,32 @@ test('つるぎのまい で こうげき が あがり、こうたい で も�
   await expect(playerCard).not.toContainText('こうげき')
 })
 
+test('小さい画面でも ログと わざ がスクロールなしで見える', async ({ page }) => {
+  // 375x667 is an iPhone SE, the smallest phone worth designing for. The log
+  // and the move buttons are what a player needs every single turn; the switch
+  // panel is used rarely and is allowed to sit below the fold.
+  await page.setViewportSize({ width: 375, height: 667 })
+  await page.reload()
+  await page.getByRole('region', { name: 'わざ' }).getByRole('button').first().click()
+
+  const seen = await page.evaluate(() => {
+    const share = (selector: string) => {
+      const element = document.querySelector(selector)
+      if (!element) return 0
+      const box = element.getBoundingClientRect()
+      const visible = Math.max(
+        0,
+        Math.min(innerHeight, box.bottom) - Math.max(0, box.top),
+      )
+      return visible / box.height
+    }
+    return { log: share('.log'), moves: share('.moves') }
+  })
+
+  expect(seen.log).toBe(1)
+  expect(seen.moves).toBe(1)
+})
+
 test('戦闘中にコンソールエラーが出ない', async ({ page }) => {
   const errors: string[] = []
   page.on('console', (message) => {

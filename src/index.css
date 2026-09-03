@@ -395,17 +395,19 @@ h1 {
 }
 
 .switch-row {
-  /* auto-fit, because なかまを ふやす can take the party past three. */
+  /* auto-fit, because なかまを ふやす can take the party past three. A 5rem
+     minimum keeps three across on a 375px phone, where 6.5rem dropped them
+     into a column 280px tall. */
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr));
-  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+  gap: 0.4rem;
 }
 
 .switch-row button {
   display: grid;
-  gap: 0.2rem;
+  gap: 0.15rem;
   justify-items: start;
-  padding: 0.55rem 0.5rem;
+  padding: 0.4rem 0.45rem;
   background: var(--surface);
   color: inherit;
   border: 1px solid var(--border);
@@ -438,8 +440,8 @@ h1 {
 
 .moves button {
   display: grid;
-  gap: 0.15rem;
-  padding: 0.7rem 0.6rem;
+  gap: 0.1rem;
+  padding: 0.5rem 0.55rem;
   background: var(--surface);
   color: inherit;
   border: 1px solid var(--border);
@@ -571,14 +573,22 @@ h1 {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 0.75rem;
-  max-height: 12rem;
+  /* About five lines: enough for a whole turn without pushing the controls off
+     the bottom of a small phone. Older lines are still there to scroll back to. */
+  max-height: 7.5rem;
   overflow-y: auto;
+  /* The fade runs over the container's own top padding, so it is invisible
+     when the log is at the top and softens the half-line at the edge once it
+     has scrolled -- a clipped glyph otherwise reads as a rendering fault. */
+  mask-image: linear-gradient(to bottom, transparent 0, #000 0.75rem);
   display: grid;
   gap: 0.3rem;
   font-size: 0.9rem;
 }
 
-@media (max-width: 24rem) {
+/* Only the narrowest phones drop to one column. At 24rem this caught a 375px
+   iPhone and stacked seven buttons, which pushed everything below the fold. */
+@media (max-width: 20rem) {
   .moves {
     grid-template-columns: 1fr;
   }

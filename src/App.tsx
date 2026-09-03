@@ -82,6 +82,8 @@ export default function App() {
         </div>
       </section>
 
+      <BattleLog events={battle.events} />
+
       {run.finished ? (
         <section className="outcome">
           <p role="status">
@@ -122,8 +124,6 @@ export default function App() {
           <SwitchButtons team={battle.player} onSelect={switchTo} label="こうたい" />
         </>
       )}
-
-      <BattleLog events={battle.events} />
     </main>
   )
 }
