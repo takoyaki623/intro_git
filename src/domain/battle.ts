@@ -10,6 +10,7 @@ import {
 } from './entities'
 import type { BattleEvent } from './events'
 import { createStatus, endOfTurnDamage, gateAction, isImmuneTo } from './status'
+import { NO_STAGES, changeStage, hasAnyStage } from './stages'
 import { calculateDamage, type Random } from './damage'
 
 export type { Side }
@@ -81,13 +82,20 @@ function applySwitch(
   const incoming = team.members[index]
   if (!incoming) throw new Error(`no Pokemon at index ${index}`)
 
+  const outgoing = activePokemon(team)
   const events: BattleEvent[] = [...state.events]
   if (!forced) {
-    events.push({ kind: 'withdraw', side, pokemon: activePokemon(team).species.name })
+    events.push({ kind: 'withdraw', side, pokemon: outgoing.species.name })
   }
   events.push({ kind: 'sendOut', side, pokemon: incoming.species.name })
 
-  return { ...state, [side]: withActive(team, index), events }
+  // Stat stages belong to a Pokemon's time on the field, so they go with it.
+  // This is what stops a boosted sweeper from banking its work and coming back.
+  const cleared = hasAnyStage(outgoing.stages)
+    ? withMember(team, team.activeIndex, { ...outgoing, stages: NO_STAGES })
+    : team
+
+  return { ...state, [side]: withActive(cleared, index), events }
 }
 
 /**
@@ -95,6 +103,29 @@ function applySwitch(
  * sleep, once more for how long it lasts. A target that is already afflicted,
  * immune by type, or down takes nothing.
  */
+/** Push a stat up or down on whichever side the move aims at. */
+function applyStageChange(
+  state: BattleState,
+  attackerSide: Side,
+  move: Move,
+): BattleState {
+  if (!move.stageChange) return state
+
+  const { target, stat, delta } = move.stageChange
+  const side: Side = target === 'self' ? attackerSide : other(attackerSide)
+  const pokemon = activePokemon(state[side])
+  if (isFainted(pokemon)) return state
+
+  const { stages, applied } = changeStage(pokemon.stages, stat, delta)
+  return {
+    ...withActiveMember(state, side, { ...pokemon, stages }),
+    events: [
+      ...state.events,
+      { kind: 'statStage', side, pokemon: pokemon.species.name, stat, delta, applied },
+    ],
+  }
+}
+
 function applyEffect(
   state: BattleState,
   targetSide: Side,
@@ -172,9 +203,10 @@ function attack(
     return { ...gated, events }
   }
 
-  // A status move never deals damage; it exists only for its effect.
+  // A status move never deals damage; it exists only for its effects.
   if (move.category === 'status') {
-    return applyEffect({ ...gated, events }, defenderSide, move, random)
+    const withStages = applyStageChange({ ...gated, events }, attackerSide, move)
+    return applyEffect(withStages, defenderSide, move, random)
   }
 
   const defenderTeam = gated[defenderSide]
@@ -208,7 +240,13 @@ function attack(
     winner: fainted && isTeamDefeated(nextTeam) ? attackerSide : gated.winner,
   }
 
-  return fainted ? struck : applyEffect(struck, defenderSide, move, random)
+  if (fainted) return struck
+  return applyEffect(
+    applyStageChange(struck, attackerSide, move),
+    defenderSide,
+    move,
+    random,
+  )
 }
 
 /** Poison and burn bite once both sides have finished acting. */

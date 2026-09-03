@@ -2,7 +2,9 @@ import { describe, expect, it } from 'vitest'
 import type { BattleEvent } from '../domain/events'
 import { POKEMON_TYPES } from '../domain/types'
 import type { StatusKind } from '../domain/status'
+import { STAT_KEYS } from '../domain/stages'
 import {
+  STAT_NAMES,
   STATUS_NAMES,
   TYPE_NAMES,
   formatEvent,
@@ -166,5 +168,35 @@ describe('status wording', () => {
         amount: 13,
       }),
     ).toBe('ゼニガメは どくの ダメージを うけている！')
+  })
+})
+
+describe('stat stage wording', () => {
+  const stage = (stat: 'attack' | 'speed', delta: number, applied: number) =>
+    formatEvent({
+      kind: 'statStage',
+      side: 'player',
+      pokemon: 'ヒトカゲ',
+      stat,
+      delta,
+      applied,
+    })
+
+  it('words each size of change the way the games do', () => {
+    expect(stage('attack', 1, 1)).toBe('ヒトカゲの こうげきが あがった！')
+    expect(stage('attack', 2, 2)).toBe('ヒトカゲの こうげきが ぐーんと あがった！')
+    expect(stage('speed', -1, -1)).toBe('ヒトカゲの すばやさが さがった！')
+    expect(stage('speed', -2, -2)).toBe('ヒトカゲの すばやさが がくっと さがった！')
+  })
+
+  it('says nothing moved when the stat is already at its limit', () => {
+    expect(stage('attack', 2, 0)).toBe('ヒトカゲの こうげきは もう あがらない！')
+    expect(stage('speed', -1, 0)).toBe('ヒトカゲの すばやさは もう さがらない！')
+  })
+
+  it('names every stat', () => {
+    for (const stat of STAT_KEYS) {
+      expect(STAT_NAMES[stat]).toBeTruthy()
+    }
   })
 })

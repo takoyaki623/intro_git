@@ -29,7 +29,7 @@ export const SPECIES = {
       specialDefense: 50,
       speed: 65,
     },
-    moves: [MOVES.flamethrower, MOVES.ember, MOVES.scratch, MOVES.dragonBreath],
+    moves: [MOVES.flamethrower, MOVES.swordsDance, MOVES.scratch, MOVES.dragonBreath],
   },
   squirtle: {
     id: 'squirtle',
@@ -71,7 +71,7 @@ export const SPECIES = {
       specialDefense: 65,
       speed: 55,
     },
-    moves: [MOVES.bite, MOVES.quickAttack, MOVES.tackle, MOVES.dig],
+    moves: [MOVES.bite, MOVES.quickAttack, MOVES.leer, MOVES.dig],
   },
   zubat: {
     id: 'zubat',
@@ -85,7 +85,7 @@ export const SPECIES = {
       specialDefense: 40,
       speed: 55,
     },
-    moves: [MOVES.wingAttack, MOVES.sludgeBomb, MOVES.bite, MOVES.tackle],
+    moves: [MOVES.wingAttack, MOVES.sludgeBomb, MOVES.bite, MOVES.growl],
   },
   geodude: {
     id: 'geodude',

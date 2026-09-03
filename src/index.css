@@ -171,6 +171,41 @@ h1 {
   background: var(--critical);
 }
 
+.stages {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+}
+
+.stage {
+  padding: 0.05rem 0.35rem;
+  border-radius: 0.3rem;
+  border: 1px solid var(--border);
+  font-weight: 600;
+}
+
+.stage[data-direction='up'] {
+  color: var(--healthy);
+  border-color: var(--healthy);
+}
+
+.stage[data-direction='down'] {
+  color: var(--critical);
+  border-color: var(--critical);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .hp {
   margin: 0;
   font-size: 0.85rem;

@@ -292,6 +292,38 @@ test('負けると殿堂入りに記録が残り、次のランに表示され�
   await expect(page.getByTestId('run-status')).toContainText('さいこう 3')
 })
 
+test('つるぎのまい で こうげき が あがり、こうたい で もどる', async ({ page }) => {
+  // ヒトカゲ leads against ズバット rather than ゼニガメ: なみのり is 2x into
+  // fire and knocks ヒトカゲ out in one, which would put a forced replacement
+  // on screen instead of the switch panel this test needs.
+  await page.evaluate((seed) => {
+    localStorage.setItem(
+      'pokemon-battle:run',
+      JSON.stringify({
+        ...seed,
+        player: { ...seed.player, activeIndex: 1 },
+        opponent: { ...seed.opponent, activeIndex: 1 },
+      }),
+    )
+  }, SEED)
+  await page.reload()
+
+  await page.getByRole('button', { name: /つるぎのまい/ }).click()
+
+  const playerCard = page.getByTestId('player-card')
+  await expect(playerCard).toContainText('こうげき')
+  await expect(page.getByTestId('battle-log')).toContainText(
+    'こうげきが ぐーんと あがった',
+  )
+
+  // Leaving the field clears it.
+  await page
+    .getByRole('region', { name: 'こうたい' })
+    .getByRole('button', { name: /フシギダネ/ })
+    .click()
+  await expect(playerCard).not.toContainText('こうげき')
+})
+
 test('戦闘中にコンソールエラーが出ない', async ({ page }) => {
   const errors: string[] = []
   page.on('console', (message) => {

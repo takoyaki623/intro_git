@@ -1,6 +1,7 @@
 import type { BattleEvent } from '../domain/events'
 import type { PokemonType } from '../domain/types'
 import type { StatusKind } from '../domain/status'
+import type { StatKey } from '../domain/stages'
 import type { RewardKind } from '../domain/rewards'
 import { REWARD_CONFIG } from '../domain/rewards'
 
@@ -79,6 +80,24 @@ export const REWARD_DETAILS: Record<RewardKind, string> = {
   recruit: 'あたらしい なかまが 1 ぴき くわわる',
 }
 
+export const STAT_NAMES: Record<StatKey, string> = {
+  attack: 'こうげき',
+  defense: 'ぼうぎょ',
+  specialAttack: 'とくこう',
+  specialDefense: 'とくぼう',
+  speed: 'すばやさ',
+}
+
+/** How the games word a stat moving by one step, two, or more. */
+function stageWording(applied: number): string {
+  if (applied >= 3) return 'ぐぐーんと あがった！'
+  if (applied === 2) return 'ぐーんと あがった！'
+  if (applied === 1) return 'あがった！'
+  if (applied === -1) return 'さがった！'
+  if (applied === -2) return 'がくっと さがった！'
+  return 'がくーんと さがった！'
+}
+
 export function formatEvent(event: BattleEvent): string | null {
   switch (event.kind) {
     case 'encounter':
@@ -108,6 +127,15 @@ export function formatEvent(event: BattleEvent): string | null {
       return INFLICTED[event.status](event.pokemon)
     case 'immobilised':
       return IMMOBILISED[event.status](event.pokemon)
+    case 'statStage': {
+      const stat = STAT_NAMES[event.stat]
+      if (event.applied === 0) {
+        return event.delta > 0
+          ? `${event.pokemon}の ${stat}は もう あがらない！`
+          : `${event.pokemon}の ${stat}は もう さがらない！`
+      }
+      return `${event.pokemon}の ${stat}が ${stageWording(event.applied)}`
+    }
     case 'statusEnded':
       return ENDED[event.status](event.pokemon)
     case 'statusDamage':

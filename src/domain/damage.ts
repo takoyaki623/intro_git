@@ -1,4 +1,5 @@
 import type { BattlePokemon, Move } from './entities'
+import { battleStat } from './entities'
 import { typeEffectiveness } from './types'
 import { BURN_PHYSICAL_MULTIPLIER } from './status'
 
@@ -42,9 +43,10 @@ export function calculateDamage(
   }
 
   const physical = move.category === 'physical'
+  // Stats as the battle sees them, so a stat stage is felt here.
   const [attack, defense] = physical
-    ? [attacker.stats.attack, defender.stats.defense]
-    : [attacker.stats.specialAttack, defender.stats.specialDefense]
+    ? [battleStat(attacker, 'attack'), battleStat(defender, 'defense')]
+    : [battleStat(attacker, 'specialAttack'), battleStat(defender, 'specialDefense')]
 
   const burned =
     physical && attacker.status?.kind === 'burn' ? BURN_PHYSICAL_MULTIPLIER : 1

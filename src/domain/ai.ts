@@ -19,6 +19,8 @@ export const AI_CONFIG = {
   koBonus: 1.5,
   /** Roughly what inflicting a condition is worth, in HP. */
   statusValue: 35,
+  /** Roughly what one step of a stat stage is worth, in HP. */
+  stageValue: 12,
   /** Only switch when a benched Pokemon scores this many times better. */
   switchThreshold: 1.6,
 } as const
@@ -38,9 +40,14 @@ export function scoreMove(
   move: Move,
 ): number {
   if (move.category === 'status') {
-    if (!move.effect || defender.status) return 0
-    if (isImmuneTo(move.effect.status, defender.species.types)) return 0
-    return AI_CONFIG.statusValue * move.effect.chance * move.accuracy
+    const stages = move.stageChange
+      ? AI_CONFIG.stageValue * Math.abs(move.stageChange.delta) * move.accuracy
+      : 0
+    if (!move.effect) return stages
+    if (defender.status || isImmuneTo(move.effect.status, defender.species.types)) {
+      return stages
+    }
+    return stages + AI_CONFIG.statusValue * move.effect.chance * move.accuracy
   }
 
   const { damage, effectiveness } = calculateDamage(

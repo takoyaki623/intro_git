@@ -1,5 +1,6 @@
 import type { Side } from './entities'
 import type { StatusKind } from './status'
+import type { StatKey } from './stages'
 
 /**
  * What happened during a turn, recorded as data rather than prose.
@@ -51,6 +52,16 @@ export type BattleEvent =
       readonly side: Side
       readonly pokemon: string
       readonly status: StatusKind
+    }
+  | {
+      readonly kind: 'statStage'
+      readonly side: Side
+      readonly pokemon: string
+      readonly stat: StatKey
+      /** What the move asked for. */
+      readonly delta: number
+      /** What it got -- zero when the stat was already at its limit. */
+      readonly applied: number
     }
   | {
       readonly kind: 'statusEnded'

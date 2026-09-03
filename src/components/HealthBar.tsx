@@ -1,5 +1,6 @@
 import type { BattlePokemon } from '../domain/entities'
 import type { DamageMark } from '../domain/events'
+import { StageBadges } from './StageBadges'
 import { STATUS_NAMES } from '../ui/messages'
 
 interface Props {
@@ -43,6 +44,7 @@ export function HealthBar({ pokemon, side, hit = null }: Props) {
           -{hit.amount}
         </span>
       ) : null}
+      <StageBadges stages={pokemon.stages} />
       <p className="hp" data-testid={`${side}-hp`}>
         {pokemon.currentHp} / {pokemon.stats.hp} HP
       </p>

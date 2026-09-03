@@ -1,5 +1,7 @@
 import type { PokemonType } from './types'
 import type { Status, StatusKind } from './status'
+import type { StatKey, StatStages } from './stages'
+import { NO_STAGES, stagedStat } from './stages'
 import { PARALYSIS_SPEED_MULTIPLIER } from './status'
 
 /** Which corner of the battle a Pokemon belongs to. */
@@ -18,6 +20,12 @@ export interface Move {
   readonly accuracy: number
   /** A condition the move may leave behind. */
   readonly effect?: { readonly status: StatusKind; readonly chance: number }
+  /** A stat the move pushes up or down, on the user or the target. */
+  readonly stageChange?: {
+    readonly target: 'self' | 'foe'
+    readonly stat: StatKey
+    readonly delta: number
+  }
 }
 
 export interface Stats {
@@ -44,6 +52,8 @@ export interface BattlePokemon {
   readonly stats: Stats
   readonly currentHp: number
   readonly status: Status | null
+  /** Cleared whenever the Pokemon leaves the field. */
+  readonly stages: StatStages
 }
 
 /**
@@ -64,14 +74,20 @@ export function statsAtLevel(base: Stats, level: number): Stats {
 
 export function createBattlePokemon(species: Species, level: number): BattlePokemon {
   const stats = statsAtLevel(species.baseStats, level)
-  return { species, level, stats, currentHp: stats.hp, status: null }
+  return { species, level, stats, currentHp: stats.hp, status: null, stages: NO_STAGES }
 }
 
-/** Speed after paralysis, which is what decides who moves first. */
+/** A stat as the battle sees it, with its stage applied. */
+export function battleStat(pokemon: BattlePokemon, stat: StatKey): number {
+  return stagedStat(pokemon.stats[stat], pokemon.stages[stat])
+}
+
+/** Speed after its stage and paralysis, which is what decides who moves first. */
 export function effectiveSpeed(pokemon: BattlePokemon): number {
+  const speed = battleStat(pokemon, 'speed')
   return pokemon.status?.kind === 'paralysis'
-    ? Math.floor(pokemon.stats.speed * PARALYSIS_SPEED_MULTIPLIER)
-    : pokemon.stats.speed
+    ? Math.floor(speed * PARALYSIS_SPEED_MULTIPLIER)
+    : speed
 }
 
 export function isFainted(pokemon: BattlePokemon): boolean {

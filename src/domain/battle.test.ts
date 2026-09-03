@@ -566,3 +566,148 @@ describe('resolveTurn — status conditions', () => {
     expect(state.winner).toBe('player')
   })
 })
+
+describe('resolveTurn — stat stages', () => {
+  const stageEvents = (state: BattleState) =>
+    state.events.flatMap((event) => (event.kind === 'statStage' ? [event] : []))
+
+  it("raises the user's own stat", () => {
+    // ヒトカゲ knows つるぎのまい, and leads so it gets a turn: switching it in
+    // would hand ゼニガメ a free なみのり, which is 2x and knocks it straight out.
+    const state = resolveTurn(
+      createBattle(team([SPECIES.charmander]), opponentTeam()),
+      attackWith(MOVES.swordsDance),
+      attackWith(MOVES.surf),
+      cleanHit(),
+    )
+    expect(stageEvents(state)[0]).toMatchObject({
+      side: 'player',
+      stat: 'attack',
+      applied: 2,
+    })
+    expect(activePokemon(state.player).stages.attack).toBe(2)
+  })
+
+  it('lowers the target when the move aims at them', () => {
+    const eevee = team([SPECIES.eevee])
+    const state = resolveTurn(
+      createBattle(eevee, opponentTeam()),
+      attackWith(MOVES.leer),
+      attackWith(MOVES.surf),
+      cleanHit(),
+    )
+    expect(stageEvents(state)[0]).toMatchObject({
+      side: 'opponent',
+      stat: 'defense',
+      applied: -1,
+    })
+  })
+
+  it('makes the attack land harder once it is raised', () => {
+    const plain = resolveTurn(
+      battle(),
+      attackWith(MOVES.quickAttack),
+      attackWith(MOVES.surf),
+      cleanHit(),
+    )
+    const boosted = resolveTurn(
+      {
+        ...battle(),
+        player: {
+          ...playerTeam(),
+          members: playerTeam().members.map((m, i) =>
+            i === 0 ? { ...m, stages: { ...m.stages, attack: 2 } } : m,
+          ),
+        },
+      },
+      attackWith(MOVES.quickAttack),
+      attackWith(MOVES.surf),
+      cleanHit(),
+    )
+    const dealt = (state: BattleState) => {
+      const event = state.events.find((e) => e.kind === 'damage' && e.side === 'opponent')
+      if (event?.kind !== 'damage') throw new Error('expected damage')
+      return event.amount
+    }
+    expect(dealt(boosted)).toBeGreaterThan(dealt(plain))
+  })
+
+  it('says so when a stat will not move any further', () => {
+    const maxed = {
+      ...createBattle(team([SPECIES.charmander]), opponentTeam()),
+    }
+    const atCeiling = {
+      ...maxed,
+      player: {
+        ...maxed.player,
+        members: maxed.player.members.map((m) => ({
+          ...m,
+          stages: { ...m.stages, attack: 6 },
+        })),
+      },
+    }
+    const state = resolveTurn(
+      atCeiling,
+      attackWith(MOVES.swordsDance),
+      attackWith(MOVES.surf),
+      cleanHit(),
+    )
+    expect(stageEvents(state)[0]?.applied).toBe(0)
+  })
+
+  it('lets a lowered speed change who moves first', () => {
+    // ピカチュウ 95 against ゼニガメ 48: -2 speed drops it to 47.
+    const slowed = {
+      ...battle(),
+      player: {
+        ...playerTeam(),
+        members: playerTeam().members.map((m, i) =>
+          i === 0 ? { ...m, stages: { ...m.stages, speed: -2 } } : m,
+        ),
+      },
+    }
+    const state = resolveTurn(
+      slowed,
+      attackWith(MOVES.quickAttack),
+      attackWith(MOVES.surf),
+      cleanHit(),
+    )
+    expect(movesUsed(state)[0]).toBe('なみのり')
+  })
+
+  it('clears the stages of a Pokemon that leaves the field', () => {
+    const boosted = {
+      ...battle(),
+      player: {
+        ...playerTeam(),
+        members: playerTeam().members.map((m, i) =>
+          i === 0 ? { ...m, stages: { ...m.stages, attack: 4 } } : m,
+        ),
+      },
+    }
+    const state = resolveTurn(boosted, swap(1), attackWith(MOVES.surf), cleanHit())
+    expect(state.player.members[0]?.stages.attack).toBe(0)
+    expect(activePokemon(state.player).stages.attack).toBe(0)
+  })
+
+  it('clears them on a forced switch too', () => {
+    const start = battle()
+    const boostedAndDying = {
+      ...start,
+      player: {
+        ...start.player,
+        members: start.player.members.map((m, i) =>
+          i === 0 ? { ...m, currentHp: 1, stages: { ...m.stages, attack: 3 } } : m,
+        ),
+      },
+    }
+    const owed = resolveTurn(
+      boostedAndDying,
+      attackWith(MOVES.dig),
+      attackWith(MOVES.surf),
+      cleanHit(),
+    )
+    const after = forceSwitch(owed, 'player', 1)
+    expect(after.player.members[0]?.stages.attack).toBe(0)
+  })
+})
