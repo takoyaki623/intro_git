@@ -1,8 +1,68 @@
-# intro_git
+# Pokémon Battle
 
-git の練習用リポジトリです。基本的なワークフローを学びます。
+ターン制のポケモン風バトルゲーム。Vite + React + TypeScript。
 
-## SuperClaude
+もとは git の練習用リポジトリで、`first.txt` がその名残です。
+
+## はじめかた
+
+```bash
+npm install
+npm run dev        # http://localhost:5173
+```
+
+## コマンド
+
+| コマンド             | 内容                                 |
+| -------------------- | ------------------------------------ |
+| `npm run dev`        | 開発サーバ                           |
+| `npm run build`      | 本番ビルド（型チェック込み）         |
+| `npm run test`       | ユニットテスト（Vitest）             |
+| `npm run test:watch` | テストを監視実行                     |
+| `npm run coverage`   | カバレッジ                           |
+| `npm run e2e`        | E2E テスト（Playwright、実ブラウザ） |
+| `npm run typecheck`  | 型チェックのみ                       |
+| `npm run lint`       | oxlint                               |
+| `npm run format`     | Prettier で整形                      |
+| `npm run check`      | typecheck + lint + test をまとめて   |
+
+`npm run e2e` は Playwright が自前で用意したブラウザを使います。
+サンドボックスや CI イメージなど、ブラウザが既にあってダウンロードが塞がれている環境では、
+`PLAYWRIGHT_CHROMIUM_EXECUTABLE` にそのパスを渡すと既存のものを使います。
+
+## 構成
+
+```
+src/
+  domain/          ゲームのルール。UI に依存しない
+    types.ts       18 タイプと相性表、相性計算
+    entities.ts    Move / Species / BattlePokemon、レベル別ステータス
+    damage.ts      ダメージ計算式（急所・タイプ一致・乱数）
+    battle.ts      ターン処理、行動順、勝敗判定
+  data/            ポケモンと技のデータ
+  components/      表示だけを担当する React コンポーネント
+e2e/               Playwright のシナリオ
+```
+
+`domain/` は React を一切参照していません。ルールだけを純粋な関数として置いてあるので、
+UI を差し替えてもテストはそのまま通ります。
+
+### 乱数について
+
+`calculateDamage` と `resolveTurn` は乱数生成器を引数で受け取ります
+（省略時は `Math.random`）。テストでは決まった値を返す関数を渡すことで、
+急所・命中・乱数幅を固定して結果を再現できます。
+`src/test/rng.ts` にそのヘルパーがあります。
+
+### データを増やすには
+
+`src/data/moves.ts` と `src/data/species.ts` に足すだけです。
+`satisfies` を使っているので、型が合わなければコンパイルで止まります。
+
+PokéAPI から取ってくることもできますが、ローカルに持つほうがテストが決定的になり、
+オフラインでも動きます。
+
+## 開発環境
 
 このリポジトリには [SuperClaude Framework](https://github.com/SuperClaude-Org/SuperClaude_Framework) v4.3.0 を同梱しています。
 clone してこのディレクトリで `claude` を起動すれば、**追加のインストール操作なしで**そのまま使えます。
@@ -21,12 +81,12 @@ clone してこのディレクトリで `claude` を起動すれば、**追加�
 
 `.mcp.json` に 4 つ定義しています。いずれも API キー不要・無料です。
 
-| サーバ | できること | 必要なもの |
-| --- | --- | --- |
-| Context7 | ライブラリの公式ドキュメント参照 | Node.js |
-| Sequential Thinking | 多段推論（`--think` 系フラグの土台） | Node.js |
-| Playwright | 実ブラウザ操作。E2E テスト、スクリーンショット、フォーム入力、コンソールとネットワークの検査 | Node.js + ブラウザ（初回に自動取得） |
-| Serena | LSP による意味的なコード操作。シンボルのリネーム・参照検索・定義ジャンプ・診断、およびセッションをまたぐプロジェクト記憶 | [uv](https://docs.astral.sh/uv/)（`uvx`） |
+| サーバ              | できること                                                                                                               | 必要なもの                                |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------- |
+| Context7            | ライブラリの公式ドキュメント参照                                                                                         | Node.js                                   |
+| Sequential Thinking | 多段推論（`--think` 系フラグの土台）                                                                                     | Node.js                                   |
+| Playwright          | 実ブラウザ操作。E2E テスト、スクリーンショット、フォーム入力、コンソールとネットワークの検査                             | Node.js + ブラウザ（初回に自動取得）      |
+| Serena              | LSP による意味的なコード操作。シンボルのリネーム・参照検索・定義ジャンプ・診断、およびセッションをまたぐプロジェクト記憶 | [uv](https://docs.astral.sh/uv/)（`uvx`） |
 
 Serena は PyPI の [`serena-agent`](https://pypi.org/project/serena-agent/)（本体は
 [oraios/serena](https://github.com/oraios/serena)、MIT）を `uvx` 経由で起動します。

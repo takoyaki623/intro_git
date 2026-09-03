@@ -1,0 +1,61 @@
+import type { BattlePokemon, Move } from './entities'
+import { typeEffectiveness } from './types'
+
+/** Chance that a hit lands a critical, matching the games' base rate of 1/24. */
+export const CRITICAL_CHANCE = 1 / 24
+export const CRITICAL_MULTIPLIER = 1.5
+/** Same-type attack bonus. */
+export const STAB_MULTIPLIER = 1.5
+
+export interface DamageResult {
+  readonly damage: number
+  readonly effectiveness: number
+  readonly critical: boolean
+}
+
+/**
+ * Source of randomness, injected so battles can be replayed exactly in tests.
+ * Must return a number in [0, 1).
+ */
+export type Random = () => number
+
+/**
+ * Damage for a single hit, following the main-series formula.
+ *
+ * Draws from `random` twice and always in the same order -- first the critical
+ * roll, then the spread roll -- so a seeded generator produces a stable result.
+ */
+export function calculateDamage(
+  attacker: BattlePokemon,
+  defender: BattlePokemon,
+  move: Move,
+  random: Random = Math.random,
+): DamageResult {
+  const effectiveness = typeEffectiveness(move.type, defender.species.types)
+
+  const critical = random() < CRITICAL_CHANCE
+  const spread = 0.85 + random() * 0.15
+
+  if (effectiveness === 0) {
+    return { damage: 0, effectiveness, critical: false }
+  }
+
+  const [attack, defense] =
+    move.category === 'physical'
+      ? [attacker.stats.attack, defender.stats.defense]
+      : [attacker.stats.specialAttack, defender.stats.specialDefense]
+
+  const base =
+    Math.floor(
+      Math.floor(
+        (Math.floor((2 * attacker.level) / 5 + 2) * move.power * attack) / defense,
+      ) / 50,
+    ) + 2
+
+  const stab = attacker.species.types.includes(move.type) ? STAB_MULTIPLIER : 1
+  const crit = critical ? CRITICAL_MULTIPLIER : 1
+
+  // A hit that connects always takes off at least 1 HP.
+  const damage = Math.max(1, Math.floor(base * stab * effectiveness * crit * spread))
+  return { damage, effectiveness, critical }
+}
