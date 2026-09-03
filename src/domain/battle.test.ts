@@ -365,3 +365,219 @@ describe('chooseOpponentAction', () => {
     if (action.type === 'move') expect(action.move).toBe(last)
   })
 })
+
+describe('resolveTurn — status conditions', () => {
+  const afflict = (
+    state: BattleState,
+    side: 'player' | 'opponent',
+    status: NonNullable<BattlePokemon['status']>,
+  ): BattleState => ({
+    ...state,
+    [side]: {
+      ...state[side],
+      members: state[side].members.map((m, i) =>
+        i === state[side].activeIndex ? { ...m, status } : m,
+      ),
+    },
+  })
+
+  const statuses = (state: BattleState) =>
+    state.events.flatMap((event) =>
+      event.kind === 'statusInflicted' ? [event.status] : [],
+    )
+
+  it('lands a status move on the target', () => {
+    // でんじは is 0.9 accuracy and always paralyses; 0.5 hits and lands it.
+    const state = resolveTurn(
+      battle(),
+      attackWith(MOVES.thunderWave),
+      attackWith(MOVES.surf),
+      fixedRandom(0.5),
+    )
+    expect(statuses(state)).toEqual(['paralysis'])
+    expect(activePokemon(state.opponent).status).toEqual({ kind: 'paralysis' })
+  })
+
+  it('deals no damage with a status move', () => {
+    const state = resolveTurn(
+      battle(),
+      attackWith(MOVES.thunderWave),
+      attackWith(MOVES.surf),
+      fixedRandom(0.5),
+    )
+    // ゼニガメ took なみのり's turn but nothing from でんじは itself.
+    expect(kinds(state).filter((k) => k === 'damage')).toHaveLength(1)
+  })
+
+  it('will not paralyse an electric type', () => {
+    const mirror = createBattle(playerTeam(), playerTeam())
+    const state = resolveTurn(
+      mirror,
+      attackWith(MOVES.thunderWave),
+      attackWith(MOVES.quickAttack),
+      fixedRandom(0.5),
+    )
+    expect(statuses(state)).toEqual([])
+    expect(activePokemon(state.opponent).status).toBeNull()
+  })
+
+  it('rolls a secondary effect only when the chance comes up', () => {
+    // 10まんボルト paralyses 10% of the time; 0.9 is well clear of that.
+    const missed = resolveTurn(
+      battle(),
+      attackWith(MOVES.thunderbolt),
+      attackWith(MOVES.surf),
+      cleanHit(),
+    )
+    expect(statuses(missed)).toEqual([])
+  })
+
+  it('poisons at the end of the turn for an eighth of maximum HP', () => {
+    const poisoned = afflict(battle(), 'opponent', { kind: 'poison' })
+    const before = activePokemon(poisoned.opponent).currentHp
+    const state = resolveTurn(
+      poisoned,
+      attackWith(MOVES.dig),
+      attackWith(MOVES.surf),
+      cleanHit(),
+    )
+    const tick = state.events.find((event) => event.kind === 'statusDamage')
+    expect(tick).toMatchObject({ status: 'poison', amount: Math.floor(104 / 8) })
+    expect(activePokemon(state.opponent).currentHp).toBeLessThan(before)
+  })
+
+  it('bites after both sides have acted, not before', () => {
+    const poisoned = afflict(battle(), 'opponent', { kind: 'poison' })
+    const state = resolveTurn(
+      poisoned,
+      attackWith(MOVES.dig),
+      attackWith(MOVES.surf),
+      cleanHit(),
+    )
+    const order = kinds(state)
+    expect(order.lastIndexOf('useMove')).toBeLessThan(order.indexOf('statusDamage'))
+  })
+
+  it('keeps a paralysed Pokemon from moving on an unlucky roll', () => {
+    const stunned = afflict(battle(), 'player', { kind: 'paralysis' })
+    const state = resolveTurn(
+      stunned,
+      attackWith(MOVES.thunderbolt),
+      attackWith(MOVES.surf),
+      fixedRandom(0),
+    )
+    expect(state.events).toContainEqual({
+      kind: 'immobilised',
+      side: 'player',
+      pokemon: 'ピカチュウ',
+      status: 'paralysis',
+    })
+    expect(movesUsed(state)).not.toContain('10まんボルト')
+  })
+
+  it('halves speed when paralysed, handing the opponent the first move', () => {
+    // ピカチュウ 95 vs ゼニガメ 48: paralysis drops it to 47.
+    const stunned = afflict(battle(), 'player', { kind: 'paralysis' })
+    const state = resolveTurn(
+      stunned,
+      attackWith(MOVES.quickAttack),
+      attackWith(MOVES.surf),
+      fixedRandom(0.9),
+    )
+    expect(movesUsed(state)[0]).toBe('なみのり')
+  })
+
+  it('counts sleep down, then wakes and acts the same turn', () => {
+    const asleep = afflict(battle(), 'player', { kind: 'sleep', turns: 2 })
+    const first = resolveTurn(
+      asleep,
+      attackWith(MOVES.thunderbolt),
+      attackWith(MOVES.surf),
+      cleanHit(),
+    )
+    expect(kinds(first)).toContain('immobilised')
+    expect(activePokemon(first.player).status).toEqual({ kind: 'sleep', turns: 1 })
+
+    const second = resolveTurn(
+      first,
+      attackWith(MOVES.thunderbolt),
+      attackWith(MOVES.surf),
+      cleanHit(),
+    )
+    expect(second.events).toContainEqual({
+      kind: 'statusEnded',
+      side: 'player',
+      pokemon: 'ピカチュウ',
+      status: 'sleep',
+    })
+    expect(activePokemon(second.player).status).toBeNull()
+    expect(movesUsed(second)).toContain('10まんボルト')
+  })
+
+  it('softens a physical hit from a burned attacker', () => {
+    const healthy = resolveTurn(
+      battle(),
+      attackWith(MOVES.quickAttack),
+      attackWith(MOVES.surf),
+      cleanHit(),
+    )
+    const burned = resolveTurn(
+      afflict(battle(), 'player', { kind: 'burn' }),
+      attackWith(MOVES.quickAttack),
+      attackWith(MOVES.surf),
+      cleanHit(),
+    )
+    const dealt = (state: BattleState) =>
+      state.events.find((event) => event.kind === 'damage' && event.side === 'opponent')
+    expect(dealt(burned)).toMatchObject({ kind: 'damage' })
+    const healthyHit = dealt(healthy)
+    const burnedHit = dealt(burned)
+    if (healthyHit?.kind !== 'damage' || burnedHit?.kind !== 'damage') {
+      throw new Error('expected damage events')
+    }
+    expect(burnedHit.amount).toBeLessThan(healthyHit.amount)
+  })
+
+  it('does not soften a special hit from a burned attacker', () => {
+    const dealt = (state: BattleState) => {
+      const event = state.events.find((e) => e.kind === 'damage' && e.side === 'opponent')
+      if (event?.kind !== 'damage') throw new Error('expected damage')
+      return event.amount
+    }
+    const healthy = resolveTurn(
+      battle(),
+      attackWith(MOVES.thunderbolt),
+      attackWith(MOVES.surf),
+      cleanHit(),
+    )
+    const burned = resolveTurn(
+      afflict(battle(), 'player', { kind: 'burn' }),
+      attackWith(MOVES.thunderbolt),
+      attackWith(MOVES.surf),
+      cleanHit(),
+    )
+    expect(dealt(burned)).toBe(dealt(healthy))
+  })
+
+  it('carries a condition across a switch', () => {
+    const poisoned = afflict(battle(), 'player', { kind: 'poison' })
+    const state = resolveTurn(poisoned, swap(1), attackWith(MOVES.surf), cleanHit())
+    expect(state.player.members[0]?.status).toEqual({ kind: 'poison' })
+    expect(activePokemon(state.player).status).toBeNull()
+  })
+
+  it('can lose the battle to end-of-turn damage', () => {
+    const start = afflict(battle(), 'opponent', { kind: 'poison' })
+    const doomed: BattleState = {
+      ...start,
+      opponent: {
+        ...start.opponent,
+        members: start.opponent.members.map((m, i) =>
+          i === 0 ? { ...m, currentHp: 1 } : { ...m, currentHp: 0 },
+        ),
+      },
+    }
+    const state = resolveTurn(doomed, swap(1), attackWith(MOVES.surf), cleanHit())
+    expect(state.winner).toBe('player')
+  })
+})

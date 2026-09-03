@@ -1,5 +1,6 @@
 import type { BattleEvent } from '../domain/events'
 import type { PokemonType } from '../domain/types'
+import type { StatusKind } from '../domain/status'
 
 export const TYPE_NAMES: Record<PokemonType, string> = {
   normal: 'ノーマル',
@@ -29,6 +30,38 @@ export const TYPE_NAMES: Record<PokemonType, string> = {
  * matters: the games never print a number, but the event still carries one so
  * the UI can animate the health bar or float a figure over the sprite later.
  */
+export const STATUS_NAMES: Record<StatusKind, string> = {
+  poison: 'どく',
+  burn: 'やけど',
+  paralysis: 'まひ',
+  sleep: 'ねむり',
+  freeze: 'こおり',
+}
+
+const INFLICTED: Record<StatusKind, (pokemon: string) => string> = {
+  poison: (p) => `${p}は どくを あびた！`,
+  burn: (p) => `${p}は やけどを おった！`,
+  paralysis: (p) => `${p}は まひして わざが でにくくなった！`,
+  sleep: (p) => `${p}は ねむってしまった！`,
+  freeze: (p) => `${p}は こおりついた！`,
+}
+
+const IMMOBILISED: Record<StatusKind, (pokemon: string) => string> = {
+  poison: (p) => `${p}は うごけない！`,
+  burn: (p) => `${p}は うごけない！`,
+  paralysis: (p) => `${p}は からだが しびれて うごけない！`,
+  sleep: (p) => `${p}は ぐうぐう ねむっている`,
+  freeze: (p) => `${p}は こおって しまって うごけない！`,
+}
+
+const ENDED: Record<StatusKind, (pokemon: string) => string> = {
+  poison: (p) => `${p}の どくが なおった！`,
+  burn: (p) => `${p}の やけどが なおった！`,
+  paralysis: (p) => `${p}の まひが なおった！`,
+  sleep: (p) => `${p}は めを さました！`,
+  freeze: (p) => `${p}の こおりが とけた！`,
+}
+
 export function formatEvent(event: BattleEvent): string | null {
   switch (event.kind) {
     case 'encounter':
@@ -54,6 +87,14 @@ export function formatEvent(event: BattleEvent): string | null {
       return event.side === 'player'
         ? `ゆけっ！ ${event.pokemon}！`
         : `あいては ${event.pokemon}を くりだした！`
+    case 'statusInflicted':
+      return INFLICTED[event.status](event.pokemon)
+    case 'immobilised':
+      return IMMOBILISED[event.status](event.pokemon)
+    case 'statusEnded':
+      return ENDED[event.status](event.pokemon)
+    case 'statusDamage':
+      return `${event.pokemon}は ${STATUS_NAMES[event.status]}の ダメージを うけている！`
     case 'damage':
       return null
   }

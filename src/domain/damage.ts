@@ -1,5 +1,6 @@
 import type { BattlePokemon, Move } from './entities'
 import { typeEffectiveness } from './types'
+import { BURN_PHYSICAL_MULTIPLIER } from './status'
 
 /** Chance that a hit lands a critical, matching the games' base rate of 1/24. */
 export const CRITICAL_CHANCE = 1 / 24
@@ -40,10 +41,13 @@ export function calculateDamage(
     return { damage: 0, effectiveness, critical: false }
   }
 
-  const [attack, defense] =
-    move.category === 'physical'
-      ? [attacker.stats.attack, defender.stats.defense]
-      : [attacker.stats.specialAttack, defender.stats.specialDefense]
+  const physical = move.category === 'physical'
+  const [attack, defense] = physical
+    ? [attacker.stats.attack, defender.stats.defense]
+    : [attacker.stats.specialAttack, defender.stats.specialDefense]
+
+  const burned =
+    physical && attacker.status?.kind === 'burn' ? BURN_PHYSICAL_MULTIPLIER : 1
 
   const base =
     Math.floor(
@@ -56,6 +60,9 @@ export function calculateDamage(
   const crit = critical ? CRITICAL_MULTIPLIER : 1
 
   // A hit that connects always takes off at least 1 HP.
-  const damage = Math.max(1, Math.floor(base * stab * effectiveness * crit * spread))
+  const damage = Math.max(
+    1,
+    Math.floor(base * stab * effectiveness * crit * burned * spread),
+  )
   return { damage, effectiveness, critical }
 }

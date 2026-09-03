@@ -73,9 +73,40 @@ h1 {
   gap: 0.5rem;
 }
 
+.header-right {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
 .level {
   color: var(--muted);
   font-size: 0.85rem;
+}
+
+.status {
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--muted);
+}
+
+.status[data-status='poison'] {
+  background: #8b46b5;
+}
+.status[data-status='burn'] {
+  background: #cc3b30;
+}
+.status[data-status='paralysis'] {
+  background: #b58900;
+}
+.status[data-status='sleep'] {
+  background: #5b6270;
+}
+.status[data-status='freeze'] {
+  background: #2f7fb5;
 }
 
 .bar {

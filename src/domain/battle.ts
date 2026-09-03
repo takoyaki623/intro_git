@@ -1,6 +1,7 @@
 import type { BattlePokemon, Move, Side, TeamState } from './entities'
 import {
   activePokemon,
+  effectiveSpeed,
   isFainted,
   isTeamDefeated,
   switchableIndexes,
@@ -8,6 +9,7 @@ import {
   withMember,
 } from './entities'
 import type { BattleEvent } from './events'
+import { createStatus, endOfTurnDamage, gateAction, isImmuneTo } from './status'
 import { calculateDamage, type Random } from './damage'
 
 export type { Side }
@@ -42,6 +44,15 @@ export function createBattle(player: TeamState, opponent: TeamState): BattleStat
   }
 }
 
+function withActiveMember(
+  state: BattleState,
+  side: Side,
+  pokemon: BattlePokemon,
+): BattleState {
+  const team = state[side]
+  return { ...state, [side]: withMember(team, team.activeIndex, pokemon) }
+}
+
 function damaged(pokemon: BattlePokemon, amount: number): BattlePokemon {
   return { ...pokemon, currentHp: Math.max(0, pokemon.currentHp - amount) }
 }
@@ -49,7 +60,8 @@ function damaged(pokemon: BattlePokemon, amount: number): BattlePokemon {
 /** Who acts first. Faster acts first; a speed tie is broken by the coin flip. */
 function turnOrder(state: BattleState, random: Random): [Side, Side] {
   const difference =
-    activePokemon(state.player).stats.speed - activePokemon(state.opponent).stats.speed
+    effectiveSpeed(activePokemon(state.player)) -
+    effectiveSpeed(activePokemon(state.opponent))
   if (difference > 0) return ['player', 'opponent']
   if (difference < 0) return ['opponent', 'player']
   return random() < 0.5 ? ['player', 'opponent'] : ['opponent', 'player']
@@ -78,6 +90,39 @@ function applySwitch(
   return { ...state, [side]: withActive(team, index), events }
 }
 
+/**
+ * A move's parting gift, if it has one. Draws once for the chance and, for
+ * sleep, once more for how long it lasts. A target that is already afflicted,
+ * immune by type, or down takes nothing.
+ */
+function applyEffect(
+  state: BattleState,
+  targetSide: Side,
+  move: Move,
+  random: Random,
+): BattleState {
+  if (!move.effect) return state
+
+  const landed = random() < move.effect.chance
+  const target = activePokemon(state[targetSide])
+  if (!landed || target.status || isFainted(target)) return state
+  if (isImmuneTo(move.effect.status, target.species.types)) return state
+
+  const status = createStatus(move.effect.status, random)
+  return {
+    ...withActiveMember(state, targetSide, { ...target, status }),
+    events: [
+      ...state.events,
+      {
+        kind: 'statusInflicted',
+        side: targetSide,
+        pokemon: target.species.name,
+        status: move.effect.status,
+      },
+    ],
+  }
+}
+
 function attack(
   state: BattleState,
   attackerSide: Side,
@@ -85,25 +130,55 @@ function attack(
   random: Random,
 ): BattleState {
   const defenderSide = other(attackerSide)
-  const defenderTeam = state[defenderSide]
-  const attacker = activePokemon(state[attackerSide])
-  const defender = activePokemon(defenderTeam)
+  const attackerTeam = state[attackerSide]
+  const attacker = activePokemon(attackerTeam)
 
-  const events: BattleEvent[] = [
-    ...state.events,
-    {
-      kind: 'useMove',
+  // A condition gets its say before the move does. Waking or thawing lets the
+  // Pokemon act on the same turn, as it does in the games.
+  const gate = gateAction(attacker.status, random)
+  const gated =
+    gate.status === attacker.status
+      ? state
+      : withActiveMember(state, attackerSide, { ...attacker, status: gate.status })
+
+  const events: BattleEvent[] = [...gated.events]
+  if (gate.ended) {
+    events.push({
+      kind: 'statusEnded',
       side: attackerSide,
       pokemon: attacker.species.name,
-      move: move.name,
-    },
-  ]
+      status: gate.ended,
+    })
+  }
+  if (gate.blockedBy) {
+    events.push({
+      kind: 'immobilised',
+      side: attackerSide,
+      pokemon: attacker.species.name,
+      status: gate.blockedBy,
+    })
+    return { ...gated, events }
+  }
+
+  events.push({
+    kind: 'useMove',
+    side: attackerSide,
+    pokemon: attacker.species.name,
+    move: move.name,
+  })
 
   if (random() >= move.accuracy) {
     events.push({ kind: 'miss', side: attackerSide, pokemon: attacker.species.name })
-    return { ...state, events }
+    return { ...gated, events }
   }
 
+  // A status move never deals damage; it exists only for its effect.
+  if (move.category === 'status') {
+    return applyEffect({ ...gated, events }, defenderSide, move, random)
+  }
+
+  const defenderTeam = gated[defenderSide]
+  const defender = activePokemon(defenderTeam)
   const result = calculateDamage(attacker, defender, move, random)
   const hit = damaged(defender, result.damage)
   const nextTeam = withMember(defenderTeam, defenderTeam.activeIndex, hit)
@@ -125,13 +200,50 @@ function attack(
     events.push({ kind: 'faint', side: defenderSide, pokemon: hit.species.name })
   }
 
-  return {
-    ...state,
+  const struck: BattleState = {
+    ...gated,
     [defenderSide]: nextTeam,
     events,
     // A faint only ends the battle once the whole party is down.
-    winner: fainted && isTeamDefeated(nextTeam) ? attackerSide : state.winner,
+    winner: fainted && isTeamDefeated(nextTeam) ? attackerSide : gated.winner,
   }
+
+  return fainted ? struck : applyEffect(struck, defenderSide, move, random)
+}
+
+/** Poison and burn bite once both sides have finished acting. */
+function endOfTurn(state: BattleState, order: readonly Side[]): BattleState {
+  return order.reduce<BattleState>((current, side) => {
+    if (current.winner) return current
+
+    const team = current[side]
+    const pokemon = activePokemon(team)
+    const amount = endOfTurnDamage(pokemon.status, pokemon.stats.hp)
+    if (isFainted(pokemon) || amount === 0 || !pokemon.status) return current
+
+    const hurt = damaged(pokemon, amount)
+    const nextTeam = withMember(team, team.activeIndex, hurt)
+    const events: BattleEvent[] = [
+      ...current.events,
+      {
+        kind: 'statusDamage',
+        side,
+        pokemon: pokemon.species.name,
+        status: pokemon.status.kind,
+        amount,
+      },
+    ]
+    if (isFainted(hurt)) {
+      events.push({ kind: 'faint', side, pokemon: hurt.species.name })
+    }
+
+    return {
+      ...current,
+      [side]: nextTeam,
+      events,
+      winner: isFainted(hurt) && isTeamDefeated(nextTeam) ? other(side) : current.winner,
+    }
+  }, state)
 }
 
 /**
@@ -152,8 +264,8 @@ function settleFaints(state: BattleState): BattleState {
 }
 
 /**
- * Resolve one full turn. Switches happen before any move, and a Pokemon that
- * faints partway through does not get to act.
+ * Resolve one full turn: switches, then moves, then the conditions that bite
+ * at the end. A Pokemon that faints partway through does not get to act.
  */
 export function resolveTurn(
   state: BattleState,
@@ -186,7 +298,7 @@ export function resolveTurn(
     return attack(current, side, action.move, random)
   }, switched)
 
-  return settleFaints(attacked)
+  return settleFaints(endOfTurn(attacked, order))
 }
 
 /** Send out the replacement the player owes after a faint. */

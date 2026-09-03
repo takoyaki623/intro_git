@@ -13,7 +13,8 @@ export function MoveButtons({ moves, onSelect }: Props) {
         <button key={move.id} type="button" onClick={() => onSelect(move)}>
           <strong>{move.name}</strong>
           <span className="meta">
-            {TYPE_NAMES[move.type]}・威力 {move.power}
+            {TYPE_NAMES[move.type]}・
+            {move.category === 'status' ? 'へんか' : `威力 ${move.power}`}
           </span>
         </button>
       ))}

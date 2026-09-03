@@ -1,18 +1,23 @@
 import type { PokemonType } from './types'
+import type { Status, StatusKind } from './status'
+import { PARALYSIS_SPEED_MULTIPLIER } from './status'
 
 /** Which corner of the battle a Pokemon belongs to. */
 export type Side = 'player' | 'opponent'
 
-export type MoveCategory = 'physical' | 'special'
+export type MoveCategory = 'physical' | 'special' | 'status'
 
 export interface Move {
   readonly id: string
   readonly name: string
   readonly type: PokemonType
   readonly category: MoveCategory
+  /** Zero for a status move, which only applies its effect. */
   readonly power: number
   /** Hit chance from 0 to 1. */
   readonly accuracy: number
+  /** A condition the move may leave behind. */
+  readonly effect?: { readonly status: StatusKind; readonly chance: number }
 }
 
 export interface Stats {
@@ -38,6 +43,7 @@ export interface BattlePokemon {
   /** Stats at this level, derived from the species' base stats. */
   readonly stats: Stats
   readonly currentHp: number
+  readonly status: Status | null
 }
 
 /**
@@ -58,7 +64,14 @@ export function statsAtLevel(base: Stats, level: number): Stats {
 
 export function createBattlePokemon(species: Species, level: number): BattlePokemon {
   const stats = statsAtLevel(species.baseStats, level)
-  return { species, level, stats, currentHp: stats.hp }
+  return { species, level, stats, currentHp: stats.hp, status: null }
+}
+
+/** Speed after paralysis, which is what decides who moves first. */
+export function effectiveSpeed(pokemon: BattlePokemon): number {
+  return pokemon.status?.kind === 'paralysis'
+    ? Math.floor(pokemon.stats.speed * PARALYSIS_SPEED_MULTIPLIER)
+    : pokemon.stats.speed
 }
 
 export function isFainted(pokemon: BattlePokemon): boolean {

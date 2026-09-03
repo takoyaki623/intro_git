@@ -1,5 +1,6 @@
 import type { TeamState } from '../domain/entities'
 import { isFainted } from '../domain/entities'
+import { STATUS_NAMES } from '../ui/messages'
 
 interface Props {
   team: TeamState
@@ -29,6 +30,7 @@ export function SwitchButtons({ team, onSelect, label }: Props) {
                   : out
                     ? 'せんとうちゅう'
                     : `${member.currentHp} / ${member.stats.hp}`}
+                {!down && member.status ? ` ・${STATUS_NAMES[member.status.kind]}` : ''}
               </span>
             </button>
           )

@@ -1,4 +1,5 @@
 import type { Side } from './entities'
+import type { StatusKind } from './status'
 
 /**
  * What happened during a turn, recorded as data rather than prose.
@@ -32,3 +33,28 @@ export type BattleEvent =
   | { readonly kind: 'faint'; readonly side: Side; readonly pokemon: string }
   | { readonly kind: 'withdraw'; readonly side: Side; readonly pokemon: string }
   | { readonly kind: 'sendOut'; readonly side: Side; readonly pokemon: string }
+  | {
+      readonly kind: 'statusInflicted'
+      readonly side: Side
+      readonly pokemon: string
+      readonly status: StatusKind
+    }
+  | {
+      readonly kind: 'statusDamage'
+      readonly side: Side
+      readonly pokemon: string
+      readonly status: StatusKind
+      readonly amount: number
+    }
+  | {
+      readonly kind: 'immobilised'
+      readonly side: Side
+      readonly pokemon: string
+      readonly status: StatusKind
+    }
+  | {
+      readonly kind: 'statusEnded'
+      readonly side: Side
+      readonly pokemon: string
+      readonly status: StatusKind
+    }

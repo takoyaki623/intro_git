@@ -58,6 +58,23 @@ test('決着まで戦えて、やりなおせる', async ({ page }) => {
   await expect(page.getByTestId('opponent-hp')).toHaveText('104 / 104 HP')
 })
 
+test('でんじは が当たると まひ が表示される', async ({ page }) => {
+  const denjiha = page.getByRole('button', { name: /でんじは/ })
+  const badge = page.getByTestId('opponent-card').getByText('まひ', { exact: true })
+
+  // でんじは is 90% accurate and always paralyses, so a few tries will land it.
+  for (let i = 0; i < 8; i++) {
+    if (await badge.count()) break
+    if (!(await denjiha.count())) break
+    await denjiha.click()
+  }
+
+  await expect(badge).toBeVisible()
+  await expect(page.getByTestId('battle-log')).toContainText(
+    'まひして わざが でにくくなった',
+  )
+})
+
 test('戦闘中にコンソールエラーが出ない', async ({ page }) => {
   const errors: string[] = []
   page.on('console', (message) => {
@@ -65,8 +82,14 @@ test('戦闘中にコンソールエラーが出ない', async ({ page }) => {
   })
   page.on('pageerror', (error) => errors.push(error.message))
 
-  await page.getByRole('button', { name: /10まんボルト/ }).click()
-  await page.getByRole('button', { name: /でんこうせっか/ }).click()
+  const moves = page.getByRole('region', { name: 'わざ' })
+  for (let i = 0; i < 6; i++) {
+    if (!(await moves.count())) break
+    await moves
+      .getByRole('button')
+      .nth(i % 4)
+      .click()
+  }
 
   expect(errors).toEqual([])
 })

@@ -9,6 +9,7 @@ export const MOVES = {
     category: 'special',
     power: 90,
     accuracy: 1,
+    effect: { status: 'paralysis', chance: 0.1 },
   },
   quickAttack: {
     id: 'quickAttack',
@@ -41,6 +42,7 @@ export const MOVES = {
     category: 'special',
     power: 40,
     accuracy: 1,
+    effect: { status: 'burn', chance: 0.1 },
   },
   flamethrower: {
     id: 'flamethrower',
@@ -49,6 +51,7 @@ export const MOVES = {
     category: 'special',
     power: 90,
     accuracy: 1,
+    effect: { status: 'burn', chance: 0.1 },
   },
   scratch: {
     id: 'scratch',
@@ -130,6 +133,33 @@ export const MOVES = {
     power: 50,
     accuracy: 0.9,
   },
+  thunderWave: {
+    id: 'thunderWave',
+    name: 'でんじは',
+    type: 'electric',
+    category: 'status',
+    power: 0,
+    accuracy: 0.9,
+    effect: { status: 'paralysis', chance: 1 },
+  },
+  sleepPowder: {
+    id: 'sleepPowder',
+    name: 'ねむりごな',
+    type: 'grass',
+    category: 'status',
+    power: 0,
+    accuracy: 0.75,
+    effect: { status: 'sleep', chance: 1 },
+  },
+  iceBeam: {
+    id: 'iceBeam',
+    name: 'れいとうビーム',
+    type: 'ice',
+    category: 'special',
+    power: 90,
+    accuracy: 1,
+    effect: { status: 'freeze', chance: 0.1 },
+  },
   sludgeBomb: {
     id: 'sludgeBomb',
     name: 'ヘドロばくだん',
@@ -137,5 +167,6 @@ export const MOVES = {
     category: 'special',
     power: 90,
     accuracy: 1,
+    effect: { status: 'poison', chance: 0.3 },
   },
 } as const satisfies Record<string, Move>

@@ -1,7 +1,22 @@
 import { describe, expect, it } from 'vitest'
 import type { BattleEvent } from '../domain/events'
 import { POKEMON_TYPES } from '../domain/types'
-import { TYPE_NAMES, formatEvent, formatLog, outcomeMessage } from './messages'
+import type { StatusKind } from '../domain/status'
+import {
+  STATUS_NAMES,
+  TYPE_NAMES,
+  formatEvent,
+  formatLog,
+  outcomeMessage,
+} from './messages'
+
+const ALL_STATUSES: readonly StatusKind[] = [
+  'poison',
+  'burn',
+  'paralysis',
+  'sleep',
+  'freeze',
+]
 
 describe('formatEvent', () => {
   it('narrates the start of a battle', () => {
@@ -76,5 +91,80 @@ describe('outcomeMessage', () => {
     expect(outcomeMessage('opponent', 'ピカチュウ', 'ゼニガメ')).toBe(
       'ピカチュウは たおれてしまった...',
     )
+  })
+})
+
+describe('status wording', () => {
+  it.each(ALL_STATUSES)('names %s', (status) => {
+    expect(STATUS_NAMES[status]).toBeTruthy()
+  })
+
+  it.each(ALL_STATUSES)('announces %s being inflicted', (status) => {
+    const line = formatEvent({
+      kind: 'statusInflicted',
+      side: 'opponent',
+      pokemon: 'ゼニガメ',
+      status,
+    })
+    expect(line).toContain('ゼニガメ')
+  })
+
+  it.each(ALL_STATUSES)('announces being held up by %s', (status) => {
+    const line = formatEvent({
+      kind: 'immobilised',
+      side: 'player',
+      pokemon: 'ピカチュウ',
+      status,
+    })
+    expect(line).toContain('ピカチュウ')
+  })
+
+  it.each(ALL_STATUSES)('announces %s wearing off', (status) => {
+    const line = formatEvent({
+      kind: 'statusEnded',
+      side: 'player',
+      pokemon: 'ピカチュウ',
+      status,
+    })
+    expect(line).toContain('ピカチュウ')
+  })
+
+  it('uses the wording the games use for the ones players see most', () => {
+    expect(
+      formatEvent({
+        kind: 'statusInflicted',
+        side: 'opponent',
+        pokemon: 'ゼニガメ',
+        status: 'paralysis',
+      }),
+    ).toBe('ゼニガメは まひして わざが でにくくなった！')
+    expect(
+      formatEvent({
+        kind: 'immobilised',
+        side: 'player',
+        pokemon: 'ピカチュウ',
+        status: 'sleep',
+      }),
+    ).toBe('ピカチュウは ぐうぐう ねむっている')
+    expect(
+      formatEvent({
+        kind: 'statusEnded',
+        side: 'player',
+        pokemon: 'ピカチュウ',
+        status: 'freeze',
+      }),
+    ).toBe('ピカチュウの こおりが とけた！')
+  })
+
+  it('names the condition in the end-of-turn tick', () => {
+    expect(
+      formatEvent({
+        kind: 'statusDamage',
+        side: 'opponent',
+        pokemon: 'ゼニガメ',
+        status: 'poison',
+        amount: 13,
+      }),
+    ).toBe('ゼニガメは どくの ダメージを うけている！')
   })
 })

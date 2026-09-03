@@ -15,7 +15,7 @@ export const SPECIES = {
       specialDefense: 50,
       speed: 90,
     },
-    moves: [MOVES.thunderbolt, MOVES.quickAttack, MOVES.ironTail, MOVES.dig],
+    moves: [MOVES.thunderbolt, MOVES.quickAttack, MOVES.thunderWave, MOVES.dig],
   },
   charmander: {
     id: 'charmander',
@@ -43,7 +43,7 @@ export const SPECIES = {
       specialDefense: 64,
       speed: 43,
     },
-    moves: [MOVES.surf, MOVES.waterGun, MOVES.tackle, MOVES.bite],
+    moves: [MOVES.surf, MOVES.iceBeam, MOVES.tackle, MOVES.bite],
   },
   bulbasaur: {
     id: 'bulbasaur',
@@ -57,7 +57,7 @@ export const SPECIES = {
       specialDefense: 65,
       speed: 45,
     },
-    moves: [MOVES.razorLeaf, MOVES.vineWhip, MOVES.sludgeBomb, MOVES.tackle],
+    moves: [MOVES.razorLeaf, MOVES.sleepPowder, MOVES.sludgeBomb, MOVES.vineWhip],
   },
   eevee: {
     id: 'eevee',

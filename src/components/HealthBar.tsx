@@ -1,4 +1,5 @@
 import type { BattlePokemon } from '../domain/entities'
+import { STATUS_NAMES } from '../ui/messages'
 
 interface Props {
   pokemon: BattlePokemon
@@ -14,7 +15,14 @@ export function HealthBar({ pokemon, side }: Props) {
     <article className="card" data-side={side} data-testid={`${side}-card`}>
       <header>
         <strong>{pokemon.species.name}</strong>
-        <span className="level">Lv{pokemon.level}</span>
+        <span className="header-right">
+          {pokemon.status ? (
+            <span className="status" data-status={pokemon.status.kind}>
+              {STATUS_NAMES[pokemon.status.kind]}
+            </span>
+          ) : null}
+          <span className="level">Lv{pokemon.level}</span>
+        </span>
       </header>
       <div
         className="bar"

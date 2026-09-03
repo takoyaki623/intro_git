@@ -49,6 +49,13 @@ describe('App', () => {
     expect(screen.getByRole('button', { name: /10まんボルト/ })).toBeInTheDocument()
   })
 
+  it('labels a status move as へんか rather than showing zero power', () => {
+    render(<App />)
+    const denjiha = screen.getByRole('button', { name: /でんじは/ })
+    expect(denjiha).toHaveTextContent('でんき・へんか')
+    expect(denjiha).not.toHaveTextContent('威力')
+  })
+
   it('damages the opponent when a move is used', async () => {
     const user = userEvent.setup()
     render(<App />)
