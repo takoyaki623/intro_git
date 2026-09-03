@@ -5,7 +5,7 @@ import { MOVES } from './moves'
 export const SPECIES = {
   pikachu: {
     id: 'pikachu',
-    name: 'Pikachu',
+    name: 'ピカチュウ',
     types: ['electric'],
     baseStats: {
       hp: 35,
@@ -19,7 +19,7 @@ export const SPECIES = {
   },
   charmander: {
     id: 'charmander',
-    name: 'Charmander',
+    name: 'ヒトカゲ',
     types: ['fire'],
     baseStats: {
       hp: 39,
@@ -33,7 +33,7 @@ export const SPECIES = {
   },
   squirtle: {
     id: 'squirtle',
-    name: 'Squirtle',
+    name: 'ゼニガメ',
     types: ['water'],
     baseStats: {
       hp: 44,
@@ -47,7 +47,7 @@ export const SPECIES = {
   },
   bulbasaur: {
     id: 'bulbasaur',
-    name: 'Bulbasaur',
+    name: 'フシギダネ',
     types: ['grass', 'poison'],
     baseStats: {
       hp: 45,

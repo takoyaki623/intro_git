@@ -1,5 +1,8 @@
 import type { PokemonType } from './types'
 
+/** Which corner of the battle a Pokemon belongs to. */
+export type Side = 'player' | 'opponent'
+
 export type MoveCategory = 'physical' | 'special'
 
 export interface Move {

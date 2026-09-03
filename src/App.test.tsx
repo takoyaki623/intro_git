@@ -12,18 +12,18 @@ describe('App', () => {
 
   it('shows the player the moves their Pokemon knows', () => {
     render(<App />)
-    const moves = screen.getByRole('region', { name: 'Moves' })
+    const moves = screen.getByRole('region', { name: 'わざ' })
     expect(moves).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /Thunderbolt/ })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /10まんボルト/ })).toBeInTheDocument()
   })
 
   it('damages the opponent when a move is used', async () => {
     const user = userEvent.setup()
     render(<App />)
-    await user.click(screen.getByRole('button', { name: /Thunderbolt/ }))
+    await user.click(screen.getByRole('button', { name: /10まんボルト/ }))
 
     const log = screen.getByTestId('battle-log')
-    expect(log).toHaveTextContent('Pikachu used Thunderbolt!')
+    expect(log).toHaveTextContent('ピカチュウの 10まんボルト！')
     expect(screen.getByTestId('opponent-hp')).not.toHaveTextContent('104 / 104 HP')
   })
 
@@ -31,14 +31,16 @@ describe('App', () => {
     const user = userEvent.setup()
     render(<App />)
 
-    // Thunderbolt is 2x into Squirtle, so a handful of turns settles it.
+    // 10まんボルト is 2x into ゼニガメ, so a handful of turns settles it.
     for (let i = 0; i < 12; i++) {
-      const button = screen.queryByRole('button', { name: /Thunderbolt/ })
+      const button = screen.queryByRole('button', { name: /10まんボルト/ })
       if (!button) break
       await user.click(button)
     }
 
-    expect(screen.getByRole('button', { name: 'Battle again' })).toBeInTheDocument()
-    expect(screen.getByRole('status')).toHaveTextContent(/win|lose/)
+    expect(
+      screen.getByRole('button', { name: 'もういちど たたかう' }),
+    ).toBeInTheDocument()
+    expect(screen.getByRole('status')).toHaveTextContent(/たおした|たおれてしまった/)
   })
 })

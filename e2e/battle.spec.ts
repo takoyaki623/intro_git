@@ -4,43 +4,47 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/')
 })
 
-test('opens with both Pokemon at full health', async ({ page }) => {
-  await expect(page.getByRole('heading', { name: 'Pokémon Battle' })).toBeVisible()
+test('開始時は両者フル HP', async ({ page }) => {
+  await expect(page.getByRole('heading', { name: 'ポケモンバトル' })).toBeVisible()
   await expect(page.getByTestId('player-hp')).toHaveText('95 / 95 HP')
   await expect(page.getByTestId('opponent-hp')).toHaveText('104 / 104 HP')
-  await expect(page.getByTestId('battle-log')).toContainText('A wild Squirtle appeared!')
+  await expect(page.getByTestId('battle-log')).toContainText(
+    'やせいの ゼニガメが とびだしてきた！',
+  )
 })
 
-test('using a move damages the opponent and writes to the log', async ({ page }) => {
-  await page.getByRole('button', { name: /Thunderbolt/ }).click()
+test('わざを使うと相手が削れ、ログに残る', async ({ page }) => {
+  await page.getByRole('button', { name: /10まんボルト/ }).click()
 
-  await expect(page.getByTestId('battle-log')).toContainText('Pikachu used Thunderbolt!')
+  await expect(page.getByTestId('battle-log')).toContainText(
+    'ピカチュウの 10まんボルト！',
+  )
   await expect(page.getByTestId('opponent-hp')).not.toHaveText('104 / 104 HP')
 })
 
-test('a battle can be played to a result and restarted', async ({ page }) => {
-  const thunderbolt = page.getByRole('button', { name: /Thunderbolt/ })
+test('決着まで戦えて、やりなおせる', async ({ page }) => {
+  const thunderbolt = page.getByRole('button', { name: /10まんボルト/ })
 
   for (let i = 0; i < 15 && (await thunderbolt.count()) > 0; i++) {
     await thunderbolt.click()
   }
 
-  await expect(page.getByRole('status')).toContainText(/win|lose/)
+  await expect(page.getByRole('status')).toContainText(/たおした|たおれてしまった/)
 
-  await page.getByRole('button', { name: 'Battle again' }).click()
+  await page.getByRole('button', { name: 'もういちど たたかう' }).click()
   await expect(page.getByTestId('player-hp')).toHaveText('95 / 95 HP')
   await expect(page.getByTestId('opponent-hp')).toHaveText('104 / 104 HP')
 })
 
-test('reports no console errors during a battle', async ({ page }) => {
+test('戦闘中にコンソールエラーが出ない', async ({ page }) => {
   const errors: string[] = []
   page.on('console', (message) => {
     if (message.type() === 'error') errors.push(message.text())
   })
   page.on('pageerror', (error) => errors.push(error.message))
 
-  await page.getByRole('button', { name: /Thunderbolt/ }).click()
-  await page.getByRole('button', { name: /Quick Attack/ }).click()
+  await page.getByRole('button', { name: /10まんボルト/ }).click()
+  await page.getByRole('button', { name: /でんこうせっか/ }).click()
 
   expect(errors).toEqual([])
 })

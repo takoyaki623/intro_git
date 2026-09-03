@@ -1,14 +1,14 @@
-import type { BattlePokemon, Move } from './entities'
+import type { BattlePokemon, Move, Side } from './entities'
 import { isFainted } from './entities'
+import type { BattleEvent } from './events'
 import { calculateDamage, type Random } from './damage'
-import { effectivenessMessage } from './types'
 
-export type Side = 'player' | 'opponent'
+export type { Side }
 
 export interface BattleState {
   readonly player: BattlePokemon
   readonly opponent: BattlePokemon
-  readonly log: readonly string[]
+  readonly events: readonly BattleEvent[]
   readonly winner: Side | null
 }
 
@@ -19,7 +19,7 @@ export function createBattle(
   return {
     player,
     opponent,
-    log: [`A wild ${opponent.species.name} appeared!`],
+    events: [{ kind: 'encounter', pokemon: opponent.species.name }],
     winner: null,
   }
 }
@@ -45,25 +45,47 @@ function attack(
   const defenderSide: Side = attackerSide === 'player' ? 'opponent' : 'player'
   const attacker = state[attackerSide]
   const defender = state[defenderSide]
-  const log = [...state.log, `${attacker.species.name} used ${move.name}!`]
+
+  const events: BattleEvent[] = [
+    ...state.events,
+    {
+      kind: 'useMove',
+      side: attackerSide,
+      pokemon: attacker.species.name,
+      move: move.name,
+    },
+  ]
 
   if (random() >= move.accuracy) {
-    return { ...state, log: [...log, `${attacker.species.name}'s attack missed!`] }
+    events.push({ kind: 'miss', side: attackerSide, pokemon: attacker.species.name })
+    return { ...state, events }
   }
 
   const result = calculateDamage(attacker, defender, move, random)
   const hit = damaged(defender, result.damage)
+  const fainted = isFainted(hit)
 
-  if (result.critical && result.damage > 0) log.push('A critical hit!')
-  const message = effectivenessMessage(result.effectiveness)
-  if (message) log.push(message)
-  if (isFainted(hit)) log.push(`${hit.species.name} fainted!`)
+  if (result.critical && result.damage > 0) events.push({ kind: 'critical' })
+  events.push({
+    kind: 'effectiveness',
+    multiplier: result.effectiveness,
+    target: defender.species.name,
+  })
+  events.push({
+    kind: 'damage',
+    side: defenderSide,
+    pokemon: defender.species.name,
+    amount: result.damage,
+  })
+  if (fainted) {
+    events.push({ kind: 'faint', side: defenderSide, pokemon: hit.species.name })
+  }
 
   return {
     ...state,
     [defenderSide]: hit,
-    log,
-    winner: isFainted(hit) ? attackerSide : state.winner,
+    events,
+    winner: fainted ? attackerSide : state.winner,
   }
 }
 

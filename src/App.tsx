@@ -3,6 +3,7 @@ import type { Move } from './domain/entities'
 import { createBattlePokemon } from './domain/entities'
 import { chooseOpponentMove, createBattle, resolveTurn } from './domain/battle'
 import { SPECIES } from './data/species'
+import { outcomeMessage } from './ui/messages'
 import { HealthBar } from './components/HealthBar'
 import { MoveButtons } from './components/MoveButtons'
 import { BattleLog } from './components/BattleLog'
@@ -20,21 +21,23 @@ export default function App() {
   const [battle, setBattle] = useState(newBattle)
 
   const useMove = (move: Move) => {
-    setBattle((current) =>
-      resolveTurn(current, move, chooseOpponentMove(current.opponent), Math.random),
-    )
+    // Resolving the turn rolls dice, so it happens here rather than inside the
+    // setState updater: React may call an updater more than once and expects a
+    // pure function of the previous state.
+    setBattle(resolveTurn(battle, move, chooseOpponentMove(battle.opponent)))
   }
 
-  const outcome =
-    battle.winner === 'player'
-      ? `${battle.opponent.species.name} fainted. You win!`
-      : battle.winner === 'opponent'
-        ? `${battle.player.species.name} fainted. You lose...`
-        : null
+  const outcome = battle.winner
+    ? outcomeMessage(
+        battle.winner,
+        battle.player.species.name,
+        battle.opponent.species.name,
+      )
+    : null
 
   return (
     <main className="battle">
-      <h1>Pokémon Battle</h1>
+      <h1>ポケモンバトル</h1>
 
       <section className="field">
         <HealthBar pokemon={battle.opponent} side="opponent" />
@@ -45,14 +48,14 @@ export default function App() {
         <section className="outcome">
           <p role="status">{outcome}</p>
           <button type="button" onClick={() => setBattle(newBattle())}>
-            Battle again
+            もういちど たたかう
           </button>
         </section>
       ) : (
         <MoveButtons moves={battle.player.species.moves} onSelect={useMove} />
       )}
 
-      <BattleLog lines={battle.log} />
+      <BattleLog events={battle.events} />
     </main>
   )
 }

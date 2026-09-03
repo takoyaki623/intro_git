@@ -4,6 +4,13 @@ import { createBattlePokemon, statsAtLevel } from './entities'
 import { SPECIES } from '../data/species'
 import { MOVES } from '../data/moves'
 import { fixedRandom, scriptedRandom } from '../test/rng'
+import type { BattleState } from './battle'
+
+/** Move names in the order they were used, newest last. */
+const movesUsed = (state: BattleState) =>
+  state.events.flatMap((event) => (event.kind === 'useMove' ? [event.move] : []))
+
+const kinds = (state: BattleState) => state.events.map((event) => event.kind)
 
 const pikachu = createBattlePokemon(SPECIES.pikachu, 50) // speed 95
 const squirtle = createBattlePokemon(SPECIES.squirtle, 50) // speed 48
@@ -33,7 +40,7 @@ describe('createBattle', () => {
     const state = createBattle(pikachu, squirtle)
     expect(state.winner).toBeNull()
     expect(state.player.currentHp).toBe(state.player.stats.hp)
-    expect(state.log).toContain('A wild Squirtle appeared!')
+    expect(state.events).toEqual([{ kind: 'encounter', pokemon: 'ゼニガメ' }])
   })
 })
 
@@ -45,9 +52,7 @@ describe('resolveTurn', () => {
       MOVES.surf,
       cleanHit(),
     )
-    const used = state.log.filter((line) => line.includes('used'))
-    expect(used[0]).toBe('Pikachu used Thunderbolt!')
-    expect(used[1]).toBe('Squirtle used Surf!')
+    expect(movesUsed(state)).toEqual(['10まんボルト', 'なみのり'])
   })
 
   it('damages both sides when neither faints', () => {
@@ -71,9 +76,9 @@ describe('resolveTurn', () => {
     )
     expect(state.winner).toBe('player')
     expect(state.opponent.currentHp).toBe(0)
-    expect(state.log).toContain('Squirtle fainted!')
+    expect(kinds(state)).toContain('faint')
     // The opponent fainted before it could act.
-    expect(state.log).not.toContain('Squirtle used Surf!')
+    expect(movesUsed(state)).toEqual(['10まんボルト'])
     expect(state.player.currentHp).toBe(state.player.stats.hp)
   })
 
@@ -85,7 +90,7 @@ describe('resolveTurn', () => {
       MOVES.surf,
       fixedRandom(0.99),
     )
-    expect(state.log).toContain("Pikachu's attack missed!")
+    expect(kinds(state)).toContain('miss')
   })
 
   it('announces effectiveness', () => {
@@ -95,7 +100,11 @@ describe('resolveTurn', () => {
       MOVES.surf,
       cleanHit(),
     )
-    expect(state.log).toContain("It's super effective!")
+    expect(state.events).toContainEqual({
+      kind: 'effectiveness',
+      multiplier: 2,
+      target: 'ゼニガメ',
+    })
   })
 
   it('is a no-op once the battle is over', () => {
@@ -126,8 +135,8 @@ describe('resolveTurn', () => {
       MOVES.ironTail,
       scriptedRandom(0.6, 0.9),
     )
-    expect(playerFirst.log.filter((l) => l.includes('used'))[0]).toContain('Quick Attack')
-    expect(opponentFirst.log.filter((l) => l.includes('used'))[0]).toContain('Iron Tail')
+    expect(movesUsed(playerFirst)[0]).toBe('でんこうせっか')
+    expect(movesUsed(opponentFirst)[0]).toBe('アイアンテール')
   })
 })
 

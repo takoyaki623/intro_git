@@ -4,7 +4,7 @@ import type { Move } from '../domain/entities'
 export const MOVES = {
   thunderbolt: {
     id: 'thunderbolt',
-    name: 'Thunderbolt',
+    name: '10まんボルト',
     type: 'electric',
     category: 'special',
     power: 90,
@@ -12,7 +12,7 @@ export const MOVES = {
   },
   quickAttack: {
     id: 'quickAttack',
-    name: 'Quick Attack',
+    name: 'でんこうせっか',
     type: 'normal',
     category: 'physical',
     power: 40,
@@ -20,7 +20,7 @@ export const MOVES = {
   },
   ironTail: {
     id: 'ironTail',
-    name: 'Iron Tail',
+    name: 'アイアンテール',
     type: 'steel',
     category: 'physical',
     power: 100,
@@ -28,7 +28,7 @@ export const MOVES = {
   },
   dig: {
     id: 'dig',
-    name: 'Dig',
+    name: 'あなをほる',
     type: 'ground',
     category: 'physical',
     power: 80,
@@ -36,7 +36,7 @@ export const MOVES = {
   },
   ember: {
     id: 'ember',
-    name: 'Ember',
+    name: 'ひのこ',
     type: 'fire',
     category: 'special',
     power: 40,
@@ -44,7 +44,7 @@ export const MOVES = {
   },
   flamethrower: {
     id: 'flamethrower',
-    name: 'Flamethrower',
+    name: 'かえんほうしゃ',
     type: 'fire',
     category: 'special',
     power: 90,
@@ -52,7 +52,7 @@ export const MOVES = {
   },
   scratch: {
     id: 'scratch',
-    name: 'Scratch',
+    name: 'ひっかく',
     type: 'normal',
     category: 'physical',
     power: 40,
@@ -60,7 +60,7 @@ export const MOVES = {
   },
   dragonBreath: {
     id: 'dragonBreath',
-    name: 'Dragon Breath',
+    name: 'りゅうのいぶき',
     type: 'dragon',
     category: 'special',
     power: 60,
@@ -68,7 +68,7 @@ export const MOVES = {
   },
   waterGun: {
     id: 'waterGun',
-    name: 'Water Gun',
+    name: 'みずでっぽう',
     type: 'water',
     category: 'special',
     power: 40,
@@ -76,7 +76,7 @@ export const MOVES = {
   },
   surf: {
     id: 'surf',
-    name: 'Surf',
+    name: 'なみのり',
     type: 'water',
     category: 'special',
     power: 90,
@@ -84,7 +84,7 @@ export const MOVES = {
   },
   tackle: {
     id: 'tackle',
-    name: 'Tackle',
+    name: 'たいあたり',
     type: 'normal',
     category: 'physical',
     power: 40,
@@ -92,7 +92,7 @@ export const MOVES = {
   },
   bite: {
     id: 'bite',
-    name: 'Bite',
+    name: 'かみつく',
     type: 'dark',
     category: 'physical',
     power: 60,
@@ -100,7 +100,7 @@ export const MOVES = {
   },
   vineWhip: {
     id: 'vineWhip',
-    name: 'Vine Whip',
+    name: 'つるのムチ',
     type: 'grass',
     category: 'physical',
     power: 45,
@@ -108,7 +108,7 @@ export const MOVES = {
   },
   razorLeaf: {
     id: 'razorLeaf',
-    name: 'Razor Leaf',
+    name: 'はっぱカッター',
     type: 'grass',
     category: 'physical',
     power: 55,
@@ -116,7 +116,7 @@ export const MOVES = {
   },
   sludgeBomb: {
     id: 'sludgeBomb',
-    name: 'Sludge Bomb',
+    name: 'ヘドロばくだん',
     type: 'poison',
     category: 'special',
     power: 90,

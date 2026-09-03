@@ -1,10 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import {
-  POKEMON_TYPES,
-  TYPE_CHART,
-  effectivenessMessage,
-  typeEffectiveness,
-} from './types'
+import { POKEMON_TYPES, TYPE_CHART, typeEffectiveness } from './types'
 
 describe('typeEffectiveness', () => {
   it('is neutral by default', () => {
@@ -68,17 +63,5 @@ describe('TYPE_CHART', () => {
         expect(POKEMON_TYPES).toContain(type)
       }
     }
-  })
-})
-
-describe('effectivenessMessage', () => {
-  it('stays silent when neutral', () => {
-    expect(effectivenessMessage(1)).toBeNull()
-  })
-
-  it('reports the extremes', () => {
-    expect(effectivenessMessage(2)).toBe("It's super effective!")
-    expect(effectivenessMessage(0.5)).toBe("It's not very effective...")
-    expect(effectivenessMessage(0)).toBe("It doesn't affect the target...")
   })
 })

@@ -109,11 +109,3 @@ export function typeEffectiveness(
     return total
   }, 1)
 }
-
-/** Wording shown to the player, matching the games' battle messages. */
-export function effectivenessMessage(multiplier: number): string | null {
-  if (multiplier === 0) return "It doesn't affect the target..."
-  if (multiplier > 1) return "It's super effective!"
-  if (multiplier < 1) return "It's not very effective..."
-  return null
-}

@@ -19,7 +19,7 @@ export function HealthBar({ pokemon, side }: Props) {
       <div
         className="bar"
         role="progressbar"
-        aria-label={`${pokemon.species.name} HP`}
+        aria-label={`${pokemon.species.name}の HP`}
         aria-valuenow={pokemon.currentHp}
         aria-valuemin={0}
         aria-valuemax={pokemon.stats.hp}
