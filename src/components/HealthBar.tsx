@@ -1,12 +1,15 @@
 import type { BattlePokemon } from '../domain/entities'
+import type { DamageMark } from '../domain/events'
 import { STATUS_NAMES } from '../ui/messages'
 
 interface Props {
   pokemon: BattlePokemon
   side: 'player' | 'opponent'
+  /** The last hit this side took, flashed over the card. */
+  hit?: DamageMark | null
 }
 
-export function HealthBar({ pokemon, side }: Props) {
+export function HealthBar({ pokemon, side, hit = null }: Props) {
   const ratio = pokemon.currentHp / pokemon.stats.hp
   const percent = Math.round(ratio * 100)
   const state = ratio > 0.5 ? 'healthy' : ratio > 0.2 ? 'warning' : 'critical'
@@ -34,6 +37,12 @@ export function HealthBar({ pokemon, side }: Props) {
       >
         <div className="fill" data-state={state} style={{ width: `${percent}%` }} />
       </div>
+      {hit ? (
+        // Keyed by event, so a new hit remounts this and replays the animation.
+        <span key={hit.index} className="damage-flash" aria-hidden="true">
+          -{hit.amount}
+        </span>
+      ) : null}
       <p className="hp" data-testid={`${side}-hp`}>
         {pokemon.currentHp} / {pokemon.stats.hp} HP
       </p>

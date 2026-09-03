@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { Move } from './domain/entities'
 import { activePokemon } from './domain/entities'
+import { lastDamageBySide } from './domain/events'
 import type { TurnAction } from './domain/battle'
 import { forceSwitch, resolveTurn } from './domain/battle'
 import { chooseOpponentAction } from './domain/ai'
@@ -24,6 +25,7 @@ export default function App() {
   const { battle } = run
   const player = activePokemon(battle.player)
   const opponent = activePokemon(battle.opponent)
+  const hits = lastDamageBySide(battle.events)
 
   // Resolving a turn rolls dice, so it happens here rather than inside the
   // setState updater: React may call an updater more than once and expects a
@@ -49,11 +51,11 @@ export default function App() {
       <section className="field">
         <div className="slot">
           <TeamBar team={battle.opponent} side="opponent" />
-          <HealthBar pokemon={opponent} side="opponent" />
+          <HealthBar pokemon={opponent} side="opponent" hit={hits.opponent} />
         </div>
         <div className="slot">
           <TeamBar team={battle.player} side="player" />
-          <HealthBar pokemon={player} side="player" />
+          <HealthBar pokemon={player} side="player" hit={hits.player} />
         </div>
       </section>
 

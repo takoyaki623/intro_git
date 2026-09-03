@@ -91,6 +91,27 @@ describe('a fresh run', () => {
     expect(screen.getByTestId('opponent-hp')).not.toHaveTextContent(before!)
   })
 
+  it('flashes what the last hit took off', async () => {
+    const user = userEvent.setup()
+    render(<App />)
+    await user.click(within(movePanel()!).getAllByRole('button')[0]!)
+
+    // The figure sits on the card of whoever was hit.
+    const opponentCard = screen.getByTestId('opponent-card')
+    expect(opponentCard.textContent).toMatch(/-\d+/)
+  })
+
+  it('keeps the newest line of the log in view', async () => {
+    const user = userEvent.setup()
+    render(<App />)
+    const log = screen.getByTestId('battle-log')
+    // jsdom reports no layout, so drive the values the effect reads.
+    Object.defineProperty(log, 'scrollHeight', { value: 500, configurable: true })
+
+    await user.click(within(movePanel()!).getAllByRole('button')[0]!)
+    expect(log.scrollTop).toBe(500)
+  })
+
   it('will not let the player switch to the Pokemon already out', () => {
     render(<App />)
     const panel = switchPanel()!

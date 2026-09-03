@@ -96,6 +96,7 @@ h1 {
 }
 
 .card {
+  position: relative;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 0.75rem;
@@ -177,9 +178,58 @@ h1 {
   font-variant-numeric: tabular-nums;
 }
 
+.damage-flash {
+  /* Beside the HP figure rather than over the bar, so it reads as the amount
+     that came off rather than sitting on top of what it is describing. */
+  position: absolute;
+  right: 0.9rem;
+  bottom: 0.6rem;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--critical);
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+  animation: damage-rise 900ms ease-out forwards;
+}
+
+@keyframes damage-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  15% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(-8px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+}
+
+/* The figure still needs long enough to be read, so it holds and then goes
+   rather than never appearing at all. */
+@keyframes damage-hold {
+  0%,
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .fill {
     transition: none;
+  }
+
+  .damage-flash {
+    animation: damage-hold 900ms steps(1) forwards;
   }
 }
 

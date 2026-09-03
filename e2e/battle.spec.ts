@@ -104,6 +104,45 @@ test('わざを使うと相手が削れ、ログに残る', async ({ page }) => 
   await expect(page.getByTestId('opponent-hp')).not.toHaveText('104 / 104 HP')
 })
 
+test('被弾したダメージが数値で出る', async ({ page }) => {
+  await page.getByRole('region', { name: 'わざ' }).getByRole('button').first().click()
+  await expect(page.getByTestId('opponent-card')).toContainText(/-\d+/)
+})
+
+test('ログは最新行まで自動でスクロールする', async ({ page }) => {
+  const moves = page.getByRole('region', { name: 'わざ' })
+  const replacement = page.getByRole('region', { name: /つぎに だす/ })
+  const next = page.getByRole('button', { name: 'つぎの あいて' })
+
+  // Play until the log is long enough to overflow its box.
+  const log = page.getByTestId('battle-log')
+  for (let i = 0; i < 40; i++) {
+    const overflowing = await log.evaluate((el) => el.scrollHeight > el.clientHeight)
+    if (overflowing) break
+    if (await next.count()) {
+      await next.click()
+      continue
+    }
+    if (await replacement.count()) {
+      await replacement
+        .getByRole('button')
+        .and(page.locator(':not([disabled])'))
+        .first()
+        .click()
+      continue
+    }
+    if (!(await moves.count())) break
+    await moves.getByRole('button').first().click()
+  }
+
+  const state = await log.evaluate((el) => ({
+    overflowing: el.scrollHeight > el.clientHeight,
+    atBottom: el.scrollTop + el.clientHeight >= el.scrollHeight - 2,
+  }))
+  expect(state.overflowing).toBe(true)
+  expect(state.atBottom).toBe(true)
+})
+
 test('こうたいは 1 ターンを消費する', async ({ page }) => {
   await page
     .getByRole('region', { name: 'こうたい' })

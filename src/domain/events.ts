@@ -58,3 +58,27 @@ export type BattleEvent =
       readonly pokemon: string
       readonly status: StatusKind
     }
+
+export interface DamageMark {
+  /** Position in the event list, so the UI can tell one hit from the next. */
+  readonly index: number
+  readonly amount: number
+}
+
+/**
+ * The latest hit each side took, for the UI to flash over the target.
+ *
+ * Kept per side because a turn usually damages both, and a single "most recent
+ * hit" would leave whichever was struck first with nothing to show.
+ */
+export function lastDamageBySide(
+  events: readonly BattleEvent[],
+): Record<Side, DamageMark | null> {
+  const marks: Record<Side, DamageMark | null> = { player: null, opponent: null }
+  events.forEach((event, index) => {
+    if (event.kind === 'damage' && event.amount > 0) {
+      marks[event.side] = { index, amount: event.amount }
+    }
+  })
+  return marks
+}
