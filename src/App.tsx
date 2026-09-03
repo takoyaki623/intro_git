@@ -8,18 +8,33 @@ import { chooseOpponentAction } from './domain/ai'
 import { advance, canAdvance, startRun, withBattle } from './domain/run'
 import { outcomeMessage } from './ui/messages'
 import { clearRun, loadRun, saveRun } from './ui/storage'
+import { loadBest, recordRun, type BestRun } from './ui/records'
 import { HealthBar } from './components/HealthBar'
 import { MoveButtons } from './components/MoveButtons'
 import { SwitchButtons } from './components/SwitchButtons'
 import { TeamBar } from './components/TeamBar'
 import { RunStatus } from './components/RunStatus'
+import { HallOfFame } from './components/HallOfFame'
 import { BattleLog } from './components/BattleLog'
 
 export default function App() {
   const [run, setRun] = useState(() => loadRun() ?? startRun())
+  const [best, setBest] = useState<BestRun | null>(() => loadBest())
+  // Whether the record on show is the run that just ended.
+  const [beatIt, setBeatIt] = useState(false)
 
   useEffect(() => {
     saveRun(run)
+  }, [run])
+
+  // A finished run goes in the book, if it earned a place.
+  useEffect(() => {
+    if (!run.finished) return
+    setBest((standing) => {
+      const updated = recordRun(run)
+      setBeatIt(updated !== null && updated !== standing && updated.wins === run.wins)
+      return updated
+    })
   }, [run])
 
   const { battle } = run
@@ -40,13 +55,18 @@ export default function App() {
 
   const startOver = () => {
     clearRun()
+    setBeatIt(false)
     setRun(startRun())
   }
 
   return (
     <main className="battle">
       <h1>ポケモンバトル</h1>
-      <RunStatus wins={run.wins} opponentLevel={opponent.level} />
+      <RunStatus
+        wins={run.wins}
+        opponentLevel={opponent.level}
+        best={best?.wins ?? null}
+      />
 
       <section className="field">
         <div className="slot">
@@ -68,6 +88,7 @@ export default function App() {
           <button type="button" onClick={startOver}>
             はじめから
           </button>
+          {best ? <HallOfFame best={best} fresh={beatIt} /> : null}
         </section>
       ) : canAdvance(run) ? (
         <section className="outcome">

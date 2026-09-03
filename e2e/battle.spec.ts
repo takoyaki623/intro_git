@@ -105,7 +105,9 @@ test('わざを使うと相手が削れ、ログに残る', async ({ page }) => 
 })
 
 test('被弾したダメージが数値で出る', async ({ page }) => {
-  await page.getByRole('region', { name: 'わざ' }).getByRole('button').first().click()
+  // でんこうせっか rather than 10まんボルト: the opponent switches to イシツブテ,
+  // which でんき cannot touch, and a hit for nothing shows no figure.
+  await page.getByRole('button', { name: /でんこうせっか/ }).click()
   await expect(page.getByTestId('opponent-card')).toContainText(/-\d+/)
 })
 
@@ -185,7 +187,8 @@ test('決着がつき、勝てば連戦・負ければ最初から', async ({ pa
   } else {
     await page.getByRole('button', { name: 'はじめから' }).click()
     await expect(page.getByTestId('run-status')).toContainText('れんしょう 0')
-    await expect(page.getByTestId('player-hp')).toHaveText('95 / 95 HP')
+    // The party is dealt, so check that it is untouched rather than who it is.
+    await expect(page.getByTestId('player-hp')).toHaveText(/^(\d+) \/ \1 HP$/)
   }
 })
 
@@ -204,6 +207,58 @@ test('でんじは が当たると まひ が表示される', async ({ page }) 
   await expect(page.getByTestId('battle-log')).toContainText(
     'まひして わざが でにくくなった',
   )
+})
+
+test('負けると殿堂入りに記録が残り、次のランに表示される', async ({ page }) => {
+  // Start from a run that has already won a few and is on its last legs: a
+  // streak of zero is deliberately not recorded, and a bot rarely wins one.
+  await page.evaluate((seed) => {
+    localStorage.setItem(
+      'pokemon-battle:run',
+      JSON.stringify({
+        ...seed,
+        wins: 3,
+        player: {
+          ...seed.player,
+          members: seed.player.members.map((m) => ({ ...m, currentHp: 1 })),
+        },
+      }),
+    )
+  }, SEED)
+  await page.reload()
+
+  const moves = page.getByRole('region', { name: 'わざ' })
+  const replacement = page.getByRole('region', { name: /つぎに だす/ })
+  const next = page.getByRole('button', { name: 'つぎの あいて' })
+  const over = page.getByRole('button', { name: 'はじめから' })
+
+  for (let i = 0; i < 120; i++) {
+    if (await over.count()) break
+    if (await next.count()) {
+      await next.click()
+      continue
+    }
+    if (await replacement.count()) {
+      await replacement
+        .getByRole('button')
+        .and(page.locator(':not([disabled])'))
+        .first()
+        .click()
+      continue
+    }
+    if (!(await moves.count())) break
+    await moves.getByRole('button').first().click()
+  }
+
+  await expect(over).toBeVisible()
+  const hall = page.getByTestId('hall-of-fame')
+  await expect(hall).toBeVisible()
+  await expect(hall).toContainText('3 れんしょう')
+  // The party that got there is named.
+  expect(await hall.locator('li').count()).toBeGreaterThan(0)
+
+  await over.click()
+  await expect(page.getByTestId('run-status')).toContainText('さいこう 3')
 })
 
 test('戦闘中にコンソールエラーが出ない', async ({ page }) => {

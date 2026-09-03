@@ -1,9 +1,8 @@
-import type { BattlePokemon, Species, TeamState } from './entities'
+import type { BattlePokemon, TeamState } from './entities'
 import { createBattlePokemon, createTeam, isFainted, withActive } from './entities'
 import type { BattleState } from './battle'
 import { createBattle } from './battle'
 import type { Random } from './damage'
-import { PLAYER_TEAM } from '../data/teams'
 import { SPECIES_LIST } from '../data/species'
 
 /**
@@ -63,8 +62,15 @@ function makeOpponent(wins: number, random: Random): TeamState {
   return createTeam(roster.map((species) => createBattlePokemon(species, level)))
 }
 
-function makePlayerTeam(): TeamState {
-  const roster: readonly Species[] = PLAYER_TEAM.slice(0, RUN_CONFIG.partySize)
+/**
+ * The player's party, drawn fresh for each run.
+ *
+ * A fixed trio makes every run open the same way and turns the type chart into
+ * a solved problem. Dealing it means adapting to what came up, which is the
+ * point of a run -- and sometimes the hand is poor, which is also the point.
+ */
+function makePlayerTeam(random: Random): TeamState {
+  const roster = sample(SPECIES_LIST, RUN_CONFIG.partySize, random)
   return createTeam(
     roster.map((species) => createBattlePokemon(species, RUN_CONFIG.playerLevel)),
   )
@@ -91,7 +97,7 @@ export function restBetweenBattles(
 
 export function startRun(random: Random = Math.random): RunState {
   return {
-    battle: createBattle(makePlayerTeam(), makeOpponent(0, random)),
+    battle: createBattle(makePlayerTeam(random), makeOpponent(0, random)),
     wins: 0,
     finished: false,
   }

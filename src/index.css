@@ -359,6 +359,43 @@ h1 {
   cursor: pointer;
 }
 
+.hall {
+  display: grid;
+  gap: 0.4rem;
+  padding: 0.7rem 0.8rem;
+  border: 1px dashed var(--border);
+  border-radius: 0.6rem;
+  width: 100%;
+}
+
+.hall h2 {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.hall h2 strong {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.hall ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 0.9rem;
+  font-size: 0.9rem;
+}
+
+.hall p {
+  margin: 0;
+  font-size: 0.75rem;
+}
+
 .log ol {
   margin: 0;
   padding: 0.75rem 0.9rem 0.75rem 2rem;

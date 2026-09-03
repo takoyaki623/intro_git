@@ -3,7 +3,11 @@ import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { UserEvent } from '@testing-library/user-event'
 import App from './App'
+import type { RunState } from './domain/run'
 import { opponentLevel, startRun } from './domain/run'
+import { createBattlePokemon, createTeam } from './domain/entities'
+import { SPECIES } from './data/species'
+import { RUN_CONFIG } from './domain/run'
 import { saveRun } from './ui/storage'
 import { fixedRandom } from './test/rng'
 
@@ -32,17 +36,48 @@ async function advanceTurn(user: UserEvent): Promise<boolean> {
   return true
 }
 
-/** Put a run into storage so App picks it up on mount. */
-function seed(patch: (run: ReturnType<typeof startRun>) => ReturnType<typeof startRun>) {
-  saveRun(patch(startRun(fixedRandom(0.3))))
+const party = (
+  ids: readonly (keyof typeof SPECIES)[],
+  level: number = RUN_CONFIG.playerLevel,
+) => createTeam(ids.map((id) => createBattlePokemon(SPECIES[id], level)))
+
+/**
+ * Put a run into storage so App picks it up on mount, with both parties pinned.
+ *
+ * Both sides are dealt at random now, so leaving them to chance would make
+ * every assertion about a move name or an HP figure a coin flip.
+ */
+function seed(patch: (run: RunState) => RunState = (run) => run) {
+  const base = startRun(fixedRandom(0.3))
+  const run: RunState = {
+    ...base,
+    battle: {
+      ...base.battle,
+      player: party(['pikachu', 'charmander', 'bulbasaur']),
+      opponent: party(['squirtle', 'zubat', 'geodude'], opponentLevel(0)),
+    },
+  }
+  saveRun(patch(run))
 }
 
 describe('an unsaved run', () => {
-  it('starts a fresh one with a full party and nothing won', () => {
+  it('deals a fresh party and starts the streak at zero', () => {
     render(<App />)
-    expect(screen.getByTestId('player-hp')).toHaveTextContent('95 / 95 HP')
+    // The party is dealt, so assert its shape rather than who turned up.
     expect(screen.getByTestId('run-status')).toHaveTextContent('れんしょう 0')
     expect(screen.getByTestId('player-team')).toHaveAccessibleName('てもち のこり 3')
+    expect(screen.getByTestId('player-hp').textContent).toMatch(/^(\d+) \/ \1 HP$/)
+  })
+
+  it('deals different parties across runs', () => {
+    const dealt = new Set<string>()
+    for (let i = 0; i < 25; i++) {
+      localStorage.clear()
+      const { unmount } = render(<App />)
+      dealt.add(within(switchPanel()!).getAllByRole('button')[0]!.textContent ?? '')
+      unmount()
+    }
+    expect(dealt.size).toBeGreaterThan(1)
   })
 })
 
@@ -50,7 +85,7 @@ describe('a fresh run', () => {
   // Seeded, so the opposing party is fixed. Drawn at random it can field the
   // same species the player has, and assertions on log lines then go ambiguous
   // about which side did what.
-  beforeEach(() => seed((run) => run))
+  beforeEach(() => seed())
 
   it('starts with a full party and nothing won', () => {
     render(<App />)
@@ -92,13 +127,18 @@ describe('a fresh run', () => {
   })
 
   it('flashes what the last hit took off', async () => {
+    // A single opponent, because a party of three would switch away from
+    // 10まんボルト and the hit would land somewhere the test is not looking.
+    seed((run) => ({
+      ...run,
+      battle: { ...run.battle, opponent: party(['squirtle'], opponentLevel(0)) },
+    }))
     const user = userEvent.setup()
     render(<App />)
-    await user.click(within(movePanel()!).getAllByRole('button')[0]!)
+    await user.click(screen.getByRole('button', { name: /10まんボルト/ }))
 
     // The figure sits on the card of whoever was hit.
-    const opponentCard = screen.getByTestId('opponent-card')
-    expect(opponentCard.textContent).toMatch(/-\d+/)
+    expect(screen.getByTestId('opponent-card').textContent).toMatch(/-\d+/)
   })
 
   it('keeps the newest line of the log in view', async () => {
@@ -179,7 +219,7 @@ describe('losing a run', () => {
     await user.click(screen.getByRole('button', { name: 'はじめから' }))
 
     expect(screen.getByTestId('run-status')).toHaveTextContent('れんしょう 0')
-    expect(screen.getByTestId('player-hp')).toHaveTextContent('95 / 95 HP')
+    expect(screen.getByTestId('player-hp').textContent).toMatch(/^(\d+) \/ \1 HP$/)
     expect(screen.getByTestId('player-team')).toHaveAccessibleName('てもち のこり 3')
   })
 })
@@ -205,6 +245,7 @@ describe('remembering a run', () => {
   })
 
   it('saves as the battle goes on', async () => {
+    seed()
     const user = userEvent.setup()
     render(<App />)
     await user.click(screen.getByRole('button', { name: /10まんボルト/ }))
