@@ -1,3 +1,4 @@
+import type { Move } from '../domain/entities'
 import type { BattleEvent } from '../domain/events'
 import type { PokemonType } from '../domain/types'
 import type { StatusKind } from '../domain/status'
@@ -96,6 +97,37 @@ function stageWording(applied: number): string {
   if (applied === -1) return 'さがった！'
   if (applied === -2) return 'がくっと さがった！'
   return 'がくーんと さがった！'
+}
+
+/**
+ * What a move does beyond its damage, as the button shows it.
+ *
+ * The move data has carried its accuracy and its effects all along; this is
+ * what puts them in front of the player, who is otherwise asked to choose
+ * between でんじは and つるぎのまい with both reading "でんき・へんか".
+ */
+export function moveEffectSummary(move: Move): string | null {
+  const parts: string[] = []
+
+  if (move.stageChange) {
+    const { target, stat, delta } = move.stageChange
+    const who = target === 'self' ? '' : 'あいての '
+    const sign = delta > 0 ? `+${delta}` : `${delta}`
+    parts.push(`${who}${STAT_NAMES[stat]} ${sign}`)
+  }
+
+  if (move.effect) {
+    const chance = Math.round(move.effect.chance * 100)
+    const name = STATUS_NAMES[move.effect.status]
+    parts.push(chance >= 100 ? name : `${name} ${chance}%`)
+  }
+
+  return parts.length > 0 ? parts.join('・') : null
+}
+
+/** Accuracy, shown only when it is not certain -- the exception is the point. */
+export function moveAccuracySummary(move: Move): string | null {
+  return move.accuracy >= 1 ? null : `命中 ${Math.round(move.accuracy * 100)}`
 }
 
 export function formatEvent(event: BattleEvent): string | null {

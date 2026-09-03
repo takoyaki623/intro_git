@@ -1,6 +1,7 @@
 import type { BattlePokemon } from '../domain/entities'
 import type { DamageMark } from '../domain/events'
 import { StageBadges } from './StageBadges'
+import { TypeBadges } from './TypeBadges'
 import { STATUS_NAMES } from '../ui/messages'
 
 interface Props {
@@ -18,7 +19,10 @@ export function HealthBar({ pokemon, side, hit = null }: Props) {
   return (
     <article className="card" data-side={side} data-testid={`${side}-card`}>
       <header>
-        <strong>{pokemon.species.name}</strong>
+        <span className="who">
+          <strong>{pokemon.species.name}</strong>
+          <TypeBadges types={pokemon.species.types} />
+        </span>
         <span className="header-right">
           {pokemon.status ? (
             <span className="status" data-status={pokemon.status.kind}>

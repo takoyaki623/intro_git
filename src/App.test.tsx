@@ -114,6 +114,45 @@ describe('a fresh run', () => {
     expect(screen.getByRole('button', { name: /10まんボルト/ })).toBeInTheDocument()
   })
 
+  it('shows the types of both Pokemon on the field', () => {
+    render(<App />)
+    expect(screen.getByTestId('player-card')).toHaveTextContent('でんき')
+    expect(screen.getByTestId('opponent-card')).toHaveTextContent('みず')
+  })
+
+  it('shows both types of a dual-type Pokemon', () => {
+    seed((run) => ({
+      ...run,
+      battle: { ...run.battle, player: party(['bulbasaur']) },
+    }))
+    render(<App />)
+    const card = screen.getByTestId('player-card')
+    expect(card).toHaveTextContent('くさ')
+    expect(card).toHaveTextContent('どく')
+  })
+
+  it('tells the player what a move will do beyond its damage', () => {
+    render(<App />)
+    expect(screen.getByRole('button', { name: /でんじは/ })).toHaveTextContent('まひ')
+    expect(screen.getByRole('button', { name: /10まんボルト/ })).toHaveTextContent(
+      'まひ 10%',
+    )
+  })
+
+  it('shows accuracy only on the moves that can miss', () => {
+    seed((run) => ({
+      ...run,
+      battle: { ...run.battle, player: party(['bulbasaur']) },
+    }))
+    render(<App />)
+    expect(screen.getByRole('button', { name: /はっぱカッター/ })).toHaveTextContent(
+      '命中 95',
+    )
+    expect(screen.getByRole('button', { name: /つるのムチ/ })).not.toHaveTextContent(
+      '命中',
+    )
+  })
+
   it('labels a status move as へんか rather than showing zero power', () => {
     render(<App />)
     const denjiha = screen.getByRole('button', { name: /でんじは/ })
@@ -157,6 +196,17 @@ describe('a fresh run', () => {
 
     await user.click(within(movePanel()!).getAllByRole('button')[0]!)
     expect(log.scrollTop).toBe(500)
+  })
+
+  it('shows types in the switch panel, since choosing is a type decision', () => {
+    render(<App />)
+    const panel = switchPanel()!
+    expect(within(panel).getByRole('button', { name: /フシギダネ/ })).toHaveTextContent(
+      'くさ',
+    )
+    expect(within(panel).getByRole('button', { name: /ヒトカゲ/ })).toHaveTextContent(
+      'ほのお',
+    )
   })
 
   it('will not let the player switch to the Pokemon already out', () => {

@@ -171,6 +171,98 @@ h1 {
   background: var(--critical);
 }
 
+.who {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.types {
+  display: flex;
+  gap: 0.25rem;
+}
+
+/* The colour rides on a dot rather than the text, so every type stays legible
+   on both grounds without eighteen more palette entries per theme. */
+.type {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.22rem;
+  padding: 0.05rem 0.35rem;
+  border: 1px solid var(--border);
+  border-radius: 0.3rem;
+  font-size: 0.7rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.type-dot {
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 50%;
+  background: var(--muted);
+}
+
+.type[data-type='normal'] .type-dot {
+  background: #9a9a86;
+}
+.type[data-type='fire'] .type-dot {
+  background: #e8663d;
+}
+.type[data-type='water'] .type-dot {
+  background: #4a7fd4;
+}
+.type[data-type='electric'] .type-dot {
+  background: #e0b52c;
+}
+.type[data-type='grass'] .type-dot {
+  background: #52a052;
+}
+.type[data-type='ice'] .type-dot {
+  background: #63c4c4;
+}
+.type[data-type='fighting'] .type-dot {
+  background: #c0483c;
+}
+.type[data-type='poison'] .type-dot {
+  background: #9257a0;
+}
+.type[data-type='ground'] .type-dot {
+  background: #c9a15a;
+}
+.type[data-type='flying'] .type-dot {
+  background: #7a9fe0;
+}
+.type[data-type='psychic'] .type-dot {
+  background: #e0648c;
+}
+.type[data-type='bug'] .type-dot {
+  background: #93a336;
+}
+.type[data-type='rock'] .type-dot {
+  background: #a89152;
+}
+.type[data-type='ghost'] .type-dot {
+  background: #7061a0;
+}
+.type[data-type='dragon'] .type-dot {
+  background: #6a52d4;
+}
+.type[data-type='dark'] .type-dot {
+  background: #6b5a4e;
+}
+.type[data-type='steel'] .type-dot {
+  background: #8f9aa8;
+}
+.type[data-type='fairy'] .type-dot {
+  background: #d488c4;
+}
+
+.effect {
+  color: var(--accent);
+}
+
 .stages {
   margin: 0;
   display: flex;
@@ -311,7 +403,8 @@ h1 {
 
 .switch-row button {
   display: grid;
-  gap: 0.15rem;
+  gap: 0.2rem;
+  justify-items: start;
   padding: 0.55rem 0.5rem;
   background: var(--surface);
   color: inherit;

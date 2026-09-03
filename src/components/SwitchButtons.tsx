@@ -1,6 +1,7 @@
 import type { TeamState } from '../domain/entities'
 import { isFainted } from '../domain/entities'
 import { STATUS_NAMES } from '../ui/messages'
+import { TypeBadges } from './TypeBadges'
 
 interface Props {
   team: TeamState
@@ -24,6 +25,9 @@ export function SwitchButtons({ team, onSelect, label }: Props) {
               onClick={() => onSelect(index)}
             >
               <strong>{member.species.name}</strong>
+              {/* Choosing who to send in is a type decision, so the types come
+                  with the name rather than being left to memory. */}
+              <TypeBadges types={member.species.types} />
               <span className="meta">
                 {down
                   ? 'ひんし'

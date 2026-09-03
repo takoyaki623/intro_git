@@ -3,12 +3,15 @@ import type { BattleEvent } from '../domain/events'
 import { POKEMON_TYPES } from '../domain/types'
 import type { StatusKind } from '../domain/status'
 import { STAT_KEYS } from '../domain/stages'
+import { MOVES } from '../data/moves'
 import {
   STAT_NAMES,
   STATUS_NAMES,
   TYPE_NAMES,
   formatEvent,
   formatLog,
+  moveAccuracySummary,
+  moveEffectSummary,
   outcomeMessage,
 } from './messages'
 
@@ -197,6 +200,40 @@ describe('stat stage wording', () => {
   it('names every stat', () => {
     for (const stat of STAT_KEYS) {
       expect(STAT_NAMES[stat]).toBeTruthy()
+    }
+  })
+})
+
+describe('move summaries', () => {
+  it('says nothing extra about a plain damaging move', () => {
+    expect(moveEffectSummary(MOVES.quickAttack)).toBeNull()
+  })
+
+  it('names a status a move can leave, with its odds', () => {
+    expect(moveEffectSummary(MOVES.thunderbolt)).toBe('まひ 10%')
+    expect(moveEffectSummary(MOVES.sludgeBomb)).toBe('どく 30%')
+  })
+
+  it('drops the odds when the effect is certain', () => {
+    expect(moveEffectSummary(MOVES.thunderWave)).toBe('まひ')
+    expect(moveEffectSummary(MOVES.sleepPowder)).toBe('ねむり')
+  })
+
+  it('describes a stat change, and whose stat it is', () => {
+    expect(moveEffectSummary(MOVES.swordsDance)).toBe('こうげき +2')
+    expect(moveEffectSummary(MOVES.leer)).toBe('あいての ぼうぎょ -1')
+  })
+
+  it('shows accuracy only when a move can miss', () => {
+    expect(moveAccuracySummary(MOVES.quickAttack)).toBeNull()
+    expect(moveAccuracySummary(MOVES.ironTail)).toBe('命中 75')
+    expect(moveAccuracySummary(MOVES.razorLeaf)).toBe('命中 95')
+  })
+
+  it('covers every move in the data without throwing', () => {
+    for (const move of Object.values(MOVES)) {
+      expect(() => moveEffectSummary(move)).not.toThrow()
+      expect(() => moveAccuracySummary(move)).not.toThrow()
     }
   })
 })
