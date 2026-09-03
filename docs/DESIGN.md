@@ -1,0 +1,119 @@
+# 設計メモ
+
+`/sc:brainstorm` で決めた方向と、そこから逆算した実装順。
+
+## 決めたこと
+
+| 項目       | 決定                                        |
+| ---------- | ------------------------------------------- |
+| バトル規模 | 手持ち 3 匹 + 交代                          |
+| 遊びの単位 | 連戦（勝ち抜き式）。HP は次の戦闘に引き継ぐ |
+| 表示言語   | 日本語                                      |
+| 技の奥深さ | ダメージ + 状態異常                         |
+
+## この 4 つが要求するもの
+
+4 つとも独立した機能に見えて、**同じ 2 つの土台**を要求します。
+
+**構造化されたバトルログ。** 現在ログは `readonly string[]` に英文が直書きです。日本語化はこれを崩さないと不可能で、状態異常も交代も新しい文言を増やします。イベントを構造で持ち、文言は表示層で組み立てます。副産物としてダメージ数値の表示や被弾側のハイライトも可能になります。
+
+**チームを持つ `BattleState`。** 現在は片側 1 匹固定です。交代は型から作り直しになります。連戦はさらにその外側に「run」の状態を必要とします。
+
+つまり**機能追加の前に土台を敷いたほうが安い**、という結論になります。
+
+## 実装順
+
+依存関係の順です。各段階でテストが緑のまま進みます。
+
+### Phase 0 — 状態更新の純粋化
+
+`App.tsx` が `setBattle` の更新関数の中で乱数を引いています。StrictMode で 1 ターンあたり 7 → 14 回に倍増することを実測済み。連戦にすると 1 プレイが長くなり、シード付き乱数でランを再現したくなるので、ここで潰します。数行。
+
+### Phase 1 — 構造化ログと日本語化
+
+```ts
+export type BattleEvent =
+  | { kind: 'encounter'; pokemon: string }
+  | { kind: 'useMove'; side: Side; pokemon: string; move: string }
+  | { kind: 'miss'; side: Side; pokemon: string }
+  | { kind: 'damage'; side: Side; pokemon: string; amount: number }
+  | { kind: 'critical' }
+  | { kind: 'effectiveness'; multiplier: number }
+  | { kind: 'faint'; side: Side; pokemon: string }
+```
+
+`BattleState.log: string[]` を `events: BattleEvent[]` に置き換え、`src/ui/messages.ts` が日本語へ変換します。
+
+```
+「ピカチュウの 10まんボルト！」
+「こうかは ばつぐんだ！」
+「ゼニガメは たおれた！」
+```
+
+データ側の名前も日本語にします（ピカチュウ / 10まんボルト / でんき）。表示言語は日本語のみと決めたので `{ ja, en }` のような構造は持たせません。後から英語を足したくなっても、この構造化を済ませてあれば安く済みます。
+
+### Phase 2 — 手持ち 3 匹と交代
+
+```ts
+export interface TeamState {
+  readonly members: readonly BattlePokemon[]
+  readonly activeIndex: number
+}
+
+export type TurnAction = { type: 'move'; move: Move } | { type: 'switch'; index: number }
+```
+
+ルール：
+
+- 交代は 1 ターンを消費する
+- 交代は技より先に解決される（本家の優先度）
+- ひんし時は強制交代。ターンは消費しない
+- 勝敗は「3 匹すべてひんし」で判定
+
+`BattleEvent` に `{ kind: 'switch'; side; from; to }` を追加。
+
+### Phase 3 — 状態異常
+
+`どく` `やけど` `まひ` `ねむり` `こおり`。
+
+ターン構造が 2 段になります。**行動フェーズ**のあとに**ターン終了フェーズ**（どく・やけどのスリップダメージ）。
+
+| 状態   | 効果                                |
+| ------ | ----------------------------------- |
+| どく   | ターン終了時に最大 HP の 1/8        |
+| やけど | ターン終了時に 1/16、物理攻撃が半減 |
+| まひ   | 素早さ半減、25% の確率で行動不能    |
+| ねむり | 1〜3 ターン行動不能                 |
+| こおり | 20% で自然解凍するまで行動不能      |
+
+`BattlePokemon` に `status` を追加。イベントも増えます（`statusInflicted` / `statusDamage` / `immobilised`）。
+
+### Phase 4 — 連戦と保存
+
+```ts
+export interface RunState {
+  readonly team: readonly BattlePokemon[] // HP は引き継ぐ
+  readonly wins: number
+  readonly battle: BattleState | null
+  readonly over: boolean
+}
+```
+
+- 勝つたびに相手が強くなる（レベルを上げる）
+- 手持ちの HP と状態異常は次の戦闘に引き継ぐ
+- 3 匹すべてひんしでラン終了
+- `localStorage` に保存。サーバは不要
+
+## 未決定
+
+以下は Phase 4 の設計時に決めます。バランスの根幹なので、実装前に確認します。
+
+- **戦闘間の回復**。回復なし（厳しい）／毎戦後に少し回復／たまに回復の機会。仮の想定は「毎戦後に最大 HP の 25% 回復」
+- **相手の手持ち数**。仮の想定は「相手も 3 匹」
+- **交代の読み合い**。相手 AI が交代を使うかどうか。仮の想定は「初期は使わない」
+
+## 変えないこと
+
+- `src/domain/` は React を参照しない。ルールは純粋関数のまま
+- 乱数は引数で受け取る。テストで固定できる状態を保つ
+- データはローカル。PokéAPI は使わない（テストの決定性とオフライン動作を優先）

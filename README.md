@@ -62,6 +62,11 @@ UI を差し替えてもテストはそのまま通ります。
 PokéAPI から取ってくることもできますが、ローカルに持つほうがテストが決定的になり、
 オフラインでも動きます。
 
+## 設計
+
+これから作るもの（手持ち 3 匹 + 交代、連戦、日本語化、状態異常）と実装順は
+[`docs/DESIGN.md`](docs/DESIGN.md) にあります。
+
 ## 開発環境
 
 このリポジトリには [SuperClaude Framework](https://github.com/SuperClaude-Org/SuperClaude_Framework) v4.3.0 を同梱しています。
