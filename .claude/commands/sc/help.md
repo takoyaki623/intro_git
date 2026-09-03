@@ -26,6 +26,7 @@ Here is a complete list of all available SuperClaude (`/sc`) commands.
 
 | Command | Description |
 |---|---|
+| `/sc:agent` | SC Agent — session controller that orchestrates investigation, implementation, and review |
 | `/sc:analyze` | Comprehensive code analysis across quality, security, performance, and architecture domains |
 | `/sc:brainstorm` | Interactive requirements discovery through Socratic dialogue and systematic exploration |
 | `/sc:build` | Build, compile, and package projects with intelligent error handling and optimization |
@@ -40,9 +41,14 @@ Here is a complete list of all available SuperClaude (`/sc`) commands.
 | `/sc:implement` | Feature and code implementation with intelligent persona activation and MCP integration |
 | `/sc:improve` | Apply systematic improvements to code quality, performance, and maintainability |
 | `/sc:index` | Generate comprehensive project documentation and knowledge base with intelligent organization |
+| `/sc:index-repo` | Repository Indexing - 94% token reduction (58K → 3K) |
 | `/sc:load` | Session lifecycle management with Serena MCP integration for project context loading |
+| `/sc:pm` | Project Manager Agent - Default orchestration agent that coordinates all sub-agents and manages workflows seamlessly |
+| `/sc:recommend` | Ultra-intelligent command recommendation engine - recommends the most suitable SuperClaude commands for any user input |
 | `/sc:reflect` | Task reflection and validation using Serena MCP analysis capabilities |
+| `/sc:research` | Deep web research with adaptive planning and intelligent search |
 | `/sc:save` | Session lifecycle management with Serena MCP integration for session context persistence |
+| `/sc:sc` | SuperClaude command dispatcher - Use /sc [command] to access all SuperClaude features |
 | `/sc:select-tool` | Intelligent MCP tool selection based on complexity scoring and operation analysis |
 | `/sc:spawn` | Meta-system task orchestration with intelligent breakdown and delegation |
 | `/sc:spec-panel` | Multi-expert specification review and improvement using renowned specification and software engineering experts |
@@ -145,4 +151,8 @@ SuperClaude supports behavioral flags to enable specific execution modes and too
 
 ---
 
-**Note:** This list is manually generated and may become outdated. If you suspect it is inaccurate, please consider regenerating it or contacting a maintainer.
+**Note:** The command table above is generated from the command files in
+`.claude/commands/sc/` by `.claude/superclaude/scripts/generate-help.py`.
+Re-run that script after adding, removing or renaming a command, or after
+updating SuperClaude; `--check` reports staleness without writing.
+The flag tables below are still maintained by hand.

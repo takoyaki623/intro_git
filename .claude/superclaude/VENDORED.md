@@ -36,7 +36,31 @@ hooks の内容は上流と同じですが、2 点だけ調整しています。
 - SessionStart の `timeout` を `10000` から `10` に変更。
   Claude Code の hook timeout は**秒**単位なので、上流の値では約 2.8 時間になる
 
-`commands/` `agents/` `skills/` の各 Markdown は上流のまま無改変です。
+`agents/` `skills/` の Markdown は上流のまま無改変です。
+`commands/` は次の 2 ファイルだけ手を入れています。
+
+### `commands/sc/agent.md` — フロントマターの開き `---` を追加
+
+上流のファイルは開き区切りが欠落しており、Claude Code が YAML フロントマターを
+解析できていませんでした。その結果 `/sc:agent` の説明が本来の文章ではなく
+`name: sc:agent` という生テキストとして表示されていました。1 行追加して修正。
+
+### `commands/sc/help.md` — コマンド表を実ファイルから再生成
+
+上流の表は手書きで、30 個中 24 個しか載っていませんでした
+（`/sc:agent` `/sc:index-repo` `/sc:pm` `/sc:recommend` `/sc:research` `/sc:sc` が欠落）。
+ファイル自身にも「手動生成なので古くなっている可能性がある」と注記があります。
+
+`scripts/generate-help.py` で `commands/sc/*.md` から表を生成し直すようにしました。
+
+```bash
+python3 .claude/superclaude/scripts/generate-help.py          # 再生成
+python3 .claude/superclaude/scripts/generate-help.py --check  # 差分があれば exit 1
+```
+
+説明文はフロントマターの `description:` から取ります。`business-panel.md` だけは
+フロントマターを持たずコードフェンス内の `purpose:` を使っているため、そちらも
+フォールバックとして読みます。フラグの表は手書きのままです。
 
 ## 更新方法
 
