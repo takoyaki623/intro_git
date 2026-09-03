@@ -115,12 +115,17 @@ test('ログは最新行まで自動でスクロールする', async ({ page }) 
   const moves = page.getByRole('region', { name: 'わざ' })
   const replacement = page.getByRole('region', { name: /つぎに だす/ })
   const next = page.getByRole('button', { name: 'つぎの あいて' })
+  const rewards = page.getByRole('region', { name: 'ごほうびを えらぶ' })
 
   // Play until the log is long enough to overflow its box.
   const log = page.getByTestId('battle-log')
   for (let i = 0; i < 40; i++) {
     const overflowing = await log.evaluate((el) => el.scrollHeight > el.clientHeight)
     if (overflowing) break
+    if (await rewards.count()) {
+      await rewards.getByRole('button').first().click()
+      continue
+    }
     if (await next.count()) {
       await next.click()
       continue
@@ -158,6 +163,27 @@ test('こうたいは 1 ターンを消費する', async ({ page }) => {
   await expect(page.getByRole('button', { name: /はっぱカッター/ })).toBeVisible()
 })
 
+test('勝つと ごほうび を えらんでから 次の相手へ', async ({ page }) => {
+  // A save that is already won, so the reward screen is one reload away.
+  await page.evaluate((seed) => {
+    localStorage.setItem(
+      'pokemon-battle:run',
+      JSON.stringify({ ...seed, winner: 'player' }),
+    )
+  }, SEED)
+  await page.reload()
+
+  const rewards = page.getByRole('region', { name: 'ごほうびを えらぶ' })
+  await expect(rewards).toBeVisible()
+  await expect(page.getByRole('region', { name: 'わざ' })).toHaveCount(0)
+
+  await rewards.getByRole('button').first().click()
+
+  await expect(page.getByTestId('run-status')).toContainText('れんしょう 1')
+  await expect(page.getByRole('region', { name: 'わざ' })).toBeVisible()
+  await expect(rewards).toHaveCount(0)
+})
+
 test('決着がつき、勝てば連戦・負ければ最初から', async ({ page }) => {
   const replacement = page.getByRole('region', { name: /つぎに だす/ })
   const moves = page.getByRole('region', { name: 'わざ' })
@@ -177,9 +203,9 @@ test('決着がつき、勝てば連戦・負ければ最初から', async ({ pa
 
   await expect(page.getByRole('status')).toContainText(/たおした|たおれてしまった/)
 
-  const nextOpponent = page.getByRole('button', { name: 'つぎの あいて' })
-  if (await nextOpponent.count()) {
-    await nextOpponent.click()
+  const won = page.getByRole('region', { name: 'ごほうびを えらぶ' })
+  if (await won.count()) {
+    await won.getByRole('button').first().click()
     await expect(page.getByTestId('run-status')).toContainText('れんしょう 1')
     await expect(page.getByTestId('run-status')).toContainText(
       `あいて Lv${opponentLevel(1)}`,
@@ -230,10 +256,15 @@ test('負けると殿堂入りに記録が残り、次のランに表示され�
   const moves = page.getByRole('region', { name: 'わざ' })
   const replacement = page.getByRole('region', { name: /つぎに だす/ })
   const next = page.getByRole('button', { name: 'つぎの あいて' })
+  const rewards = page.getByRole('region', { name: 'ごほうびを えらぶ' })
   const over = page.getByRole('button', { name: 'はじめから' })
 
   for (let i = 0; i < 120; i++) {
     if (await over.count()) break
+    if (await rewards.count()) {
+      await rewards.getByRole('button').first().click()
+      continue
+    }
     if (await next.count()) {
       await next.click()
       continue

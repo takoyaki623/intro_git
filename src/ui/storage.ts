@@ -8,6 +8,8 @@ import {
 import type { Status } from '../domain/status'
 import type { BattleState } from '../domain/battle'
 import type { RunState } from '../domain/run'
+import type { RewardKind } from '../domain/rewards'
+import { REWARD_CONFIG } from '../domain/rewards'
 import { SPECIES } from '../data/species'
 
 const KEY = 'pokemon-battle:run'
@@ -30,6 +32,8 @@ interface StoredRun {
   readonly version: number
   readonly wins: number
   readonly finished: boolean
+  /** Saved so a reload while choosing does not reshuffle the rewards. */
+  readonly offer: readonly RewardKind[] | null
   readonly winner: Side | null
   readonly awaitingSwitch: Side | null
   readonly player: StoredTeam
@@ -82,6 +86,7 @@ export function saveRun(run: RunState, storage: Storage = localStorage): void {
     version: VERSION,
     wins: run.wins,
     finished: run.finished,
+    offer: run.offer,
     winner: run.battle.winner,
     awaitingSwitch: run.battle.awaitingSwitch,
     player: storeTeam(run.battle.player),
@@ -119,7 +124,17 @@ export function loadRun(storage: Storage = localStorage): RunState | null {
     winner: stored.winner ?? null,
     awaitingSwitch: stored.awaitingSwitch ?? null,
   }
-  return { battle, wins: stored.wins, finished: stored.finished === true }
+  const kinds: readonly RewardKind[] = ['heal', 'revive', 'levelUp', 'recruit']
+  const offer = Array.isArray(stored.offer)
+    ? stored.offer.filter((kind): kind is RewardKind => kinds.includes(kind))
+    : null
+
+  return {
+    battle,
+    wins: stored.wins,
+    finished: stored.finished === true,
+    offer: offer && offer.length > 0 ? offer.slice(0, REWARD_CONFIG.choices) : null,
+  }
 }
 
 export function clearRun(storage: Storage = localStorage): void {

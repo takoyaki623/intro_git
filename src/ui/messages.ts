@@ -1,6 +1,8 @@
 import type { BattleEvent } from '../domain/events'
 import type { PokemonType } from '../domain/types'
 import type { StatusKind } from '../domain/status'
+import type { RewardKind } from '../domain/rewards'
+import { REWARD_CONFIG } from '../domain/rewards'
 
 export const TYPE_NAMES: Record<PokemonType, string> = {
   normal: 'ノーマル',
@@ -60,6 +62,21 @@ const ENDED: Record<StatusKind, (pokemon: string) => string> = {
   paralysis: (p) => `${p}の まひが なおった！`,
   sleep: (p) => `${p}は めを さました！`,
   freeze: (p) => `${p}の こおりが とけた！`,
+}
+
+export const REWARD_NAMES: Record<RewardKind, string> = {
+  heal: 'ぜんかいふく',
+  revive: 'そせい',
+  levelUp: 'レベルアップ',
+  recruit: 'なかまを ふやす',
+}
+
+/** Read off REWARD_CONFIG, so retuning the numbers cannot leave the copy lying. */
+export const REWARD_DETAILS: Record<RewardKind, string> = {
+  heal: 'たっている ぜんいんの HP が まんたんに',
+  revive: `ひんしの 1 ぴきが HP ${Math.round(REWARD_CONFIG.reviveFraction * 100)}% で ふっかつ`,
+  levelUp: `てもち ぜんいんの レベルが +${REWARD_CONFIG.levelsGained}`,
+  recruit: 'あたらしい なかまが 1 ぴき くわわる',
 }
 
 export function formatEvent(event: BattleEvent): string | null {

@@ -30,13 +30,12 @@ describe('saveRun and loadRun', () => {
   })
 
   it('brings a run back with its score and party intact', () => {
-    const run = advance(
-      withBattle(startRun(fixedRandom(0.3)), {
-        ...startRun(fixedRandom(0.3)).battle,
-        winner: 'player',
-      }),
+    const won = withBattle(
+      startRun(fixedRandom(0.3)),
+      { ...startRun(fixedRandom(0.3)).battle, winner: 'player' },
       fixedRandom(0.3),
     )
+    const run = advance(won, won.offer?.[0] ?? null, fixedRandom(0.3))
     saveRun(run, storage)
 
     const loaded = loadRun(storage)

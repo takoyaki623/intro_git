@@ -8,6 +8,7 @@ import { opponentLevel, startRun } from './domain/run'
 import { createBattlePokemon, createTeam } from './domain/entities'
 import { SPECIES } from './data/species'
 import { RUN_CONFIG } from './domain/run'
+import { REWARD_CONFIG } from './domain/rewards'
 import { saveRun } from './ui/storage'
 import { fixedRandom } from './test/rng'
 
@@ -17,6 +18,7 @@ beforeEach(() => localStorage.clear())
 const movePanel = () => screen.queryByRole('region', { name: 'わざ' })
 const switchPanel = () => screen.queryByRole('region', { name: 'こうたい' })
 const replacementPanel = () => screen.queryByRole('region', { name: /つぎに だす/ })
+const rewardPanel = () => screen.queryByRole('region', { name: 'ごほうびを えらぶ' })
 
 const enabledButtons = (panel: HTMLElement) =>
   within(panel)
@@ -25,6 +27,11 @@ const enabledButtons = (panel: HTMLElement) =>
 
 /** Play a turn however the battle currently allows, or report that it is over. */
 async function advanceTurn(user: UserEvent): Promise<boolean> {
+  const reward = rewardPanel()
+  if (reward) {
+    await user.click(enabledButtons(reward)[0]!)
+    return true
+  }
   const owed = replacementPanel()
   if (owed) {
     await user.click(enabledButtons(owed)[0]!)
@@ -177,23 +184,60 @@ describe('winning a battle', () => {
     seed((run) => ({ ...run, battle: { ...run.battle, winner: 'player' } }))
   })
 
-  it('offers the next opponent instead of more moves', () => {
+  it('offers rewards instead of more moves', () => {
     render(<App />)
     expect(screen.getByRole('status')).toHaveTextContent('たおした！')
-    expect(screen.getByRole('button', { name: 'つぎの あいて' })).toBeInTheDocument()
+    expect(rewardPanel()).not.toBeNull()
     expect(movePanel()).toBeNull()
   })
 
-  it('raises the streak and the level when the player moves on', async () => {
+  it('never offers more than the configured number of rewards', () => {
+    render(<App />)
+    expect(enabledButtons(rewardPanel()!).length).toBeLessThanOrEqual(
+      REWARD_CONFIG.choices,
+    )
+  })
+
+  it('raises the streak and the level once a reward is taken', async () => {
     const user = userEvent.setup()
     render(<App />)
-    await user.click(screen.getByRole('button', { name: 'つぎの あいて' }))
+    await user.click(enabledButtons(rewardPanel()!)[0]!)
 
     expect(screen.getByTestId('run-status')).toHaveTextContent('れんしょう 1')
     expect(screen.getByTestId('run-status')).toHaveTextContent(
       `あいて Lv${opponentLevel(1)}`,
     )
     expect(movePanel()).not.toBeNull()
+    expect(rewardPanel()).toBeNull()
+  })
+
+  it('levels the party up when that is the reward taken', async () => {
+    seed((run) => ({
+      ...run,
+      battle: { ...run.battle, winner: 'player' },
+      offer: ['levelUp'],
+    }))
+    const user = userEvent.setup()
+    render(<App />)
+    await user.click(screen.getByRole('button', { name: /レベルアップ/ }))
+
+    expect(screen.getByTestId('player-card')).toHaveTextContent(
+      `Lv${RUN_CONFIG.playerLevel + REWARD_CONFIG.levelsGained}`,
+    )
+  })
+
+  it('adds a fourth member when the recruit is taken', async () => {
+    seed((run) => ({
+      ...run,
+      battle: { ...run.battle, winner: 'player' },
+      offer: ['recruit'],
+    }))
+    const user = userEvent.setup()
+    render(<App />)
+    await user.click(screen.getByRole('button', { name: /なかまを ふやす/ }))
+
+    expect(within(switchPanel()!).getAllByRole('button')).toHaveLength(4)
+    expect(screen.getByTestId('player-team')).toHaveAccessibleName('てもち のこり 4')
   })
 })
 

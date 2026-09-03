@@ -5,7 +5,8 @@ import { lastDamageBySide } from './domain/events'
 import type { TurnAction } from './domain/battle'
 import { forceSwitch, resolveTurn } from './domain/battle'
 import { chooseOpponentAction } from './domain/ai'
-import { advance, canAdvance, startRun, withBattle } from './domain/run'
+import { advance, canAdvance, startRun, withBattle, withOffer } from './domain/run'
+import type { RewardKind } from './domain/rewards'
 import { outcomeMessage } from './ui/messages'
 import { clearRun, loadRun, saveRun } from './ui/storage'
 import { loadBest, recordRun, type BestRun } from './ui/records'
@@ -15,10 +16,12 @@ import { SwitchButtons } from './components/SwitchButtons'
 import { TeamBar } from './components/TeamBar'
 import { RunStatus } from './components/RunStatus'
 import { HallOfFame } from './components/HallOfFame'
+import { RewardChoice } from './components/RewardChoice'
 import { BattleLog } from './components/BattleLog'
 
 export default function App() {
-  const [run, setRun] = useState(() => loadRun() ?? startRun())
+  // withOffer covers a save written after the win but before the draw.
+  const [run, setRun] = useState(() => withOffer(loadRun() ?? startRun()))
   const [best, setBest] = useState<BestRun | null>(() => loadBest())
   // Whether the record on show is the run that just ended.
   const [beatIt, setBeatIt] = useState(false)
@@ -96,9 +99,16 @@ export default function App() {
             {outcomeMessage('player', player.species.name, opponent.species.name)}
             {' てもちが すこし かいふくした！'}
           </p>
-          <button type="button" onClick={() => setRun(advance(run))}>
-            つぎの あいて
-          </button>
+          {run.offer && run.offer.length > 0 ? (
+            <RewardChoice
+              offer={run.offer}
+              onSelect={(reward: RewardKind) => setRun(advance(run, reward))}
+            />
+          ) : (
+            <button type="button" onClick={() => setRun(advance(run))}>
+              つぎの あいて
+            </button>
+          )}
         </section>
       ) : battle.awaitingSwitch === 'player' ? (
         <SwitchButtons

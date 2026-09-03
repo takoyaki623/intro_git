@@ -268,8 +268,9 @@ h1 {
 }
 
 .switch-row {
+  /* auto-fit, because なかまを ふやす can take the party past three. */
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr));
   gap: 0.5rem;
 }
 
@@ -357,6 +358,46 @@ h1 {
   color: #fff;
   font: inherit;
   cursor: pointer;
+}
+
+.rewards {
+  display: grid;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.rewards h2 {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.reward-row {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.reward-row button {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.6rem 0.7rem;
+  background: var(--bg);
+  color: inherit;
+  border: 1px solid var(--border);
+  border-radius: 0.6rem;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.reward-row button:hover {
+  border-color: var(--accent);
+}
+
+.reward-row button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .hall {

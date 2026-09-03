@@ -50,7 +50,8 @@ function playRun(player: Player, opponentRandom: () => number): number {
   for (let turn = 0; turn < 4000; turn++) {
     if (run.finished) break
     if (canAdvance(run)) {
-      run = advance(run, Math.random)
+      // The bots take whatever is offered first, so a run keeps moving.
+      run = advance(run, run.offer?.[0] ?? null, Math.random)
       continue
     }
     const battle = run.battle

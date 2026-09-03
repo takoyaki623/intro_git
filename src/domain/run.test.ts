@@ -7,9 +7,11 @@ import {
   restBetweenBattles,
   startRun,
   withBattle,
+  withOffer,
 } from './run'
 import { activePokemon, createBattlePokemon, isFainted } from './entities'
 import { SPECIES } from '../data/species'
+import type { RewardKind } from './rewards'
 import { fixedRandom, scriptedRandom } from '../test/rng'
 
 const pikachu = createBattlePokemon(SPECIES.pikachu, 50)
@@ -106,7 +108,7 @@ describe('advance', () => {
   })
 
   it('counts the win and raises the opposing level', () => {
-    const next = advance(won(), fixedRandom(0.3))
+    const next = advance(won(), null, fixedRandom(0.3))
     expect(next.wins).toBe(1)
     expect(activePokemon(next.battle.opponent).level).toBe(opponentLevel(1))
     expect(next.battle.winner).toBeNull()
@@ -122,7 +124,7 @@ describe('advance', () => {
       },
       winner: 'player' as const,
     }
-    const next = advance(withBattle(run, battered), fixedRandom(0.3))
+    const next = advance(withBattle(run, battered), null, fixedRandom(0.3))
     for (const member of next.battle.player.members) {
       expect(member.currentHp).toBeGreaterThan(10)
       expect(member.currentHp).toBeLessThan(member.stats.hp)
@@ -141,7 +143,7 @@ describe('advance', () => {
       },
       winner: 'player' as const,
     }
-    const next = advance(withBattle(run, firstDown), fixedRandom(0.3))
+    const next = advance(withBattle(run, firstDown), null, fixedRandom(0.3))
     expect(isFainted(activePokemon(next.battle.player))).toBe(false)
     expect(next.battle.player.activeIndex).toBe(1)
   })
@@ -158,7 +160,102 @@ describe('advance', () => {
       },
       winner: 'player' as const,
     }
-    const next = advance(withBattle(run, oneDown), fixedRandom(0.3))
+    const next = advance(withBattle(run, oneDown), null, fixedRandom(0.3))
     expect(next.battle.player.members[0]?.currentHp).toBe(0)
+  })
+})
+
+describe('rewards across a run', () => {
+  const wounded = () => {
+    const run = startRun(fixedRandom(0.3))
+    return {
+      ...run,
+      battle: {
+        ...run.battle,
+        player: {
+          ...run.battle.player,
+          members: run.battle.player.members.map((m, i) =>
+            i === 0 ? { ...m, currentHp: 0 } : { ...m, currentHp: 5 },
+          ),
+        },
+        winner: 'player' as const,
+      },
+    }
+  }
+
+  it('draws an offer the first time the win is seen', () => {
+    const run = startRun(fixedRandom(0.3))
+    expect(run.offer).toBeNull()
+    const won = withBattle(run, { ...run.battle, winner: 'player' }, fixedRandom(0.3))
+    expect(won.offer?.length).toBeGreaterThan(0)
+  })
+
+  it('holds the offer steady rather than redrawing it', () => {
+    const run = startRun(fixedRandom(0.3))
+    const won = withBattle(run, { ...run.battle, winner: 'player' }, fixedRandom(0.3))
+    const again = withBattle(won, won.battle, fixedRandom(0.9))
+    expect(again.offer).toEqual(won.offer)
+  })
+
+  it('draws an offer for a run restored after a win but before the draw', () => {
+    // What a save written the moment the battle was won looks like.
+    const run = startRun(fixedRandom(0.3))
+    const restored = { ...run, battle: { ...run.battle, winner: 'player' as const } }
+    expect(restored.offer).toBeNull()
+    expect(withOffer(restored, fixedRandom(0.3)).offer?.length).toBeGreaterThan(0)
+  })
+
+  it('leaves a run that is still being fought without an offer', () => {
+    const run = startRun(fixedRandom(0.3))
+    expect(withOffer(run, fixedRandom(0.3)).offer).toBeNull()
+  })
+
+  it('offers nothing while the battle is still going', () => {
+    const run = startRun(fixedRandom(0.3))
+    expect(withBattle(run, run.battle, fixedRandom(0.3)).offer).toBeNull()
+  })
+
+  it('offers a revival when somebody is down', () => {
+    const run = withBattle(wounded(), wounded().battle, fixedRandom(0.5))
+    expect(run.offer).toContain('revive')
+  })
+
+  /** Pin the offer, so these do not ride on what the draw happened to give. */
+  const offering = (...offer: RewardKind[]) => ({ ...wounded(), offer })
+
+  it('applies the reward on the way to the next battle', () => {
+    const next = advance(offering('levelUp'), 'levelUp', fixedRandom(0.3))
+    const levels = next.battle.player.members.map((m) => m.level)
+    expect(levels.every((level) => level > RUN_CONFIG.playerLevel)).toBe(true)
+  })
+
+  it('clears the offer once it is spent', () => {
+    expect(advance(offering('levelUp'), 'levelUp', fixedRandom(0.3)).offer).toBeNull()
+  })
+
+  it('refuses a reward that was not offered', () => {
+    const run = startRun(fixedRandom(0.3))
+    const won = withBattle(run, { ...run.battle, winner: 'player' }, fixedRandom(0.3))
+    const notOffered = (['heal', 'revive', 'levelUp', 'recruit'] as const).find(
+      (kind) => !won.offer?.includes(kind),
+    )
+    if (notOffered) {
+      expect(() => advance(won, notOffered, fixedRandom(0.3))).toThrow()
+    }
+  })
+
+  it('still rests the party on top of the reward', () => {
+    const next = advance(offering('levelUp'), 'levelUp', fixedRandom(0.3))
+    // The survivors went in at 5 HP; levelling keeps the damage, resting undoes some.
+    const survivor = next.battle.player.members[1]
+    expect(survivor!.currentHp).toBeGreaterThan(5)
+  })
+
+  it('grows the party when the recruit is taken', () => {
+    const before = offering('recruit')
+    const next = advance(before, 'recruit', fixedRandom(0.3))
+    expect(next.battle.player.members.length).toBe(
+      before.battle.player.members.length + 1,
+    )
   })
 })

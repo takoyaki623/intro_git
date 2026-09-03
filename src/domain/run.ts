@@ -3,6 +3,8 @@ import { createBattlePokemon, createTeam, isFainted, withActive } from './entiti
 import type { BattleState } from './battle'
 import { createBattle } from './battle'
 import type { Random } from './damage'
+import type { RewardKind } from './rewards'
+import { applyReward, offerRewards } from './rewards'
 import { SPECIES_LIST } from '../data/species'
 
 /**
@@ -39,6 +41,13 @@ export interface RunState {
   readonly wins: number
   /** Set once the player's party has been wiped. */
   readonly finished: boolean
+  /**
+   * The rewards on offer after a win, drawn once and held.
+   *
+   * In state rather than derived because it is a draw: recomputing it on every
+   * render would reshuffle the choices under the player's finger.
+   */
+  readonly offer: readonly RewardKind[] | null
 }
 
 /** Pick `count` distinct entries, without disturbing the pool it was given. */
@@ -100,12 +109,8 @@ export function startRun(random: Random = Math.random): RunState {
     battle: createBattle(makePlayerTeam(random), makeOpponent(0, random)),
     wins: 0,
     finished: false,
+    offer: null,
   }
-}
-
-/** Fold a battle's new state back into the run, noticing a loss. */
-export function withBattle(run: RunState, battle: BattleState): RunState {
-  return { ...run, battle, finished: battle.winner === 'opponent' }
 }
 
 /** True once the player has won and the next opponent is waiting. */
@@ -113,12 +118,49 @@ export function canAdvance(run: RunState): boolean {
   return !run.finished && run.battle.winner === 'player'
 }
 
-/** Take the win, rest the party, and line up a tougher opponent. */
-export function advance(run: RunState, random: Random = Math.random): RunState {
+/**
+ * Draw the rewards for a won run that has none yet, and leave every other run
+ * alone.
+ *
+ * Also covers a run restored from a save written before the draw happened --
+ * a reload right after a win would otherwise skip the reward entirely.
+ */
+export function withOffer(run: RunState, random: Random = Math.random): RunState {
+  if (!canAdvance(run) || run.offer) return run
+  return { ...run, offer: offerRewards(run.battle.player.members, random) }
+}
+
+/** Fold a battle's new state back into the run, noticing a win or a loss. */
+export function withBattle(
+  run: RunState,
+  battle: BattleState,
+  random: Random = Math.random,
+): RunState {
+  return withOffer({ ...run, battle, finished: battle.winner === 'opponent' }, random)
+}
+
+/**
+ * Take the win, apply the chosen reward, rest the party, and line up a tougher
+ * opponent.
+ *
+ * The rest happens whatever the player picked: it is what keeps a run moving,
+ * and the reward is the choice on top of it.
+ */
+export function advance(
+  run: RunState,
+  reward: RewardKind | null = null,
+  random: Random = Math.random,
+): RunState {
   if (!canAdvance(run)) return run
+  if (reward && run.offer && !run.offer.includes(reward)) {
+    throw new Error(`${reward} was not on offer`)
+  }
 
   const wins = run.wins + 1
-  const members = restBetweenBattles(run.battle.player.members)
+  const rewarded = reward
+    ? applyReward(run.battle.player.members, reward, random)
+    : run.battle.player.members
+  const members = restBetweenBattles(rewarded)
   // createTeam leads with the first member, which may well be one that fainted
   // in an earlier battle, so lead with the first that is still standing.
   const lead = members.findIndex((member) => !isFainted(member))
@@ -128,5 +170,6 @@ export function advance(run: RunState, random: Random = Math.random): RunState {
     battle: createBattle(rested, makeOpponent(wins, random)),
     wins,
     finished: false,
+    offer: null,
   }
 }
