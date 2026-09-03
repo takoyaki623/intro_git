@@ -1,8 +1,14 @@
-import { describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { UserEvent } from '@testing-library/user-event'
 import App from './App'
+import { startRun } from './domain/run'
+import { saveRun } from './ui/storage'
+import { fixedRandom } from './test/rng'
+
+// App now remembers a run, so each test needs a clean slate.
+beforeEach(() => localStorage.clear())
 
 const movePanel = () => screen.queryByRole('region', { name: 'わざ' })
 const switchPanel = () => screen.queryByRole('region', { name: 'こうたい' })
@@ -14,7 +20,7 @@ const enabledButtons = (panel: HTMLElement) =>
     .filter((button) => !button.hasAttribute('disabled'))
 
 /** Play a turn however the battle currently allows, or report that it is over. */
-async function advance(user: UserEvent): Promise<boolean> {
+async function advanceTurn(user: UserEvent): Promise<boolean> {
   const owed = replacementPanel()
   if (owed) {
     await user.click(enabledButtons(owed)[0]!)
@@ -26,22 +32,22 @@ async function advance(user: UserEvent): Promise<boolean> {
   return true
 }
 
-describe('App', () => {
-  it('starts with both leaders out at full health', () => {
+/** Put a run into storage so App picks it up on mount. */
+function seed(patch: (run: ReturnType<typeof startRun>) => ReturnType<typeof startRun>) {
+  saveRun(patch(startRun(fixedRandom(0.3))))
+}
+
+describe('a fresh run', () => {
+  it('starts with a full party and nothing won', () => {
     render(<App />)
     expect(screen.getByTestId('player-hp')).toHaveTextContent('95 / 95 HP')
-    expect(screen.getByTestId('opponent-hp')).toHaveTextContent('104 / 104 HP')
-    expect(screen.getByTestId('battle-log')).toHaveTextContent(
-      'やせいの ゼニガメが とびだしてきた！',
-    )
+    expect(screen.getByTestId('run-status')).toHaveTextContent('れんしょう 0')
+    expect(screen.getByTestId('player-team')).toHaveAccessibleName('てもち のこり 3')
   })
 
-  it('shows how much of each party is left', () => {
+  it('shows the level the opponent is fighting at', () => {
     render(<App />)
-    expect(screen.getByTestId('player-team')).toHaveAccessibleName('てもち のこり 3')
-    expect(screen.getByTestId('opponent-team')).toHaveAccessibleName(
-      'あいての てもち のこり 3',
-    )
+    expect(screen.getByTestId('run-status')).toHaveTextContent('あいて Lv50')
   })
 
   it('offers the active Pokemon its own moves', () => {
@@ -59,12 +65,13 @@ describe('App', () => {
   it('damages the opponent when a move is used', async () => {
     const user = userEvent.setup()
     render(<App />)
+    const before = screen.getByTestId('opponent-hp').textContent
     await user.click(screen.getByRole('button', { name: /10まんボルト/ }))
 
     expect(screen.getByTestId('battle-log')).toHaveTextContent(
       'ピカチュウの 10まんボルト！',
     )
-    expect(screen.getByTestId('opponent-hp')).not.toHaveTextContent('104 / 104 HP')
+    expect(screen.getByTestId('opponent-hp')).not.toHaveTextContent(before!)
   })
 
   it('will not let the player switch to the Pokemon already out', () => {
@@ -81,38 +88,98 @@ describe('App', () => {
 
     expect(screen.getByTestId('battle-log')).toHaveTextContent('ゆけっ！ フシギダネ！')
     expect(screen.getByRole('button', { name: /はっぱカッター/ })).toBeInTheDocument()
-    // Switching costs the turn, so ピカチュウ never attacked.
     expect(screen.getByTestId('battle-log')).not.toHaveTextContent(
       'ピカチュウの 10まんボルト！',
     )
   })
+})
 
-  it('plays through to a result, with replacements sent out along the way', async () => {
-    const user = userEvent.setup()
-    render(<App />)
-
-    for (let i = 0; i < 60; i++) if (!(await advance(user))) break
-
-    expect(screen.getByRole('status')).toHaveTextContent(/たおした|たおれてしまった/)
-    expect(
-      screen.getByRole('button', { name: 'もういちど たたかう' }),
-    ).toBeInTheDocument()
-    // A whole party has to fall, so a side ran out of replacements.
-    const log = screen.getByTestId('battle-log')
-    expect(log).toHaveTextContent('たおれた')
-    expect(log).toHaveTextContent('くりだした')
+describe('winning a battle', () => {
+  beforeEach(() => {
+    seed((run) => ({ ...run, battle: { ...run.battle, winner: 'player' } }))
   })
 
-  it('resets both parties on a rematch', async () => {
+  it('offers the next opponent instead of more moves', () => {
+    render(<App />)
+    expect(screen.getByRole('status')).toHaveTextContent('たおした！')
+    expect(screen.getByRole('button', { name: 'つぎの あいて' })).toBeInTheDocument()
+    expect(movePanel()).toBeNull()
+  })
+
+  it('raises the streak and the level when the player moves on', async () => {
     const user = userEvent.setup()
     render(<App />)
-    for (let i = 0; i < 60; i++) if (!(await advance(user))) break
+    await user.click(screen.getByRole('button', { name: 'つぎの あいて' }))
 
-    await user.click(screen.getByRole('button', { name: 'もういちど たたかう' }))
+    expect(screen.getByTestId('run-status')).toHaveTextContent('れんしょう 1')
+    expect(screen.getByTestId('run-status')).toHaveTextContent('あいて Lv52')
+    expect(movePanel()).not.toBeNull()
+  })
+})
+
+describe('losing a run', () => {
+  beforeEach(() => {
+    seed((run) => ({
+      ...run,
+      wins: 4,
+      finished: true,
+      battle: { ...run.battle, winner: 'opponent' },
+    }))
+  })
+
+  it('reports the streak it ended on', () => {
+    render(<App />)
+    expect(screen.getByRole('status')).toHaveTextContent('4れんしょうで おわり')
+    expect(screen.getByRole('button', { name: 'はじめから' })).toBeInTheDocument()
+  })
+
+  it('starts over with a clean party and no streak', async () => {
+    const user = userEvent.setup()
+    render(<App />)
+    await user.click(screen.getByRole('button', { name: 'はじめから' }))
+
+    expect(screen.getByTestId('run-status')).toHaveTextContent('れんしょう 0')
     expect(screen.getByTestId('player-hp')).toHaveTextContent('95 / 95 HP')
     expect(screen.getByTestId('player-team')).toHaveAccessibleName('てもち のこり 3')
-    expect(screen.getByTestId('opponent-team')).toHaveAccessibleName(
-      'あいての てもち のこり 3',
-    )
+  })
+})
+
+describe('remembering a run', () => {
+  it('picks up where a saved run left off', () => {
+    seed((run) => ({
+      ...run,
+      wins: 2,
+      battle: {
+        ...run.battle,
+        player: {
+          ...run.battle.player,
+          members: run.battle.player.members.map((m, i) =>
+            i === 0 ? { ...m, currentHp: 12 } : m,
+          ),
+        },
+      },
+    }))
+    render(<App />)
+    expect(screen.getByTestId('run-status')).toHaveTextContent('れんしょう 2')
+    expect(screen.getByTestId('player-hp')).toHaveTextContent('12 / 95 HP')
+  })
+
+  it('saves as the battle goes on', async () => {
+    const user = userEvent.setup()
+    render(<App />)
+    await user.click(screen.getByRole('button', { name: /10まんボルト/ }))
+    expect(localStorage.getItem('pokemon-battle:run')).toBeTruthy()
+  })
+})
+
+describe('playing a battle out', () => {
+  it('reaches a decision one way or the other', async () => {
+    const user = userEvent.setup()
+    render(<App />)
+
+    for (let i = 0; i < 80; i++) if (!(await advanceTurn(user))) break
+
+    expect(screen.getByRole('status')).toHaveTextContent(/たおした|たおれてしまった/)
+    expect(screen.getByTestId('battle-log')).toHaveTextContent('たおれた')
   })
 })

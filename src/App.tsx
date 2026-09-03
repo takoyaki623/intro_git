@@ -1,53 +1,49 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { Move } from './domain/entities'
-import { activePokemon, createBattlePokemon, createTeam } from './domain/entities'
-import {
-  chooseOpponentAction,
-  createBattle,
-  forceSwitch,
-  resolveTurn,
-} from './domain/battle'
-import { OPPONENT_TEAM, PLAYER_TEAM } from './data/teams'
+import { activePokemon } from './domain/entities'
+import type { TurnAction } from './domain/battle'
+import { chooseOpponentAction, forceSwitch, resolveTurn } from './domain/battle'
+import { advance, canAdvance, startRun, withBattle } from './domain/run'
 import { outcomeMessage } from './ui/messages'
+import { clearRun, loadRun, saveRun } from './ui/storage'
 import { HealthBar } from './components/HealthBar'
 import { MoveButtons } from './components/MoveButtons'
 import { SwitchButtons } from './components/SwitchButtons'
 import { TeamBar } from './components/TeamBar'
+import { RunStatus } from './components/RunStatus'
 import { BattleLog } from './components/BattleLog'
 
-const LEVEL = 50
-
-function newBattle() {
-  const team = (species: typeof PLAYER_TEAM) =>
-    createTeam(species.map((s) => createBattlePokemon(s, LEVEL)))
-  return createBattle(team(PLAYER_TEAM), team(OPPONENT_TEAM))
-}
-
 export default function App() {
-  const [battle, setBattle] = useState(newBattle)
+  const [run, setRun] = useState(() => loadRun() ?? startRun())
 
+  useEffect(() => {
+    saveRun(run)
+  }, [run])
+
+  const { battle } = run
   const player = activePokemon(battle.player)
   const opponent = activePokemon(battle.opponent)
 
   // Resolving a turn rolls dice, so it happens here rather than inside the
   // setState updater: React may call an updater more than once and expects a
   // pure function of the previous state.
-  const takeTurn = (action: Parameters<typeof resolveTurn>[1]) => {
-    setBattle(resolveTurn(battle, action, chooseOpponentAction(battle)))
-  }
+  const takeTurn = (action: TurnAction) =>
+    setRun(withBattle(run, resolveTurn(battle, action, chooseOpponentAction(battle))))
 
   const useMove = (move: Move) => takeTurn({ type: 'move', move })
   const switchTo = (index: number) => takeTurn({ type: 'switch', index })
   const sendReplacement = (index: number) =>
-    setBattle(forceSwitch(battle, 'player', index))
+    setRun(withBattle(run, forceSwitch(battle, 'player', index)))
 
-  const outcome = battle.winner
-    ? outcomeMessage(battle.winner, player.species.name, opponent.species.name)
-    : null
+  const startOver = () => {
+    clearRun()
+    setRun(startRun())
+  }
 
   return (
     <main className="battle">
       <h1>ポケモンバトル</h1>
+      <RunStatus wins={run.wins} opponentLevel={opponent.level} />
 
       <section className="field">
         <div className="slot">
@@ -60,11 +56,24 @@ export default function App() {
         </div>
       </section>
 
-      {outcome ? (
+      {run.finished ? (
         <section className="outcome">
-          <p role="status">{outcome}</p>
-          <button type="button" onClick={() => setBattle(newBattle())}>
-            もういちど たたかう
+          <p role="status">
+            {outcomeMessage('opponent', player.species.name, opponent.species.name)}
+            {` ${run.wins}れんしょうで おわり。`}
+          </p>
+          <button type="button" onClick={startOver}>
+            はじめから
+          </button>
+        </section>
+      ) : canAdvance(run) ? (
+        <section className="outcome">
+          <p role="status">
+            {outcomeMessage('player', player.species.name, opponent.species.name)}
+            {' てもちが すこし かいふくした！'}
+          </p>
+          <button type="button" onClick={() => setRun(advance(run))}>
+            つぎの あいて
           </button>
         </section>
       ) : battle.awaitingSwitch === 'player' ? (
