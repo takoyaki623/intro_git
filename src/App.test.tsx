@@ -37,7 +37,21 @@ function seed(patch: (run: ReturnType<typeof startRun>) => ReturnType<typeof sta
   saveRun(patch(startRun(fixedRandom(0.3))))
 }
 
+describe('an unsaved run', () => {
+  it('starts a fresh one with a full party and nothing won', () => {
+    render(<App />)
+    expect(screen.getByTestId('player-hp')).toHaveTextContent('95 / 95 HP')
+    expect(screen.getByTestId('run-status')).toHaveTextContent('れんしょう 0')
+    expect(screen.getByTestId('player-team')).toHaveAccessibleName('てもち のこり 3')
+  })
+})
+
 describe('a fresh run', () => {
+  // Seeded, so the opposing party is fixed. Drawn at random it can field the
+  // same species the player has, and assertions on log lines then go ambiguous
+  // about which side did what.
+  beforeEach(() => seed((run) => run))
+
   it('starts with a full party and nothing won', () => {
     render(<App />)
     expect(screen.getByTestId('player-hp')).toHaveTextContent('95 / 95 HP')
@@ -88,9 +102,9 @@ describe('a fresh run', () => {
 
     expect(screen.getByTestId('battle-log')).toHaveTextContent('ゆけっ！ フシギダネ！')
     expect(screen.getByRole('button', { name: /はっぱカッター/ })).toBeInTheDocument()
-    expect(screen.getByTestId('battle-log')).not.toHaveTextContent(
-      'ピカチュウの 10まんボルト！',
-    )
+    // ピカチュウ gave up its attack to switch. Which side used which move is
+    // checked properly in battle.test.ts, where the events are readable.
+    expect(screen.getByTestId('battle-log')).not.toHaveTextContent('10まんボルト')
   })
 })
 

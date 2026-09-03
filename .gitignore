@@ -29,3 +29,6 @@ test-results
 
 # Coverage
 coverage
+
+# Single-file build output
+pokemon-battle.html

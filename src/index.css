@@ -1,31 +1,51 @@
 :root {
-  --bg: #f6f7fb;
+  /* Cool neutrals with a faint violet bias, so the greys read as chosen rather
+     than inherited. The health colours are semantic and deliberately sit apart
+     from the accent. */
+  --bg: #f4f4f8;
   --surface: #ffffff;
-  --text: #1c1f26;
-  --muted: #5b6270;
-  --border: #d9dde6;
-  --accent: #3355cc;
+  --text: #1a1a24;
+  --muted: #5c5c70;
+  --border: #dcdce6;
+  --accent: #4a45a8;
   --healthy: #2f9e56;
-  --warning: #d99a00;
-  --critical: #cc3b30;
+  --warning: #b8860b;
+  --critical: #cf3a2e;
+
+  --font-ui:
+    'M PLUS Rounded 1c', ui-rounded, 'Hiragino Maru Gothic ProN', system-ui, sans-serif;
+  --font-display: 'DotGothic16', 'M PLUS Rounded 1c', monospace;
 
   color-scheme: light dark;
-  font-family:
-    system-ui,
-    -apple-system,
-    'Segoe UI',
-    sans-serif;
+  font-family: var(--font-ui);
 }
 
+/* System theme with no explicit choice stamped on the root. */
 @media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #14161c;
-    --surface: #1e2129;
-    --text: #eceef3;
-    --muted: #9aa2b1;
-    --border: #333844;
-    --accent: #7d97ff;
+  :root:not([data-theme='light']) {
+    --bg: #15151d;
+    --surface: #1f1f2a;
+    --text: #ecebf2;
+    --muted: #9a9ab0;
+    --border: #33334a;
+    --accent: #9a94ff;
+    --healthy: #4bbd75;
+    --warning: #e0a72c;
+    --critical: #e8594c;
   }
+}
+
+/* An explicit dark choice wins even on a light OS. */
+:root[data-theme='dark'] {
+  --bg: #15151d;
+  --surface: #1f1f2a;
+  --text: #ecebf2;
+  --muted: #9a9ab0;
+  --border: #33334a;
+  --accent: #9a94ff;
+  --healthy: #4bbd75;
+  --warning: #e0a72c;
+  --critical: #e8594c;
 }
 
 * {
@@ -48,8 +68,10 @@ body {
 
 h1 {
   margin: 0;
-  font-size: 1.4rem;
-  letter-spacing: 0.01em;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
 }
 
 .run-status {
@@ -62,8 +84,10 @@ h1 {
 }
 
 .run-status strong {
-  font-size: 1.1rem;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
   color: var(--accent);
+  font-variant-numeric: tabular-nums;
 }
 
 .field {
@@ -151,6 +175,12 @@ h1 {
   font-size: 0.85rem;
   color: var(--muted);
   font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fill {
+    transition: none;
+  }
 }
 
 .slot {

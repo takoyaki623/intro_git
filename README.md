@@ -88,6 +88,16 @@ UI を差し替えてもテストはそのまま通ります。
 PokéAPI から取ってくることもできますが、ローカルに持つほうがテストが決定的になり、
 オフラインでも動きます。
 
+## 遊ぶ
+
+```bash
+npm install && npm run dev
+```
+
+`npm run build:single` で、`dist/` を丸ごと 1 枚の HTML（`pokemon-battle.html`）に
+まとめられます。Claude Artifact として公開する形式で、そのまま開けば動きます。
+外部への通信は Google Fonts の 1 リクエストだけです。
+
 ## 設計
 
 これから作るもの（手持ち 3 匹 + 交代、連戦、日本語化、状態異常）と実装順は

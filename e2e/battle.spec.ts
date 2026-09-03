@@ -1,9 +1,42 @@
 import { expect, test } from '@playwright/test'
 
+/**
+ * A fixed starting position, written straight into the save the app reads.
+ *
+ * Left to itself the app draws the opposing party at random, which can field
+ * the same species the player has and makes assertions about who did what
+ * ambiguous. Seeding pins it. HP above maximum is clamped on load, so 999 just
+ * means full.
+ */
+const SEED = {
+  version: 1,
+  wins: 0,
+  finished: false,
+  winner: null,
+  awaitingSwitch: null,
+  player: {
+    activeIndex: 0,
+    members: [
+      { speciesId: 'pikachu', level: 50, currentHp: 999, status: null },
+      { speciesId: 'charmander', level: 50, currentHp: 999, status: null },
+      { speciesId: 'bulbasaur', level: 50, currentHp: 999, status: null },
+    ],
+  },
+  opponent: {
+    activeIndex: 0,
+    members: [
+      { speciesId: 'squirtle', level: 50, currentHp: 999, status: null },
+      { speciesId: 'zubat', level: 50, currentHp: 999, status: null },
+      { speciesId: 'geodude', level: 50, currentHp: 999, status: null },
+    ],
+  },
+}
+
 test.beforeEach(async ({ page }) => {
   await page.goto('/')
-  // A run is remembered, so clear it before each test.
-  await page.evaluate(() => localStorage.clear())
+  await page.evaluate((seed) => {
+    localStorage.setItem('pokemon-battle:run', JSON.stringify(seed))
+  }, SEED)
   await page.reload()
 })
 
@@ -12,7 +45,10 @@ test('開始時は 0 れんしょう、手持ちフル', async ({ page }) => {
   await expect(page.getByTestId('player-hp')).toHaveText('95 / 95 HP')
   await expect(page.getByTestId('run-status')).toContainText('れんしょう 0')
   await expect(page.getByTestId('run-status')).toContainText('あいて Lv50')
-  await expect(page.getByTestId('battle-log')).toContainText('とびだしてきた！')
+  await expect(page.getByTestId('opponent-hp')).toHaveText('104 / 104 HP')
+  await expect(page.getByTestId('battle-log')).toContainText(
+    'やせいの ゼニガメが とびだしてきた！',
+  )
 })
 
 test('リロードしても つづきから 再開する', async ({ page }) => {
@@ -47,7 +83,9 @@ test('こうたいは 1 ターンを消費する', async ({ page }) => {
     .click()
 
   await expect(page.getByTestId('battle-log')).toContainText('ゆけっ！ フシギダネ！')
-  await expect(page.getByTestId('battle-log')).not.toContainText('ピカチュウの')
+  // ピカチュウ gave up its attack to switch. Which side used which move is
+  // checked properly in battle.test.ts, where the events are readable.
+  await expect(page.getByTestId('battle-log')).not.toContainText('10まんボルト')
   await expect(page.getByRole('button', { name: /はっぱカッター/ })).toBeVisible()
 })
 
