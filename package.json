@@ -15,6 +15,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "coverage": "vitest run --coverage",
+    "sim": "VITE_SIM=1 vitest run src/ai.sim.test.ts --reporter=verbose",
     "e2e": "playwright test",
     "check": "npm run typecheck && npm run lint && npm run test"
   },

@@ -11,12 +11,25 @@ import { SPECIES_LIST } from '../data/species'
  * the difficulty curve lives here, so tuning it is a one-line change.
  */
 export const RUN_CONFIG = {
-  /** Level of the first opposing party. */
-  startingLevel: 50,
+  /** The player's party is this level for the whole run. */
+  playerLevel: 50,
+  /**
+   * The first opposing party starts below the player and climbs past them.
+   *
+   * Starting at parity makes every battle roughly a coin flip, and a coin flip
+   * from the first turn gives an expected streak of about one -- measured, not
+   * guessed. Opening below the player buys a few battles of room before the
+   * ramp catches up and overtakes.
+   */
+  opponentStartingLevel: 42,
   /** Added to the opponent's level for every win so far. */
   levelStepPerWin: 2,
-  /** Fraction of maximum HP the party recovers between battles. */
-  healingBetweenBattles: 0.25,
+  /**
+   * Fraction of maximum HP the party recovers between battles. Worth less than
+   * it looks: it cannot help with a battle already under way, so it lengthens a
+   * streak rather than starting one.
+   */
+  healingBetweenBattles: 0.35,
   /** How many Pokemon each side fields. */
   partySize: 3,
 } as const
@@ -41,7 +54,7 @@ function sample<T>(pool: readonly T[], count: number, random: Random): T[] {
 }
 
 export function opponentLevel(wins: number): number {
-  return RUN_CONFIG.startingLevel + wins * RUN_CONFIG.levelStepPerWin
+  return RUN_CONFIG.opponentStartingLevel + wins * RUN_CONFIG.levelStepPerWin
 }
 
 function makeOpponent(wins: number, random: Random): TeamState {
@@ -53,7 +66,7 @@ function makeOpponent(wins: number, random: Random): TeamState {
 function makePlayerTeam(): TeamState {
   const roster: readonly Species[] = PLAYER_TEAM.slice(0, RUN_CONFIG.partySize)
   return createTeam(
-    roster.map((species) => createBattlePokemon(species, RUN_CONFIG.startingLevel)),
+    roster.map((species) => createBattlePokemon(species, RUN_CONFIG.playerLevel)),
   )
 }
 

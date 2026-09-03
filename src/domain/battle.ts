@@ -311,14 +311,3 @@ export function forceSwitch(state: BattleState, side: Side, index: number): Batt
   }
   return { ...applySwitch(state, side, index, true), awaitingSwitch: null }
 }
-
-/** The opponent's turn. It only attacks for now; switching AI comes later. */
-export function chooseOpponentAction(
-  state: BattleState,
-  random: Random = Math.random,
-): TurnAction {
-  const moves = activePokemon(state.opponent).species.moves
-  const move = moves[Math.floor(random() * moves.length)]
-  if (!move) throw new Error('the opposing Pokemon has no moves')
-  return { type: 'move', move }
-}

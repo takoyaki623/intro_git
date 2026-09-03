@@ -3,7 +3,7 @@ import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { UserEvent } from '@testing-library/user-event'
 import App from './App'
-import { startRun } from './domain/run'
+import { opponentLevel, startRun } from './domain/run'
 import { saveRun } from './ui/storage'
 import { fixedRandom } from './test/rng'
 
@@ -61,7 +61,10 @@ describe('a fresh run', () => {
 
   it('shows the level the opponent is fighting at', () => {
     render(<App />)
-    expect(screen.getByTestId('run-status')).toHaveTextContent('あいて Lv50')
+    // Derived, so retuning RUN_CONFIG does not break the test.
+    expect(screen.getByTestId('run-status')).toHaveTextContent(
+      `あいて Lv${opponentLevel(0)}`,
+    )
   })
 
   it('offers the active Pokemon its own moves', () => {
@@ -126,7 +129,9 @@ describe('winning a battle', () => {
     await user.click(screen.getByRole('button', { name: 'つぎの あいて' }))
 
     expect(screen.getByTestId('run-status')).toHaveTextContent('れんしょう 1')
-    expect(screen.getByTestId('run-status')).toHaveTextContent('あいて Lv52')
+    expect(screen.getByTestId('run-status')).toHaveTextContent(
+      `あいて Lv${opponentLevel(1)}`,
+    )
     expect(movePanel()).not.toBeNull()
   })
 })

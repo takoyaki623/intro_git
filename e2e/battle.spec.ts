@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+import { RUN_CONFIG, opponentLevel } from '../src/domain/run'
 
 /**
  * A fixed starting position, written straight into the save the app reads.
@@ -17,17 +18,42 @@ const SEED = {
   player: {
     activeIndex: 0,
     members: [
-      { speciesId: 'pikachu', level: 50, currentHp: 999, status: null },
-      { speciesId: 'charmander', level: 50, currentHp: 999, status: null },
-      { speciesId: 'bulbasaur', level: 50, currentHp: 999, status: null },
+      {
+        speciesId: 'pikachu',
+        level: RUN_CONFIG.playerLevel,
+        currentHp: 999,
+        status: null,
+      },
+      {
+        speciesId: 'charmander',
+        level: RUN_CONFIG.playerLevel,
+        currentHp: 999,
+        status: null,
+      },
+      {
+        speciesId: 'bulbasaur',
+        level: RUN_CONFIG.playerLevel,
+        currentHp: 999,
+        status: null,
+      },
     ],
   },
   opponent: {
     activeIndex: 0,
     members: [
-      { speciesId: 'squirtle', level: 50, currentHp: 999, status: null },
-      { speciesId: 'zubat', level: 50, currentHp: 999, status: null },
-      { speciesId: 'geodude', level: 50, currentHp: 999, status: null },
+      {
+        speciesId: 'squirtle',
+        level: RUN_CONFIG.playerLevel,
+        currentHp: 999,
+        status: null,
+      },
+      { speciesId: 'zubat', level: RUN_CONFIG.playerLevel, currentHp: 999, status: null },
+      {
+        speciesId: 'geodude',
+        level: RUN_CONFIG.playerLevel,
+        currentHp: 999,
+        status: null,
+      },
     ],
   },
 }
@@ -44,7 +70,9 @@ test('開始時は 0 れんしょう、手持ちフル', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'ポケモンバトル' })).toBeVisible()
   await expect(page.getByTestId('player-hp')).toHaveText('95 / 95 HP')
   await expect(page.getByTestId('run-status')).toContainText('れんしょう 0')
-  await expect(page.getByTestId('run-status')).toContainText('あいて Lv50')
+  await expect(page.getByTestId('run-status')).toContainText(
+    `あいて Lv${RUN_CONFIG.playerLevel}`,
+  )
   await expect(page.getByTestId('opponent-hp')).toHaveText('104 / 104 HP')
   await expect(page.getByTestId('battle-log')).toContainText(
     'やせいの ゼニガメが とびだしてきた！',
@@ -112,7 +140,9 @@ test('決着がつき、勝てば連戦・負ければ最初から', async ({ pa
   if (await nextOpponent.count()) {
     await nextOpponent.click()
     await expect(page.getByTestId('run-status')).toContainText('れんしょう 1')
-    await expect(page.getByTestId('run-status')).toContainText('あいて Lv52')
+    await expect(page.getByTestId('run-status')).toContainText(
+      `あいて Lv${opponentLevel(1)}`,
+    )
   } else {
     await page.getByRole('button', { name: 'はじめから' }).click()
     await expect(page.getByTestId('run-status')).toContainText('れんしょう 0')

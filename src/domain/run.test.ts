@@ -33,10 +33,22 @@ describe('startRun', () => {
 })
 
 describe('opponentLevel', () => {
+  it('starts below the player, so the opening battles are winnable', () => {
+    expect(RUN_CONFIG.opponentStartingLevel).toBeLessThan(RUN_CONFIG.playerLevel)
+  })
+
+  it('overtakes the player after enough wins', () => {
+    const catchUp = Math.ceil(
+      (RUN_CONFIG.playerLevel - RUN_CONFIG.opponentStartingLevel) /
+        RUN_CONFIG.levelStepPerWin,
+    )
+    expect(opponentLevel(catchUp)).toBeGreaterThanOrEqual(RUN_CONFIG.playerLevel)
+  })
+
   it('climbs with every win', () => {
-    expect(opponentLevel(0)).toBe(RUN_CONFIG.startingLevel)
+    expect(opponentLevel(0)).toBe(RUN_CONFIG.opponentStartingLevel)
     expect(opponentLevel(3)).toBe(
-      RUN_CONFIG.startingLevel + 3 * RUN_CONFIG.levelStepPerWin,
+      RUN_CONFIG.opponentStartingLevel + 3 * RUN_CONFIG.levelStepPerWin,
     )
   })
 })

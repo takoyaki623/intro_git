@@ -9,7 +9,7 @@ import {
   switchableIndexes,
 } from './entities'
 import type { BattleState } from './battle'
-import { chooseOpponentAction, createBattle, forceSwitch, resolveTurn } from './battle'
+import { createBattle, forceSwitch, resolveTurn } from './battle'
 import { SPECIES } from '../data/species'
 import { MOVES } from '../data/moves'
 import { fixedRandom, scriptedRandom } from '../test/rng'
@@ -351,21 +351,6 @@ describe('forceSwitch', () => {
     expect(() => forceSwitch(battle(), 'player', 1)).toThrow()
   })
 })
-
-describe('chooseOpponentAction', () => {
-  it('picks a move the active Pokemon knows', () => {
-    const action = chooseOpponentAction(battle(), fixedRandom(0))
-    expect(action.type).toBe('move')
-    if (action.type === 'move') expect(SPECIES.squirtle.moves).toContain(action.move)
-  })
-
-  it('reaches the last move without running off the end', () => {
-    const action = chooseOpponentAction(battle(), fixedRandom(0.999))
-    const last = SPECIES.squirtle.moves[SPECIES.squirtle.moves.length - 1]
-    if (action.type === 'move') expect(action.move).toBe(last)
-  })
-})
-
 describe('resolveTurn — status conditions', () => {
   const afflict = (
     state: BattleState,
