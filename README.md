@@ -45,7 +45,7 @@ src/
     rewards.ts     勝利報酬の抽選と適用
     ai.ts          相手の行動選択（技のスコアリングと交代判断）
     events.ts      バトル中に起きたことを表す構造化イベント
-  data/            ポケモン・技・パーティのデータ
+  data/            ポケモン 18 種と技 29 種のデータ
   ui/              日本語の文章、localStorage への保存と記録
   components/      表示だけを担当する React コンポーネント
 e2e/               Playwright のシナリオ

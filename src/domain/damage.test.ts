@@ -104,7 +104,7 @@ describe('calculateDamage', () => {
       },
       1,
     )
-    const result = calculateDamage(weakling, tank, MOVES.waterGun, scriptedRandom(1, 0))
+    const result = calculateDamage(weakling, tank, MOVES.confusion, scriptedRandom(1, 0))
     expect(result.damage).toBeGreaterThanOrEqual(1)
   })
 })
