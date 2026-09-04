@@ -16,7 +16,7 @@ type Player = (battle: BattleState) => TurnAction | null
 
 /** Always fires whatever move sits first in the list. */
 const firstMove: Player = (battle) => {
-  const move = activePokemon(battle.player).species.moves[0]
+  const move = activePokemon(battle.player).moves[0]
   return move ? { type: 'move', move } : null
 }
 
@@ -29,7 +29,7 @@ const firstMove: Player = (battle) => {
  * actually worth.
  */
 const anyMove: Player = (battle) => {
-  const moves = activePokemon(battle.player).species.moves
+  const moves = activePokemon(battle.player).moves
   const move = moves[Math.floor(Math.random() * moves.length)]
   return move ? { type: 'move', move } : null
 }
@@ -42,7 +42,7 @@ function bestReplacement(battle: BattleState): number | undefined {
   >((best, index) => {
     const member = battle.player.members[index]
     if (!member) return best
-    const score = Math.max(...member.species.moves.map((m) => scoreMove(member, them, m)))
+    const score = Math.max(...member.moves.map((m) => scoreMove(member, them, m)))
     return !best || score > best.score ? { index, score } : best
   }, undefined)?.index
 }
@@ -56,13 +56,10 @@ function bestReplacement(battle: BattleState): number | undefined {
 const bestMove: Player = (battle) => {
   const me = activePokemon(battle.player)
   const them = activePokemon(battle.opponent)
-  const best = me.species.moves.reduce<{ move: Move; score: number } | null>(
-    (top, move) => {
-      const score = scoreMove(me, them, move)
-      return !top || score > top.score ? { move, score } : top
-    },
-    null,
-  )
+  const best = me.moves.reduce<{ move: Move; score: number } | null>((top, move) => {
+    const score = scoreMove(me, them, move)
+    return !top || score > top.score ? { move, score } : top
+  }, null)
   if (!best) return null
   return {
     type: 'move',
@@ -75,7 +72,7 @@ const bestMove: Player = (battle) => {
 const bestMoveAndSwitch: Player = (battle) => {
   const them = activePokemon(battle.opponent)
   const top = (pokemon: ReturnType<typeof activePokemon>) =>
-    Math.max(...pokemon.species.moves.map((move) => scoreMove(pokemon, them, move)))
+    Math.max(...pokemon.moves.map((move) => scoreMove(pokemon, them, move)))
 
   const mine = top(activePokemon(battle.player))
   for (const index of switchableIndexes(battle.player)) {
@@ -123,7 +120,7 @@ function playRun(
     if (run.finished) break
     if (canAdvance(run)) {
       // The bots take whatever is offered first, so a run keeps moving.
-      run = advance(run, run.offer?.[0] ?? null, Math.random)
+      run = advance(run, run.offer?.[0] ?? null, null, Math.random)
       continue
     }
     const battle = run.battle

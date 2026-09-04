@@ -3,8 +3,10 @@ import { createBattlePokemon, createTeam, isFainted, withActive } from './entiti
 import type { BattleState } from './battle'
 import { createBattle } from './battle'
 import type { Random } from './damage'
-import type { RewardKind } from './rewards'
-import { applyReward, offerRewards } from './rewards'
+import type { RewardOffer, RewardTarget } from './rewards'
+import type { Move } from './entities'
+import { applyReward, offerMove, offerRewards, sameOffer } from './rewards'
+import { teachMove } from './rewards'
 import { sample } from './sample'
 import { FIRST_TIER, clampTier, tierLevelBonus } from './tiers'
 import { BOSS_LIST, SPECIES_LIST } from '../data/species'
@@ -69,7 +71,12 @@ export interface RunState {
    * In state rather than derived because it is a draw: recomputing it on every
    * render would reshuffle the choices under the player's finger.
    */
-  readonly offer: readonly RewardKind[] | null
+  readonly offer: readonly RewardOffer[] | null
+  /**
+   * A move the party may take on, drawn with the rewards and taken beside one
+   * rather than instead of one. Null once it has been taken or passed up.
+   */
+  readonly moveOffer: Move | null
   /** Set once the last battle has been won. The run is over, and it was won. */
   readonly cleared: boolean
   /** Which difficulty tier this run is being played at. */
@@ -163,6 +170,7 @@ export function startRun(
     wins: 0,
     finished: false,
     offer: null,
+    moveOffer: null,
     cleared: false,
     tier: safe,
   }
@@ -187,7 +195,33 @@ export function canAdvance(run: RunState): boolean {
  */
 export function withOffer(run: RunState, random: Random = Math.random): RunState {
   if (!canAdvance(run) || run.offer) return run
-  return { ...run, offer: offerRewards(run.battle.player.members, random) }
+  return {
+    ...run,
+    offer: offerRewards(run.battle.player.members, random),
+    moveOffer: offerMove(run.battle.player.members, random),
+  }
+}
+
+/**
+ * Take the move on offer for one of the party.
+ *
+ * The run stays where it is: the win is still unspent, and the player goes on
+ * to pick their reward afterwards.
+ */
+export function takeMove(run: RunState, target: RewardTarget): RunState {
+  if (!run.moveOffer || !canAdvance(run)) return run
+  const members = teachMove(run.battle.player.members, run.moveOffer, target)
+  if (members === run.battle.player.members) return run
+  return {
+    ...run,
+    moveOffer: null,
+    battle: { ...run.battle, player: { ...run.battle.player, members } },
+  }
+}
+
+/** Leave the move where it is and get on with the reward. */
+export function passMove(run: RunState): RunState {
+  return run.moveOffer ? { ...run, moveOffer: null } : run
 }
 
 /**
@@ -229,17 +263,18 @@ export function withBattle(
  */
 export function advance(
   run: RunState,
-  reward: RewardKind | null = null,
+  reward: RewardOffer | null = null,
+  target: RewardTarget | null = null,
   random: Random = Math.random,
 ): RunState {
   if (!canAdvance(run)) return run
-  if (reward && run.offer && !run.offer.includes(reward)) {
-    throw new Error(`${reward} was not on offer`)
+  if (reward && run.offer && !run.offer.some((entry) => sameOffer(entry, reward))) {
+    throw new Error(`${reward.kind} was not on offer`)
   }
 
   const wins = run.wins + 1
   const rewarded = reward
-    ? applyReward(run.battle.player.members, reward, random)
+    ? applyReward(run.battle.player.members, reward, target, random)
     : run.battle.player.members
   const members = restBetweenBattles(rewarded)
   // createTeam leads with the first member, which may well be one that fainted
@@ -256,6 +291,7 @@ export function advance(
     wins,
     finished: false,
     offer: null,
+    moveOffer: null,
     cleared: false,
     tier: run.tier,
   }

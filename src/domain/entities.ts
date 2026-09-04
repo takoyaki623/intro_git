@@ -73,6 +73,14 @@ export interface BattlePokemon {
   readonly stages: StatStages
   /** Held item, if any. Some are spent when they fire. */
   readonly item: ItemKind | null
+  /**
+   * The four moves this individual knows.
+   *
+   * Copied from the species on creation and its own from then on, because a
+   * reward can teach one. Reading them off the species instead would rewrite
+   * every Pokemon of that species -- the opposing party's included.
+   */
+  readonly moves: readonly Move[]
 }
 
 /**
@@ -99,7 +107,11 @@ export function statsAtLevel(base: Stats, level: number): Stats {
   }
 }
 
-export function createBattlePokemon(species: Species, level: number): BattlePokemon {
+export function createBattlePokemon(
+  species: Species,
+  level: number,
+  moves: readonly Move[] = species.moves,
+): BattlePokemon {
   const stats = statsAtLevel(species.baseStats, level)
   return {
     species,
@@ -109,6 +121,7 @@ export function createBattlePokemon(species: Species, level: number): BattlePoke
     status: null,
     stages: NO_STAGES,
     item: null,
+    moves,
   }
 }
 

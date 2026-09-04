@@ -4,7 +4,8 @@ import { advance, startRun, withBattle } from '../domain/run'
 import { DRAFT_CONFIG, startDraft, togglePick } from '../domain/draft'
 import { BOSS_LIST } from '../data/species'
 import { FIRST_TIER, TIER_CONFIG } from '../domain/tiers'
-import type { RewardKind } from '../domain/rewards'
+import type { RewardOffer } from '../domain/rewards'
+import { MOVES } from '../data/moves'
 import { activePokemon, createBattlePokemon, createTeam } from '../domain/entities'
 import { fixedRandom } from '../test/rng'
 
@@ -39,7 +40,7 @@ describe('saveRun and loadRun', () => {
       { ...startRun(fixedRandom(0.3)).battle, winner: 'player' },
       fixedRandom(0.3),
     )
-    const run = advance(won, won.offer?.[0] ?? null, fixedRandom(0.3))
+    const run = advance(won, won.offer?.[0] ?? null, null, fixedRandom(0.3))
     saveRun(run, storage)
 
     const loaded = loadRun(storage)
@@ -175,18 +176,55 @@ describe('a storage that refuses to cooperate', () => {
 })
 
 describe('a saved reward offer', () => {
+  const run = () => startRun(fixedRandom(0.3))
+
   it('comes back whole, every kind included', () => {
-    const run = startRun(fixedRandom(0.3))
     // Held straight rather than played out to a win: the point is the filter
     // on load, which was dropping an item offer against a stale kind list.
-    saveRun({ ...run, offer: ['item', 'levelUp', 'recruit'] }, storage)
-    expect(loadRun(storage)?.offer).toEqual(['item', 'levelUp', 'recruit'])
+    const offer: readonly RewardOffer[] = [
+      { kind: 'item', item: 'leftovers' },
+      { kind: 'levelUp' },
+      { kind: 'recruit' },
+    ]
+    saveRun({ ...run(), offer }, storage)
+    expect(loadRun(storage)?.offer).toEqual(offer)
+  })
+
+  it('brings back the exact move a teach offer was holding', () => {
+    const offer: readonly RewardOffer[] = [{ kind: 'teach', move: MOVES.uTurn }]
+    saveRun({ ...run(), offer }, storage)
+    expect(loadRun(storage)?.offer?.[0]).toEqual({ kind: 'teach', move: MOVES.uTurn })
   })
 
   it('drops a kind the game no longer has', () => {
-    const run = startRun(fixedRandom(0.3))
-    saveRun({ ...run, offer: ['heal', 'teleport' as RewardKind] }, storage)
-    expect(loadRun(storage)?.offer).toEqual(['heal'])
+    saveRun(
+      {
+        ...run(),
+        offer: [{ kind: 'heal' }, { kind: 'teleport' } as unknown as RewardOffer],
+      },
+      storage,
+    )
+    expect(loadRun(storage)?.offer).toEqual([{ kind: 'heal' }])
+  })
+
+  it('drops a teach offer naming a move that no longer exists', () => {
+    saveRun({ ...run(), offer: [{ kind: 'teach', move: MOVES.uTurn }] }, storage)
+    const stored = JSON.parse(storage.getItem('pokemon-battle:run')!) as {
+      offer: { kind: string; id: string }[]
+    }
+    stored.offer[0]!.id = 'hyperBeamPrime'
+    storage.setItem('pokemon-battle:run', JSON.stringify(stored))
+    expect(loadRun(storage)?.offer).toBeNull()
+  })
+
+  it('drops an item offer naming an item that no longer exists', () => {
+    saveRun({ ...run(), offer: [{ kind: 'item', item: 'leftovers' }] }, storage)
+    const stored = JSON.parse(storage.getItem('pokemon-battle:run')!) as {
+      offer: { kind: string; id: string }[]
+    }
+    stored.offer[0]!.id = 'megaStone'
+    storage.setItem('pokemon-battle:run', JSON.stringify(stored))
+    expect(loadRun(storage)?.offer).toBeNull()
   })
 })
 

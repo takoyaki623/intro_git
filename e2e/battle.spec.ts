@@ -177,11 +177,18 @@ test('こうたいは 1 ターンを消費する', async ({ page }) => {
 })
 
 test('勝つと ごほうび を えらんでから 次の相手へ', async ({ page }) => {
-  // A save that is already won, so the reward screen is one reload away.
+  // A save that is already won, so the reward screen is one reload away. The
+  // offer is pinned to one that applies to the whole party: わざを おぼえる and
+  // もちもの ask who first, and have their own tests below.
   await page.evaluate((seed) => {
     localStorage.setItem(
       'pokemon-battle:run',
-      JSON.stringify({ ...seed, winner: 'player' }),
+      JSON.stringify({
+        ...seed,
+        winner: 'player',
+        offer: [{ kind: 'levelUp' }],
+        moveOffer: null,
+      }),
     )
   }, SEED)
   await page.reload()
@@ -389,20 +396,65 @@ test('とくせい が カードに出て、はたらく', async ({ page }) => {
   await expect(page.getByTestId('opponent-hp')).toHaveText(/^(\d+) \/ \1 HP$/)
 })
 
-test('もちもの が ごほうび でもらえる', async ({ page }) => {
+test('もちもの は だれに もたせるか えらんでから もらえる', async ({ page }) => {
   await page.evaluate((seed) => {
     localStorage.setItem(
       'pokemon-battle:run',
-      JSON.stringify({ ...seed, winner: 'player', offer: ['item'] }),
+      JSON.stringify({
+        ...seed,
+        winner: 'player',
+        offer: [{ kind: 'item', id: 'leftovers' }],
+      }),
     )
   }, SEED)
   await page.reload()
 
-  await page.getByRole('button', { name: /もちものを もらう/ }).click()
-  // Somebody in the party is now holding something.
-  await expect(page.getByTestId('player-card')).toContainText(
-    /たべのこし|きあいのタスキ|たつじんのおび|オボンのみ/,
-  )
+  await page.getByRole('button', { name: /たべのこしを もらう/ }).click()
+  const who = page.getByRole('region', { name: 'だれに あげるか えらぶ' })
+  await expect(who).toBeVisible()
+  await who.getByRole('button', { name: /ピカチュウ/ }).click()
+
+  await expect(page.getByTestId('player-card')).toContainText('たべのこし')
+})
+
+test('わざを おぼえる は ごほうびとは べつに もらえる', async ({ page }) => {
+  await page.evaluate((seed) => {
+    localStorage.setItem(
+      'pokemon-battle:run',
+      JSON.stringify({
+        ...seed,
+        winner: 'player',
+        offer: [{ kind: 'levelUp' }],
+        moveOffer: 'uTurn',
+      }),
+    )
+  }, SEED)
+  await page.reload()
+
+  const teaching = page.getByRole('region', { name: 'わざを おぼえる' })
+  await expect(teaching).toBeVisible()
+  await teaching
+    .getByRole('button', { name: /おぼえる/ })
+    .first()
+    .click()
+
+  await page
+    .getByRole('region', { name: 'だれに あげるか えらぶ' })
+    .getByRole('button', { name: /ピカチュウ/ })
+    .click()
+
+  const slots = page.getByRole('region', { name: 'いれかえる わざを えらぶ' })
+  await expect(slots).toBeVisible()
+  await slots.getByRole('button', { name: /でんじは/ }).click()
+
+  // The win is still unspent: the reward is right there to take.
+  await expect(page.getByTestId('run-status')).toContainText('れんしょう 0')
+  await page.getByRole('button', { name: /レベルアップ/ }).click()
+  await expect(page.getByTestId('run-status')).toContainText('れんしょう 1')
+
+  // The move list is this Pokemon's own now, not its species'.
+  await expect(page.getByRole('button', { name: /とんぼがえり/ })).toBeVisible()
+  await expect(page.getByRole('button', { name: /でんじは/ })).toHaveCount(0)
 })
 
 test('戦闘中にコンソールエラーが出ない', async ({ page }) => {

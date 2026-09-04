@@ -12,8 +12,9 @@ import type { BattleState } from '../domain/battle'
 import type { RunState } from '../domain/run'
 import { isFinalBattle } from '../domain/run'
 import { FIRST_TIER, clampTier } from '../domain/tiers'
-import type { RewardKind } from '../domain/rewards'
+import type { RewardOffer } from '../domain/rewards'
 import { REWARD_CONFIG, REWARD_KINDS } from '../domain/rewards'
+import { MOVE_LIST } from '../data/moves'
 import type { DraftState } from '../domain/draft'
 import { DRAFT_CONFIG } from '../domain/draft'
 import { ALL_SPECIES, SPECIES } from '../data/species'
@@ -35,12 +36,25 @@ interface StoredTeam {
   readonly activeIndex: number
 }
 
+interface StoredOffer {
+  readonly kind: string
+  /** The move a teach offer hands over, or the item an item offer does. */
+  readonly id?: string
+}
+
 interface StoredRun {
   readonly version: number
   readonly wins: number
   readonly finished: boolean
-  /** Saved so a reload while choosing does not reshuffle the rewards. */
-  readonly offer: readonly RewardKind[] | null
+  /**
+   * Saved so a reload while choosing does not reshuffle the rewards.
+   *
+   * Written as kind plus an id, not the whole move or item: the same rule the
+   * party follows, so a save stays small and never goes stale against src/data.
+   */
+  readonly offer: readonly StoredOffer[] | null
+  /** The move on offer beside the rewards, by id. */
+  readonly moveOffer?: string | null
   /** Absent in saves written before the run had an ending; read as false. */
   readonly cleared?: boolean
   /** Absent in saves written before tiers existed; read as the first tier. */
@@ -96,6 +110,28 @@ function restoreTeam(stored: StoredTeam): TeamState | null {
   return withActive(team, index)
 }
 
+/**
+ * An offer from a save, or null if it names something the game no longer has.
+ *
+ * Checked against REWARD_KINDS rather than a list copied out here, which had
+ * gone stale once already and was quietly dropping a saved item reward.
+ */
+function restoreOffer(stored: StoredOffer): RewardOffer | null {
+  const kind = stored?.kind
+  if (!REWARD_KINDS.includes(kind as never)) return null
+
+  if (kind === 'teach') {
+    const move = MOVE_LIST.find((entry) => entry.id === stored.id)
+    return move ? { kind, move } : null
+  }
+  if (kind === 'item') {
+    return ITEM_KINDS.includes(stored.id as ItemKind)
+      ? { kind, item: stored.id as ItemKind }
+      : null
+  }
+  return { kind } as RewardOffer
+}
+
 export function saveRun(run: RunState, storage: Storage = localStorage): void {
   const payload: StoredRun = {
     version: VERSION,
@@ -103,7 +139,16 @@ export function saveRun(run: RunState, storage: Storage = localStorage): void {
     finished: run.finished,
     cleared: run.cleared,
     tier: run.tier,
-    offer: run.offer,
+    offer:
+      run.offer?.map((offer) => ({
+        kind: offer.kind,
+        ...(offer.kind === 'teach'
+          ? { id: offer.move.id }
+          : offer.kind === 'item'
+            ? { id: offer.item }
+            : {}),
+      })) ?? null,
+    moveOffer: run.moveOffer?.id ?? null,
     winner: run.battle.winner,
     awaitingSwitch: run.battle.awaitingSwitch,
     player: storeTeam(run.battle.player),
@@ -147,10 +192,10 @@ export function loadRun(storage: Storage = localStorage): RunState | null {
     winner: stored.winner ?? null,
     awaitingSwitch: stored.awaitingSwitch ?? null,
   }
-  // Against REWARD_KINDS rather than a list copied out here, which had gone
-  // stale and was quietly dropping a saved item reward.
   const offer = Array.isArray(stored.offer)
-    ? stored.offer.filter((kind): kind is RewardKind => REWARD_KINDS.includes(kind))
+    ? stored.offer
+        .map(restoreOffer)
+        .filter((entry): entry is RewardOffer => entry !== null)
     : null
 
   return {
@@ -159,6 +204,7 @@ export function loadRun(storage: Storage = localStorage): RunState | null {
     finished: stored.finished === true,
     cleared: stored.cleared === true,
     tier: clampTier(stored.tier ?? FIRST_TIER),
+    moveOffer: MOVE_LIST.find((move) => move.id === stored.moveOffer) ?? null,
     offer: offer && offer.length > 0 ? offer.slice(0, REWARD_CONFIG.choices) : null,
   }
 }

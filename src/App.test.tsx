@@ -7,6 +7,7 @@ import type { RunState } from './domain/run'
 import { opponentLevel, startRun } from './domain/run'
 import { createBattlePokemon, createTeam } from './domain/entities'
 import { BOSS_LIST, SPECIES } from './data/species'
+import { MOVES } from './data/moves'
 import { RUN_CONFIG } from './domain/run'
 import { REWARD_CONFIG } from './domain/rewards'
 import { DRAFT_CONFIG } from './domain/draft'
@@ -29,6 +30,17 @@ const enabledButtons = (panel: HTMLElement) =>
 
 /** Play a turn however the battle currently allows, or report that it is over. */
 async function advanceTurn(user: UserEvent): Promise<boolean> {
+  // A reward that has to be pointed at somebody opens this instead of advancing.
+  const who = screen.queryByRole('region', { name: 'だれに あげるか えらぶ' })
+  if (who) {
+    await user.click(enabledButtons(who)[0]!)
+    return true
+  }
+  const teaching = screen.queryByRole('region', { name: 'わざを おぼえる' })
+  if (teaching) {
+    await user.click(screen.getByRole('button', { name: 'おぼえない' }))
+    return true
+  }
   const reward = rewardPanel()
   if (reward) {
     await user.click(enabledButtons(reward)[0]!)
@@ -337,6 +349,13 @@ describe('winning a battle', () => {
   })
 
   it('raises the streak and the level once a reward is taken', async () => {
+    // Pinned to a reward that applies to the whole party: わざを おぼえる and
+    // もちもの ask who first, so the turn would not advance on one tap.
+    seed((run) => ({
+      ...run,
+      battle: { ...run.battle, winner: 'player' },
+      offer: [{ kind: 'levelUp' }],
+    }))
     const user = userEvent.setup()
     render(<App />)
     await user.click(enabledButtons(rewardPanel()!)[0]!)
@@ -353,7 +372,7 @@ describe('winning a battle', () => {
     seed((run) => ({
       ...run,
       battle: { ...run.battle, winner: 'player' },
-      offer: ['levelUp'],
+      offer: [{ kind: 'levelUp' }],
     }))
     const user = userEvent.setup()
     render(<App />)
@@ -368,7 +387,7 @@ describe('winning a battle', () => {
     seed((run) => ({
       ...run,
       battle: { ...run.battle, winner: 'player' },
-      offer: ['recruit'],
+      offer: [{ kind: 'recruit' }],
     }))
     const user = userEvent.setup()
     render(<App />)
@@ -708,5 +727,111 @@ describe('だんかい', () => {
     expect(JSON.parse(localStorage.getItem('pokemon-battle:progress')!)).toMatchObject({
       cleared: 1,
     })
+  })
+})
+
+describe('わざを おぼえる', () => {
+  const whoPanel = () => screen.queryByRole('region', { name: 'だれに あげるか えらぶ' })
+  const slotPanel = () =>
+    screen.queryByRole('region', { name: 'いれかえる わざを えらぶ' })
+  const teachPanel = () => screen.queryByRole('region', { name: 'わざを おぼえる' })
+
+  const won = (patch: Partial<RunState> = {}) =>
+    seed((run) => ({
+      ...run,
+      battle: { ...run.battle, winner: 'player' },
+      offer: [{ kind: 'levelUp' }],
+      moveOffer: MOVES.uTurn,
+      ...patch,
+    }))
+
+  it('sits beside the rewards rather than among them', () => {
+    won()
+    render(<App />)
+    expect(teachPanel()).toBeInTheDocument()
+    expect(rewardPanel()).toBeInTheDocument()
+    expect(teachPanel()).toHaveTextContent('ごほうびとは べつ')
+  })
+
+  it('names the move on offer', () => {
+    won()
+    render(<App />)
+    expect(teachPanel()).toHaveTextContent('とんぼがえり')
+  })
+
+  it('asks who, then which move, and does not spend the win', async () => {
+    const user = userEvent.setup()
+    won()
+    render(<App />)
+
+    await user.click(within(teachPanel()!).getByRole('button', { name: /おぼえる/ }))
+    expect(whoPanel()).toBeInTheDocument()
+
+    await user.click(within(whoPanel()!).getByRole('button', { name: /ピカチュウ/ }))
+    expect(slotPanel()).toBeInTheDocument()
+
+    await user.click(within(slotPanel()!).getByRole('button', { name: /でんじは/ }))
+
+    // The move landed and the reward is still there to take.
+    expect(screen.getByTestId('run-status')).toHaveTextContent('れんしょう 0')
+    expect(rewardPanel()).toBeInTheDocument()
+    expect(teachPanel()).toBeNull()
+
+    await user.click(screen.getByRole('button', { name: /レベルアップ/ }))
+    expect(screen.getByTestId('run-status')).toHaveTextContent('れんしょう 1')
+    expect(screen.getByRole('button', { name: /とんぼがえり/ })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /でんじは/ })).toBeNull()
+  })
+
+  it('backs out one step at a time', async () => {
+    const user = userEvent.setup()
+    won()
+    render(<App />)
+
+    await user.click(within(teachPanel()!).getByRole('button', { name: /おぼえる/ }))
+    await user.click(within(whoPanel()!).getByRole('button', { name: /ピカチュウ/ }))
+    await user.click(screen.getByRole('button', { name: 'もどる' }))
+    expect(whoPanel()).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'もどる' }))
+    expect(teachPanel()).toBeInTheDocument()
+    expect(rewardPanel()).toBeInTheDocument()
+  })
+
+  it('can be turned down, leaving the reward untouched', async () => {
+    const user = userEvent.setup()
+    won()
+    render(<App />)
+
+    await user.click(screen.getByRole('button', { name: 'おぼえない' }))
+    expect(teachPanel()).toBeNull()
+    expect(rewardPanel()).toBeInTheDocument()
+    expect(screen.getByTestId('run-status')).toHaveTextContent('れんしょう 0')
+  })
+
+  it('gives a held item to the member the player picked', async () => {
+    const user = userEvent.setup()
+    won({ offer: [{ kind: 'item', item: 'leftovers' }], moveOffer: null })
+    render(<App />)
+
+    await user.click(screen.getByRole('button', { name: /たべのこしを もらう/ }))
+    await user.click(within(whoPanel()!).getByRole('button', { name: /ヒトカゲ/ }))
+
+    expect(screen.getByTestId('run-status')).toHaveTextContent('れんしょう 1')
+    // ヒトカゲ is on the bench, so the switch panel is where it shows.
+    expect(switchPanel()).toHaveTextContent('ヒトカゲ')
+  })
+
+  it('survives a reload mid-choice by putting the offers back', async () => {
+    const user = userEvent.setup()
+    won()
+    const first = render(<App />)
+    await user.click(within(teachPanel()!).getByRole('button', { name: /おぼえる/ }))
+    expect(whoPanel()).toBeInTheDocument()
+    first.unmount()
+
+    render(<App />)
+    expect(whoPanel()).toBeNull()
+    expect(teachPanel()).toBeInTheDocument()
   })
 })

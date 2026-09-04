@@ -429,3 +429,12 @@ export const MOVES = {
     effect: { status: 'poison', chance: 1 },
   },
 } as const satisfies Record<string, Move>
+
+/**
+ * Every move, widened to `Move`.
+ *
+ * `as const satisfies` narrows each entry to its literal shape, so
+ * `Object.values(MOVES)` is a union of those shapes rather than `Move[]` --
+ * fine for the data, useless for anything that wants to pick one at random.
+ */
+export const MOVE_LIST: readonly Move[] = Object.values(MOVES)

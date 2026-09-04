@@ -72,13 +72,10 @@ function bestMove(
   attacker: BattlePokemon,
   defender: BattlePokemon,
 ): { move: Move; score: number } | null {
-  return attacker.species.moves.reduce<{ move: Move; score: number } | null>(
-    (best, move) => {
-      const score = scoreMove(attacker, defender, move)
-      return !best || score > best.score ? { move, score } : best
-    },
-    null,
-  )
+  return attacker.moves.reduce<{ move: Move; score: number } | null>((best, move) => {
+    const score = scoreMove(attacker, defender, move)
+    return !best || score > best.score ? { move, score } : best
+  }, null)
 }
 
 /**
@@ -95,7 +92,7 @@ export function chooseOpponentAction(
 ): TurnAction {
   const attacker = activePokemon(state.opponent)
   const defender = activePokemon(state.player)
-  const moves = attacker.species.moves
+  const moves = attacker.moves
 
   const fallback = (): TurnAction => {
     const move = moves[Math.floor(random() * moves.length)]

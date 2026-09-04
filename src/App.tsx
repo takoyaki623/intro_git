@@ -11,13 +11,15 @@ import {
   advance,
   canAdvance,
   isFinalBattle,
+  passMove,
+  takeMove,
   startRun,
   withBattle,
   withOffer,
 } from './domain/run'
 import type { DraftState } from './domain/draft'
 import { chooseTier, draftedRoster, startDraft, togglePick } from './domain/draft'
-import type { RewardKind } from './domain/rewards'
+import type { RewardOffer, RewardTarget } from './domain/rewards'
 import { outcomeMessage } from './ui/messages'
 import {
   clearDraft,
@@ -204,8 +206,8 @@ export default function App() {
       draft: null,
       run: withBattle(run, forceSwitch(battle, 'player', index)),
     })
-  const takeReward = (reward: RewardKind | null) =>
-    setSession({ draft: null, run: advance(run, reward) })
+  const takeReward = (reward: RewardOffer | null, target: RewardTarget | null = null) =>
+    setSession({ draft: null, run: advance(run, reward, target) })
 
   return (
     <main className="battle">
@@ -263,7 +265,16 @@ export default function App() {
             {' てもちが すこし かいふくした！'}
           </p>
           {run.offer && run.offer.length > 0 ? (
-            <RewardChoice offer={run.offer} onSelect={takeReward} />
+            <RewardChoice
+              offer={run.offer}
+              moveOffer={run.moveOffer}
+              members={battle.player.members}
+              onSelect={takeReward}
+              onTeach={(target) =>
+                setSession({ draft: null, run: takeMove(run, target) })
+              }
+              onPass={() => setSession({ draft: null, run: passMove(run) })}
+            />
           ) : (
             <button type="button" onClick={() => takeReward(null)}>
               つぎの あいて
@@ -285,7 +296,7 @@ export default function App() {
         />
       ) : (
         <>
-          <MoveButtons moves={player.species.moves} onSelect={useMove} />
+          <MoveButtons moves={player.moves} onSelect={useMove} />
           <SwitchButtons team={battle.player} onSelect={switchTo} label="こうたい" />
         </>
       )}

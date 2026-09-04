@@ -102,7 +102,7 @@ describe('a run at a tier', () => {
   it('stays at its tier as the run goes on', () => {
     let run = startRun(fixedRandom(0.3), undefined, 4)
     run = { ...run, battle: { ...run.battle, winner: 'player' } }
-    const next = advance(run, null, fixedRandom(0.3))
+    const next = advance(run, null, null, fixedRandom(0.3))
     expect(next.tier).toBe(4)
     expect(next.battle.opponent.members[0]!.level).toBe(opponentLevel(1, 4))
   })

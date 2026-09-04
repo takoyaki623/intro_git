@@ -12,7 +12,7 @@ import {
 } from './run'
 import { activePokemon, createBattlePokemon, isFainted } from './entities'
 import { BOSS_LIST, SPECIES } from '../data/species'
-import type { RewardKind } from './rewards'
+import type { RewardKind, RewardOffer } from './rewards'
 import { fixedRandom, scriptedRandom } from '../test/rng'
 
 const pikachu = createBattlePokemon(SPECIES.pikachu, 50)
@@ -109,7 +109,7 @@ describe('advance', () => {
   })
 
   it('counts the win and raises the opposing level', () => {
-    const next = advance(won(), null, fixedRandom(0.3))
+    const next = advance(won(), null, null, fixedRandom(0.3))
     expect(next.wins).toBe(1)
     expect(activePokemon(next.battle.opponent).level).toBe(opponentLevel(1))
     expect(next.battle.winner).toBeNull()
@@ -125,7 +125,7 @@ describe('advance', () => {
       },
       winner: 'player' as const,
     }
-    const next = advance(withBattle(run, battered), null, fixedRandom(0.3))
+    const next = advance(withBattle(run, battered), null, null, fixedRandom(0.3))
     for (const member of next.battle.player.members) {
       expect(member.currentHp).toBeGreaterThan(10)
       expect(member.currentHp).toBeLessThan(member.stats.hp)
@@ -144,7 +144,7 @@ describe('advance', () => {
       },
       winner: 'player' as const,
     }
-    const next = advance(withBattle(run, firstDown), null, fixedRandom(0.3))
+    const next = advance(withBattle(run, firstDown), null, null, fixedRandom(0.3))
     expect(isFainted(activePokemon(next.battle.player))).toBe(false)
     expect(next.battle.player.activeIndex).toBe(1)
   })
@@ -161,7 +161,7 @@ describe('advance', () => {
       },
       winner: 'player' as const,
     }
-    const next = advance(withBattle(run, oneDown), null, fixedRandom(0.3))
+    const next = advance(withBattle(run, oneDown), null, null, fixedRandom(0.3))
     expect(next.battle.player.members[0]?.currentHp).toBe(0)
   })
 })
@@ -218,35 +218,41 @@ describe('rewards across a run', () => {
 
   it('offers a revival when somebody is down', () => {
     const run = withBattle(wounded(), wounded().battle, fixedRandom(0.5))
-    expect(run.offer).toContain('revive')
+    expect(run.offer?.map((entry) => entry.kind)).toContain('revive')
   })
 
   /** Pin the offer, so these do not ride on what the draw happened to give. */
-  const offering = (...offer: RewardKind[]) => ({ ...wounded(), offer })
+  const offering = (...kinds: RewardKind[]) => ({
+    ...wounded(),
+    offer: kinds.map((kind) => ({ kind }) as RewardOffer),
+  })
 
   it('applies the reward on the way to the next battle', () => {
-    const next = advance(offering('levelUp'), 'levelUp', fixedRandom(0.3))
+    const next = advance(offering('levelUp'), { kind: 'levelUp' }, null, fixedRandom(0.3))
     const levels = next.battle.player.members.map((m) => m.level)
     expect(levels.every((level) => level > RUN_CONFIG.playerLevel)).toBe(true)
   })
 
   it('clears the offer once it is spent', () => {
-    expect(advance(offering('levelUp'), 'levelUp', fixedRandom(0.3)).offer).toBeNull()
+    expect(
+      advance(offering('levelUp'), { kind: 'levelUp' }, null, fixedRandom(0.3)).offer,
+    ).toBeNull()
   })
 
   it('refuses a reward that was not offered', () => {
     const run = startRun(fixedRandom(0.3))
     const won = withBattle(run, { ...run.battle, winner: 'player' }, fixedRandom(0.3))
+    const kinds = won.offer?.map((entry) => entry.kind) ?? []
     const notOffered = (['heal', 'revive', 'levelUp', 'recruit'] as const).find(
-      (kind) => !won.offer?.includes(kind),
+      (kind) => !kinds.includes(kind),
     )
     if (notOffered) {
-      expect(() => advance(won, notOffered, fixedRandom(0.3))).toThrow()
+      expect(() => advance(won, { kind: notOffered }, null, fixedRandom(0.3))).toThrow()
     }
   })
 
   it('still rests the party on top of the reward', () => {
-    const next = advance(offering('levelUp'), 'levelUp', fixedRandom(0.3))
+    const next = advance(offering('levelUp'), { kind: 'levelUp' }, null, fixedRandom(0.3))
     // The survivors went in at 5 HP; levelling keeps the damage, resting undoes some.
     const survivor = next.battle.player.members[1]
     expect(survivor!.currentHp).toBeGreaterThan(5)
@@ -254,7 +260,7 @@ describe('rewards across a run', () => {
 
   it('grows the party when the recruit is taken', () => {
     const before = offering('recruit')
-    const next = advance(before, 'recruit', fixedRandom(0.3))
+    const next = advance(before, { kind: 'recruit' }, null, fixedRandom(0.3))
     expect(next.battle.player.members.length).toBe(
       before.battle.player.members.length + 1,
     )
@@ -268,6 +274,7 @@ describe('the last battle', () => {
     while (!isFinalBattle(run.wins)) {
       run = advance(
         { ...run, battle: { ...run.battle, winner: 'player' } },
+        null,
         null,
         fixedRandom(0.3),
       )
@@ -302,6 +309,7 @@ describe('the last battle', () => {
       run = advance(
         { ...run, battle: { ...run.battle, winner: 'player' } },
         null,
+        null,
         fixedRandom(0.3),
       )
     }
@@ -326,6 +334,7 @@ describe('clearing a run', () => {
       run = advance(
         { ...run, battle: { ...run.battle, winner: 'player' } },
         null,
+        null,
         fixedRandom(0.3),
       )
     }
@@ -347,7 +356,7 @@ describe('clearing a run', () => {
 
   it('cannot be advanced past', () => {
     const run = wonFinal()
-    expect(advance(run, null, fixedRandom(0.3))).toEqual(run)
+    expect(advance(run, null, null, fixedRandom(0.3))).toEqual(run)
   })
 
   it('still draws a reward after every win before the last', () => {
@@ -356,7 +365,7 @@ describe('clearing a run', () => {
       run = withBattle(run, { ...run.battle, winner: 'player' }, fixedRandom(0.3))
       expect(run.cleared).toBe(false)
       expect(run.offer).not.toBeNull()
-      run = advance(run, run.offer?.[0] ?? null, fixedRandom(0.3))
+      run = advance(run, run.offer?.[0] ?? null, null, fixedRandom(0.3))
     }
   })
 
@@ -365,6 +374,7 @@ describe('clearing a run', () => {
     while (!isFinalBattle(run.wins)) {
       run = advance(
         { ...run, battle: { ...run.battle, winner: 'player' } },
+        null,
         null,
         fixedRandom(0.3),
       )

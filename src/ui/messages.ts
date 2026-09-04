@@ -5,7 +5,7 @@ import type { StatusKind } from '../domain/status'
 import type { StatKey } from '../domain/stages'
 import type { AbilityKind } from '../domain/abilities'
 import type { ItemKind } from '../domain/items'
-import type { RewardKind } from '../domain/rewards'
+import type { RewardKind, RewardOffer } from '../domain/rewards'
 import { REWARD_CONFIG } from '../domain/rewards'
 
 export const TYPE_NAMES: Record<PokemonType, string> = {
@@ -95,6 +95,7 @@ export const REWARD_NAMES: Record<RewardKind, string> = {
   levelUp: 'レベルアップ',
   recruit: 'なかまを ふやす',
   item: 'もちものを もらう',
+  teach: 'わざを おぼえる',
 }
 
 /** Read off REWARD_CONFIG, so retuning the numbers cannot leave the copy lying. */
@@ -104,6 +105,34 @@ export const REWARD_DETAILS: Record<RewardKind, string> = {
   levelUp: `てもち ぜんいんの レベルが +${REWARD_CONFIG.levelsGained}`,
   recruit: 'あたらしい なかまが 1 ぴき くわわる',
   item: 'てもちの 1 ぴきが もちものを もつ',
+  teach: 'てもちの 1 ぴきの わざを 1 つ いれかえる',
+}
+
+/**
+ * What an offer is actually handing over.
+ *
+ * A reward that gives a specific thing says which: "とんぼがえりを おぼえる"
+ * is a decision the player can make, "わざを おぼえる" is a blind pick.
+ */
+export function rewardTitle(offer: RewardOffer): string {
+  if (offer.kind === 'teach') return `${offer.move.name}を おぼえる`
+  if (offer.kind === 'item') return `${ITEM_NAMES[offer.item]}を もらう`
+  return REWARD_NAMES[offer.kind]
+}
+
+/** The line under the name: what the thing on offer does. */
+export function rewardDetail(offer: RewardOffer): string {
+  if (offer.kind === 'teach') {
+    const summary = [
+      TYPE_NAMES[offer.move.type],
+      offer.move.category === 'status' ? 'へんか' : `威力 ${offer.move.power}`,
+      moveAccuracySummary(offer.move),
+      moveEffectSummary(offer.move),
+    ].filter(Boolean)
+    return summary.join('・')
+  }
+  if (offer.kind === 'item') return ITEM_DETAILS[offer.item]
+  return REWARD_DETAILS[offer.kind]
 }
 
 export const STAT_NAMES: Record<StatKey, string> = {
