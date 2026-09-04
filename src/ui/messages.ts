@@ -147,6 +147,11 @@ export function moveEffectSummary(move: Move): string | null {
     parts.push(chance >= 100 ? name : `${name} ${chance}%`)
   }
 
+  // The cost and the catch go last, and are the two the player most needs to
+  // see before tapping: one takes health, the other takes the Pokemon away.
+  if (move.recoil) parts.push(`はんどう ${Math.round(move.recoil * 100)}%`)
+  if (move.switchesOut) parts.push('こうたいする')
+
   return parts.length > 0 ? parts.join('・') : null
 }
 
@@ -163,6 +168,8 @@ export function formatEvent(event: BattleEvent): string | null {
         : `やせいの ${event.pokemon}が とびだしてきた！`
     case 'useMove':
       return `${event.pokemon}の ${event.move}！`
+    case 'recoil':
+      return `${event.pokemon}は はんどうで ${event.amount} ダメージを うけた！`
     case 'miss':
       return `${event.pokemon}の こうげきは はずれた！`
     case 'critical':

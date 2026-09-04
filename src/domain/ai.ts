@@ -59,7 +59,13 @@ export function scoreMove(
   if (effectiveness === 0) return 0
 
   const expected = damage * move.accuracy
-  return damage >= defender.currentHp ? expected * AI_CONFIG.koBonus : expected
+  const worth = damage >= defender.currentHp ? expected * AI_CONFIG.koBonus : expected
+
+  // Recoil is subtracted in the same HP-equivalent terms the damage is counted
+  // in, so a move that hurts the user as much as the target scores as nothing.
+  // Without this the AI would happily knock itself out on a resisted hit.
+  const cost = move.recoil ? damage * move.recoil * move.accuracy : 0
+  return worth - cost
 }
 
 function bestMove(
@@ -117,7 +123,16 @@ export function chooseOpponentAction(
   const worthSwitching =
     alternative !== null && alternative.score > current.score * AI_CONFIG.switchThreshold
 
-  return worthSwitching
-    ? { type: 'switch', index: alternative.index }
-    : { type: 'move', move: current.move }
+  if (worthSwitching) return { type: 'switch', index: alternative.index }
+
+  // A move that switches its user out still needs somebody to come in. The one
+  // that would do best against what is on the field is the obvious pick, and
+  // it is free: the attack happens either way.
+  return {
+    type: 'move',
+    move: current.move,
+    ...(current.move.switchesOut && alternative !== null
+      ? { switchTo: alternative.index }
+      : {}),
+  }
 }

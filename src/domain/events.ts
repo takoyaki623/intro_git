@@ -14,6 +14,13 @@ import type { ItemKind } from './items'
  */
 export type BattleEvent =
   | {
+      /** The user paying for its own move: a fraction of the damage it dealt. */
+      readonly kind: 'recoil'
+      readonly side: Side
+      readonly pokemon: string
+      readonly amount: number
+    }
+  | {
       readonly kind: 'encounter'
       readonly pokemon: string
       /** Set for the last battle of a run, which announces itself. */

@@ -3,6 +3,7 @@ import { clearDraft, clearRun, loadDraft, loadRun, saveDraft, saveRun } from './
 import { advance, startRun, withBattle } from '../domain/run'
 import { DRAFT_CONFIG, startDraft, togglePick } from '../domain/draft'
 import { BOSS_LIST } from '../data/species'
+import { FIRST_TIER, TIER_CONFIG } from '../domain/tiers'
 import type { RewardKind } from '../domain/rewards'
 import { activePokemon, createBattlePokemon, createTeam } from '../domain/entities'
 import { fixedRandom } from '../test/rng'
@@ -297,5 +298,34 @@ describe('a cleared run', () => {
     expect(loadRun(storage)?.battle.opponent.members[0]?.species.id).toBe(
       BOSS_LIST[0]!.id,
     )
+  })
+})
+
+describe('a draft at a tier', () => {
+  it('brings the tier back with the candidates', () => {
+    saveDraft(startDraft(fixedRandom(0.3), 3), storage)
+    expect(loadDraft(storage)?.tier).toBe(3)
+  })
+
+  it('reads a draft saved before tiers existed as the first tier', () => {
+    saveDraft(startDraft(fixedRandom(0.3)), storage)
+    const stored = JSON.parse(storage.getItem('pokemon-battle:draft')!) as Record<
+      string,
+      unknown
+    >
+    delete stored.tier
+    storage.setItem('pokemon-battle:draft', JSON.stringify(stored))
+    expect(loadDraft(storage)?.tier).toBe(FIRST_TIER)
+  })
+
+  it('refuses a tier that does not exist rather than trusting the save', () => {
+    saveDraft(startDraft(fixedRandom(0.3)), storage)
+    const stored = JSON.parse(storage.getItem('pokemon-battle:draft')!) as Record<
+      string,
+      unknown
+    >
+    stored.tier = 99
+    storage.setItem('pokemon-battle:draft', JSON.stringify(stored))
+    expect(loadDraft(storage)?.tier).toBe(TIER_CONFIG.max)
   })
 })

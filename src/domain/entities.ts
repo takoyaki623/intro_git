@@ -28,6 +28,19 @@ export interface Move {
     readonly stat: StatKey
     readonly delta: number
   }
+  /**
+   * Fraction of the damage dealt that comes back at the user.
+   *
+   * Worth more here than in the main series: a Pokemon that faints stays down
+   * for the rest of the run, so recoil spends a resource that never comes back.
+   */
+  readonly recoil?: number
+  /**
+   * The user leaves the field after the move lands, and the player says who
+   * comes in. Switching normally costs the whole turn; this is the one way to
+   * attack and switch at once.
+   */
+  readonly switchesOut?: boolean
 }
 
 export interface Stats {

@@ -15,7 +15,7 @@ export const SPECIES = {
       specialDefense: 50,
       speed: 90,
     },
-    moves: [MOVES.thunderbolt, MOVES.quickAttack, MOVES.thunderWave, MOVES.dig],
+    moves: [MOVES.thunderbolt, MOVES.voltSwitch, MOVES.dig, MOVES.thunderWave],
   },
   charmander: {
     id: 'charmander',
@@ -29,7 +29,7 @@ export const SPECIES = {
       specialDefense: 50,
       speed: 65,
     },
-    moves: [MOVES.flamethrower, MOVES.swordsDance, MOVES.scratch, MOVES.dragonBreath],
+    moves: [MOVES.fireBlast, MOVES.dragonBreath, MOVES.swordsDance, MOVES.scratch],
   },
   squirtle: {
     id: 'squirtle',
@@ -43,7 +43,7 @@ export const SPECIES = {
       specialDefense: 64,
       speed: 43,
     },
-    moves: [MOVES.surf, MOVES.iceBeam, MOVES.tackle, MOVES.bite],
+    moves: [MOVES.surf, MOVES.iceBeam, MOVES.aquaJet, MOVES.bite],
   },
   bulbasaur: {
     id: 'bulbasaur',
@@ -57,7 +57,7 @@ export const SPECIES = {
       specialDefense: 65,
       speed: 45,
     },
-    moves: [MOVES.razorLeaf, MOVES.sleepPowder, MOVES.sludgeBomb, MOVES.vineWhip],
+    moves: [MOVES.energyBall, MOVES.razorLeaf, MOVES.sleepPowder, MOVES.sludgeBomb],
   },
   eevee: {
     id: 'eevee',
@@ -71,7 +71,7 @@ export const SPECIES = {
       specialDefense: 65,
       speed: 55,
     },
-    moves: [MOVES.bite, MOVES.quickAttack, MOVES.leer, MOVES.dig],
+    moves: [MOVES.doubleEdge, MOVES.quickAttack, MOVES.bite, MOVES.dig],
   },
   zubat: {
     id: 'zubat',
@@ -85,7 +85,7 @@ export const SPECIES = {
       specialDefense: 40,
       speed: 55,
     },
-    moves: [MOVES.wingAttack, MOVES.sludgeBomb, MOVES.bite, MOVES.growl],
+    moves: [MOVES.bravebird, MOVES.uTurn, MOVES.sludgeBomb, MOVES.bite],
   },
   geodude: {
     id: 'geodude',
@@ -100,7 +100,7 @@ export const SPECIES = {
       specialDefense: 30,
       speed: 20,
     },
-    moves: [MOVES.rockThrow, MOVES.dig, MOVES.tackle, MOVES.scratch],
+    moves: [MOVES.stoneEdge, MOVES.earthquake, MOVES.rockThrow, MOVES.tackle],
   },
   drowzee: {
     id: 'drowzee',
@@ -114,7 +114,7 @@ export const SPECIES = {
       specialDefense: 90,
       speed: 42,
     },
-    moves: [MOVES.confusion, MOVES.hypnosis, MOVES.bite, MOVES.tackle],
+    moves: [MOVES.psychic, MOVES.hypnosis, MOVES.confusion, MOVES.toxic],
   },
   machop: {
     id: 'machop',
@@ -128,7 +128,7 @@ export const SPECIES = {
       specialDefense: 35,
       speed: 35,
     },
-    moves: [MOVES.karateChop, MOVES.rockThrow, MOVES.leer, MOVES.tackle],
+    moves: [MOVES.karateChop, MOVES.rockThrow, MOVES.dig, MOVES.leer],
   },
   gastly: {
     id: 'gastly',
@@ -143,7 +143,7 @@ export const SPECIES = {
       specialDefense: 35,
       speed: 80,
     },
-    moves: [MOVES.sludgeBomb, MOVES.lick, MOVES.hypnosis, MOVES.confusion],
+    moves: [MOVES.shadowBall, MOVES.sludgeBomb, MOVES.hypnosis, MOVES.lick],
   },
   magnemite: {
     id: 'magnemite',
@@ -158,7 +158,7 @@ export const SPECIES = {
       specialDefense: 55,
       speed: 45,
     },
-    moves: [MOVES.thunderbolt, MOVES.flashCannon, MOVES.ironTail, MOVES.thunderWave],
+    moves: [MOVES.flashCannon, MOVES.thunder, MOVES.wildCharge, MOVES.ironTail],
   },
   dratini: {
     id: 'dratini',
@@ -172,7 +172,7 @@ export const SPECIES = {
       specialDefense: 50,
       speed: 50,
     },
-    moves: [MOVES.dragonBreath, MOVES.bite, MOVES.leer, MOVES.tackle],
+    moves: [MOVES.dragonBreath, MOVES.agility, MOVES.bite, MOVES.thunderWave],
   },
   scyther: {
     id: 'scyther',
@@ -187,7 +187,7 @@ export const SPECIES = {
       specialDefense: 80,
       speed: 105,
     },
-    moves: [MOVES.xScissor, MOVES.wingAttack, MOVES.quickAttack, MOVES.swordsDance],
+    moves: [MOVES.megahorn, MOVES.xScissor, MOVES.uTurn, MOVES.swordsDance],
   },
   dewgong: {
     id: 'dewgong',
@@ -202,7 +202,7 @@ export const SPECIES = {
       specialDefense: 95,
       speed: 70,
     },
-    moves: [MOVES.iceBeam, MOVES.surf, MOVES.bite, MOVES.growl],
+    moves: [MOVES.blizzard, MOVES.surf, MOVES.aquaJet, MOVES.growl],
   },
   clefairy: {
     id: 'clefairy',
@@ -216,7 +216,7 @@ export const SPECIES = {
       specialDefense: 65,
       speed: 35,
     },
-    moves: [MOVES.dazzlingGleam, MOVES.confusion, MOVES.growl, MOVES.tackle],
+    moves: [MOVES.dazzlingGleam, MOVES.playRough, MOVES.calmMind, MOVES.growl],
   },
   houndour: {
     id: 'houndour',
@@ -231,7 +231,7 @@ export const SPECIES = {
       specialDefense: 50,
       speed: 65,
     },
-    moves: [MOVES.darkPulse, MOVES.flamethrower, MOVES.bite, MOVES.leer],
+    moves: [MOVES.darkPulse, MOVES.flareBlitz, MOVES.flamethrower, MOVES.bite],
   },
   sandshrew: {
     id: 'sandshrew',
@@ -245,7 +245,7 @@ export const SPECIES = {
       specialDefense: 30,
       speed: 40,
     },
-    moves: [MOVES.dig, MOVES.rockThrow, MOVES.scratch, MOVES.swordsDance],
+    moves: [MOVES.earthquake, MOVES.swordsDance, MOVES.scratch, MOVES.rockThrow],
   },
   tentacool: {
     id: 'tentacool',
@@ -260,7 +260,7 @@ export const SPECIES = {
       specialDefense: 100,
       speed: 70,
     },
-    moves: [MOVES.surf, MOVES.sludgeBomb, MOVES.bite, MOVES.growl],
+    moves: [MOVES.surf, MOVES.sludgeBomb, MOVES.toxic, MOVES.bite],
   },
 } as const satisfies Record<string, Species>
 

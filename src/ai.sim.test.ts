@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { activePokemon, isFainted, switchableIndexes } from './domain/entities'
+import type { Move } from './domain/entities'
 import {
   forceSwitch,
   resolveTurn,
@@ -33,18 +34,41 @@ const anyMove: Player = (battle) => {
   return move ? { type: 'move', move } : null
 }
 
-/** Picks its best move, but never switches. */
+/** The bench member that would do best against what is on the field. */
+function bestReplacement(battle: BattleState): number | undefined {
+  const them = activePokemon(battle.opponent)
+  return switchableIndexes(battle.player).reduce<
+    { index: number; score: number } | undefined
+  >((best, index) => {
+    const member = battle.player.members[index]
+    if (!member) return best
+    const score = Math.max(...member.species.moves.map((m) => scoreMove(member, them, m)))
+    return !best || score > best.score ? { index, score } : best
+  }, undefined)?.index
+}
+
+/**
+ * Picks its best move, and never switches as its turn.
+ *
+ * It does name a replacement, because a move that switches its user out is not
+ * being played at all without one -- that is the move, not a separate decision.
+ */
 const bestMove: Player = (battle) => {
   const me = activePokemon(battle.player)
   const them = activePokemon(battle.opponent)
-  const best = me.species.moves.reduce<{ move: TurnAction; score: number } | null>(
+  const best = me.species.moves.reduce<{ move: Move; score: number } | null>(
     (top, move) => {
       const score = scoreMove(me, them, move)
-      return !top || score > top.score ? { move: { type: 'move', move }, score } : top
+      return !top || score > top.score ? { move, score } : top
     },
     null,
   )
-  return best?.move ?? null
+  if (!best) return null
+  return {
+    type: 'move',
+    move: best.move,
+    ...(best.move.switchesOut ? { switchTo: bestReplacement(battle) } : {}),
+  }
 }
 
 /** Picks its best move, and switches when the bench would do much better. */
@@ -127,6 +151,9 @@ function playRun(
 
 const mean = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length
 
+/** Minutes, not seconds: each block plays thousands of complete runs. */
+const SIM_TIMEOUT = 600_000
+
 /**
  * Mean wins per quartile of party strength.
  *
@@ -146,33 +173,41 @@ function byPartyQuartile(outcomes: readonly Outcome[]): number[] {
  * and prints what it found, so it is slow and its numbers move between runs.
  * Skipped by default; `npm run sim` sets VITE_SIM and turns it on when the
  * difficulty is being tuned.
+ *
+ * Both blocks pass their own timeout. Thousands of full runs take minutes, and
+ * on the default five seconds they printed the right numbers and then reported
+ * themselves failed, which made `npm run sim` exit non-zero for years.
  */
 describe.skipIf(!import.meta.env.VITE_SIM)('difficulty', () => {
-  it('brackets it with players of different skill', () => {
-    const runs = 800
-    // Drafted, because that is how a run actually starts now; a dealt party
-    // measures a game nobody plays.
-    const rows: [string, Player][] = [
-      ['random move     ', anyMove],
-      ['first slot only ', firstMove],
-      ['best move       ', bestMove],
-      ['best + switching', bestMoveAndSwitch],
-    ]
-    console.log(`\n${runs} drafted runs each, vs the thinking AI`)
-    console.log('player              mean   cleared')
-    for (const [name, player] of rows) {
-      const out = Array.from({ length: runs }, () =>
-        playRun(player, Math.random, draftByStats),
-      )
-      const cleared = out.filter((o) => o.cleared).length / out.length
-      console.log(
-        `${name}   ${mean(out.map((o) => o.wins))
-          .toFixed(2)
-          .padStart(5)}   ` + `${(cleared * 100).toFixed(1).padStart(6)}%`,
-      )
-    }
-    expect(rows).toHaveLength(4)
-  })
+  it(
+    'brackets it with players of different skill',
+    () => {
+      const runs = 800
+      // Drafted, because that is how a run actually starts now; a dealt party
+      // measures a game nobody plays.
+      const rows: [string, Player][] = [
+        ['random move     ', anyMove],
+        ['first slot only ', firstMove],
+        ['best move       ', bestMove],
+        ['best + switching', bestMoveAndSwitch],
+      ]
+      console.log(`\n${runs} drafted runs each, vs the thinking AI`)
+      console.log('player              mean   cleared')
+      for (const [name, player] of rows) {
+        const out = Array.from({ length: runs }, () =>
+          playRun(player, Math.random, draftByStats),
+        )
+        const cleared = out.filter((o) => o.cleared).length / out.length
+        console.log(
+          `${name}   ${mean(out.map((o) => o.wins))
+            .toFixed(2)
+            .padStart(5)}   ` + `${(cleared * 100).toFixed(1).padStart(6)}%`,
+        )
+      }
+      expect(rows).toHaveLength(4)
+    },
+    SIM_TIMEOUT,
+  )
 })
 
 /**
@@ -185,31 +220,37 @@ describe.skipIf(!import.meta.env.VITE_SIM)('difficulty', () => {
  * quartiles together, which is what this measures.
  */
 describe.skipIf(!import.meta.env.VITE_SIM)('the draft', () => {
-  it('narrows what the party alone decides', () => {
-    const runs = 1500
-    const rows = [
-      ['dealt three     ', dealt],
-      ['drafted 3 of 6  ', draftByStats],
-    ] as const
+  it(
+    'narrows what the party alone decides',
+    () => {
+      const runs = 800
+      const rows = [
+        ['dealt three     ', dealt],
+        ['drafted 3 of 6  ', draftByStats],
+      ] as const
 
-    console.log(`\nwins per run (${runs} runs each, best move + switching)`)
-    console.log(
-      'party               mean   zero wins   by party strength (weakest to strongest)',
-    )
-    for (const [name, deal] of rows) {
-      const outcomes = Array.from({ length: runs }, () =>
-        playRun(bestMoveAndSwitch, Math.random, deal),
-      )
-      const wins = outcomes.map((outcome) => outcome.wins)
-      const blanked = wins.filter((count) => count === 0).length / wins.length
-      const quartiles = byPartyQuartile(outcomes)
+      console.log(`\nwins per run (${runs} runs each, best move + switching)`)
       console.log(
-        `${name}  ${mean(wins).toFixed(2).padStart(6)}   ${(blanked * 100)
-          .toFixed(0)
-          .padStart(8)}%   ${quartiles.map((q) => q.toFixed(2).padStart(5)).join(' ')}` +
-          `   spread ${(quartiles[3]! / quartiles[0]!).toFixed(1)}x`,
+        'party               mean   zero wins   by party strength (weakest to strongest)',
       )
-    }
-    expect(rows).toHaveLength(2)
-  })
+      for (const [name, deal] of rows) {
+        const outcomes = Array.from({ length: runs }, () =>
+          playRun(bestMoveAndSwitch, Math.random, deal),
+        )
+        const wins = outcomes.map((outcome) => outcome.wins)
+        const blanked = wins.filter((count) => count === 0).length / wins.length
+        const quartiles = byPartyQuartile(outcomes)
+        console.log(
+          `${name}  ${mean(wins).toFixed(2).padStart(6)}   ${(blanked * 100)
+            .toFixed(0)
+            .padStart(
+              8,
+            )}%   ${quartiles.map((q) => q.toFixed(2).padStart(5)).join(' ')}` +
+            `   spread ${(quartiles[3]! / quartiles[0]!).toFixed(1)}x`,
+        )
+      }
+      expect(rows).toHaveLength(2)
+    },
+    SIM_TIMEOUT,
+  )
 })

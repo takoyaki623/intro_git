@@ -7,11 +7,13 @@ import {
   isTeamDefeated,
   statsAtLevel,
   switchableIndexes,
+  withMember,
 } from './entities'
 import type { BattleState } from './battle'
 import { createBattle, forceSwitch, resolveTurn } from './battle'
 import { SPECIES } from '../data/species'
 import { MOVES } from '../data/moves'
+import { NO_STAGES } from './stages'
 import { fixedRandom, scriptedRandom } from '../test/rng'
 
 const team = (species: readonly Species[]) =>
@@ -728,5 +730,170 @@ describe('the last battle announces itself', () => {
     const ordinary = createBattle(playerTeam(), opponentTeam())
     const last = createBattle(playerTeam(), opponentTeam(), true)
     expect({ ...last, events: [] }).toEqual({ ...ordinary, events: [] })
+  })
+})
+
+describe('moves that switch their user out', () => {
+  const uTurnTeam = () => team([SPECIES.scyther, SPECIES.pikachu, SPECIES.geodude])
+
+  it('attacks and leaves in the same turn', () => {
+    const state = createBattle(uTurnTeam(), opponentTeam())
+    const after = resolveTurn(
+      state,
+      { type: 'move', move: MOVES.uTurn, switchTo: 1 },
+      { type: 'move', move: MOVES.tackle },
+      fixedRandom(0.5),
+    )
+    // The blow landed...
+    expect(activePokemon(after.opponent).currentHp).toBeLessThan(
+      activePokemon(state.opponent).currentHp,
+    )
+    // ...and somebody else is out.
+    expect(after.player.activeIndex).toBe(1)
+    expect(activePokemon(after.player).species.id).toBe('pikachu')
+  })
+
+  it('stays put when the move misses', () => {
+    const state = createBattle(uTurnTeam(), opponentTeam())
+    // A roll at or above the accuracy is a miss; とんぼがえり never misses, so
+    // ストライク's メガホーン stands in for a move that can.
+    const after = resolveTurn(
+      state,
+      { type: 'move', move: { ...MOVES.uTurn, accuracy: 0.5 }, switchTo: 1 },
+      { type: 'move', move: MOVES.tackle },
+      fixedRandom(0.9),
+    )
+    expect(after.player.activeIndex).toBe(0)
+  })
+
+  it('stays put when there is nobody to bring in', () => {
+    const alone = createTeam([createBattlePokemon(SPECIES.scyther, 50)])
+    const after = resolveTurn(
+      createBattle(alone, opponentTeam()),
+      { type: 'move', move: MOVES.uTurn, switchTo: 1 },
+      { type: 'move', move: MOVES.tackle },
+      fixedRandom(0.5),
+    )
+    expect(after.player.activeIndex).toBe(0)
+  })
+
+  it('ignores an index that is not on the bench', () => {
+    const state = createBattle(uTurnTeam(), opponentTeam())
+    for (const switchTo of [undefined, 0, 9, -1]) {
+      const after = resolveTurn(
+        state,
+        { type: 'move', move: MOVES.uTurn, switchTo },
+        { type: 'move', move: MOVES.tackle },
+        fixedRandom(0.5),
+      )
+      expect(after.player.activeIndex).toBe(0)
+    }
+  })
+
+  it('leaves even when the blow knocked the target out', () => {
+    const state = createBattle(uTurnTeam(), opponentTeam())
+    const hurt = withMember(state.opponent, 0, {
+      ...activePokemon(state.opponent),
+      currentHp: 1,
+    })
+    const after = resolveTurn(
+      { ...state, opponent: hurt },
+      { type: 'move', move: MOVES.uTurn, switchTo: 1 },
+      { type: 'move', move: MOVES.tackle },
+      fixedRandom(0.5),
+    )
+    expect(after.player.activeIndex).toBe(1)
+  })
+
+  it('drops the stat stages the user had built up, like any switch', () => {
+    const state = createBattle(uTurnTeam(), opponentTeam())
+    const boosted = {
+      ...state,
+      player: withMember(state.player, 0, {
+        ...activePokemon(state.player),
+        stages: { ...NO_STAGES, attack: 2 },
+      }),
+    }
+    const after = resolveTurn(
+      boosted,
+      { type: 'move', move: MOVES.uTurn, switchTo: 1 },
+      { type: 'move', move: MOVES.tackle },
+      fixedRandom(0.5),
+    )
+    expect(after.player.members[0]!.stages.attack).toBe(0)
+  })
+
+  it('does not reorder the turn: the replacement does not get to act', () => {
+    // ストライク (105) outruns ゼニガメ (48), so the player moves first, swaps in
+    // ピカチュウ, and ゼニガメ's attack lands on ピカチュウ rather than being
+    // overtaken by it.
+    const state = createBattle(uTurnTeam(), opponentTeam())
+    const after = resolveTurn(
+      state,
+      { type: 'move', move: MOVES.uTurn, switchTo: 1 },
+      { type: 'move', move: MOVES.tackle },
+      fixedRandom(0.5),
+    )
+    const moves = after.events.filter((event) => event.kind === 'useMove')
+    expect(moves).toHaveLength(2)
+    expect(activePokemon(after.player).currentHp).toBeLessThan(
+      after.player.members[1]!.stats.hp,
+    )
+  })
+})
+
+describe('recoil', () => {
+  it('takes a share of the damage back off the user', () => {
+    const state = createBattle(playerTeam(), opponentTeam())
+    const after = resolveTurn(
+      state,
+      { type: 'move', move: MOVES.doubleEdge },
+      { type: 'move', move: MOVES.tackle },
+      fixedRandom(0.5),
+    )
+    const dealt = after.events.find(
+      (event) => event.kind === 'damage' && event.side === 'opponent',
+    )
+    const paid = after.events.find((event) => event.kind === 'recoil')
+    expect(dealt?.kind).toBe('damage')
+    expect(paid).toMatchObject({ kind: 'recoil', side: 'player' })
+    if (dealt?.kind === 'damage' && paid?.kind === 'recoil') {
+      expect(paid.amount).toBe(Math.max(1, Math.floor(dealt.amount * 0.33)))
+    }
+  })
+
+  it('costs nothing when the move misses', () => {
+    const state = createBattle(playerTeam(), opponentTeam())
+    const after = resolveTurn(
+      state,
+      { type: 'move', move: { ...MOVES.doubleEdge, accuracy: 0.5 } },
+      { type: 'move', move: MOVES.tackle },
+      fixedRandom(0.9),
+    )
+    expect(after.events.some((event) => event.kind === 'recoil')).toBe(false)
+  })
+
+  it('can knock the user out, and hand the battle over when it was the last one', () => {
+    const alone = createTeam([
+      { ...createBattlePokemon(SPECIES.pikachu, 50), currentHp: 1 },
+    ])
+    const after = resolveTurn(
+      createBattle(alone, opponentTeam()),
+      { type: 'move', move: MOVES.doubleEdge },
+      { type: 'move', move: MOVES.growl },
+      fixedRandom(0.5),
+    )
+    expect(after.events.some((event) => event.kind === 'recoil')).toBe(true)
+    expect(after.winner).toBe('opponent')
+  })
+
+  it('leaves an ordinary move alone', () => {
+    const after = resolveTurn(
+      createBattle(playerTeam(), opponentTeam()),
+      { type: 'move', move: MOVES.tackle },
+      { type: 'move', move: MOVES.growl },
+      fixedRandom(0.5),
+    )
+    expect(after.events.some((event) => event.kind === 'recoil')).toBe(false)
   })
 })

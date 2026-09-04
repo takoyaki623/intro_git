@@ -7,9 +7,14 @@ interface Props {
   team: TeamState
   onSelect: (index: number) => void
   label: string
+  /**
+   * Backs out of the choice. Given only where the player opened the panel on
+   * purpose -- a replacement owed after a faint has nowhere to back out to.
+   */
+  onCancel?: () => void
 }
 
-export function SwitchButtons({ team, onSelect, label }: Props) {
+export function SwitchButtons({ team, onSelect, label, onCancel }: Props) {
   return (
     <section className="switches" aria-label={label}>
       <h2>{label}</h2>
@@ -40,6 +45,11 @@ export function SwitchButtons({ team, onSelect, label }: Props) {
           )
         })}
       </div>
+      {onCancel ? (
+        <button type="button" className="cancel" onClick={onCancel}>
+          やめる
+        </button>
+      ) : null}
     </section>
   )
 }

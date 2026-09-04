@@ -6,6 +6,7 @@ import type { Random } from './damage'
 import type { RewardKind } from './rewards'
 import { applyReward, offerRewards } from './rewards'
 import { sample } from './sample'
+import { FIRST_TIER, clampTier, tierLevelBonus } from './tiers'
 import { BOSS_LIST, SPECIES_LIST } from '../data/species'
 
 /**
@@ -23,11 +24,14 @@ export const RUN_CONFIG = {
    * guessed. Opening below the player buys a few battles of room before the
    * ramp catches up and overtakes.
    *
-   * Raised from 42 when the draft arrived: choosing three of six is worth a
-   * couple of extra wins on its own, and two levels gives most of that back
-   * without undoing what the draft is for -- runs that win nothing.
+   * Raised to 44 when the draft arrived, then dropped to 40 when the move list
+   * grew. More power on both sides is not a wash in a run: the opposing party
+   * is replaced every battle while the player's carries its damage forward, so
+   * shorter, swingier battles cost the side that has to persist. Measured, the
+   * same bot fell from 20% clears to 8% on the moves alone, and four levels
+   * put it back.
    */
-  opponentStartingLevel: 44,
+  opponentStartingLevel: 40,
   /** Added to the opponent's level for every win so far. */
   levelStepPerWin: 2,
   /**
@@ -68,10 +72,16 @@ export interface RunState {
   readonly offer: readonly RewardKind[] | null
   /** Set once the last battle has been won. The run is over, and it was won. */
   readonly cleared: boolean
+  /** Which difficulty tier this run is being played at. */
+  readonly tier: number
 }
 
-export function opponentLevel(wins: number): number {
-  return RUN_CONFIG.opponentStartingLevel + wins * RUN_CONFIG.levelStepPerWin
+export function opponentLevel(wins: number, tier: number = FIRST_TIER): number {
+  return (
+    RUN_CONFIG.opponentStartingLevel +
+    tierLevelBonus(tier) +
+    wins * RUN_CONFIG.levelStepPerWin
+  )
 }
 
 /**
@@ -92,8 +102,8 @@ export function isFinalBattle(wins: number): boolean {
  * a wall, and the party's three bodies against its one is what makes the fight
  * winnable -- the player spends Pokemon to get through it.
  */
-function makeOpponent(wins: number, random: Random): TeamState {
-  const level = opponentLevel(wins)
+function makeOpponent(wins: number, tier: number, random: Random): TeamState {
+  const level = opponentLevel(wins, tier)
   if (isFinalBattle(wins)) {
     const [boss] = sample(BOSS_LIST, 1, random)
     if (boss) return createTeam([createBattlePokemon(boss, level)])
@@ -141,17 +151,20 @@ export function restBetweenBattles(
 export function startRun(
   random: Random = Math.random,
   roster?: readonly Species[],
+  tier: number = FIRST_TIER,
 ): RunState {
+  const safe = clampTier(tier)
   return {
     battle: createBattle(
       makePlayerTeam(random, roster),
-      makeOpponent(0, random),
+      makeOpponent(0, safe, random),
       isFinalBattle(0),
     ),
     wins: 0,
     finished: false,
     offer: null,
     cleared: false,
+    tier: safe,
   }
 }
 
@@ -235,10 +248,15 @@ export function advance(
   const rested = withActive(createTeam(members), Math.max(0, lead))
 
   return {
-    battle: createBattle(rested, makeOpponent(wins, random), isFinalBattle(wins)),
+    battle: createBattle(
+      rested,
+      makeOpponent(wins, run.tier, random),
+      isFinalBattle(wins),
+    ),
     wins,
     finished: false,
     offer: null,
     cleared: false,
+    tier: run.tier,
   }
 }

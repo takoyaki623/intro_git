@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { Move } from './domain/entities'
-import { activePokemon } from './domain/entities'
+import { activePokemon, switchableIndexes } from './domain/entities'
 import { lastDamageBySide } from './domain/events'
 import type { TurnAction } from './domain/battle'
 import { forceSwitch, resolveTurn } from './domain/battle'
@@ -16,7 +16,7 @@ import {
   withOffer,
 } from './domain/run'
 import type { DraftState } from './domain/draft'
-import { draftedRoster, startDraft, togglePick } from './domain/draft'
+import { chooseTier, draftedRoster, startDraft, togglePick } from './domain/draft'
 import type { RewardKind } from './domain/rewards'
 import { outcomeMessage } from './ui/messages'
 import {
@@ -28,6 +28,8 @@ import {
   saveRun,
 } from './ui/storage'
 import { loadBest, recordRun, type BestRun } from './ui/records'
+import { loadProgress, recordClear } from './ui/progress'
+import { FIRST_TIER, highestUnlocked, nextTier } from './domain/tiers'
 import { HealthBar } from './components/HealthBar'
 import { MoveButtons } from './components/MoveButtons'
 import { SwitchButtons } from './components/SwitchButtons'
@@ -37,6 +39,7 @@ import { HallOfFame } from './components/HallOfFame'
 import { RewardChoice } from './components/RewardChoice'
 import { BattleLog } from './components/BattleLog'
 import { DraftScreen } from './components/DraftScreen'
+import { TierPicker } from './components/TierPicker'
 
 /**
  * Exactly one of these is live: a run in progress, or the draft that will start
@@ -51,7 +54,12 @@ function openSession(): Session {
   // A saved run wins: the draft that produced it is long since spent.
   const saved = loadRun()
   if (saved) return { draft: null, run: withOffer(saved) }
-  return { draft: loadDraft() ?? startDraft(), run: null }
+  // A fresh draft opens at the hardest tier that has been earned, which is
+  // where a returning player wants to be.
+  return {
+    draft: loadDraft() ?? startDraft(Math.random, highestUnlocked(loadProgress())),
+    run: null,
+  }
 }
 
 export default function App() {
@@ -59,6 +67,15 @@ export default function App() {
   const [best, setBest] = useState<BestRun | null>(() => loadBest())
   // Whether the record on show is the run that just ended.
   const [beatIt, setBeatIt] = useState(false)
+  /** The highest tier cleared. Raised the moment a run clears its own tier. */
+  const [cleared, setCleared] = useState(() => loadProgress())
+  /**
+   * A switch-out move waiting on the second half of its choice.
+   *
+   * Deliberately not part of the run: it is a half-finished tap, not progress,
+   * so a reload drops it rather than restoring the player mid-decision.
+   */
+  const [partingMove, setPartingMove] = useState<Move | null>(null)
 
   const { draft, run } = session
 
@@ -70,6 +87,12 @@ export default function App() {
   useEffect(() => {
     if (draft) saveDraft(draft)
   }, [draft])
+
+  // Clearing a tier opens the next one, whether or not the run set a record.
+  useEffect(() => {
+    if (!run?.cleared) return
+    setCleared(recordClear(run.tier))
+  }, [run])
 
   // A finished run goes in the book, if it earned a place.
   useEffect(() => {
@@ -85,7 +108,8 @@ export default function App() {
     clearRun()
     clearDraft()
     setBeatIt(false)
-    setSession({ draft: startDraft(), run: null })
+    // Straight to whatever the last run just unlocked, rather than back to one.
+    setSession({ draft: startDraft(Math.random, highestUnlocked(cleared)), run: null })
   }
 
   if (!run) {
@@ -96,31 +120,53 @@ export default function App() {
           wins={0}
           total={RUN_CONFIG.battlesToClear}
           opponentLevel={null}
+          tier={draft?.tier ?? FIRST_TIER}
           best={best?.wins ?? null}
         />
         {draft ? (
-          <DraftScreen
-            draft={draft}
-            onToggle={(speciesId) =>
-              setSession((current) =>
-                current.draft
-                  ? { ...current, draft: togglePick(current.draft, speciesId) }
-                  : current,
-              )
-            }
-            onConfirm={() => {
-              // Drawing dice outside the updater: React may call it twice.
-              const started = startRun(Math.random, draftedRoster(draft))
-              clearDraft()
-              setSession({ draft: null, run: started })
-            }}
-          />
+          <>
+            {/* Beside the draft rather than inside it: the tier is the run's
+                difficulty, not one of the six on the table. */}
+            <TierPicker
+              tier={draft.tier}
+              cleared={cleared}
+              onSelect={(tier) =>
+                setSession((current) =>
+                  current.draft
+                    ? { ...current, draft: chooseTier(current.draft, tier, cleared) }
+                    : current,
+                )
+              }
+            />
+            <DraftScreen
+              draft={draft}
+              onToggle={(speciesId) =>
+                setSession((current) =>
+                  current.draft
+                    ? { ...current, draft: togglePick(current.draft, speciesId) }
+                    : current,
+                )
+              }
+              onConfirm={() => {
+                // Drawing dice outside the updater: React may call it twice.
+                const started = startRun(Math.random, draftedRoster(draft), draft.tier)
+                clearDraft()
+                setSession({ draft: null, run: started })
+              }}
+            />
+          </>
         ) : null}
       </main>
     )
   }
 
   const { battle } = run
+  // What the clear opened, if anything. `run.tier === cleared` is what says this
+  // run pushed the frontier forward: replaying a tier already beaten leaves the
+  // record above it, and announcing an unlock there would be a lie.
+  const above = nextTier(run.tier)
+  const unlocked = run.cleared && run.tier === cleared ? above : null
+  const atTheTop = run.cleared && above === null
   const player = activePokemon(battle.player)
   const opponent = activePokemon(battle.opponent)
   const hits = lastDamageBySide(battle.events)
@@ -129,6 +175,7 @@ export default function App() {
   // setState updater: React may call an updater more than once and expects a
   // pure function of the previous state.
   const takeTurn = (action: TurnAction) => {
+    setPartingMove(null)
     const next = withBattle(
       run,
       resolveTurn(battle, action, chooseOpponentAction(battle)),
@@ -136,7 +183,21 @@ export default function App() {
     setSession({ draft: null, run: next })
   }
 
-  const useMove = (move: Move) => takeTurn({ type: 'move', move })
+  // とんぼがえり needs to know who comes in, so the panel opens before the turn
+  // is taken. With nobody on the bench there is nothing to ask, and the move is
+  // just an attack.
+  const useMove = (move: Move) => {
+    if (move.switchesOut && switchableIndexes(battle.player).length > 0) {
+      setPartingMove(move)
+      return
+    }
+    takeTurn({ type: 'move', move })
+  }
+  const partWith = (index: number) => {
+    if (!partingMove) return
+    setPartingMove(null)
+    takeTurn({ type: 'move', move: partingMove, switchTo: index })
+  }
   const switchTo = (index: number) => takeTurn({ type: 'switch', index })
   const sendReplacement = (index: number) =>
     setSession({
@@ -154,6 +215,7 @@ export default function App() {
         total={RUN_CONFIG.battlesToClear}
         opponentLevel={opponent.level}
         final={!run.cleared && isFinalBattle(run.wins)}
+        tier={run.tier}
         best={best?.wins ?? null}
       />
 
@@ -172,12 +234,14 @@ export default function App() {
 
       {run.cleared ? (
         <section className="outcome cleared">
-          <h2>クリア！</h2>
+          <h2>だんかい {run.tier} クリア！</h2>
           <p role="status">
             {`${opponent.species.name}を たおした！ ${run.wins}れんしょうで ぜんぶ かちぬいた。`}
+            {unlocked ? ` だんかい ${unlocked}が あいた！` : ''}
+            {atTheTop ? ' これが さいごの だんかい。' : ''}
           </p>
           <button type="button" onClick={startOver}>
-            もういちど
+            {unlocked ? `だんかい ${unlocked}へ` : 'もういちど'}
           </button>
           {best ? <HallOfFame best={best} fresh={beatIt} /> : null}
         </section>
@@ -211,6 +275,13 @@ export default function App() {
           team={battle.player}
           onSelect={sendReplacement}
           label="つぎに だすポケモンを えらんでください"
+        />
+      ) : partingMove ? (
+        <SwitchButtons
+          team={battle.player}
+          onSelect={partWith}
+          label={`${partingMove.name}の あとに だすポケモン`}
+          onCancel={() => setPartingMove(null)}
         />
       ) : (
         <>

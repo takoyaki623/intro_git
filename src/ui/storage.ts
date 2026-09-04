@@ -11,6 +11,7 @@ import { ITEM_KINDS } from '../domain/items'
 import type { BattleState } from '../domain/battle'
 import type { RunState } from '../domain/run'
 import { isFinalBattle } from '../domain/run'
+import { FIRST_TIER, clampTier } from '../domain/tiers'
 import type { RewardKind } from '../domain/rewards'
 import { REWARD_CONFIG, REWARD_KINDS } from '../domain/rewards'
 import type { DraftState } from '../domain/draft'
@@ -42,6 +43,8 @@ interface StoredRun {
   readonly offer: readonly RewardKind[] | null
   /** Absent in saves written before the run had an ending; read as false. */
   readonly cleared?: boolean
+  /** Absent in saves written before tiers existed; read as the first tier. */
+  readonly tier?: number
   readonly winner: Side | null
   readonly awaitingSwitch: Side | null
   readonly player: StoredTeam
@@ -99,6 +102,7 @@ export function saveRun(run: RunState, storage: Storage = localStorage): void {
     wins: run.wins,
     finished: run.finished,
     cleared: run.cleared,
+    tier: run.tier,
     offer: run.offer,
     winner: run.battle.winner,
     awaitingSwitch: run.battle.awaitingSwitch,
@@ -154,6 +158,7 @@ export function loadRun(storage: Storage = localStorage): RunState | null {
     wins: stored.wins,
     finished: stored.finished === true,
     cleared: stored.cleared === true,
+    tier: clampTier(stored.tier ?? FIRST_TIER),
     offer: offer && offer.length > 0 ? offer.slice(0, REWARD_CONFIG.choices) : null,
   }
 }
@@ -172,6 +177,8 @@ interface StoredDraft {
   readonly version: number
   readonly candidateIds: readonly string[]
   readonly pickedIds: readonly string[]
+  /** Absent in drafts saved before tiers existed; read as the first tier. */
+  readonly tier?: number
 }
 
 /**
@@ -186,6 +193,7 @@ export function saveDraft(draft: DraftState, storage: Storage = localStorage): v
     version: VERSION,
     candidateIds: draft.candidates.map((species) => species.id),
     pickedIds: draft.picked,
+    tier: draft.tier,
   }
   try {
     storage.setItem(DRAFT_KEY, JSON.stringify(payload))
@@ -221,7 +229,11 @@ export function loadDraft(storage: Storage = localStorage): DraftState | null {
     .filter((id): id is string => typeof id === 'string' && ids.has(id))
     .slice(0, DRAFT_CONFIG.picks)
 
-  return { candidates: found, picked: [...new Set(picked)] }
+  return {
+    candidates: found,
+    picked: [...new Set(picked)],
+    tier: clampTier(stored.tier ?? FIRST_TIER),
+  }
 }
 
 export function clearDraft(storage: Storage = localStorage): void {

@@ -24,7 +24,19 @@ export type { Side }
 
 /** What a side does with its turn. Switching costs the whole turn. */
 export type TurnAction =
-  | { readonly type: 'move'; readonly move: Move }
+  | {
+      readonly type: 'move'
+      readonly move: Move
+      /**
+       * Who comes in afterwards, for a move that switches its user out.
+       *
+       * Chosen up front rather than asked for mid-turn: the turn stays one
+       * atomic call, and the player picks the replacement themselves instead
+       * of having one assigned. Ignored by every other move, and a missing or
+       * unusable index simply means no switch.
+       */
+      readonly switchTo?: number
+    }
   | { readonly type: 'switch'; readonly index: number }
 
 export interface BattleState {
@@ -216,11 +228,69 @@ function applyEffect(
   }
 }
 
+/**
+ * The user takes back a fraction of what it dealt.
+ *
+ * Rounded up to at least 1 whenever the move connected, so a recoil move is
+ * never quietly free against something that barely felt it.
+ */
+function applyRecoil(
+  state: BattleState,
+  side: Side,
+  move: Move,
+  dealt: number,
+): BattleState {
+  if (!move.recoil || dealt <= 0) return state
+
+  const pokemon = activePokemon(state[side])
+  if (isFainted(pokemon)) return state
+
+  const amount = Math.max(1, Math.floor(dealt * move.recoil))
+  const hurt = damaged(pokemon, amount)
+  const team = state[side]
+  const nextTeam = withMember(team, team.activeIndex, hurt)
+  const events: BattleEvent[] = [
+    ...state.events,
+    { kind: 'recoil', side, pokemon: pokemon.species.name, amount },
+  ]
+  if (isFainted(hurt)) events.push({ kind: 'faint', side, pokemon: hurt.species.name })
+
+  return {
+    ...state,
+    [side]: nextTeam,
+    events,
+    // Fainting to your own recoil hands the battle over, same as any other faint.
+    winner: isFainted(hurt) && isTeamDefeated(nextTeam) ? other(side) : state.winner,
+  }
+}
+
+/**
+ * とんぼがえり: the user leaves after the blow lands.
+ *
+ * Nothing happens if the move missed (the caller returns before this), if the
+ * user is down, if the battle is already decided, or if there is nobody left to
+ * come in -- in which case the move was simply an attack.
+ */
+function applySwitchOut(
+  state: BattleState,
+  side: Side,
+  move: Move,
+  switchTo: number | undefined,
+): BattleState {
+  if (!move.switchesOut || state.winner) return state
+  if (isFainted(activePokemon(state[side]))) return state
+  if (switchTo === undefined || !switchableIndexes(state[side]).includes(switchTo)) {
+    return state
+  }
+  return applySwitch(state, side, switchTo, false)
+}
+
 function attack(
   state: BattleState,
   attackerSide: Side,
   move: Move,
   random: Random,
+  switchTo?: number,
 ): BattleState {
   const defenderSide = other(attackerSide)
   const attackerTeam = state[attackerSide]
@@ -366,12 +436,22 @@ function attack(
     winner: fainted && isTeamDefeated(nextTeam) ? attackerSide : gated.winner,
   }
 
-  if (fainted) return struck
-  return applyEffect(
-    applyStageChange(struck, attackerSide, move),
-    defenderSide,
+  // A target that fell takes no lingering effect, but the user still pays its
+  // own recoil and still leaves the field if the move says so.
+  const settled = fainted
+    ? struck
+    : applyEffect(
+        applyStageChange(struck, attackerSide, move),
+        defenderSide,
+        move,
+        random,
+      )
+
+  return applySwitchOut(
+    applyRecoil(settled, attackerSide, move, result.damage),
+    attackerSide,
     move,
-    random,
+    switchTo,
   )
 }
 
@@ -469,9 +549,11 @@ export function resolveTurn(
     player: playerAction,
     opponent: opponentAction,
   }
-  // Order is read once, before anything moves. A side that switches gives up
-  // its attack, so at most one side can still be attacking afterwards and
-  // recomputing the order after the switches could not change anything.
+  // Order is read once, before anything moves, and is not revisited -- not
+  // after a switch, and not after a switch-out move brings in something faster.
+  // The games work the same way: who acts first is settled at the top of the
+  // turn, so a Pokemon cannot be overtaken by a replacement that arrives
+  // mid-turn.
   const order = turnOrder(state, random)
 
   const switched = order.reduce<BattleState>((current, side) => {
@@ -485,7 +567,7 @@ export function resolveTurn(
     const action = actions[side]
     if (current.winner || action.type !== 'move') return current
     if (isFainted(activePokemon(current[side]))) return current
-    return attack(current, side, action.move, random)
+    return attack(current, side, action.move, random, action.switchTo)
   }, switched)
 
   return settleFaints(endOfTurn(attacked, order))

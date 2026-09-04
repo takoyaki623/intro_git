@@ -10,6 +10,7 @@ import { BOSS_LIST, SPECIES } from './data/species'
 import { RUN_CONFIG } from './domain/run'
 import { REWARD_CONFIG } from './domain/rewards'
 import { DRAFT_CONFIG } from './domain/draft'
+import { TIER_CONFIG } from './domain/tiers'
 import { saveRun } from './ui/storage'
 import { fixedRandom } from './test/rng'
 
@@ -235,7 +236,7 @@ describe('a fresh run', () => {
     expect(screen.getByRole('button', { name: /はっぱカッター/ })).toHaveTextContent(
       '命中 95',
     )
-    expect(screen.getByRole('button', { name: /つるのムチ/ })).not.toHaveTextContent(
+    expect(screen.getByRole('button', { name: /エナジーボール/ })).not.toHaveTextContent(
       '命中',
     )
   })
@@ -504,7 +505,8 @@ describe('the last battle', () => {
       `れんしょう ${RUN_CONFIG.battlesToClear}`,
     )
     expect(rewardPanel()).toBeNull()
-    expect(screen.getByRole('button', { name: 'もういちど' })).toBeInTheDocument()
+    // Clearing tier 1 from nothing opens tier 2, so the button points at it.
+    expect(screen.getByRole('button', { name: 'だんかい 2へ' })).toBeInTheDocument()
   })
 
   it('records the clear in the hall of fame', async () => {
@@ -517,14 +519,14 @@ describe('the last battle', () => {
     expect(screen.getByTestId('hall-of-fame')).toHaveTextContent('クリア')
   })
 
-  it('sends もういちど back to a fresh draft', async () => {
+  it('sends the player back to a fresh draft', async () => {
     const user = userEvent.setup()
     seedFinal()
     render(<App />)
     for (let i = 0; i < 20 && movePanel(); i++) {
       await user.click(enabledButtons(movePanel()!)[0]!)
     }
-    await user.click(screen.getByRole('button', { name: 'もういちど' }))
+    await user.click(screen.getByRole('button', { name: 'だんかい 2へ' }))
     expect(draftPanel()).toBeInTheDocument()
   })
 
@@ -539,5 +541,172 @@ describe('the last battle', () => {
 
     render(<App />)
     expect(screen.getByRole('status')).toHaveTextContent('ぜんぶ かちぬいた')
+  })
+})
+
+describe('とんぼがえり', () => {
+  const partingPanel = () => screen.queryByRole('region', { name: /あとに だす/ })
+
+  it('asks who comes in before taking the turn', async () => {
+    const user = userEvent.setup()
+    seed((run) => ({
+      ...run,
+      battle: { ...run.battle, player: party(['scyther', 'pikachu', 'geodude']) },
+    }))
+    render(<App />)
+
+    await user.click(screen.getByRole('button', { name: /とんぼがえり/ }))
+    expect(partingPanel()).toBeInTheDocument()
+    // Nothing has happened yet: the turn waits on the second half of the choice.
+    expect(screen.getByTestId('battle-log')).not.toHaveTextContent('とんぼがえり')
+
+    await user.click(enabledButtons(partingPanel()!)[0]!)
+    expect(screen.getByTestId('battle-log')).toHaveTextContent('とんぼがえり')
+    expect(screen.getByTestId('player-card')).toHaveTextContent('ピカチュウ')
+  })
+
+  it('backs out without spending the turn', async () => {
+    const user = userEvent.setup()
+    seed((run) => ({
+      ...run,
+      battle: { ...run.battle, player: party(['scyther', 'pikachu', 'geodude']) },
+    }))
+    render(<App />)
+
+    await user.click(screen.getByRole('button', { name: /とんぼがえり/ }))
+    await user.click(screen.getByRole('button', { name: 'やめる' }))
+
+    expect(partingPanel()).toBeNull()
+    expect(movePanel()).toBeInTheDocument()
+    expect(screen.getByTestId('battle-log')).not.toHaveTextContent('とんぼがえり')
+  })
+
+  it('just attacks when there is nobody on the bench', async () => {
+    const user = userEvent.setup()
+    seed((run) => ({
+      ...run,
+      battle: { ...run.battle, player: party(['scyther']) },
+    }))
+    render(<App />)
+
+    await user.click(screen.getByRole('button', { name: /とんぼがえり/ }))
+    expect(partingPanel()).toBeNull()
+    expect(screen.getByTestId('battle-log')).toHaveTextContent('とんぼがえり')
+  })
+
+  it('says on the button that it switches out', () => {
+    seed((run) => ({
+      ...run,
+      battle: { ...run.battle, player: party(['scyther', 'pikachu', 'geodude']) },
+    }))
+    render(<App />)
+    expect(screen.getByRole('button', { name: /とんぼがえり/ })).toHaveTextContent(
+      'こうたいする',
+    )
+  })
+})
+
+describe('すてみタックル', () => {
+  it('shows the recoil on the button and in the log', async () => {
+    const user = userEvent.setup()
+    seed((run) => ({
+      ...run,
+      battle: { ...run.battle, player: party(['eevee', 'pikachu', 'geodude']) },
+    }))
+    render(<App />)
+
+    const move = screen.getByRole('button', { name: /すてみタックル/ })
+    expect(move).toHaveTextContent('はんどう 33%')
+
+    await user.click(move)
+    expect(screen.getByTestId('battle-log')).toHaveTextContent('はんどう')
+    expect(screen.getByTestId('player-hp').textContent).not.toMatch(/^(\d+) \/ \1 HP$/)
+  })
+})
+
+describe('だんかい', () => {
+  const tierRow = () => screen.getByTestId('tier-row')
+  const tierButtons = () => within(tierRow()).getAllByRole('button')
+
+  it('opens on the first tier with the rest locked', () => {
+    render(<App />)
+    const buttons = tierButtons()
+    expect(buttons).toHaveLength(TIER_CONFIG.max)
+    expect(buttons[0]).toHaveAttribute('aria-pressed', 'true')
+    expect(buttons[1]).toBeDisabled()
+    expect(screen.getByTestId('run-status')).toHaveTextContent('だんかい 1')
+  })
+
+  it('lets a cleared tier open the next one', async () => {
+    const user = userEvent.setup()
+    localStorage.setItem(
+      'pokemon-battle:progress',
+      JSON.stringify({ version: 1, cleared: 2 }),
+    )
+    render(<App />)
+
+    // A returning player lands on the hardest tier they have earned.
+    expect(tierButtons()[2]).toHaveAttribute('aria-pressed', 'true')
+    expect(tierButtons()[3]).toBeDisabled()
+
+    await user.click(tierButtons()[0]!)
+    expect(tierButtons()[0]).toHaveAttribute('aria-pressed', 'true')
+  })
+
+  it('carries the chosen tier into the run, and into a stronger field', async () => {
+    const user = userEvent.setup()
+    localStorage.setItem(
+      'pokemon-battle:progress',
+      JSON.stringify({ version: 1, cleared: 2 }),
+    )
+    render(<App />)
+    await completeDraft(user)
+
+    expect(screen.getByTestId('run-status')).toHaveTextContent('だんかい 3')
+    expect(screen.getByTestId('run-status')).toHaveTextContent(
+      `あいて Lv${opponentLevel(0, 3)}`,
+    )
+  })
+
+  it('holds the tier across a reload of the draft', async () => {
+    const user = userEvent.setup()
+    localStorage.setItem(
+      'pokemon-battle:progress',
+      JSON.stringify({ version: 1, cleared: 3 }),
+    )
+    const first = render(<App />)
+    await user.click(tierButtons()[1]!)
+    first.unmount()
+
+    render(<App />)
+    expect(tierButtons()[1]).toHaveAttribute('aria-pressed', 'true')
+  })
+
+  it('unlocks the next tier when a run is cleared', async () => {
+    const user = userEvent.setup()
+    const wins = RUN_CONFIG.battlesToClear - 1
+    const boss = createBattlePokemon(BOSS_LIST[0]!, opponentLevel(wins))
+    const base = startRun(fixedRandom(0.3))
+    saveRun({
+      ...base,
+      wins,
+      battle: {
+        ...base.battle,
+        player: party(['pikachu', 'charmander', 'bulbasaur']),
+        opponent: createTeam([{ ...boss, currentHp: 1 }]),
+      },
+    })
+    render(<App />)
+
+    for (let i = 0; i < 20 && movePanel(); i++) {
+      await user.click(enabledButtons(movePanel()!)[0]!)
+    }
+
+    expect(screen.getByRole('status')).toHaveTextContent('だんかい 2が あいた')
+    await user.click(screen.getByRole('button', { name: 'だんかい 2へ' }))
+    expect(tierButtons()[1]).toHaveAttribute('aria-pressed', 'true')
+    expect(JSON.parse(localStorage.getItem('pokemon-battle:progress')!)).toMatchObject({
+      cleared: 1,
+    })
   })
 })

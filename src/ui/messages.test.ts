@@ -242,7 +242,7 @@ describe('move summaries', () => {
 
 describe('coverageSummary', () => {
   it('names the types a Pokemon can attack with', () => {
-    expect(coverageSummary(SPECIES.pikachu)).toBe('でんき・ノーマル・じめん')
+    expect(coverageSummary(SPECIES.pikachu)).toBe('でんき・じめん')
   })
 
   it('leaves out status moves, which cover nothing', () => {

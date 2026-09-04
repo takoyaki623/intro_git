@@ -2,6 +2,7 @@ import type { Species } from './entities'
 import type { Random } from './damage'
 import { sample } from './sample'
 import { RUN_CONFIG } from './run'
+import { FIRST_TIER, clampTier, isTierUnlocked } from './tiers'
 import { SPECIES_LIST } from '../data/species'
 
 export const DRAFT_CONFIG = {
@@ -27,10 +28,35 @@ export interface DraftState {
   readonly candidates: readonly Species[]
   /** Species ids taken so far, in the order they were taken. */
   readonly picked: readonly string[]
+  /**
+   * The tier the run will be played at.
+   *
+   * It rides along with the draft because it is chosen on the same screen and
+   * has to survive the same reload; the six candidates do not depend on it.
+   */
+  readonly tier: number
 }
 
-export function startDraft(random: Random = Math.random): DraftState {
-  return { candidates: sample(SPECIES_LIST, DRAFT_CONFIG.candidates, random), picked: [] }
+export function startDraft(
+  random: Random = Math.random,
+  tier: number = FIRST_TIER,
+): DraftState {
+  return {
+    candidates: sample(SPECIES_LIST, DRAFT_CONFIG.candidates, random),
+    picked: [],
+    tier: clampTier(tier),
+  }
+}
+
+/**
+ * Move the draft to another tier, if the player has earned it.
+ *
+ * The candidates stay put: re-dealing them here would hand back the re-roll
+ * that saving the draft exists to prevent.
+ */
+export function chooseTier(draft: DraftState, tier: number, cleared: number): DraftState {
+  if (!isTierUnlocked(tier, cleared)) return draft
+  return { ...draft, tier }
 }
 
 /**

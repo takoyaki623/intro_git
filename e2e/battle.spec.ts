@@ -3,6 +3,7 @@ import type { Page } from '@playwright/test'
 import { RUN_CONFIG, opponentLevel } from '../src/domain/run'
 import { BOSS_LIST } from '../src/data/species'
 import { DRAFT_CONFIG } from '../src/domain/draft'
+import { TIER_CONFIG } from '../src/domain/tiers'
 
 /**
  * A fixed starting position, written straight into the save the app reads.
@@ -117,9 +118,9 @@ test('わざを使うと相手が削れ、ログに残る', async ({ page }) => 
 })
 
 test('被弾したダメージが数値で出る', async ({ page }) => {
-  // でんこうせっか rather than 10まんボルト: the opponent switches to イシツブテ,
+  // あなをほる rather than 10まんボルト: the opponent switches to イシツブテ,
   // which でんき cannot touch, and a hit for nothing shows no figure.
-  await page.getByRole('button', { name: /でんこうせっか/ }).click()
+  await page.getByRole('button', { name: /あなをほる/ }).click()
   await expect(page.getByTestId('opponent-card')).toContainText(/-\d+/)
 })
 
@@ -555,7 +556,130 @@ test.describe('さいしゅうせん', () => {
     await page.reload()
     await expect(page.getByRole('status')).toContainText('ぜんぶ かちぬいた')
 
-    await page.getByRole('button', { name: 'もういちど' }).click()
+    // Clearing tier 1 from nothing opens tier 2, so the button points at it.
+    await page.getByRole('button', { name: 'だんかい 2へ' }).click()
     await expect(page.getByRole('region', { name: 'てもちを えらぶ' })).toBeVisible()
+  })
+})
+
+test.describe('とんぼがえり', () => {
+  // ストライク leads, because it is the one that knows とんぼがえり.
+  test.beforeEach(async ({ page }) => {
+    const level = RUN_CONFIG.playerLevel
+    await page.evaluate(
+      ({ seed, level }) => {
+        localStorage.setItem(
+          'pokemon-battle:run',
+          JSON.stringify({
+            ...seed,
+            player: {
+              activeIndex: 0,
+              members: ['scyther', 'pikachu', 'geodude'].map((speciesId) => ({
+                speciesId,
+                level,
+                currentHp: 999,
+                status: null,
+              })),
+            },
+          }),
+        )
+      },
+      { seed: SEED, level },
+    )
+    await page.reload()
+  })
+
+  test('だれを出すか選んでから、攻撃と交代が 1 ターンで起きる', async ({ page }) => {
+    await page.getByRole('button', { name: /とんぼがえり/ }).click()
+
+    const panel = page.getByRole('region', { name: /あとに だす/ })
+    await expect(panel).toBeVisible()
+    // The turn has not been spent yet.
+    await expect(page.getByTestId('battle-log')).not.toContainText('とんぼがえり')
+
+    await panel.getByRole('button').and(page.locator(':not([disabled])')).first().click()
+
+    await expect(page.getByTestId('battle-log')).toContainText('とんぼがえり')
+    await expect(page.getByTestId('player-card')).not.toContainText('ストライク')
+  })
+
+  test('やめる で ターンを使わずに戻れる', async ({ page }) => {
+    await page.getByRole('button', { name: /とんぼがえり/ }).click()
+    await page.getByRole('button', { name: 'やめる' }).click()
+
+    await expect(page.getByRole('region', { name: 'わざ' })).toBeVisible()
+    await expect(page.getByTestId('battle-log')).not.toContainText('とんぼがえり')
+    await expect(page.getByTestId('player-card')).toContainText('ストライク')
+  })
+})
+
+test.describe('だんかい', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.evaluate(() => localStorage.clear())
+    await page.reload()
+  })
+
+  test('最初は だんかい 1 だけ、ほかは 鍵がかかっている', async ({ page }) => {
+    const tiers = page.getByTestId('tier-row').getByRole('button')
+    await expect(tiers).toHaveCount(TIER_CONFIG.max)
+    await expect(tiers.nth(0)).toHaveAttribute('aria-pressed', 'true')
+    await expect(tiers.nth(1)).toBeDisabled()
+    await expect(page.getByTestId('run-status')).toContainText('だんかい 1')
+  })
+
+  test('クリアすると つぎの だんかい が あく', async ({ page }) => {
+    const wins = RUN_CONFIG.battlesToClear - 1
+    await page.evaluate(
+      ({ seed, wins, bossId, level }) => {
+        localStorage.setItem(
+          'pokemon-battle:run',
+          JSON.stringify({
+            ...seed,
+            wins,
+            opponent: {
+              activeIndex: 0,
+              members: [{ speciesId: bossId, level, currentHp: 1, status: null }],
+            },
+          }),
+        )
+      },
+      { seed: SEED, wins, bossId: BOSS_LIST[0]!.id, level: opponentLevel(wins) },
+    )
+    await page.reload()
+
+    const moves = page.getByRole('region', { name: 'わざ' })
+    for (let i = 0; i < 20; i++) {
+      if (!(await moves.count())) break
+      await moves.getByRole('button').first().click()
+    }
+
+    await expect(page.getByRole('status')).toContainText('だんかい 2が あいた')
+    await page.getByRole('button', { name: 'だんかい 2へ' }).click()
+
+    const tiers = page.getByTestId('tier-row').getByRole('button')
+    await expect(tiers.nth(1)).toHaveAttribute('aria-pressed', 'true')
+    await expect(tiers.nth(2)).toBeDisabled()
+    // The unlock outlives the run that earned it.
+    await page.reload()
+    await expect(tiers.nth(1)).toBeEnabled()
+  })
+
+  test('えらんだ だんかい の ぶんだけ 相手が強い', async ({ page }) => {
+    await page.evaluate(() => {
+      // The draft saved a moment ago remembers tier 1; a returning player with
+      // no draft in progress is the case under test.
+      localStorage.removeItem('pokemon-battle:draft')
+      localStorage.setItem(
+        'pokemon-battle:progress',
+        JSON.stringify({ version: 1, cleared: 2 }),
+      )
+    })
+    await page.reload()
+
+    await expect(page.getByTestId('run-status')).toContainText('だんかい 3')
+    await draft(page)
+    await expect(page.getByTestId('run-status')).toContainText(
+      `あいて Lv${opponentLevel(0, 3)}`,
+    )
   })
 })
