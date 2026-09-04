@@ -608,6 +608,32 @@ h1 {
   font-size: 0.9rem;
 }
 
+/* The last battle names itself in the status line: the only warning the player
+   gets that this one is different. */
+.final {
+  color: var(--critical);
+  font-weight: 600;
+}
+
+.clear-badge {
+  background: var(--accent);
+  color: #fff;
+  border-radius: 0.3rem;
+  padding: 0.05rem 0.4rem;
+  margin-left: 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  vertical-align: 0.15em;
+}
+
+.cleared h2 {
+  font-family: var(--font-display);
+  color: var(--accent);
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 400;
+}
+
 .draft {
   display: grid;
   gap: 0.6rem;

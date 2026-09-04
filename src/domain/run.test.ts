@@ -3,6 +3,7 @@ import {
   RUN_CONFIG,
   advance,
   canAdvance,
+  isFinalBattle,
   opponentLevel,
   restBetweenBattles,
   startRun,
@@ -10,7 +11,7 @@ import {
   withOffer,
 } from './run'
 import { activePokemon, createBattlePokemon, isFainted } from './entities'
-import { SPECIES } from '../data/species'
+import { BOSS_LIST, SPECIES } from '../data/species'
 import type { RewardKind } from './rewards'
 import { fixedRandom, scriptedRandom } from '../test/rng'
 
@@ -257,5 +258,124 @@ describe('rewards across a run', () => {
     expect(next.battle.player.members.length).toBe(
       before.battle.player.members.length + 1,
     )
+  })
+})
+
+describe('the last battle', () => {
+  /** Fast-forward to the run's final battle by winning everything before it. */
+  const reachTheBoss = () => {
+    let run = startRun(fixedRandom(0.3))
+    while (!isFinalBattle(run.wins)) {
+      run = advance(
+        { ...run, battle: { ...run.battle, winner: 'player' } },
+        null,
+        fixedRandom(0.3),
+      )
+    }
+    return run
+  }
+
+  it('is the one that would take the run to the clear', () => {
+    expect(isFinalBattle(RUN_CONFIG.battlesToClear - 1)).toBe(true)
+    expect(isFinalBattle(RUN_CONFIG.battlesToClear - 2)).toBe(false)
+    expect(isFinalBattle(RUN_CONFIG.battlesToClear)).toBe(false)
+  })
+
+  it('fields the boss, alone', () => {
+    const boss = reachTheBoss().battle.opponent
+    expect(boss.members).toHaveLength(1)
+    expect(BOSS_LIST.map((species) => species.id)).toContain(boss.members[0]!.species.id)
+  })
+
+  it('fields the boss at the level the ramp had reached', () => {
+    const run = reachTheBoss()
+    expect(run.battle.opponent.members[0]!.level).toBe(opponentLevel(run.wins))
+  })
+
+  it('is the only battle the boss appears in', () => {
+    let run = startRun(fixedRandom(0.3))
+    const bossIds = new Set(BOSS_LIST.map((species) => species.id))
+    while (!isFinalBattle(run.wins)) {
+      for (const member of run.battle.opponent.members) {
+        expect(bossIds.has(member.species.id)).toBe(false)
+      }
+      run = advance(
+        { ...run, battle: { ...run.battle, winner: 'player' } },
+        null,
+        fixedRandom(0.3),
+      )
+    }
+    expect(run.battle.opponent.members).toHaveLength(1)
+  })
+
+  it('never drafts or recruits the boss', () => {
+    // The player's side is dealt from SPECIES_LIST, which the boss is not in.
+    const bossIds = new Set(BOSS_LIST.map((species) => species.id))
+    for (let i = 0; i < 50; i++) {
+      for (const member of startRun().battle.player.members) {
+        expect(bossIds.has(member.species.id)).toBe(false)
+      }
+    }
+  })
+})
+
+describe('clearing a run', () => {
+  const wonFinal = () => {
+    let run = startRun(fixedRandom(0.3))
+    while (!isFinalBattle(run.wins)) {
+      run = advance(
+        { ...run, battle: { ...run.battle, winner: 'player' } },
+        null,
+        fixedRandom(0.3),
+      )
+    }
+    return withBattle(run, { ...run.battle, winner: 'player' }, fixedRandom(0.3))
+  }
+
+  it('counts the last win and ends the run', () => {
+    const run = wonFinal()
+    expect(run.cleared).toBe(true)
+    expect(run.finished).toBe(true)
+    expect(run.wins).toBe(RUN_CONFIG.battlesToClear)
+  })
+
+  it('offers no reward for a run that is over', () => {
+    const run = wonFinal()
+    expect(run.offer).toBeNull()
+    expect(canAdvance(run)).toBe(false)
+  })
+
+  it('cannot be advanced past', () => {
+    const run = wonFinal()
+    expect(advance(run, null, fixedRandom(0.3))).toEqual(run)
+  })
+
+  it('still draws a reward after every win before the last', () => {
+    let run = startRun(fixedRandom(0.3))
+    for (let i = 0; i < RUN_CONFIG.battlesToClear - 1; i++) {
+      run = withBattle(run, { ...run.battle, winner: 'player' }, fixedRandom(0.3))
+      expect(run.cleared).toBe(false)
+      expect(run.offer).not.toBeNull()
+      run = advance(run, run.offer?.[0] ?? null, fixedRandom(0.3))
+    }
+  })
+
+  it('is a loss, not a clear, when the last battle goes the other way', () => {
+    let run = startRun(fixedRandom(0.3))
+    while (!isFinalBattle(run.wins)) {
+      run = advance(
+        { ...run, battle: { ...run.battle, winner: 'player' } },
+        null,
+        fixedRandom(0.3),
+      )
+    }
+    const lost = withBattle(run, { ...run.battle, winner: 'opponent' }, fixedRandom(0.3))
+    expect(lost.cleared).toBe(false)
+    expect(lost.finished).toBe(true)
+    expect(lost.wins).toBe(RUN_CONFIG.battlesToClear - 1)
+  })
+
+  it('starts every fresh run uncleared', () => {
+    expect(startRun(fixedRandom(0.3)).cleared).toBe(false)
   })
 })

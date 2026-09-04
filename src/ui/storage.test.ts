@@ -2,8 +2,9 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { clearDraft, clearRun, loadDraft, loadRun, saveDraft, saveRun } from './storage'
 import { advance, startRun, withBattle } from '../domain/run'
 import { DRAFT_CONFIG, startDraft, togglePick } from '../domain/draft'
+import { BOSS_LIST } from '../data/species'
 import type { RewardKind } from '../domain/rewards'
-import { activePokemon } from '../domain/entities'
+import { activePokemon, createBattlePokemon, createTeam } from '../domain/entities'
 import { fixedRandom } from '../test/rng'
 
 /** A stand-in for localStorage that the tests fully control. */
@@ -259,5 +260,42 @@ describe('saveDraft and loadDraft', () => {
       },
     }
     expect(() => saveDraft(dealt(), blocked)).not.toThrow()
+  })
+})
+
+describe('a cleared run', () => {
+  it('comes back cleared', () => {
+    const run = startRun(fixedRandom(0.3))
+    saveRun({ ...run, cleared: true, finished: true, wins: 6 }, storage)
+    const loaded = loadRun(storage)
+    expect(loaded?.cleared).toBe(true)
+    expect(loaded?.finished).toBe(true)
+  })
+
+  it('reads a save written before runs could be cleared as uncleared', () => {
+    const run = startRun(fixedRandom(0.3))
+    saveRun(run, storage)
+    const stored = JSON.parse(storage.getItem('pokemon-battle:run')!) as Record<
+      string,
+      unknown
+    >
+    delete stored.cleared
+    storage.setItem('pokemon-battle:run', JSON.stringify(stored))
+    expect(loadRun(storage)?.cleared).toBe(false)
+  })
+
+  it('restores the boss, which is not in the draft pool', () => {
+    const run = startRun(fixedRandom(0.3))
+    const boss = createBattlePokemon(BOSS_LIST[0]!, 54)
+    saveRun(
+      {
+        ...run,
+        battle: { ...run.battle, opponent: createTeam([boss]) },
+      },
+      storage,
+    )
+    expect(loadRun(storage)?.battle.opponent.members[0]?.species.id).toBe(
+      BOSS_LIST[0]!.id,
+    )
   })
 })

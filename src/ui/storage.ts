@@ -10,11 +10,12 @@ import type { ItemKind } from '../domain/items'
 import { ITEM_KINDS } from '../domain/items'
 import type { BattleState } from '../domain/battle'
 import type { RunState } from '../domain/run'
+import { isFinalBattle } from '../domain/run'
 import type { RewardKind } from '../domain/rewards'
 import { REWARD_CONFIG, REWARD_KINDS } from '../domain/rewards'
 import type { DraftState } from '../domain/draft'
 import { DRAFT_CONFIG } from '../domain/draft'
-import { SPECIES } from '../data/species'
+import { ALL_SPECIES, SPECIES } from '../data/species'
 
 const KEY = 'pokemon-battle:run'
 /** Bumped when the shape below changes, so an old save is dropped rather than misread. */
@@ -39,6 +40,8 @@ interface StoredRun {
   readonly finished: boolean
   /** Saved so a reload while choosing does not reshuffle the rewards. */
   readonly offer: readonly RewardKind[] | null
+  /** Absent in saves written before the run had an ending; read as false. */
+  readonly cleared?: boolean
   readonly winner: Side | null
   readonly awaitingSwitch: Side | null
   readonly player: StoredTeam
@@ -65,7 +68,9 @@ const storeTeam = (team: TeamState): StoredTeam => ({
 })
 
 function restorePokemon(stored: StoredPokemon): BattlePokemon | null {
-  const species = Object.values(SPECIES).find((entry) => entry.id === stored.speciesId)
+  // ALL_SPECIES, not the draft pool: a save taken during the last battle is
+  // holding the boss, which is deliberately not in SPECIES.
+  const species = ALL_SPECIES.find((entry) => entry.id === stored.speciesId)
   if (!species) return null
   if (!Number.isFinite(stored.level) || stored.level < 1) return null
 
@@ -93,6 +98,7 @@ export function saveRun(run: RunState, storage: Storage = localStorage): void {
     version: VERSION,
     wins: run.wins,
     finished: run.finished,
+    cleared: run.cleared,
     offer: run.offer,
     winner: run.battle.winner,
     awaitingSwitch: run.battle.awaitingSwitch,
@@ -127,7 +133,13 @@ export function loadRun(storage: Storage = localStorage): RunState | null {
   const battle: BattleState = {
     player,
     opponent,
-    events: [{ kind: 'encounter', pokemon: activePokemon(opponent).species.name }],
+    events: [
+      {
+        kind: 'encounter',
+        pokemon: activePokemon(opponent).species.name,
+        final: isFinalBattle(stored.wins),
+      },
+    ],
     winner: stored.winner ?? null,
     awaitingSwitch: stored.awaitingSwitch ?? null,
   }
@@ -141,6 +153,7 @@ export function loadRun(storage: Storage = localStorage): RunState | null {
     battle,
     wins: stored.wins,
     finished: stored.finished === true,
+    cleared: stored.cleared === true,
     offer: offer && offer.length > 0 ? offer.slice(0, REWARD_CONFIG.choices) : null,
   }
 }

@@ -6,7 +6,7 @@ import App from './App'
 import type { RunState } from './domain/run'
 import { opponentLevel, startRun } from './domain/run'
 import { createBattlePokemon, createTeam } from './domain/entities'
-import { SPECIES } from './data/species'
+import { BOSS_LIST, SPECIES } from './data/species'
 import { RUN_CONFIG } from './domain/run'
 import { REWARD_CONFIG } from './domain/rewards'
 import { DRAFT_CONFIG } from './domain/draft'
@@ -448,5 +448,96 @@ describe('playing a battle out', () => {
 
     expect(screen.getByRole('status')).toHaveTextContent(/たおした|たおれてしまった/)
     expect(screen.getByTestId('battle-log')).toHaveTextContent('たおれた')
+  })
+})
+
+describe('the last battle', () => {
+  /** A save sitting on the final battle, against a boss on its last legs. */
+  const seedFinal = (patch: (run: RunState) => RunState = (run) => run) => {
+    const base = startRun(fixedRandom(0.3))
+    const wins = RUN_CONFIG.battlesToClear - 1
+    const boss = createBattlePokemon(BOSS_LIST[0]!, opponentLevel(wins))
+    saveRun(
+      patch({
+        ...base,
+        wins,
+        battle: {
+          ...base.battle,
+          player: party(['pikachu', 'charmander', 'bulbasaur']),
+          opponent: createTeam([{ ...boss, currentHp: 1 }]),
+        },
+      }),
+    )
+  }
+
+  it('names itself in the status line', () => {
+    seedFinal()
+    render(<App />)
+    expect(screen.getByTestId('run-status')).toHaveTextContent('さいしゅうせん')
+    expect(screen.getByTestId('run-status')).toHaveTextContent(
+      `れんしょう ${RUN_CONFIG.battlesToClear - 1} / ${RUN_CONFIG.battlesToClear}`,
+    )
+  })
+
+  it('fields the boss alone', () => {
+    seedFinal()
+    render(<App />)
+    expect(screen.getByTestId('opponent-team')).toHaveAttribute(
+      'aria-label',
+      'あいての てもち のこり 1',
+    )
+    expect(screen.getByTestId('opponent-card')).toHaveTextContent(BOSS_LIST[0]!.name)
+  })
+
+  it('clears the run when it is won, with no reward to choose', async () => {
+    const user = userEvent.setup()
+    seedFinal()
+    render(<App />)
+
+    // The boss is on 1 HP, so the first move that lands finishes it.
+    for (let i = 0; i < 20 && movePanel(); i++) {
+      await user.click(enabledButtons(movePanel()!)[0]!)
+    }
+
+    expect(screen.getByRole('status')).toHaveTextContent('ぜんぶ かちぬいた')
+    expect(screen.getByTestId('run-status')).toHaveTextContent(
+      `れんしょう ${RUN_CONFIG.battlesToClear}`,
+    )
+    expect(rewardPanel()).toBeNull()
+    expect(screen.getByRole('button', { name: 'もういちど' })).toBeInTheDocument()
+  })
+
+  it('records the clear in the hall of fame', async () => {
+    const user = userEvent.setup()
+    seedFinal()
+    render(<App />)
+    for (let i = 0; i < 20 && movePanel(); i++) {
+      await user.click(enabledButtons(movePanel()!)[0]!)
+    }
+    expect(screen.getByTestId('hall-of-fame')).toHaveTextContent('クリア')
+  })
+
+  it('sends もういちど back to a fresh draft', async () => {
+    const user = userEvent.setup()
+    seedFinal()
+    render(<App />)
+    for (let i = 0; i < 20 && movePanel(); i++) {
+      await user.click(enabledButtons(movePanel()!)[0]!)
+    }
+    await user.click(screen.getByRole('button', { name: 'もういちど' }))
+    expect(draftPanel()).toBeInTheDocument()
+  })
+
+  it('survives a reload once cleared', async () => {
+    const user = userEvent.setup()
+    seedFinal()
+    const first = render(<App />)
+    for (let i = 0; i < 20 && movePanel(); i++) {
+      await user.click(enabledButtons(movePanel()!)[0]!)
+    }
+    first.unmount()
+
+    render(<App />)
+    expect(screen.getByRole('status')).toHaveTextContent('ぜんぶ かちぬいた')
   })
 })

@@ -265,3 +265,17 @@ describe('coverageSummary', () => {
     expect(coverageSummary(pacifist)).toBeNull()
   })
 })
+
+describe('the encounter line', () => {
+  it('reads as an ordinary meeting by default', () => {
+    expect(formatEvent({ kind: 'encounter', pokemon: 'カイリュー' })).toContain(
+      'やせいの',
+    )
+  })
+
+  it('reads as the last stand for the final battle', () => {
+    const line = formatEvent({ kind: 'encounter', pokemon: 'カイリュー', final: true })
+    expect(line).toContain('さいごの あいて')
+    expect(line).toContain('カイリュー')
+  })
+})

@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test'
 import type { Page } from '@playwright/test'
 import { RUN_CONFIG, opponentLevel } from '../src/domain/run'
+import { BOSS_LIST } from '../src/data/species'
 import { DRAFT_CONFIG } from '../src/domain/draft'
 
 /**
@@ -494,5 +495,67 @@ test.describe('ドラフト', () => {
       return visible / box.height
     })
     expect(seen).toBe(1)
+  })
+})
+
+test.describe('さいしゅうせん', () => {
+  const wins = RUN_CONFIG.battlesToClear - 1
+  const boss = BOSS_LIST[0]!
+
+  // A save sitting on the last battle, with the boss on its last legs so the
+  // clear is one click away rather than a whole fight's worth of luck.
+  test.beforeEach(async ({ page }) => {
+    await page.evaluate(
+      ({ seed, wins, bossId, level }) => {
+        localStorage.clear()
+        localStorage.setItem(
+          'pokemon-battle:run',
+          JSON.stringify({
+            ...seed,
+            wins,
+            opponent: {
+              activeIndex: 0,
+              members: [{ speciesId: bossId, level, currentHp: 1, status: null }],
+            },
+          }),
+        )
+      },
+      { seed: SEED, wins, bossId: boss.id, level: opponentLevel(wins) },
+    )
+    await page.reload()
+  })
+
+  test('ラストだと分かり、ボスが 1 匹で出てくる', async ({ page }) => {
+    await expect(page.getByTestId('run-status')).toContainText('さいしゅうせん')
+    await expect(page.getByTestId('run-status')).toContainText(
+      `れんしょう ${wins} / ${RUN_CONFIG.battlesToClear}`,
+    )
+    await expect(page.getByTestId('opponent-card')).toContainText(boss.name)
+    await expect(page.getByTestId('opponent-team')).toHaveAttribute(
+      'aria-label',
+      'あいての てもち のこり 1',
+    )
+  })
+
+  test('倒すとクリアになり、ごほうびは出ない', async ({ page }) => {
+    const moves = page.getByRole('region', { name: 'わざ' })
+    for (let i = 0; i < 20; i++) {
+      if (!(await moves.count())) break
+      await moves.getByRole('button').first().click()
+    }
+
+    await expect(page.getByRole('status')).toContainText('ぜんぶ かちぬいた')
+    await expect(page.getByTestId('run-status')).toContainText(
+      `れんしょう ${RUN_CONFIG.battlesToClear}`,
+    )
+    await expect(page.getByRole('region', { name: 'ごほうびを えらぶ' })).toHaveCount(0)
+    await expect(page.getByTestId('hall-of-fame')).toContainText('クリア')
+
+    // Reloading a cleared run keeps it cleared rather than resuming a battle.
+    await page.reload()
+    await expect(page.getByRole('status')).toContainText('ぜんぶ かちぬいた')
+
+    await page.getByRole('button', { name: 'もういちど' }).click()
+    await expect(page.getByRole('region', { name: 'てもちを えらぶ' })).toBeVisible()
   })
 })

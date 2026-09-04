@@ -89,7 +89,9 @@ describe('createBattle', () => {
     const state = battle()
     expect(state.winner).toBeNull()
     expect(state.awaitingSwitch).toBeNull()
-    expect(state.events).toEqual([{ kind: 'encounter', pokemon: 'ゼニガメ' }])
+    expect(state.events).toEqual([
+      { kind: 'encounter', pokemon: 'ゼニガメ', final: false },
+    ])
   })
 })
 
@@ -709,5 +711,22 @@ describe('resolveTurn — stat stages', () => {
     )
     const after = forceSwitch(owed, 'player', 1)
     expect(after.player.members[0]?.stages.attack).toBe(0)
+  })
+})
+
+describe('the last battle announces itself', () => {
+  it('opens with a different line when it is the final one', () => {
+    const state = createBattle(playerTeam(), opponentTeam(), true)
+    expect(state.events[0]).toEqual({
+      kind: 'encounter',
+      pokemon: 'ゼニガメ',
+      final: true,
+    })
+  })
+
+  it('changes nothing else about the battle', () => {
+    const ordinary = createBattle(playerTeam(), opponentTeam())
+    const last = createBattle(playerTeam(), opponentTeam(), true)
+    expect({ ...last, events: [] }).toEqual({ ...ordinary, events: [] })
   })
 })

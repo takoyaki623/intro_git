@@ -264,4 +264,41 @@ export const SPECIES = {
   },
 } as const satisfies Record<string, Species>
 
+/** What a run draws from: the player's draft, the opposing parties, recruits. */
 export const SPECIES_LIST: readonly Species[] = Object.values(SPECIES)
+
+/**
+ * The last battle, and nowhere else.
+ *
+ * Kept out of SPECIES so it cannot be drafted, met on the way, or recruited --
+ * a boss the player might already be holding is not a boss. Its type pair is
+ * the point: dragon/flying is four times weak to ice and twice to rock, fairy,
+ * electric and dragon, so the coverage line on the draft cards is what decides
+ * whether the party has an answer.
+ */
+export const BOSS_SPECIES = {
+  dragonite: {
+    id: 'dragonite',
+    name: 'カイリュー',
+    types: ['dragon', 'flying'],
+    baseStats: {
+      hp: 91,
+      attack: 134,
+      defense: 95,
+      specialAttack: 100,
+      specialDefense: 100,
+      speed: 80,
+    },
+    moves: [MOVES.dragonBreath, MOVES.wingAttack, MOVES.flamethrower, MOVES.dig],
+  },
+} as const satisfies Record<string, Species>
+
+export const BOSS_LIST: readonly Species[] = Object.values(BOSS_SPECIES)
+
+/**
+ * Every species the game can put on the field, boss included.
+ *
+ * Loading a save has to find the boss too, and the fitness tests should hold it
+ * to the same standard as everything else.
+ */
+export const ALL_SPECIES: readonly Species[] = [...SPECIES_LIST, ...BOSS_LIST]

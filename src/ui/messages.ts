@@ -158,7 +158,9 @@ export function moveAccuracySummary(move: Move): string | null {
 export function formatEvent(event: BattleEvent): string | null {
   switch (event.kind) {
     case 'encounter':
-      return `やせいの ${event.pokemon}が とびだしてきた！`
+      return event.final
+        ? `さいごの あいて ${event.pokemon}が たちふさがった！`
+        : `やせいの ${event.pokemon}が とびだしてきた！`
     case 'useMove':
       return `${event.pokemon}の ${event.move}！`
     case 'miss':

@@ -6,7 +6,15 @@ import type { TurnAction } from './domain/battle'
 import { forceSwitch, resolveTurn } from './domain/battle'
 import { chooseOpponentAction } from './domain/ai'
 import type { RunState } from './domain/run'
-import { advance, canAdvance, startRun, withBattle, withOffer } from './domain/run'
+import {
+  RUN_CONFIG,
+  advance,
+  canAdvance,
+  isFinalBattle,
+  startRun,
+  withBattle,
+  withOffer,
+} from './domain/run'
 import type { DraftState } from './domain/draft'
 import { draftedRoster, startDraft, togglePick } from './domain/draft'
 import type { RewardKind } from './domain/rewards'
@@ -84,7 +92,12 @@ export default function App() {
     return (
       <main className="battle">
         <h1>ポケモンバトル</h1>
-        <RunStatus wins={0} opponentLevel={null} best={best?.wins ?? null} />
+        <RunStatus
+          wins={0}
+          total={RUN_CONFIG.battlesToClear}
+          opponentLevel={null}
+          best={best?.wins ?? null}
+        />
         {draft ? (
           <DraftScreen
             draft={draft}
@@ -138,7 +151,9 @@ export default function App() {
       <h1>ポケモンバトル</h1>
       <RunStatus
         wins={run.wins}
+        total={RUN_CONFIG.battlesToClear}
         opponentLevel={opponent.level}
+        final={!run.cleared && isFinalBattle(run.wins)}
         best={best?.wins ?? null}
       />
 
@@ -155,7 +170,18 @@ export default function App() {
 
       <BattleLog events={battle.events} />
 
-      {run.finished ? (
+      {run.cleared ? (
+        <section className="outcome cleared">
+          <h2>クリア！</h2>
+          <p role="status">
+            {`${opponent.species.name}を たおした！ ${run.wins}れんしょうで ぜんぶ かちぬいた。`}
+          </p>
+          <button type="button" onClick={startOver}>
+            もういちど
+          </button>
+          {best ? <HallOfFame best={best} fresh={beatIt} /> : null}
+        </section>
+      ) : run.finished ? (
         <section className="outcome">
           <p role="status">
             {outcomeMessage('opponent', player.species.name, opponent.species.name)}

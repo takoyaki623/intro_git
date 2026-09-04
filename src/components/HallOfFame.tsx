@@ -12,6 +12,7 @@ export function HallOfFame({ best, fresh }: Props) {
       <h2>
         {fresh ? 'じこ ベスト こうしん！' : 'さいこう きろく'}{' '}
         <strong>{best.wins}</strong> れんしょう
+        {best.cleared ? <span className="clear-badge">クリア</span> : null}
       </h2>
       <ul>
         {best.party.map((member) => (

@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import { SPECIES, SPECIES_LIST } from './species'
+import { ALL_SPECIES, BOSS_LIST, BOSS_SPECIES, SPECIES, SPECIES_LIST } from './species'
 import { MOVES } from './moves'
-import { POKEMON_TYPES } from '../domain/types'
+import { POKEMON_TYPES, typeEffectiveness } from '../domain/types'
 import type { Move } from '../domain/entities'
-import { createBattlePokemon } from '../domain/entities'
+import { baseStatTotal, createBattlePokemon } from '../domain/entities'
 
 // MOVES is `as const`, so Object.values gives a union of literal shapes rather
 // than Move; widen it once here.
@@ -34,7 +34,8 @@ describe('the roster', () => {
 })
 
 describe('every species is fit to fight', () => {
-  it.each(SPECIES_LIST.map((species) => [species.name, species] as const))(
+  // ALL_SPECIES, so the boss is held to the same standard as the roster.
+  it.each(ALL_SPECIES.map((species) => [species.name, species] as const))(
     '%s',
     (_name, species) => {
       expect(species.types.length).toBeGreaterThanOrEqual(1)
@@ -89,10 +90,47 @@ describe('the move list', () => {
   })
 
   it('is all reachable from some species', () => {
-    const known = new Set(SPECIES_LIST.flatMap((s) => s.moves.map((m) => m.id)))
+    const known = new Set(ALL_SPECIES.flatMap((s) => s.moves.map((m) => m.id)))
     const orphans = ALL_MOVES.filter((move) => !known.has(move.id)).map(
       (move) => move.name,
     )
     expect(orphans).toEqual([])
+  })
+})
+
+describe('the boss', () => {
+  it('is kept out of everything a run draws from', () => {
+    const roster = new Set(SPECIES_LIST.map((species) => species.id))
+    for (const boss of BOSS_LIST) expect(roster.has(boss.id)).toBe(false)
+  })
+
+  it('exists, and appears in the full list alongside the roster', () => {
+    expect(BOSS_LIST.length).toBeGreaterThan(0)
+    expect(ALL_SPECIES).toHaveLength(SPECIES_LIST.length + BOSS_LIST.length)
+  })
+
+  it('outclasses anything the player can draft', () => {
+    const strongest = Math.max(...SPECIES_LIST.map(baseStatTotal))
+    for (const boss of BOSS_LIST) expect(baseStatTotal(boss)).toBeGreaterThan(strongest)
+  })
+
+  it('is answerable: something in the roster hits it hard', () => {
+    for (const boss of BOSS_LIST) {
+      const answers = SPECIES_LIST.filter((species) =>
+        species.moves.some(
+          (move) =>
+            move.category !== 'status' && typeEffectiveness(move.type, boss.types) > 1,
+        ),
+      )
+      // Not every draft will offer one, which is the point of the coverage
+      // line on the draft cards -- but the answer has to exist to be looked for.
+      expect(answers.length).toBeGreaterThan(2)
+    }
+  })
+
+  it('keys each entry by its own id', () => {
+    for (const [key, species] of Object.entries(BOSS_SPECIES)) {
+      expect(species.id).toBe(key)
+    }
   })
 })

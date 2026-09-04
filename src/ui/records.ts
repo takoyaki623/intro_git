@@ -1,6 +1,6 @@
 import type { BattlePokemon } from '../domain/entities'
 import type { RunState } from '../domain/run'
-import { SPECIES } from '../data/species'
+import { ALL_SPECIES } from '../data/species'
 
 const KEY = 'pokemon-battle:best'
 /** Bumped when the shape below changes, so an old record is dropped, not misread. */
@@ -18,6 +18,8 @@ export interface BestRun {
   readonly party: readonly RecordedPokemon[]
   /** ISO date, for showing when the record was set. */
   readonly achievedOn: string
+  /** Whether the run went all the way. Absent in older records; read as false. */
+  readonly cleared: boolean
 }
 
 interface StoredBest extends BestRun {
@@ -49,10 +51,15 @@ export function loadBest(storage: Storage = localStorage): BestRun | null {
     ...member,
     name:
       member.name ??
-      Object.values(SPECIES).find((s) => s.id === member.speciesId)?.name ??
+      ALL_SPECIES.find((s) => s.id === member.speciesId)?.name ??
       member.speciesId,
   }))
-  return { wins: stored.wins, party, achievedOn: stored.achievedOn }
+  return {
+    wins: stored.wins,
+    party,
+    achievedOn: stored.achievedOn,
+    cleared: stored.cleared === true,
+  }
 }
 
 /**
@@ -77,6 +84,7 @@ export function recordRun(
     wins: run.wins,
     party: run.battle.player.members.map(record),
     achievedOn: today().toISOString().slice(0, 10),
+    cleared: run.cleared,
   }
   try {
     storage.setItem(KEY, JSON.stringify(fresh))

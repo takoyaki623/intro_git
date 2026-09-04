@@ -13,7 +13,12 @@ import type { ItemKind } from './items'
  * damage figure to animate, say -- without parsing a sentence to find it.
  */
 export type BattleEvent =
-  | { readonly kind: 'encounter'; readonly pokemon: string }
+  | {
+      readonly kind: 'encounter'
+      readonly pokemon: string
+      /** Set for the last battle of a run, which announces itself. */
+      readonly final?: boolean
+    }
   | {
       readonly kind: 'useMove'
       readonly side: Side

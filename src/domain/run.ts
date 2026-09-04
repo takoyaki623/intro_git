@@ -6,7 +6,7 @@ import type { Random } from './damage'
 import type { RewardKind } from './rewards'
 import { applyReward, offerRewards } from './rewards'
 import { sample } from './sample'
-import { SPECIES_LIST } from '../data/species'
+import { BOSS_LIST, SPECIES_LIST } from '../data/species'
 
 /**
  * The knobs that decide how long and how punishing a run is. Everything about
@@ -38,6 +38,19 @@ export const RUN_CONFIG = {
   healingBetweenBattles: 0.35,
   /** How many Pokemon each side fields. */
   partySize: 3,
+  /**
+   * Battles in a run. Win them all and the run is cleared.
+   *
+   * A streak with no finish line only ever answers "how long until you die",
+   * which makes every reward a question about surviving one more battle. A
+   * fixed length turns it into "what do I need by the last one".
+   *
+   * Six, measured rather than guessed. A competent run reaches the last battle
+   * about one time in three and wins it about one in five, so most runs still
+   * end short -- but the boss is content, and at eight battles only one run in
+   * five ever saw it.
+   */
+  battlesToClear: 6,
 } as const
 
 export interface RunState {
@@ -53,14 +66,38 @@ export interface RunState {
    * render would reshuffle the choices under the player's finger.
    */
   readonly offer: readonly RewardKind[] | null
+  /** Set once the last battle has been won. The run is over, and it was won. */
+  readonly cleared: boolean
 }
 
 export function opponentLevel(wins: number): number {
   return RUN_CONFIG.opponentStartingLevel + wins * RUN_CONFIG.levelStepPerWin
 }
 
+/**
+ * True while the battle in front of a player on `wins` wins is the last one.
+ *
+ * Takes the wins rather than the run so the UI, the opponent maker and the
+ * clear check all read the same rule off the same number.
+ */
+export function isFinalBattle(wins: number): boolean {
+  return wins === RUN_CONFIG.battlesToClear - 1
+}
+
+/**
+ * The last battle is one Pokemon, not three.
+ *
+ * Three at the same level would just be a slightly longer version of the seven
+ * battles before it. One that outclasses anything the player can draft reads as
+ * a wall, and the party's three bodies against its one is what makes the fight
+ * winnable -- the player spends Pokemon to get through it.
+ */
 function makeOpponent(wins: number, random: Random): TeamState {
   const level = opponentLevel(wins)
+  if (isFinalBattle(wins)) {
+    const [boss] = sample(BOSS_LIST, 1, random)
+    if (boss) return createTeam([createBattlePokemon(boss, level)])
+  }
   const roster = sample(SPECIES_LIST, RUN_CONFIG.partySize, random)
   return createTeam(roster.map((species) => createBattlePokemon(species, level)))
 }
@@ -106,16 +143,26 @@ export function startRun(
   roster?: readonly Species[],
 ): RunState {
   return {
-    battle: createBattle(makePlayerTeam(random, roster), makeOpponent(0, random)),
+    battle: createBattle(
+      makePlayerTeam(random, roster),
+      makeOpponent(0, random),
+      isFinalBattle(0),
+    ),
     wins: 0,
     finished: false,
     offer: null,
+    cleared: false,
   }
 }
 
-/** True once the player has won and the next opponent is waiting. */
+/**
+ * True once the player has won and the next opponent is waiting.
+ *
+ * False after the last battle: there is no next opponent, and no reward worth
+ * choosing for a run that is already over.
+ */
 export function canAdvance(run: RunState): boolean {
-  return !run.finished && run.battle.winner === 'player'
+  return !run.finished && !run.cleared && run.battle.winner === 'player'
 }
 
 /**
@@ -130,12 +177,33 @@ export function withOffer(run: RunState, random: Random = Math.random): RunState
   return { ...run, offer: offerRewards(run.battle.player.members, random) }
 }
 
-/** Fold a battle's new state back into the run, noticing a win or a loss. */
+/**
+ * Fold a battle's new state back into the run, noticing a win, a loss, or the
+ * clear.
+ *
+ * Winning the last battle counts the win here rather than in `advance`, because
+ * there is nothing to advance to: the run ends on the victory itself.
+ */
 export function withBattle(
   run: RunState,
   battle: BattleState,
   random: Random = Math.random,
 ): RunState {
+  if (
+    !run.finished &&
+    !run.cleared &&
+    battle.winner === 'player' &&
+    isFinalBattle(run.wins)
+  ) {
+    return {
+      ...run,
+      battle,
+      wins: run.wins + 1,
+      cleared: true,
+      finished: true,
+      offer: null,
+    }
+  }
   return withOffer({ ...run, battle, finished: battle.winner === 'opponent' }, random)
 }
 
@@ -167,9 +235,10 @@ export function advance(
   const rested = withActive(createTeam(members), Math.max(0, lead))
 
   return {
-    battle: createBattle(rested, makeOpponent(wins, random)),
+    battle: createBattle(rested, makeOpponent(wins, random), isFinalBattle(wins)),
     wins,
     finished: false,
     offer: null,
+    cleared: false,
   }
 }

@@ -42,11 +42,20 @@ export interface BattleState {
 
 const other = (side: Side): Side => (side === 'player' ? 'opponent' : 'player')
 
-export function createBattle(player: TeamState, opponent: TeamState): BattleState {
+/**
+ * `final` only reaches the opening line. The battle itself plays the same
+ * either way -- what makes the last one hard is who is standing in it, not a
+ * rule change -- so the rest of this file never looks at it.
+ */
+export function createBattle(
+  player: TeamState,
+  opponent: TeamState,
+  final = false,
+): BattleState {
   const opening: BattleState = {
     player,
     opponent,
-    events: [{ kind: 'encounter', pokemon: activePokemon(opponent).species.name }],
+    events: [{ kind: 'encounter', pokemon: activePokemon(opponent).species.name, final }],
     winner: null,
     awaitingSwitch: null,
   }

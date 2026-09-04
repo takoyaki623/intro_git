@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { clearBest, loadBest, recordRun } from './records'
-import { startRun } from '../domain/run'
+import { RUN_CONFIG, startRun } from '../domain/run'
 import { fixedRandom } from '../test/rng'
 
 function memoryStorage(): Storage {
@@ -118,5 +118,28 @@ describe('loadBest', () => {
     recordRun(runWith(3), storage, onJan)
     clearBest(storage)
     expect(loadBest(storage)).toBeNull()
+  })
+})
+
+describe('a cleared run in the book', () => {
+  it('is marked as cleared', () => {
+    recordRun({ ...runWith(RUN_CONFIG.battlesToClear), cleared: true }, storage)
+    expect(loadBest(storage)?.cleared).toBe(true)
+  })
+
+  it('is not marked when the run merely ended', () => {
+    recordRun(runWith(3), storage)
+    expect(loadBest(storage)?.cleared).toBe(false)
+  })
+
+  it('reads a record written before runs could be cleared as uncleared', () => {
+    recordRun(runWith(3), storage)
+    const stored = JSON.parse(storage.getItem('pokemon-battle:best')!) as Record<
+      string,
+      unknown
+    >
+    delete stored.cleared
+    storage.setItem('pokemon-battle:best', JSON.stringify(stored))
+    expect(loadBest(storage)?.cleared).toBe(false)
   })
 })
