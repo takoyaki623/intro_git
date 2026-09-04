@@ -1,4 +1,4 @@
-import type { BattlePokemon, Side, TeamState } from '../domain/entities'
+import type { BattlePokemon, Side, Species, TeamState } from '../domain/entities'
 import {
   activePokemon,
   createBattlePokemon,
@@ -11,7 +11,9 @@ import { ITEM_KINDS } from '../domain/items'
 import type { BattleState } from '../domain/battle'
 import type { RunState } from '../domain/run'
 import type { RewardKind } from '../domain/rewards'
-import { REWARD_CONFIG } from '../domain/rewards'
+import { REWARD_CONFIG, REWARD_KINDS } from '../domain/rewards'
+import type { DraftState } from '../domain/draft'
+import { DRAFT_CONFIG } from '../domain/draft'
 import { SPECIES } from '../data/species'
 
 const KEY = 'pokemon-battle:run'
@@ -129,9 +131,10 @@ export function loadRun(storage: Storage = localStorage): RunState | null {
     winner: stored.winner ?? null,
     awaitingSwitch: stored.awaitingSwitch ?? null,
   }
-  const kinds: readonly RewardKind[] = ['heal', 'revive', 'levelUp', 'recruit']
+  // Against REWARD_KINDS rather than a list copied out here, which had gone
+  // stale and was quietly dropping a saved item reward.
   const offer = Array.isArray(stored.offer)
-    ? stored.offer.filter((kind): kind is RewardKind => kinds.includes(kind))
+    ? stored.offer.filter((kind): kind is RewardKind => REWARD_KINDS.includes(kind))
     : null
 
   return {
@@ -145,6 +148,72 @@ export function loadRun(storage: Storage = localStorage): RunState | null {
 export function clearRun(storage: Storage = localStorage): void {
   try {
     storage.removeItem(KEY)
+  } catch {
+    // Nothing useful to do if the store refuses.
+  }
+}
+
+const DRAFT_KEY = 'pokemon-battle:draft'
+
+interface StoredDraft {
+  readonly version: number
+  readonly candidateIds: readonly string[]
+  readonly pickedIds: readonly string[]
+}
+
+/**
+ * The draft is saved the moment it is dealt, before a single pick.
+ *
+ * Otherwise a reload during the choice would deal six fresh candidates, and a
+ * player who did not like their offer could reload until they did -- which
+ * would put the run back in the hands of the draw the draft exists to tame.
+ */
+export function saveDraft(draft: DraftState, storage: Storage = localStorage): void {
+  const payload: StoredDraft = {
+    version: VERSION,
+    candidateIds: draft.candidates.map((species) => species.id),
+    pickedIds: draft.picked,
+  }
+  try {
+    storage.setItem(DRAFT_KEY, JSON.stringify(payload))
+  } catch {
+    // A blocked store costs a re-deal at worst; not worth blocking the screen.
+  }
+}
+
+/** The draft in progress, or null if there is none or it cannot be read. */
+export function loadDraft(storage: Storage = localStorage): DraftState | null {
+  let stored: StoredDraft
+  try {
+    const raw = storage.getItem(DRAFT_KEY)
+    if (!raw) return null
+    stored = JSON.parse(raw) as StoredDraft
+  } catch {
+    return null
+  }
+
+  if (stored?.version !== VERSION) return null
+  if (!Array.isArray(stored.candidateIds) || !Array.isArray(stored.pickedIds)) return null
+
+  const candidates = stored.candidateIds.map((id) =>
+    Object.values(SPECIES).find((species) => species.id === id),
+  )
+  if (candidates.length === 0 || candidates.some((species) => !species)) return null
+
+  const found = candidates as Species[]
+  const ids = new Set(found.map((species) => species.id))
+  // A pick for a species not on the table would let a tampered save field
+  // anything at all, so the picks are trusted only as far as the candidates go.
+  const picked = stored.pickedIds
+    .filter((id): id is string => typeof id === 'string' && ids.has(id))
+    .slice(0, DRAFT_CONFIG.picks)
+
+  return { candidates: found, picked: [...new Set(picked)] }
+}
+
+export function clearDraft(storage: Storage = localStorage): void {
+  try {
+    storage.removeItem(DRAFT_KEY)
   } catch {
     // Nothing useful to do if the store refuses.
   }

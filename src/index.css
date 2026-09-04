@@ -608,6 +608,89 @@ h1 {
   font-size: 0.9rem;
 }
 
+.draft {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.draft h2 {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.draft-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+.draft-grid button {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.55rem 0.6rem;
+  background: var(--bg);
+  color: inherit;
+  border: 1px solid var(--border);
+  border-radius: 0.6rem;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.draft-grid button:hover {
+  border-color: var(--accent);
+}
+
+.draft-grid button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Taken cards are marked by more than colour: the pick's number sits in the
+   corner, so the choice reads without relying on hue. */
+.draft-grid button[data-picked] {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.candidate-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.4rem;
+}
+
+.pick-order {
+  flex: none;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.draft .confirm {
+  padding: 0.6rem 1rem;
+  border: 0;
+  border-radius: 0.6rem;
+  background: var(--accent);
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+
+.draft .confirm:disabled {
+  background: var(--border);
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
 /* Only the narrowest phones drop to one column. At 24rem this caught a 375px
    iPhone and stacked seven buttons, which pushed everything below the fold. */
 @media (max-width: 20rem) {
@@ -616,6 +699,10 @@ h1 {
   }
 
   .switch-row {
+    grid-template-columns: 1fr;
+  }
+
+  .draft-grid {
     grid-template-columns: 1fr;
   }
 }

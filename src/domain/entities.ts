@@ -63,6 +63,14 @@ export interface BattlePokemon {
 }
 
 /**
+ * The sum of the six base stats -- the single number that best predicts how a
+ * run goes, so the draft shows it rather than making the player add it up.
+ */
+export function baseStatTotal(species: Species): number {
+  return Object.values(species.baseStats).reduce((total, value) => total + value, 0)
+}
+
+/**
  * Stats at a given level. IVs, EVs and natures are all left at zero for now --
  * adding them later only changes this function.
  */

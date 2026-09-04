@@ -1,4 +1,4 @@
-import type { Move } from '../domain/entities'
+import type { Move, Species } from '../domain/entities'
 import type { BattleEvent } from '../domain/events'
 import type { PokemonType } from '../domain/types'
 import type { StatusKind } from '../domain/status'
@@ -235,4 +235,20 @@ export function outcomeMessage(
   return winner === 'player'
     ? `${opponentName}を たおした！`
     : `${playerName}は たおれてしまった...`
+}
+
+/**
+ * The types a Pokemon can actually hit with, in the order its moves are listed
+ * and without repeats.
+ *
+ * The draft is a type decision, and a party's coverage is the thing that is
+ * hard to read off four move names at a glance.
+ */
+export function coverageSummary(species: Species): string | null {
+  const types = species.moves
+    .filter((move) => move.category !== 'status')
+    .map((move) => move.type)
+  const distinct = [...new Set(types)]
+  if (distinct.length === 0) return null
+  return distinct.map((type) => TYPE_NAMES[type]).join('・')
 }

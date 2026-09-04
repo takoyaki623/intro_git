@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test'
+import type { Page } from '@playwright/test'
 import { RUN_CONFIG, opponentLevel } from '../src/domain/run'
+import { DRAFT_CONFIG } from '../src/domain/draft'
 
 /**
  * A fixed starting position, written straight into the save the app reads.
@@ -56,6 +58,15 @@ const SEED = {
       },
     ],
   },
+}
+
+/** Take the first three candidates on the table and start the run. */
+async function draft(page: Page) {
+  const panel = page.getByTestId('draft-candidates')
+  for (let i = 0; i < DRAFT_CONFIG.picks; i++) {
+    await panel.getByRole('button').nth(i).click()
+  }
+  await page.getByRole('button', { name: 'この てもちで はじめる' }).click()
 }
 
 test.beforeEach(async ({ page }) => {
@@ -212,8 +223,10 @@ test('決着がつき、勝てば連戦・負ければ最初から', async ({ pa
     )
   } else {
     await page.getByRole('button', { name: 'はじめから' }).click()
+    // A new run starts at the draft, so the party is picked before it exists.
+    await expect(page.getByRole('region', { name: 'てもちを えらぶ' })).toBeVisible()
+    await draft(page)
     await expect(page.getByTestId('run-status')).toContainText('れんしょう 0')
-    // The party is dealt, so check that it is untouched rather than who it is.
     await expect(page.getByTestId('player-hp')).toHaveText(/^(\d+) \/ \1 HP$/)
   }
 })
@@ -407,4 +420,79 @@ test('戦闘中にコンソールエラーが出ない', async ({ page }) => {
   }
 
   expect(errors).toEqual([])
+})
+
+test.describe('ドラフト', () => {
+  // The saved run from the outer beforeEach would skip the draft entirely.
+  test.beforeEach(async ({ page }) => {
+    await page.evaluate(() => localStorage.clear())
+    await page.reload()
+  })
+
+  test('セーブがなければ 6 匹から 3 匹えらんでから始まる', async ({ page }) => {
+    await expect(page.getByRole('region', { name: 'てもちを えらぶ' })).toBeVisible()
+    const panel = page.getByTestId('draft-candidates')
+    await expect(panel.getByRole('button')).toHaveCount(DRAFT_CONFIG.candidates)
+    await expect(page.getByRole('region', { name: 'わざ' })).toHaveCount(0)
+
+    const start = page.getByRole('button', { name: 'この てもちで はじめる' })
+    await expect(start).toBeDisabled()
+
+    const names: string[] = []
+    for (let i = 0; i < DRAFT_CONFIG.picks; i++) {
+      const candidate = panel.getByRole('button').nth(i)
+      names.push((await candidate.locator('strong').textContent()) ?? '')
+      await candidate.click()
+      await expect(candidate).toHaveAttribute('aria-pressed', 'true')
+    }
+    await expect(start).toBeEnabled()
+    await start.click()
+
+    await expect(page.getByTestId('run-status')).toContainText('れんしょう 0')
+    await expect(page.getByTestId('player-team')).toHaveAttribute(
+      'aria-label',
+      'てもち のこり 3',
+    )
+    // The first one taken leads the first battle.
+    await expect(page.getByTestId('player-card')).toContainText(names[0]!)
+  })
+
+  test('もう一度おすと選択がもどる', async ({ page }) => {
+    const first = page.getByTestId('draft-candidates').getByRole('button').first()
+    await first.click()
+    await expect(first).toHaveAttribute('aria-pressed', 'true')
+    await first.click()
+    await expect(first).toHaveAttribute('aria-pressed', 'false')
+    await expect(
+      page.getByRole('button', { name: 'この てもちで はじめる' }),
+    ).toBeDisabled()
+  })
+
+  test('リロードしても 候補は引き直せない', async ({ page }) => {
+    const panel = page.getByTestId('draft-candidates')
+    const dealt = await panel.getByRole('button').locator('strong').allTextContents()
+
+    await page.reload()
+    expect(await panel.getByRole('button').locator('strong').allTextContents()).toEqual(
+      dealt,
+    )
+  })
+
+  test('小さい画面でも 6 匹ぜんぶ見える', async ({ page }) => {
+    // Same 375x667 phone the battle screen is held to: a choice the player
+    // cannot see all of is not a choice.
+    await page.setViewportSize({ width: 375, height: 667 })
+    await page.reload()
+
+    const seen = await page.evaluate(() => {
+      const box = document.querySelector('.draft')?.getBoundingClientRect()
+      if (!box) return 0
+      const visible = Math.max(
+        0,
+        Math.min(innerHeight, box.bottom) - Math.max(0, box.top),
+      )
+      return visible / box.height
+    })
+    expect(seen).toBe(1)
+  })
 })

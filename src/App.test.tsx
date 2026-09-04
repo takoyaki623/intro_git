@@ -9,6 +9,7 @@ import { createBattlePokemon, createTeam } from './domain/entities'
 import { SPECIES } from './data/species'
 import { RUN_CONFIG } from './domain/run'
 import { REWARD_CONFIG } from './domain/rewards'
+import { DRAFT_CONFIG } from './domain/draft'
 import { saveRun } from './ui/storage'
 import { fixedRandom } from './test/rng'
 
@@ -43,6 +44,17 @@ async function advanceTurn(user: UserEvent): Promise<boolean> {
   return true
 }
 
+const draftPanel = () => screen.queryByRole('region', { name: 'てもちを えらぶ' })
+
+/** Take the first three candidates on the table and start the run. */
+async function completeDraft(user: UserEvent) {
+  const panel = draftPanel()
+  if (!panel) throw new Error('the draft screen is not showing')
+  const candidates = within(panel).getAllByRole('button').slice(0, DRAFT_CONFIG.picks)
+  for (const candidate of candidates) await user.click(candidate)
+  await user.click(screen.getByRole('button', { name: 'この てもちで はじめる' }))
+}
+
 const party = (
   ids: readonly (keyof typeof SPECIES)[],
   level: number = RUN_CONFIG.playerLevel,
@@ -68,23 +80,98 @@ function seed(patch: (run: RunState) => RunState = (run) => run) {
 }
 
 describe('an unsaved run', () => {
-  it('deals a fresh party and starts the streak at zero', () => {
+  it('opens on the draft rather than a battle', () => {
     render(<App />)
-    // The party is dealt, so assert its shape rather than who turned up.
+    expect(draftPanel()).toBeInTheDocument()
+    expect(movePanel()).toBeNull()
+    expect(within(draftPanel()!).getAllByRole('button')).toHaveLength(
+      DRAFT_CONFIG.candidates + 1,
+    )
+  })
+
+  it('will not start until a full party is picked', async () => {
+    const user = userEvent.setup()
+    render(<App />)
+    const start = screen.getByRole('button', { name: 'この てもちで はじめる' })
+    expect(start).toBeDisabled()
+
+    const candidates = within(draftPanel()!).getAllByRole('button')
+    await user.click(candidates[0]!)
+    await user.click(candidates[1]!)
+    expect(start).toBeDisabled()
+
+    await user.click(candidates[2]!)
+    expect(start).toBeEnabled()
+  })
+
+  it('puts a candidate back when it is tapped again', async () => {
+    const user = userEvent.setup()
+    render(<App />)
+    const first = within(draftPanel()!).getAllByRole('button')[0]!
+
+    await user.click(first)
+    expect(first).toHaveAttribute('aria-pressed', 'true')
+    await user.click(first)
+    expect(first).toHaveAttribute('aria-pressed', 'false')
+  })
+
+  it('starts the streak at zero with the party that was picked', async () => {
+    const user = userEvent.setup()
+    render(<App />)
+    const names = within(draftPanel()!)
+      .getAllByRole('button')
+      .slice(0, DRAFT_CONFIG.picks)
+      .map((button) => button.querySelector('strong')?.textContent)
+
+    await completeDraft(user)
+
     expect(screen.getByTestId('run-status')).toHaveTextContent('れんしょう 0')
     expect(screen.getByTestId('player-team')).toHaveAccessibleName('てもち のこり 3')
     expect(screen.getByTestId('player-hp').textContent).toMatch(/^(\d+) \/ \1 HP$/)
+    // The first one taken leads, and the rest are on the bench in pick order.
+    const bench = within(switchPanel()!)
+      .getAllByRole('button')
+      .map((button) => button.querySelector('strong')?.textContent)
+    expect(bench).toEqual(names)
   })
 
-  it('deals different parties across runs', () => {
+  it('deals different candidates across runs', () => {
     const dealt = new Set<string>()
     for (let i = 0; i < 25; i++) {
       localStorage.clear()
       const { unmount } = render(<App />)
-      dealt.add(within(switchPanel()!).getAllByRole('button')[0]!.textContent ?? '')
+      dealt.add(within(draftPanel()!).getAllByRole('button')[0]!.textContent ?? '')
       unmount()
     }
     expect(dealt.size).toBeGreaterThan(1)
+  })
+
+  it('holds the same candidates across a reload, so the offer cannot be re-rolled', () => {
+    const first = render(<App />)
+    const dealt = within(draftPanel()!)
+      .getAllByRole('button')
+      .map((button) => button.textContent)
+    first.unmount()
+
+    render(<App />)
+    expect(
+      within(draftPanel()!)
+        .getAllByRole('button')
+        .map((button) => button.textContent),
+    ).toEqual(dealt)
+  })
+
+  it('keeps the picks made so far across a reload', async () => {
+    const user = userEvent.setup()
+    const first = render(<App />)
+    await user.click(within(draftPanel()!).getAllByRole('button')[0]!)
+    first.unmount()
+
+    render(<App />)
+    expect(within(draftPanel()!).getAllByRole('button')[0]!).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    )
   })
 })
 
@@ -307,11 +394,15 @@ describe('losing a run', () => {
     expect(screen.getByRole('button', { name: 'はじめから' })).toBeInTheDocument()
   })
 
-  it('starts over with a clean party and no streak', async () => {
+  it('starts over at a fresh draft, not straight into a battle', async () => {
     const user = userEvent.setup()
     render(<App />)
     await user.click(screen.getByRole('button', { name: 'はじめから' }))
 
+    expect(draftPanel()).toBeInTheDocument()
+    expect(localStorage.getItem('pokemon-battle:run')).toBeNull()
+
+    await completeDraft(user)
     expect(screen.getByTestId('run-status')).toHaveTextContent('れんしょう 0')
     expect(screen.getByTestId('player-hp').textContent).toMatch(/^(\d+) \/ \1 HP$/)
     expect(screen.getByTestId('player-team')).toHaveAccessibleName('てもち のこり 3')
@@ -351,6 +442,7 @@ describe('playing a battle out', () => {
   it('reaches a decision one way or the other', async () => {
     const user = userEvent.setup()
     render(<App />)
+    await completeDraft(user)
 
     for (let i = 0; i < 80; i++) if (!(await advanceTurn(user))) break
 

@@ -1,6 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { clearRun, loadRun, saveRun } from './storage'
+import { clearDraft, clearRun, loadDraft, loadRun, saveDraft, saveRun } from './storage'
 import { advance, startRun, withBattle } from '../domain/run'
+import { DRAFT_CONFIG, startDraft, togglePick } from '../domain/draft'
+import type { RewardKind } from '../domain/rewards'
 import { activePokemon } from '../domain/entities'
 import { fixedRandom } from '../test/rng'
 
@@ -167,5 +169,95 @@ describe('a storage that refuses to cooperate', () => {
       }),
     }
     expect(loadRun(broken as Storage)).toBeNull()
+  })
+})
+
+describe('a saved reward offer', () => {
+  it('comes back whole, every kind included', () => {
+    const run = startRun(fixedRandom(0.3))
+    // Held straight rather than played out to a win: the point is the filter
+    // on load, which was dropping an item offer against a stale kind list.
+    saveRun({ ...run, offer: ['item', 'levelUp', 'recruit'] }, storage)
+    expect(loadRun(storage)?.offer).toEqual(['item', 'levelUp', 'recruit'])
+  })
+
+  it('drops a kind the game no longer has', () => {
+    const run = startRun(fixedRandom(0.3))
+    saveRun({ ...run, offer: ['heal', 'teleport' as RewardKind] }, storage)
+    expect(loadRun(storage)?.offer).toEqual(['heal'])
+  })
+})
+
+describe('saveDraft and loadDraft', () => {
+  const dealt = () => startDraft(fixedRandom(0.3))
+
+  it('returns null when nothing is stored', () => {
+    expect(loadDraft(storage)).toBeNull()
+  })
+
+  it('brings back the same candidates, in the same order', () => {
+    const draft = dealt()
+    saveDraft(draft, storage)
+    expect(loadDraft(storage)?.candidates.map((s) => s.id)).toEqual(
+      draft.candidates.map((s) => s.id),
+    )
+  })
+
+  it('brings back the picks made so far', () => {
+    const draft = dealt()
+    const picked = togglePick(draft, draft.candidates[1]!.id)
+    saveDraft(picked, storage)
+    expect(loadDraft(storage)?.picked).toEqual(picked.picked)
+  })
+
+  it('forgets the draft once it is cleared', () => {
+    saveDraft(dealt(), storage)
+    clearDraft(storage)
+    expect(loadDraft(storage)).toBeNull()
+  })
+
+  it('drops a save it cannot parse', () => {
+    storage.setItem('pokemon-battle:draft', '{ not json')
+    expect(loadDraft(storage)).toBeNull()
+  })
+
+  it('drops a save naming a species the game does not have', () => {
+    const draft = dealt()
+    saveDraft(draft, storage)
+    const stored = JSON.parse(storage.getItem('pokemon-battle:draft')!) as {
+      candidateIds: string[]
+    }
+    stored.candidateIds[0] = 'onix-prime'
+    storage.setItem('pokemon-battle:draft', JSON.stringify(stored))
+    expect(loadDraft(storage)).toBeNull()
+  })
+
+  it('ignores a pick for a species that is not on the table', () => {
+    const draft = dealt()
+    saveDraft({ ...draft, picked: ['onix-prime'] }, storage)
+    expect(loadDraft(storage)?.picked).toEqual([])
+  })
+
+  it('will not restore more picks than a party holds', () => {
+    const draft = dealt()
+    saveDraft({ ...draft, picked: draft.candidates.map((s) => s.id) }, storage)
+    expect(loadDraft(storage)?.picked).toHaveLength(DRAFT_CONFIG.picks)
+  })
+
+  it('drops a duplicated pick rather than fielding one twice', () => {
+    const draft = dealt()
+    const id = draft.candidates[0]!.id
+    saveDraft({ ...draft, picked: [id, id] }, storage)
+    expect(loadDraft(storage)?.picked).toEqual([id])
+  })
+
+  it('survives a store that refuses to write', () => {
+    const blocked = {
+      ...memoryStorage(),
+      setItem: () => {
+        throw new Error('full')
+      },
+    }
+    expect(() => saveDraft(dealt(), blocked)).not.toThrow()
   })
 })

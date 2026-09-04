@@ -8,6 +8,8 @@ import {
 } from './domain/battle'
 import { chooseOpponentAction, scoreMove } from './domain/ai'
 import { advance, canAdvance, startRun, withBattle } from './domain/run'
+import { DRAFT_CONFIG, startDraft } from './domain/draft'
+import { baseStatTotal, type Species } from './domain/entities'
 
 type Player = (battle: BattleState) => TurnAction | null
 
@@ -45,8 +47,38 @@ const bestMoveAndSwitch: Player = (battle) => {
   return bestMove(battle)
 }
 
-function playRun(player: Player, opponentRandom: () => number): number {
-  let run = startRun(Math.random)
+/** How a run's party is assembled: dealt at random, or drafted from an offer. */
+type Deal = () => readonly Species[] | undefined
+
+/** The party the game deals when nobody drafts. */
+const dealt: Deal = () => undefined
+
+/**
+ * Six offered, the three highest base stat totals taken -- a stand-in for a
+ * player who reads the numbers on the cards.
+ */
+const draftByStats: Deal = () =>
+  [...startDraft().candidates]
+    .sort((a, b) => baseStatTotal(b) - baseStatTotal(a))
+    .slice(0, DRAFT_CONFIG.picks)
+
+/** One run's result: how far it got, and what it was holding when it started. */
+interface Outcome {
+  readonly wins: number
+  /** The party's combined base stat total -- the draw, as one number. */
+  readonly party: number
+}
+
+function playRun(
+  player: Player,
+  opponentRandom: () => number,
+  deal: Deal = dealt,
+): Outcome {
+  let run = startRun(Math.random, deal())
+  const party = run.battle.player.members.reduce(
+    (total, member) => total + baseStatTotal(member.species),
+    0,
+  )
   for (let turn = 0; turn < 4000; turn++) {
     if (run.finished) break
     if (canAdvance(run)) {
@@ -74,13 +106,27 @@ function playRun(player: Player, opponentRandom: () => number): number {
       ),
     )
   }
-  return run.wins
+  return { wins: run.wins, party }
 }
 
 const mean = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length
 
 const measure = (player: Player, opponentRandom: () => number, runs = 200) =>
-  mean(Array.from({ length: runs }, () => playRun(player, opponentRandom)))
+  mean(Array.from({ length: runs }, () => playRun(player, opponentRandom).wins))
+
+/**
+ * Mean wins per quartile of party strength.
+ *
+ * The gap between the first and last quartile is how much the party alone
+ * decides the run -- which is the number the draft exists to bring down.
+ */
+function byPartyQuartile(outcomes: readonly Outcome[]): number[] {
+  const sorted = [...outcomes].sort((a, b) => a.party - b.party)
+  const size = Math.floor(sorted.length / 4)
+  return [0, 1, 2, 3].map((quarter) =>
+    mean(sorted.slice(quarter * size, (quarter + 1) * size).map((o) => o.wins)),
+  )
+}
 
 /**
  * A measuring tool, not a test: it plays hundreds of runs with real randomness
@@ -109,5 +155,44 @@ describe.skipIf(!import.meta.env.VITE_SIM)('difficulty', () => {
       )
     }
     expect(rows).toHaveLength(3)
+  })
+})
+
+/**
+ * What the draft is for.
+ *
+ * The party the run was dealt used to decide it: sorted by base stat total, the
+ * quartiles came out 1.55 / 1.93 / 2.73 / 5.39 wins -- a 3.5x spread, against
+ * only 1.7x between a careless player and a competent one. Drafting cannot
+ * remove the luck, but choosing three of six should lift the floor and pull the
+ * quartiles together, which is what this measures.
+ */
+describe.skipIf(!import.meta.env.VITE_SIM)('the draft', () => {
+  it('narrows what the party alone decides', () => {
+    const runs = 1500
+    const rows = [
+      ['dealt three     ', dealt],
+      ['drafted 3 of 6  ', draftByStats],
+    ] as const
+
+    console.log(`\nwins per run (${runs} runs each, best move + switching)`)
+    console.log(
+      'party               mean   zero wins   by party strength (weakest to strongest)',
+    )
+    for (const [name, deal] of rows) {
+      const outcomes = Array.from({ length: runs }, () =>
+        playRun(bestMoveAndSwitch, Math.random, deal),
+      )
+      const wins = outcomes.map((outcome) => outcome.wins)
+      const blanked = wins.filter((count) => count === 0).length / wins.length
+      const quartiles = byPartyQuartile(outcomes)
+      console.log(
+        `${name}  ${mean(wins).toFixed(2).padStart(6)}   ${(blanked * 100)
+          .toFixed(0)
+          .padStart(8)}%   ${quartiles.map((q) => q.toFixed(2).padStart(5)).join(' ')}` +
+          `   spread ${(quartiles[3]! / quartiles[0]!).toFixed(1)}x`,
+      )
+    }
+    expect(rows).toHaveLength(2)
   })
 })

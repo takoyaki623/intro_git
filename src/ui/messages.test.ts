@@ -4,8 +4,10 @@ import { POKEMON_TYPES } from '../domain/types'
 import type { StatusKind } from '../domain/status'
 import { STAT_KEYS } from '../domain/stages'
 import { MOVES } from '../data/moves'
+import { SPECIES, SPECIES_LIST } from '../data/species'
 import {
   STAT_NAMES,
+  coverageSummary,
   STATUS_NAMES,
   TYPE_NAMES,
   formatEvent,
@@ -235,5 +237,31 @@ describe('move summaries', () => {
       expect(() => moveEffectSummary(move)).not.toThrow()
       expect(() => moveAccuracySummary(move)).not.toThrow()
     }
+  })
+})
+
+describe('coverageSummary', () => {
+  it('names the types a Pokemon can attack with', () => {
+    expect(coverageSummary(SPECIES.pikachu)).toBe('でんき・ノーマル・じめん')
+  })
+
+  it('leaves out status moves, which cover nothing', () => {
+    const bluffer = { ...SPECIES.charmander, moves: [MOVES.scratch, MOVES.thunderWave] }
+    expect(coverageSummary(bluffer)).toBe(TYPE_NAMES.normal)
+  })
+
+  it('names a type once however many moves share it', () => {
+    for (const species of SPECIES_LIST) {
+      const named = coverageSummary(species)?.split('・') ?? []
+      expect(new Set(named).size).toBe(named.length)
+    }
+  })
+
+  it('says nothing for a Pokemon with no attacking moves', () => {
+    const pacifist = {
+      ...SPECIES.pikachu,
+      moves: [MOVES.thunderWave],
+    }
+    expect(coverageSummary(pacifist)).toBeNull()
   })
 })

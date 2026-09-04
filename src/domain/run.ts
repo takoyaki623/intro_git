@@ -1,10 +1,11 @@
-import type { BattlePokemon, TeamState } from './entities'
+import type { BattlePokemon, Species, TeamState } from './entities'
 import { createBattlePokemon, createTeam, isFainted, withActive } from './entities'
 import type { BattleState } from './battle'
 import { createBattle } from './battle'
 import type { Random } from './damage'
 import type { RewardKind } from './rewards'
 import { applyReward, offerRewards } from './rewards'
+import { sample } from './sample'
 import { SPECIES_LIST } from '../data/species'
 
 /**
@@ -21,8 +22,12 @@ export const RUN_CONFIG = {
    * from the first turn gives an expected streak of about one -- measured, not
    * guessed. Opening below the player buys a few battles of room before the
    * ramp catches up and overtakes.
+   *
+   * Raised from 42 when the draft arrived: choosing three of six is worth a
+   * couple of extra wins on its own, and two levels gives most of that back
+   * without undoing what the draft is for -- runs that win nothing.
    */
-  opponentStartingLevel: 42,
+  opponentStartingLevel: 44,
   /** Added to the opponent's level for every win so far. */
   levelStepPerWin: 2,
   /**
@@ -50,17 +55,6 @@ export interface RunState {
   readonly offer: readonly RewardKind[] | null
 }
 
-/** Pick `count` distinct entries, without disturbing the pool it was given. */
-function sample<T>(pool: readonly T[], count: number, random: Random): T[] {
-  const remaining = [...pool]
-  const picked: T[] = []
-  while (picked.length < count && remaining.length > 0) {
-    const [item] = remaining.splice(Math.floor(random() * remaining.length), 1)
-    if (item) picked.push(item)
-  }
-  return picked
-}
-
 export function opponentLevel(wins: number): number {
   return RUN_CONFIG.opponentStartingLevel + wins * RUN_CONFIG.levelStepPerWin
 }
@@ -72,16 +66,19 @@ function makeOpponent(wins: number, random: Random): TeamState {
 }
 
 /**
- * The player's party, drawn fresh for each run.
+ * The player's party.
  *
- * A fixed trio makes every run open the same way and turns the type chart into
- * a solved problem. Dealing it means adapting to what came up, which is the
- * point of a run -- and sometimes the hand is poor, which is also the point.
+ * A drafted roster is used as given, in the order it was picked. Without one --
+ * a test, or a run started outside the draft -- the party is dealt at random,
+ * which is where the run started before the draft existed.
  */
-function makePlayerTeam(random: Random): TeamState {
-  const roster = sample(SPECIES_LIST, RUN_CONFIG.partySize, random)
+function makePlayerTeam(random: Random, roster?: readonly Species[]): TeamState {
+  const chosen =
+    roster && roster.length > 0
+      ? roster
+      : sample(SPECIES_LIST, RUN_CONFIG.partySize, random)
   return createTeam(
-    roster.map((species) => createBattlePokemon(species, RUN_CONFIG.playerLevel)),
+    chosen.map((species) => createBattlePokemon(species, RUN_CONFIG.playerLevel)),
   )
 }
 
@@ -104,9 +101,12 @@ export function restBetweenBattles(
   })
 }
 
-export function startRun(random: Random = Math.random): RunState {
+export function startRun(
+  random: Random = Math.random,
+  roster?: readonly Species[],
+): RunState {
   return {
-    battle: createBattle(makePlayerTeam(random), makeOpponent(0, random)),
+    battle: createBattle(makePlayerTeam(random, roster), makeOpponent(0, random)),
     wins: 0,
     finished: false,
     offer: null,

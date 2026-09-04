@@ -3,8 +3,18 @@ import { createBattlePokemon, isFainted, statsAtLevel } from './entities'
 import type { Random } from './damage'
 import { SPECIES_LIST } from '../data/species'
 import { ITEM_KINDS } from './items'
+import { sample } from './sample'
 
 export type RewardKind = 'heal' | 'revive' | 'levelUp' | 'recruit' | 'item'
+
+/** Every kind there is, for anything that has to validate one it was handed. */
+export const REWARD_KINDS = [
+  'heal',
+  'revive',
+  'levelUp',
+  'recruit',
+  'item',
+] as const satisfies readonly RewardKind[]
 
 export const REWARD_CONFIG = {
   /** How many are put in front of the player after a win. */
@@ -33,17 +43,6 @@ export function availableRewards(
   // Only worth offering while somebody still has empty hands.
   if (members.some((m) => !isFainted(m) && m.item === null)) kinds.push('item')
   return kinds
-}
-
-/** Pick `count` distinct entries, without disturbing the pool it was given. */
-function sample<T>(pool: readonly T[], count: number, random: Random): T[] {
-  const remaining = [...pool]
-  const picked: T[] = []
-  while (picked.length < count && remaining.length > 0) {
-    const [item] = remaining.splice(Math.floor(random() * remaining.length), 1)
-    if (item) picked.push(item)
-  }
-  return picked
 }
 
 export function offerRewards(
