@@ -14,14 +14,13 @@ export const DRAFT_CONFIG = {
 /**
  * The choice made before the first battle: six offered, three taken.
  *
- * A dealt party made the draw decide the run -- measured, not guessed: sorted
- * by the party's base stat total, the quartiles came out 1.13 to 4.06 wins,
- * while playing well moved a run far less. What the draft fixes is the floor,
- * not the spread: a bot taking the three strongest of six lifts the weakest
- * quartile 1.13 -> 1.57 and halves the runs that win nothing, 20% -> 9%, while
- * the top-to-bottom spread barely moves (3.6x -> 3.4x). So a strong party still
- * carries a run; the difference is that the player now chooses one rather than
- * being handed one.
+ * A dealt party swung a run hard -- measured, not guessed: sorted by the
+ * party's base stat total, the quartiles came out 1.14 to 3.62 wins. What the
+ * draft fixes is mostly the floor: a bot taking the three strongest of six
+ * lifts the weakest quartile to 1.67 and halves the runs that win nothing,
+ * 18% -> 8%, while the top-to-bottom spread only narrows 3.2x -> 2.6x. So a
+ * strong party still carries a run; the difference is that the player now
+ * chooses one rather than being handed one.
  */
 export interface DraftState {
   /** The six on the table, in the order they were dealt. */

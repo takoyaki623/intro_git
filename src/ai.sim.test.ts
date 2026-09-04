@@ -19,6 +19,20 @@ const firstMove: Player = (battle) => {
   return move ? { type: 'move', move } : null
 }
 
+/**
+ * Picks a legal move at random -- the floor for "does choosing a move matter".
+ *
+ * firstMove is not that floor: a fixed first slot is a policy, and a bad one,
+ * because the list often opens with the strongest move against nothing in
+ * particular. The gap between this and bestMove is what a turn's decision is
+ * actually worth.
+ */
+const anyMove: Player = (battle) => {
+  const moves = activePokemon(battle.player).species.moves
+  const move = moves[Math.floor(Math.random() * moves.length)]
+  return move ? { type: 'move', move } : null
+}
+
 /** Picks its best move, but never switches. */
 const bestMove: Player = (battle) => {
   const me = activePokemon(battle.player)
@@ -62,13 +76,15 @@ const draftByStats: Deal = () =>
     .sort((a, b) => baseStatTotal(b) - baseStatTotal(a))
     .slice(0, DRAFT_CONFIG.picks)
 
-/** One run's result: how far it got, and what it was holding when it started. */
 interface Outcome {
   readonly wins: number
   /** The party's combined base stat total -- the draw, as one number. */
   readonly party: number
+  /** Whether the run went the whole way. */
+  readonly cleared: boolean
 }
 
+/** One run's result: how far it got, and what it was holding when it started. */
 function playRun(
   player: Player,
   opponentRandom: () => number,
@@ -106,13 +122,10 @@ function playRun(
       ),
     )
   }
-  return { wins: run.wins, party }
+  return { wins: run.wins, party, cleared: run.cleared }
 }
 
 const mean = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length
-
-const measure = (player: Player, opponentRandom: () => number, runs = 200) =>
-  mean(Array.from({ length: runs }, () => playRun(player, opponentRandom).wins))
 
 /**
  * Mean wins per quartile of party strength.
@@ -136,25 +149,29 @@ function byPartyQuartile(outcomes: readonly Outcome[]): number[] {
  */
 describe.skipIf(!import.meta.env.VITE_SIM)('difficulty', () => {
   it('brackets it with players of different skill', () => {
-    // At or above AI_CONFIG.skill the opponent never uses its scoring.
-    const random = () => 0.995
-    const rows = [
-      ['first move only  ', measure(firstMove, Math.random), measure(firstMove, random)],
-      ['best move        ', measure(bestMove, Math.random), measure(bestMove, random)],
-      [
-        'best + switching ',
-        measure(bestMoveAndSwitch, Math.random),
-        measure(bestMoveAndSwitch, random),
-      ],
-    ] as const
-    console.log('\nwins per run (200 runs each)')
-    console.log('player              vs thinking   vs random')
-    for (const [name, smart, dumb] of rows) {
+    const runs = 800
+    // Drafted, because that is how a run actually starts now; a dealt party
+    // measures a game nobody plays.
+    const rows: [string, Player][] = [
+      ['random move     ', anyMove],
+      ['first slot only ', firstMove],
+      ['best move       ', bestMove],
+      ['best + switching', bestMoveAndSwitch],
+    ]
+    console.log(`\n${runs} drafted runs each, vs the thinking AI`)
+    console.log('player              mean   cleared')
+    for (const [name, player] of rows) {
+      const out = Array.from({ length: runs }, () =>
+        playRun(player, Math.random, draftByStats),
+      )
+      const cleared = out.filter((o) => o.cleared).length / out.length
       console.log(
-        `${name}   ${smart.toFixed(2).padStart(9)}   ${dumb.toFixed(2).padStart(9)}`,
+        `${name}   ${mean(out.map((o) => o.wins))
+          .toFixed(2)
+          .padStart(5)}   ` + `${(cleared * 100).toFixed(1).padStart(6)}%`,
       )
     }
-    expect(rows).toHaveLength(3)
+    expect(rows).toHaveLength(4)
   })
 })
 
