@@ -59,6 +59,12 @@ export interface Species {
   /** Not every species has one -- an ability is a trait, not a checkbox. */
   readonly ability?: AbilityKind
   readonly baseStats: Stats
+  /**
+   * Machine moves this species can be taught, beyond its own types and the
+   * universal ones. See `canLearn` -- this is the exceptions list, not the
+   * whole learnset.
+   */
+  readonly learns?: readonly string[]
   readonly moves: readonly Move[]
 }
 

@@ -6,6 +6,7 @@ import type { ItemKind } from './items'
 import { ITEM_KINDS } from './items'
 import { MOVE_LIST } from '../data/moves'
 import { sample } from './sample'
+import { canLearn } from './learnsets'
 
 export type RewardKind = 'heal' | 'revive' | 'levelUp' | 'recruit' | 'item' | 'teach'
 
@@ -91,8 +92,15 @@ export function targetsFor(
       .filter(({ member }) => !isFainted(member))
       .filter(({ member }) => {
         if (offer.kind === 'item') return member.item === null
-        if (offer.kind === 'teach')
-          return !member.moves.some((m) => m.id === offer.move.id)
+        if (offer.kind === 'teach') {
+          // Not just "does not know it" -- "could ever know it". Offering a
+          // move a species never learns is not a hard choice, it is a wrong
+          // one, and it was the first thing a player noticed.
+          return (
+            !member.moves.some((m) => m.id === offer.move.id) &&
+            canLearn(member.species, offer.move)
+          )
+        }
         return true
       })
       .map(({ index }) => index)
@@ -141,8 +149,16 @@ export function offerMove(
   members: readonly BattlePokemon[],
   random: Random = Math.random,
 ): Move | null {
-  const known = new Set(members.flatMap((member) => member.moves.map((m) => m.id)))
-  const pool = MOVE_LIST.filter((move) => !known.has(move.id))
+  // Somebody standing has to be able to take it, or the offer is a dud the
+  // player cannot act on.
+  const takers = members.filter((member) => !isFainted(member))
+  const pool = MOVE_LIST.filter((move) =>
+    takers.some(
+      (member) =>
+        !member.moves.some((known) => known.id === move.id) &&
+        canLearn(member.species, move),
+    ),
+  )
   return sample(pool, 1, random)[0] ?? null
 }
 
@@ -184,6 +200,7 @@ function levelled(member: BattlePokemon): BattlePokemon {
 function taught(member: BattlePokemon, move: Move, slot: number): BattlePokemon {
   if (slot < 0 || slot >= member.moves.length) return member
   if (member.moves.some((known) => known.id === move.id)) return member
+  if (!canLearn(member.species, move)) return member
   return {
     ...member,
     moves: member.moves.map((known, index) => (index === slot ? move : known)),

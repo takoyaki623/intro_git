@@ -8,8 +8,9 @@ import type { Move } from './entities'
 import { applyReward, offerMove, offerRewards, sameOffer } from './rewards'
 import { teachMove } from './rewards'
 import { sample } from './sample'
-import { FIRST_TIER, clampTier, tierLevelBonus } from './tiers'
+import { FIRST_TIER, clampTier, tierHeldItems, tierLevelBonus } from './tiers'
 import { BOSS_LIST, SPECIES_LIST } from '../data/species'
+import { ITEM_KINDS } from './items'
 
 /**
  * The knobs that decide how long and how punishing a run is. Everything about
@@ -109,14 +110,42 @@ export function isFinalBattle(wins: number): boolean {
  * a wall, and the party's three bodies against its one is what makes the fight
  * winnable -- the player spends Pokemon to get through it.
  */
+/**
+ * Hand out held items to the front of the opposing party.
+ *
+ * The front, not at random, so the player meets the item rather than finding
+ * out about it on the third Pokemon of a battle already decided.
+ */
+function armed(
+  members: readonly BattlePokemon[],
+  count: number,
+  random: Random,
+): readonly BattlePokemon[] {
+  if (count <= 0) return members
+  return members.map((member, index) => {
+    if (index >= count) return member
+    const [item] = sample(ITEM_KINDS, 1, random)
+    return item ? { ...member, item } : member
+  })
+}
+
 function makeOpponent(wins: number, tier: number, random: Random): TeamState {
   const level = opponentLevel(wins, tier)
+  const items = tierHeldItems(tier)
   if (isFinalBattle(wins)) {
     const [boss] = sample(BOSS_LIST, 1, random)
-    if (boss) return createTeam([createBattlePokemon(boss, level)])
+    if (boss) {
+      return createTeam(armed([createBattlePokemon(boss, level)], items, random))
+    }
   }
   const roster = sample(SPECIES_LIST, RUN_CONFIG.partySize, random)
-  return createTeam(roster.map((species) => createBattlePokemon(species, level)))
+  return createTeam(
+    armed(
+      roster.map((species) => createBattlePokemon(species, level)),
+      items,
+      random,
+    ),
+  )
 }
 
 /**

@@ -18,11 +18,29 @@ export const TIER_CONFIG = {
    * Added to the opposing party's starting level for each tier above the first.
    *
    * Three was the first try and made the top tier a wall: the same bot cleared
-   * tier 5 in 0.2% of runs, which is not difficulty, it is a closed door. At
-   * two the ladder roughly halves each step -- 26 / 14 / 8 / 4 / 4 percent --
-   * so every tier is harder than the last and none of them is impossible.
+   * tier 5 in 0.2% of runs, which is not difficulty, it is a closed door. Two
+   * gave a ladder that halved each step. One is where it landed once held
+   * items joined as a second axis: two knobs at two levels a tier stacked back
+   * into a wall (1.3% at the top), and dropping the levels to one gives
+   * 17 / 16 / 8 / 6 / 3 percent -- every rung harder than the last, none shut.
    */
-  levelStep: 2,
+  levelStep: 1,
+  /**
+   * Opposing Pokemon carrying a held item, at each tier above the first.
+   *
+   * The second axis, and it had to be one that costs the player something they
+   * carry forward. Measured, making the opponent play better is worth nothing:
+   * from half-random to always-best its skill moved the player's clear rate by
+   * two points, inside the noise. The reason is the same one that shapes the
+   * rest of this game -- the opposing party is replaced every battle while the
+   * player's carries its damage forward, so a mistake by the AI costs it one
+   * battle and a mistake by the player costs it the run.
+   *
+   * Held items work where skill does not: たべのこし and きあいのタスキ make
+   * battles longer, and a longer battle is more chip damage the player takes
+   * into the next one.
+   */
+  itemsPerTier: 1,
 } as const
 
 export const FIRST_TIER = 1
@@ -51,6 +69,11 @@ export function isTierUnlocked(tier: number, cleared: number): boolean {
 /** The hardest tier the player is allowed into right now. */
 export function highestUnlocked(cleared: number): number {
   return clampTier(cleared + 1)
+}
+
+/** How many of the opposing party hold an item, for a run at this tier. */
+export function tierHeldItems(tier: number): number {
+  return Math.floor((clampTier(tier) - FIRST_TIER) * TIER_CONFIG.itemsPerTier)
 }
 
 /** Tier N+1, or null when there is nothing above what was just cleared. */

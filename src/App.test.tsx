@@ -741,7 +741,7 @@ describe('わざを おぼえる', () => {
       ...run,
       battle: { ...run.battle, winner: 'player' },
       offer: [{ kind: 'levelUp' }],
-      moveOffer: MOVES.uTurn,
+      moveOffer: MOVES.ironTail,
       ...patch,
     }))
 
@@ -756,7 +756,7 @@ describe('わざを おぼえる', () => {
   it('names the move on offer', () => {
     won()
     render(<App />)
-    expect(teachPanel()).toHaveTextContent('とんぼがえり')
+    expect(teachPanel()).toHaveTextContent('アイアンテール')
   })
 
   it('asks who, then which move, and does not spend the win', async () => {
@@ -779,7 +779,7 @@ describe('わざを おぼえる', () => {
 
     await user.click(screen.getByRole('button', { name: /レベルアップ/ }))
     expect(screen.getByTestId('run-status')).toHaveTextContent('れんしょう 1')
-    expect(screen.getByRole('button', { name: /とんぼがえり/ })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /アイアンテール/ })).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /でんじは/ })).toBeNull()
   })
 
@@ -833,5 +833,29 @@ describe('わざを おぼえる', () => {
     render(<App />)
     expect(whoPanel()).toBeNull()
     expect(teachPanel()).toBeInTheDocument()
+  })
+})
+
+describe('おぼえられる わざ だけ', () => {
+  const teachPanel = () => screen.queryByRole('region', { name: 'わざを おぼえる' })
+  const whoPanel = () => screen.queryByRole('region', { name: 'だれに あげるか えらぶ' })
+
+  it('offers a move only to the members that could ever know it', async () => {
+    const user = userEvent.setup()
+    seed((run) => ({
+      ...run,
+      battle: { ...run.battle, winner: 'player' },
+      offer: [{ kind: 'levelUp' }],
+      // ピカチュウ learns アイアンテール; ヒトカゲ and フシギダネ never do.
+      moveOffer: MOVES.ironTail,
+    }))
+    render(<App />)
+
+    await user.click(within(teachPanel()!).getByRole('button', { name: /おぼえる/ }))
+    const names = within(whoPanel()!)
+      .getAllByRole('button')
+      .map((button) => button.querySelector('strong')?.textContent)
+      .filter(Boolean)
+    expect(names).toEqual(['ピカチュウ'])
   })
 })

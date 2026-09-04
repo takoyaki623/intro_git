@@ -6,9 +6,10 @@ import {
   highestUnlocked,
   isTierUnlocked,
   nextTier,
+  tierHeldItems,
   tierLevelBonus,
 } from './tiers'
-import { RUN_CONFIG, advance, opponentLevel, startRun } from './run'
+import { RUN_CONFIG, advance, isFinalBattle, opponentLevel, startRun } from './run'
 import { fixedRandom } from '../test/rng'
 
 const ALL = Array.from({ length: TIER_CONFIG.max }, (_, i) => i + 1)
@@ -105,5 +106,44 @@ describe('a run at a tier', () => {
     const next = advance(run, null, null, fixedRandom(0.3))
     expect(next.tier).toBe(4)
     expect(next.battle.opponent.members[0]!.level).toBe(opponentLevel(1, 4))
+  })
+})
+
+describe('held items climb with the tier', () => {
+  it('arms nobody at the first tier', () => {
+    expect(tierHeldItems(FIRST_TIER)).toBe(0)
+    const run = startRun(fixedRandom(0.3))
+    expect(run.battle.opponent.members.every((m) => m.item === null)).toBe(true)
+  })
+
+  it('arms one more of them for each tier above it', () => {
+    for (const tier of ALL) {
+      expect(tierHeldItems(tier)).toBe((tier - 1) * TIER_CONFIG.itemsPerTier)
+    }
+  })
+
+  it('puts them on the opposing party a run at that tier meets', () => {
+    const run = startRun(fixedRandom(0.3), undefined, 3)
+    const holding = run.battle.opponent.members.filter((m) => m.item !== null)
+    expect(holding).toHaveLength(Math.min(tierHeldItems(3), RUN_CONFIG.partySize))
+  })
+
+  it('leaves the player alone', () => {
+    const run = startRun(fixedRandom(0.3), undefined, TIER_CONFIG.max)
+    expect(run.battle.player.members.every((m) => m.item === null)).toBe(true)
+  })
+
+  it('arms the boss too, which is a party of one', () => {
+    let run = startRun(fixedRandom(0.3), undefined, 4)
+    while (!isFinalBattle(run.wins)) {
+      run = advance(
+        { ...run, battle: { ...run.battle, winner: 'player' } },
+        null,
+        null,
+        fixedRandom(0.3),
+      )
+    }
+    expect(run.battle.opponent.members).toHaveLength(1)
+    expect(run.battle.opponent.members[0]?.item).not.toBeNull()
   })
 })

@@ -7,6 +7,7 @@ export const SPECIES = {
     id: 'pikachu',
     name: 'ピカチュウ',
     types: ['electric'],
+    learns: ['ironTail', 'dig'],
     baseStats: {
       hp: 35,
       attack: 55,
@@ -21,6 +22,7 @@ export const SPECIES = {
     id: 'charmander',
     name: 'ヒトカゲ',
     types: ['fire'],
+    learns: ['dragonBreath', 'dig', 'rockThrow'],
     baseStats: {
       hp: 39,
       attack: 52,
@@ -35,6 +37,7 @@ export const SPECIES = {
     id: 'squirtle',
     name: 'ゼニガメ',
     types: ['water'],
+    learns: ['iceBeam', 'bite', 'dig', 'blizzard'],
     baseStats: {
       hp: 44,
       attack: 48,
@@ -49,6 +52,7 @@ export const SPECIES = {
     id: 'bulbasaur',
     name: 'フシギダネ',
     types: ['grass', 'poison'],
+    learns: ['toxic'],
     baseStats: {
       hp: 45,
       attack: 49,
@@ -63,6 +67,7 @@ export const SPECIES = {
     id: 'eevee',
     name: 'イーブイ',
     types: ['normal'],
+    learns: ['bite', 'dig', 'shadowBall'],
     baseStats: {
       hp: 55,
       attack: 55,
@@ -77,6 +82,7 @@ export const SPECIES = {
     id: 'zubat',
     name: 'ズバット',
     types: ['poison', 'flying'],
+    learns: ['bite', 'uTurn'],
     baseStats: {
       hp: 40,
       attack: 45,
@@ -92,6 +98,7 @@ export const SPECIES = {
     name: 'イシツブテ',
     types: ['rock', 'ground'],
     ability: 'sturdy',
+    learns: ['ironTail', 'flamethrower', 'doubleEdge'],
     baseStats: {
       hp: 40,
       attack: 80,
@@ -106,6 +113,7 @@ export const SPECIES = {
     id: 'drowzee',
     name: 'スリープ',
     types: ['psychic'],
+    learns: ['shadowBall', 'thunderWave', 'bite'],
     baseStats: {
       hp: 60,
       attack: 48,
@@ -120,6 +128,7 @@ export const SPECIES = {
     id: 'machop',
     name: 'ワンリキー',
     types: ['fighting'],
+    learns: ['rockThrow', 'stoneEdge', 'dig', 'earthquake', 'ironTail'],
     baseStats: {
       hp: 70,
       attack: 80,
@@ -135,6 +144,7 @@ export const SPECIES = {
     name: 'ゴース',
     types: ['ghost', 'poison'],
     ability: 'levitate',
+    learns: ['hypnosis', 'thunderbolt', 'psychic', 'dazzlingGleam', 'darkPulse'],
     baseStats: {
       hp: 30,
       attack: 35,
@@ -150,6 +160,7 @@ export const SPECIES = {
     name: 'コイル',
     types: ['electric', 'steel'],
     ability: 'sturdy',
+    learns: ['voltSwitch'],
     baseStats: {
       hp: 25,
       attack: 35,
@@ -164,6 +175,18 @@ export const SPECIES = {
     id: 'dratini',
     name: 'ミニリュウ',
     types: ['dragon'],
+    learns: [
+      'thunderWave',
+      'agility',
+      'bite',
+      'iceBeam',
+      'surf',
+      'flamethrower',
+      'thunderbolt',
+      'fireBlast',
+      'blizzard',
+      'thunder',
+    ],
     baseStats: {
       hp: 41,
       attack: 64,
@@ -194,6 +217,7 @@ export const SPECIES = {
     name: 'ジュゴン',
     types: ['water', 'ice'],
     ability: 'waterAbsorb',
+    learns: ['shadowBall', 'bite'],
     baseStats: {
       hp: 90,
       attack: 70,
@@ -208,6 +232,18 @@ export const SPECIES = {
     id: 'clefairy',
     name: 'ピッピ',
     types: ['fairy'],
+    learns: [
+      'calmMind',
+      'psychic',
+      'thunderbolt',
+      'iceBeam',
+      'flamethrower',
+      'shadowBall',
+      'thunder',
+      'fireBlast',
+      'blizzard',
+      'energyBall',
+    ],
     baseStats: {
       hp: 70,
       attack: 45,
@@ -223,6 +259,7 @@ export const SPECIES = {
     name: 'デルビル',
     types: ['dark', 'fire'],
     ability: 'intimidate',
+    learns: ['bite'],
     baseStats: {
       hp: 45,
       attack: 60,
@@ -237,6 +274,7 @@ export const SPECIES = {
     id: 'sandshrew',
     name: 'サンド',
     types: ['ground'],
+    learns: ['rockThrow', 'stoneEdge', 'ironTail', 'xScissor'],
     baseStats: {
       hp: 50,
       attack: 75,
@@ -252,6 +290,7 @@ export const SPECIES = {
     name: 'メノクラゲ',
     types: ['water', 'poison'],
     ability: 'waterAbsorb',
+    learns: ['bite', 'iceBeam', 'blizzard'],
     baseStats: {
       hp: 40,
       attack: 40,
@@ -274,6 +313,7 @@ export const SPECIES = {
     id: 'vulpix',
     name: 'ロコン',
     types: ['fire'],
+    learns: ['dig', 'bite', 'energyBall'],
     baseStats: {
       hp: 38,
       attack: 41,
@@ -288,6 +328,7 @@ export const SPECIES = {
     id: 'tangela',
     name: 'モンジャラ',
     types: ['grass'],
+    learns: ['toxic'],
     baseStats: {
       hp: 65,
       attack: 55,
@@ -302,6 +343,7 @@ export const SPECIES = {
     id: 'exeggcute',
     name: 'タマタマ',
     types: ['grass', 'psychic'],
+    learns: ['energyBall'],
     baseStats: {
       hp: 60,
       attack: 40,
@@ -316,6 +358,17 @@ export const SPECIES = {
     id: 'abra',
     name: 'ケーシィ',
     types: ['psychic'],
+    learns: [
+      'shadowBall',
+      'dazzlingGleam',
+      'energyBall',
+      'thunderbolt',
+      'iceBeam',
+      'flamethrower',
+      'fireBlast',
+      'thunder',
+      'blizzard',
+    ],
     baseStats: {
       hp: 25,
       attack: 20,
@@ -331,6 +384,7 @@ export const SPECIES = {
     name: 'イワーク',
     types: ['rock', 'ground'],
     ability: 'sturdy',
+    learns: ['ironTail', 'flashCannon'],
     baseStats: {
       hp: 35,
       attack: 45,
@@ -345,6 +399,7 @@ export const SPECIES = {
     id: 'sneasel',
     name: 'ニューラ',
     types: ['dark', 'ice'],
+    learns: ['xScissor'],
     baseStats: {
       hp: 55,
       attack: 95,
@@ -360,6 +415,7 @@ export const SPECIES = {
     name: 'ココドラ',
     types: ['steel', 'rock'],
     ability: 'sturdy',
+    learns: ['earthquake', 'dig'],
     baseStats: {
       hp: 50,
       attack: 70,
@@ -375,6 +431,7 @@ export const SPECIES = {
     name: 'ヨマワル',
     types: ['ghost'],
     ability: 'levitate',
+    learns: ['confusion'],
     baseStats: {
       hp: 20,
       attack: 40,
@@ -389,6 +446,7 @@ export const SPECIES = {
     id: 'axew',
     name: 'キバゴ',
     types: ['dragon'],
+    learns: ['xScissor', 'earthquake', 'dig', 'stoneEdge', 'rockThrow'],
     baseStats: {
       hp: 46,
       attack: 87,
@@ -403,6 +461,7 @@ export const SPECIES = {
     id: 'hitmonchan',
     name: 'エビワラー',
     types: ['fighting'],
+    learns: ['rockThrow', 'agility', 'earthquake', 'dig', 'ironTail'],
     baseStats: {
       hp: 50,
       attack: 105,
@@ -418,6 +477,7 @@ export const SPECIES = {
     name: 'クヌギダマ',
     types: ['bug'],
     ability: 'sturdy',
+    learns: ['earthquake', 'dig', 'flashCannon', 'ironTail', 'stoneEdge', 'rockThrow'],
     baseStats: {
       hp: 50,
       attack: 65,
@@ -432,6 +492,7 @@ export const SPECIES = {
     id: 'doduo',
     name: 'ドードー',
     types: ['normal', 'flying'],
+    learns: ['agility', 'dig'],
     baseStats: {
       hp: 35,
       attack: 85,
@@ -446,6 +507,20 @@ export const SPECIES = {
     id: 'jigglypuff',
     name: 'プリン',
     types: ['normal', 'fairy'],
+    learns: [
+      'psychic',
+      'thunderbolt',
+      'iceBeam',
+      'flamethrower',
+      'shadowBall',
+      'energyBall',
+      'calmMind',
+      'fireBlast',
+      'thunder',
+      'blizzard',
+      'surf',
+      'dig',
+    ],
     baseStats: {
       hp: 115,
       attack: 45,
@@ -475,6 +550,7 @@ export const BOSS_SPECIES = {
     id: 'dragonite',
     name: 'カイリュー',
     types: ['dragon', 'flying'],
+    learns: ['thunderbolt', 'surf', 'iceBeam', 'earthquake', 'stoneEdge', 'agility'],
     baseStats: {
       hp: 91,
       attack: 134,

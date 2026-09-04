@@ -425,7 +425,7 @@ test('わざを おぼえる は ごほうびとは べつに もらえる', asy
         ...seed,
         winner: 'player',
         offer: [{ kind: 'levelUp' }],
-        moveOffer: 'uTurn',
+        moveOffer: 'ironTail',
       }),
     )
   }, SEED)
@@ -453,7 +453,7 @@ test('わざを おぼえる は ごほうびとは べつに もらえる', asy
   await expect(page.getByTestId('run-status')).toContainText('れんしょう 1')
 
   // The move list is this Pokemon's own now, not its species'.
-  await expect(page.getByRole('button', { name: /とんぼがえり/ })).toBeVisible()
+  await expect(page.getByRole('button', { name: /アイアンテール/ })).toBeVisible()
   await expect(page.getByRole('button', { name: /でんじは/ })).toHaveCount(0)
 })
 

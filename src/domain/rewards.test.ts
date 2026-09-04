@@ -7,12 +7,14 @@ import {
   applyReward,
   availableRewards,
   needsTarget,
+  offerMove,
   offerRewards,
   sameOffer,
   targetsFor,
 } from './rewards'
 import { SPECIES } from '../data/species'
-import { MOVES, MOVE_LIST } from '../data/moves'
+import { MOVES } from '../data/moves'
+import { canLearn } from './learnsets'
 import { fixedRandom, scriptedRandom } from '../test/rng'
 
 const pikachu = () => createBattlePokemon(SPECIES.pikachu, 50)
@@ -155,13 +157,22 @@ describe('わざを おぼえる', () => {
 
   it('swaps the chosen move for the one on offer', () => {
     const before = [pikachu()]
-    const after = applyReward(before, teach(MOVES.uTurn), { member: 0, slot: 1 })
+    const after = applyReward(before, teach(MOVES.ironTail), { member: 0, slot: 1 })
     expect(after[0]?.moves.map((m) => m.id)).toEqual([
       pikachu().moves[0]!.id,
-      'uTurn',
+      'ironTail',
       pikachu().moves[2]!.id,
       pikachu().moves[3]!.id,
     ])
+  })
+
+  it('refuses a move the species could never know', () => {
+    // ピカチュウ does not learn とんぼがえり, in this game or the ones it came from.
+    const before = [pikachu()]
+    expect(applyReward(before, teach(MOVES.uTurn), { member: 0, slot: 1 })).toEqual(
+      before,
+    )
+    expect(targetsFor(teach(MOVES.uTurn), before)).toEqual([])
   })
 
   it('leaves every other member alone', () => {
@@ -206,26 +217,30 @@ describe('わざを おぼえる', () => {
   })
 
   it('will not aim at a fainted Pokemon', () => {
+    // すてみタックル is universal, so only the fainting rules ピカチュウ out.
     const before = [downed(pikachu()), squirtle()]
-    expect(targetsFor(teach(MOVES.uTurn), before)).toEqual([1])
-    expect(applyReward(before, teach(MOVES.uTurn), { member: 0, slot: 0 })).toEqual(
+    expect(targetsFor(teach(MOVES.doubleEdge), before)).toEqual([1])
+    expect(applyReward(before, teach(MOVES.doubleEdge), { member: 0, slot: 0 })).toEqual(
       before,
     )
   })
 
-  it('offers a move nobody in the party already has', () => {
+  it('only ever offers a move somebody standing could take', () => {
     const party = [pikachu(), squirtle(), bulbasaur()]
-    const known = new Set(party.flatMap((m) => m.moves.map((move) => move.id)))
-    for (let i = 0; i < 60; i++) {
-      const offer = offerRewards(party).find((entry) => entry.kind === 'teach')
-      if (offer?.kind === 'teach') expect(known.has(offer.move.id)).toBe(false)
+    for (let i = 0; i < 200; i++) {
+      const move = offerMove(party)
+      if (!move) continue
+      const takers = party.filter(
+        (m) => canLearn(m.species, move) && !m.moves.some((k) => k.id === move.id),
+      )
+      expect(takers.length).toBeGreaterThan(0)
     }
   })
 
   it('leaves the party it was given alone', () => {
     const before = [pikachu()]
     const snapshot = JSON.stringify(before)
-    applyReward(before, teach(MOVES.uTurn), { member: 0, slot: 0 })
+    applyReward(before, teach(MOVES.ironTail), { member: 0, slot: 0 })
     expect(JSON.stringify(before)).toBe(snapshot)
   })
 })
@@ -300,8 +315,8 @@ describe('a reward that needs pointing at somebody', () => {
   })
 
   it('is never offered when there is nobody to aim it at', () => {
-    // Everyone armed and holding every move the game has: neither can land.
-    const armed = { ...pikachu(), item: 'leftovers' as const, moves: MOVE_LIST }
+    // Armed already, so もちもの has nowhere to go.
+    const armed = { ...pikachu(), item: 'leftovers' as const }
     for (let i = 0; i < 40; i++) {
       for (const offer of offerRewards([armed])) {
         expect(needsTarget(offer)).toBe(false)
