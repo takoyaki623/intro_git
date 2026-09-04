@@ -8,9 +8,18 @@ import {
   type TurnAction,
 } from './domain/battle'
 import { chooseOpponentAction, scoreMove } from './domain/ai'
-import { advance, canAdvance, startRun, withBattle } from './domain/run'
+import {
+  advance,
+  canAdvance,
+  passMove,
+  startRun,
+  takeMove,
+  withBattle,
+} from './domain/run'
 import { DRAFT_CONFIG, startDraft } from './domain/draft'
-import { baseStatTotal, type Species } from './domain/entities'
+import { baseStatTotal, type BattlePokemon, type Species } from './domain/entities'
+import type { RewardTarget } from './domain/rewards'
+import { targetsFor } from './domain/rewards'
 
 type Player = (battle: BattleState) => TurnAction | null
 
@@ -105,6 +114,43 @@ interface Outcome {
   readonly cleared: boolean
 }
 
+/**
+ * A move's worth to a Pokemon with nobody in front of it: power, hit chance,
+ * same-type bonus, and what the recoil costs. Crude on purpose -- it only has
+ * to decide whether a free move beats the worst one already known.
+ */
+function shelfValue(member: BattlePokemon, move: Move): number {
+  if (move.category === 'status') return 45
+  const stab = member.species.types.includes(move.type) ? 1.5 : 1
+  const attack =
+    move.category === 'physical' ? member.stats.attack : member.stats.specialAttack
+  const recoil = move.recoil ? 1 - move.recoil * 0.6 : 1
+  return move.power * move.accuracy * stab * recoil * (attack / 100)
+}
+
+/**
+ * Where a free move is worth the most, or null if nobody wants it.
+ *
+ * Every bot takes the move offer when it helps: it costs nothing, so passing it
+ * up would measure a game nobody plays.
+ */
+function placeMove(members: readonly BattlePokemon[], move: Move): RewardTarget | null {
+  const options = targetsFor({ kind: 'teach', move }, members).flatMap((index) => {
+    const member = members[index]
+    if (!member) return []
+    const incoming = shelfValue(member, move)
+    return member.moves.map((known, slot) => ({
+      target: { member: index, slot },
+      gain: incoming - shelfValue(member, known),
+    }))
+  })
+  const best = options.reduce<(typeof options)[number] | null>(
+    (top, option) => (!top || option.gain > top.gain ? option : top),
+    null,
+  )
+  return best && best.gain > 0 ? best.target : null
+}
+
 /** One run's result: how far it got, and what it was holding when it started. */
 function playRun(
   player: Player,
@@ -119,6 +165,11 @@ function playRun(
   for (let turn = 0; turn < 4000; turn++) {
     if (run.finished) break
     if (canAdvance(run)) {
+      if (run.moveOffer) {
+        const target = placeMove(run.battle.player.members, run.moveOffer)
+        run = target ? takeMove(run, target) : passMove(run)
+        continue
+      }
       // The bots take whatever is offered first, so a run keeps moving.
       run = advance(run, run.offer?.[0] ?? null, null, Math.random)
       continue

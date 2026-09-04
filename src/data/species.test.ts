@@ -134,3 +134,29 @@ describe('the boss', () => {
     }
   })
 })
+
+describe('the chart is covered thickly enough to draft against', () => {
+  const withType = (type: (typeof POKEMON_TYPES)[number]) =>
+    SPECIES_LIST.filter((species) => species.types.includes(type))
+
+  it('gives every type more than one species to meet it with', () => {
+    const thin = POKEMON_TYPES.filter((type) => withType(type).length < 2)
+    expect(thin).toEqual([])
+  })
+
+  it('gives every type a species that can attack with it', () => {
+    const silent = POKEMON_TYPES.filter(
+      (type) =>
+        !SPECIES_LIST.some((species) =>
+          species.moves.some((move) => move.category !== 'status' && move.type === type),
+        ),
+    )
+    expect(silent).toEqual([])
+  })
+
+  it('is large enough that six candidates are rarely the same six', () => {
+    // The draft shows six of these, so the roster wants to be several times
+    // that or every run opens on familiar faces.
+    expect(SPECIES_LIST.length).toBeGreaterThanOrEqual(30)
+  })
+})
