@@ -464,7 +464,10 @@ describe('playing a battle out', () => {
     render(<App />)
     await completeDraft(user)
 
-    for (let i = 0; i < 80; i++) if (!(await advanceTurn(user))) break
+    // Generous, because an iteration is not a turn: the reward screen now costs
+    // two or three of them (the move offer, then who, then the reward), and at
+    // eighty this test went red about one run in twenty on a long battle.
+    for (let i = 0; i < 400; i++) if (!(await advanceTurn(user))) break
 
     expect(screen.getByRole('status')).toHaveTextContent(/たおした|たおれてしまった/)
     expect(screen.getByTestId('battle-log')).toHaveTextContent('たおれた')
