@@ -12,8 +12,10 @@ import {
   advance,
   canAdvance,
   passMove,
+  readyToTravel,
   startRun,
   takeMove,
+  takeReward,
   withBattle,
 } from './domain/run'
 import { DRAFT_CONFIG, startDraft } from './domain/draft'
@@ -170,8 +172,13 @@ function playRun(
         run = target ? takeMove(run, target) : passMove(run)
         continue
       }
-      // The bots take whatever is offered first, so a run keeps moving.
-      run = advance(run, run.offer?.[0] ?? null, null, Math.random)
+      // The bots take whatever is offered first, so a run keeps moving...
+      if (!readyToTravel(run)) {
+        run = takeReward(run, run.offer?.[0] ?? null, null, Math.random)
+        continue
+      }
+      // ...and then the first road, which is the ordinary one.
+      run = advance(run, 0, Math.random)
       continue
     }
     const battle = run.battle

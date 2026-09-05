@@ -9,8 +9,28 @@ import {
   tierHeldItems,
   tierLevelBonus,
 } from './tiers'
-import { RUN_CONFIG, advance, isFinalBattle, opponentLevel, startRun } from './run'
+import type { RunState } from './run'
+import type { RewardOffer, RewardTarget } from './rewards'
+import {
+  RUN_CONFIG,
+  advance,
+  isFinalBattle,
+  opponentLevel,
+  startRun,
+  takeReward,
+} from './run'
 import { fixedRandom } from '../test/rng'
+
+/**
+ * Spend the reward and take the first road, which is what `advance` did in one
+ * call before a win started offering a choice of opponent.
+ */
+const settle = (
+  run: RunState,
+  reward: RewardOffer | null = null,
+  target: RewardTarget | null = null,
+  random = fixedRandom(0.3),
+): RunState => advance(takeReward(run, reward, target, random), 0, random)
 
 const ALL = Array.from({ length: TIER_CONFIG.max }, (_, i) => i + 1)
 
@@ -103,7 +123,7 @@ describe('a run at a tier', () => {
   it('stays at its tier as the run goes on', () => {
     let run = startRun(fixedRandom(0.3), undefined, 4)
     run = { ...run, battle: { ...run.battle, winner: 'player' } }
-    const next = advance(run, null, null, fixedRandom(0.3))
+    const next = settle(run)
     expect(next.tier).toBe(4)
     expect(next.battle.opponent.members[0]!.level).toBe(opponentLevel(1, 4))
   })
@@ -136,12 +156,7 @@ describe('held items climb with the tier', () => {
   it('arms the boss too, which is a party of one', () => {
     let run = startRun(fixedRandom(0.3), undefined, 4)
     while (!isFinalBattle(run.wins)) {
-      run = advance(
-        { ...run, battle: { ...run.battle, winner: 'player' } },
-        null,
-        null,
-        fixedRandom(0.3),
-      )
+      run = settle({ ...run, battle: { ...run.battle, winner: 'player' } })
     }
     expect(run.battle.opponent.members).toHaveLength(1)
     expect(run.battle.opponent.members[0]?.item).not.toBeNull()

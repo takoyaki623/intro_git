@@ -47,6 +47,11 @@ async function advanceTurn(user: UserEvent): Promise<boolean> {
     await user.click(enabledButtons(reward)[0]!)
     return true
   }
+  const road = routePanel()
+  if (road) {
+    await user.click(within(road).getAllByRole('button')[0]!)
+    return true
+  }
   const owed = replacementPanel()
   if (owed) {
     await user.click(enabledButtons(owed)[0]!)
@@ -67,6 +72,16 @@ async function completeDraft(user: UserEvent) {
   const candidates = within(panel).getAllByRole('button').slice(0, DRAFT_CONFIG.picks)
   for (const candidate of candidates) await user.click(candidate)
   await user.click(screen.getByRole('button', { name: 'この てもちで はじめる' }))
+}
+
+const routePanel = () => screen.queryByRole('region', { name: 'つぎの あいてを えらぶ' })
+
+/** Take the first road out of a win. Before the last battle there is a button. */
+async function takeRoad(user: UserEvent) {
+  const panel = routePanel()
+  if (panel) return user.click(within(panel).getAllByRole('button')[0]!)
+  const straight = screen.queryByRole('button', { name: /さいごの あいてへ|つぎへ/ })
+  if (straight) return user.click(straight)
 }
 
 const party = (
@@ -90,7 +105,12 @@ function seed(patch: (run: RunState) => RunState = (run) => run) {
       opponent: party(['squirtle', 'zubat', 'geodude'], opponentLevel(0)),
     },
   }
-  saveRun(patch(run))
+  const patched = patch(run)
+  // A won run owes a reward pick. Seeding one without it would put the run
+  // straight on the road-choosing screen, which is not what these tests mean.
+  saveRun(
+    patched.offer && patched.rewardsLeft < 1 ? { ...patched, rewardsLeft: 1 } : patched,
+  )
 }
 
 describe('an unsaved run', () => {
@@ -360,6 +380,7 @@ describe('winning a battle', () => {
     const user = userEvent.setup()
     render(<App />)
     await user.click(enabledButtons(rewardPanel()!)[0]!)
+    await takeRoad(user)
 
     expect(screen.getByTestId('run-status')).toHaveTextContent('れんしょう 1')
     expect(screen.getByTestId('run-status')).toHaveTextContent(
@@ -378,6 +399,7 @@ describe('winning a battle', () => {
     const user = userEvent.setup()
     render(<App />)
     await user.click(screen.getByRole('button', { name: /レベルアップ/ }))
+    await takeRoad(user)
 
     expect(screen.getByTestId('player-card')).toHaveTextContent(
       `Lv${RUN_CONFIG.playerLevel + REWARD_CONFIG.levelsGained}`,
@@ -393,6 +415,7 @@ describe('winning a battle', () => {
     const user = userEvent.setup()
     render(<App />)
     await user.click(screen.getByRole('button', { name: /なかまを ふやす/ }))
+    await takeRoad(user)
 
     expect(within(switchPanel()!).getAllByRole('button')).toHaveLength(4)
     expect(screen.getByTestId('player-team')).toHaveAccessibleName('てもち のこり 4')
@@ -782,6 +805,7 @@ describe('わざを おぼえる', () => {
     expect(teachPanel()).toBeNull()
 
     await user.click(screen.getByRole('button', { name: /レベルアップ/ }))
+    await takeRoad(user)
     expect(screen.getByTestId('run-status')).toHaveTextContent('れんしょう 1')
     expect(screen.getByRole('button', { name: /アイアンテール/ })).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /でんじは/ })).toBeNull()
@@ -820,6 +844,7 @@ describe('わざを おぼえる', () => {
 
     await user.click(screen.getByRole('button', { name: /たべのこしを もらう/ }))
     await user.click(within(whoPanel()!).getByRole('button', { name: /ヒトカゲ/ }))
+    await takeRoad(user)
 
     expect(screen.getByTestId('run-status')).toHaveTextContent('れんしょう 1')
     // ヒトカゲ is on the bench, so the switch panel is where it shows.

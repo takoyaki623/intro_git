@@ -6,6 +6,7 @@ import type { StatKey } from '../domain/stages'
 import type { AbilityKind } from '../domain/abilities'
 import type { ItemKind } from '../domain/items'
 import type { RewardKind, RewardOffer } from '../domain/rewards'
+import type { EncounterKind } from '../domain/encounters'
 import { REWARD_CONFIG } from '../domain/rewards'
 
 export const TYPE_NAMES: Record<PokemonType, string> = {
@@ -289,4 +290,25 @@ export function coverageSummary(species: Species): string | null {
   const distinct = [...new Set(types)]
   if (distinct.length === 0) return null
   return distinct.map((type) => TYPE_NAMES[type]).join('・')
+}
+
+export const ENCOUNTER_NAMES: Record<EncounterKind, string> = {
+  normal: 'ふつうの 3びき',
+  elite: 'つよいのが 1ぴき',
+  boss: 'さいごの あいて',
+}
+
+/** Why a road is worth taking, in the terms the choice is actually made in. */
+export const ENCOUNTER_NOTES: Record<EncounterKind, string> = {
+  normal: 'みじかい たたかいが 3かい。おしきるなら こちら',
+  elite: 'ながい たたかいが 1かい。つみわざや じょうたいいじょうが いきます',
+  boss: 'ここを こえれば クリア',
+}
+
+export function encounterName(kind: EncounterKind): string {
+  return ENCOUNTER_NAMES[kind]
+}
+
+export function encounterNote(kind: EncounterKind): string {
+  return ENCOUNTER_NOTES[kind]
 }

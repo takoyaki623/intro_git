@@ -62,6 +62,16 @@ const SEED = {
   },
 }
 
+/** Take the first road out of a win: the fork, or the straight run to the boss. */
+async function takeRoad(page: Page) {
+  const routes = page.getByRole('region', { name: 'つぎの あいてを えらぶ' })
+  if (await routes.count()) {
+    return routes.getByRole('button').first().click()
+  }
+  const straight = page.getByRole('button', { name: /さいごの あいてへ/ })
+  if (await straight.count()) return straight.click()
+}
+
 /** Take the first three candidates on the table and start the run. */
 async function draft(page: Page) {
   const panel = page.getByTestId('draft-candidates')
@@ -198,6 +208,7 @@ test('勝つと ごほうび を えらんでから 次の相手へ', async ({ p
   await expect(page.getByRole('region', { name: 'わざ' })).toHaveCount(0)
 
   await rewards.getByRole('button').first().click()
+  await takeRoad(page)
 
   await expect(page.getByTestId('run-status')).toContainText('れんしょう 1')
   await expect(page.getByRole('region', { name: 'わざ' })).toBeVisible()
@@ -208,7 +219,12 @@ test('決着がつき、勝てば連戦・負ければ最初から', async ({ pa
   const replacement = page.getByRole('region', { name: /つぎに だす/ })
   const moves = page.getByRole('region', { name: 'わざ' })
 
-  for (let i = 0; i < 80; i++) {
+  for (let i = 0; i < 200; i++) {
+    const routes = page.getByRole('region', { name: 'つぎの あいてを えらぶ' })
+    if (await routes.count()) {
+      await routes.getByRole('button').first().click()
+      continue
+    }
     if (await replacement.count()) {
       await replacement
         .getByRole('button')
@@ -450,6 +466,7 @@ test('わざを おぼえる は ごほうびとは べつに もらえる', asy
   // The win is still unspent: the reward is right there to take.
   await expect(page.getByTestId('run-status')).toContainText('れんしょう 0')
   await page.getByRole('button', { name: /レベルアップ/ }).click()
+  await takeRoad(page)
   await expect(page.getByTestId('run-status')).toContainText('れんしょう 1')
 
   // The move list is this Pokemon's own now, not its species'.
@@ -779,5 +796,66 @@ test.describe('あそびかた', () => {
       return visible / box.height
     })
     expect(seen).toBe(1)
+  })
+})
+
+test.describe('わかれ道', () => {
+  test('ごほうびの あとに つぎの あいてを えらぶ', async ({ page }) => {
+    await page.evaluate((seed) => {
+      localStorage.setItem(
+        'pokemon-battle:run',
+        JSON.stringify({
+          ...seed,
+          winner: 'player',
+          offer: [{ kind: 'levelUp' }],
+          moveOffer: null,
+          rewardsLeft: 1,
+        }),
+      )
+    }, SEED)
+    await page.reload()
+
+    await page.getByRole('button', { name: /レベルアップ/ }).click()
+
+    // The win is not spent until a road is taken.
+    const routes = page.getByRole('region', { name: 'つぎの あいてを えらぶ' })
+    await expect(routes).toBeVisible()
+    await expect(page.getByTestId('run-status')).toContainText('れんしょう 0')
+    await expect(routes.getByRole('button')).toHaveCount(2)
+    await expect(routes).toContainText('ふつうの 3びき')
+    await expect(routes).toContainText('つよいのが 1ぴき')
+
+    // Taking the long road puts one very deep Pokemon in front of you.
+    await routes.getByRole('button').nth(1).click()
+    await expect(page.getByTestId('run-status')).toContainText('れんしょう 1')
+    await expect(page.getByTestId('opponent-team')).toHaveAttribute(
+      'aria-label',
+      'あいての てもち のこり 1',
+    )
+  })
+
+  test('強敵を たおすと ごほうびが 2つ', async ({ page }) => {
+    await page.evaluate((seed) => {
+      localStorage.setItem(
+        'pokemon-battle:run',
+        JSON.stringify({
+          ...seed,
+          winner: 'player',
+          encounter: 'elite',
+          offer: null,
+          moveOffer: null,
+        }),
+      )
+    }, SEED)
+    await page.reload()
+
+    const rewards = page.getByRole('region', { name: 'ごほうびを えらぶ' })
+    await expect(rewards).toContainText('あと 2つ')
+    await rewards.getByRole('button').first().click()
+
+    // Still on the reward screen for the second pick, with a fresh offer.
+    await expect(rewards).toBeVisible()
+    await expect(rewards).not.toContainText('あと 2つ')
+    await expect(page.getByTestId('run-status')).toContainText('れんしょう 0')
   })
 })

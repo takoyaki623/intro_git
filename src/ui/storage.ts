@@ -11,6 +11,7 @@ import { ITEM_KINDS } from '../domain/items'
 import type { BattleState } from '../domain/battle'
 import type { RunState } from '../domain/run'
 import { isFinalBattle } from '../domain/run'
+import type { EncounterKind } from '../domain/encounters'
 import { FIRST_TIER, clampTier } from '../domain/tiers'
 import type { RewardOffer } from '../domain/rewards'
 import { REWARD_CONFIG, REWARD_KINDS } from '../domain/rewards'
@@ -55,6 +56,12 @@ interface StoredRun {
   readonly offer: readonly StoredOffer[] | null
   /** The move on offer beside the rewards, by id. */
   readonly moveOffer?: string | null
+  /** Reward picks still owed; absent in saves from before elites existed. */
+  readonly rewardsLeft?: number
+  /** What the battle on screen is. */
+  readonly encounter?: string
+  /** The two roads out of the win, so a reload cannot re-roll them. */
+  readonly route?: readonly { readonly kind: string; readonly team: StoredTeam }[] | null
   /** Absent in saves written before the run had an ending; read as false. */
   readonly cleared?: boolean
   /** Absent in saves written before tiers existed; read as the first tier. */
@@ -132,6 +139,28 @@ function restoreOffer(stored: StoredOffer): RewardOffer | null {
   return { kind } as RewardOffer
 }
 
+const ENCOUNTER_KINDS: readonly EncounterKind[] = ['normal', 'elite', 'boss']
+
+/**
+ * The roads out of a win, or null if the save has none or they cannot be read.
+ *
+ * All or nothing: half a fork is worse than none, because the player would be
+ * offered a choice with one side missing.
+ */
+function restoreRoute(
+  stored: StoredRun['route'],
+): readonly { kind: EncounterKind; team: TeamState }[] | null {
+  if (!Array.isArray(stored) || stored.length === 0) return null
+  const roads = stored.map((road) => {
+    const team = restoreTeam(road?.team)
+    if (!team || !ENCOUNTER_KINDS.includes(road?.kind as EncounterKind)) return null
+    return { kind: road.kind as EncounterKind, team }
+  })
+  return roads.some((road) => road === null)
+    ? null
+    : (roads as { kind: EncounterKind; team: TeamState }[])
+}
+
 export function saveRun(run: RunState, storage: Storage = localStorage): void {
   const payload: StoredRun = {
     version: VERSION,
@@ -149,6 +178,10 @@ export function saveRun(run: RunState, storage: Storage = localStorage): void {
             : {}),
       })) ?? null,
     moveOffer: run.moveOffer?.id ?? null,
+    rewardsLeft: run.rewardsLeft,
+    encounter: run.encounter,
+    route:
+      run.route?.map((road) => ({ kind: road.kind, team: storeTeam(road.team) })) ?? null,
     winner: run.battle.winner,
     awaitingSwitch: run.battle.awaitingSwitch,
     player: storeTeam(run.battle.player),
@@ -205,6 +238,18 @@ export function loadRun(storage: Storage = localStorage): RunState | null {
     cleared: stored.cleared === true,
     tier: clampTier(stored.tier ?? FIRST_TIER),
     moveOffer: MOVE_LIST.find((move) => move.id === stored.moveOffer) ?? null,
+    // A save written before elites existed has an offer and no count. Reading
+    // that as zero picks would swallow the reward the player was looking at.
+    rewardsLeft:
+      Number.isInteger(stored.rewardsLeft) && stored.rewardsLeft! >= 0
+        ? stored.rewardsLeft!
+        : offer && offer.length > 0
+          ? 1
+          : 0,
+    encounter: ENCOUNTER_KINDS.includes(stored.encounter as EncounterKind)
+      ? (stored.encounter as EncounterKind)
+      : 'normal',
+    route: restoreRoute(stored.route),
     offer: offer && offer.length > 0 ? offer.slice(0, REWARD_CONFIG.choices) : null,
   }
 }

@@ -12,7 +12,9 @@ import {
   canAdvance,
   isFinalBattle,
   passMove,
+  readyToTravel,
   takeMove,
+  takeReward,
   startRun,
   withBattle,
   withOffer,
@@ -42,6 +44,7 @@ import { HallOfFame } from './components/HallOfFame'
 import { RewardChoice } from './components/RewardChoice'
 import { BattleLog } from './components/BattleLog'
 import { DraftScreen } from './components/DraftScreen'
+import { RouteChoice } from './components/RouteChoice'
 import { HowToPlay } from './components/HowToPlay'
 import { TierPicker } from './components/TierPicker'
 
@@ -225,8 +228,9 @@ export default function App() {
       draft: null,
       run: withBattle(run, forceSwitch(battle, 'player', index)),
     })
-  const takeReward = (reward: RewardOffer | null, target: RewardTarget | null = null) =>
-    setSession({ draft: null, run: advance(run, reward, target) })
+  const pickReward = (reward: RewardOffer | null, target: RewardTarget | null = null) =>
+    setSession({ draft: null, run: takeReward(run, reward, target) })
+  const travel = (index: number) => setSession({ draft: null, run: advance(run, index) })
 
   return (
     <main className="battle">
@@ -284,20 +288,27 @@ export default function App() {
             {outcomeMessage('player', player.species.name, opponent.species.name)}
             {' てもちが すこし かいふくした！'}
           </p>
-          {run.offer && run.offer.length > 0 ? (
+          {!readyToTravel(run) && run.offer && run.offer.length > 0 ? (
             <RewardChoice
               offer={run.offer}
               moveOffer={run.moveOffer}
               members={battle.player.members}
-              onSelect={takeReward}
+              picksLeft={run.rewardsLeft}
+              onSelect={pickReward}
               onTeach={(target) =>
                 setSession({ draft: null, run: takeMove(run, target) })
               }
               onPass={() => setSession({ draft: null, run: passMove(run) })}
             />
+          ) : !readyToTravel(run) ? (
+            <button type="button" onClick={() => pickReward(null)}>
+              つぎへ
+            </button>
+          ) : run.route && run.route.length > 0 ? (
+            <RouteChoice route={run.route} onSelect={travel} />
           ) : (
-            <button type="button" onClick={() => takeReward(null)}>
-              つぎの あいて
+            <button type="button" onClick={() => travel(0)}>
+              さいごの あいてへ
             </button>
           )}
         </section>

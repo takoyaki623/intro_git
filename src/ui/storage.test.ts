@@ -1,6 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { clearDraft, clearRun, loadDraft, loadRun, saveDraft, saveRun } from './storage'
-import { advance, startRun, withBattle } from '../domain/run'
+import type { RunState } from '../domain/run'
+import type { RewardTarget } from '../domain/rewards'
+import { advance, startRun, takeReward, withBattle } from '../domain/run'
 import { DRAFT_CONFIG, startDraft, togglePick } from '../domain/draft'
 import { BOSS_LIST } from '../data/species'
 import { FIRST_TIER, TIER_CONFIG } from '../domain/tiers'
@@ -24,6 +26,17 @@ function memoryStorage(): Storage {
   }
 }
 
+/**
+ * Spend the reward and take the first road, which is what `advance` did in one
+ * call before a win started offering a choice of opponent.
+ */
+const settle = (
+  run: RunState,
+  reward: RewardOffer | null = null,
+  target: RewardTarget | null = null,
+  random = fixedRandom(0.3),
+): RunState => advance(takeReward(run, reward, target, random), 0, random)
+
 let storage: Storage
 beforeEach(() => {
   storage = memoryStorage()
@@ -40,7 +53,7 @@ describe('saveRun and loadRun', () => {
       { ...startRun(fixedRandom(0.3)).battle, winner: 'player' },
       fixedRandom(0.3),
     )
-    const run = advance(won, won.offer?.[0] ?? null, null, fixedRandom(0.3))
+    const run = settle(won, won.offer?.[0] ?? null)
     saveRun(run, storage)
 
     const loaded = loadRun(storage)

@@ -9,8 +9,9 @@ import { applyReward, offerMove, offerRewards, sameOffer } from './rewards'
 import { teachMove } from './rewards'
 import { sample } from './sample'
 import { FIRST_TIER, clampTier, tierHeldItems, tierLevelBonus } from './tiers'
-import { BOSS_LIST, SPECIES_LIST } from '../data/species'
-import { ITEM_KINDS } from './items'
+import { SPECIES_LIST } from '../data/species'
+import type { EncounterKind } from './encounters'
+import { makeEncounter, makeRoute, rewardsFor } from './encounters'
 
 /**
  * The knobs that decide how long and how punishing a run is. Everything about
@@ -82,7 +83,30 @@ export interface RunState {
   readonly cleared: boolean
   /** Which difficulty tier this run is being played at. */
   readonly tier: number
+  /**
+   * The two roads out of the win just taken, built and waiting to be chosen.
+   *
+   * Null while a battle is on, and null before the last one -- the boss is not
+   * a choice. Built rather than named so the player can see what they are
+   * picking between.
+   */
+  readonly route: Route | null
+  /**
+   * Reward picks still owed. Two for an elite, one for anything else, which is
+   * the reason to take the harder road.
+   */
+  readonly rewardsLeft: number
+  /** What the battle on screen is: read by the UI, and by the reward count. */
+  readonly encounter: EncounterKind
 }
+
+/** A road out of a win: what it is, and who is waiting on it. */
+export interface RouteOption {
+  readonly kind: EncounterKind
+  readonly team: TeamState
+}
+
+export type Route = readonly RouteOption[]
 
 export function opponentLevel(wins: number, tier: number = FIRST_TIER): number {
   return (
@@ -102,49 +126,17 @@ export function isFinalBattle(wins: number): boolean {
   return wins === RUN_CONFIG.battlesToClear - 1
 }
 
-/**
- * The last battle is one Pokemon, not three.
- *
- * Three at the same level would just be a slightly longer version of the seven
- * battles before it. One that outclasses anything the player can draft reads as
- * a wall, and the party's three bodies against its one is what makes the fight
- * winnable -- the player spends Pokemon to get through it.
- */
-/**
- * Hand out held items to the front of the opposing party.
- *
- * The front, not at random, so the player meets the item rather than finding
- * out about it on the third Pokemon of a battle already decided.
- */
-function armed(
-  members: readonly BattlePokemon[],
-  count: number,
-  random: Random,
-): readonly BattlePokemon[] {
-  if (count <= 0) return members
-  return members.map((member, index) => {
-    if (index >= count) return member
-    const [item] = sample(ITEM_KINDS, 1, random)
-    return item ? { ...member, item } : member
-  })
+/** What kind of battle the one after `wins` wins is, before the player chooses. */
+function shapeAfter(wins: number): EncounterKind | null {
+  return isFinalBattle(wins) ? 'boss' : null
 }
 
-function makeOpponent(wins: number, tier: number, random: Random): TeamState {
-  const level = opponentLevel(wins, tier)
-  const items = tierHeldItems(tier)
-  if (isFinalBattle(wins)) {
-    const [boss] = sample(BOSS_LIST, 1, random)
-    if (boss) {
-      return createTeam(armed([createBattlePokemon(boss, level)], items, random))
-    }
-  }
-  const roster = sample(SPECIES_LIST, RUN_CONFIG.partySize, random)
-  return createTeam(
-    armed(
-      roster.map((species) => createBattlePokemon(species, level)),
-      items,
-      random,
-    ),
+function opponentFor(wins: number, tier: number, random: Random): TeamState {
+  return makeEncounter(
+    shapeAfter(wins) ?? 'normal',
+    opponentLevel(wins, tier),
+    tierHeldItems(tier),
+    random,
   )
 }
 
@@ -193,7 +185,7 @@ export function startRun(
   return {
     battle: createBattle(
       makePlayerTeam(random, roster),
-      makeOpponent(0, safe, random),
+      opponentFor(0, safe, random),
       isFinalBattle(0),
     ),
     wins: 0,
@@ -202,6 +194,9 @@ export function startRun(
     moveOffer: null,
     cleared: false,
     tier: safe,
+    route: null,
+    rewardsLeft: 0,
+    encounter: shapeAfter(0) ?? 'normal',
   }
 }
 
@@ -223,11 +218,30 @@ export function canAdvance(run: RunState): boolean {
  * a reload right after a win would otherwise skip the reward entirely.
  */
 export function withOffer(run: RunState, random: Random = Math.random): RunState {
-  if (!canAdvance(run) || run.offer) return run
+  if (!canAdvance(run)) return run
+
+  const wins = run.wins + 1
+  // The move comes once per win, not once per pick: an elite owes two rewards,
+  // and the second is chosen knowing what the first did, not offered a fresh
+  // move the player already passed up.
+  const firstDraw = run.rewardsLeft <= 0
+  const needsRoute = run.route === null && !isFinalBattle(wins)
+  // Each piece is filled in only if it is missing, so this is safe to run over
+  // a restored save -- one written before roads existed has an offer and no
+  // road, and returning early on the offer alone would swallow the fork.
+  if (run.offer && !needsRoute && !firstDraw) return run
+
   return {
     ...run,
-    offer: offerRewards(run.battle.player.members, random),
-    moveOffer: offerMove(run.battle.player.members, random),
+    offer: run.offer ?? offerRewards(run.battle.player.members, random),
+    moveOffer: firstDraw ? offerMove(run.battle.player.members, random) : run.moveOffer,
+    // Beating an elite buys two picks. Drawn here with the offer so a reload
+    // between the win and the choice cannot lose one of them.
+    rewardsLeft: firstDraw ? rewardsFor(run.encounter) : run.rewardsLeft,
+    // No road out of the second-to-last win: what comes next is the boss.
+    route: needsRoute
+      ? makeRoute(opponentLevel(wins, run.tier), tierHeldItems(run.tier), random)
+      : run.route,
   }
 }
 
@@ -278,19 +292,22 @@ export function withBattle(
       cleared: true,
       finished: true,
       offer: null,
+      moveOffer: null,
+      route: null,
+      rewardsLeft: 0,
     }
   }
   return withOffer({ ...run, battle, finished: battle.winner === 'opponent' }, random)
 }
 
 /**
- * Take the win, apply the chosen reward, rest the party, and line up a tougher
- * opponent.
+ * Spend one reward pick.
  *
- * The rest happens whatever the player picked: it is what keeps a run moving,
- * and the reward is the choice on top of it.
+ * An elite is worth two, so this does not always move the run on. When picks
+ * remain the run stays on the reward screen with a freshly drawn offer -- the
+ * second pick is made knowing what the first one did.
  */
-export function advance(
+export function takeReward(
   run: RunState,
   reward: RewardOffer | null = null,
   target: RewardTarget | null = null,
@@ -301,27 +318,63 @@ export function advance(
     throw new Error(`${reward.kind} was not on offer`)
   }
 
-  const wins = run.wins + 1
-  const rewarded = reward
+  const members = reward
     ? applyReward(run.battle.player.members, reward, target, random)
     : run.battle.player.members
-  const members = restBetweenBattles(rewarded)
+  const left = Math.max(0, run.rewardsLeft - 1)
+  const spent: RunState = {
+    ...run,
+    rewardsLeft: left,
+    offer: null,
+    battle: { ...run.battle, player: { ...run.battle.player, members } },
+  }
+  // Another pick owed: draw again rather than leaving an empty screen.
+  return left > 0 ? withOffer(spent, random) : spent
+}
+
+/** True once every reward is spent and the player is only choosing a road. */
+export function readyToTravel(run: RunState): boolean {
+  return canAdvance(run) && run.rewardsLeft <= 0
+}
+
+/**
+ * Take the road, rest the party, and line up whoever was waiting on it.
+ *
+ * The rest happens whatever the player picked: it is what keeps a run moving,
+ * and the reward was the choice on top of it.
+ *
+ * `chosen` names which of `run.route` to walk. Before the last battle there is
+ * no road -- the boss is not a choice -- and the index is ignored.
+ */
+export function advance(
+  run: RunState,
+  chosen: number = 0,
+  random: Random = Math.random,
+): RunState {
+  if (!readyToTravel(run)) return run
+
+  const wins = run.wins + 1
+  const members = restBetweenBattles(run.battle.player.members)
   // createTeam leads with the first member, which may well be one that fainted
   // in an earlier battle, so lead with the first that is still standing.
   const lead = members.findIndex((member) => !isFainted(member))
   const rested = withActive(createTeam(members), Math.max(0, lead))
 
+  const road = run.route?.[chosen] ?? run.route?.[0]
+  const kind: EncounterKind = isFinalBattle(wins) ? 'boss' : (road?.kind ?? 'normal')
+  const opponent =
+    isFinalBattle(wins) || !road ? opponentFor(wins, run.tier, random) : road.team
+
   return {
-    battle: createBattle(
-      rested,
-      makeOpponent(wins, run.tier, random),
-      isFinalBattle(wins),
-    ),
+    battle: createBattle(rested, opponent, isFinalBattle(wins)),
     wins,
     finished: false,
     offer: null,
     moveOffer: null,
     cleared: false,
     tier: run.tier,
+    route: null,
+    rewardsLeft: 0,
+    encounter: kind,
   }
 }

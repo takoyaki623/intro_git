@@ -9,6 +9,8 @@ interface Props {
   /** A move the party may take on. Free: taking it does not spend the reward. */
   moveOffer: Move | null
   members: readonly BattlePokemon[]
+  /** Picks still owed. Two after an elite, which the heading has to say. */
+  picksLeft: number
   onSelect: (offer: RewardOffer, target: RewardTarget | null) => void
   onTeach: (target: RewardTarget) => void
   onPass: () => void
@@ -36,6 +38,7 @@ export function RewardChoice({
   offer,
   moveOffer,
   members,
+  picksLeft,
   onSelect,
   onTeach,
   onPass,
@@ -136,7 +139,11 @@ export function RewardChoice({
       ) : null}
 
       <section className="rewards" aria-label="ごほうびを えらぶ">
-        <h2>ごほうびを えらんでください</h2>
+        <h2>
+          {picksLeft > 1
+            ? `ごほうびを えらんでください（あと ${picksLeft}つ）`
+            : 'ごほうびを えらんでください'}
+        </h2>
         <div className="reward-row">
           {offer.map((entry) => (
             <button

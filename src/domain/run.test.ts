@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest'
 import {
   RUN_CONFIG,
   advance,
+  readyToTravel,
+  takeReward,
   canAdvance,
   isFinalBattle,
   opponentLevel,
@@ -10,12 +12,24 @@ import {
   withBattle,
   withOffer,
 } from './run'
+import type { RunState } from './run'
 import { activePokemon, createBattlePokemon, isFainted } from './entities'
 import { BOSS_LIST, SPECIES } from '../data/species'
-import type { RewardKind, RewardOffer } from './rewards'
+import type { RewardKind, RewardOffer, RewardTarget } from './rewards'
 import { fixedRandom, scriptedRandom } from '../test/rng'
 
 const pikachu = createBattlePokemon(SPECIES.pikachu, 50)
+
+/**
+ * Spend the reward and take the first road, which is what `advance` did in one
+ * call before a win started offering a choice of opponent.
+ */
+const settle = (
+  run: RunState,
+  reward: RewardOffer | null = null,
+  target: RewardTarget | null = null,
+  random = fixedRandom(0.3),
+): RunState => advance(takeReward(run, reward, target, random), 0, random)
 
 describe('startRun', () => {
   it('opens with a full party and nothing won yet', () => {
@@ -104,12 +118,12 @@ describe('advance', () => {
   it('only moves on after a win', () => {
     const fresh = startRun(fixedRandom(0.3))
     expect(canAdvance(fresh)).toBe(false)
-    expect(advance(fresh)).toBe(fresh)
+    expect(settle(fresh)).toBe(fresh)
     expect(canAdvance(won())).toBe(true)
   })
 
   it('counts the win and raises the opposing level', () => {
-    const next = advance(won(), null, null, fixedRandom(0.3))
+    const next = settle(won(), null, null, fixedRandom(0.3))
     expect(next.wins).toBe(1)
     expect(activePokemon(next.battle.opponent).level).toBe(opponentLevel(1))
     expect(next.battle.winner).toBeNull()
@@ -125,7 +139,7 @@ describe('advance', () => {
       },
       winner: 'player' as const,
     }
-    const next = advance(withBattle(run, battered), null, null, fixedRandom(0.3))
+    const next = settle(withBattle(run, battered), null, null, fixedRandom(0.3))
     for (const member of next.battle.player.members) {
       expect(member.currentHp).toBeGreaterThan(10)
       expect(member.currentHp).toBeLessThan(member.stats.hp)
@@ -144,7 +158,7 @@ describe('advance', () => {
       },
       winner: 'player' as const,
     }
-    const next = advance(withBattle(run, firstDown), null, null, fixedRandom(0.3))
+    const next = settle(withBattle(run, firstDown), null, null, fixedRandom(0.3))
     expect(isFainted(activePokemon(next.battle.player))).toBe(false)
     expect(next.battle.player.activeIndex).toBe(1)
   })
@@ -161,7 +175,7 @@ describe('advance', () => {
       },
       winner: 'player' as const,
     }
-    const next = advance(withBattle(run, oneDown), null, null, fixedRandom(0.3))
+    const next = settle(withBattle(run, oneDown), null, null, fixedRandom(0.3))
     expect(next.battle.player.members[0]?.currentHp).toBe(0)
   })
 })
@@ -228,14 +242,14 @@ describe('rewards across a run', () => {
   })
 
   it('applies the reward on the way to the next battle', () => {
-    const next = advance(offering('levelUp'), { kind: 'levelUp' }, null, fixedRandom(0.3))
+    const next = settle(offering('levelUp'), { kind: 'levelUp' }, null, fixedRandom(0.3))
     const levels = next.battle.player.members.map((m) => m.level)
     expect(levels.every((level) => level > RUN_CONFIG.playerLevel)).toBe(true)
   })
 
   it('clears the offer once it is spent', () => {
     expect(
-      advance(offering('levelUp'), { kind: 'levelUp' }, null, fixedRandom(0.3)).offer,
+      settle(offering('levelUp'), { kind: 'levelUp' }, null, fixedRandom(0.3)).offer,
     ).toBeNull()
   })
 
@@ -247,12 +261,12 @@ describe('rewards across a run', () => {
       (kind) => !kinds.includes(kind),
     )
     if (notOffered) {
-      expect(() => advance(won, { kind: notOffered }, null, fixedRandom(0.3))).toThrow()
+      expect(() => settle(won, { kind: notOffered }, null, fixedRandom(0.3))).toThrow()
     }
   })
 
   it('still rests the party on top of the reward', () => {
-    const next = advance(offering('levelUp'), { kind: 'levelUp' }, null, fixedRandom(0.3))
+    const next = settle(offering('levelUp'), { kind: 'levelUp' }, null, fixedRandom(0.3))
     // The survivors went in at 5 HP; levelling keeps the damage, resting undoes some.
     const survivor = next.battle.player.members[1]
     expect(survivor!.currentHp).toBeGreaterThan(5)
@@ -260,7 +274,7 @@ describe('rewards across a run', () => {
 
   it('grows the party when the recruit is taken', () => {
     const before = offering('recruit')
-    const next = advance(before, { kind: 'recruit' }, null, fixedRandom(0.3))
+    const next = settle(before, { kind: 'recruit' }, null, fixedRandom(0.3))
     expect(next.battle.player.members.length).toBe(
       before.battle.player.members.length + 1,
     )
@@ -272,7 +286,7 @@ describe('the last battle', () => {
   const reachTheBoss = () => {
     let run = startRun(fixedRandom(0.3))
     while (!isFinalBattle(run.wins)) {
-      run = advance(
+      run = settle(
         { ...run, battle: { ...run.battle, winner: 'player' } },
         null,
         null,
@@ -306,7 +320,7 @@ describe('the last battle', () => {
       for (const member of run.battle.opponent.members) {
         expect(bossIds.has(member.species.id)).toBe(false)
       }
-      run = advance(
+      run = settle(
         { ...run, battle: { ...run.battle, winner: 'player' } },
         null,
         null,
@@ -331,7 +345,7 @@ describe('clearing a run', () => {
   const wonFinal = () => {
     let run = startRun(fixedRandom(0.3))
     while (!isFinalBattle(run.wins)) {
-      run = advance(
+      run = settle(
         { ...run, battle: { ...run.battle, winner: 'player' } },
         null,
         null,
@@ -356,7 +370,7 @@ describe('clearing a run', () => {
 
   it('cannot be advanced past', () => {
     const run = wonFinal()
-    expect(advance(run, null, null, fixedRandom(0.3))).toEqual(run)
+    expect(settle(run, null, null, fixedRandom(0.3))).toEqual(run)
   })
 
   it('still draws a reward after every win before the last', () => {
@@ -365,14 +379,14 @@ describe('clearing a run', () => {
       run = withBattle(run, { ...run.battle, winner: 'player' }, fixedRandom(0.3))
       expect(run.cleared).toBe(false)
       expect(run.offer).not.toBeNull()
-      run = advance(run, run.offer?.[0] ?? null, null, fixedRandom(0.3))
+      run = settle(run, run.offer?.[0] ?? null, null, fixedRandom(0.3))
     }
   })
 
   it('is a loss, not a clear, when the last battle goes the other way', () => {
     let run = startRun(fixedRandom(0.3))
     while (!isFinalBattle(run.wins)) {
-      run = advance(
+      run = settle(
         { ...run, battle: { ...run.battle, winner: 'player' } },
         null,
         null,
@@ -387,5 +401,104 @@ describe('clearing a run', () => {
 
   it('starts every fresh run uncleared', () => {
     expect(startRun(fixedRandom(0.3)).cleared).toBe(false)
+  })
+})
+
+describe('the fork out of a win', () => {
+  const won = () => {
+    const run = startRun(fixedRandom(0.3))
+    return withOffer(
+      { ...run, battle: { ...run.battle, winner: 'player' } },
+      fixedRandom(0.3),
+    )
+  }
+
+  it('draws two roads with the rewards, so a reload cannot re-roll them', () => {
+    const run = won()
+    expect(run.route).toHaveLength(2)
+    expect(run.route?.map((road) => road.kind)).toEqual(['normal', 'elite'])
+    // Drawn once: asking again leaves the same two standing.
+    expect(withOffer(run, fixedRandom(0.7)).route).toBe(run.route)
+  })
+
+  it('owes one pick after an ordinary win and two after an elite', () => {
+    expect(won().rewardsLeft).toBe(1)
+    const afterElite = withOffer(
+      {
+        ...startRun(fixedRandom(0.3)),
+        encounter: 'elite' as const,
+        battle: { ...startRun(fixedRandom(0.3)).battle, winner: 'player' },
+      },
+      fixedRandom(0.3),
+    )
+    expect(afterElite.rewardsLeft).toBe(2)
+  })
+
+  it('will not travel until every pick is spent', () => {
+    const run = won()
+    expect(readyToTravel(run)).toBe(false)
+    expect(advance(run, 0, fixedRandom(0.3))).toBe(run)
+
+    const spent = takeReward(run, null, null, fixedRandom(0.3))
+    expect(readyToTravel(spent)).toBe(true)
+    expect(advance(spent, 0, fixedRandom(0.3)).wins).toBe(1)
+  })
+
+  it('draws a fresh offer for a second pick rather than an empty screen', () => {
+    const elite = withOffer(
+      { ...won(), encounter: 'elite' as const, offer: null, rewardsLeft: 0 },
+      fixedRandom(0.3),
+    )
+    expect(elite.rewardsLeft).toBe(2)
+    const once = takeReward(elite, null, null, fixedRandom(0.3))
+    expect(once.rewardsLeft).toBe(1)
+    expect(once.offer).not.toBeNull()
+    expect(readyToTravel(once)).toBe(false)
+  })
+
+  it('fields exactly the party that was standing on the road taken', () => {
+    const run = takeReward(won(), null, null, fixedRandom(0.3))
+    const elite = run.route?.[1]
+    const next = advance(run, 1, fixedRandom(0.3))
+    expect(next.encounter).toBe('elite')
+    expect(next.battle.opponent.members.map((m) => m.species.id)).toEqual(
+      elite?.team.members.map((m) => m.species.id),
+    )
+  })
+
+  it('takes the ordinary road when asked for one that is not there', () => {
+    const run = takeReward(won(), null, null, fixedRandom(0.3))
+    expect(advance(run, 9, fixedRandom(0.3)).encounter).toBe('normal')
+  })
+
+  it('offers no road before the last battle: the boss is not a choice', () => {
+    let run = startRun(fixedRandom(0.3))
+    while (!isFinalBattle(run.wins + 1)) {
+      run = settle({ ...run, battle: { ...run.battle, winner: 'player' } })
+    }
+    const beforeTheBoss = withOffer(
+      { ...run, battle: { ...run.battle, winner: 'player' } },
+      fixedRandom(0.3),
+    )
+    expect(beforeTheBoss.route).toBeNull()
+
+    const next = advance(
+      takeReward(beforeTheBoss, null, null, fixedRandom(0.3)),
+      0,
+      fixedRandom(0.3),
+    )
+    expect(next.encounter).toBe('boss')
+    expect(next.battle.opponent.members).toHaveLength(1)
+  })
+
+  it('clears the road and the picks once the run is won', () => {
+    let run = startRun(fixedRandom(0.3))
+    while (!isFinalBattle(run.wins)) {
+      run = settle({ ...run, battle: { ...run.battle, winner: 'player' } })
+    }
+    const cleared = withBattle(run, { ...run.battle, winner: 'player' }, fixedRandom(0.3))
+    expect(cleared.cleared).toBe(true)
+    expect(cleared.route).toBeNull()
+    expect(cleared.rewardsLeft).toBe(0)
   })
 })
