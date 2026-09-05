@@ -7,8 +7,26 @@
 ## はじめかた
 
 ```bash
-npm install
+npm ci
 npm run dev        # http://localhost:5173
+```
+
+**Node.js 22.22.2 以上**が要ります（`package.json` の `engines`）。
+この数字は好みではなく、依存のうち一番厳しい `jsdom` から来ています——
+`^22.22.2 || ^24.15.0 || >=26.0.0` で、**Node 20 は除外**されています
+（`vite` と `oxlint` は 20.19 から動きますが、テストが動きません）。
+
+満たない Node で `npm ci` すると npm が `EBADENGINE` を**警告として**出します。
+止めたいなら `.npmrc` に `engine-strict=true` を書けばエラーになります。
+
+必要なのは Node だけです。API キーも環境変数も外部サービスも要りません
+（データは全部ローカル、`src/data/`）。
+
+E2E だけブラウザ本体が別に要ります：
+
+```bash
+npx playwright install chromium
+npm run e2e
 ```
 
 ## コマンド
