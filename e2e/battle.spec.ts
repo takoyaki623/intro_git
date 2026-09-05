@@ -534,8 +534,11 @@ test.describe('ドラフト', () => {
 
   test('小さい画面でも 6 匹ぜんぶ見える', async ({ page }) => {
     // Same 375x667 phone the battle screen is held to: a choice the player
-    // cannot see all of is not a choice.
+    // cannot see all of is not a choice. The guide is dismissed first because
+    // on a first visit it deliberately sits on top of the draft -- nobody is
+    // choosing a party while reading the rules.
     await page.setViewportSize({ width: 375, height: 667 })
+    await page.evaluate(() => localStorage.setItem('pokemon-battle:guide-seen', '1'))
     await page.reload()
 
     const seen = await page.evaluate(() => {
@@ -733,5 +736,48 @@ test.describe('だんかい', () => {
     await expect(page.getByTestId('run-status')).toContainText(
       `あいて Lv${opponentLevel(0, 3)}`,
     )
+  })
+})
+
+test.describe('あそびかた', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.evaluate(() => localStorage.clear())
+    await page.reload()
+  })
+
+  test('はじめて開いたときに出て、とじると もう出ない', async ({ page }) => {
+    const guide = page.getByRole('region', { name: 'あそびかた' })
+    await expect(guide).toBeVisible()
+    await expect(guide).toContainText('しゅぞくち')
+
+    await guide.getByRole('button', { name: 'とじる' }).click()
+    await expect(guide).toHaveCount(0)
+
+    await page.reload()
+    await expect(guide).toHaveCount(0)
+  })
+
+  test('あとから いつでも 開ける', async ({ page }) => {
+    const guide = page.getByRole('region', { name: 'あそびかた' })
+    await guide.getByRole('button', { name: 'とじる' }).click()
+
+    await page.getByRole('button', { name: 'あそびかた' }).click()
+    await expect(guide).toBeVisible()
+  })
+
+  test('小さい画面に ぜんぶ おさまる', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 667 })
+    await page.reload()
+
+    const seen = await page.evaluate(() => {
+      const box = document.querySelector('.guide')?.getBoundingClientRect()
+      if (!box) return 0
+      const visible = Math.max(
+        0,
+        Math.min(innerHeight, box.bottom) - Math.max(0, box.top),
+      )
+      return visible / box.height
+    })
+    expect(seen).toBe(1)
   })
 })

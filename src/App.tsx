@@ -31,6 +31,7 @@ import {
 } from './ui/storage'
 import { loadBest, recordRun, type BestRun } from './ui/records'
 import { loadProgress, recordClear } from './ui/progress'
+import { hasSeenGuide, markGuideSeen } from './ui/guide'
 import { FIRST_TIER, highestUnlocked, nextTier } from './domain/tiers'
 import { HealthBar } from './components/HealthBar'
 import { MoveButtons } from './components/MoveButtons'
@@ -41,6 +42,7 @@ import { HallOfFame } from './components/HallOfFame'
 import { RewardChoice } from './components/RewardChoice'
 import { BattleLog } from './components/BattleLog'
 import { DraftScreen } from './components/DraftScreen'
+import { HowToPlay } from './components/HowToPlay'
 import { TierPicker } from './components/TierPicker'
 
 /**
@@ -71,6 +73,8 @@ export default function App() {
   const [beatIt, setBeatIt] = useState(false)
   /** The highest tier cleared. Raised the moment a run clears its own tier. */
   const [cleared, setCleared] = useState(() => loadProgress())
+  // Open on a first visit, and reachable from the title from then on.
+  const [guide, setGuide] = useState(() => !hasSeenGuide())
   /**
    * A switch-out move waiting on the second half of its choice.
    *
@@ -106,6 +110,20 @@ export default function App() {
     })
   }, [run])
 
+  const closeGuide = () => {
+    markGuideSeen()
+    setGuide(false)
+  }
+
+  const title = (
+    <div className="title-row">
+      <h1>ポケモンバトル</h1>
+      <button type="button" onClick={() => setGuide(true)} aria-expanded={guide}>
+        あそびかた
+      </button>
+    </div>
+  )
+
   const startOver = () => {
     clearRun()
     clearDraft()
@@ -117,7 +135,8 @@ export default function App() {
   if (!run) {
     return (
       <main className="battle">
-        <h1>ポケモンバトル</h1>
+        {title}
+        {guide ? <HowToPlay onClose={closeGuide} /> : null}
         <RunStatus
           wins={0}
           total={RUN_CONFIG.battlesToClear}
@@ -211,7 +230,8 @@ export default function App() {
 
   return (
     <main className="battle">
-      <h1>ポケモンバトル</h1>
+      {title}
+      {guide ? <HowToPlay onClose={closeGuide} /> : null}
       <RunStatus
         wins={run.wins}
         total={RUN_CONFIG.battlesToClear}

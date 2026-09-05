@@ -14,6 +14,7 @@ import { DRAFT_CONFIG } from './domain/draft'
 import { TIER_CONFIG } from './domain/tiers'
 import { saveRun } from './ui/storage'
 import { fixedRandom } from './test/rng'
+import { markGuideSeen } from './ui/guide'
 
 // App now remembers a run, so each test needs a clean slate.
 beforeEach(() => localStorage.clear())
@@ -860,5 +861,49 @@ describe('おぼえられる わざ だけ', () => {
       .map((button) => button.querySelector('strong')?.textContent)
       .filter(Boolean)
     expect(names).toEqual(['ピカチュウ'])
+  })
+})
+
+describe('あそびかた', () => {
+  const guidePanel = () => screen.queryByRole('region', { name: 'あそびかた' })
+
+  it('opens by itself the first time, and explains the draft screen jargon', () => {
+    render(<App />)
+    expect(guidePanel()).toBeInTheDocument()
+    expect(guidePanel()).toHaveTextContent('しゅぞくち')
+    expect(guidePanel()).toHaveTextContent('こうげき ○○')
+  })
+
+  it('stays shut once it has been closed', async () => {
+    const user = userEvent.setup()
+    const first = render(<App />)
+    await user.click(within(guidePanel()!).getByRole('button', { name: 'とじる' }))
+    expect(guidePanel()).toBeNull()
+    first.unmount()
+
+    render(<App />)
+    expect(guidePanel()).toBeNull()
+  })
+
+  it('can be reopened from the title at any time', async () => {
+    const user = userEvent.setup()
+    render(<App />)
+    await user.click(within(guidePanel()!).getByRole('button', { name: 'とじる' }))
+
+    await user.click(screen.getByRole('button', { name: 'あそびかた' }))
+    expect(guidePanel()).toBeInTheDocument()
+  })
+
+  it('is reachable during a battle too, not just before one', async () => {
+    const user = userEvent.setup()
+    markGuideSeen()
+    seed()
+    render(<App />)
+    expect(guidePanel()).toBeNull()
+
+    await user.click(screen.getByRole('button', { name: 'あそびかた' }))
+    expect(guidePanel()).toBeInTheDocument()
+    // The battle is still there underneath.
+    expect(movePanel()).toBeInTheDocument()
   })
 })
